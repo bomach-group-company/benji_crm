@@ -67,20 +67,20 @@ class _OverViewState extends State<OverView> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.shopping_bag_outlined,
+              Icons.business_rounded,
             ),
             label: "Vendors",
             activeIcon: Icon(
-              Icons.shopping_bag_rounded,
+              Icons.business_rounded,
             ),
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.menu,
+              Icons.delivery_dining_rounded,
             ),
             label: "Riders",
             activeIcon: Icon(
-              Icons.menu_rounded,
+              Icons.delivery_dining_rounded,
             ),
           ),
           BottomNavigationBarItem(
