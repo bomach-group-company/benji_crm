@@ -60,7 +60,7 @@ class _OverViewState extends State<OverView> {
             icon: Icon(
               Icons.grid_view,
             ),
-            label: "Overview",
+            label: "Dashboard",
             activeIcon: Icon(
               Icons.grid_view_rounded,
             ),
@@ -69,7 +69,7 @@ class _OverViewState extends State<OverView> {
             icon: Icon(
               Icons.shopping_bag_outlined,
             ),
-            label: "Orders",
+            label: "Vendors",
             activeIcon: Icon(
               Icons.shopping_bag_rounded,
             ),
@@ -78,7 +78,7 @@ class _OverViewState extends State<OverView> {
             icon: Icon(
               Icons.menu,
             ),
-            label: "Products",
+            label: "Riders",
             activeIcon: Icon(
               Icons.menu_rounded,
             ),
