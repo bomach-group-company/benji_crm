@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../src/providers/constants.dart';
+import '../../theme/colors.dart';
+
 class Profile extends StatefulWidget {
   const Profile({super.key});
 
@@ -10,6 +13,23 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: kAccentColor,
+        title: const Padding(
+          padding: EdgeInsets.only(
+            left: kDefaultPadding,
+          ),
+          child: Text(
+            'My Profile',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+        elevation: 0.0,
+      ),
+    );
   }
 }
