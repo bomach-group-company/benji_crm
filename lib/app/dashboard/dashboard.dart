@@ -2,11 +2,13 @@
 
 import 'package:flutter/material.dart';
 
-import '../../src/common_widgets/home appBar vendor name.dart';
+import '../../src/common_widgets/home appBar aggregator.dart';
 import '../../src/common_widgets/home orders container.dart';
 import '../../src/common_widgets/home showModalBottomSheet.dart';
 import '../../src/providers/constants.dart';
+import '../../src/providers/custom show search.dart';
 import '../../theme/colors.dart';
+import '../profile/profile.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -19,16 +21,6 @@ typedef ModalContentBuilder = Widget Function(BuildContext);
 
 class _DashboardState extends State<Dashboard> {
 //=================================== ALL VARIABLES =====================================\\
-
-//=================================== DROP DOWN BUTTON =====================================\\
-
-  String dropDownItemValue = "Daily";
-
-  void dropDownOnChanged(String? newValue) {
-    setState(() {
-      dropDownItemValue = newValue!;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +37,6 @@ class _DashboardState extends State<Dashboard> {
         elevation: 20.0,
         backgroundColor: kAccentColor,
         foregroundColor: kPrimaryColor,
-        tooltip: "Add a product",
         child: const Icon(
           Icons.add,
         ),
@@ -61,48 +52,92 @@ class _DashboardState extends State<Dashboard> {
               padding: const EdgeInsets.symmetric(
                 horizontal: kDefaultPadding / 2,
               ),
-              child: GestureDetector(
+              child: InkWell(
                 onTap: () {
-                  // Navigator.of(context).push(
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const Profile(),
-                  //   ),
-                  // );
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const Profile(),
+                    ),
+                  );
                 },
-                child: CircleAvatar(
-                  minRadius: 20,
-                  backgroundColor: kSecondaryColor,
-                  child: ClipOval(
-                    child: Image.asset(
-                      "assets/images/profile/profile-picture.png",
+                child: Container(
+                  width: 45,
+                  height: 45,
+                  decoration: const ShapeDecoration(
+                    image: DecorationImage(
+                      image:
+                          AssetImage("assets/images/profile/avatar-image.jpg"),
                       fit: BoxFit.cover,
                     ),
+                    shape: OvalBorder(),
                   ),
                 ),
               ),
             ),
-            const AppBarVendor(
-              vendorName: "Ntachi-Osa",
-              vendorLocation: "Independence Layout, Enugu",
+            const AppBarAggregator(
+              title: "Welcome,",
+              aggregatorName: "Mishaal Erickson",
             ),
           ],
         ),
         actions: [
           IconButton(
-            iconSize: 20,
             onPressed: () {
-              // Navigator.of(context).push(
-              //   MaterialPageRoute(
-              //     builder: (context) => const Notifications(),
-              //   ),
-              // );
+              showSearch(
+                context: context,
+                delegate: CustomSearchDelegate(),
+              );
             },
-            splashRadius: 20,
-            icon: Icon(
-              Icons.notifications_outlined,
-              color: kAccentColor,
+            icon: const Icon(
+              Icons.search_rounded,
+              color: kGreyColor1,
+              size: 30,
             ),
           ),
+          Stack(
+            children: [
+              IconButton(
+                iconSize: 20,
+                onPressed: () {
+                  // Navigator.of(context).push(
+                  //   MaterialPageRoute(
+                  //     builder: (context) => const Notifications(),
+                  //   ),
+                  // );
+                },
+                icon: Icon(
+                  Icons.notifications_outlined,
+                  color: kAccentColor,
+                  size: 30,
+                ),
+              ),
+              Positioned(
+                top: 10,
+                right: 12,
+                child: Container(
+                  height: 15,
+                  width: 15,
+                  decoration: ShapeDecoration(
+                    color: kAccentColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      "10+",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 9,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+          kWidthSizedBox
         ],
       ),
       body: SafeArea(
