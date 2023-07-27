@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 
 import '../../../theme/colors.dart';
 
-class AppBarVendor extends StatelessWidget {
-  final String vendorLocation;
-  final String vendorName;
-  const AppBarVendor({
+class AppBarAggregator extends StatelessWidget {
+  final String aggregatorName;
+  final String title;
+  const AppBarAggregator({
     super.key,
-    required this.vendorLocation,
-    required this.vendorName,
+    required this.aggregatorName,
+    required this.title,
   });
 
   @override
@@ -26,10 +26,10 @@ class AppBarVendor extends StatelessWidget {
               SizedBox(
                 width: 130,
                 child: Text(
-                  vendorName.toUpperCase(),
+                  title,
                   overflow: TextOverflow.fade,
                   style: TextStyle(
-                    color: kAccentColor,
+                    color: kTextGreyColor,
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
                   ),
@@ -38,13 +38,11 @@ class AppBarVendor extends StatelessWidget {
             ],
           ),
           Text(
-            vendorLocation,
+            aggregatorName,
             style: const TextStyle(
-              color: Color(
-                0xFF676767,
-              ),
+              color: kTextBlackColor,
               fontSize: 12,
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ],
