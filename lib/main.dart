@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "Benji Aggregator",
       color: kPrimaryColor,
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.light,
       darkTheme: AppTheme.darkTheme,
       theme: AppTheme.lightTheme,
       home: const StartupSplashscreen(),
