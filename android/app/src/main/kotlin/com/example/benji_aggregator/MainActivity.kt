@@ -1,4 +1,4 @@
-package com.example.benji_aggregator
+package com.benji.benji_aggregator
 
 import io.flutter.embedding.android.FlutterActivity
 
