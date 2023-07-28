@@ -1,16 +1,35 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, unused_local_variable
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/route_manager.dart';
 
-import '../../../src/common_widgets/my appbar.dart';
-import '../../../src/common_widgets/my elevatedButton.dart';
-import '../../../src/common_widgets/my outlined elevatedButton.dart';
-import '../../../src/providers/constants.dart';
-import '../../../theme/colors.dart';
+import '../../src/common_widgets/my appbar.dart';
+import '../../src/common_widgets/my elevatedButton.dart';
+import '../../src/common_widgets/my outlined elevatedButton.dart';
+import '../../src/providers/constants.dart';
+import '../../theme/colors.dart';
+import '../riders/assign rider.dart';
 
 class OrderDetails extends StatefulWidget {
-  const OrderDetails({super.key});
+  final int orderID;
+  final String formatted12HrTime;
+  final String orderItem;
+  final String customerName;
+  final String customerAddress;
+  final int itemQuantity;
+  final double subtotalPrice;
+  final String orderImage;
+  const OrderDetails(
+      {super.key,
+      required this.orderID,
+      required this.orderItem,
+      required this.customerAddress,
+      required this.itemQuantity,
+      required this.subtotalPrice,
+      required this.orderImage,
+      required this.formatted12HrTime,
+      required this.customerName});
 
   @override
   State<OrderDetails> createState() => _OrderDetailsState();
@@ -19,14 +38,31 @@ class OrderDetails extends StatefulWidget {
 class _OrderDetailsState extends State<OrderDetails> {
 //============================== ALL VARIABLES ================================\\
 
-//============================== VARIABLES ================================\\
-
 //============================== BOOLS ================================\\
   bool isOrderProcessing = false;
   bool isOrderAccepted = false;
   bool isOrderCanceled = false;
-
+  double deliveryFee = 300.00;
 //============================== FUNCTIONS ================================\\
+
+  double calculateTotalPrice() {
+    return widget.subtotalPrice + deliveryFee;
+  }
+
+  //ASSIGN RIDER
+  void assignRider() {
+    Get.to(
+      () => const AssignRider(),
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      routeName: "Assign Rider",
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+  }
+
   //Order Accepted
   void processOrderAccepted() {
     setState(() {
@@ -59,6 +95,9 @@ class _OrderDetailsState extends State<OrderDetails> {
 
   @override
   Widget build(BuildContext context) {
+    double totalPrice = calculateTotalPrice();
+    double mediaWidth = MediaQuery.of(context).size.width;
+    double mediaHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: MyAppBar(
         title: "Order Details",
@@ -99,10 +138,10 @@ class _OrderDetailsState extends State<OrderDetails> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           'Oder ID',
                           style: TextStyle(
                             color: Color(0xFF808080),
@@ -111,9 +150,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                           ),
                         ),
                         Text(
-                          'Today, 12:30pm',
+                          widget.formatted12HrTime,
                           textAlign: TextAlign.right,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Color(0xFF222222),
                             fontSize: 12.52,
                             fontWeight: FontWeight.w400,
@@ -125,10 +164,10 @@ class _OrderDetailsState extends State<OrderDetails> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          '#00977',
+                        Text(
+                          "#00${widget.orderID.toString()}",
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Color(0xFF222222),
                             fontSize: 16.09,
                             fontWeight: FontWeight.w700,
@@ -223,9 +262,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                         width: 56,
                         height: 56,
                         decoration: ShapeDecoration(
-                          image: const DecorationImage(
+                          image: DecorationImage(
                             image: AssetImage(
-                              "assets/images/food/jollof-rice-chicken-plantain.png",
+                              "assets/images/food/${widget.orderImage}.png",
                             ),
                             fit: BoxFit.fill,
                           ),
@@ -234,7 +273,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                           ),
                         ),
                       ),
-                      const SizedBox(
+                      SizedBox(
                         width: 182.38,
                         child: Text.rich(
                           maxLines: 3,
@@ -243,15 +282,15 @@ class _OrderDetailsState extends State<OrderDetails> {
                           TextSpan(
                             children: [
                               TextSpan(
-                                text: "Jollof Rice and Chicken",
-                                style: TextStyle(
+                                text: widget.orderItem,
+                                style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 12.52,
                                   overflow: TextOverflow.ellipsis,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
-                              TextSpan(
+                              const TextSpan(
                                 text: " ",
                                 style: TextStyle(
                                   color: Colors.black,
@@ -260,8 +299,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                                 ),
                               ),
                               TextSpan(
-                                text: "x 2",
-                                style: TextStyle(
+                                text: "x ${widget.itemQuantity}",
+                                style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 12.52,
                                   fontWeight: FontWeight.w700,
@@ -271,31 +310,15 @@ class _OrderDetailsState extends State<OrderDetails> {
                           ),
                         ),
                       ),
-                      const Text.rich(
+                      Text.rich(
                         TextSpan(
                           children: [
                             TextSpan(
-                              text: '₦',
-                              style: TextStyle(
+                              text: "₦ ${widget.subtotalPrice}",
+                              style: const TextStyle(
                                 color: Color(0xFF222222),
-                                fontSize: 9.83,
+                                fontSize: 14,
                                 fontFamily: 'Sen',
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            TextSpan(
-                              text: ' ',
-                              style: TextStyle(
-                                color: Color(0xFF222222),
-                                fontSize: 12.52,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            TextSpan(
-                              text: '5,000',
-                              style: TextStyle(
-                                color: Color(0xFF222222),
-                                fontSize: 14.30,
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
@@ -354,13 +377,13 @@ class _OrderDetailsState extends State<OrderDetails> {
                           ),
                         ),
                       ),
-                      const Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Blessing Elechi',
+                            widget.customerName,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.black,
                               fontSize: 12.52,
                               fontWeight: FontWeight.w700,
@@ -370,29 +393,29 @@ class _OrderDetailsState extends State<OrderDetails> {
                           Text(
                             '09023348400',
                             style: TextStyle(
-                              color: Color(0xFF979797),
+                              color: kTextGreyColor,
                               fontSize: 11.62,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
                           kSizedBox,
-                          Text(
+                          const Text(
                             'Delivery address',
                             style: TextStyle(
-                              color: Color(0xFF979797),
+                              color: kTextBlackColor,
                               fontSize: 10.73,
-                              fontWeight: FontWeight.w400,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                           kHalfSizedBox,
                           SizedBox(
                             width: 155,
                             child: Text(
-                              '21 Kanna Street, GRA, Enugu',
+                              widget.customerAddress,
                               maxLines: 3,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                color: Color(0xFF222222),
+                                color: kTextGreyColor,
                                 overflow: TextOverflow.ellipsis,
                                 fontSize: 12.52,
                                 fontWeight: FontWeight.w400,
@@ -450,10 +473,10 @@ class _OrderDetailsState extends State<OrderDetails> {
                   )
                 ],
               ),
-              child: const Column(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Order Summary',
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -467,7 +490,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         'Subtotal',
                         style: TextStyle(
                           color: Colors.black,
@@ -478,7 +501,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                       Text.rich(
                         TextSpan(
                           children: [
-                            TextSpan(
+                            const TextSpan(
                               text: "₦",
                               style: TextStyle(
                                 color: Color(0xFF222222),
@@ -487,7 +510,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
-                            TextSpan(
+                            const TextSpan(
                               text: ' ',
                               style: TextStyle(
                                 color: Color(0xFF222222),
@@ -496,8 +519,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                               ),
                             ),
                             TextSpan(
-                              text: '5,000',
-                              style: TextStyle(
+                              text: widget.subtotalPrice.toStringAsFixed(2),
+                              style: const TextStyle(
                                 color: Color(0xFF222222),
                                 fontSize: 14.30,
                                 fontWeight: FontWeight.w400,
@@ -513,7 +536,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         'Delivery Fee',
                         style: TextStyle(
                           color: Colors.black,
@@ -524,16 +547,16 @@ class _OrderDetailsState extends State<OrderDetails> {
                       Text.rich(
                         TextSpan(
                           children: [
-                            TextSpan(
+                            const TextSpan(
                               text: "₦",
                               style: TextStyle(
                                 color: Color(0xFF222222),
-                                fontSize: 9.83,
+                                fontSize: 14,
                                 fontFamily: 'Sen',
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
-                            TextSpan(
+                            const TextSpan(
                               text: ' ',
                               style: TextStyle(
                                 color: Color(0xFF222222),
@@ -542,8 +565,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                               ),
                             ),
                             TextSpan(
-                              text: '300',
-                              style: TextStyle(
+                              text: deliveryFee.toStringAsFixed(2),
+                              style: const TextStyle(
                                 color: Color(0xFF222222),
                                 fontSize: 14.30,
                                 fontWeight: FontWeight.w400,
@@ -559,7 +582,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         'Total',
                         style: TextStyle(
                           color: Colors.black,
@@ -570,16 +593,16 @@ class _OrderDetailsState extends State<OrderDetails> {
                       Text.rich(
                         TextSpan(
                           children: [
-                            TextSpan(
+                            const TextSpan(
                               text: "₦",
                               style: TextStyle(
                                 color: Color(0xFF222222),
-                                fontSize: 9.83,
+                                fontSize: 14,
                                 fontFamily: 'Sen',
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
-                            TextSpan(
+                            const TextSpan(
                               text: ' ',
                               style: TextStyle(
                                 color: Color(0xFF222222),
@@ -588,8 +611,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                               ),
                             ),
                             TextSpan(
-                              text: '5,300',
-                              style: TextStyle(
+                              text: totalPrice.toStringAsFixed(2),
+                              style: const TextStyle(
                                 color: Color(0xFF222222),
                                 fontSize: 14.30,
                                 fontWeight: FontWeight.w700,
@@ -666,62 +689,18 @@ class _OrderDetailsState extends State<OrderDetails> {
                     ),
                   )
                 : isOrderAccepted
-                    ? Container(
-                        width: MediaQuery.of(context).size.width,
-                        padding: const EdgeInsets.all(15),
-                        decoration: ShapeDecoration(
-                          color: const Color(0xFFFEF8F8),
-                          shape: RoundedRectangleBorder(
-                            side: const BorderSide(
-                              width: 0.50,
-                              color: Color(0xFFFDEDED),
-                            ),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(
-                              color: kAccentColor,
-                              Icons.info_outline_rounded,
-                              size: 30,
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  'Awaiting Delivery',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16.09,
-                                    fontWeight: FontWeight.w700,
-                                    letterSpacing: -0.32,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.5,
-                                  child: const Text(
-                                    'The delivery man is on his way to deliver this product',
-                                    style: TextStyle(
-                                      color: Color(0xFF6E6E6E),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      letterSpacing: -0.28,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
+                    ? MyElevatedButton(
+                        onPressed: () {
+                          assignRider();
+                        },
+                        circularBorderRadius: kDefaultPadding,
+                        minimumSizeWidth: mediaWidth / 1.5,
+                        minimumSizeHeight: 60,
+                        maximumSizeWidth: mediaWidth / 1.5,
+                        maximumSizeHeight: 60,
+                        buttonTitle: "Assign a rider",
+                        titleFontSize: 20,
+                        elevation: 10.0,
                       )
                     : isOrderProcessing
                         ? SpinKitChasingDots(
