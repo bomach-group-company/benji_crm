@@ -1,8 +1,9 @@
 // ignore_for_file: camel_case_types, file_names
 
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 
-import '../dashboard/dashboard.dart';
+import '../overview/overview.dart';
 
 class SignUpSplashScreen extends StatelessWidget {
   const SignUpSplashScreen({super.key});
@@ -10,12 +11,17 @@ class SignUpSplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 3), () {
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => const Dashboard()),
-        (route) => false,
+      Get.off(
+        () => const OverView(),
+        duration: const Duration(seconds: 3),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "Dashboard",
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.fadeIn,
       );
     });
-
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,

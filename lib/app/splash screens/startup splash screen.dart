@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/route_manager.dart';
 
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
@@ -19,9 +20,16 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 3), () {
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const SignUp()),
-          (route) => false);
+      Get.offAll(
+        () => const SignUp(),
+        duration: const Duration(seconds: 3),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "Sign up",
+        predicate: (route) => false,
+        popGesture: true,
+        transition: Transition.fadeIn,
+      );
     });
     return Scaffold(
       body: ListView(

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/email textformfield.dart';
 import '../../src/common_widgets/my appbar.dart';
@@ -49,6 +50,20 @@ class _LoginState extends State<Login> {
   FocusNode passwordFocusNode = FocusNode();
 
   //=========================== FUNCTIONS ====================================\\
+  //Navigate to Signup
+  void toSignupPage() {
+    Get.offAll(
+      () => const SignUp(),
+      duration: const Duration(milliseconds: 500),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      routeName: "Signup",
+      predicate: (route) => false,
+      popGesture: true,
+      transition: Transition.fadeIn,
+    );
+  }
+
   Future<void> loadData() async {
     setState(() {
       isLoading = true;
@@ -68,10 +83,20 @@ class _LoginState extends State<Login> {
     );
 
     // Navigate to the new page
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) => const LoginSplashScreen()),
-      (route) => false,
+    Get.off(
+      () => const LoginSplashScreen(),
+      duration: const Duration(seconds: 3),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      routeName: "login processing",
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.fadeIn,
     );
+    // Navigator.of(context).pushAndRemoveUntil(
+    //   MaterialPageRoute(builder: (context) => const LoginSplashScreen()),
+    //   (route) => false,
+    // );
 
     setState(() {
       isLoading = false;
@@ -336,11 +361,7 @@ class _LoginState extends State<Login> {
                           ),
                           TextButton(
                             onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => const SignUp(),
-                                ),
-                              );
+                              toSignupPage();
                             },
                             child: Text(
                               "Sign up",

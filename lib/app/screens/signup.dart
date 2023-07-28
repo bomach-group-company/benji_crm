@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
+import 'package:get/route_manager.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../src/common_widgets/email textformfield.dart';
@@ -49,6 +49,20 @@ class _SignUpState extends State<SignUp> {
   FocusNode userPasswordFN = FocusNode();
 
   //=========================== FUNCTIONS ====================================\\
+  //Navigate to login
+  void toLoginPage() {
+    Get.to(
+      () => const Login(),
+      duration: const Duration(milliseconds: 500),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      routeName: "Login",
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+  }
+
   Future<void> loadData() async {
     setState(() {
       isLoading = true;
@@ -70,10 +84,21 @@ class _SignUpState extends State<SignUp> {
     );
 
     // Navigate to the new page
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) => const SignUpSplashScreen()),
-      (route) => false,
+    Get.off(
+      () => const SignUpSplashScreen(),
+      duration: const Duration(seconds: 3),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      routeName: "signup processing",
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.fadeIn,
     );
+
+    // Navigator.of(context).pushAndRemoveUntil(
+    //   MaterialPageRoute(builder: (context) => const SignUpSplashScreen()),
+    //   (route) => false,
+    // );
 
     setState(() {
       isLoading = false;
@@ -418,11 +443,7 @@ class _SignUpState extends State<SignUp> {
                           ),
                           TextButton(
                             onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => const Login(),
-                                ),
-                              );
+                              toLoginPage();
                             },
                             child: Text(
                               "Log in",
