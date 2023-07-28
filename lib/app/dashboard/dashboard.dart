@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_unnecessary_containers
 
+import 'package:benji_aggregator/app/others/orders/order%20details.dart';
 import 'package:flutter/material.dart';
 
 import '../../src/common_widgets/dashboard appBar.dart';
@@ -31,7 +32,6 @@ class _DashboardState extends State<Dashboard> {
     double mediaHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: kPrimaryColor,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Navigator.of(context).push(
@@ -137,102 +137,178 @@ class _DashboardState extends State<Dashboard> {
             Column(
               children: [
                 for (orderID = 1; orderID < 30; orderID += incrementOrderID)
-                  Container(
-                    // margin: const EdgeInsets.symmetric(
-                    //   horizontal: kDefaultPadding / 2,
-                    //   vertical: kDefaultPadding / 2,
-                    // ),
-                    padding: const EdgeInsets.only(
-                      top: kDefaultPadding / 2,
-                      left: kDefaultPadding / 2,
-                      right: kDefaultPadding / 2,
-                    ),
-                    width: mediaWidth / 1.1,
-                    height: 140,
-                    decoration: ShapeDecoration(
-                      color: kPrimaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(kDefaultPadding),
+                  InkWell(
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const OrderDetails())),
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(
+                        vertical: kDefaultPadding / 2,
                       ),
-                      shadows: const [
-                        BoxShadow(
-                          color: Color(0x0F000000),
-                          blurRadius: 24,
-                          offset: Offset(0, 4),
-                          spreadRadius: 4,
+                      padding: const EdgeInsets.only(
+                        top: kDefaultPadding / 2,
+                        left: kDefaultPadding / 2,
+                        right: kDefaultPadding / 2,
+                      ),
+                      width: mediaWidth / 1.1,
+                      height: 150,
+                      decoration: ShapeDecoration(
+                        color: kPrimaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(kDefaultPadding),
                         ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        Column(
-                          children: [
-                            Container(
-                              width: 60,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
-                                image: const DecorationImage(
-                                  image: AssetImage(
-                                    "assets/images/food/chizzy's-food.png",
+                        shadows: const [
+                          BoxShadow(
+                            color: Color(0x0F000000),
+                            blurRadius: 24,
+                            offset: Offset(0, 4),
+                            spreadRadius: 4,
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          Column(
+                            children: [
+                              Container(
+                                width: 60,
+                                height: 60,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16),
+                                  image: const DecorationImage(
+                                    image: AssetImage(
+                                      "assets/images/food/chizzy's-food.png",
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            kHalfSizedBox,
-                            Container(
-                              child: Text(
-                                "#00${orderID.toString()}",
-                                style: TextStyle(
-                                  color: kTextGreyColor,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        kWidthSizedBox,
-                        Container(
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                width: mediaWidth / 1.55,
-                                // color: kAccentColor,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    SizedBox(
-                                      width: mediaWidth / 3,
-                                      child: const Text(
-                                        "Hot Kitchen",
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: mediaWidth / 8,
-                                      child: Text(
-                                        formattedTime,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    )
-                                  ],
+                              kHalfSizedBox,
+                              Container(
+                                child: Text(
+                                  "#00${orderID.toString()}",
+                                  style: TextStyle(
+                                    color: kTextGreyColor,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
                               )
                             ],
                           ),
-                        ),
-                      ],
+                          kWidthSizedBox,
+                          Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width: mediaWidth / 1.55,
+                                  // color: kAccentColor,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      SizedBox(
+                                        width: mediaWidth / 3,
+                                        child: const Text(
+                                          "Hot Kitchen",
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: mediaWidth / 8,
+                                        child: Text(
+                                          formattedTime,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                kHalfSizedBox,
+                                Container(
+                                  color: kTransparentColor,
+                                  width: 250,
+                                  child: const Text(
+                                    "Jellof Rice and Chicken",
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                                kHalfSizedBox,
+                                Container(
+                                  width: 200,
+                                  color: kTransparentColor,
+                                  child: const Text.rich(
+                                    TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: "x 2",
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                        TextSpan(text: "  "),
+                                        TextSpan(
+                                          text: "₦ 2,500",
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontFamily: 'sen',
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                kHalfSizedBox,
+                                Container(
+                                  color: kGreyColor1,
+                                  height: 1,
+                                  width: mediaWidth / 1.8,
+                                ),
+                                kHalfSizedBox,
+                                SizedBox(
+                                  width: mediaWidth / 1.8,
+                                  child: const Text(
+                                    "Mercy Luke",
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: mediaWidth / 1.8,
+                                  child: const Text(
+                                    "21 Odogwu Street, New Haven",
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
               ],
