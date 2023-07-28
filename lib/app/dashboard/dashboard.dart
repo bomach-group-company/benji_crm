@@ -2,13 +2,12 @@
 
 import 'package:flutter/material.dart';
 
-import '../../src/common_widgets/home appBar aggregator.dart';
-import '../../src/common_widgets/home orders container.dart';
-import '../../src/common_widgets/home showModalBottomSheet.dart';
+import '../../src/common_widgets/dashboard appBar.dart';
+import '../../src/common_widgets/dashboard orders container.dart';
+import '../../src/common_widgets/dashboard rider_vendor container.dart';
+import '../../src/common_widgets/dashboard showModalBottomSheet.dart';
 import '../../src/providers/constants.dart';
-import '../../src/providers/custom show search.dart';
 import '../../theme/colors.dart';
-import '../profile/profile.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -21,9 +20,16 @@ typedef ModalContentBuilder = Widget Function(BuildContext);
 
 class _DashboardState extends State<Dashboard> {
 //=================================== ALL VARIABLES =====================================\\
+  int incrementOrderID = 2 + 2;
+  late int orderID;
 
   @override
   Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
+    String formattedTime = format12HrTime(now);
+    double mediaWidth = MediaQuery.of(context).size.width;
+    double mediaHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: kPrimaryColor,
       floatingActionButton: FloatingActionButton(
@@ -41,145 +47,195 @@ class _DashboardState extends State<Dashboard> {
           Icons.add,
         ),
       ),
-      appBar: AppBar(
-        backgroundColor: kPrimaryColor,
-        automaticallyImplyLeading: false,
-        titleSpacing: kDefaultPadding / 2,
-        elevation: 0.0,
-        title: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: kDefaultPadding / 2,
-              ),
-              child: InkWell(
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const Profile(),
-                    ),
-                  );
-                },
-                child: Container(
-                  width: 45,
-                  height: 45,
-                  decoration: const ShapeDecoration(
-                    image: DecorationImage(
-                      image:
-                          AssetImage("assets/images/profile/avatar-image.jpg"),
-                      fit: BoxFit.cover,
-                    ),
-                    shape: OvalBorder(),
-                  ),
-                ),
-              ),
-            ),
-            const AppBarAggregator(
-              title: "Welcome,",
-              aggregatorName: "Mishaal Erickson",
-            ),
-          ],
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              showSearch(
-                context: context,
-                delegate: CustomSearchDelegate(),
-              );
-            },
-            icon: const Icon(
-              Icons.search_rounded,
-              color: kGreyColor1,
-              size: 30,
-            ),
-          ),
-          Stack(
-            children: [
-              IconButton(
-                iconSize: 20,
-                onPressed: () {
-                  // Navigator.of(context).push(
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const Notifications(),
-                  //   ),
-                  // );
-                },
-                icon: Icon(
-                  Icons.notifications_outlined,
-                  color: kAccentColor,
-                  size: 30,
-                ),
-              ),
-              Positioned(
-                top: 10,
-                right: 12,
-                child: Container(
-                  height: 15,
-                  width: 15,
-                  decoration: ShapeDecoration(
-                    color: kAccentColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      "10+",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 9,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-          kWidthSizedBox
-        ],
-      ),
+      appBar: const DashboardAppBar(),
       body: SafeArea(
         maintainBottomViewPadding: true,
         child: ListView(
           physics: const BouncingScrollPhysics(),
           scrollDirection: Axis.vertical,
+          padding: const EdgeInsets.all(
+            kDefaultPadding,
+          ),
           children: [
-            Container(
-              padding: const EdgeInsets.all(
-                kDefaultPadding,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  OrdersContainer(
-                    onTap: () {
-                      OrdersContainerBottomSheet(
-                        context,
-                        "20 Running",
-                        20,
-                      );
-                    },
-                    numberOfOrders: "20",
-                    typeOfOrders: "Active",
-                  ),
-                  OrdersContainer(
-                    onTap: () {
-                      OrdersContainerBottomSheet(
-                        context,
-                        "5 Pending",
-                        5,
-                      );
-                    },
-                    numberOfOrders: "05",
-                    typeOfOrders: "Pending",
-                  ),
-                ],
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                OrdersContainer(
+                  containerColor: kPrimaryColor,
+                  typeOfOrderColor: kTextGreyColor,
+                  iconColor: kGreyColor1,
+                  onTap: () {
+                    OrdersContainerBottomSheet(
+                      context,
+                      "20 Running",
+                      20,
+                    );
+                  },
+                  numberOfOrders: "20",
+                  typeOfOrders: "Active",
+                ),
+                OrdersContainer(
+                  containerColor: Colors.red.shade100,
+                  typeOfOrderColor: kAccentColor,
+                  iconColor: kAccentColor,
+                  onTap: () {
+                    OrdersContainerBottomSheet(
+                      context,
+                      "5 Pending",
+                      5,
+                    );
+                  },
+                  numberOfOrders: "05",
+                  typeOfOrders: "Pending",
+                ),
+              ],
             ),
-            const SizedBox(
-              height: kDefaultPadding * 2,
+            kSizedBox,
+            RiderVendorContainer(
+              onTap: () {},
+              number: "390",
+              typeOf: "Vendors",
+              onlineStatus: "248 Online",
+            ),
+            kSizedBox,
+            RiderVendorContainer(
+              onTap: () {},
+              number: "90",
+              typeOf: "Riders",
+              onlineStatus: "32 Online",
+            ),
+            const SizedBox(height: kDefaultPadding * 2),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const SizedBox(
+                  width: 200,
+                  child: Text(
+                    "New Orders",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: SizedBox(
+                    child: Text(
+                      "See All",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: kAccentColor,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+            kSizedBox,
+            Column(
+              children: [
+                for (orderID = 1; orderID < 30; orderID += incrementOrderID)
+                  Container(
+                    // margin: const EdgeInsets.symmetric(
+                    //   horizontal: kDefaultPadding / 2,
+                    //   vertical: kDefaultPadding / 2,
+                    // ),
+                    padding: const EdgeInsets.only(
+                      top: kDefaultPadding / 2,
+                      left: kDefaultPadding / 2,
+                      right: kDefaultPadding / 2,
+                    ),
+                    width: mediaWidth / 1.1,
+                    height: 140,
+                    decoration: ShapeDecoration(
+                      color: kPrimaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(kDefaultPadding),
+                      ),
+                      shadows: const [
+                        BoxShadow(
+                          color: Color(0x0F000000),
+                          blurRadius: 24,
+                          offset: Offset(0, 4),
+                          spreadRadius: 4,
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        Column(
+                          children: [
+                            Container(
+                              width: 60,
+                              height: 60,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16),
+                                image: const DecorationImage(
+                                  image: AssetImage(
+                                    "assets/images/food/chizzy's-food.png",
+                                  ),
+                                ),
+                              ),
+                            ),
+                            kHalfSizedBox,
+                            Container(
+                              child: Text(
+                                "#00${orderID.toString()}",
+                                style: TextStyle(
+                                  color: kTextGreyColor,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        kWidthSizedBox,
+                        Container(
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                width: mediaWidth / 1.55,
+                                // color: kAccentColor,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    SizedBox(
+                                      width: mediaWidth / 3,
+                                      child: const Text(
+                                        "Hot Kitchen",
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: mediaWidth / 8,
+                                      child: Text(
+                                        formattedTime,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+              ],
             ),
           ],
         ),
