@@ -48,6 +48,7 @@ flutter:
     - assets/images/login/
     - assets/images/home/
     - assets/images/vendors/
+    - assets/images/customer/
     - assets/images/food/
     - assets/images/icons/
     - assets/images/rider/
