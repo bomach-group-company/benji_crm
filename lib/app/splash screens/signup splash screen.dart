@@ -10,8 +10,9 @@ class SignUpSplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(const Duration(seconds: 3), () {
-      Get.offAll(
+    Future.delayed(
+      const Duration(seconds: 3),
+      () => Get.offAll(
         () => const OverView(),
         duration: const Duration(seconds: 3),
         fullscreenDialog: true,
@@ -20,8 +21,8 @@ class SignUpSplashScreen extends StatelessWidget {
         predicate: (route) => false,
         popGesture: true,
         transition: Transition.circularReveal,
-      );
-    });
+      ),
+    );
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,

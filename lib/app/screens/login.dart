@@ -50,7 +50,7 @@ class _LoginState extends State<Login> {
 
   //=========================== FUNCTIONS ====================================\\
   //Navigate to Signup
-  void toSignupPage() {
+  void toSignupPage() =>
     Get.offAll(
       () => const SignUp(),
       duration: const Duration(milliseconds: 500),
@@ -61,21 +61,19 @@ class _LoginState extends State<Login> {
       popGesture: true,
       transition: Transition.fadeIn,
     );
-  }
+  
 
   //Navigate to forgotPassword
-  void toForgotPasswordPage() {
-    Get.to(
-      () => const ForgotPassword(),
-      duration: const Duration(milliseconds: 500),
-      fullscreenDialog: true,
-      curve: Curves.easeIn,
-      routeName: "Forgot Password",
-      preventDuplicates: true,
-      popGesture: true,
-      transition: Transition.rightToLeftWithFade,
-    );
-  }
+  void toForgotPasswordPage() => Get.to(
+        () => const ForgotPassword(),
+        duration: const Duration(milliseconds: 500),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "Forgot Password",
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeftWithFade,
+      );
 
   Future<void> loadData() async {
     setState(() {

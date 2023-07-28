@@ -50,18 +50,16 @@ class _OrderDetailsState extends State<OrderDetails> {
   }
 
   //ASSIGN RIDER
-  void assignRider() {
-    Get.to(
-      () => const AssignRider(),
-      duration: const Duration(milliseconds: 300),
-      fullscreenDialog: true,
-      curve: Curves.easeIn,
-      routeName: "Assign Rider",
-      preventDuplicates: true,
-      popGesture: true,
-      transition: Transition.rightToLeft,
-    );
-  }
+  void assignRider() => Get.to(
+        () => const AssignRider(),
+        duration: const Duration(milliseconds: 500),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "Assign Rider",
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeftWithFade,
+      );
 
   //Order Accepted
   void processOrderAccepted() {

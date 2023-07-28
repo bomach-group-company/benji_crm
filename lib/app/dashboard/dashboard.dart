@@ -2,6 +2,7 @@
 
 import 'package:benji_aggregator/app/others/order%20details.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/dashboard appBar.dart';
 import '../../src/common_widgets/dashboard orders container.dart';
@@ -43,6 +44,27 @@ class _DashboardState extends State<Dashboard> {
     double mediaWidth = MediaQuery.of(context).size.width;
     double mediaHeight = MediaQuery.of(context).size.height;
     double subtotalPrice = calculateSubtotal();
+
+    //Navigate to Order Details Page
+    void toOrderDetailsPage() => Get.to(
+          () => OrderDetails(
+            formatted12HrTime: formattedDateAndTime,
+            orderID: orderID,
+            orderImage: orderImage,
+            orderItem: orderItem,
+            itemQuantity: itemQuantity,
+            subtotalPrice: subtotalPrice,
+            customerName: customerName,
+            customerAddress: customerAddress,
+          ),
+          duration: const Duration(milliseconds: 500),
+          fullscreenDialog: true,
+          curve: Curves.easeIn,
+          routeName: "Order Details",
+          preventDuplicates: true,
+          popGesture: true,
+          transition: Transition.rightToLeftWithFade,
+        );
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -151,20 +173,8 @@ class _DashboardState extends State<Dashboard> {
               children: [
                 for (orderID = 1; orderID < 30; orderID += incrementOrderID)
                   InkWell(
-                    onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => OrderDetails(
-                          formatted12HrTime: formattedDateAndTime,
-                          orderID: orderID,
-                          orderImage: orderImage,
-                          orderItem: orderItem,
-                          itemQuantity: itemQuantity,
-                          subtotalPrice: subtotalPrice,
-                          customerName: customerName,
-                          customerAddress: customerAddress,
-                        ),
-                      ),
-                    ),
+                    onTap: toOrderDetailsPage,
+                    borderRadius: BorderRadius.circular(kDefaultPadding),
                     child: Container(
                       margin: const EdgeInsets.symmetric(
                         vertical: kDefaultPadding / 2,

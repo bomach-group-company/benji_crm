@@ -19,8 +19,9 @@ class StartupSplashscreen extends StatefulWidget {
 class _StartupSplashscreenState extends State<StartupSplashscreen> {
   @override
   Widget build(BuildContext context) {
-    Future.delayed(const Duration(seconds: 3), () {
-      Get.offAll(
+    Future.delayed(
+      const Duration(seconds: 3),
+      () => Get.offAll(
         () => const Login(),
         duration: const Duration(seconds: 3),
         fullscreenDialog: true,
@@ -29,8 +30,8 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
         predicate: (route) => false,
         popGesture: true,
         transition: Transition.circularReveal,
-      );
-    });
+      ),
+    );
     return Scaffold(
       body: ListView(
         padding: const EdgeInsets.all(kDefaultPadding / 2),
