@@ -33,9 +33,7 @@ class _OverViewState extends State<OverView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pages[_currentIndex],
-      backgroundColor: kPrimaryColor,
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: kPrimaryColor,
         currentIndex: _currentIndex,
         onTap: _onTappedBar,
         elevation: 20.0,
