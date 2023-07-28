@@ -1,6 +1,6 @@
-// ignore_for_file: avoid_unnecessary_containers
+// ignore_for_file: avoid_unnecessary_containers, unused_local_variable
 
-import 'package:benji_aggregator/app/others/orders/order%20details.dart';
+import 'package:benji_aggregator/app/others/order%20details.dart';
 import 'package:flutter/material.dart';
 
 import '../../src/common_widgets/dashboard appBar.dart';
@@ -23,13 +23,26 @@ class _DashboardState extends State<Dashboard> {
 //=================================== ALL VARIABLES =====================================\\
   int incrementOrderID = 2 + 2;
   late int orderID;
+  String orderItem = "Jollof Rice and Chicken";
+  String customerAddress = "21 Odogwu Street, New Haven";
+  int itemQuantity = 2;
+  double price = 2500;
+  double itemPrice = 2500;
+  String orderImage = "chizzy's-food";
+  String customerName = "Mercy Luke";
+
+//=================================== FUNCTIONS =====================================\\
+  double calculateSubtotal() {
+    return itemPrice * itemQuantity;
+  }
 
   @override
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
-    String formattedTime = format12HrTime(now);
+    String formattedDateAndTime = formatDateAndTime(now);
     double mediaWidth = MediaQuery.of(context).size.width;
     double mediaHeight = MediaQuery.of(context).size.height;
+    double subtotalPrice = calculateSubtotal();
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -138,8 +151,20 @@ class _DashboardState extends State<Dashboard> {
               children: [
                 for (orderID = 1; orderID < 30; orderID += incrementOrderID)
                   InkWell(
-                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const OrderDetails())),
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => OrderDetails(
+                          formatted12HrTime: formattedDateAndTime,
+                          orderID: orderID,
+                          orderImage: orderImage,
+                          orderItem: orderItem,
+                          itemQuantity: itemQuantity,
+                          subtotalPrice: subtotalPrice,
+                          customerName: customerName,
+                          customerAddress: customerAddress,
+                        ),
+                      ),
+                    ),
                     child: Container(
                       margin: const EdgeInsets.symmetric(
                         vertical: kDefaultPadding / 2,
@@ -174,9 +199,9 @@ class _DashboardState extends State<Dashboard> {
                                 height: 60,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(16),
-                                  image: const DecorationImage(
+                                  image: DecorationImage(
                                     image: AssetImage(
-                                      "assets/images/food/chizzy's-food.png",
+                                      "assets/images/food/$orderImage.png",
                                     ),
                                   ),
                                 ),
@@ -219,9 +244,9 @@ class _DashboardState extends State<Dashboard> {
                                         ),
                                       ),
                                       SizedBox(
-                                        width: mediaWidth / 8,
+                                        width: mediaWidth / 3.5,
                                         child: Text(
-                                          formattedTime,
+                                          formattedDateAndTime,
                                           overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(
                                             fontSize: 12,
@@ -236,11 +261,11 @@ class _DashboardState extends State<Dashboard> {
                                 Container(
                                   color: kTransparentColor,
                                   width: 250,
-                                  child: const Text(
-                                    "Jellof Rice and Chicken",
+                                  child: Text(
+                                    orderItem,
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w700,
                                     ),
@@ -250,20 +275,21 @@ class _DashboardState extends State<Dashboard> {
                                 Container(
                                   width: 200,
                                   color: kTransparentColor,
-                                  child: const Text.rich(
+                                  child: Text.rich(
                                     TextSpan(
                                       children: [
                                         TextSpan(
-                                          text: "x 2",
-                                          style: TextStyle(
+                                          text: "x $itemQuantity",
+                                          style: const TextStyle(
                                             fontSize: 13,
                                             fontWeight: FontWeight.w400,
                                           ),
                                         ),
-                                        TextSpan(text: "  "),
+                                        const TextSpan(text: "  "),
                                         TextSpan(
-                                          text: "₦ 2,500",
-                                          style: TextStyle(
+                                          text:
+                                              "₦ ${itemPrice.toStringAsFixed(2)}",
+                                          style: const TextStyle(
                                             fontSize: 15,
                                             fontFamily: 'sen',
                                             fontWeight: FontWeight.w400,
@@ -282,11 +308,11 @@ class _DashboardState extends State<Dashboard> {
                                 kHalfSizedBox,
                                 SizedBox(
                                   width: mediaWidth / 1.8,
-                                  child: const Text(
-                                    "Mercy Luke",
+                                  child: Text(
+                                    customerName,
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w700,
                                     ),
@@ -294,11 +320,11 @@ class _DashboardState extends State<Dashboard> {
                                 ),
                                 SizedBox(
                                   width: mediaWidth / 1.8,
-                                  child: const Text(
-                                    "21 Odogwu Street, New Haven",
+                                  child: Text(
+                                    customerAddress,
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w400,
                                     ),
