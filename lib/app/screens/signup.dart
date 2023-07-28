@@ -85,7 +85,7 @@ class _SignUpState extends State<SignUp> {
     // Navigate to the new page
     Get.off(
       () => const SignUpSplashScreen(),
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 2),
       fullscreenDialog: true,
       curve: Curves.easeIn,
       routeName: "Signup processing",
@@ -394,7 +394,7 @@ class _SignUpState extends State<SignUp> {
                           ? Center(
                               child: SpinKitChasingDots(
                                 color: kAccentColor,
-                                duration: const Duration(seconds: 2),
+                                duration: const Duration(seconds: 5),
                               ),
                             )
                           : ElevatedButton(
@@ -405,18 +405,12 @@ class _SignUpState extends State<SignUp> {
                               }),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: kAccentColor,
-                                maximumSize: Size(
-                                  MediaQuery.of(context).size.width,
-                                  62,
-                                ),
-                                minimumSize: Size(
-                                  MediaQuery.of(context).size.width,
-                                  60,
-                                ),
+                                maximumSize:
+                                    Size(MediaQuery.of(context).size.width, 62),
+                                minimumSize:
+                                    Size(MediaQuery.of(context).size.width, 60),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    16,
-                                  ),
+                                  borderRadius: BorderRadius.circular(16),
                                 ),
                                 elevation: 10,
                                 shadowColor: kDarkGreyColor,

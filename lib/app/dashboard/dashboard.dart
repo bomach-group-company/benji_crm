@@ -10,6 +10,9 @@ import '../../src/common_widgets/dashboard rider_vendor container.dart';
 import '../../src/common_widgets/dashboard showModalBottomSheet.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
+import '../others/add product.dart';
+import '../riders/add rider.dart';
+import '../vendors/add vendor.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -33,8 +36,82 @@ class _DashboardState extends State<Dashboard> {
   String customerName = "Mercy Luke";
 
 //=================================== FUNCTIONS =====================================\\
+
   double calculateSubtotal() {
     return itemPrice * itemQuantity;
+  }
+
+  void showPopupMenu(BuildContext context) {
+    // Show the popup menu
+    final RenderBox overlay =
+        Overlay.of(context).context.findRenderObject() as RenderBox;
+    final position = RelativeRect.fromLTRB(
+      MediaQuery.of(context).size.width - 50,
+      MediaQuery.of(context).size.height - 300,
+      0,
+      0,
+    );
+
+    showMenu<String>(
+      context: context,
+      position: position,
+      items: [
+        const PopupMenuItem<String>(
+          value: 'Add new Vendor',
+          child: Text('Add new Vendor'),
+        ),
+        const PopupMenuItem<String>(
+          value: 'Add new Product',
+          child: Text('Add new Product'),
+        ),
+        const PopupMenuItem<String>(
+          value: 'Add new Rider',
+          child: Text('Add new Rider'),
+        ),
+      ],
+    ).then((value) {
+      // Handle the selected value from the popup menu
+      if (value != null) {
+        switch (value) {
+          case 'Add new Vendor':
+            Get.to(
+              () => const AddVendor(),
+              duration: const Duration(milliseconds: 300),
+              fullscreenDialog: true,
+              curve: Curves.easeIn,
+              routeName: "Add vendor",
+              preventDuplicates: true,
+              popGesture: true,
+              transition: Transition.downToUp,
+            );
+            break;
+          case 'Add new Product':
+            Get.to(
+              () => const AddProduct(),
+              duration: const Duration(milliseconds: 300),
+              fullscreenDialog: true,
+              curve: Curves.easeIn,
+              routeName: "Add product",
+              preventDuplicates: true,
+              popGesture: true,
+              transition: Transition.downToUp,
+            );
+            break;
+          case 'Add new Rider':
+            Get.to(
+              () => const AddRider(),
+              duration: const Duration(milliseconds: 300),
+              fullscreenDialog: true,
+              curve: Curves.easeIn,
+              routeName: "Add rider",
+              preventDuplicates: true,
+              popGesture: true,
+              transition: Transition.downToUp,
+            );
+            break;
+        }
+      }
+    });
   }
 
   @override
@@ -57,23 +134,19 @@ class _DashboardState extends State<Dashboard> {
             customerName: customerName,
             customerAddress: customerAddress,
           ),
-          duration: const Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 300),
           fullscreenDialog: true,
           curve: Curves.easeIn,
           routeName: "Order Details",
           preventDuplicates: true,
           popGesture: true,
-          transition: Transition.rightToLeftWithFade,
+          transition: Transition.downToUp,
         );
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Navigator.of(context).push(
-          //   MaterialPageRoute(
-          //     builder: (context) => const AddProduct(),
-          //   ),
-          // );
+          showPopupMenu(context);
         },
         elevation: 20.0,
         backgroundColor: kAccentColor,
@@ -241,9 +314,8 @@ class _DashboardState extends State<Dashboard> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      SizedBox(
-                                        width: mediaWidth / 3,
-                                        child: const Text(
+                                      const SizedBox(
+                                        child: Text(
                                           "Hot Kitchen",
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
@@ -254,7 +326,6 @@ class _DashboardState extends State<Dashboard> {
                                         ),
                                       ),
                                       SizedBox(
-                                        width: mediaWidth / 3.5,
                                         child: Text(
                                           formattedDateAndTime,
                                           overflow: TextOverflow.ellipsis,

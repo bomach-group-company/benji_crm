@@ -1,6 +1,8 @@
 // ignore_for_file: file_names
 
+import 'package:benji_aggregator/app/others/notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 
 import '../../app/profile/profile.dart';
 import '../../theme/colors.dart';
@@ -14,9 +16,36 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
   const DashboardAppBar({
     super.key,
   });
+//======================================== ALL VARIABLES ==============================================\\
 
+//======================================== FUNCTIONS ==============================================\\
+  void toProfilePage() => Get.to(
+        () => const Profile(),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "Profile",
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.downToUp,
+      );
+
+  void toNotificationsPage() => Get.to(
+        () => const Notifications(),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "Notifications",
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.downToUp,
+      );
   @override
   Widget build(BuildContext context) {
+    void showSearchField() {
+      showSearch(context: context, delegate: CustomSearchDelegate());
+    }
+
     return AppBar(
       backgroundColor: kPrimaryColor,
       automaticallyImplyLeading: false,
@@ -30,11 +59,7 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
             child: InkWell(
               onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const Profile(),
-                  ),
-                );
+                toProfilePage();
               },
               child: Container(
                 width: 45,
@@ -57,12 +82,7 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       actions: [
         IconButton(
-          onPressed: () {
-            showSearch(
-              context: context,
-              delegate: CustomSearchDelegate(),
-            );
-          },
+          onPressed: showSearchField,
           icon: const Icon(
             Icons.search_rounded,
             color: kGreyColor1,
@@ -73,13 +93,7 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
           children: [
             IconButton(
               iconSize: 20,
-              onPressed: () {
-                // Navigator.of(context).push(
-                //   MaterialPageRoute(
-                //     builder: (context) => const Notifications(),
-                //   ),
-                // );
-              },
+              onPressed: toNotificationsPage,
               icon: Icon(
                 Icons.notifications_outlined,
                 color: kAccentColor,

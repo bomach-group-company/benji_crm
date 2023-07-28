@@ -50,18 +50,16 @@ class _LoginState extends State<Login> {
 
   //=========================== FUNCTIONS ====================================\\
   //Navigate to Signup
-  void toSignupPage() =>
-    Get.offAll(
-      () => const SignUp(),
-      duration: const Duration(milliseconds: 500),
-      fullscreenDialog: true,
-      curve: Curves.easeIn,
-      routeName: "Signup",
-      predicate: (route) => false,
-      popGesture: true,
-      transition: Transition.fadeIn,
-    );
-  
+  void toSignupPage() => Get.offAll(
+        () => const SignUp(),
+        duration: const Duration(milliseconds: 500),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "Signup",
+        predicate: (route) => false,
+        popGesture: true,
+        transition: Transition.fadeIn,
+      );
 
   //Navigate to forgotPassword
   void toForgotPasswordPage() => Get.to(
@@ -94,7 +92,7 @@ class _LoginState extends State<Login> {
     // Navigate to the new page
     Get.off(
       () => const LoginSplashScreen(),
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 2),
       fullscreenDialog: true,
       curve: Curves.easeIn,
       routeName: "Login processing",
@@ -300,7 +298,6 @@ class _LoginState extends State<Login> {
                           ? Center(
                               child: SpinKitChasingDots(
                                 color: kAccentColor,
-                                duration: const Duration(seconds: 2),
                               ),
                             )
                           : ElevatedButton(
@@ -311,18 +308,12 @@ class _LoginState extends State<Login> {
                               }),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: kAccentColor,
-                                maximumSize: Size(
-                                  MediaQuery.of(context).size.width,
-                                  62,
-                                ),
-                                minimumSize: Size(
-                                  MediaQuery.of(context).size.width,
-                                  60,
-                                ),
+                                maximumSize:
+                                    Size(MediaQuery.of(context).size.width, 62),
+                                minimumSize:
+                                    Size(MediaQuery.of(context).size.width, 60),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    16,
-                                  ),
+                                  borderRadius: BorderRadius.circular(16),
                                 ),
                                 elevation: 10,
                                 shadowColor: kDarkGreyColor,
