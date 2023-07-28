@@ -59,7 +59,7 @@ class _SignUpState extends State<SignUp> {
       routeName: "Login",
       predicate: (route) => false,
       popGesture: true,
-      transition: Transition.rightToLeft,
+      transition: Transition.fadeIn,
     );
   }
 
@@ -75,6 +75,7 @@ class _SignUpState extends State<SignUp> {
     //   controller.userEmailEC.text.trim(),
     //   controller.userPasswordEC.text.trim(),
     // );
+
     //Display snackBar
     myFixedSnackBar(
       context,
@@ -89,16 +90,11 @@ class _SignUpState extends State<SignUp> {
       duration: const Duration(seconds: 3),
       fullscreenDialog: true,
       curve: Curves.easeIn,
-      routeName: "signup processing",
+      routeName: "Signup processing",
       preventDuplicates: true,
       popGesture: true,
       transition: Transition.fadeIn,
     );
-
-    // Navigator.of(context).pushAndRemoveUntil(
-    //   MaterialPageRoute(builder: (context) => const SignUpSplashScreen()),
-    //   (route) => false,
-    // );
 
     setState(() {
       isLoading = false;
@@ -123,11 +119,19 @@ class _SignUpState extends State<SignUp> {
           maintainBottomViewPadding: true,
           child: Column(
             children: [
-              const ReusableAuthenticationFirstHalf(
+              ReusableAuthenticationFirstHalf(
                 title: "Sign up",
                 subtitle: "Please sign up to get started",
-                decoration: BoxDecoration(),
-                imageContainerHeight: 0,
+                decoration: ShapeDecoration(
+                  image: const DecorationImage(
+                    image: AssetImage("assets/images/login/avatar-image.png"),
+                    fit: BoxFit.cover,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(43.50),
+                  ),
+                ),
+                imageContainerHeight: 88,
               ),
               kSizedBox,
               Expanded(

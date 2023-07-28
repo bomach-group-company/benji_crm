@@ -11,15 +11,15 @@ class SignUpSplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 3), () {
-      Get.off(
+      Get.offAll(
         () => const OverView(),
         duration: const Duration(seconds: 3),
         fullscreenDialog: true,
         curve: Curves.easeIn,
         routeName: "Dashboard",
-        preventDuplicates: true,
+        predicate: (route) => false,
         popGesture: true,
-        transition: Transition.fadeIn,
+        transition: Transition.circularReveal,
       );
     });
     return SafeArea(

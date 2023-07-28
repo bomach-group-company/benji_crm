@@ -6,7 +6,7 @@ import 'package:get/route_manager.dart';
 
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
-import '../screens/signup.dart';
+import '../screens/login.dart';
 
 class StartupSplashscreen extends StatefulWidget {
   static String routeName = "Startup Splash Screen";
@@ -21,14 +21,14 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 3), () {
       Get.offAll(
-        () => const SignUp(),
+        () => const Login(),
         duration: const Duration(seconds: 3),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "Sign up",
+        routeName: "Login",
         predicate: (route) => false,
         popGesture: true,
-        transition: Transition.fadeIn,
+        transition: Transition.circularReveal,
       );
     });
     return Scaffold(

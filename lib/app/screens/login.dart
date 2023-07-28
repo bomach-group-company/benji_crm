@@ -63,6 +63,20 @@ class _LoginState extends State<Login> {
     );
   }
 
+  //Navigate to forgotPassword
+  void toForgotPasswordPage() {
+    Get.to(
+      () => const ForgotPassword(),
+      duration: const Duration(milliseconds: 500),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      routeName: "Forgot Password",
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeftWithFade,
+    );
+  }
+
   Future<void> loadData() async {
     setState(() {
       isLoading = true;
@@ -76,9 +90,7 @@ class _LoginState extends State<Login> {
       context,
       "Login Successful".toUpperCase(),
       kSuccessColor,
-      const Duration(
-        seconds: 2,
-      ),
+      const Duration(seconds: 2),
     );
 
     // Navigate to the new page
@@ -87,15 +99,11 @@ class _LoginState extends State<Login> {
       duration: const Duration(seconds: 3),
       fullscreenDialog: true,
       curve: Curves.easeIn,
-      routeName: "login processing",
+      routeName: "Login processing",
       preventDuplicates: true,
       popGesture: true,
       transition: Transition.fadeIn,
     );
-    // Navigator.of(context).pushAndRemoveUntil(
-    //   MaterialPageRoute(builder: (context) => const LoginSplashScreen()),
-    //   (route) => false,
-    // );
 
     setState(() {
       isLoading = false;
@@ -125,15 +133,11 @@ class _LoginState extends State<Login> {
                 subtitle: "Please log in to your existing account",
                 decoration: ShapeDecoration(
                   image: const DecorationImage(
-                    image: AssetImage(
-                      "assets/images/login/avatar-image.png",
-                    ),
+                    image: AssetImage("assets/images/login/avatar-image.png"),
                     fit: BoxFit.cover,
                   ),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                      43.50,
-                    ),
+                    borderRadius: BorderRadius.circular(43.50),
                   ),
                 ),
                 imageContainerHeight: 88,
@@ -284,11 +288,7 @@ class _LoginState extends State<Login> {
                           ),
                           TextButton(
                             onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => const ForgotPassword(),
-                                ),
-                              );
+                              toForgotPasswordPage();
                             },
                             child: Text(
                               "Forgot Password",
