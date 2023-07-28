@@ -51,13 +51,13 @@ class _SignUpState extends State<SignUp> {
   //=========================== FUNCTIONS ====================================\\
   //Navigate to login
   void toLoginPage() {
-    Get.to(
+    Get.offAll(
       () => const Login(),
       duration: const Duration(milliseconds: 500),
       fullscreenDialog: true,
       curve: Curves.easeIn,
       routeName: "Login",
-      preventDuplicates: true,
+      predicate: (route) => false,
       popGesture: true,
       transition: Transition.rightToLeft,
     );
