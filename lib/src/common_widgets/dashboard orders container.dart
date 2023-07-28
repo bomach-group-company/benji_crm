@@ -9,17 +9,25 @@ class OrdersContainer extends StatelessWidget {
   final Function() onTap;
   final String numberOfOrders;
   final String typeOfOrders;
+  final Color containerColor;
+  final Color typeOfOrderColor;
+  final Color iconColor;
+
   const OrdersContainer({
     super.key,
     required this.onTap,
     required this.numberOfOrders,
     required this.typeOfOrders,
+    required this.containerColor,
+    required this.typeOfOrderColor,
+    required this.iconColor,
   });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: onTap,
+      borderRadius: BorderRadius.circular(kDefaultPadding),
       child: Container(
         padding: const EdgeInsets.only(
           top: kDefaultPadding / 1.5,
@@ -29,11 +37,9 @@ class OrdersContainer extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 0.41,
         height: 140,
         decoration: ShapeDecoration(
-          color: Colors.white,
+          color: containerColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(
-              kDefaultPadding,
-            ),
+            borderRadius: BorderRadius.circular(kDefaultPadding),
           ),
           shadows: const [
             BoxShadow(
@@ -41,22 +47,19 @@ class OrdersContainer extends StatelessWidget {
                 0x0F000000,
               ),
               blurRadius: 24,
-              offset: Offset(
-                0,
-                4,
-              ),
+              offset: Offset(0, 4),
               spreadRadius: 4,
             )
           ],
         ),
         child: Column(
           children: [
-            const Align(
+            Align(
               alignment: Alignment.topRight,
               child: Icon(
                 Icons.arrow_forward_rounded,
                 size: 20,
-                color: kGreyColor1,
+                color: iconColor,
               ),
             ),
             Column(
@@ -84,7 +87,7 @@ class OrdersContainer extends StatelessWidget {
                     "$typeOfOrders Orders",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: kTextGreyColor,
+                      color: typeOfOrderColor,
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
                     ),
