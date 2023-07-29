@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
+      defaultTransition: Transition.rightToLeftWithFade,
       title: "Benji Aggregator",
       color: kPrimaryColor,
       themeMode: ThemeMode.light,

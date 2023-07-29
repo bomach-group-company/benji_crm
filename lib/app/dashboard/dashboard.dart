@@ -55,6 +55,7 @@ class _DashboardState extends State<Dashboard> {
     showMenu<String>(
       context: context,
       position: position,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       items: [
         const PopupMenuItem<String>(
           value: 'Add new Vendor',
