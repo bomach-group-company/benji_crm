@@ -1,6 +1,5 @@
 // ignore_for_file: avoid_unnecessary_containers, unused_local_variable
 
-import 'package:benji_aggregator/app/others/order%20details.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
@@ -11,8 +10,11 @@ import '../../src/common_widgets/dashboard showModalBottomSheet.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 import '../others/add product.dart';
+import '../others/order details.dart';
 import '../riders/add rider.dart';
+import '../riders/riders.dart';
 import '../vendors/add vendor.dart';
+import '../vendors/vendors.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -40,6 +42,32 @@ class _DashboardState extends State<Dashboard> {
   double calculateSubtotal() {
     return itemPrice * itemQuantity;
   }
+
+  void toSeeAllRiders() => Get.to(
+        () => Riders(
+          appBarBackgroundColor: kAccentColor,
+          appTitleColor: kPrimaryColor,
+          appBarSearchIconColor: kPrimaryColor,
+        ),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "All Riders",
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.downToUp,
+      );
+
+  void toSeeAllVendors() => Get.to(
+        () => const Vendors(),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "All Riders",
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.downToUp,
+      );
 
   void showPopupMenu(BuildContext context) {
     // Show the popup menu
@@ -201,14 +229,14 @@ class _DashboardState extends State<Dashboard> {
             ),
             kSizedBox,
             RiderVendorContainer(
-              onTap: () {},
+              onTap: toSeeAllVendors,
               number: "390",
               typeOf: "Vendors",
               onlineStatus: "248 Online",
             ),
             kSizedBox,
             RiderVendorContainer(
-              onTap: () {},
+              onTap: toSeeAllRiders,
               number: "90",
               typeOf: "Riders",
               onlineStatus: "32 Online",

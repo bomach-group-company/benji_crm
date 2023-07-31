@@ -16,11 +16,15 @@ class OverView extends StatefulWidget {
 class _OverViewState extends State<OverView> {
   int _currentIndex = 0;
 
-  final List<Widget> _pages = const [
-    Dashboard(),
-    Vendors(),
-    Riders(),
-    Profile(),
+  final List<Widget> _pages = [
+    const Dashboard(),
+    const Vendors(),
+    Riders(
+      appBarBackgroundColor: kPrimaryColor,
+      appTitleColor: kTextBlackColor,
+      appBarSearchIconColor: kAccentColor,
+    ),
+    const Profile(),
   ];
 
   void _onTappedBar(int index) {

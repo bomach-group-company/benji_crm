@@ -83,9 +83,9 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         IconButton(
           onPressed: showSearchField,
-          icon: const Icon(
+          icon: Icon(
             Icons.search_rounded,
-            color: kGreyColor1,
+            color: kAccentColor,
             size: 30,
           ),
         ),

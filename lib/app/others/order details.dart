@@ -52,13 +52,13 @@ class _OrderDetailsState extends State<OrderDetails> {
   //ASSIGN RIDER
   void assignRider() => Get.to(
         () => const AssignRider(),
-        duration: const Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
         routeName: "Assign Rider",
         preventDuplicates: true,
         popGesture: true,
-        transition: Transition.rightToLeftWithFade,
+        transition: Transition.rightToLeft,
       );
 
   //Order Accepted
@@ -114,7 +114,7 @@ class _OrderDetailsState extends State<OrderDetails> {
           scrollDirection: Axis.vertical,
           children: <Widget>[
             Container(
-              width: MediaQuery.of(context).size.width,
+              width: mediaWidth,
               padding: const EdgeInsets.all(kDefaultPadding / 2),
               decoration: ShapeDecoration(
                 color: Colors.white,
@@ -131,7 +131,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                 ],
               ),
               child: SizedBox(
-                width: MediaQuery.of(context).size.width,
+                width: mediaWidth,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -223,7 +223,7 @@ class _OrderDetailsState extends State<OrderDetails> {
             ),
             kSizedBox,
             Container(
-              width: MediaQuery.of(context).size.width,
+              width: mediaWidth,
               padding: const EdgeInsets.all(kDefaultPadding / 2),
               decoration: ShapeDecoration(
                 color: Colors.white,
@@ -331,7 +331,7 @@ class _OrderDetailsState extends State<OrderDetails> {
             ),
             kSizedBox,
             Container(
-              width: MediaQuery.of(context).size.width,
+              width: mediaWidth,
               padding: const EdgeInsets.all(kDefaultPadding / 2),
               decoration: ShapeDecoration(
                 color: Colors.white,
@@ -455,7 +455,7 @@ class _OrderDetailsState extends State<OrderDetails> {
             ),
             kSizedBox,
             Container(
-              width: MediaQuery.of(context).size.width,
+              width: mediaWidth,
               padding: const EdgeInsets.all(kDefaultPadding / 2),
               decoration: ShapeDecoration(
                 color: Colors.white,
@@ -631,7 +631,7 @@ class _OrderDetailsState extends State<OrderDetails> {
             ),
             isOrderCanceled
                 ? Container(
-                    width: MediaQuery.of(context).size.width,
+                    width: mediaWidth,
                     padding: const EdgeInsets.all(15),
                     decoration: ShapeDecoration(
                       color: const Color(0xFFFEF8F8),
@@ -670,7 +670,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                               height: 10,
                             ),
                             SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.5,
+                              width: mediaWidth * 0.5,
                               child: const Text(
                                 'This order has been canceled',
                                 style: TextStyle(
@@ -717,11 +717,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                                 titleFontSize: 16.09,
                                 circularBorderRadius: 10.0,
                                 maximumSizeHeight: 50.07,
-                                maximumSizeWidth:
-                                    MediaQuery.of(context).size.width / 2.5,
+                                maximumSizeWidth: mediaWidth / 2.5,
                                 minimumSizeHeight: 50.07,
-                                minimumSizeWidth:
-                                    MediaQuery.of(context).size.width / 2.5,
+                                minimumSizeWidth: mediaWidth / 2.5,
                               ),
                               MyElevatedButton(
                                 onPressed: () {
