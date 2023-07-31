@@ -64,7 +64,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       routeName: "Send OTP",
       preventDuplicates: true,
       popGesture: true,
-      transition: Transition.rightToLeftWithFade,
+      transition: Transition.rightToLeft,
     );
 
     setState(() {

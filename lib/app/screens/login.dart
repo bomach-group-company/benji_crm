@@ -58,7 +58,7 @@ class _LoginState extends State<Login> {
         routeName: "Signup",
         predicate: (route) => false,
         popGesture: true,
-        transition: Transition.fadeIn,
+        transition: Transition.downToUp,
       );
 
   //Navigate to forgotPassword
@@ -70,7 +70,7 @@ class _LoginState extends State<Login> {
         routeName: "Forgot Password",
         preventDuplicates: true,
         popGesture: true,
-        transition: Transition.rightToLeftWithFade,
+        transition: Transition.rightToLeft,
       );
 
   Future<void> loadData() async {

@@ -58,7 +58,7 @@ class _SignUpState extends State<SignUp> {
         routeName: "Login",
         predicate: (route) => false,
         popGesture: true,
-        transition: Transition.fadeIn,
+        transition: Transition.downToUp,
       );
 
   Future<void> loadData() async {

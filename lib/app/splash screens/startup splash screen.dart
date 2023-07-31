@@ -29,7 +29,7 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
         routeName: "Login",
         predicate: (route) => false,
         popGesture: true,
-        transition: Transition.circularReveal,
+        transition: Transition.fadeIn,
       ),
     );
     return Scaffold(

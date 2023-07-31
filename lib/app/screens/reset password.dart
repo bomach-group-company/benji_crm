@@ -69,7 +69,7 @@ class _ResetPasswordState extends State<ResetPassword> {
       routeName: "Send OTP",
       predicate: (route) => false,
       popGesture: true,
-      transition: Transition.rightToLeftWithFade,
+      transition: Transition.downToUp,
     );
 
     setState(() {

@@ -70,7 +70,7 @@ class _SendOTPState extends State<SendOTP> {
       routeName: "Reset Password",
       preventDuplicates: true,
       popGesture: true,
-      transition: Transition.rightToLeftWithFade,
+      transition: Transition.rightToLeft,
     );
 
     setState(() {

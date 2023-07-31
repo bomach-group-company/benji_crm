@@ -20,7 +20,7 @@ class LoginSplashScreen extends StatelessWidget {
         routeName: "Dashboard",
         predicate: (route) => false,
         popGesture: true,
-        transition: Transition.circularReveal,
+        transition: Transition.fadeIn,
       ),
     );
 
