@@ -12,6 +12,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 
 import '../../src/providers/constants.dart';
+import 'riders detail.dart';
 
 class AssignRider extends StatefulWidget {
   const AssignRider({super.key});
@@ -24,6 +25,11 @@ class _AssignRiderState extends State<AssignRider> {
 //============================= ALL VARIABLES ===============================\\
   bool isLoading = false;
   bool isAssigned = false;
+  String ridersImage = "martins-okafor";
+  String ridersName = "Martins Okafor";
+  String ridersLocation = "Achara Layout";
+  int noOfTrips = 238;
+  int ridersPhoneNumber = 8032300044;
 //============================= FUNCTIONS ===============================\\
   void toSeeAllRiders() => Get.to(
         () => Riders(
@@ -35,6 +41,29 @@ class _AssignRiderState extends State<AssignRider> {
         fullscreenDialog: true,
         curve: Curves.easeIn,
         routeName: "All Riders",
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.downToUp,
+      );
+  void toRidersDetailPage() => Get.to(
+        () => RidersDetail(
+          ridersImage: ridersImage,
+          ridersName: ridersName,
+          ridersPhoneNumber: ridersPhoneNumber,
+          noOfTrips: noOfTrips,
+          onlineIndicator: Container(
+            height: 20,
+            width: 20,
+            decoration: const ShapeDecoration(
+              color: kSuccessColor,
+              shape: OvalBorder(),
+            ),
+          ),
+        ),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "Rider Details",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.downToUp,
@@ -95,22 +124,21 @@ class _AssignRiderState extends State<AssignRider> {
           physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.all(kDefaultPadding),
           children: [
-            SizedBox(
-              // height: mediaHeight - 120,
-              child: ListView.builder(
-                itemCount: 32,
-                itemExtent: 90,
-                addAutomaticKeepAlives: true,
-                physics: const BouncingScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (context, index) => Container(
+            ListView.builder(
+              itemCount: 32,
+              addAutomaticKeepAlives: true,
+              physics: const BouncingScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (context, index) => InkWell(
+                onTap: toRidersDetailPage,
+                child: Container(
                   width: max(mediaWidth, 374),
                   margin: const EdgeInsets.only(bottom: kDefaultPadding / 2),
                   padding: const EdgeInsets.all(kDefaultPadding / 2),
                   decoration: ShapeDecoration(
                     color: Colors.white,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14.30),
+                      borderRadius: BorderRadius.circular(16),
                     ),
                     shadows: const [
                       BoxShadow(
@@ -128,12 +156,12 @@ class _AssignRiderState extends State<AssignRider> {
                           Container(
                             height: 45,
                             width: 45,
-                            decoration: const ShapeDecoration(
+                            decoration: ShapeDecoration(
                               image: DecorationImage(
                                 image: AssetImage(
-                                    "assets/images/rider/martins-okafor.png"),
+                                    "assets/images/rider/$ridersImage.png"),
                               ),
-                              shape: OvalBorder(),
+                              shape: const OvalBorder(),
                             ),
                           ),
                           Positioned(
@@ -157,14 +185,14 @@ class _AssignRiderState extends State<AssignRider> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            const SizedBox(
+                            SizedBox(
                               width: 140,
                               child: Text(
-                                "Jerry Emmanuel",
+                                ridersName,
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.center,
                                 maxLines: 1,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -178,11 +206,12 @@ class _AssignRiderState extends State<AssignRider> {
                                 Icon(
                                   Icons.location_on,
                                   color: kAccentColor,
+                                  size: 18,
                                 ),
                                 SizedBox(
                                   width: 100,
                                   child: Text(
-                                    "Achara Layout",
+                                    ridersLocation,
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     style: TextStyle(

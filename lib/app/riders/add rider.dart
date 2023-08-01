@@ -17,7 +17,7 @@ class _AddRiderState extends State<AddRider> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(
-        title: "Add New Vendor",
+        title: "Add New Rider",
         elevation: 0.0,
         actions: const [],
         backgroundColor: kPrimaryColor,
