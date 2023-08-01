@@ -59,7 +59,11 @@ class _DashboardState extends State<Dashboard> {
       );
 
   void toSeeAllVendors() => Get.to(
-        () => const Vendors(),
+        () => Vendors(
+          appBarBackgroundColor: kAccentColor,
+          appTitleColor: kPrimaryColor,
+          appBarSearchIconColor: kPrimaryColor,
+        ),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,

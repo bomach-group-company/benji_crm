@@ -4,11 +4,13 @@
 
 import 'dart:math';
 
+import 'package:benji_aggregator/app/riders/add%20rider.dart';
 import 'package:benji_aggregator/app/riders/riders%20detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 
+import '../../src/common_widgets/my outlined elevatedButton.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/custom show search.dart';
 import '../../theme/colors.dart';
@@ -98,14 +100,24 @@ class _RidersState extends State<Riders> {
         transition: Transition.downToUp,
       );
 
+  toAddRiderPage() => Get.to(
+        () => const AddRider(),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "Add Rider",
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.downToUp,
+      );
+
   @override
   Widget build(BuildContext context) {
     double mediaWidth = MediaQuery.of(context).size.width;
     double mediaHeight = MediaQuery.of(context).size.height;
 
-    void showSearchField() {
-      showSearch(context: context, delegate: CustomSearchDelegate());
-    }
+    void showSearchField() =>
+        showSearch(context: context, delegate: CustomSearchDelegate());
 
     return Scaffold(
       appBar: AppBar(
@@ -132,6 +144,20 @@ class _RidersState extends State<Riders> {
               size: 30,
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.all(kDefaultPadding / 2),
+            child: MyOutlinedElevatedButton(
+              onPressed: toAddRiderPage,
+              circularBorderRadius: 20,
+              minimumSizeWidth: 100,
+              minimumSizeHeight: 30,
+              maximumSizeWidth: 100,
+              maximumSizeHeight: 30,
+              buttonTitle: "Add Rider",
+              titleFontSize: 12,
+              elevation: 10.0,
+            ),
+          ),
         ],
         elevation: 0.0,
       ),
@@ -152,7 +178,7 @@ class _RidersState extends State<Riders> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: riderStatus
                           ? kAccentColor
-                          : kDefaultCategoryBackrgoundColor,
+                          : kDefaultCategoryBackgroundColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
@@ -174,7 +200,7 @@ class _RidersState extends State<Riders> {
                     onLongPress: null,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: riderStatus
-                          ? kDefaultCategoryBackrgoundColor
+                          ? kDefaultCategoryBackgroundColor
                           : kAccentColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),

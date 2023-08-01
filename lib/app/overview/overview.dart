@@ -18,7 +18,11 @@ class _OverViewState extends State<OverView> {
 
   final List<Widget> _pages = [
     const Dashboard(),
-    const Vendors(),
+    Vendors(
+      appBarBackgroundColor: kPrimaryColor,
+      appTitleColor: kTextBlackColor,
+      appBarSearchIconColor: kAccentColor,
+    ),
     Riders(
       appBarBackgroundColor: kPrimaryColor,
       appTitleColor: kTextBlackColor,

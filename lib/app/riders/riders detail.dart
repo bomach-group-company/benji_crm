@@ -265,7 +265,7 @@ class _RidersDetailState extends State<RidersDetail> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: deliveryStatus
                           ? kAccentColor
-                          : kDefaultCategoryBackrgoundColor,
+                          : kDefaultCategoryBackgroundColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
@@ -288,7 +288,7 @@ class _RidersDetailState extends State<RidersDetail> {
                     onLongPress: null,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: deliveryStatus
-                          ? kDefaultCategoryBackrgoundColor
+                          ? kDefaultCategoryBackgroundColor
                           : kAccentColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),

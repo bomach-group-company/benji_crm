@@ -17,7 +17,7 @@ const Color kDarkGreyColor = Colors.black12;
 const Color kRedColor = Color(0xFFE74C3C);
 const Color kErrorColor = Color(0xFFE74C3C);
 const Color kSuccessColor = Color(0xFF00D220);
-const Color kDefaultCategoryBackrgoundColor = Color(0xFFF2F2F2);
+const Color kDefaultCategoryBackgroundColor = Color(0xFFF2F2F2);
 
 const Color kTransparentColor = Color(0x00000000);
 
