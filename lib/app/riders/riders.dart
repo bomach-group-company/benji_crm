@@ -4,16 +4,14 @@
 
 import 'dart:math';
 
-import 'package:benji_aggregator/app/riders/add%20rider.dart';
-import 'package:benji_aggregator/app/riders/riders%20detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 
-import '../../src/common_widgets/my outlined elevatedButton.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/custom show search.dart';
 import '../../theme/colors.dart';
+import 'riders_detail.dart';
 
 class Riders extends StatefulWidget {
   final Color appBarBackgroundColor;
@@ -34,15 +32,15 @@ class _RidersState extends State<Riders> {
   //================================= ALL VARIABLES ==========================================\\
   bool riderStatus = true;
   bool isLoading = false;
-  String ridersImage = "jerry-emmanuel";
-  String ridersName = "Jerry Emmanuel";
-  String ridersLocation = "Achara Layout";
-  int noOfTrips = 238;
-  int ridersPhoneNumber = 8032300044;
+  String onlineRidersImage = "jerry-emmanuel";
+  String onlineRidersName = "Jerry Emmanuel";
+  String onlineRidersLocation = "Achara Layout";
+  int onlineRidersNoOfTrips = 238;
+  int onlineRidersPhoneNumber = 8032300044;
   String offlineRidersName = "Martins Okafor";
   String offlineRidersImage = "martins-okafor";
-  int lastSeenCount = 20;
   int offlineRidersPhoneNumber = 8032300253;
+  int lastSeenCount = 20;
   String lastSeenMessage = "minutes ago";
   int offlineRiderNoOfTrips = 221;
 
@@ -75,11 +73,12 @@ class _RidersState extends State<Riders> {
 
   void toRidersDetailPage() => Get.to(
         () => RidersDetail(
-          ridersImage: riderStatus ? ridersImage : offlineRidersImage,
-          ridersName: riderStatus ? ridersName : offlineRidersName,
+          ridersImage: riderStatus ? onlineRidersImage : offlineRidersImage,
+          ridersName: riderStatus ? onlineRidersName : offlineRidersName,
           ridersPhoneNumber:
-              riderStatus ? ridersPhoneNumber : offlineRidersPhoneNumber,
-          noOfTrips: riderStatus ? noOfTrips : offlineRiderNoOfTrips,
+              riderStatus ? onlineRidersPhoneNumber : offlineRidersPhoneNumber,
+          noOfTrips:
+              riderStatus ? onlineRidersNoOfTrips : offlineRiderNoOfTrips,
           onlineIndicator: riderStatus
               ? Container(
                   height: 20,
@@ -95,17 +94,6 @@ class _RidersState extends State<Riders> {
         fullscreenDialog: true,
         curve: Curves.easeIn,
         routeName: "Rider Details",
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.downToUp,
-      );
-
-  toAddRiderPage() => Get.to(
-        () => const AddRider(),
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "Add Rider",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.downToUp,
@@ -142,20 +130,6 @@ class _RidersState extends State<Riders> {
               Icons.search_rounded,
               color: widget.appBarSearchIconColor,
               size: 30,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(kDefaultPadding / 2),
-            child: MyOutlinedElevatedButton(
-              onPressed: toAddRiderPage,
-              circularBorderRadius: 20,
-              minimumSizeWidth: 100,
-              minimumSizeHeight: 30,
-              maximumSizeWidth: 100,
-              maximumSizeHeight: 30,
-              buttonTitle: "Add Rider",
-              titleFontSize: 12,
-              elevation: 10.0,
             ),
           ),
         ],
@@ -258,7 +232,7 @@ class _RidersState extends State<Riders> {
                                     CircleAvatar(
                                       radius: 30,
                                       backgroundImage: AssetImage(
-                                        "assets/images/rider/$ridersImage.png",
+                                        "assets/images/rider/$onlineRidersImage.png",
                                       ),
                                     ),
                                     Positioned(
@@ -286,7 +260,7 @@ class _RidersState extends State<Riders> {
                                       SizedBox(
                                         width: 200,
                                         child: Text(
-                                          ridersName,
+                                          onlineRidersName,
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
                                           style: const TextStyle(
@@ -311,7 +285,7 @@ class _RidersState extends State<Riders> {
                                           SizedBox(
                                             width: 200,
                                             child: Text(
-                                              ridersLocation,
+                                              onlineRidersLocation,
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 1,
                                               style: TextStyle(
@@ -339,7 +313,7 @@ class _RidersState extends State<Riders> {
                                           SizedBox(
                                             width: 200,
                                             child: Text(
-                                              "$noOfTrips Trips Completed",
+                                              "$onlineRidersNoOfTrips Trips Completed",
                                               style: TextStyle(
                                                 fontSize: 12,
                                                 color: kTextGreyColor,
@@ -447,7 +421,7 @@ class _RidersState extends State<Riders> {
                                                 maxLines: 1,
                                                 style: TextStyle(
                                                   fontSize: 12,
-                                                  color: kTextGreyColor,
+                                                  color: kAccentColor,
                                                   fontWeight: FontWeight.w400,
                                                 ),
                                               ),

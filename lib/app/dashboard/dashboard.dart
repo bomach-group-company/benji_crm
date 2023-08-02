@@ -3,17 +3,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
-import '../../src/common_widgets/dashboard appBar.dart';
-import '../../src/common_widgets/dashboard orders container.dart';
-import '../../src/common_widgets/dashboard rider_vendor container.dart';
-import '../../src/common_widgets/dashboard showModalBottomSheet.dart';
+import '../../src/common_widgets/dashboard_appBar.dart';
+import '../../src/common_widgets/dashboard_orders_container.dart';
+import '../../src/common_widgets/dashboard_rider_vendor_container.dart';
+import '../../src/common_widgets/dashboard_showModalBottomSheet.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
-import '../others/add product.dart';
-import '../others/order details.dart';
-import '../riders/add rider.dart';
+import '../others/add_product.dart';
+import '../others/order_details.dart';
 import '../riders/riders.dart';
-import '../vendors/add vendor.dart';
+import '../vendors/add_vendor.dart';
 import '../vendors/vendors.dart';
 
 class Dashboard extends StatefulWidget {
@@ -97,10 +96,6 @@ class _DashboardState extends State<Dashboard> {
           value: 'Add new Product',
           child: Text('Add new Product'),
         ),
-        const PopupMenuItem<String>(
-          value: 'Add new Rider',
-          child: Text('Add new Rider'),
-        ),
       ],
     ).then((value) {
       // Handle the selected value from the popup menu
@@ -125,18 +120,6 @@ class _DashboardState extends State<Dashboard> {
               fullscreenDialog: true,
               curve: Curves.easeIn,
               routeName: "Add product",
-              preventDuplicates: true,
-              popGesture: true,
-              transition: Transition.downToUp,
-            );
-            break;
-          case 'Add new Rider':
-            Get.to(
-              () => const AddRider(),
-              duration: const Duration(milliseconds: 300),
-              fullscreenDialog: true,
-              curve: Curves.easeIn,
-              routeName: "Add rider",
               preventDuplicates: true,
               popGesture: true,
               transition: Transition.downToUp,

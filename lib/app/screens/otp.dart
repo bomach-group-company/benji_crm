@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 
-import '../../src/common_widgets/my appbar.dart';
-import '../../src/common_widgets/my fixed snackBar.dart';
-import '../../src/common_widgets/otp textFormField.dart';
-import '../../src/common_widgets/reusable authentication first half.dart';
+import '../../src/common_widgets/my_appbar.dart';
+import '../../src/common_widgets/my_fixed_snackBar.dart';
+import '../../src/common_widgets/otp_textFormField.dart';
+import '../../src/common_widgets/reusable_authentication_firsthalf.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
-import 'reset password.dart';
+import 'reset_password.dart';
 
 class SendOTP extends StatefulWidget {
   const SendOTP({super.key});

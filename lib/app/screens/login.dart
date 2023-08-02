@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 
-import '../../src/common_widgets/email textformfield.dart';
-import '../../src/common_widgets/my fixed snackBar.dart';
-import '../../src/common_widgets/password textformfield.dart';
-import '../../src/common_widgets/reusable authentication first half.dart';
+import '../../src/common_widgets/email_textformfield.dart';
+import '../../src/common_widgets/my_fixed_snackBar.dart';
+import '../../src/common_widgets/password_textformfield.dart';
+import '../../src/common_widgets/reusable_authentication_firsthalf.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
-import '../splash screens/login splash screen.dart';
-import 'forgot password.dart';
+import '../splash screens/login_splashscreen.dart';
+import 'forgot_password.dart';
 import 'signup.dart';
 
 class Login extends StatefulWidget {
