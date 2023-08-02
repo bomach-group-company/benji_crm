@@ -38,14 +38,9 @@ class RiderVendorContainer extends StatelessWidget {
           ),
           shadows: const [
             BoxShadow(
-              color: Color(
-                0x0F000000,
-              ),
+              color: Color(0x0F000000),
               blurRadius: 24,
-              offset: Offset(
-                0,
-                4,
-              ),
+              offset: Offset(0, 4),
               spreadRadius: 4,
             )
           ],

@@ -43,9 +43,7 @@ class OrdersContainer extends StatelessWidget {
           ),
           shadows: const [
             BoxShadow(
-              color: Color(
-                0x0F000000,
-              ),
+              color: Color(0x0F000000),
               blurRadius: 24,
               offset: Offset(0, 4),
               spreadRadius: 4,
@@ -68,11 +66,11 @@ class OrdersContainer extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: SizedBox(
-                    width: 59.30,
+                    width: 100,
                     height: 62.78,
                     child: Text(
                       numberOfOrders,
-                      textAlign: TextAlign.center,
+                      textAlign: TextAlign.left,
                       style: TextStyle(
                         color: kAccentColor,
                         fontSize: 52.32,
