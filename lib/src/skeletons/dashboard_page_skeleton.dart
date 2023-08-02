@@ -55,6 +55,16 @@ class DashboardPageSkeleton extends StatelessWidget {
           ),
         ),
         kSizedBox,
+        Shimmer.fromColors(
+          highlightColor: kBlackColor.withOpacity(0.02),
+          baseColor: kBlackColor.withOpacity(0.8),
+          direction: ShimmerDirection.ltr,
+          child: PageSkeleton(
+            width: mediaWidth,
+            height: 30,
+          ),
+        ),
+        kSizedBox,
         const DashboardOrdersListSkeleton(),
       ],
     );

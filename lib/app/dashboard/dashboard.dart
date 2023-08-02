@@ -60,7 +60,7 @@ class _DashboardState extends State<Dashboard> {
     setState(() {
       _loadingScreen = true;
     });
-    await Future.delayed(const Duration(days: 3));
+    await Future.delayed(const Duration(seconds: 3));
     setState(() {
       _loadingScreen = false;
     });
