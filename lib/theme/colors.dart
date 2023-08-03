@@ -7,6 +7,7 @@ Color kSecondaryColor = HexColor("#0003C4");
 Color kAccentColor = const Color(0xFFEC2623);
 
 Color kLoadingColor = const Color(0xFFFFA927);
+Color kStarColor = const Color(0xFFFF6838);
 
 const Color kGreyColor1 = Color(0xFFA5A5A5);
 Color kGreyColor2 = const Color(0xFF757575);
