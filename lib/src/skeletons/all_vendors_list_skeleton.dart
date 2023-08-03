@@ -29,14 +29,19 @@ class AllVendorsListSkeleton extends StatelessWidget {
             child: const PageSkeleton(height: 120, width: 130),
           ),
           kWidthSizedBox,
-          const Column(
+          Column(
             children: [
               SizedBox(
                 width: 200,
-                child: PageSkeleton(height: 20, width: 200),
+                child: Shimmer.fromColors(
+                  highlightColor: kBlackColor.withOpacity(0.02),
+                  baseColor: kBlackColor.withOpacity(0.8),
+                  direction: ShimmerDirection.ltr,
+                  child: const PageSkeleton(height: 20, width: 200),
+                ),
               ),
               kSizedBox,
-              SizedBox(
+              const SizedBox(
                 width: 200,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -48,9 +53,9 @@ class AllVendorsListSkeleton extends StatelessWidget {
                 ),
               ),
               kHalfSizedBox,
-              PageSkeleton(height: 15, width: 200),
+              const PageSkeleton(height: 15, width: 200),
               kSizedBox,
-              PageSkeleton(height: 15, width: 200),
+              const PageSkeleton(height: 15, width: 200),
             ],
           ),
         ],

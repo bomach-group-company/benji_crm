@@ -29,18 +29,23 @@ class AllRidersListSkeleton extends StatelessWidget {
             child: const PageSkeleton(height: 120, width: 130),
           ),
           kWidthSizedBox,
-          const Center(
+          Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
                   width: 200,
-                  child: PageSkeleton(height: 20, width: 200),
+                  child: Shimmer.fromColors(
+                    highlightColor: kBlackColor.withOpacity(0.02),
+                    baseColor: kBlackColor.withOpacity(0.8),
+                    direction: ShimmerDirection.ltr,
+                    child: const PageSkeleton(height: 20, width: 200),
+                  ),
                 ),
                 kSizedBox,
-                PageSkeleton(height: 15, width: 200),
+                const PageSkeleton(height: 15, width: 200),
                 kSizedBox,
-                PageSkeleton(height: 15, width: 200),
+                const PageSkeleton(height: 15, width: 200),
               ],
             ),
           ),
