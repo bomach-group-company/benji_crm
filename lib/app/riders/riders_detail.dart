@@ -119,7 +119,6 @@ class _RidersDetailState extends State<RidersDetail> {
             icon: Icon(
               Icons.search_rounded,
               color: kAccentColor,
-              size: 30,
             ),
           ),
         ],

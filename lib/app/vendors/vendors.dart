@@ -36,9 +36,16 @@ class _VendorsState extends State<Vendors> {
   bool _isLoadingVendorStatus = false;
   final String _onlineVendorsName = "Ntachi Osa";
   final String _onlineVendorsImage = "ntachi-osa";
+  final double _onlineVendorsRating = 4.6;
+
+  final String _vendorActive = "Online";
+  final String _vendorInactive = "Offline";
+  final Color _vendorActiveColor = kSuccessColor;
+  final Color _vendorInactiveColor = kAccentColor;
 
   final String _offlineVendorsName = "Best Choice Restaurant";
   final String _offlineVendorsImage = "best-choice-restaurant";
+  final double _offlineVendorsRating = 4.0;
   final int _lastSeenCount = 20;
   final String _lastSeenMessage = "minutes ago";
   final int _numberOfVendors = 30;
@@ -70,7 +77,7 @@ class _VendorsState extends State<Vendors> {
   }
 
 //===================== Handle Vendor Status ==========================\\
-  void clickOnlineVendors() async {
+  void _clickOnlineVendors() async {
     setState(() {
       _isLoadingVendorStatus = true;
       _vendorStatus = true;
@@ -83,7 +90,7 @@ class _VendorsState extends State<Vendors> {
     });
   }
 
-  void clickOfflineVendors() async {
+  void _clickOfflineVendors() async {
     setState(() {
       _isLoadingVendorStatus = true;
       _vendorStatus = false;
@@ -98,7 +105,7 @@ class _VendorsState extends State<Vendors> {
 
 //===================== Navigation ==========================\\
 
-  toAddVendorPage() => Get.to(
+  void toAddVendorPage() => Get.to(
         () => const AddVendor(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -110,7 +117,16 @@ class _VendorsState extends State<Vendors> {
       );
 
   void toVendorDetailsPage() => Get.to(
-        () => const VendorsDetailPage(),
+        () => VendorsDetailPage(
+          vendorCoverImage:
+              _vendorStatus ? _onlineVendorsImage : _offlineVendorsImage,
+          vendorName: _vendorStatus ? _onlineVendorsName : _offlineVendorsName,
+          vendorRating:
+              _vendorStatus ? _onlineVendorsRating : _offlineVendorsRating,
+          vendorActiveStatus: _vendorStatus ? _vendorActive : _vendorInactive,
+          vendorActiveStatusColor:
+              _vendorStatus ? _vendorActiveColor : _vendorInactiveColor,
+        ),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -208,13 +224,12 @@ class _VendorsState extends State<Vendors> {
                       left: kDefaultPadding,
                     ),
                     children: [
-                      kSizedBox,
                       SizedBox(
                         width: mediaWidth,
                         child: Row(
                           children: [
                             ElevatedButton(
-                              onPressed: clickOnlineVendors,
+                              onPressed: _clickOnlineVendors,
                               onLongPress: null,
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: _vendorStatus
@@ -239,7 +254,7 @@ class _VendorsState extends State<Vendors> {
                             ),
                             kWidthSizedBox,
                             ElevatedButton(
-                              onPressed: clickOfflineVendors,
+                              onPressed: _clickOfflineVendors,
                               onLongPress: null,
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: _vendorStatus
@@ -332,7 +347,7 @@ class _VendorsState extends State<Vendors> {
                                                         TextOverflow.ellipsis,
                                                     maxLines: 1,
                                                     style: const TextStyle(
-                                                      color: Colors.black,
+                                                      color: kBlackColor,
                                                       fontSize: 16,
                                                       fontWeight:
                                                           FontWeight.w700,
@@ -400,19 +415,19 @@ class _VendorsState extends State<Vendors> {
                                                       width: 3.90,
                                                       height: 3.90,
                                                       decoration:
-                                                          const ShapeDecoration(
-                                                        color: kSuccessColor,
-                                                        shape: OvalBorder(),
+                                                          ShapeDecoration(
+                                                        color:
+                                                            _vendorActiveColor,
+                                                        shape:
+                                                            const OvalBorder(),
                                                       ),
                                                     ),
-                                                    const SizedBox(
-                                                      width: 5.0,
-                                                    ),
-                                                    const Text(
-                                                      "Online",
+                                                    const SizedBox(width: 5.0),
+                                                    Text(
+                                                      _vendorActive,
                                                       textAlign:
                                                           TextAlign.center,
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                         color: kSuccessColor,
                                                         fontSize: 14,
                                                         fontWeight:
@@ -435,13 +450,12 @@ class _VendorsState extends State<Vendors> {
                                                       height: 20,
                                                       child: Icon(
                                                         Icons.star_rounded,
-                                                        color: kAccentColor,
+                                                        color: kStarColor,
                                                       ),
                                                     ),
                                                     const SizedBox(
-                                                      width:
-                                                          kDefaultPadding / 2,
-                                                    ),
+                                                        width: kDefaultPadding /
+                                                            2),
                                                     Container(
                                                       width: 81,
                                                       height: 19,
@@ -449,9 +463,9 @@ class _VendorsState extends State<Vendors> {
                                                           const EdgeInsets.only(
                                                         top: 4,
                                                       ),
-                                                      child: const Text(
-                                                        "4.6 (500+)",
-                                                        style: TextStyle(
+                                                      child: Text(
+                                                        "$_onlineVendorsRating (500+)",
+                                                        style: const TextStyle(
                                                           color: Colors.black,
                                                           fontSize: 15,
                                                           fontWeight:
@@ -470,7 +484,10 @@ class _VendorsState extends State<Vendors> {
                                     ),
                                   ),
                                 )
-                              : ListView.builder(
+                              : ListView.separated(
+                                  separatorBuilder: (context, index) =>
+                                      const SizedBox(
+                                          height: kDefaultPadding / 2),
                                   itemCount: 142,
                                   addAutomaticKeepAlives: true,
                                   physics: const BouncingScrollPhysics(),
@@ -479,7 +496,6 @@ class _VendorsState extends State<Vendors> {
                                     onTap: toVendorDetailsPage,
                                     borderRadius: BorderRadius.circular(16),
                                     child: Container(
-                                      margin: const EdgeInsets.only(bottom: 10),
                                       decoration: ShapeDecoration(
                                         color: Colors.white,
                                         shape: RoundedRectangleBorder(
@@ -656,9 +672,9 @@ class _VendorsState extends State<Vendors> {
                                                           const EdgeInsets.only(
                                                         top: 4,
                                                       ),
-                                                      child: const Text(
-                                                        "4.0 (500+)",
-                                                        style: TextStyle(
+                                                      child: Text(
+                                                        "$_offlineVendorsRating (500+)",
+                                                        style: const TextStyle(
                                                           color: Colors.black,
                                                           fontSize: 15,
                                                           fontWeight:
@@ -677,7 +693,6 @@ class _VendorsState extends State<Vendors> {
                                     ),
                                   ),
                                 ),
-                      kSizedBox,
                     ],
                   );
           }),

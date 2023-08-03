@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 
+import '../providers/constants.dart';
 import 'category_button.dart';
 
 class CategoryButtonSection extends StatelessWidget {
@@ -29,9 +30,7 @@ class CategoryButtonSection extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
         itemBuilder: (BuildContext context, int index) => Padding(
-          padding: const EdgeInsets.all(
-            8.0,
-          ),
+          padding: const EdgeInsets.all(kDefaultPadding / 2),
           child: CategoryButton(
             onPressed: onPressed,
             title: _category[index],
