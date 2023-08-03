@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_unnecessary_containers, unused_local_variable
+// ignore_for_file:  unused_local_variable
 
 import 'package:benji_aggregator/src/skeletons/dashboard_page_skeleton.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +41,9 @@ class _DashboardState extends State<Dashboard> {
   String customerName = "Mercy Luke";
 
 //=================================== FUNCTIONS =====================================\\
+  double calculateSubtotal() {
+    return itemPrice * itemQuantity;
+  }
 
 //===================== Initial State ==========================\\
   @override
@@ -64,10 +67,6 @@ class _DashboardState extends State<Dashboard> {
     setState(() {
       _loadingScreen = false;
     });
-  }
-
-  double calculateSubtotal() {
-    return itemPrice * itemQuantity;
   }
 
 //=================================== Show Popup Menu =====================================\\
@@ -368,137 +367,128 @@ class _DashboardState extends State<Dashboard> {
                                           ),
                                         ),
                                         kHalfSizedBox,
-                                        Container(
-                                          child: Text(
-                                            "#00${orderID.toString()}",
-                                            style: TextStyle(
-                                              color: kTextGreyColor,
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w400,
-                                            ),
+                                        Text(
+                                          "#00${orderID.toString()}",
+                                          style: TextStyle(
+                                            color: kTextGreyColor,
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w400,
                                           ),
                                         )
                                       ],
                                     ),
                                     kWidthSizedBox,
-                                    Container(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          SizedBox(
-                                            width: mediaWidth / 1.55,
-                                            // color: kAccentColor,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                const SizedBox(
-                                                  child: Text(
-                                                    "Hot Kitchen",
-                                                    maxLines: 2,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: TextStyle(
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          width: mediaWidth / 1.55,
+                                          // color: kAccentColor,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              const SizedBox(
+                                                child: Text(
+                                                  "Hot Kitchen",
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w400,
                                                   ),
                                                 ),
-                                                SizedBox(
-                                                  child: Text(
-                                                    formattedDateAndTime,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: const TextStyle(
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                    ),
+                                              ),
+                                              SizedBox(
+                                                child: Text(
+                                                  formattedDateAndTime,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        kHalfSizedBox,
+                                        Container(
+                                          color: kTransparentColor,
+                                          width: 250,
+                                          child: Text(
+                                            orderItem,
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 2,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                        ),
+                                        kHalfSizedBox,
+                                        Container(
+                                          width: 200,
+                                          color: kTransparentColor,
+                                          child: Text.rich(
+                                            TextSpan(
+                                              children: [
+                                                TextSpan(
+                                                  text: "x $itemQuantity",
+                                                  style: const TextStyle(
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                                const TextSpan(text: "  "),
+                                                TextSpan(
+                                                  text:
+                                                      "₦ ${itemPrice.toStringAsFixed(2)}",
+                                                  style: const TextStyle(
+                                                    fontSize: 15,
+                                                    fontFamily: 'sen',
+                                                    fontWeight: FontWeight.w400,
                                                   ),
                                                 )
                                               ],
                                             ),
                                           ),
-                                          kHalfSizedBox,
-                                          Container(
-                                            color: kTransparentColor,
-                                            width: 250,
-                                            child: Text(
-                                              orderItem,
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 2,
-                                              style: const TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w700,
-                                              ),
+                                        ),
+                                        kHalfSizedBox,
+                                        Container(
+                                          color: kGreyColor1,
+                                          height: 1,
+                                          width: mediaWidth / 1.8,
+                                        ),
+                                        kHalfSizedBox,
+                                        SizedBox(
+                                          width: mediaWidth / 1.8,
+                                          child: Text(
+                                            customerName,
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w700,
                                             ),
                                           ),
-                                          kHalfSizedBox,
-                                          Container(
-                                            width: 200,
-                                            color: kTransparentColor,
-                                            child: Text.rich(
-                                              TextSpan(
-                                                children: [
-                                                  TextSpan(
-                                                    text: "x $itemQuantity",
-                                                    style: const TextStyle(
-                                                      fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                    ),
-                                                  ),
-                                                  const TextSpan(text: "  "),
-                                                  TextSpan(
-                                                    text:
-                                                        "₦ ${itemPrice.toStringAsFixed(2)}",
-                                                    style: const TextStyle(
-                                                      fontSize: 15,
-                                                      fontFamily: 'sen',
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
+                                        ),
+                                        SizedBox(
+                                          width: mediaWidth / 1.8,
+                                          child: Text(
+                                            customerAddress,
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w400,
                                             ),
                                           ),
-                                          kHalfSizedBox,
-                                          Container(
-                                            color: kGreyColor1,
-                                            height: 1,
-                                            width: mediaWidth / 1.8,
-                                          ),
-                                          kHalfSizedBox,
-                                          SizedBox(
-                                            width: mediaWidth / 1.8,
-                                            child: Text(
-                                              customerName,
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 1,
-                                              style: const TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w700,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: mediaWidth / 1.8,
-                                            child: Text(
-                                              customerAddress,
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 1,
-                                              style: const TextStyle(
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
