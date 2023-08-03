@@ -31,7 +31,7 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
       borderRadius: BorderRadius.circular(12),
       child: Container(
         margin: const EdgeInsets.symmetric(
-          vertical: kDefaultPadding / 2.5,
+          vertical: kDefaultPadding / 3,
           horizontal: kDefaultPadding,
         ),
         width: MediaQuery.of(context).size.width,
