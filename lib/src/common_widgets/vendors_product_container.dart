@@ -1,90 +1,50 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, unused_local_variable
 
 import 'package:flutter/material.dart';
 
 import '../../theme/colors.dart';
 import '../providers/constants.dart';
-import 'my_floating_snackbar.dart';
 
-class VendorFoodContainer extends StatefulWidget {
+class VendorsProductContainer extends StatefulWidget {
   final Function() onTap;
-  const VendorFoodContainer({
+  const VendorsProductContainer({
     super.key,
     required this.onTap,
   });
 
   @override
-  State<VendorFoodContainer> createState() => _VendorFoodContainerState();
+  State<VendorsProductContainer> createState() =>
+      _VendorsProductContainerState();
 }
 
-class _VendorFoodContainerState extends State<VendorFoodContainer> {
+class _VendorsProductContainerState extends State<VendorsProductContainer> {
   //======================================= ALL VARIABLES ==========================================\\
 
-  int quantity = 1;
-
   //======================================= FUNCTIONS ==========================================\\
-
-  void incrementQuantity() {
-    setState(() {
-      quantity++; // Increment the quantity by 1
-    });
-  }
-
-  void decrementQuantity() {
-    setState(() {
-      if (quantity > 1) {
-        quantity--; // Decrement the quantity by 1, but ensure it doesn't go below 1
-      } else {
-        cartFunction();
-      }
-    });
-  }
-
-  bool isAddedToCart = false;
-
-  void cartFunction() {
-    setState(() {
-      isAddedToCart = !isAddedToCart;
-    });
-
-    mySnackBar(
-      context,
-      "Success!",
-      isAddedToCart ? "Item has been added to cart." : "Item has been removed.",
-      const Duration(
-        seconds: 1,
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     double mediaWidth = MediaQuery.of(context).size.width;
-    // double mediaHeight = MediaQuery.of(context).size.height;
-    return GestureDetector(
+    double mediaHeight = MediaQuery.of(context).size.height;
+    return InkWell(
       onTap: widget.onTap,
+      borderRadius: BorderRadius.circular(12),
       child: Container(
         margin: const EdgeInsets.symmetric(
           vertical: kDefaultPadding / 2.5,
+          horizontal: kDefaultPadding,
         ),
         width: MediaQuery.of(context).size.width,
         decoration: ShapeDecoration(
           color: kPrimaryColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(
-              12,
-            ),
+            borderRadius: BorderRadius.circular(12),
           ),
           shadows: const [
             BoxShadow(
-              color: Color(
-                0x0F000000,
-              ),
+              color: Color(0x0F000000),
               blurRadius: 24,
-              offset: Offset(
-                0,
-                4,
-              ),
+              offset: Offset(0, 4),
               spreadRadius: 0,
             )
           ],
@@ -122,9 +82,7 @@ class _VendorFoodContainerState extends State<VendorFoodContainer> {
                 const Text(
                   'Smokey Jollof Pasta',
                   style: TextStyle(
-                    color: Color(
-                      0xFF333333,
-                    ),
+                    color: Color(0xFF333333),
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
                   ),
@@ -160,47 +118,6 @@ class _VendorFoodContainerState extends State<VendorFoodContainer> {
                 ),
               ],
             ),
-            isAddedToCart
-                ? Column(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          decrementQuantity();
-                        },
-                        icon: Icon(
-                          Icons.remove_circle,
-                          color: kAccentColor,
-                          size: 30,
-                        ),
-                      ),
-                      Text(
-                        "$quantity",
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          incrementQuantity();
-                        },
-                        icon: Icon(
-                          Icons.add_circle_rounded,
-                          color: kAccentColor,
-                          size: 30,
-                        ),
-                      ),
-                    ],
-                  )
-                : IconButton(
-                    onPressed: () {
-                      cartFunction();
-                    },
-                    icon: Icon(
-                      Icons.add_circle_rounded,
-                      color: kAccentColor,
-                      size: 30,
-                    ),
-                  ),
           ],
         ),
       ),
