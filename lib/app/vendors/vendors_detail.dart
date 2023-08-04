@@ -114,6 +114,7 @@ class _VendorsDetailPageState extends State<VendorsDetailPage>
     _tabBarController.dispose();
     super.dispose();
   }
+
 //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
@@ -660,7 +661,7 @@ class _VendorsDetailPageState extends State<VendorsDetailPage>
                                                                       DecorationImage(
                                                                     image:
                                                                         AssetImage(
-                                                                      "assets/images/food/$orderImage.png",
+                                                                      "assets/images/products$orderImage.png",
                                                                     ),
                                                                   ),
                                                                 ),

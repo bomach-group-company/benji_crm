@@ -84,7 +84,7 @@ Future<dynamic> OrdersContainerBottomSheet(
                           decoration: ShapeDecoration(
                             image: const DecorationImage(
                               image: AssetImage(
-                                "assets/images/food/pasta.png",
+                                "assets/images/productspasta.png",
                               ),
                               fit: BoxFit.fill,
                             ),

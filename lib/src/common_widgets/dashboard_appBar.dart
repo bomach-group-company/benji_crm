@@ -114,7 +114,7 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 child: const Center(
                   child: Text(
-                    "10+",
+                    "4",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 9,

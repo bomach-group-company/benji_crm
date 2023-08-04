@@ -364,7 +364,7 @@ class _RidersDetailState extends State<RidersDetail> {
                                           ),
                                           image: const DecorationImage(
                                             image: AssetImage(
-                                                "assets/images/food/new-food.png"),
+                                                "assets/images/products/new-food.png"),
                                             fit: BoxFit.cover,
                                           ),
                                         ),
@@ -561,7 +561,7 @@ class _RidersDetailState extends State<RidersDetail> {
                                           ),
                                           image: const DecorationImage(
                                             image: AssetImage(
-                                                "assets/images/food/new-food.png"),
+                                                "assets/images/productsnew-food.png"),
                                             fit: BoxFit.cover,
                                           ),
                                         ),

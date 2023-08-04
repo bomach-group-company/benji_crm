@@ -262,7 +262,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                         decoration: ShapeDecoration(
                           image: DecorationImage(
                             image: AssetImage(
-                              "assets/images/food/${widget.orderImage}.png",
+                              "assets/images/products/${widget.orderImage}.png",
                             ),
                             fit: BoxFit.fill,
                           ),

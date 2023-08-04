@@ -68,7 +68,7 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
                 ),
                 image: DecorationImage(
                   image: AssetImage(
-                    "assets/images/food/pasta.png",
+                    "assets/images/productspasta.png",
                   ),
                   fit: BoxFit.fill,
                 ),

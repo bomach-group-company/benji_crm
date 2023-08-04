@@ -61,7 +61,7 @@ class VendorContainer extends StatelessWidget {
                   decoration: ShapeDecoration(
                     image: DecorationImage(
                       image: AssetImage(
-                        "assets/images/food/$cardImage",
+                        "assets/images/products$cardImage",
                       ),
                       fit: BoxFit.fill,
                     ),
