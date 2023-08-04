@@ -12,10 +12,8 @@ import '../../src/common_widgets/dashboard_showModalBottomSheet.dart';
 import '../../src/providers/constants.dart';
 import '../../src/skeletons/all_riders_page_skeleton.dart';
 import '../../theme/colors.dart';
-import '../others/add_product.dart';
 import '../others/order_details.dart';
 import '../riders/riders.dart';
-import '../vendors/add_vendor.dart';
 import '../vendors/vendors.dart';
 
 class Dashboard extends StatefulWidget {
@@ -69,65 +67,6 @@ class _DashboardState extends State<Dashboard> {
     await Future.delayed(const Duration(seconds: 3));
     setState(() {
       _loadingScreen = false;
-    });
-  }
-
-//=================================== Show Popup Menu =====================================\\
-  void showPopupMenu(BuildContext context) {
-    // Show the popup menu
-    final RenderBox overlay =
-        Overlay.of(context).context.findRenderObject() as RenderBox;
-    final position = RelativeRect.fromLTRB(
-      MediaQuery.of(context).size.width - 50,
-      MediaQuery.of(context).size.height - 250,
-      0,
-      0,
-    );
-
-    showMenu<String>(
-      context: context,
-      position: position,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      items: [
-        const PopupMenuItem<String>(
-          value: 'Add new Vendor',
-          child: Text('Add new Vendor'),
-        ),
-        const PopupMenuItem<String>(
-          value: 'Add new Product',
-          child: Text('Add new Product'),
-        ),
-      ],
-    ).then((value) {
-      // Handle the selected value from the popup menu
-      if (value != null) {
-        switch (value) {
-          case 'Add new Vendor':
-            Get.to(
-              () => const AddVendor(),
-              duration: const Duration(milliseconds: 300),
-              fullscreenDialog: true,
-              curve: Curves.easeIn,
-              routeName: "Add vendor",
-              preventDuplicates: true,
-              popGesture: true,
-              transition: Transition.downToUp,
-            );
-            break;
-          case 'Add new Product':
-            Get.to(
-              () => const AddProduct(),
-              duration: const Duration(milliseconds: 300),
-              fullscreenDialog: true,
-              curve: Curves.easeIn,
-              routeName: "Add product",
-              preventDuplicates: true,
-              popGesture: true,
-              transition: Transition.downToUp,
-            );
-            break;
-        }
-      }
     });
   }
 
@@ -203,17 +142,6 @@ class _DashboardState extends State<Dashboard> {
       animSpeedFactor: 2,
       showChildOpacityTransition: false,
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            showPopupMenu(context);
-          },
-          elevation: 20.0,
-          backgroundColor: kAccentColor,
-          foregroundColor: kPrimaryColor,
-          child: const Icon(
-            Icons.add,
-          ),
-        ),
         appBar: const DashboardAppBar(),
         body: SafeArea(
           maintainBottomViewPadding: true,
@@ -518,3 +446,65 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 }
+
+
+//=============================================== IRRELEVANT CODE =======================================================\\
+
+//=================================== Show Popup Menu =====================================\\
+//   void showPopupMenu(BuildContext context) {
+//     // Show the popup menu
+//     final RenderBox overlay =
+//         Overlay.of(context).context.findRenderObject() as RenderBox;
+//     final position = RelativeRect.fromLTRB(
+//       MediaQuery.of(context).size.width - 50,
+//       MediaQuery.of(context).size.height - 250,
+//       0,
+//       0,
+//     );
+
+//     showMenu<String>(
+//       context: context,
+//       position: position,
+//       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+//       items: [
+//         const PopupMenuItem<String>(
+//           value: 'Add new Vendor',
+//           child: Text('Add new Vendor'),
+//         ),
+//         const PopupMenuItem<String>(
+//           value: 'Add new Product',
+//           child: Text('Add new Product'),
+//         ),
+//       ],
+//     ).then((value) {
+//       // Handle the selected value from the popup menu
+//       if (value != null) {
+//         switch (value) {
+//           case 'Add new Vendor':
+//             Get.to(
+//               () => const AddVendor(),
+//               duration: const Duration(milliseconds: 300),
+//               fullscreenDialog: true,
+//               curve: Curves.easeIn,
+//               routeName: "Add vendor",
+//               preventDuplicates: true,
+//               popGesture: true,
+//               transition: Transition.downToUp,
+//             );
+//             break;
+//           case 'Add new Product':
+//             Get.to(
+//               () => const AddProduct(),
+//               duration: const Duration(milliseconds: 300),
+//               fullscreenDialog: true,
+//               curve: Curves.easeIn,
+//               routeName: "Add product",
+//               preventDuplicates: true,
+//               popGesture: true,
+//               transition: Transition.downToUp,
+//             );
+//             break;
+//         }
+//       }
+//     });
+//   }
