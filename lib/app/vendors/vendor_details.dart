@@ -1,6 +1,6 @@
-// ignore_for_file: file_names, unused_local_variable
+// ignore_for_file: unused_local_variable
 
-import 'package:benji_aggregator/app/others/item_detail_screen.dart';
+import 'package:benji_aggregator/app/others/product_details.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
 import 'package:benji_aggregator/src/providers/custom%20show%20search.dart';
 import 'package:flutter/gestures.dart';
@@ -16,17 +16,16 @@ import '../../src/common_widgets/vendors_product_container.dart';
 import '../../src/skeletons/vendors_tabbar_orders_content_skeleton.dart';
 import '../../src/skeletons/vendors_tabbar_products_content_skeleton.dart';
 import '../../theme/colors.dart';
-import '../others/order_details.dart';
 import 'vendor_orders_tab.dart';
 import 'vendor_products_tab.dart';
 
-class VendorsDetailPage extends StatefulWidget {
+class VendorDetailsPage extends StatefulWidget {
   final String vendorCoverImage;
   final String vendorName;
   final double vendorRating;
   final String vendorActiveStatus;
   final Color vendorActiveStatusColor;
-  const VendorsDetailPage({
+  const VendorDetailsPage({
     super.key,
     required this.vendorCoverImage,
     required this.vendorName,
@@ -36,32 +35,42 @@ class VendorsDetailPage extends StatefulWidget {
   });
 
   @override
-  State<VendorsDetailPage> createState() => _VendorsDetailPageState();
+  State<VendorDetailsPage> createState() => _VendorDetailsPageState();
 }
 
-class _VendorsDetailPageState extends State<VendorsDetailPage>
+class _VendorDetailsPageState extends State<VendorDetailsPage>
     with SingleTickerProviderStateMixin {
   //=================================== ALL VARIABLES ====================================\\
+
+//===================== BOOL VALUES =======================\\
+  // bool isLoading = false;
   late bool _loadingScreen;
   bool _loadingTabBarContent = false;
-  int incrementOrderID = 2 + 2;
-  late int orderID;
-  String orderItem = "Jollof Rice and Chicken";
-  String customerAddress = "21 Odogwu Street, New Haven";
-  int itemQuantity = 2;
-  double price = 2500;
-  double itemPrice = 2500;
-  String orderImage = "chizzy's-food";
-  String customerName = "Mercy Luke";
+
+  //=================================== Orders =======================================\\
+  final int _incrementOrderID = 2 + 2;
+  late int _orderID;
+  final String _orderItem = "Jollof Rice and Chicken";
+  final String _customerAddress = "21 Odogwu Street, New Haven";
+  final int _itemQuantity = 2;
+  // final double _price = 2500;
+  final double _itemPrice = 2500;
+  final String _orderImage = "chizzy's-food";
+  final String _customerName = "Mercy Luke";
+
+  //=============================== Products ====================================\\
+  final String _productName = "Smokey Jollof Pasta";
+  final String _productImage = "pasta";
+  final String _productDescription =
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit, tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit, quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos  sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam recusandae alias error harum maxime adipisci amet laborum. Perspiciatis  minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit  quibusdam sed amet tempora. Sit laborum ab, eius fugit doloribus tenetur  fugiat, temporibus enim commodi iusto libero magni deleniti quod quam consequuntur! Commodi minima excepturi repudiandae velit hic maxime doloremque. Quaerat provident commodi consectetur veniam similique ad earum omnis ipsum saepe, voluptas, hic voluptates pariatur est explicabo fugiat, dolorum eligendi quam cupiditate excepturi mollitia maiores labore suscipit quas? Nulla, placeat. Voluptatem quaerat non architecto ab laudantium modi minima sunt esse temporibus sint culpa, recusandae aliquam numquam totam ratione voluptas quod exercitationem fuga. Possim";
+  final double _productPrice = 1200;
 
   //=================================== CONTROLLERS ====================================\\
   late TabController _tabBarController;
   final ScrollController scrollController = ScrollController();
+
 //===================== KEYS =======================\\
   // final _formKey = GlobalKey<FormState>();
-
-//===================== BOOL VALUES =======================\\
-  bool isLoading = false;
 
   //===================== CATEGORY BUTTONS =======================\\
   final List _categoryButtonText = [
@@ -92,7 +101,7 @@ class _VendorsDetailPageState extends State<VendorsDetailPage>
 
 //===================== FUNCTIONS =======================\\
   double calculateSubtotal() {
-    return itemPrice * itemQuantity;
+    return _itemPrice * _itemQuantity;
   }
 
   @override
@@ -114,6 +123,8 @@ class _VendorsDetailPageState extends State<VendorsDetailPage>
     _tabBarController.dispose();
     super.dispose();
   }
+
+  void _changeProductCategory() {}
 
 //===================== Handle refresh ==========================\\
 
@@ -141,11 +152,16 @@ class _VendorsDetailPageState extends State<VendorsDetailPage>
 
   //===================== Navigation ==========================\\
   void toProductDetailScreen() => Get.to(
-        () => const ProductDetailScreen(),
+        () => ProductDetails(
+          productImage: _productImage,
+          productName: _productName,
+          productPrice: _productPrice,
+          productDescription: _productDescription,
+        ),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "Item Details",
+        routeName: "Product Details",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.rightToLeft,
@@ -158,26 +174,6 @@ class _VendorsDetailPageState extends State<VendorsDetailPage>
     double mediaWidth = MediaQuery.of(context).size.width;
     double mediaHeight = MediaQuery.of(context).size.height;
     double subtotalPrice = calculateSubtotal();
-    //===================== Navigate to Order Details Page ================================\\
-    void toOrderDetailsPage() => Get.to(
-          () => OrderDetails(
-            formatted12HrTime: formattedDateAndTime,
-            orderID: orderID,
-            orderImage: orderImage,
-            orderItem: orderItem,
-            itemQuantity: itemQuantity,
-            subtotalPrice: subtotalPrice,
-            customerName: customerName,
-            customerAddress: customerAddress,
-          ),
-          duration: const Duration(milliseconds: 300),
-          fullscreenDialog: true,
-          curve: Curves.easeIn,
-          routeName: "Order Details",
-          preventDuplicates: true,
-          popGesture: true,
-          transition: Transition.downToUp,
-        );
 
 //====================================================================================\\
 
@@ -257,6 +253,7 @@ class _VendorsDetailPageState extends State<VendorsDetailPage>
                                   height:
                                       MediaQuery.of(context).size.height * 0.3,
                                   decoration: BoxDecoration(
+                                    color: kPageSkeletonColor,
                                     image: DecorationImage(
                                       fit: BoxFit.cover,
                                       image: AssetImage(
@@ -300,9 +297,7 @@ class _VendorsDetailPageState extends State<VendorsDetailPage>
                                           widget.vendorName,
                                           textAlign: TextAlign.center,
                                           style: const TextStyle(
-                                            color: Color(
-                                              0xFF302F3C,
-                                            ),
+                                            color: kTextBlackColor,
                                             fontSize: 24,
                                             fontWeight: FontWeight.w700,
                                           ),
@@ -321,7 +316,7 @@ class _VendorsDetailPageState extends State<VendorsDetailPage>
                                             const SizedBox(
                                               width: 300,
                                               child: Text(
-                                                "Old Abakaliki Rd, Thinkers Corner 400103, Enugusdsudhosud",
+                                                "Old Abakaliki Rd, Thinkers Corner 400103, Enugu",
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
                                                   fontSize: 14,
@@ -497,9 +492,10 @@ class _VendorsDetailPageState extends State<VendorsDetailPage>
                                 top: MediaQuery.of(context).size.height * 0.07,
                                 left: MediaQuery.of(context).size.width / 2.7,
                                 child: Container(
-                                  width: 107,
-                                  height: 107,
+                                  width: 100,
+                                  height: 100,
                                   decoration: ShapeDecoration(
+                                    color: kPageSkeletonColor,
                                     image: const DecorationImage(
                                       image: AssetImage(
                                         "assets/images/vendors/ntachi-osa-logo.png",
@@ -566,19 +562,15 @@ class _VendorsDetailPageState extends State<VendorsDetailPage>
                                   dragStartBehavior: DragStartBehavior.down,
                                   children: [
                                     _loadingTabBarContent
-                                        ? VendorsTabBarProductsContentSkeleton(
-                                            vendorProductCount:
-                                                _categoryButtonText.length,
-                                            vendorProductCategoryCount:
-                                                foodListView.length,
-                                          )
+                                        ? const VendorsTabBarProductsContentSkeleton()
                                         : VendorsProductsTab(
                                             list: Column(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
                                               children: [
                                                 CategoryButtonSection(
-                                                  onPressed: () {},
+                                                  onPressed:
+                                                      _changeProductCategory,
                                                   category: _categoryButtonText,
                                                   categorybgColor:
                                                       _categoryButtonBgColor,
@@ -591,6 +583,11 @@ class _VendorsDetailPageState extends State<VendorsDetailPage>
                                                   VendorsProductContainer(
                                                     onTap:
                                                         toProductDetailScreen,
+                                                    productImage: _productImage,
+                                                    productName: _productName,
+                                                    productDescription:
+                                                        _productDescription,
+                                                    productPrice: _productPrice,
                                                   ),
                                               ],
                                             ),
@@ -600,254 +597,242 @@ class _VendorsDetailPageState extends State<VendorsDetailPage>
                                         : VendorsOrdersTab(
                                             list: Column(
                                               children: [
-                                                for (orderID = 1;
-                                                    orderID < 30;
-                                                    orderID += incrementOrderID)
-                                                  InkWell(
-                                                    onTap: toOrderDetailsPage,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            kDefaultPadding),
-                                                    child: Container(
-                                                      margin: const EdgeInsets
-                                                          .symmetric(
-                                                        vertical:
-                                                            kDefaultPadding / 2,
+                                                for (_orderID = 1;
+                                                    _orderID < 30;
+                                                    _orderID +=
+                                                        _incrementOrderID)
+                                                  Container(
+                                                    margin: const EdgeInsets
+                                                        .symmetric(
+                                                      vertical:
+                                                          kDefaultPadding / 2,
+                                                    ),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                      top: kDefaultPadding / 2,
+                                                      left: kDefaultPadding / 2,
+                                                      right:
+                                                          kDefaultPadding / 2,
+                                                    ),
+                                                    width: mediaWidth / 1.1,
+                                                    height: 150,
+                                                    decoration: ShapeDecoration(
+                                                      color: kPrimaryColor,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                kDefaultPadding),
                                                       ),
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                        top:
-                                                            kDefaultPadding / 2,
-                                                        left:
-                                                            kDefaultPadding / 2,
-                                                        right:
-                                                            kDefaultPadding / 2,
-                                                      ),
-                                                      width: mediaWidth / 1.1,
-                                                      height: 150,
-                                                      decoration:
-                                                          ShapeDecoration(
-                                                        color: kPrimaryColor,
-                                                        shape:
-                                                            RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius.circular(
-                                                                  kDefaultPadding),
+                                                      shadows: const [
+                                                        BoxShadow(
+                                                          color:
+                                                              Color(0x0F000000),
+                                                          blurRadius: 24,
+                                                          offset: Offset(0, 4),
+                                                          spreadRadius: 4,
                                                         ),
-                                                        shadows: const [
-                                                          BoxShadow(
-                                                            color: Color(
-                                                                0x0F000000),
-                                                            blurRadius: 24,
-                                                            offset:
-                                                                Offset(0, 4),
-                                                            spreadRadius: 4,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      child: Row(
-                                                        children: [
-                                                          Column(
-                                                            children: [
-                                                              Container(
-                                                                width: 60,
-                                                                height: 60,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              16),
+                                                      ],
+                                                    ),
+                                                    child: Row(
+                                                      children: [
+                                                        Column(
+                                                          children: [
+                                                            Container(
+                                                              width: 60,
+                                                              height: 60,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color:
+                                                                    kPageSkeletonColor,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            16),
+                                                                image:
+                                                                    DecorationImage(
                                                                   image:
-                                                                      DecorationImage(
-                                                                    image:
-                                                                        AssetImage(
-                                                                      "assets/images/products$orderImage.png",
-                                                                    ),
+                                                                      AssetImage(
+                                                                    "assets/images/products/$_orderImage.png",
                                                                   ),
                                                                 ),
                                                               ),
-                                                              kHalfSizedBox,
-                                                              Text(
-                                                                "#00${orderID.toString()}",
-                                                                style:
-                                                                    TextStyle(
-                                                                  color:
-                                                                      kTextGreyColor,
-                                                                  fontSize: 13,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                          kWidthSizedBox,
-                                                          Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              SizedBox(
-                                                                width:
-                                                                    mediaWidth /
-                                                                        1.55,
-                                                                // color: kAccentColor,
-                                                                child: Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .spaceBetween,
-                                                                  children: [
-                                                                    const SizedBox(
-                                                                      child:
-                                                                          Text(
-                                                                        "Hot Kitchen",
-                                                                        maxLines:
-                                                                            2,
-                                                                        overflow:
-                                                                            TextOverflow.ellipsis,
-                                                                        style:
-                                                                            TextStyle(
-                                                                          fontSize:
-                                                                              12,
-                                                                          fontWeight:
-                                                                              FontWeight.w400,
-                                                                        ),
+                                                            ),
+                                                            kHalfSizedBox,
+                                                            Text(
+                                                              "#00${_orderID.toString()}",
+                                                              style: TextStyle(
+                                                                color:
+                                                                    kTextGreyColor,
+                                                                fontSize: 13,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                        kWidthSizedBox,
+                                                        Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            SizedBox(
+                                                              width:
+                                                                  mediaWidth /
+                                                                      1.55,
+                                                              // color: kAccentColor,
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  const SizedBox(
+                                                                    child: Text(
+                                                                      "Hot Kitchen",
+                                                                      maxLines:
+                                                                          2,
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            12,
+                                                                        fontWeight:
+                                                                            FontWeight.w400,
                                                                       ),
                                                                     ),
-                                                                    SizedBox(
-                                                                      child:
-                                                                          Text(
-                                                                        formattedDateAndTime,
-                                                                        overflow:
-                                                                            TextOverflow.ellipsis,
-                                                                        style:
-                                                                            const TextStyle(
-                                                                          fontSize:
-                                                                              12,
-                                                                          fontWeight:
-                                                                              FontWeight.w400,
-                                                                        ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    child: Text(
+                                                                      formattedDateAndTime,
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      style:
+                                                                          const TextStyle(
+                                                                        fontSize:
+                                                                            12,
+                                                                        fontWeight:
+                                                                            FontWeight.w400,
+                                                                      ),
+                                                                    ),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            kHalfSizedBox,
+                                                            Container(
+                                                              color:
+                                                                  kTransparentColor,
+                                                              width: 250,
+                                                              child: Text(
+                                                                _orderItem,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                maxLines: 2,
+                                                                style:
+                                                                    const TextStyle(
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w700,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            kHalfSizedBox,
+                                                            Container(
+                                                              width: 200,
+                                                              color:
+                                                                  kTransparentColor,
+                                                              child: Text.rich(
+                                                                TextSpan(
+                                                                  children: [
+                                                                    TextSpan(
+                                                                      text:
+                                                                          "x $_itemQuantity",
+                                                                      style:
+                                                                          const TextStyle(
+                                                                        fontSize:
+                                                                            13,
+                                                                        fontWeight:
+                                                                            FontWeight.w400,
+                                                                      ),
+                                                                    ),
+                                                                    const TextSpan(
+                                                                        text:
+                                                                            "  "),
+                                                                    TextSpan(
+                                                                      text:
+                                                                          "₦ ${_itemPrice.toStringAsFixed(2)}",
+                                                                      style:
+                                                                          const TextStyle(
+                                                                        fontSize:
+                                                                            15,
+                                                                        fontFamily:
+                                                                            'sen',
+                                                                        fontWeight:
+                                                                            FontWeight.w400,
                                                                       ),
                                                                     )
                                                                   ],
                                                                 ),
                                                               ),
-                                                              kHalfSizedBox,
-                                                              Container(
-                                                                color:
-                                                                    kTransparentColor,
-                                                                width: 250,
-                                                                child: Text(
-                                                                  orderItem,
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  maxLines: 2,
-                                                                  style:
-                                                                      const TextStyle(
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w700,
-                                                                  ),
+                                                            ),
+                                                            kHalfSizedBox,
+                                                            Container(
+                                                              color:
+                                                                  kGreyColor1,
+                                                              height: 1,
+                                                              width:
+                                                                  mediaWidth /
+                                                                      1.8,
+                                                            ),
+                                                            kHalfSizedBox,
+                                                            SizedBox(
+                                                              width:
+                                                                  mediaWidth /
+                                                                      1.8,
+                                                              child: Text(
+                                                                _customerName,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                maxLines: 1,
+                                                                style:
+                                                                    const TextStyle(
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w700,
                                                                 ),
                                                               ),
-                                                              kHalfSizedBox,
-                                                              Container(
-                                                                width: 200,
-                                                                color:
-                                                                    kTransparentColor,
-                                                                child:
-                                                                    Text.rich(
-                                                                  TextSpan(
-                                                                    children: [
-                                                                      TextSpan(
-                                                                        text:
-                                                                            "x $itemQuantity",
-                                                                        style:
-                                                                            const TextStyle(
-                                                                          fontSize:
-                                                                              13,
-                                                                          fontWeight:
-                                                                              FontWeight.w400,
-                                                                        ),
-                                                                      ),
-                                                                      const TextSpan(
-                                                                          text:
-                                                                              "  "),
-                                                                      TextSpan(
-                                                                        text:
-                                                                            "₦ ${itemPrice.toStringAsFixed(2)}",
-                                                                        style:
-                                                                            const TextStyle(
-                                                                          fontSize:
-                                                                              15,
-                                                                          fontFamily:
-                                                                              'sen',
-                                                                          fontWeight:
-                                                                              FontWeight.w400,
-                                                                        ),
-                                                                      )
-                                                                    ],
-                                                                  ),
+                                                            ),
+                                                            SizedBox(
+                                                              width:
+                                                                  mediaWidth /
+                                                                      1.8,
+                                                              child: Text(
+                                                                _customerAddress,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                maxLines: 1,
+                                                                style:
+                                                                    const TextStyle(
+                                                                  fontSize: 13,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
                                                                 ),
                                                               ),
-                                                              kHalfSizedBox,
-                                                              Container(
-                                                                color:
-                                                                    kGreyColor1,
-                                                                height: 1,
-                                                                width:
-                                                                    mediaWidth /
-                                                                        1.8,
-                                                              ),
-                                                              kHalfSizedBox,
-                                                              SizedBox(
-                                                                width:
-                                                                    mediaWidth /
-                                                                        1.8,
-                                                                child: Text(
-                                                                  customerName,
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  maxLines: 1,
-                                                                  style:
-                                                                      const TextStyle(
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w700,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                width:
-                                                                    mediaWidth /
-                                                                        1.8,
-                                                                child: Text(
-                                                                  customerAddress,
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  maxLines: 1,
-                                                                  style:
-                                                                      const TextStyle(
-                                                                    fontSize:
-                                                                        13,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
                                               ],
