@@ -10,7 +10,7 @@ import '../../src/providers/custom show search.dart';
 import '../../src/skeletons/all_vendors_list_skeleton.dart';
 import '../../src/skeletons/all_vendors_page_skeleton.dart';
 import '../../theme/colors.dart';
-import 'add_vendor.dart';
+import '../others/add_vendor.dart';
 import 'vendor_details.dart';
 
 class Vendors extends StatefulWidget {
@@ -157,6 +157,15 @@ class _VendorsState extends State<Vendors> {
       animSpeedFactor: 2,
       showChildOpacityTransition: false,
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: toAddVendorPage,
+          elevation: 20.0,
+          backgroundColor: kAccentColor,
+          foregroundColor: kPrimaryColor,
+          child: const Icon(
+            Icons.add,
+          ),
+        ),
         appBar: AppBar(
           leadingWidth: 40,
           backgroundColor: widget.appBarBackgroundColor,
@@ -184,13 +193,13 @@ class _VendorsState extends State<Vendors> {
             Padding(
               padding: const EdgeInsets.all(kDefaultPadding / 2),
               child: MyOutlinedElevatedButton(
-                onPressed: toAddVendorPage,
+                onPressed: () {},
                 circularBorderRadius: 20,
                 minimumSizeWidth: 100,
                 minimumSizeHeight: 30,
                 maximumSizeWidth: 100,
                 maximumSizeHeight: 30,
-                buttonTitle: "Add Vendor",
+                buttonTitle: "My Vendors",
                 titleFontSize: 12,
                 elevation: 10.0,
               ),
