@@ -17,7 +17,7 @@ class PageSkeleton extends StatelessWidget {
       width: width,
       padding: const EdgeInsets.all(kDefaultPadding / 2),
       decoration: BoxDecoration(
-        color: kBlackColor.withOpacity(0.35),
+        color: kPageSkeletonColor,
         borderRadius: const BorderRadius.all(Radius.circular(16)),
       ),
     );
