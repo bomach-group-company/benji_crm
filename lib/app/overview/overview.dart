@@ -16,11 +16,19 @@ class OverView extends StatefulWidget {
 class _OverViewState extends State<OverView> {
   int _currentIndex = 0;
 
-  final List<Widget> _pages = const [
-    Dashboard(),
-    Vendors(),
-    Riders(),
-    Profile(),
+  final List<Widget> _pages = [
+    const Dashboard(),
+    Vendors(
+      appBarBackgroundColor: kPrimaryColor,
+      appTitleColor: kTextBlackColor,
+      appBarSearchIconColor: kAccentColor,
+    ),
+    Riders(
+      appBarBackgroundColor: kPrimaryColor,
+      appTitleColor: kTextBlackColor,
+      appBarSearchIconColor: kAccentColor,
+    ),
+    const Profile(),
   ];
 
   void _onTappedBar(int index) {
@@ -33,9 +41,7 @@ class _OverViewState extends State<OverView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pages[_currentIndex],
-      backgroundColor: kPrimaryColor,
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: kPrimaryColor,
         currentIndex: _currentIndex,
         onTap: _onTappedBar,
         elevation: 20.0,
@@ -67,20 +73,20 @@ class _OverViewState extends State<OverView> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.shopping_bag_outlined,
+              Icons.business_rounded,
             ),
             label: "Vendors",
             activeIcon: Icon(
-              Icons.shopping_bag_rounded,
+              Icons.business_rounded,
             ),
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.menu,
+              Icons.delivery_dining_rounded,
             ),
             label: "Riders",
             activeIcon: Icon(
-              Icons.menu_rounded,
+              Icons.delivery_dining_rounded,
             ),
           ),
           BottomNavigationBarItem(

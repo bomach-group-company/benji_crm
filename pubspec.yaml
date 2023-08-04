@@ -23,6 +23,12 @@ dependencies:
   get: ^4.6.5
   firebase_core: ^2.15.0
   firebase_auth: ^4.7.2
+  url_launcher: ^6.1.12
+  shimmer: ^3.0.0-nullsafety.0
+  liquid_pull_to_refresh: ^3.0.1
+  liquid_swipe: ^3.1.0
+  readmore: ^2.2.0
+  images_picker: ^1.2.11
 
 dev_dependencies:
   flutter_test:
@@ -48,7 +54,8 @@ flutter:
     - assets/images/login/
     - assets/images/home/
     - assets/images/vendors/
-    - assets/images/food/
+    - assets/images/customer/
+    - assets/images/products/
     - assets/images/icons/
     - assets/images/rider/
     - assets/images/profile/

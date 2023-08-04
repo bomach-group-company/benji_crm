@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 import '../../../app/dashboard/dashboard.dart';
-import '../../../app/splash screens/startup splash screen.dart';
+import '../../../app/splash screens/startup_splashscreen.dart';
 import 'signup_email_password_failure.dart';
 
 class AuthenticationRepo extends GetxController {

@@ -3,14 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/route_manager.dart';
 
+import '../../src/common_widgets/my_appbar.dart';
+import '../../src/common_widgets/my_fixed_snackBar.dart';
+import '../../src/common_widgets/password_textformfield.dart';
+import '../../src/common_widgets/reusable_authentication_firsthalf.dart';
 import '../../src/providers/constants.dart';
-import '../../src/common_widgets/my appbar.dart';
-import '../../src/common_widgets/my fixed snackBar.dart';
-import '../../src/common_widgets/password textformfield.dart';
-import '../../src/common_widgets/reusable authentication first half.dart';
 import '../../theme/colors.dart';
-
 import 'login.dart';
 
 class ResetPassword extends StatefulWidget {
@@ -61,9 +61,15 @@ class _ResetPasswordState extends State<ResetPassword> {
     );
 
     // Navigate to the new page
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) => const Login()),
-      (route) => false,
+    Get.offAll(
+      () => const Login(),
+      duration: const Duration(milliseconds: 500),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      routeName: "Send OTP",
+      predicate: (route) => false,
+      popGesture: true,
+      transition: Transition.downToUp,
     );
 
     setState(() {

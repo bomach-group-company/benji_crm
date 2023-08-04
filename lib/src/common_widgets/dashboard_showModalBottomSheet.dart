@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 
 import '../../../theme/colors.dart';
 import '../providers/constants.dart';
-import 'my elevatedButton.dart';
-import 'my outlined elevatedButton.dart';
+import 'my_elevatedButton.dart';
+import 'my_outlined_elevatedButton.dart';
 
 Future<dynamic> OrdersContainerBottomSheet(
   BuildContext context,
@@ -84,7 +84,7 @@ Future<dynamic> OrdersContainerBottomSheet(
                           decoration: ShapeDecoration(
                             image: const DecorationImage(
                               image: AssetImage(
-                                "assets/images/food/pasta.png",
+                                "assets/images/productspasta.png",
                               ),
                               fit: BoxFit.fill,
                             ),

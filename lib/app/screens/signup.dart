@@ -3,20 +3,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
+import 'package:get/route_manager.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
-import '../../src/common_widgets/email textformfield.dart';
-import '../../src/common_widgets/my fixed snackBar.dart';
-import '../../src/common_widgets/my intl phonefield.dart';
-import '../../src/common_widgets/name textformfield.dart';
-import '../../src/common_widgets/password textformfield.dart';
-import '../../src/common_widgets/reusable authentication first half.dart';
+import '../../src/common_widgets/email_textformfield.dart';
+import '../../src/common_widgets/my_fixed_snackBar.dart';
+import '../../src/common_widgets/my_intl_phonefield.dart';
+import '../../src/common_widgets/name_textformfield.dart';
+import '../../src/common_widgets/password_textformfield.dart';
+import '../../src/common_widgets/reusable_authentication_firsthalf.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/signup controller.dart';
 import '../../theme/colors.dart';
-import '../splash screens/signup splash screen.dart';
+import '../splash screens/signup_splashscreen.dart';
 import 'login.dart';
 
 class SignUp extends StatefulWidget {
@@ -49,6 +49,18 @@ class _SignUpState extends State<SignUp> {
   FocusNode userPasswordFN = FocusNode();
 
   //=========================== FUNCTIONS ====================================\\
+  //Navigate to login
+  void toLoginPage() => Get.offAll(
+        () => const Login(),
+        duration: const Duration(milliseconds: 500),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "Login",
+        predicate: (route) => false,
+        popGesture: true,
+        transition: Transition.downToUp,
+      );
+
   Future<void> loadData() async {
     setState(() {
       isLoading = true;
@@ -61,6 +73,7 @@ class _SignUpState extends State<SignUp> {
     //   controller.userEmailEC.text.trim(),
     //   controller.userPasswordEC.text.trim(),
     // );
+
     //Display snackBar
     myFixedSnackBar(
       context,
@@ -70,9 +83,15 @@ class _SignUpState extends State<SignUp> {
     );
 
     // Navigate to the new page
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) => const SignUpSplashScreen()),
-      (route) => false,
+    Get.off(
+      () => const SignUpSplashScreen(),
+      duration: const Duration(seconds: 2),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      routeName: "Signup processing",
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.fadeIn,
     );
 
     setState(() {
@@ -98,11 +117,19 @@ class _SignUpState extends State<SignUp> {
           maintainBottomViewPadding: true,
           child: Column(
             children: [
-              const ReusableAuthenticationFirstHalf(
+              ReusableAuthenticationFirstHalf(
                 title: "Sign up",
                 subtitle: "Please sign up to get started",
-                decoration: BoxDecoration(),
-                imageContainerHeight: 0,
+                decoration: ShapeDecoration(
+                  image: const DecorationImage(
+                    image: AssetImage("assets/images/login/avatar-image.png"),
+                    fit: BoxFit.cover,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(43.50),
+                  ),
+                ),
+                imageContainerHeight: 88,
               ),
               kSizedBox,
               Expanded(
@@ -115,12 +142,8 @@ class _SignUpState extends State<SignUp> {
                   ),
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(
-                        24,
-                      ),
-                      topRight: Radius.circular(
-                        24,
-                      ),
+                      topLeft: Radius.circular(24),
+                      topRight: Radius.circular(24),
                     ),
                     color: kPrimaryColor,
                   ),
@@ -367,7 +390,7 @@ class _SignUpState extends State<SignUp> {
                           ? Center(
                               child: SpinKitChasingDots(
                                 color: kAccentColor,
-                                duration: const Duration(seconds: 2),
+                                duration: const Duration(seconds: 5),
                               ),
                             )
                           : ElevatedButton(
@@ -378,18 +401,12 @@ class _SignUpState extends State<SignUp> {
                               }),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: kAccentColor,
-                                maximumSize: Size(
-                                  MediaQuery.of(context).size.width,
-                                  62,
-                                ),
-                                minimumSize: Size(
-                                  MediaQuery.of(context).size.width,
-                                  60,
-                                ),
+                                maximumSize:
+                                    Size(MediaQuery.of(context).size.width, 62),
+                                minimumSize:
+                                    Size(MediaQuery.of(context).size.width, 60),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    16,
-                                  ),
+                                  borderRadius: BorderRadius.circular(16),
                                 ),
                                 elevation: 10,
                                 shadowColor: kDarkGreyColor,
@@ -418,11 +435,7 @@ class _SignUpState extends State<SignUp> {
                           ),
                           TextButton(
                             onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => const Login(),
-                                ),
-                              );
+                              toLoginPage();
                             },
                             child: Text(
                               "Log in",

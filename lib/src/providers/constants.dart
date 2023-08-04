@@ -56,3 +56,17 @@ String formatDateAndTime(DateTime dateTime) {
 
   return formattedDateTime;
 }
+
+String format12HrTime(DateTime time) {
+  // Format the time as '1:20PM'
+  String formattedTime = DateFormat.jm().format(time);
+
+  return formattedTime;
+}
+
+String formatDate(DateTime date) {
+  // Format the date as '23 Feb 2020'
+  String formattedDate = DateFormat('dd MMM y').format(date);
+
+  return formattedDate;
+}
