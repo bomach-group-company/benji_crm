@@ -140,8 +140,8 @@ class _VendorsDetailPageState extends State<VendorsDetailPage>
   }
 
   //===================== Navigation ==========================\\
-  void toItemDetailScreen() => Get.to(
-        () => const ItemDetailScreen(),
+  void toProductDetailScreen() => Get.to(
+        () => const ProductDetailScreen(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -589,7 +589,8 @@ class _VendorsDetailPageState extends State<VendorsDetailPage>
                                                     i < foodListView.length;
                                                     i++)
                                                   VendorsProductContainer(
-                                                    onTap: toItemDetailScreen,
+                                                    onTap:
+                                                        toProductDetailScreen,
                                                   ),
                                               ],
                                             ),

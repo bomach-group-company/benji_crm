@@ -7,14 +7,14 @@ import '../../src/common_widgets/category_button_section.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 
-class ItemDetailScreen extends StatefulWidget {
-  const ItemDetailScreen({super.key});
+class ProductDetailScreen extends StatefulWidget {
+  const ProductDetailScreen({super.key});
 
   @override
-  State<ItemDetailScreen> createState() => _ItemDetailScreenState();
+  State<ProductDetailScreen> createState() => _ProductDetailScreenState();
 }
 
-class _ItemDetailScreenState extends State<ItemDetailScreen> {
+class _ProductDetailScreenState extends State<ProductDetailScreen> {
   //=================================== ALL VARIABLES ==========================================\\
   double itemPrice = 2500;
   late bool _loadingScreen;
