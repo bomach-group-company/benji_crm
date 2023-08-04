@@ -364,6 +364,7 @@ class _DashboardState extends State<Dashboard> {
                                             width: 60,
                                             height: 60,
                                             decoration: BoxDecoration(
+                                              color: kPageSkeletonColor,
                                               borderRadius:
                                                   BorderRadius.circular(16),
                                               image: DecorationImage(

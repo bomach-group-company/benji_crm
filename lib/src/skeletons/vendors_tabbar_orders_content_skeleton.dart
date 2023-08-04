@@ -16,7 +16,7 @@ class VendorsTabBarOrdersContentSkeleton extends StatelessWidget {
       separatorBuilder: (context, index) =>
           const SizedBox(height: kDefaultPadding),
       padding: const EdgeInsets.all(kDefaultPadding),
-      itemCount: 30,
+      itemCount: 15,
       addAutomaticKeepAlives: true,
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,

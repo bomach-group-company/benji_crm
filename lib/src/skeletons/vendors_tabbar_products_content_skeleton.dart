@@ -8,12 +8,8 @@ import '../providers/constants.dart';
 import 'page_skeleton.dart';
 
 class VendorsTabBarProductsContentSkeleton extends StatelessWidget {
-  final int vendorProductCount;
-  final int vendorProductCategoryCount;
   const VendorsTabBarProductsContentSkeleton({
     super.key,
-    required this.vendorProductCount,
-    required this.vendorProductCategoryCount,
   });
 
   @override
@@ -28,8 +24,10 @@ class VendorsTabBarProductsContentSkeleton extends StatelessWidget {
         children: [
           SizedBox(
             height: 60,
-            child: ListView.builder(
-              itemCount: vendorProductCategoryCount,
+            child: ListView.separated(
+              separatorBuilder: (context, index) =>
+                  const SizedBox(height: kDefaultPadding),
+              itemCount: 10,
               scrollDirection: Axis.horizontal,
               physics: const NeverScrollableScrollPhysics(),
               // const BouncingScrollPhysics(),
@@ -40,10 +38,7 @@ class VendorsTabBarProductsContentSkeleton extends StatelessWidget {
                     highlightColor: kBlackColor.withOpacity(0.02),
                     baseColor: kBlackColor.withOpacity(0.8),
                     direction: ShimmerDirection.ltr,
-                    child: const PageSkeleton(
-                      height: 30,
-                      width: 100,
-                    ),
+                    child: const PageSkeleton(height: 30, width: 100),
                   ),
                 );
               },
@@ -53,7 +48,7 @@ class VendorsTabBarProductsContentSkeleton extends StatelessWidget {
             height: mediaHeight,
             child: ListView.separated(
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: vendorProductCount,
+              itemCount: 20,
               separatorBuilder: (BuildContext context, int index) {
                 return const SizedBox(height: kDefaultPadding / 2);
               },
@@ -64,10 +59,7 @@ class VendorsTabBarProductsContentSkeleton extends StatelessWidget {
                     highlightColor: kBlackColor.withOpacity(0.02),
                     baseColor: kBlackColor.withOpacity(0.8),
                     direction: ShimmerDirection.ltr,
-                    child: const PageSkeleton(
-                      width: 90,
-                      height: 92,
-                    ),
+                    child: const PageSkeleton(width: 90, height: 92),
                   ),
                 );
               },

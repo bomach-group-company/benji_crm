@@ -7,9 +7,18 @@ import '../providers/constants.dart';
 
 class VendorsProductContainer extends StatefulWidget {
   final Function() onTap;
+  final String productImage;
+  final String productName;
+  final String productDescription;
+  final double productPrice;
+
   const VendorsProductContainer({
     super.key,
     required this.onTap,
+    required this.productImage,
+    required this.productName,
+    required this.productDescription,
+    required this.productPrice,
   });
 
   @override
@@ -55,21 +64,17 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
             Container(
               width: 90,
               height: 92,
-              decoration: const ShapeDecoration(
-                shape: RoundedRectangleBorder(
+              decoration: ShapeDecoration(
+                color: kPageSkeletonColor,
+                shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(
-                      12,
-                    ),
-                    bottomLeft: Radius.circular(
-                      12,
-                    ),
+                    topLeft: Radius.circular(12),
+                    bottomLeft: Radius.circular(12),
                   ),
                 ),
                 image: DecorationImage(
                   image: AssetImage(
-                    "assets/images/productspasta.png",
-                  ),
+                      "assets/images/products/${widget.productImage}.png"),
                   fit: BoxFit.fill,
                 ),
               ),
@@ -79,10 +84,10 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Smokey Jollof Pasta',
-                  style: TextStyle(
-                    color: Color(0xFF333333),
+                Text(
+                  widget.productName,
+                  style: const TextStyle(
+                    color: kTextBlackColor,
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
                   ),
@@ -90,23 +95,21 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
                 kHalfSizedBox,
                 SizedBox(
                   width: mediaWidth / 2,
-                  child: const Text(
-                    'Short description about the food here',
+                  child: Text(
+                    widget.productDescription,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      color: Color(
-                        0xFF676565,
-                      ),
+                      color: kTextGreyColor,
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
                 ),
                 kHalfSizedBox,
-                const SizedBox(
+                SizedBox(
                   child: Text(
-                    '₦1200.00',
-                    style: TextStyle(
+                    '₦${widget.productPrice.toStringAsFixed(2)}',
+                    style: const TextStyle(
                       color: Color(
                         0xFF333333,
                       ),

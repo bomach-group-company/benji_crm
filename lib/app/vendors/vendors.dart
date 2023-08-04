@@ -1,17 +1,17 @@
 // ignore_for_file: unused_local_variable
 
-import 'package:benji_aggregator/app/vendors/vendors_detail.dart';
-import 'package:benji_aggregator/src/common_widgets/my_outlined_elevatedButton.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
+import '../../src/common_widgets/my_outlined_elevatedButton.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/custom show search.dart';
 import '../../src/skeletons/all_vendors_list_skeleton.dart';
 import '../../src/skeletons/all_vendors_page_skeleton.dart';
 import '../../theme/colors.dart';
 import 'add_vendor.dart';
+import 'vendor_details.dart';
 
 class Vendors extends StatefulWidget {
   final Color appBarBackgroundColor;
@@ -121,7 +121,7 @@ class _VendorsState extends State<Vendors> {
       );
 
   void toVendorDetailsPage() => Get.to(
-        () => VendorsDetailPage(
+        () => VendorDetailsPage(
           vendorCoverImage:
               _vendorStatus ? _onlineVendorsImage : _offlineVendorsImage,
           vendorName: _vendorStatus ? _onlineVendorsName : _offlineVendorsName,
@@ -144,6 +144,7 @@ class _VendorsState extends State<Vendors> {
       showSearch(context: context, delegate: CustomSearchDelegate());
   @override
   Widget build(BuildContext context) {
+    //============================ MediaQuery Size ===============================\\
     double mediaWidth = MediaQuery.of(context).size.width;
     double mediaHeight = MediaQuery.of(context).size.height;
 
@@ -325,6 +326,7 @@ class _VendorsState extends State<Vendors> {
                                               width: 130,
                                               height: 130,
                                               decoration: ShapeDecoration(
+                                                color: kPageSkeletonColor,
                                                 image: DecorationImage(
                                                   image: AssetImage(
                                                     "assets/images/vendors/$_onlineVendorsImage.png",
@@ -533,6 +535,7 @@ class _VendorsState extends State<Vendors> {
                                               width: 130,
                                               height: 130,
                                               decoration: ShapeDecoration(
+                                                color: kPageSkeletonColor,
                                                 image: DecorationImage(
                                                   image: AssetImage(
                                                     "assets/images/vendors/$_offlineVendorsImage.png",
