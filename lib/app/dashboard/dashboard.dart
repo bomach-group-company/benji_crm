@@ -13,7 +13,7 @@ import '../../src/common_widgets/dashboard_showModalBottomSheet.dart';
 import '../../src/providers/constants.dart';
 import '../../src/skeletons/all_riders_page_skeleton.dart';
 import '../../theme/colors.dart';
-import '../others/order_details.dart';
+import '../others/my_orders/my_order_details.dart';
 import '../riders/riders.dart';
 import '../vendors/vendors.dart';
 
@@ -144,7 +144,7 @@ class _DashboardState extends State<Dashboard> {
 
     //===================== Navigate to Order Details Page ================================\\
     void toOrderDetailsPage() => Get.to(
-          () => OrderDetails(
+          () => MyOrderDetails(
             formatted12HrTime: formattedDateAndTime,
             orderID: orderID,
             orderImage: orderImage,

@@ -11,8 +11,8 @@ import '../../src/providers/custom show search.dart';
 import '../../src/skeletons/all_vendors_page_skeleton.dart';
 import '../../src/skeletons/vendors_list_skeleton.dart';
 import '../../theme/colors.dart';
-import '../my_vendors/my_vendors.dart';
-import '../others/add_vendor.dart';
+import '../others/my_vendors/add_vendor.dart';
+import '../others/my_vendors/my_vendors.dart';
 import 'vendor_details.dart';
 
 class Vendors extends StatefulWidget {
