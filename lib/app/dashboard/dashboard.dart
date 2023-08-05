@@ -2,6 +2,7 @@
 
 import 'package:benji_aggregator/src/skeletons/dashboard_page_skeleton.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
@@ -17,7 +18,11 @@ import '../riders/riders.dart';
 import '../vendors/vendors.dart';
 
 class Dashboard extends StatefulWidget {
-  const Dashboard({Key? key}) : super(key: key);
+  final VoidCallback showNavigation;
+  final VoidCallback hideNavigation;
+  const Dashboard(
+      {Key? key, required this.showNavigation, required this.hideNavigation})
+      : super(key: key);
 
   @override
   State<Dashboard> createState() => _DashboardState();
@@ -39,9 +44,10 @@ class _DashboardState extends State<Dashboard> {
   String customerName = "Mercy Luke";
 
 //============================================== CONTROLLERS =================================================\\
-  final ScrollController scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
 //=================================== FUNCTIONS =====================================\\
+
   double calculateSubtotal() {
     return itemPrice * itemQuantity;
   }
@@ -49,22 +55,44 @@ class _DashboardState extends State<Dashboard> {
 //===================== Initial State ==========================\\
   @override
   void initState() {
+    super.initState();
+    _scrollController.addListener(() {
+      if (_scrollController.position.userScrollDirection ==
+          ScrollDirection.forward) {
+        widget.showNavigation();
+      } else {
+        widget.hideNavigation();
+      }
+    });
     _loadingScreen = true;
     Future.delayed(
-      const Duration(seconds: 3),
+      const Duration(seconds: 2),
       () => setState(
         () => _loadingScreen = false,
       ),
     );
-    super.initState();
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.removeListener(() {
+      if (_scrollController.position.userScrollDirection ==
+          ScrollDirection.forward) {
+        widget.showNavigation();
+      } else {
+        widget.hideNavigation();
+      }
+    });
+  }
+
 //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
     setState(() {
       _loadingScreen = true;
     });
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 2));
     setState(() {
       _loadingScreen = false;
     });
@@ -74,6 +102,8 @@ class _DashboardState extends State<Dashboard> {
 
   void toSeeAllRiders() => Get.to(
         () => Riders(
+          showNavigation: () {},
+          hideNavigation: () {},
           appBarBackgroundColor: kAccentColor,
           appTitleColor: kPrimaryColor,
           appBarSearchIconColor: kPrimaryColor,
@@ -89,6 +119,8 @@ class _DashboardState extends State<Dashboard> {
 
   void toSeeAllVendors() => Get.to(
         () => Vendors(
+          showNavigation: () {},
+          hideNavigation: () {},
           appBarBackgroundColor: kAccentColor,
           appTitleColor: kPrimaryColor,
           appBarSearchIconColor: kPrimaryColor,
@@ -96,7 +128,7 @@ class _DashboardState extends State<Dashboard> {
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "All Riders",
+        routeName: "All Vendors",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.downToUp,
@@ -165,10 +197,11 @@ class _DashboardState extends State<Dashboard> {
             return _loadingScreen
                 ? const DashboardPageSkeleton()
                 : Scrollbar(
-                    controller: scrollController,
+                    controller: _scrollController,
                     radius: const Radius.circular(10),
                     scrollbarOrientation: ScrollbarOrientation.right,
                     child: ListView(
+                      controller: _scrollController,
                       physics: const BouncingScrollPhysics(),
                       padding: const EdgeInsets.all(kDefaultPadding),
                       children: [

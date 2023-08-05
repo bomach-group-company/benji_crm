@@ -33,6 +33,8 @@ class _AssignRiderState extends State<AssignRider> {
 //============================= FUNCTIONS ===============================\\
   void toSeeAllRiders() => Get.to(
         () => Riders(
+          showNavigation: () {},
+          hideNavigation: () {},
           appBarBackgroundColor: kAccentColor,
           appTitleColor: kPrimaryColor,
           appBarSearchIconColor: kPrimaryColor,

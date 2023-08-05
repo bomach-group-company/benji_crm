@@ -1,6 +1,7 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
@@ -15,6 +16,8 @@ import '../others/add_vendor.dart';
 import 'vendor_details.dart';
 
 class Vendors extends StatefulWidget {
+  final VoidCallback showNavigation;
+  final VoidCallback hideNavigation;
   final Color appBarBackgroundColor;
   final Color appTitleColor;
   final Color appBarSearchIconColor;
@@ -24,6 +27,8 @@ class Vendors extends StatefulWidget {
     required this.appBarBackgroundColor,
     required this.appTitleColor,
     required this.appBarSearchIconColor,
+    required this.showNavigation,
+    required this.hideNavigation,
   });
 
   @override
@@ -59,14 +64,35 @@ class _VendorsState extends State<Vendors> {
 
   @override
   void initState() {
+    _scrollController.addListener(() {
+      if (_scrollController.position.userScrollDirection ==
+          ScrollDirection.forward) {
+        widget.showNavigation();
+      } else {
+        widget.hideNavigation();
+      }
+    });
     _loadingScreen = true;
     Future.delayed(
-      const Duration(seconds: 3),
+      const Duration(seconds: 2),
       () => setState(
         () => _loadingScreen = false,
       ),
     );
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.removeListener(() {
+      if (_scrollController.position.userScrollDirection ==
+          ScrollDirection.forward) {
+        widget.showNavigation();
+      } else {
+        widget.hideNavigation();
+      }
+    });
   }
 
 //===================== Handle refresh ==========================\\
@@ -75,7 +101,7 @@ class _VendorsState extends State<Vendors> {
     setState(() {
       _loadingScreen = true;
     });
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 2));
     setState(() {
       _loadingScreen = false;
     });
@@ -88,7 +114,7 @@ class _VendorsState extends State<Vendors> {
       _vendorStatus = true;
     });
 
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 2));
 
     setState(() {
       _isLoadingVendorStatus = false;
@@ -101,7 +127,7 @@ class _VendorsState extends State<Vendors> {
       _vendorStatus = false;
     });
 
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 2));
 
     setState(() {
       _isLoadingVendorStatus = false;
@@ -115,7 +141,7 @@ class _VendorsState extends State<Vendors> {
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "AdSvendor",
+        routeName: "Add vendor",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.downToUp,
@@ -247,6 +273,7 @@ class _VendorsState extends State<Vendors> {
                     radius: const Radius.circular(10),
                     scrollbarOrientation: ScrollbarOrientation.right,
                     child: ListView(
+                      controller: _scrollController,
                       physics: const BouncingScrollPhysics(),
                       padding: const EdgeInsets.fromLTRB(
                         kDefaultPadding,
