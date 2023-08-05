@@ -10,6 +10,7 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../../src/common_widgets/my_appbar.dart';
 import '../../../src/providers/constants.dart';
+import '../../../src/skeletons/page_skeleton.dart';
 import '../../../src/skeletons/product_details_page_skeleton.dart';
 import '../../../theme/colors.dart';
 import 'similar_products.dart';
@@ -66,16 +67,6 @@ class _ProductDetailsState extends State<ProductDetails> {
   }
 
   //===================== Navigation ==========================\\
-  void _toVendorsProductsPage() => Get.to(
-        () => const VendorsProductsPage(),
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "Other Products",
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
 
   void _toSimilarProductsPage() => Get.to(
         () => const SimilarProductsPage(),
@@ -87,6 +78,17 @@ class _ProductDetailsState extends State<ProductDetails> {
         popGesture: true,
         transition: Transition.rightToLeft,
       );
+  void _toVendorsProductsPage() => Get.to(
+        () => const VendorsProductsPage(),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "Vendors Products",
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+//===========================================================================\\
 
   @override
   Widget build(BuildContext context) {
@@ -167,9 +169,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           ),
                         ),
                         Container(
-                          height: mediaHeight + mediaHeight,
                           width: mediaWidth,
-                          // color: kAccentColor,
                           padding: const EdgeInsets.all(kDefaultPadding),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -256,7 +256,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                               ),
                               kSizedBox,
                               SizedBox(
-                                height: 100,
+                                height: 160,
                                 child: ListView.separated(
                                   scrollDirection: Axis.horizontal,
                                   physics: const BouncingScrollPhysics(),
@@ -271,13 +271,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                                           kBlackColor.withOpacity(0.02),
                                       baseColor: kBlackColor.withOpacity(0.8),
                                       direction: ShimmerDirection.ltr,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: kPageSkeletonColor,
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                        ),
-                                        width: 100,
+                                      child: const PageSkeleton(
+                                        height: 160,
+                                        width: 140,
                                       ),
                                     ),
                                   ),
@@ -290,7 +286,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   const Text(
-                                    "Other Products from this vendor",
+                                    "Vendors Products",
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
                                       color: kTextBlackColor,
@@ -313,7 +309,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                               ),
                               kSizedBox,
                               SizedBox(
-                                height: 100,
+                                height: 160,
                                 child: ListView.separated(
                                   scrollDirection: Axis.horizontal,
                                   physics: const BouncingScrollPhysics(),
@@ -328,13 +324,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                                           kBlackColor.withOpacity(0.02),
                                       baseColor: kBlackColor.withOpacity(0.8),
                                       direction: ShimmerDirection.ltr,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: kPageSkeletonColor,
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                        ),
-                                        width: 100,
+                                      child: const PageSkeleton(
+                                        height: 160,
+                                        width: 140,
                                       ),
                                     ),
                                   ),

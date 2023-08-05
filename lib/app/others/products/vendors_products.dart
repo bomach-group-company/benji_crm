@@ -5,8 +5,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../src/common_widgets/my_appbar.dart';
+import '../../../src/providers/constants.dart';
+import '../../../src/skeletons/page_skeleton.dart';
 import '../../../theme/colors.dart';
 
 class VendorsProductsPage extends StatefulWidget {
@@ -112,7 +115,7 @@ class _VendorsProductsPageState extends State<VendorsProductsPage>
         extendBody: true,
         extendBodyBehindAppBar: true,
         appBar: MyAppBar(
-          title: "Similar Products",
+          title: "Vendors Products",
           elevation: 0.0,
           backgroundColor: kPrimaryColor,
           toolbarHeight: 40,
@@ -160,10 +163,24 @@ class _VendorsProductsPageState extends State<VendorsProductsPage>
                     controller: _scrollController,
                     radius: const Radius.circular(10),
                     scrollbarOrientation: ScrollbarOrientation.right,
-                    child: ListView(
+                    child: GridView.builder(
                       physics: const BouncingScrollPhysics(),
+                      padding: const EdgeInsets.all(kDefaultPadding / 2),
                       dragStartBehavior: DragStartBehavior.down,
-                      children: const [],
+                      itemCount: 30,
+                      itemBuilder: (context, index) => Shimmer.fromColors(
+                        highlightColor: kBlackColor.withOpacity(0.02),
+                        baseColor: kBlackColor.withOpacity(0.8),
+                        direction: ShimmerDirection.ltr,
+                        child: const PageSkeleton(height: 160, width: 60),
+                      ),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                        mainAxisExtent: 200,
+                      ),
                     ),
                   );
           }),

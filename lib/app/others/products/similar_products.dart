@@ -6,8 +6,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../src/common_widgets/my_appbar.dart';
+import '../../../src/providers/constants.dart';
 import '../../../theme/colors.dart';
 
 class SimilarProductsPage extends StatefulWidget {
@@ -162,13 +164,21 @@ class _SimilarProductsPageState extends State<SimilarProductsPage>
                     scrollbarOrientation: ScrollbarOrientation.right,
                     child: GridView.builder(
                       physics: const BouncingScrollPhysics(),
+                      padding: const EdgeInsets.all(kDefaultPadding / 2),
                       dragStartBehavior: DragStartBehavior.down,
                       itemCount: 30,
-                      itemBuilder: (context, index) =>
-                          const PageSkeleton(height: 60, width: 60),
+                      itemBuilder: (context, index) => Shimmer.fromColors(
+                        highlightColor: kBlackColor.withOpacity(0.02),
+                        baseColor: kBlackColor.withOpacity(0.8),
+                        direction: ShimmerDirection.ltr,
+                        child: const PageSkeleton(height: 160, width: 60),
+                      ),
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 60,
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                        mainAxisExtent: 200,
                       ),
                     ),
                   );

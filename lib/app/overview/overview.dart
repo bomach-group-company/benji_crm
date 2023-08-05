@@ -77,7 +77,7 @@ class _OverViewState extends State<OverView> {
       //   children: _pages,
       // ),
       bottomNavigationBar: AnimatedContainer(
-        duration: const Duration(milliseconds: 1000),
+        duration: const Duration(milliseconds: 500),
         curve: Curves.fastLinearToSlowEaseIn,
         height: _bottomNavBarIsVisible ? kBottomNavigationBarHeight : 0,
         child: Wrap(
