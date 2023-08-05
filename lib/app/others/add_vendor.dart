@@ -1,9 +1,12 @@
 // ignore_for_file: file_names
 
+import 'dart:io';
+
 import 'package:benji_aggregator/src/common_widgets/my_appbar.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../src/providers/constants.dart';
@@ -30,7 +33,7 @@ class _AddVendorState extends State<AddVendor> {
   void initState() {
     _loadingScreen = true;
     Future.delayed(
-      const Duration(seconds: 3),
+      const Duration(seconds: 2),
       () => setState(
         () => _loadingScreen = false,
       ),
@@ -43,7 +46,6 @@ class _AddVendorState extends State<AddVendor> {
   void dispose() {
     super.dispose();
   }
-
 //==========================================================================================\\
 
   //============================================= FUNCTIONS ===============================================\\
@@ -59,6 +61,234 @@ class _AddVendorState extends State<AddVendor> {
       _loadingScreen = false;
     });
   }
+
+//=========================== IMAGE PICKER ====================================\\
+
+  final ImagePicker _picker = ImagePicker();
+  File? selectedCoverImage;
+  File? selectedLogoImage;
+
+  //================================== function ====================================\\
+  pickCoverImage(ImageSource source) async {
+    final XFile? image = await _picker.pickImage(
+      source: source,
+    );
+    if (image != null) {
+      selectedCoverImage = File(image.path);
+      setState(() {});
+    }
+  }
+
+  pickLogoImage(ImageSource source) async {
+    final XFile? image = await _picker.pickImage(
+      source: source,
+    );
+    if (image != null) {
+      selectedLogoImage = File(image.path);
+      setState(() {});
+    }
+  }
+
+  //=========================== WIDGETS ====================================\\
+  Widget uploadCoverImage() => Container(
+        height: 140,
+        width: MediaQuery.of(context).size.width,
+        margin: const EdgeInsets.only(
+          left: kDefaultPadding,
+          right: kDefaultPadding,
+          bottom: kDefaultPadding,
+        ),
+        child: Column(
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  "Upload Cover Image",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                InkWell(
+                  borderRadius: BorderRadius.circular(10),
+                  onTap: () {},
+                  child: Icon(
+                    Icons.delete_rounded,
+                    color: kAccentColor,
+                  ),
+                ),
+              ],
+            ),
+            kSizedBox,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        pickCoverImage(ImageSource.camera);
+                      },
+                      borderRadius: BorderRadius.circular(100),
+                      child: Container(
+                        height: 60,
+                        width: 60,
+                        decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100),
+                            side: const BorderSide(
+                              width: 0.5,
+                              color: kGreyColor1,
+                            ),
+                          ),
+                        ),
+                        child: Icon(
+                          Icons.camera_alt_rounded,
+                          color: kAccentColor,
+                        ),
+                      ),
+                    ),
+                    kHalfSizedBox,
+                    const Text("Camera"),
+                  ],
+                ),
+                kWidthSizedBox,
+                Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        pickCoverImage(ImageSource.gallery);
+                      },
+                      borderRadius: BorderRadius.circular(100),
+                      child: Container(
+                        height: 60,
+                        width: 60,
+                        decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100),
+                            side: const BorderSide(
+                              width: 0.5,
+                              color: kGreyColor1,
+                            ),
+                          ),
+                        ),
+                        child: Icon(
+                          Icons.image,
+                          color: kAccentColor,
+                        ),
+                      ),
+                    ),
+                    kHalfSizedBox,
+                    const Text("Gallery"),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+
+  Widget uploadLogoImage() => Container(
+        height: 140,
+        width: MediaQuery.of(context).size.width,
+        margin: const EdgeInsets.only(
+          left: kDefaultPadding,
+          right: kDefaultPadding,
+          bottom: kDefaultPadding,
+        ),
+        child: Column(
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  "Upload Logo Image",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                InkWell(
+                  borderRadius: BorderRadius.circular(10),
+                  onTap: () {},
+                  child: Icon(
+                    Icons.delete_rounded,
+                    color: kAccentColor,
+                  ),
+                ),
+              ],
+            ),
+            kSizedBox,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        pickLogoImage(ImageSource.camera);
+                      },
+                      borderRadius: BorderRadius.circular(100),
+                      child: Container(
+                        height: 60,
+                        width: 60,
+                        decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100),
+                            side: const BorderSide(
+                              width: 0.5,
+                              color: kGreyColor1,
+                            ),
+                          ),
+                        ),
+                        child: Icon(
+                          Icons.camera_alt_rounded,
+                          color: kAccentColor,
+                        ),
+                      ),
+                    ),
+                    kHalfSizedBox,
+                    const Text("Camera"),
+                  ],
+                ),
+                kWidthSizedBox,
+                Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        pickLogoImage(ImageSource.gallery);
+                      },
+                      borderRadius: BorderRadius.circular(100),
+                      child: Container(
+                        height: 60,
+                        width: 60,
+                        decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100),
+                            side: const BorderSide(
+                              width: 0.5,
+                              color: kGreyColor1,
+                            ),
+                          ),
+                        ),
+                        child: Icon(
+                          Icons.image,
+                          color: kAccentColor,
+                        ),
+                      ),
+                    ),
+                    kHalfSizedBox,
+                    const Text("Gallery"),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +343,148 @@ class _AddVendorState extends State<AddVendor> {
                       child: ListView(
                         physics: const BouncingScrollPhysics(),
                         padding: const EdgeInsets.all(kDefaultPadding),
-                        children: const [],
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              showModalBottomSheet(
+                                context: context,
+                                elevation: 20,
+                                barrierColor: kBlackColor.withOpacity(0.8),
+                                showDragHandle: true,
+                                useSafeArea: true,
+                                isDismissible: true,
+                                isScrollControlled: true,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(kDefaultPadding),
+                                  ),
+                                ),
+                                enableDrag: true,
+                                builder: ((builder) => uploadCoverImage()),
+                              );
+                            },
+                            splashColor: kAccentColor.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(16),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 144,
+                              decoration: ShapeDecoration(
+                                shape: RoundedRectangleBorder(
+                                  side: const BorderSide(
+                                    width: 0.50,
+                                    color: Color(0xFFE6E6E6),
+                                  ),
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                              ),
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: selectedCoverImage == null
+                                    ? Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Image.asset(
+                                              "assets/images/icons/image-upload.png"),
+                                          kHalfSizedBox,
+                                          Text(
+                                            'Upload cover image',
+                                            style: TextStyle(
+                                              color: kTextGreyColor,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    : GridTile(
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: FileImage(
+                                                  selectedCoverImage!),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                              ),
+                            ),
+                          ),
+                          kSizedBox,
+                          InkWell(
+                            onTap: () {
+                              showModalBottomSheet(
+                                context: context,
+                                elevation: 20,
+                                barrierColor: kBlackColor.withOpacity(0.8),
+                                showDragHandle: true,
+                                useSafeArea: true,
+                                isDismissible: true,
+                                isScrollControlled: true,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(kDefaultPadding),
+                                  ),
+                                ),
+                                enableDrag: true,
+                                builder: ((builder) => uploadLogoImage()),
+                              );
+                            },
+                            splashColor: kAccentColor.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(16),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 144,
+                              decoration: ShapeDecoration(
+                                shape: RoundedRectangleBorder(
+                                  side: const BorderSide(
+                                    width: 0.50,
+                                    color: Color(0xFFE6E6E6),
+                                  ),
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                              ),
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: selectedLogoImage == null
+                                    ? Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          CircleAvatar(
+                                            backgroundColor: kTransparentColor,
+                                            minRadius: 40,
+                                            maxRadius: 50,
+                                            child: Icon(
+                                              Icons.image,
+                                              color: kAccentColor,
+                                            ),
+                                          ),
+                                          kHalfSizedBox,
+                                          Text(
+                                            'Upload your profile logo',
+                                            style: TextStyle(
+                                              color: kTextGreyColor,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    : GridTile(
+                                        child: CircleAvatar(
+                                          backgroundColor: kPageSkeletonColor,
+                                          backgroundImage: FileImage(
+                                            selectedLogoImage!,
+                                          ),
+                                          minRadius: 60,
+                                          maxRadius: 80,
+                                        ),
+                                      ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     );
             },
