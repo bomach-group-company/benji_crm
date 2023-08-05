@@ -1,6 +1,6 @@
 // ignore_for_file: unused_local_variable
 
-import 'package:benji_aggregator/app/others/product_details.dart';
+import 'package:benji_aggregator/app/others/products/product_details.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
 import 'package:benji_aggregator/src/providers/custom%20show%20search.dart';
 import 'package:flutter/gestures.dart';
@@ -41,6 +41,28 @@ class VendorDetailsPage extends StatefulWidget {
 class _VendorDetailsPageState extends State<VendorDetailsPage>
     with SingleTickerProviderStateMixin {
   //=================================== ALL VARIABLES ====================================\\
+  //======================================================================================\\
+  @override
+  void initState() {
+    _tabBarController = TabController(length: 2, vsync: this);
+    _loadingScreen = true;
+    Future.delayed(
+      const Duration(seconds: 3),
+      () => setState(
+        () => _loadingScreen = false,
+      ),
+    );
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _tabBarController.dispose();
+    super.dispose();
+  }
+
+//==========================================================================================\\
 
 //===================== BOOL VALUES =======================\\
   // bool isLoading = false;
@@ -98,29 +120,6 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
 
 //===================== VENDORS LIST VIEW INDEX =======================\\
   List<int> foodListView = [0, 1, 3, 4, 5, 6];
-
-//======================================================================================\\
-  @override
-  void initState() {
-    _tabBarController = TabController(length: 2, vsync: this);
-    _loadingScreen = true;
-    Future.delayed(
-      const Duration(seconds: 3),
-      () => setState(
-        () => _loadingScreen = false,
-      ),
-    );
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _tabBarController.dispose();
-    super.dispose();
-  }
-
-//==========================================================================================\\
 
 //===================== FUNCTIONS =======================\\
   double calculateSubtotal() {
@@ -238,7 +237,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
             IconButton(
               onPressed: () => showPopupMenu(context),
               icon: Icon(
-                Icons.more_horiz,
+                Icons.more_vert,
                 color: kAccentColor,
               ),
             ),
@@ -546,7 +545,6 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                            vertical: kDefaultPadding,
                             horizontal: kDefaultPadding,
                           ),
                           child: Container(
@@ -554,30 +552,39 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                             decoration: BoxDecoration(
                               color: kDefaultCategoryBackgroundColor,
                               borderRadius: BorderRadius.circular(50),
+                              border: Border.all(
+                                color: kGreyColor1,
+                                style: BorderStyle.solid,
+                                strokeAlign: BorderSide.strokeAlignOutside,
+                              ),
                             ),
                             child: Column(
                               children: [
-                                TabBar(
-                                  controller: _tabBarController,
-                                  onTap: (value) => _clickOnTabBarOption(),
-                                  enableFeedback: true,
-                                  mouseCursor: SystemMouseCursors.click,
-                                  automaticIndicatorColorAdjustment: true,
-                                  overlayColor:
-                                      MaterialStatePropertyAll(kAccentColor),
-                                  labelColor: kPrimaryColor,
-                                  unselectedLabelColor: kTextGreyColor,
-                                  indicatorColor: kAccentColor,
-                                  indicatorWeight: 2,
-                                  splashBorderRadius: BorderRadius.circular(50),
-                                  indicator: BoxDecoration(
-                                    color: kAccentColor,
-                                    borderRadius: BorderRadius.circular(50),
+                                Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: TabBar(
+                                    controller: _tabBarController,
+                                    onTap: (value) => _clickOnTabBarOption(),
+                                    enableFeedback: true,
+                                    mouseCursor: SystemMouseCursors.click,
+                                    automaticIndicatorColorAdjustment: true,
+                                    overlayColor:
+                                        MaterialStatePropertyAll(kAccentColor),
+                                    labelColor: kPrimaryColor,
+                                    unselectedLabelColor: kTextGreyColor,
+                                    indicatorColor: kAccentColor,
+                                    indicatorWeight: 2,
+                                    splashBorderRadius:
+                                        BorderRadius.circular(50),
+                                    indicator: BoxDecoration(
+                                      color: kAccentColor,
+                                      borderRadius: BorderRadius.circular(50),
+                                    ),
+                                    tabs: const [
+                                      Tab(text: "Products"),
+                                      Tab(text: "Orders"),
+                                    ],
                                   ),
-                                  tabs: const [
-                                    Tab(text: "Products"),
-                                    Tab(text: "Orders"),
-                                  ],
                                 ),
                               ],
                             ),
