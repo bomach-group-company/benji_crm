@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'package:shimmer/shimmer.dart';
 
 import '../../theme/colors.dart';
-import 'page_skeleton.dart';
 import '../providers/constants.dart';
-import 'all_riders_list_skeleton.dart';
+import 'page_skeleton.dart';
+import 'riders_list_skeleton.dart';
 
 class AllRidersPageSkeleton extends StatelessWidget {
   const AllRidersPageSkeleton({
@@ -38,7 +37,7 @@ class AllRidersPageSkeleton extends StatelessWidget {
           ),
         ),
         kSizedBox,
-        const AllRidersListSkeleton(),
+        const RidersListSkeleton(),
       ],
     );
   }
