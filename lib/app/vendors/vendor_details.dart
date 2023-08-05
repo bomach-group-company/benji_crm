@@ -67,7 +67,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
 
   //=================================== CONTROLLERS ====================================\\
   late TabController _tabBarController;
-  final ScrollController scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
 //===================== KEYS =======================\\
   // final _formKey = GlobalKey<FormState>();
@@ -99,11 +99,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
 //===================== VENDORS LIST VIEW INDEX =======================\\
   List<int> foodListView = [0, 1, 3, 4, 5, 6];
 
-//===================== FUNCTIONS =======================\\
-  double calculateSubtotal() {
-    return _itemPrice * _itemQuantity;
-  }
-
+//======================================================================================\\
   @override
   void initState() {
     _tabBarController = TabController(length: 2, vsync: this);
@@ -122,6 +118,13 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
   void dispose() {
     _tabBarController.dispose();
     super.dispose();
+  }
+
+//==========================================================================================\\
+
+//===================== FUNCTIONS =======================\\
+  double calculateSubtotal() {
+    return _itemPrice * _itemQuantity;
   }
 
   void _changeProductCategory() {}
@@ -147,6 +150,35 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
 
     setState(() {
       _loadingTabBarContent = false;
+    });
+  }
+
+  //=================================== Show Popup Menu =====================================\\
+  //Show popup menu
+  void showPopupMenu(BuildContext context) {
+    final RenderBox overlay =
+        Overlay.of(context).context.findRenderObject() as RenderBox;
+    const position = RelativeRect.fromLTRB(10, 60, 0, 0);
+
+    showMenu<String>(
+      context: context,
+      position: position,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      items: [
+        const PopupMenuItem<String>(
+          value: 'Suspend Vendor',
+          child: Text('Suspend vendor'),
+        ),
+      ],
+    ).then((value) {
+      // Handle the selected value from the popup menu
+      if (value != null) {
+        switch (value) {
+          case 'Suspend Vendor':
+            () {};
+            break;
+        }
+      }
     });
   }
 
@@ -204,7 +236,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () => showPopupMenu(context),
               icon: Icon(
                 Icons.more_horiz,
                 color: kAccentColor,
@@ -234,7 +266,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
             return _loadingScreen
                 ? Center(child: SpinKitDoubleBounce(color: kAccentColor))
                 : Scrollbar(
-                    controller: scrollController,
+                    controller: _scrollController,
                     radius: const Radius.circular(10),
                     scrollbarOrientation: ScrollbarOrientation.right,
                     child: ListView(
@@ -514,7 +546,9 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: kDefaultPadding),
+                            vertical: kDefaultPadding,
+                            horizontal: kDefaultPadding,
+                          ),
                           child: Container(
                             width: mediaWidth,
                             decoration: BoxDecoration(

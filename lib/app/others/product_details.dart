@@ -34,7 +34,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   late bool _loadingScreen;
 
   //======================================= CONTROLLERS ==========================================\\
-  final ScrollController scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   //======================================= FUNCTIONS ==========================================\\
   @override
@@ -95,7 +95,7 @@ class _ProductDetailsState extends State<ProductDetails> {
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: Scrollbar(
-            controller: scrollController,
+            controller: _scrollController,
             radius: const Radius.circular(10),
             scrollbarOrientation: ScrollbarOrientation.right,
             child: FutureBuilder(builder: (context, snapshot) {
@@ -271,7 +271,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   const Text(
-                                    "Vendors other products",
+                                    "Other Products from this vendor",
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
                                       color: kTextBlackColor,

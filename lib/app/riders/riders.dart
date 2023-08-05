@@ -10,8 +10,8 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../src/providers/constants.dart';
 import '../../src/providers/custom show search.dart';
-import '../../src/skeletons/all_riders_list_skeleton.dart';
 import '../../src/skeletons/all_riders_page_skeleton.dart';
+import '../../src/skeletons/riders_list_skeleton.dart';
 import '../../theme/colors.dart';
 import 'riders_detail.dart';
 
@@ -266,7 +266,7 @@ class _RidersState extends State<Riders> {
                       ),
                       kSizedBox,
                       _loadingRiderStatus
-                          ? const AllRidersListSkeleton()
+                          ? const RidersListSkeleton()
                           : _riderStatus
                               ? ListView.builder(
                                   itemCount: 32,

@@ -64,12 +64,13 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
               child: Container(
                 width: 45,
                 height: 45,
-                decoration: const ShapeDecoration(
-                  image: DecorationImage(
+                decoration: ShapeDecoration(
+                  color: kPageSkeletonColor,
+                  image: const DecorationImage(
                     image: AssetImage("assets/images/profile/avatar-image.jpg"),
                     fit: BoxFit.cover,
                   ),
-                  shape: OvalBorder(),
+                  shape: const OvalBorder(),
                 ),
               ),
             ),

@@ -7,9 +7,10 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import '../../src/common_widgets/my_outlined_elevatedButton.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/custom show search.dart';
-import '../../src/skeletons/all_vendors_list_skeleton.dart';
 import '../../src/skeletons/all_vendors_page_skeleton.dart';
+import '../../src/skeletons/vendors_list_skeleton.dart';
 import '../../theme/colors.dart';
+import '../my_vendors/my_vendors.dart';
 import '../others/add_vendor.dart';
 import 'vendor_details.dart';
 
@@ -52,7 +53,7 @@ class _VendorsState extends State<Vendors> {
   final int _noOfOfflineVendors = 142;
 
 //============================================== CONTROLLERS =================================================\\
-  final ScrollController scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
 //============================================== FUNCTIONS =================================================\\
 
@@ -114,7 +115,18 @@ class _VendorsState extends State<Vendors> {
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "Add vendor",
+        routeName: "AdSvendor",
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.downToUp,
+      );
+
+  void _toMyVendorsPage() => Get.to(
+        () => const MyVendors(),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "My vendors",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.downToUp,
@@ -140,7 +152,7 @@ class _VendorsState extends State<Vendors> {
         transition: Transition.downToUp,
       );
 
-  void showSearchField() =>
+  void _showSearchField() =>
       showSearch(context: context, delegate: CustomSearchDelegate());
   @override
   Widget build(BuildContext context) {
@@ -182,7 +194,7 @@ class _VendorsState extends State<Vendors> {
           ),
           actions: [
             IconButton(
-              onPressed: showSearchField,
+              onPressed: _showSearchField,
               tooltip: "Search for a vendor",
               icon: Icon(
                 Icons.search_rounded,
@@ -193,7 +205,7 @@ class _VendorsState extends State<Vendors> {
             Padding(
               padding: const EdgeInsets.all(kDefaultPadding / 2),
               child: MyOutlinedElevatedButton(
-                onPressed: () {},
+                onPressed: _toMyVendorsPage,
                 circularBorderRadius: 20,
                 minimumSizeWidth: 100,
                 minimumSizeHeight: 30,
@@ -231,15 +243,16 @@ class _VendorsState extends State<Vendors> {
             return _loadingScreen
                 ? const AllVendorsPageSkeleton()
                 : Scrollbar(
-                    controller: scrollController,
+                    controller: _scrollController,
                     radius: const Radius.circular(10),
                     scrollbarOrientation: ScrollbarOrientation.right,
                     child: ListView(
                       physics: const BouncingScrollPhysics(),
-                      padding: const EdgeInsets.only(
-                        bottom: kDefaultPadding,
-                        right: kDefaultPadding,
-                        left: kDefaultPadding,
+                      padding: const EdgeInsets.fromLTRB(
+                        kDefaultPadding,
+                        0,
+                        kDefaultPadding,
+                        kDefaultPadding,
                       ),
                       children: [
                         SizedBox(
@@ -300,7 +313,7 @@ class _VendorsState extends State<Vendors> {
                         ),
                         kSizedBox,
                         _isLoadingVendorStatus
-                            ? const AllVendorsListSkeleton()
+                            ? const VendorsListSkeleton()
                             : _vendorStatus
                                 ? ListView.separated(
                                     separatorBuilder: (context, index) =>
