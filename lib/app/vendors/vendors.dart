@@ -36,32 +36,6 @@ class Vendors extends StatefulWidget {
 }
 
 class _VendorsState extends State<Vendors> {
-//============================================== ALL VARIABLES =================================================\\
-  late bool _loadingScreen;
-  bool _vendorStatus = true;
-  bool _isLoadingVendorStatus = false;
-  final String _onlineVendorsName = "Ntachi Osa";
-  final String _onlineVendorsImage = "ntachi-osa";
-  final double _onlineVendorsRating = 4.6;
-
-  final String _vendorActive = "Online";
-  final String _vendorInactive = "Offline";
-  final Color _vendorActiveColor = kSuccessColor;
-  final Color _vendorInactiveColor = kAccentColor;
-
-  final String _offlineVendorsName = "Best Choice Restaurant";
-  final String _offlineVendorsImage = "best-choice-restaurant";
-  final double _offlineVendorsRating = 4.0;
-  final int _lastSeenCount = 20;
-  final String _lastSeenMessage = "minutes ago";
-  final int _numberOfOnlineVendors = 30;
-  final int _noOfOfflineVendors = 142;
-
-//============================================== CONTROLLERS =================================================\\
-  final ScrollController _scrollController = ScrollController();
-
-//============================================== FUNCTIONS =================================================\\
-
   @override
   void initState() {
     _scrollController.addListener(() {
@@ -94,6 +68,35 @@ class _VendorsState extends State<Vendors> {
       }
     });
   }
+
+//============================================== ALL VARIABLES =================================================\\
+  late bool _loadingScreen;
+  bool _vendorStatus = true;
+  bool _isLoadingVendorStatus = false;
+
+  //Online Vendors
+  final String _onlineVendorsName = "Ntachi Osa";
+  final String _onlineVendorsImage = "ntachi-osa";
+  final double _onlineVendorsRating = 4.6;
+  final int _numberOfOnlineVendors = 10;
+
+  final String _vendorActive = "Online";
+  final String _vendorInactive = "Offline";
+  final Color _vendorActiveColor = kSuccessColor;
+  final Color _vendorInactiveColor = kAccentColor;
+
+  //Offline Vendors
+  final String _offlineVendorsName = "Best Choice Restaurant";
+  final String _offlineVendorsImage = "best-choice-restaurant";
+  final double _offlineVendorsRating = 4.0;
+  final int _lastSeenCount = 20;
+  final String _lastSeenMessage = "minutes ago";
+  final int _noOfOfflineVendors = 10;
+
+//============================================== CONTROLLERS =================================================\\
+  final ScrollController _scrollController = ScrollController();
+
+//============================================== FUNCTIONS =================================================\\
 
 //===================== Handle refresh ==========================\\
 
@@ -133,6 +136,10 @@ class _VendorsState extends State<Vendors> {
       _isLoadingVendorStatus = false;
     });
   }
+
+//=============================== See more ========================================\\
+  void _seeMoreOnlineVendors() {}
+  void _seeMoreOfflineVendors() {}
 
 //===================== Navigation ==========================\\
 
@@ -417,57 +424,14 @@ class _VendorsState extends State<Vendors> {
                                                   kSizedBox,
                                                   SizedBox(
                                                     width: 200,
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        const Text(
-                                                          "Restaurant",
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                              0x662F2E3C,
-                                                            ),
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                            width: 8),
-                                                        Container(
-                                                          width: 3.90,
-                                                          height: 3.90,
-                                                          decoration:
-                                                              const ShapeDecoration(
-                                                            color: Color(
-                                                                0x662F2E3C),
-                                                            shape: OvalBorder(),
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 8.0,
-                                                        ),
-                                                        const Text(
-                                                          "Food",
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                                0x662F2E3C),
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                          ),
-                                                        ),
-                                                      ],
+                                                    child: Text(
+                                                      "Restaurant",
+                                                      style: TextStyle(
+                                                        color: kTextGreyColor,
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                      ),
                                                     ),
                                                   ),
                                                   Row(
@@ -626,63 +590,17 @@ class _VendorsState extends State<Vendors> {
                                                   kSizedBox,
                                                   SizedBox(
                                                     width: 200,
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        const Text(
-                                                          "Restaurant",
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          maxLines: 1,
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                              0x662F2E3C,
-                                                            ),
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                            width: 8),
-                                                        Container(
-                                                          width: 3.90,
-                                                          height: 3.90,
-                                                          decoration:
-                                                              const ShapeDecoration(
-                                                            color: Color(
-                                                                0x662F2E3C),
-                                                            shape: OvalBorder(),
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 8.0,
-                                                        ),
-                                                        const Text(
-                                                          "Fast Food",
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          maxLines: 1,
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                                0x662F2E3C),
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                          ),
-                                                        ),
-                                                      ],
+                                                    child: Text(
+                                                      "Restaurant",
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      maxLines: 1,
+                                                      style: TextStyle(
+                                                        color: kTextGreyColor,
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                      ),
                                                     ),
                                                   ),
                                                   Row(
@@ -769,6 +687,22 @@ class _VendorsState extends State<Vendors> {
                                       ),
                                     ),
                                   ),
+                        kSizedBox,
+                        _vendorStatus
+                            ? TextButton(
+                                onPressed: _seeMoreOnlineVendors,
+                                child: Text(
+                                  "See more",
+                                  style: TextStyle(color: kAccentColor),
+                                ),
+                              )
+                            : TextButton(
+                                onPressed: _seeMoreOfflineVendors,
+                                child: Text(
+                                  "See more",
+                                  style: TextStyle(color: kAccentColor),
+                                ),
+                              ),
                       ],
                     ),
                   );

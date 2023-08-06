@@ -37,28 +37,6 @@ class Riders extends StatefulWidget {
 }
 
 class _RidersState extends State<Riders> {
-  //================================= ALL VARIABLES ==========================================\\
-  late bool _loadingScreen;
-  bool _riderStatus = true;
-  bool _loadingRiderStatus = false;
-
-  final String _onlineRidersImage = "jerry-emmanuel";
-  final String _onlineRidersName = "Jerry Emmanuel";
-  final String _onlineRidersLocation = "Achara Layout";
-  final int _onlineRidersNoOfTrips = 238;
-  final int _onlineRidersPhoneNumber = 8032300044;
-  final String _offlineRidersName = "Martins Okafor";
-  final String _offlineRidersImage = "martins-okafor";
-  final int _offlineRidersPhoneNumber = 8032300253;
-  final int _lastSeenCount = 20;
-  final String _lastSeenMessage = "minutes ago";
-  final int _offlineRiderNoOfTrips = 221;
-
-  //============================================== CONTROLLERS =================================================\\
-  final ScrollController _scrollController = ScrollController();
-
-  //================================= FUNCTIONS ==========================================\\
-
   //===================== Initial State ==========================\\
 
   @override
@@ -80,6 +58,33 @@ class _RidersState extends State<Riders> {
     );
     super.initState();
   }
+
+  //================================= ALL VARIABLES ==========================================\\
+  late bool _loadingScreen;
+  bool _riderStatus = true;
+  bool _loadingRiderStatus = false;
+
+//Online Riders
+  final String _onlineRidersImage = "jerry-emmanuel";
+  final String _onlineRidersName = "Jerry Emmanuel";
+  final String _onlineRidersLocation = "Achara Layout";
+  final int _onlineRidersNoOfTrips = 238;
+  final int _onlineRidersPhoneNumber = 8032300044;
+  final int _numberOfOnlineRiders = 10;
+
+//Offline Riders
+  final String _offlineRidersName = "Martins Okafor";
+  final String _offlineRidersImage = "martins-okafor";
+  final int _offlineRidersPhoneNumber = 8032300253;
+  final int _lastSeenCount = 20;
+  final String _lastSeenMessage = "minutes ago";
+  final int _offlineRiderNoOfTrips = 221;
+  final int _numberOfOfflineRiders = 10;
+
+  //============================================== CONTROLLERS =================================================\\
+  final ScrollController _scrollController = ScrollController();
+
+  //================================= FUNCTIONS ==========================================\\
 
   //===================== Handle refresh ==========================\\
 
@@ -119,6 +124,10 @@ class _RidersState extends State<Riders> {
       _loadingRiderStatus = false;
     });
   }
+
+//=============================== See more ========================================\\
+  void _seeMoreOnlineRiders() {}
+  void _seeMoreOfflineRiders() {}
 
   //===================== Navigation ==========================\\
 
@@ -291,7 +300,7 @@ class _RidersState extends State<Riders> {
                             ? const RidersListSkeleton()
                             : _riderStatus
                                 ? ListView.builder(
-                                    itemCount: 32,
+                                    itemCount: _numberOfOnlineRiders,
                                     addAutomaticKeepAlives: true,
                                     physics: const BouncingScrollPhysics(),
                                     shrinkWrap: true,
@@ -443,7 +452,7 @@ class _RidersState extends State<Riders> {
                                 : SizedBox(
                                     // height: mediaHeight - 120,
                                     child: ListView.builder(
-                                      itemCount: 58,
+                                      itemCount: _numberOfOfflineRiders,
                                       addAutomaticKeepAlives: true,
                                       physics: const BouncingScrollPhysics(),
                                       shrinkWrap: true,
@@ -588,6 +597,22 @@ class _RidersState extends State<Riders> {
                                       ),
                                     ),
                                   ),
+                        kSizedBox,
+                        _riderStatus
+                            ? TextButton(
+                                onPressed: _seeMoreOnlineRiders,
+                                child: Text(
+                                  "See more",
+                                  style: TextStyle(color: kAccentColor),
+                                ),
+                              )
+                            : TextButton(
+                                onPressed: _seeMoreOfflineRiders,
+                                child: Text(
+                                  "See more",
+                                  style: TextStyle(color: kAccentColor),
+                                ),
+                              ),
                       ],
                     ),
                   );
