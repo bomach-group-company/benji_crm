@@ -143,7 +143,7 @@ class _VendorsState extends State<Vendors> {
 
 //===================== Navigation ==========================\\
 
-  void toAddVendorPage() => Get.to(
+  void _toAddVendorPage() => Get.to(
         () => const AddVendor(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -165,7 +165,7 @@ class _VendorsState extends State<Vendors> {
         transition: Transition.downToUp,
       );
 
-  void toVendorDetailsPage() => Get.to(
+  void _toVendorDetailsPage() => Get.to(
         () => VendorDetailsPage(
           vendorCoverImage:
               _vendorStatus ? _onlineVendorsImage : _offlineVendorsImage,
@@ -179,7 +179,7 @@ class _VendorsState extends State<Vendors> {
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "Vendor Details",
+        routeName: "Vendor details",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.downToUp,
@@ -203,7 +203,7 @@ class _VendorsState extends State<Vendors> {
       showChildOpacityTransition: false,
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
-          onPressed: toAddVendorPage,
+          onPressed: _toAddVendorPage,
           elevation: 20.0,
           backgroundColor: kAccentColor,
           foregroundColor: kPrimaryColor,
@@ -358,7 +358,7 @@ class _VendorsState extends State<Vendors> {
                                     physics: const BouncingScrollPhysics(),
                                     shrinkWrap: true,
                                     itemBuilder: (context, index) => InkWell(
-                                      onTap: toVendorDetailsPage,
+                                      onTap: _toVendorDetailsPage,
                                       borderRadius: BorderRadius.circular(16),
                                       child: Container(
                                         decoration: ShapeDecoration(
@@ -524,7 +524,7 @@ class _VendorsState extends State<Vendors> {
                                     physics: const BouncingScrollPhysics(),
                                     shrinkWrap: true,
                                     itemBuilder: (context, index) => InkWell(
-                                      onTap: toVendorDetailsPage,
+                                      onTap: _toVendorDetailsPage,
                                       borderRadius: BorderRadius.circular(16),
                                       child: Container(
                                         decoration: ShapeDecoration(

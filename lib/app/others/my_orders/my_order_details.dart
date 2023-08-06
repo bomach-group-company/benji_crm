@@ -83,7 +83,7 @@ class _MyOrderDetailsState extends State<MyOrderDetails> {
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "Assign Rider",
+        routeName: "Assign rider",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.rightToLeft,

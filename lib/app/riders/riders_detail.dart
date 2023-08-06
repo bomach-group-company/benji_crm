@@ -101,6 +101,35 @@ class _RidersDetailState extends State<RidersDetail> {
     });
   }
 
+  //=================================== Show Popup Menu =====================================\\
+  //Show popup menu
+  void showPopupMenu(BuildContext context) {
+    final RenderBox overlay =
+        Overlay.of(context).context.findRenderObject() as RenderBox;
+    const position = RelativeRect.fromLTRB(10, 60, 0, 0);
+
+    showMenu<String>(
+      context: context,
+      position: position,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      items: [
+        const PopupMenuItem<String>(
+          value: 'suspend',
+          child: Text("Suspend rider"),
+        ),
+      ],
+    ).then((value) {
+      // Handle the selected value from the popup menu
+      if (value != null) {
+        switch (value) {
+          case 'suspend':
+            () {};
+            break;
+        }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
@@ -158,6 +187,13 @@ class _RidersDetailState extends State<RidersDetail> {
               tooltip: "Search",
               icon: Icon(
                 Icons.search_rounded,
+                color: kAccentColor,
+              ),
+            ),
+            IconButton(
+              onPressed: () => showPopupMenu(context),
+              icon: Icon(
+                Icons.more_vert,
                 color: kAccentColor,
               ),
             ),

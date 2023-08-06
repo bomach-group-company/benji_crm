@@ -85,10 +85,10 @@ class _AssignRiderState extends State<AssignRider> {
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "Rider Details",
+        routeName: "Rider details",
         preventDuplicates: true,
         popGesture: true,
-        transition: Transition.downToUp,
+        transition: Transition.rightToLeft,
       );
 
   //Rider Assigned
