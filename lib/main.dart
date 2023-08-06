@@ -1,8 +1,8 @@
-import 'package:benji_aggregator/app/overview/overview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/route_manager.dart';
 
+import 'app/overview/overview.dart';
 import 'theme/app theme.dart';
 import 'theme/colors.dart';
 
