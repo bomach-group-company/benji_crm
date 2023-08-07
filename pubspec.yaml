@@ -49,8 +49,8 @@ flutter:
   assets:
     - assets/images/logo/
     - assets/images/vendors/
-    - assets/images/splash screen/
-    - assets/images/onboarding screen/
+    - assets/images/splash_screen/
+    - assets/images/onboarding_screen/
     - assets/images/login/
     - assets/images/home/
     - assets/images/vendors/
@@ -59,7 +59,7 @@ flutter:
     - assets/images/icons/
     - assets/images/rider/
     - assets/images/profile/
-    - assets/animations/splash screen/
+    - assets/animations/splash_screen/
     - assets/animations/successful/
 
   #For example:
