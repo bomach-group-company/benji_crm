@@ -48,7 +48,7 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
                   decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage(
-                        "assets/images/splash screen/frame-1.png",
+                        "assets/images/splash_screen/frame_1.png",
                       ),
                     ),
                   ),
