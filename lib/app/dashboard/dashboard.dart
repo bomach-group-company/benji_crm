@@ -9,12 +9,12 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import '../../src/common_widgets/dashboard_appBar.dart';
 import '../../src/common_widgets/dashboard_orders_container.dart';
 import '../../src/common_widgets/dashboard_rider_vendor_container.dart';
-import '../../src/common_widgets/dashboard_showModalBottomSheet.dart';
 import '../../src/providers/constants.dart';
 import '../../src/skeletons/all_riders_page_skeleton.dart';
 import '../../theme/colors.dart';
+import '../others/my_orders/active_orders.dart';
 import '../others/my_orders/my_order_details.dart';
-import '../others/my_orders/new_orders.dart';
+import '../others/my_orders/pending_orders.dart';
 import '../riders/riders.dart';
 import '../vendors/vendors.dart';
 
@@ -136,11 +136,22 @@ class _DashboardState extends State<Dashboard> {
       );
 
   void _toSeeAllNewOrders() => Get.to(
-        () => const NewOrders(),
+        () => const PendingOrders(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "New orders",
+        routeName: "Pending orders",
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.downToUp,
+      );
+
+  void _toSeeAllActiveOrders() => Get.to(
+        () => const ActiveOrders(),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "Active orders",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.downToUp,
@@ -225,29 +236,17 @@ class _DashboardState extends State<Dashboard> {
                                 containerColor: kPrimaryColor,
                                 typeOfOrderColor: kTextGreyColor,
                                 iconColor: kGreyColor1,
-                                numberOfOrders: "20",
+                                numberOfOrders: "30",
                                 typeOfOrders: "Active",
-                                onTap: () {
-                                  OrdersContainerBottomSheet(
-                                    context,
-                                    "20 Running",
-                                    20,
-                                  );
-                                },
+                                onTap: _toSeeAllActiveOrders,
                               ),
                               OrdersContainer(
                                 containerColor: Colors.red.shade100,
                                 typeOfOrderColor: kAccentColor,
                                 iconColor: kAccentColor,
-                                numberOfOrders: "5",
+                                numberOfOrders: "20",
                                 typeOfOrders: "Pending",
-                                onTap: () {
-                                  OrdersContainerBottomSheet(
-                                    context,
-                                    "5 Pending",
-                                    5,
-                                  );
-                                },
+                                onTap: _toSeeAllNewOrders,
                               ),
                             ],
                           ),
