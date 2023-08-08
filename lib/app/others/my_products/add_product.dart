@@ -2,22 +2,16 @@
 
 import 'dart:io';
 
-<<<<<<< HEAD:lib/app/others/my_products/add_product.dart
-=======
 import 'package:benji_aggregator/src/common_widgets/my_appbar.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:dotted_border/dotted_border.dart';
->>>>>>> main:lib/app/others/add_vendor.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
-import '../../src/providers/constants.dart';
-
-import '../../../src/common_widgets/my_appbar.dart';
-import '../../../theme/colors.dart';
+import '../../../src/providers/constants.dart';
 
 class AddProduct extends StatefulWidget {
   const AddProduct({super.key});
@@ -26,19 +20,7 @@ class AddProduct extends StatefulWidget {
   State<AddProduct> createState() => _AddProductState();
 }
 
-<<<<<<< HEAD:lib/app/others/my_products/add_product.dart
 class _AddProductState extends State<AddProduct> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: MyAppBar(
-        title: "Add New Product",
-        elevation: 0.0,
-        actions: const [],
-        backgroundColor: kPrimaryColor,
-        toolbarHeight: kToolbarHeight,
-=======
-class _AddVendorState extends State<AddVendor> {
   //=================================== ALL VARIABLES ====================================\\
 
   //===================== BOOL VALUES =======================\\
@@ -560,7 +542,6 @@ class _AddVendorState extends State<AddVendor> {
             },
           ),
         ),
->>>>>>> main:lib/app/others/add_vendor.dart
       ),
     );
   }

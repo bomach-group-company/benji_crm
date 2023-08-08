@@ -9,7 +9,6 @@ import '../../theme/colors.dart';
 import '../screens/login.dart';
 
 class StartupSplashscreen extends StatefulWidget {
-  static String routeName = "Startup Splash Screen";
   const StartupSplashscreen({super.key});
 
   @override
