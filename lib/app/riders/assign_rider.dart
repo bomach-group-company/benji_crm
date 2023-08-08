@@ -177,7 +177,7 @@ class _AssignRiderState extends State<AssignRider> {
                             physics: const BouncingScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (context, index) => InkWell(
-                              onTap: toRidersDetailPage,
+                              onTap: _isAssigned ? toRidersDetailPage : null,
                               child: Container(
                                 width: max(mediaWidth, 374),
                                 margin: const EdgeInsets.only(

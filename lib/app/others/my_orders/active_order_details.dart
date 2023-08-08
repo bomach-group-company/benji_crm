@@ -10,13 +10,16 @@ import '../../../src/common_widgets/my_appbar.dart';
 import '../../../src/common_widgets/my_elevatedButton.dart';
 import '../../../src/providers/constants.dart';
 import '../../../theme/colors.dart';
+import '../call_page.dart';
 
 class ActiveOrderDetails extends StatefulWidget {
   final int orderID;
   final String formatted12HrTime;
   final String orderItem;
+  final String customerImage;
   final String customerName;
   final String customerAddress;
+  final String customerPhoneNumber;
   final int itemQuantity;
   final double subtotalPrice;
   final String orderImage;
@@ -29,7 +32,9 @@ class ActiveOrderDetails extends StatefulWidget {
       required this.subtotalPrice,
       required this.orderImage,
       required this.formatted12HrTime,
-      required this.customerName});
+      required this.customerName,
+      required this.customerImage,
+      required this.customerPhoneNumber});
 
   @override
   State<ActiveOrderDetails> createState() => _ActiveOrderDetailsState();
@@ -57,7 +62,20 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
 
   double deliveryFee = 300.00;
 //============================== FUNCTIONS ================================\\
-
+  void _callCustomer() => Get.to(
+        () => CallPage(
+          userImage: widget.customerImage,
+          userName: widget.customerName,
+          userPhoneNumber: widget.customerPhoneNumber,
+        ),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "Track order",
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
 //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
@@ -172,7 +190,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                     widget.formatted12HrTime,
                                     textAlign: TextAlign.right,
                                     style: const TextStyle(
-                                      color: Color(0xFF222222),
+                                      color: kTextBlackColor,
                                       fontSize: 12.52,
                                       fontWeight: FontWeight.w400,
                                     ),
@@ -188,7 +206,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                     "#00${widget.orderID.toString()}",
                                     textAlign: TextAlign.center,
                                     style: const TextStyle(
-                                      color: Color(0xFF222222),
+                                      color: kTextBlackColor,
                                       fontSize: 16.09,
                                       fontWeight: FontWeight.w700,
                                       letterSpacing: -0.32,
@@ -235,7 +253,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                               'Items ordered',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: Colors.black,
+                                color: kTextBlackColor,
                                 fontSize: 16.09,
                                 fontWeight: FontWeight.w700,
                                 letterSpacing: -0.32,
@@ -271,7 +289,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                         TextSpan(
                                           text: widget.orderItem,
                                           style: const TextStyle(
-                                            color: Colors.black,
+                                            color: kTextBlackColor,
                                             fontSize: 12.52,
                                             overflow: TextOverflow.ellipsis,
                                             fontWeight: FontWeight.w700,
@@ -280,7 +298,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                         const TextSpan(
                                           text: " ",
                                           style: TextStyle(
-                                            color: Colors.black,
+                                            color: kTextBlackColor,
                                             fontSize: 12.52,
                                             fontWeight: FontWeight.w700,
                                           ),
@@ -288,7 +306,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                         TextSpan(
                                           text: "x ${widget.itemQuantity}",
                                           style: const TextStyle(
-                                            color: Colors.black,
+                                            color: kTextBlackColor,
                                             fontSize: 12.52,
                                             fontWeight: FontWeight.w700,
                                           ),
@@ -303,7 +321,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                       TextSpan(
                                         text: "₦ ${widget.subtotalPrice}",
                                         style: const TextStyle(
-                                          color: Color(0xFF222222),
+                                          color: kTextBlackColor,
                                           fontSize: 14,
                                           fontFamily: 'Sen',
                                           fontWeight: FontWeight.w400,
@@ -343,7 +361,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                               "Customer's Detail",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: Colors.black,
+                                color: kTextBlackColor,
                                 fontSize: 16.09,
                                 fontWeight: FontWeight.w700,
                                 letterSpacing: -0.32,
@@ -358,9 +376,9 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                   height: 60,
                                   decoration: ShapeDecoration(
                                     color: kPageSkeletonColor,
-                                    image: const DecorationImage(
+                                    image: DecorationImage(
                                       image: AssetImage(
-                                        "assets/images/customer/blessing-elechi.png",
+                                        "assets/images/${widget.customerImage}",
                                       ),
                                       fit: BoxFit.cover,
                                     ),
@@ -374,14 +392,14 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                       widget.customerName,
                                       overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(
-                                        color: Colors.black,
+                                        color: kTextBlackColor,
                                         fontSize: 12.52,
                                         fontWeight: FontWeight.w700,
                                       ),
                                     ),
                                     kHalfSizedBox,
                                     Text(
-                                      '09023348400',
+                                      widget.customerPhoneNumber,
                                       style: TextStyle(
                                         color: kTextGreyColor,
                                         fontSize: 11.62,
@@ -414,30 +432,12 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                     ),
                                   ],
                                 ),
-                                Container(
-                                  width: 40,
-                                  height: 40,
-                                  decoration: ShapeDecoration(
+                                IconButton(
+                                  onPressed: _callCustomer,
+                                  icon: Icon(
+                                    Icons.phone_rounded,
                                     color: kAccentColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16),
-                                    ),
-                                    shadows: [
-                                      BoxShadow(
-                                        blurRadius: 4,
-                                        spreadRadius: 0.7,
-                                        color: kBlackColor.withOpacity(0.4),
-                                        offset: const Offset(0, 4),
-                                      )
-                                    ],
-                                  ),
-                                  child: IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.phone_rounded,
-                                      color: kPrimaryColor,
-                                      size: 20,
-                                    ),
+                                    size: 20,
                                   ),
                                 ),
                               ],
@@ -470,8 +470,8 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                               'Order Summary',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16.09,
+                                color: kTextBlackColor,
+                                fontSize: 16,
                                 fontWeight: FontWeight.w700,
                                 letterSpacing: -0.32,
                               ),
@@ -483,8 +483,8 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                 const Text(
                                   'Subtotal',
                                   style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 12.52,
+                                    color: kTextBlackColor,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),
@@ -494,8 +494,8 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                       const TextSpan(
                                         text: "₦",
                                         style: TextStyle(
-                                          color: Color(0xFF222222),
-                                          fontSize: 9.83,
+                                          color: kTextBlackColor,
+                                          fontSize: 14,
                                           fontFamily: 'Sen',
                                           fontWeight: FontWeight.w400,
                                         ),
@@ -503,7 +503,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                       const TextSpan(
                                         text: ' ',
                                         style: TextStyle(
-                                          color: Color(0xFF222222),
+                                          color: kTextBlackColor,
                                           fontSize: 12.52,
                                           fontWeight: FontWeight.w400,
                                         ),
@@ -512,8 +512,8 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                         text: widget.subtotalPrice
                                             .toStringAsFixed(2),
                                         style: const TextStyle(
-                                          color: Color(0xFF222222),
-                                          fontSize: 14.30,
+                                          color: kTextBlackColor,
+                                          fontSize: 14,
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ),
@@ -530,8 +530,8 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                 const Text(
                                   'Delivery Fee',
                                   style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 12.52,
+                                    color: kTextBlackColor,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),
@@ -541,7 +541,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                       const TextSpan(
                                         text: "₦",
                                         style: TextStyle(
-                                          color: Color(0xFF222222),
+                                          color: kTextBlackColor,
                                           fontSize: 14,
                                           fontFamily: 'Sen',
                                           fontWeight: FontWeight.w400,
@@ -550,7 +550,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                       const TextSpan(
                                         text: ' ',
                                         style: TextStyle(
-                                          color: Color(0xFF222222),
+                                          color: kTextBlackColor,
                                           fontSize: 12.52,
                                           fontWeight: FontWeight.w400,
                                         ),
@@ -558,8 +558,8 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                       TextSpan(
                                         text: deliveryFee.toStringAsFixed(2),
                                         style: const TextStyle(
-                                          color: Color(0xFF222222),
-                                          fontSize: 14.30,
+                                          color: kTextBlackColor,
+                                          fontSize: 14,
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ),
@@ -576,7 +576,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                 const Text(
                                   'Total',
                                   style: TextStyle(
-                                    color: Colors.black,
+                                    color: kTextBlackColor,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w700,
                                   ),
@@ -587,7 +587,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                       const TextSpan(
                                         text: "₦",
                                         style: TextStyle(
-                                          color: Color(0xFF222222),
+                                          color: kTextBlackColor,
                                           fontSize: 14,
                                           fontFamily: 'Sen',
                                           fontWeight: FontWeight.w700,
@@ -596,7 +596,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                       const TextSpan(
                                         text: ' ',
                                         style: TextStyle(
-                                          color: Color(0xFF222222),
+                                          color: kTextBlackColor,
                                           fontSize: 12.52,
                                           fontWeight: FontWeight.w400,
                                         ),
@@ -604,8 +604,8 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                       TextSpan(
                                         text: totalPrice.toStringAsFixed(2),
                                         style: const TextStyle(
-                                          color: Color(0xFF222222),
-                                          fontSize: 14.30,
+                                          color: kTextBlackColor,
+                                          fontSize: 14,
                                           fontWeight: FontWeight.w700,
                                         ),
                                       ),
@@ -651,7 +651,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                 const Text(
                                   "Order Accepted",
                                   style: TextStyle(
-                                    color: Colors.black,
+                                    color: kTextBlackColor,
                                     fontSize: 16.09,
                                     fontWeight: FontWeight.w700,
                                   ),

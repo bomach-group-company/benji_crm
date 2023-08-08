@@ -94,7 +94,7 @@ class _PendingOrdersState extends State<PendingOrders> {
           routeName: "Pending order details",
           preventDuplicates: true,
           popGesture: true,
-          transition: Transition.downToUp,
+          transition: Transition.rightToLeft,
         );
 
 //====================================================================================\\

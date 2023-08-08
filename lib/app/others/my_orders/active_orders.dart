@@ -40,12 +40,14 @@ class _ActiveOrdersState extends State<ActiveOrders> {
   int incrementOrderID = 2 + 2;
   late int orderID;
   String orderItem = "Jollof Rice and Chicken";
+  String customerImage = "customer/juliet_gomes.png";
+  String customerName = "Juliet Gomes";
   String customerAddress = "21 Odogwu Street, New Haven";
+  String customerPhoneNumber = "07023348400";
   int itemQuantity = 2;
   double price = 2500;
   double itemPrice = 2500;
   String orderImage = "chizzy's-food";
-  String customerName = "Mercy Luke";
 
 //========================================================= FUNCTIONS =======================================================\\
 
@@ -79,14 +81,16 @@ class _ActiveOrdersState extends State<ActiveOrders> {
     //===================== Navigate to Order Details Page ================================\\
     void _toActiveOrderDetailsPage() => Get.to(
           () => ActiveOrderDetails(
+            customerImage: customerImage,
+            customerName: customerName,
+            customerPhoneNumber: customerPhoneNumber,
+            customerAddress: customerAddress,
             formatted12HrTime: formattedDateAndTime,
             orderID: orderID,
             orderImage: orderImage,
             orderItem: orderItem,
             itemQuantity: itemQuantity,
             subtotalPrice: subtotalPrice,
-            customerName: customerName,
-            customerAddress: customerAddress,
           ),
           duration: const Duration(milliseconds: 300),
           fullscreenDialog: true,
