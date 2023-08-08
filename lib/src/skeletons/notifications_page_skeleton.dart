@@ -29,17 +29,18 @@ class NotificationsPageSkeleton extends StatelessWidget {
           child: const CircularPageSkeleton(height: 45, width: 45),
         ),
         title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Shimmer.fromColors(
               highlightColor: kBlackColor.withOpacity(0.02),
               baseColor: kBlackColor.withOpacity(0.8),
               direction: ShimmerDirection.ltr,
-              child: PageSkeleton(height: 10, width: mediaWidth / 1.5),
+              child: PageSkeleton(height: 10, width: mediaWidth / 2),
             ),
             kHalfSizedBox,
-            PageSkeleton(height: 10, width: mediaWidth / 2),
+            PageSkeleton(height: 10, width: mediaWidth / 3),
             kHalfSizedBox,
-            PageSkeleton(height: 10, width: mediaWidth / 2),
+            PageSkeleton(height: 10, width: mediaWidth / 4),
           ],
         ),
       ),
