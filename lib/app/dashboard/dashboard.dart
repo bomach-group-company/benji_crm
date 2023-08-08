@@ -1,5 +1,7 @@
 // ignore_for_file:  unused_local_variable
 
+import 'package:benji_aggregator/app/others/my_orders/completed_orders.dart';
+import 'package:benji_aggregator/src/common_widgets/dashboard_completed_orders_container.dart';
 import 'package:benji_aggregator/src/skeletons/dashboard_page_skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -165,6 +167,17 @@ class _DashboardState extends State<Dashboard>
         transition: Transition.downToUp,
       );
 
+  void _toSeeAllCompletedOrders() => Get.to(
+        () => const CompletedOrders(),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "Completed orders",
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.downToUp,
+      );
+
   void _toSeeAllNewOrders() => Get.to(
         () => const PendingOrders(),
         duration: const Duration(milliseconds: 300),
@@ -301,6 +314,13 @@ class _DashboardState extends State<Dashboard>
                                 onTap: _toSeeAllNewOrders,
                               ),
                             ],
+                          ),
+                          kSizedBox,
+                          CompletedOrdersContainer(
+                            onTap: _toSeeAllCompletedOrders,
+                            number: "200",
+                            typeOf: "Completed Orders",
+                            onlineStatus: "5 rejected",
                           ),
                           kSizedBox,
                           RiderVendorContainer(
