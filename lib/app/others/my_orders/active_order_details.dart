@@ -1,5 +1,6 @@
 // ignore_for_file: file_names, unused_local_variable
 
+import 'package:benji_aggregator/app/others/my_orders/track_order.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
@@ -7,10 +8,8 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../../src/common_widgets/my_appbar.dart';
 import '../../../src/common_widgets/my_elevatedButton.dart';
-import '../../../src/common_widgets/my_outlined_elevatedButton.dart';
 import '../../../src/providers/constants.dart';
 import '../../../theme/colors.dart';
-import '../../riders/assign_rider.dart';
 
 class ActiveOrderDetails extends StatefulWidget {
   final int orderID;
@@ -55,9 +54,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
 
 //============================== BOOLS ================================\\
   late bool _loadingScreen;
-  bool isOrderProcessing = false;
-  bool isOrderAccepted = false;
-  bool isOrderCanceled = false;
+
   double deliveryFee = 300.00;
 //============================== FUNCTIONS ================================\\
 
@@ -73,50 +70,19 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
     });
   }
 
-  double calculateTotalPrice() {
-    return widget.subtotalPrice + deliveryFee;
-  }
-
-  //ASSIGN RIDER
-  void _assignRider() => Get.to(
-        () => const AssignRider(),
+  _trackOrder() => Get.to(
+        () => const TrackOrder(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "Assign rider",
+        routeName: "Pending orders",
         preventDuplicates: true,
         popGesture: true,
-        transition: Transition.rightToLeft,
+        transition: Transition.downToUp,
       );
 
-  //Order Accepted
-  void _processOrderAccepted() {
-    setState(() {
-      isOrderProcessing = true;
-    });
-
-    // Simulating an asynchronous process
-    Future.delayed(const Duration(seconds: 3), () {
-      setState(() {
-        isOrderProcessing = false;
-        isOrderAccepted = true;
-      });
-    });
-  }
-
-  //Order Canceled
-  void _processOrderCanceled() {
-    setState(() {
-      isOrderProcessing = true;
-    });
-
-    // Simulating an asynchronous process
-    Future.delayed(const Duration(seconds: 3), () {
-      setState(() {
-        isOrderProcessing = false;
-        isOrderCanceled = true;
-      });
-    });
+  double calculateTotalPrice() {
+    return widget.subtotalPrice + deliveryFee;
   }
 
   @override
@@ -228,49 +194,16 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                       letterSpacing: -0.32,
                                     ),
                                   ),
-                                  isOrderCanceled
-                                      ? Text(
-                                          'Canceled',
-                                          textAlign: TextAlign.right,
-                                          style: TextStyle(
-                                            color: kAccentColor,
-                                            fontSize: 16.09,
-                                            fontWeight: FontWeight.w700,
-                                            letterSpacing: -0.32,
-                                          ),
-                                        )
-                                      : isOrderAccepted
-                                          ? const Text(
-                                              'Accepted',
-                                              textAlign: TextAlign.right,
-                                              style: TextStyle(
-                                                color: kSuccessColor,
-                                                fontSize: 16.09,
-                                                fontWeight: FontWeight.w700,
-                                                letterSpacing: -0.32,
-                                              ),
-                                            )
-                                          : isOrderProcessing
-                                              ? Text(
-                                                  'Processing',
-                                                  textAlign: TextAlign.right,
-                                                  style: TextStyle(
-                                                    color: kLoadingColor,
-                                                    fontSize: 16.09,
-                                                    fontWeight: FontWeight.w700,
-                                                    letterSpacing: -0.32,
-                                                  ),
-                                                )
-                                              : Text(
-                                                  'Pending',
-                                                  textAlign: TextAlign.right,
-                                                  style: TextStyle(
-                                                    color: kSecondaryColor,
-                                                    fontSize: 16.09,
-                                                    fontWeight: FontWeight.w700,
-                                                    letterSpacing: -0.32,
-                                                  ),
-                                                ),
+                                  Text(
+                                    "Accepted",
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(
+                                      color: kSuccessColor,
+                                      fontSize: 16.09,
+                                      fontWeight: FontWeight.w700,
+                                      letterSpacing: -0.32,
+                                    ),
+                                  )
                                 ],
                               ),
                             ],
@@ -689,123 +622,79 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                       const SizedBox(
                         height: kDefaultPadding * 2,
                       ),
-                      isOrderCanceled
-                          ? Container(
-                              width: mediaWidth,
-                              padding: const EdgeInsets.all(15),
-                              decoration: ShapeDecoration(
-                                color: const Color(0xFFFEF8F8),
-                                shape: RoundedRectangleBorder(
-                                  side: const BorderSide(
-                                    width: 0.50,
-                                    color: Color(0xFFFDEDED),
+                      Container(
+                        width: mediaWidth,
+                        padding: const EdgeInsets.all(15),
+                        decoration: ShapeDecoration(
+                          color: const Color(0xFFFEF8F8),
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                              width: 0.50,
+                              color: Color(0xFFFDEDED),
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              color: kSuccessColor,
+                              Icons.check_circle_outline,
+                              size: 30,
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Order Accepted",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16.09,
+                                    fontWeight: FontWeight.w700,
                                   ),
-                                  borderRadius: BorderRadius.circular(10),
                                 ),
-                              ),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    color: kAccentColor,
-                                    Icons.info_outline_rounded,
-                                    size: 30,
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                SizedBox(
+                                  width: mediaWidth / 1.4,
+                                  child: Row(
                                     children: [
-                                      const Text(
-                                        'Order Canceled',
-                                        textAlign: TextAlign.center,
+                                      Text(
+                                        "This order is being delivered...",
                                         style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 16.09,
-                                          fontWeight: FontWeight.w700,
-                                          letterSpacing: -0.32,
+                                          color: kTextGreyColor,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
                                         ),
                                       ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      SizedBox(
-                                        width: mediaWidth * 0.5,
-                                        child: const Text(
-                                          'This order has been canceled',
-                                          style: TextStyle(
-                                            color: Color(0xFF6E6E6E),
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                            letterSpacing: -0.28,
-                                          ),
-                                        ),
-                                      ),
+                                      Icon(
+                                        Icons.delivery_dining,
+                                        color: kAccentColor,
+                                      )
                                     ],
-                                  )
-                                ],
-                              ),
+                                  ),
+                                ),
+                              ],
                             )
-                          : isOrderAccepted
-                              ? MyElevatedButton(
-                                  onPressed: () {
-                                    _assignRider();
-                                  },
-                                  circularBorderRadius: kDefaultPadding,
-                                  minimumSizeWidth: mediaWidth / 1.5,
-                                  minimumSizeHeight: 60,
-                                  maximumSizeWidth: mediaWidth / 1.5,
-                                  maximumSizeHeight: 60,
-                                  buttonTitle: "Assign a rider",
-                                  titleFontSize: 20,
-                                  elevation: 10.0,
-                                )
-                              : isOrderProcessing
-                                  ? SpinKitChasingDots(
-                                      color: kAccentColor,
-                                      duration: const Duration(seconds: 2),
-                                    )
-                                  : Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        MyOutlinedElevatedButton(
-                                          onPressed: () {
-                                            _processOrderCanceled();
-                                          },
-                                          buttonTitle: "Cancel Order",
-                                          elevation: 10.0,
-                                          titleFontSize: 16.09,
-                                          circularBorderRadius: 10.0,
-                                          maximumSizeHeight: 50.07,
-                                          maximumSizeWidth: mediaWidth / 2.5,
-                                          minimumSizeHeight: 50.07,
-                                          minimumSizeWidth: mediaWidth / 2.5,
-                                        ),
-                                        MyElevatedButton(
-                                          onPressed: () {
-                                            _processOrderAccepted();
-                                          },
-                                          elevation: 10.0,
-                                          buttonTitle: "Accept Order",
-                                          titleFontSize: 16.09,
-                                          circularBorderRadius: 10.0,
-                                          maximumSizeHeight: 50.07,
-                                          maximumSizeWidth:
-                                              MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  2.5,
-                                          minimumSizeHeight: 50.07,
-                                          minimumSizeWidth:
-                                              MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  2.5,
-                                        ),
-                                      ],
-                                    ),
+                          ],
+                        ),
+                      ),
+                      kSizedBox,
+                      MyElevatedButton(
+                        onPressed: _trackOrder,
+                        circularBorderRadius: kDefaultPadding,
+                        minimumSizeWidth: mediaWidth / 1.5,
+                        minimumSizeHeight: 60,
+                        maximumSizeWidth: mediaWidth / 1.5,
+                        maximumSizeHeight: 60,
+                        buttonTitle: "Track order",
+                        titleFontSize: 20,
+                        elevation: 10.0,
+                      ),
                       kSizedBox,
                     ],
                   );
