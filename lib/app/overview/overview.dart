@@ -72,13 +72,9 @@ class _OverViewState extends State<OverView> {
 
     return Scaffold(
       body: pages[_currentIndex],
-      // IndexedStack(
-      //   index: _currentIndex,
-      //   children: _pages,
-      // ),
       bottomNavigationBar: AnimatedContainer(
         duration: const Duration(milliseconds: 500),
-        curve: Curves.fastLinearToSlowEaseIn,
+        curve: Curves.fastOutSlowIn,
         height: _bottomNavBarIsVisible ? kBottomNavigationBarHeight : 0,
         child: Wrap(
           children: [

@@ -40,7 +40,7 @@ class LoginSplashScreen extends StatelessWidget {
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage(
-                      "assets/animations/splash screen/successful.gif",
+                      "assets/animations/splash_screen/successful.gif",
                     ),
                   ),
                   shape: BoxShape.circle,

@@ -300,6 +300,7 @@ class _RidersState extends State<Riders> {
                             ? const RidersListSkeleton()
                             : _riderStatus
                                 ? ListView.builder(
+                                    controller: _scrollController,
                                     itemCount: _numberOfOnlineRiders,
                                     addAutomaticKeepAlives: true,
                                     physics: const BouncingScrollPhysics(),
@@ -452,6 +453,7 @@ class _RidersState extends State<Riders> {
                                 : SizedBox(
                                     // height: mediaHeight - 120,
                                     child: ListView.builder(
+                                      controller: _scrollController,
                                       itemCount: _numberOfOfflineRiders,
                                       addAutomaticKeepAlives: true,
                                       physics: const BouncingScrollPhysics(),

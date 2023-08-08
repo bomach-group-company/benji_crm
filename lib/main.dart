@@ -1,8 +1,8 @@
+import 'package:benji_aggregator/app/splash%20screens/startup_splashscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/route_manager.dart';
 
-import 'app/overview/overview.dart';
 import 'theme/app theme.dart';
 import 'theme/colors.dart';
 
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.light,
       darkTheme: AppTheme.darkTheme,
       theme: AppTheme.lightTheme,
-      home: const OverView(),
+      home: const StartupSplashscreen(),
     );
   }
 }

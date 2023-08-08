@@ -38,7 +38,7 @@ class SignUpSplashScreen extends StatelessWidget {
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage(
-                      "assets/animations/splash screen/registration successful.gif",
+                      "assets/animations/splash_screen/registration_successful.gif",
                     ),
                   ),
                   shape: BoxShape.circle,
