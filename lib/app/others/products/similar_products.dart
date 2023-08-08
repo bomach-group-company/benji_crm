@@ -37,6 +37,8 @@ class _SimilarProductsPageState extends State<SimilarProductsPage>
 //======================================================================================\\
   @override
   void initState() {
+    super.initState();
+
     _loadingScreen = true;
     Future.delayed(
       const Duration(seconds: 3),
@@ -45,7 +47,6 @@ class _SimilarProductsPageState extends State<SimilarProductsPage>
       ),
     );
 
-    super.initState();
   }
 
 //==========================================================================================\\

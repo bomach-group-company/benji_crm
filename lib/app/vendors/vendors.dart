@@ -1,5 +1,6 @@
 // ignore_for_file: unused_local_variable
 
+import 'package:benji_aggregator/app/others/add_vendor/add_vendor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/route_manager.dart';
@@ -11,7 +12,6 @@ import '../../src/providers/custom show search.dart';
 import '../../src/skeletons/all_vendors_page_skeleton.dart';
 import '../../src/skeletons/vendors_list_skeleton.dart';
 import '../../theme/colors.dart';
-import '../others/my_vendors/add_vendor.dart';
 import '../others/my_vendors/my_vendors.dart';
 import 'vendor_details.dart';
 
@@ -35,9 +35,14 @@ class Vendors extends StatefulWidget {
   State<Vendors> createState() => _VendorsState();
 }
 
-class _VendorsState extends State<Vendors> {
+class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
   @override
   void initState() {
+    super.initState();
+
+    _animationController =
+        AnimationController(vsync: this, duration: const Duration(seconds: 1));
+    _scrollController.addListener(_scrollListener);
     _scrollController.addListener(() {
       if (_scrollController.position.userScrollDirection ==
           ScrollDirection.forward) {
@@ -53,12 +58,14 @@ class _VendorsState extends State<Vendors> {
         () => _loadingScreen = false,
       ),
     );
-    super.initState();
   }
 
   @override
   void dispose() {
     super.dispose();
+    _animationController.dispose();
+    _scrollController.dispose();
+
     _scrollController.removeListener(() {
       if (_scrollController.position.userScrollDirection ==
           ScrollDirection.forward) {
@@ -73,6 +80,7 @@ class _VendorsState extends State<Vendors> {
   late bool _loadingScreen;
   bool _vendorStatus = true;
   bool _isLoadingVendorStatus = false;
+  bool _isScrollToTopBtnVisible = false;
 
   //Online Vendors
   final String _onlineVendorsName = "Ntachi Osa";
@@ -95,6 +103,7 @@ class _VendorsState extends State<Vendors> {
 
 //============================================== CONTROLLERS =================================================\\
   final ScrollController _scrollController = ScrollController();
+  late AnimationController _animationController;
 
 //============================================== FUNCTIONS =================================================\\
 
@@ -108,6 +117,26 @@ class _VendorsState extends State<Vendors> {
     setState(() {
       _loadingScreen = false;
     });
+  }
+
+//============================= Scroll to Top ======================================//
+  void _scrollToTop() {
+    _animationController.reverse();
+    _scrollController.animateTo(0,
+        duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn);
+  }
+
+  void _scrollListener() {
+    //========= Show action button ========//
+    if (_scrollController.position.pixels >= 200) {
+      _animationController.forward();
+      setState(() => _isScrollToTopBtnVisible = true);
+    }
+    //========= Hide action button ========//
+    else if (_scrollController.position.pixels < 200) {
+      _animationController.reverse();
+      setState(() => _isScrollToTopBtnVisible = true);
+    }
   }
 
 //===================== Handle Vendor Status ==========================\\
@@ -143,7 +172,7 @@ class _VendorsState extends State<Vendors> {
 
 //===================== Navigation ==========================\\
 
-  void _toAddVendorPage() => Get.to(
+  void _toAddVendor() => Get.to(
         () => const AddVendor(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -202,14 +231,43 @@ class _VendorsState extends State<Vendors> {
       animSpeedFactor: 2,
       showChildOpacityTransition: false,
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: _toAddVendorPage,
-          elevation: 20.0,
-          backgroundColor: kAccentColor,
-          foregroundColor: kPrimaryColor,
-          child: const Icon(
-            Icons.add,
-          ),
+        floatingActionButton: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Stack(
+              children: <Widget>[
+                if (_isScrollToTopBtnVisible) ...[
+                  ScaleTransition(
+                    scale: CurvedAnimation(
+                        parent: _animationController,
+                        curve: Curves.fastEaseInToSlowEaseOut),
+                    child: FloatingActionButton(
+                      onPressed: _scrollToTop,
+                      mini: true,
+                      backgroundColor: kAccentColor,
+                      enableFeedback: true,
+                      mouseCursor: SystemMouseCursors.click,
+                      tooltip: "Scroll to top",
+                      hoverColor: kAccentColor,
+                      hoverElevation: 50.0,
+                      child: const Icon(Icons.keyboard_arrow_up),
+                    ),
+                  ),
+                ]
+              ],
+            ),
+            FloatingActionButton(
+              onPressed: _toAddVendor,
+              elevation: 20.0,
+              mouseCursor: SystemMouseCursors.click,
+              tooltip: "Add a vendor",
+              backgroundColor: kAccentColor,
+              foregroundColor: kPrimaryColor,
+              child: const Icon(
+                Icons.add,
+              ),
+            ),
+          ],
         ),
         appBar: AppBar(
           leadingWidth: 40,
@@ -496,7 +554,8 @@ class _VendorsState extends State<Vendors> {
                                                           "$_onlineVendorsRating (500+)",
                                                           style:
                                                               const TextStyle(
-                                                            color: Colors.black,
+                                                            color:
+                                                                kTextBlackColor,
                                                             fontSize: 15,
                                                             fontWeight:
                                                                 FontWeight.w400,
@@ -627,6 +686,8 @@ class _VendorsState extends State<Vendors> {
                                                           style: TextStyle(
                                                             fontSize: 12,
                                                             color: kAccentColor,
+                                                            fontStyle: FontStyle
+                                                                .italic,
                                                             fontWeight:
                                                                 FontWeight.w400,
                                                           ),
@@ -649,7 +710,7 @@ class _VendorsState extends State<Vendors> {
                                                         height: 20,
                                                         child: Icon(
                                                           Icons.star_rounded,
-                                                          color: kAccentColor,
+                                                          color: kStarColor,
                                                         ),
                                                       ),
                                                       const SizedBox(

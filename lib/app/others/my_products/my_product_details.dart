@@ -39,6 +39,8 @@ class _MyProductDetailsState extends State<MyProductDetails> {
   //======================================= FUNCTIONS ==========================================\\
   @override
   void initState() {
+    super.initState();
+
     _loadingScreen = true;
     Future.delayed(
       const Duration(seconds: 3),
@@ -47,7 +49,6 @@ class _MyProductDetailsState extends State<MyProductDetails> {
       ),
     );
 
-    super.initState();
   }
 
 //===================== Handle refresh ==========================\\

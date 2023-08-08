@@ -92,7 +92,7 @@ class _AssignRiderState extends State<AssignRider> {
       );
 
   //Rider Assigned
-  void processAssignRider() {
+  void _processAssignRider() {
     setState(() {
       _assigningRider = true;
     });
@@ -105,6 +105,8 @@ class _AssignRiderState extends State<AssignRider> {
       });
     });
   }
+
+  void _callRider() {}
 
   @override
   Widget build(BuildContext context) {
@@ -279,19 +281,18 @@ class _AssignRiderState extends State<AssignRider> {
                                       ),
                                     ),
                                     _isAssigned
-                                        ? const SizedBox(
-                                            width: 100,
-                                            child: Row(
-                                              children: [
-                                                Text(
-                                                  "Assigned",
-                                                  style: TextStyle(),
-                                                ),
-                                                Icon(
-                                                  Icons.check,
-                                                  color: kSuccessColor,
-                                                ),
-                                              ],
+                                        ? SizedBox(
+                                            width: 90,
+                                            child: MyOutlinedElevatedButton(
+                                              onPressed: _callRider,
+                                              circularBorderRadius: 24,
+                                              minimumSizeWidth: 80,
+                                              minimumSizeHeight: 30,
+                                              maximumSizeWidth: 80,
+                                              maximumSizeHeight: 30,
+                                              buttonTitle: "Call",
+                                              titleFontSize: 12,
+                                              elevation: 10.0,
                                             ),
                                           )
                                         : _assigningRider
@@ -303,7 +304,8 @@ class _AssignRiderState extends State<AssignRider> {
                                             : SizedBox(
                                                 width: 90,
                                                 child: MyOutlinedElevatedButton(
-                                                  onPressed: processAssignRider,
+                                                  onPressed:
+                                                      _processAssignRider,
                                                   circularBorderRadius: 24,
                                                   minimumSizeWidth: 80,
                                                   minimumSizeHeight: 30,

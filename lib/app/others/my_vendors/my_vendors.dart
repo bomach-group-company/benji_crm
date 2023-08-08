@@ -34,6 +34,8 @@ class _MyVendorsState extends State<MyVendors> {
 //==========================================================================================\\
   @override
   void initState() {
+    super.initState();
+
     _loadingScreen = true;
     Future.delayed(
       const Duration(seconds: 3),
@@ -41,8 +43,6 @@ class _MyVendorsState extends State<MyVendors> {
         () => _loadingScreen = false,
       ),
     );
-
-    super.initState();
   }
 
   @override

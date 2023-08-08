@@ -45,6 +45,8 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
   //======================================================================================\\
   @override
   void initState() {
+    super.initState();
+
     _tabBarController = TabController(length: 2, vsync: this);
     _loadingScreen = true;
     Future.delayed(
@@ -53,8 +55,6 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
         () => _loadingScreen = false,
       ),
     );
-
-    super.initState();
   }
 
   @override

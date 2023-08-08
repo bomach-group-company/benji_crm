@@ -8,7 +8,7 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../../src/common_widgets/my_appbar.dart';
 import '../../../theme/colors.dart';
-import 'my_order_details.dart';
+import 'pending_order_details.dart';
 
 class PendingOrders extends StatefulWidget {
   const PendingOrders({super.key});
@@ -78,7 +78,7 @@ class _PendingOrdersState extends State<PendingOrders> {
 
     //===================== Navigate to Order Details Page ================================\\
     void toOrderDetailsPage() => Get.to(
-          () => MyOrderDetails(
+          () => PendingOrderDetails(
             formatted12HrTime: formattedDateAndTime,
             orderID: orderID,
             orderImage: orderImage,
@@ -91,7 +91,7 @@ class _PendingOrdersState extends State<PendingOrders> {
           duration: const Duration(milliseconds: 300),
           fullscreenDialog: true,
           curve: Curves.easeIn,
-          routeName: "Order details",
+          routeName: "Pending order details",
           preventDuplicates: true,
           popGesture: true,
           transition: Transition.downToUp,

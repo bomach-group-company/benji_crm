@@ -12,7 +12,7 @@ import '../../../src/providers/constants.dart';
 import '../../../theme/colors.dart';
 import '../../riders/assign_rider.dart';
 
-class MyOrderDetails extends StatefulWidget {
+class PendingOrderDetails extends StatefulWidget {
   final int orderID;
   final String formatted12HrTime;
   final String orderItem;
@@ -21,7 +21,7 @@ class MyOrderDetails extends StatefulWidget {
   final int itemQuantity;
   final double subtotalPrice;
   final String orderImage;
-  const MyOrderDetails(
+  const PendingOrderDetails(
       {super.key,
       required this.orderID,
       required this.orderItem,
@@ -33,10 +33,10 @@ class MyOrderDetails extends StatefulWidget {
       required this.customerName});
 
   @override
-  State<MyOrderDetails> createState() => _MyOrderDetailsState();
+  State<PendingOrderDetails> createState() => _PendingOrderDetailsState();
 }
 
-class _MyOrderDetailsState extends State<MyOrderDetails> {
+class _PendingOrderDetailsState extends State<PendingOrderDetails> {
   //===================== Initial State ==========================\\
   @override
   void initState() {

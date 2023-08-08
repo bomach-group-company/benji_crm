@@ -20,14 +20,14 @@ import '../../../src/common_widgets/my_intl_phonefield.dart';
 import '../../../src/providers/constants.dart';
 import '../../../src/skeletons/vendors_list_skeleton.dart';
 
-class AddVendor extends StatefulWidget {
-  const AddVendor({super.key});
+class AddThirdPartyVendor extends StatefulWidget {
+  const AddThirdPartyVendor({super.key});
 
   @override
-  State<AddVendor> createState() => _AddVendorState();
+  State<AddThirdPartyVendor> createState() => _AddThirdPartyVendorState();
 }
 
-class _AddVendorState extends State<AddVendor> {
+class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
   //=================================== ALL VARIABLES ====================================\\
 
   //======================================== GLOBAL KEYS ==============================================\\
@@ -70,6 +70,8 @@ class _AddVendorState extends State<AddVendor> {
 //==========================================================================================\\
   @override
   void initState() {
+    super.initState();
+
     _loadingScreen = true;
     Future.delayed(
       const Duration(seconds: 2),
@@ -77,8 +79,6 @@ class _AddVendorState extends State<AddVendor> {
         () => _loadingScreen = false,
       ),
     );
-
-    super.initState();
   }
 
   @override
@@ -359,7 +359,7 @@ class _AddVendorState extends State<AddVendor> {
         extendBody: true,
         extendBodyBehindAppBar: true,
         appBar: MyAppBar(
-          title: "Add New Vendor",
+          title: "Add third party vendor",
           elevation: 0.0,
           actions: const [],
           backgroundColor: kPrimaryColor,
@@ -724,7 +724,7 @@ class _AddVendorState extends State<AddVendor> {
                                   onSaved: (value) {},
                                   textInputAction: TextInputAction.next,
                                   focusNode: vendorEmailFN,
-                                  hintText: "Enter your bussiness email",
+                                  hintText: "Enter your business address",
                                   textInputType: TextInputType.emailAddress,
                                 ),
                                 kSizedBox,
@@ -926,8 +926,7 @@ class _AddVendorState extends State<AddVendor> {
                                   controller: vendorBusinessBioEC,
                                   textInputAction: TextInputAction.newline,
                                   focusNode: vendorBusinessBioFN,
-                                  hintText:
-                                      "Tell us a little about your business...",
+                                  hintText: "Write about the business...",
                                   maxLines: 5,
                                   keyboardType: TextInputType.multiline,
                                   validator: (value) {

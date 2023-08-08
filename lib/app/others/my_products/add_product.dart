@@ -32,6 +32,8 @@ class _AddProductState extends State<AddProduct> {
 //==========================================================================================\\
   @override
   void initState() {
+    super.initState();
+
     _loadingScreen = true;
     Future.delayed(
       const Duration(seconds: 2),
@@ -39,8 +41,6 @@ class _AddProductState extends State<AddProduct> {
         () => _loadingScreen = false,
       ),
     );
-
-    super.initState();
   }
 
   @override

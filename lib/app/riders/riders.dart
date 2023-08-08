@@ -36,11 +36,16 @@ class Riders extends StatefulWidget {
   State<Riders> createState() => _RidersState();
 }
 
-class _RidersState extends State<Riders> {
+class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
   //===================== Initial State ==========================\\
 
   @override
   void initState() {
+    super.initState();
+
+    _animationController =
+        AnimationController(vsync: this, duration: const Duration(seconds: 1));
+    _scrollController.addListener(_scrollListener);
     _scrollController.addListener(() {
       if (_scrollController.position.userScrollDirection ==
           ScrollDirection.forward) {
@@ -56,13 +61,20 @@ class _RidersState extends State<Riders> {
         () => _loadingScreen = false,
       ),
     );
-    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    _scrollController.dispose();
+    super.dispose();
   }
 
   //================================= ALL VARIABLES ==========================================\\
   late bool _loadingScreen;
   bool _riderStatus = true;
   bool _loadingRiderStatus = false;
+  bool _isScrollToTopBtnVisible = false;
 
 //Online Riders
   final String _onlineRidersImage = "jerry-emmanuel";
@@ -83,6 +95,7 @@ class _RidersState extends State<Riders> {
 
   //============================================== CONTROLLERS =================================================\\
   final ScrollController _scrollController = ScrollController();
+  late AnimationController _animationController;
 
   //================================= FUNCTIONS ==========================================\\
 
@@ -96,6 +109,26 @@ class _RidersState extends State<Riders> {
     setState(() {
       _loadingScreen = false;
     });
+  }
+
+//============================= Scroll to Top ======================================//
+  void _scrollToTop() {
+    _animationController.reverse();
+    _scrollController.animateTo(0,
+        duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn);
+  }
+
+  void _scrollListener() {
+    //========= Show action button ========//
+    if (_scrollController.position.pixels >= 200) {
+      _animationController.forward();
+      setState(() => _isScrollToTopBtnVisible = true);
+    }
+    //========= Hide action button ========//
+    else if (_scrollController.position.pixels < 200) {
+      _animationController.reverse();
+      setState(() => _isScrollToTopBtnVisible = true);
+    }
   }
 
   //===================== Handle riderStatus ==========================\\
@@ -204,6 +237,28 @@ class _RidersState extends State<Riders> {
           ],
           elevation: 0.0,
         ),
+        floatingActionButton: Stack(
+          children: <Widget>[
+            if (_isScrollToTopBtnVisible) ...[
+              ScaleTransition(
+                scale: CurvedAnimation(
+                    parent: _animationController,
+                    curve: Curves.fastEaseInToSlowEaseOut),
+                child: FloatingActionButton(
+                  onPressed: _scrollToTop,
+                  mini: true,
+                  backgroundColor: kAccentColor,
+                  enableFeedback: true,
+                  mouseCursor: SystemMouseCursors.click,
+                  tooltip: "Scroll to top",
+                  hoverColor: kAccentColor,
+                  hoverElevation: 50.0,
+                  child: const Icon(Icons.keyboard_arrow_up),
+                ),
+              ),
+            ]
+          ],
+        ),
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: FutureBuilder(builder: (context, snapshot) {
@@ -300,7 +355,6 @@ class _RidersState extends State<Riders> {
                             ? const RidersListSkeleton()
                             : _riderStatus
                                 ? ListView.builder(
-                                    controller: _scrollController,
                                     itemCount: _numberOfOnlineRiders,
                                     addAutomaticKeepAlives: true,
                                     physics: const BouncingScrollPhysics(),
@@ -453,7 +507,6 @@ class _RidersState extends State<Riders> {
                                 : SizedBox(
                                     // height: mediaHeight - 120,
                                     child: ListView.builder(
-                                      controller: _scrollController,
                                       itemCount: _numberOfOfflineRiders,
                                       addAutomaticKeepAlives: true,
                                       physics: const BouncingScrollPhysics(),
