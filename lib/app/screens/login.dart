@@ -10,7 +10,7 @@ import '../../src/common_widgets/password_textformfield.dart';
 import '../../src/common_widgets/reusable_authentication_firsthalf.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
-import '../splash screens/login_splashscreen.dart';
+import '../splash_screens/login_splashscreen.dart';
 import 'forgot_password.dart';
 import 'signup.dart';
 
