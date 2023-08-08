@@ -20,7 +20,7 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
   @override
   void initState() {
     Future.delayed(
-      const Duration(seconds: 3),
+      const Duration(days: 3),
       () => Get.offAll(
         () => const Login(),
         duration: const Duration(seconds: 3),

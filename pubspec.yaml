@@ -41,7 +41,7 @@ dev_dependencies:
   flutter_launcher_icons: ^0.13.1
 
 flutter_native_splash:
-  image: assets/images/splash_screen/frame_2.jpg
+  image: assets/images/splash_screen/frame_1.png
   color: "#f9f9f9"
   image_dark: assets/images/splash_screen/frame_1.png
   color_dark: "#000000"

@@ -62,11 +62,14 @@ android {
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
             multiDexEnabled true
+<<<<<<< HEAD
         }
         profile {
             applicationIdSuffix flutterVersionName
             versionNameSuffix flutterVersionName
             multiDexEnabled true
+=======
+>>>>>>> efc0b5db026d62605882220711dc8a837f9770dc
         }
     }
     buildToolsVersion '34.0.0'
