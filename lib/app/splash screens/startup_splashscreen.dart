@@ -18,9 +18,9 @@ class StartupSplashscreen extends StatefulWidget {
 
 class _StartupSplashscreenState extends State<StartupSplashscreen> {
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     Future.delayed(
-      const Duration(seconds: 3),
+      const Duration(days: 3),
       () => Get.offAll(
         () => const Login(),
         duration: const Duration(seconds: 3),
@@ -32,6 +32,11 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
         transition: Transition.fadeIn,
       ),
     );
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
         padding: const EdgeInsets.all(kDefaultPadding / 2),
@@ -42,13 +47,16 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
+                AnimatedContainer(
+                  duration: Duration(seconds: 6),
+                  curve: Curves.bounceIn,
+                  transform: Matrix4.rotationY(270),
                   height: MediaQuery.of(context).size.height / 4,
                   width: MediaQuery.of(context).size.width / 2,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage(
-                        "assets/images/splash screen/frame-1.png",
+                        "assets/images/splash_screen/frame_1.png",
                       ),
                     ),
                   ),

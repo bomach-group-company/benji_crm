@@ -1,19 +1,23 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../src/common_widgets/my_outlined_elevatedButton.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/custom show search.dart';
-import '../../src/skeletons/all_vendors_list_skeleton.dart';
 import '../../src/skeletons/all_vendors_page_skeleton.dart';
+import '../../src/skeletons/vendors_list_skeleton.dart';
 import '../../theme/colors.dart';
-import '../others/add_vendor.dart';
+import '../others/my_vendors/add_vendor.dart';
+import '../others/my_vendors/my_vendors.dart';
 import 'vendor_details.dart';
 
 class Vendors extends StatefulWidget {
+  final VoidCallback showNavigation;
+  final VoidCallback hideNavigation;
   final Color appBarBackgroundColor;
   final Color appTitleColor;
   final Color appBarSearchIconColor;
@@ -23,6 +27,8 @@ class Vendors extends StatefulWidget {
     required this.appBarBackgroundColor,
     required this.appTitleColor,
     required this.appBarSearchIconColor,
+    required this.showNavigation,
+    required this.hideNavigation,
   });
 
   @override
@@ -30,37 +36,19 @@ class Vendors extends StatefulWidget {
 }
 
 class _VendorsState extends State<Vendors> {
-//============================================== ALL VARIABLES =================================================\\
-  late bool _loadingScreen;
-  bool _vendorStatus = true;
-  bool _isLoadingVendorStatus = false;
-  final String _onlineVendorsName = "Ntachi Osa";
-  final String _onlineVendorsImage = "ntachi-osa";
-  final double _onlineVendorsRating = 4.6;
-
-  final String _vendorActive = "Online";
-  final String _vendorInactive = "Offline";
-  final Color _vendorActiveColor = kSuccessColor;
-  final Color _vendorInactiveColor = kAccentColor;
-
-  final String _offlineVendorsName = "Best Choice Restaurant";
-  final String _offlineVendorsImage = "best-choice-restaurant";
-  final double _offlineVendorsRating = 4.0;
-  final int _lastSeenCount = 20;
-  final String _lastSeenMessage = "minutes ago";
-  final int _numberOfOnlineVendors = 30;
-  final int _noOfOfflineVendors = 142;
-
-//============================================== CONTROLLERS =================================================\\
-  final ScrollController scrollController = ScrollController();
-
-//============================================== FUNCTIONS =================================================\\
-
   @override
   void initState() {
+    _scrollController.addListener(() {
+      if (_scrollController.position.userScrollDirection ==
+          ScrollDirection.forward) {
+        widget.showNavigation();
+      } else {
+        widget.hideNavigation();
+      }
+    });
     _loadingScreen = true;
     Future.delayed(
-      const Duration(seconds: 3),
+      const Duration(seconds: 2),
       () => setState(
         () => _loadingScreen = false,
       ),
@@ -68,13 +56,55 @@ class _VendorsState extends State<Vendors> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.removeListener(() {
+      if (_scrollController.position.userScrollDirection ==
+          ScrollDirection.forward) {
+        widget.showNavigation();
+      } else {
+        widget.hideNavigation();
+      }
+    });
+  }
+
+//============================================== ALL VARIABLES =================================================\\
+  late bool _loadingScreen;
+  bool _vendorStatus = true;
+  bool _isLoadingVendorStatus = false;
+
+  //Online Vendors
+  final String _onlineVendorsName = "Ntachi Osa";
+  final String _onlineVendorsImage = "ntachi-osa";
+  final double _onlineVendorsRating = 4.6;
+  final int _numberOfOnlineVendors = 10;
+
+  final String _vendorActive = "Online";
+  final String _vendorInactive = "Offline";
+  final Color _vendorActiveColor = kSuccessColor;
+  final Color _vendorInactiveColor = kAccentColor;
+
+  //Offline Vendors
+  final String _offlineVendorsName = "Best Choice Restaurant";
+  final String _offlineVendorsImage = "best-choice-restaurant";
+  final double _offlineVendorsRating = 4.0;
+  final int _lastSeenCount = 20;
+  final String _lastSeenMessage = "minutes ago";
+  final int _noOfOfflineVendors = 10;
+
+//============================================== CONTROLLERS =================================================\\
+  final ScrollController _scrollController = ScrollController();
+
+//============================================== FUNCTIONS =================================================\\
+
 //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
     setState(() {
       _loadingScreen = true;
     });
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 2));
     setState(() {
       _loadingScreen = false;
     });
@@ -87,7 +117,7 @@ class _VendorsState extends State<Vendors> {
       _vendorStatus = true;
     });
 
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 2));
 
     setState(() {
       _isLoadingVendorStatus = false;
@@ -100,16 +130,20 @@ class _VendorsState extends State<Vendors> {
       _vendorStatus = false;
     });
 
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 2));
 
     setState(() {
       _isLoadingVendorStatus = false;
     });
   }
 
+//=============================== See more ========================================\\
+  void _seeMoreOnlineVendors() {}
+  void _seeMoreOfflineVendors() {}
+
 //===================== Navigation ==========================\\
 
-  void toAddVendorPage() => Get.to(
+  void _toAddVendorPage() => Get.to(
         () => const AddVendor(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -120,7 +154,18 @@ class _VendorsState extends State<Vendors> {
         transition: Transition.downToUp,
       );
 
-  void toVendorDetailsPage() => Get.to(
+  void _toMyVendorsPage() => Get.to(
+        () => const MyVendors(),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "My vendors",
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.downToUp,
+      );
+
+  void _toVendorDetailsPage() => Get.to(
         () => VendorDetailsPage(
           vendorCoverImage:
               _vendorStatus ? _onlineVendorsImage : _offlineVendorsImage,
@@ -134,13 +179,13 @@ class _VendorsState extends State<Vendors> {
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "Vendor Details",
+        routeName: "Vendor details",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.downToUp,
       );
 
-  void showSearchField() =>
+  void _showSearchField() =>
       showSearch(context: context, delegate: CustomSearchDelegate());
   @override
   Widget build(BuildContext context) {
@@ -158,7 +203,7 @@ class _VendorsState extends State<Vendors> {
       showChildOpacityTransition: false,
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
-          onPressed: toAddVendorPage,
+          onPressed: _toAddVendorPage,
           elevation: 20.0,
           backgroundColor: kAccentColor,
           foregroundColor: kPrimaryColor,
@@ -182,7 +227,7 @@ class _VendorsState extends State<Vendors> {
           ),
           actions: [
             IconButton(
-              onPressed: showSearchField,
+              onPressed: _showSearchField,
               tooltip: "Search for a vendor",
               icon: Icon(
                 Icons.search_rounded,
@@ -193,7 +238,7 @@ class _VendorsState extends State<Vendors> {
             Padding(
               padding: const EdgeInsets.all(kDefaultPadding / 2),
               child: MyOutlinedElevatedButton(
-                onPressed: () {},
+                onPressed: _toMyVendorsPage,
                 circularBorderRadius: 20,
                 minimumSizeWidth: 100,
                 minimumSizeHeight: 30,
@@ -231,15 +276,17 @@ class _VendorsState extends State<Vendors> {
             return _loadingScreen
                 ? const AllVendorsPageSkeleton()
                 : Scrollbar(
-                    controller: scrollController,
+                    controller: _scrollController,
                     radius: const Radius.circular(10),
                     scrollbarOrientation: ScrollbarOrientation.right,
                     child: ListView(
+                      controller: _scrollController,
                       physics: const BouncingScrollPhysics(),
-                      padding: const EdgeInsets.only(
-                        bottom: kDefaultPadding,
-                        right: kDefaultPadding,
-                        left: kDefaultPadding,
+                      padding: const EdgeInsets.fromLTRB(
+                        kDefaultPadding,
+                        0,
+                        kDefaultPadding,
+                        kDefaultPadding,
                       ),
                       children: [
                         SizedBox(
@@ -300,7 +347,7 @@ class _VendorsState extends State<Vendors> {
                         ),
                         kSizedBox,
                         _isLoadingVendorStatus
-                            ? const AllVendorsListSkeleton()
+                            ? const VendorsListSkeleton()
                             : _vendorStatus
                                 ? ListView.separated(
                                     separatorBuilder: (context, index) =>
@@ -311,7 +358,7 @@ class _VendorsState extends State<Vendors> {
                                     physics: const BouncingScrollPhysics(),
                                     shrinkWrap: true,
                                     itemBuilder: (context, index) => InkWell(
-                                      onTap: toVendorDetailsPage,
+                                      onTap: _toVendorDetailsPage,
                                       borderRadius: BorderRadius.circular(16),
                                       child: Container(
                                         decoration: ShapeDecoration(
@@ -377,57 +424,14 @@ class _VendorsState extends State<Vendors> {
                                                   kSizedBox,
                                                   SizedBox(
                                                     width: 200,
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        const Text(
-                                                          "Restaurant",
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                              0x662F2E3C,
-                                                            ),
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                            width: 8),
-                                                        Container(
-                                                          width: 3.90,
-                                                          height: 3.90,
-                                                          decoration:
-                                                              const ShapeDecoration(
-                                                            color: Color(
-                                                                0x662F2E3C),
-                                                            shape: OvalBorder(),
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 8.0,
-                                                        ),
-                                                        const Text(
-                                                          "Food",
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                                0x662F2E3C),
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                          ),
-                                                        ),
-                                                      ],
+                                                    child: Text(
+                                                      "Restaurant",
+                                                      style: TextStyle(
+                                                        color: kTextGreyColor,
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                      ),
                                                     ),
                                                   ),
                                                   Row(
@@ -520,7 +524,7 @@ class _VendorsState extends State<Vendors> {
                                     physics: const BouncingScrollPhysics(),
                                     shrinkWrap: true,
                                     itemBuilder: (context, index) => InkWell(
-                                      onTap: toVendorDetailsPage,
+                                      onTap: _toVendorDetailsPage,
                                       borderRadius: BorderRadius.circular(16),
                                       child: Container(
                                         decoration: ShapeDecoration(
@@ -586,63 +590,17 @@ class _VendorsState extends State<Vendors> {
                                                   kSizedBox,
                                                   SizedBox(
                                                     width: 200,
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        const Text(
-                                                          "Restaurant",
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          maxLines: 1,
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                              0x662F2E3C,
-                                                            ),
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                            width: 8),
-                                                        Container(
-                                                          width: 3.90,
-                                                          height: 3.90,
-                                                          decoration:
-                                                              const ShapeDecoration(
-                                                            color: Color(
-                                                                0x662F2E3C),
-                                                            shape: OvalBorder(),
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 8.0,
-                                                        ),
-                                                        const Text(
-                                                          "Fast Food",
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          maxLines: 1,
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                                0x662F2E3C),
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                          ),
-                                                        ),
-                                                      ],
+                                                    child: Text(
+                                                      "Restaurant",
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      maxLines: 1,
+                                                      style: TextStyle(
+                                                        color: kTextGreyColor,
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                      ),
                                                     ),
                                                   ),
                                                   Row(
@@ -729,6 +687,22 @@ class _VendorsState extends State<Vendors> {
                                       ),
                                     ),
                                   ),
+                        kSizedBox,
+                        _vendorStatus
+                            ? TextButton(
+                                onPressed: _seeMoreOnlineVendors,
+                                child: Text(
+                                  "See more",
+                                  style: TextStyle(color: kAccentColor),
+                                ),
+                              )
+                            : TextButton(
+                                onPressed: _seeMoreOfflineVendors,
+                                child: Text(
+                                  "See more",
+                                  style: TextStyle(color: kAccentColor),
+                                ),
+                              ),
                       ],
                     ),
                   );

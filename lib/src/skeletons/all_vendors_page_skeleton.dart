@@ -3,7 +3,7 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../theme/colors.dart';
 import '../providers/constants.dart';
-import 'all_vendors_list_skeleton.dart';
+import 'vendors_list_skeleton.dart';
 import 'page_skeleton.dart';
 
 class AllVendorsPageSkeleton extends StatelessWidget {
@@ -37,7 +37,7 @@ class AllVendorsPageSkeleton extends StatelessWidget {
           ),
         ),
         kSizedBox,
-        const AllVendorsListSkeleton(),
+        const VendorsListSkeleton(),
       ],
     );
   }

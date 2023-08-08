@@ -1,6 +1,6 @@
 // ignore_for_file: unused_local_variable
 
-import 'package:benji_aggregator/app/others/product_details.dart';
+import 'package:benji_aggregator/app/others/products/product_details.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
 import 'package:benji_aggregator/src/providers/custom%20show%20search.dart';
 import 'package:flutter/gestures.dart';
@@ -12,6 +12,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../src/common_widgets/category_button_section.dart';
 import '../../src/common_widgets/my_appbar.dart';
+import '../../src/common_widgets/vendors_order_container.dart';
 import '../../src/common_widgets/vendors_product_container.dart';
 import '../../src/skeletons/vendors_tabbar_orders_content_skeleton.dart';
 import '../../src/skeletons/vendors_tabbar_products_content_skeleton.dart';
@@ -41,6 +42,28 @@ class VendorDetailsPage extends StatefulWidget {
 class _VendorDetailsPageState extends State<VendorDetailsPage>
     with SingleTickerProviderStateMixin {
   //=================================== ALL VARIABLES ====================================\\
+  //======================================================================================\\
+  @override
+  void initState() {
+    _tabBarController = TabController(length: 2, vsync: this);
+    _loadingScreen = true;
+    Future.delayed(
+      const Duration(seconds: 3),
+      () => setState(
+        () => _loadingScreen = false,
+      ),
+    );
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _tabBarController.dispose();
+    super.dispose();
+  }
+
+//==========================================================================================\\
 
 //===================== BOOL VALUES =======================\\
   // bool isLoading = false;
@@ -67,7 +90,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
 
   //=================================== CONTROLLERS ====================================\\
   late TabController _tabBarController;
-  final ScrollController scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
 //===================== KEYS =======================\\
   // final _formKey = GlobalKey<FormState>();
@@ -104,26 +127,6 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
     return _itemPrice * _itemQuantity;
   }
 
-  @override
-  void initState() {
-    _tabBarController = TabController(length: 2, vsync: this);
-    _loadingScreen = true;
-    Future.delayed(
-      const Duration(seconds: 3),
-      () => setState(
-        () => _loadingScreen = false,
-      ),
-    );
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _tabBarController.dispose();
-    super.dispose();
-  }
-
   void _changeProductCategory() {}
 
 //===================== Handle refresh ==========================\\
@@ -147,6 +150,42 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
 
     setState(() {
       _loadingTabBarContent = false;
+    });
+  }
+
+  //=================================== Show Popup Menu =====================================\\
+  //Show popup menu
+  void showPopupMenu(BuildContext context) {
+    final RenderBox overlay =
+        Overlay.of(context).context.findRenderObject() as RenderBox;
+    const position = RelativeRect.fromLTRB(10, 60, 0, 0);
+
+    showMenu<String>(
+      context: context,
+      position: position,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      items: [
+        const PopupMenuItem<String>(
+          value: 'visit',
+          child: Text("Visit vendor"),
+        ),
+        const PopupMenuItem<String>(
+          value: 'suspend',
+          child: Text("Suspend vendor"),
+        ),
+      ],
+    ).then((value) {
+      // Handle the selected value from the popup menu
+      if (value != null) {
+        switch (value) {
+          case 'more':
+            () {};
+            break;
+          case 'suspend':
+            () {};
+            break;
+        }
+      }
     });
   }
 
@@ -204,9 +243,9 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () => showPopupMenu(context),
               icon: Icon(
-                Icons.more_horiz,
+                Icons.more_vert,
                 color: kAccentColor,
               ),
             ),
@@ -234,7 +273,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
             return _loadingScreen
                 ? Center(child: SpinKitDoubleBounce(color: kAccentColor))
                 : Scrollbar(
-                    controller: scrollController,
+                    controller: _scrollController,
                     radius: const Radius.circular(10),
                     scrollbarOrientation: ScrollbarOrientation.right,
                     child: ListView(
@@ -514,36 +553,46 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: kDefaultPadding),
+                            horizontal: kDefaultPadding,
+                          ),
                           child: Container(
                             width: mediaWidth,
                             decoration: BoxDecoration(
                               color: kDefaultCategoryBackgroundColor,
                               borderRadius: BorderRadius.circular(50),
+                              border: Border.all(
+                                color: kGreyColor1,
+                                style: BorderStyle.solid,
+                                strokeAlign: BorderSide.strokeAlignOutside,
+                              ),
                             ),
                             child: Column(
                               children: [
-                                TabBar(
-                                  controller: _tabBarController,
-                                  onTap: (value) => _clickOnTabBarOption(),
-                                  enableFeedback: true,
-                                  mouseCursor: SystemMouseCursors.click,
-                                  automaticIndicatorColorAdjustment: true,
-                                  overlayColor:
-                                      MaterialStatePropertyAll(kAccentColor),
-                                  labelColor: kPrimaryColor,
-                                  unselectedLabelColor: kTextGreyColor,
-                                  indicatorColor: kAccentColor,
-                                  indicatorWeight: 2,
-                                  splashBorderRadius: BorderRadius.circular(50),
-                                  indicator: BoxDecoration(
-                                    color: kAccentColor,
-                                    borderRadius: BorderRadius.circular(50),
+                                Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: TabBar(
+                                    controller: _tabBarController,
+                                    onTap: (value) => _clickOnTabBarOption(),
+                                    enableFeedback: true,
+                                    mouseCursor: SystemMouseCursors.click,
+                                    automaticIndicatorColorAdjustment: true,
+                                    overlayColor:
+                                        MaterialStatePropertyAll(kAccentColor),
+                                    labelColor: kPrimaryColor,
+                                    unselectedLabelColor: kTextGreyColor,
+                                    indicatorColor: kAccentColor,
+                                    indicatorWeight: 2,
+                                    splashBorderRadius:
+                                        BorderRadius.circular(50),
+                                    indicator: BoxDecoration(
+                                      color: kAccentColor,
+                                      borderRadius: BorderRadius.circular(50),
+                                    ),
+                                    tabs: const [
+                                      Tab(text: "Products"),
+                                      Tab(text: "Orders"),
+                                    ],
                                   ),
-                                  tabs: const [
-                                    Tab(text: "Products"),
-                                    Tab(text: "Orders"),
-                                  ],
                                 ),
                               ],
                             ),
@@ -601,239 +650,18 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                                     _orderID < 30;
                                                     _orderID +=
                                                         _incrementOrderID)
-                                                  Container(
-                                                    margin: const EdgeInsets
-                                                        .symmetric(
-                                                      vertical:
-                                                          kDefaultPadding / 2,
-                                                    ),
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                      top: kDefaultPadding / 2,
-                                                      left: kDefaultPadding / 2,
-                                                      right:
-                                                          kDefaultPadding / 2,
-                                                    ),
-                                                    width: mediaWidth / 1.1,
-                                                    height: 150,
-                                                    decoration: ShapeDecoration(
-                                                      color: kPrimaryColor,
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                                kDefaultPadding),
-                                                      ),
-                                                      shadows: const [
-                                                        BoxShadow(
-                                                          color:
-                                                              Color(0x0F000000),
-                                                          blurRadius: 24,
-                                                          offset: Offset(0, 4),
-                                                          spreadRadius: 4,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    child: Row(
-                                                      children: [
-                                                        Column(
-                                                          children: [
-                                                            Container(
-                                                              width: 60,
-                                                              height: 60,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color:
-                                                                    kPageSkeletonColor,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            16),
-                                                                image:
-                                                                    DecorationImage(
-                                                                  image:
-                                                                      AssetImage(
-                                                                    "assets/images/products/$_orderImage.png",
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            kHalfSizedBox,
-                                                            Text(
-                                                              "#00${_orderID.toString()}",
-                                                              style: TextStyle(
-                                                                color:
-                                                                    kTextGreyColor,
-                                                                fontSize: 13,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        kWidthSizedBox,
-                                                        Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            SizedBox(
-                                                              width:
-                                                                  mediaWidth /
-                                                                      1.55,
-                                                              // color: kAccentColor,
-                                                              child: Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                children: [
-                                                                  const SizedBox(
-                                                                    child: Text(
-                                                                      "Hot Kitchen",
-                                                                      maxLines:
-                                                                          2,
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontSize:
-                                                                            12,
-                                                                        fontWeight:
-                                                                            FontWeight.w400,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  SizedBox(
-                                                                    child: Text(
-                                                                      formattedDateAndTime,
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
-                                                                      style:
-                                                                          const TextStyle(
-                                                                        fontSize:
-                                                                            12,
-                                                                        fontWeight:
-                                                                            FontWeight.w400,
-                                                                      ),
-                                                                    ),
-                                                                  )
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            kHalfSizedBox,
-                                                            Container(
-                                                              color:
-                                                                  kTransparentColor,
-                                                              width: 250,
-                                                              child: Text(
-                                                                _orderItem,
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                                maxLines: 2,
-                                                                style:
-                                                                    const TextStyle(
-                                                                  fontSize: 14,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w700,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            kHalfSizedBox,
-                                                            Container(
-                                                              width: 200,
-                                                              color:
-                                                                  kTransparentColor,
-                                                              child: Text.rich(
-                                                                TextSpan(
-                                                                  children: [
-                                                                    TextSpan(
-                                                                      text:
-                                                                          "x $_itemQuantity",
-                                                                      style:
-                                                                          const TextStyle(
-                                                                        fontSize:
-                                                                            13,
-                                                                        fontWeight:
-                                                                            FontWeight.w400,
-                                                                      ),
-                                                                    ),
-                                                                    const TextSpan(
-                                                                        text:
-                                                                            "  "),
-                                                                    TextSpan(
-                                                                      text:
-                                                                          "₦ ${_itemPrice.toStringAsFixed(2)}",
-                                                                      style:
-                                                                          const TextStyle(
-                                                                        fontSize:
-                                                                            15,
-                                                                        fontFamily:
-                                                                            'sen',
-                                                                        fontWeight:
-                                                                            FontWeight.w400,
-                                                                      ),
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            kHalfSizedBox,
-                                                            Container(
-                                                              color:
-                                                                  kGreyColor1,
-                                                              height: 1,
-                                                              width:
-                                                                  mediaWidth /
-                                                                      1.8,
-                                                            ),
-                                                            kHalfSizedBox,
-                                                            SizedBox(
-                                                              width:
-                                                                  mediaWidth /
-                                                                      1.8,
-                                                              child: Text(
-                                                                _customerName,
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                                maxLines: 1,
-                                                                style:
-                                                                    const TextStyle(
-                                                                  fontSize: 14,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w700,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              width:
-                                                                  mediaWidth /
-                                                                      1.8,
-                                                              child: Text(
-                                                                _customerAddress,
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                                maxLines: 1,
-                                                                style:
-                                                                    const TextStyle(
-                                                                  fontSize: 13,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ],
-                                                    ),
+                                                  VendorsOrderContainer(
+                                                    mediaWidth: mediaWidth,
+                                                    orderImage: _orderImage,
+                                                    orderID: _orderID,
+                                                    formattedDateAndTime:
+                                                        formattedDateAndTime,
+                                                    orderItem: _orderItem,
+                                                    itemQuantity: _itemQuantity,
+                                                    itemPrice: _itemPrice,
+                                                    customerName: _customerName,
+                                                    customerAddress:
+                                                        _customerAddress,
                                                   ),
                                               ],
                                             ),
