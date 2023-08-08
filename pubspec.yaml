@@ -19,6 +19,7 @@ dependencies:
   image_picker: ^1.0.1
   flutter_spinkit: ^5.2.0
   google_fonts: ^5.1.0
+  google_maps_flutter: ^2.4.0
   hexcolor: ^3.0.1
   get: ^4.6.5
   firebase_core: ^2.15.0
