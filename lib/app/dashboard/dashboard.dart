@@ -579,7 +579,7 @@ class _DashboardState extends State<Dashboard>
 //         switch (value) {
 //           case 'Add new Vendor':
 //             Get.to(
-//               () => const AddVendor(),
+//               () => const AddThirdPartyVendor(),
 //               duration: const Duration(milliseconds: 300),
 //               fullscreenDialog: true,
 //               curve: Curves.easeIn,
