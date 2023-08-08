@@ -13,7 +13,7 @@ import '../../src/providers/constants.dart';
 import '../../src/skeletons/all_riders_page_skeleton.dart';
 import '../../theme/colors.dart';
 import '../others/my_orders/active_orders.dart';
-import '../others/my_orders/my_order_details.dart';
+import '../others/my_orders/pending_order_details.dart';
 import '../others/my_orders/pending_orders.dart';
 import '../riders/riders.dart';
 import '../vendors/vendors.dart';
@@ -197,7 +197,7 @@ class _DashboardState extends State<Dashboard>
 
     //===================== Navigate to Order Details Page ================================\\
     void toOrderDetailsPage() => Get.to(
-          () => MyOrderDetails(
+          () => PendingOrderDetails(
             formatted12HrTime: formattedDateAndTime,
             orderID: orderID,
             orderImage: orderImage,
@@ -210,7 +210,7 @@ class _DashboardState extends State<Dashboard>
           duration: const Duration(milliseconds: 300),
           fullscreenDialog: true,
           curve: Curves.easeIn,
-          routeName: "Order Details",
+          routeName: "Pending order details",
           preventDuplicates: true,
           popGesture: true,
           transition: Transition.downToUp,
