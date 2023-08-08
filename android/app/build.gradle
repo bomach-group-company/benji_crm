@@ -52,8 +52,8 @@ android {
         targetSdk 34
         versionCode 1
         versionName 'benji_aggregator_1'
-        applicationIdSuffix 'com.benji.b_a'
-        versionNameSuffix 'ba_1'
+        applicationIdSuffix 'Benji Aggregator'
+        versionNameSuffix 'Benji Aggregator'
     }
 
     buildTypes {
@@ -63,7 +63,7 @@ android {
             signingConfig signingConfigs.debug
             multiDexEnabled true
             applicationIdSuffix 'com.benji.benji_aggregator'
-            versionNameSuffix 'com.benj.b_a'
+            versionNameSuffix 'Benji Aggregator'
         }
     }
     buildToolsVersion '34.0.0'
