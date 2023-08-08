@@ -38,6 +38,8 @@ class Vendors extends StatefulWidget {
 class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
   @override
   void initState() {
+    super.initState();
+
     _animationController =
         AnimationController(vsync: this, duration: const Duration(seconds: 1));
     _scrollController.addListener(_scrollListener);
@@ -56,7 +58,6 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
         () => _loadingScreen = false,
       ),
     );
-    super.initState();
   }
 
   @override
@@ -553,7 +554,8 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
                                                           "$_onlineVendorsRating (500+)",
                                                           style:
                                                               const TextStyle(
-                                                            color: Colors.black,
+                                                            color:
+                                                                kTextBlackColor,
                                                             fontSize: 15,
                                                             fontWeight:
                                                                 FontWeight.w400,
@@ -684,6 +686,8 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
                                                           style: TextStyle(
                                                             fontSize: 12,
                                                             color: kAccentColor,
+                                                            fontStyle: FontStyle
+                                                                .italic,
                                                             fontWeight:
                                                                 FontWeight.w400,
                                                           ),
@@ -706,7 +710,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
                                                         height: 20,
                                                         child: Icon(
                                                           Icons.star_rounded,
-                                                          color: kAccentColor,
+                                                          color: kStarColor,
                                                         ),
                                                       ),
                                                       const SizedBox(

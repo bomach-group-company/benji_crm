@@ -38,6 +38,8 @@ class _VendorsProductsPageState extends State<VendorsProductsPage>
 //======================================================================================\\
   @override
   void initState() {
+    super.initState();
+
     _loadingScreen = true;
     Future.delayed(
       const Duration(seconds: 3),
@@ -45,8 +47,6 @@ class _VendorsProductsPageState extends State<VendorsProductsPage>
         () => _loadingScreen = false,
       ),
     );
-
-    super.initState();
   }
 
 //==========================================================================================\\

@@ -41,6 +41,8 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
+    super.initState();
+
     _animationController =
         AnimationController(vsync: this, duration: const Duration(seconds: 1));
     _scrollController.addListener(_scrollListener);
@@ -59,7 +61,6 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
         () => _loadingScreen = false,
       ),
     );
-    super.initState();
   }
 
   @override

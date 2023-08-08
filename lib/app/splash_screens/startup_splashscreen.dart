@@ -21,6 +21,8 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
 
   @override
   void initState() {
+    super.initState();
+
     _videoPlayerController = VideoPlayerController.asset(
       "assets/videos/splash_screen/frame_1.mp4",
     )
@@ -29,8 +31,6 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
       })
       ..setVolume(0.0);
     _playVideo();
-
-    super.initState();
   }
 
   @override

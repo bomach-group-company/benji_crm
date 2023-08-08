@@ -70,6 +70,8 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
 //==========================================================================================\\
   @override
   void initState() {
+    super.initState();
+
     _loadingScreen = true;
     Future.delayed(
       const Duration(seconds: 2),
@@ -77,8 +79,6 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
         () => _loadingScreen = false,
       ),
     );
-
-    super.initState();
   }
 
   @override
@@ -926,8 +926,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
                                   controller: vendorBusinessBioEC,
                                   textInputAction: TextInputAction.newline,
                                   focusNode: vendorBusinessBioFN,
-                                  hintText:
-                                      "Tell us a little about your business...",
+                                  hintText: "Write about the business...",
                                   maxLines: 5,
                                   keyboardType: TextInputType.multiline,
                                   validator: (value) {
