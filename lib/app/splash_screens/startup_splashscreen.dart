@@ -48,6 +48,7 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
   void _playVideo() async {
     _videoPlayerController.play();
     _videoPlayerController.setLooping(true);
+    _videoPlayerController.setVolume(0);
 
     //Delay the load time
     await Future.delayed(Duration(seconds: 4));
