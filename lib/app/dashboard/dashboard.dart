@@ -118,12 +118,12 @@ class _DashboardState extends State<Dashboard>
 
   void _scrollListener() {
     //========= Show action button ========//
-    if (_scrollController.position.pixels >= 300) {
+    if (_scrollController.position.pixels >= 200) {
       _animationController.forward();
       setState(() => _isScrollToTopBtnVisible = true);
     }
     //========= Hide action button ========//
-    else if (_scrollController.position.pixels < 300) {
+    else if (_scrollController.position.pixels < 200) {
       _animationController.reverse();
       setState(() => _isScrollToTopBtnVisible = true);
     }

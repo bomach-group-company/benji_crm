@@ -1,4 +1,4 @@
-import 'package:benji_aggregator/app/splash_screens/startup_splashscreen.dart';
+import 'package:benji_aggregator/app/overview/overview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/route_manager.dart';
@@ -28,11 +28,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       defaultTransition: Transition.rightToLeft,
       title: "Benji Aggregator",
-      color: kPrimaryColor,
+      color: kSecondaryColor,
       themeMode: ThemeMode.light,
       darkTheme: AppTheme.darkTheme,
       theme: AppTheme.lightTheme,
-      home: const StartupSplashscreen(),
+      home: const OverView(),
     );
   }
 }
