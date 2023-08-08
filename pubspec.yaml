@@ -70,6 +70,7 @@ flutter:
     - assets/images/profile/
     - assets/animations/splash_screen/
     - assets/animations/successful/
+    - assets/videos/splash_screen/
 
   #For example:
   # fonts:
