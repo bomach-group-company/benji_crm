@@ -1,5 +1,6 @@
 // ignore_for_file: unused_local_variable
 
+import 'package:benji_aggregator/app/others/add_vendor/add_vendor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/route_manager.dart';
@@ -11,7 +12,6 @@ import '../../src/providers/custom show search.dart';
 import '../../src/skeletons/all_vendors_page_skeleton.dart';
 import '../../src/skeletons/vendors_list_skeleton.dart';
 import '../../theme/colors.dart';
-import '../others/my_vendors/add_vendor.dart';
 import '../others/my_vendors/my_vendors.dart';
 import 'vendor_details.dart';
 
@@ -171,7 +171,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
 
 //===================== Navigation ==========================\\
 
-  void _toAddVendorPage() => Get.to(
+  void _toAddVendor() => Get.to(
         () => const AddVendor(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -256,7 +256,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
               ],
             ),
             FloatingActionButton(
-              onPressed: _toAddVendorPage,
+              onPressed: _toAddVendor,
               elevation: 20.0,
               mouseCursor: SystemMouseCursors.click,
               tooltip: "Add a vendor",
