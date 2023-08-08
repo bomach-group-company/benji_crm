@@ -8,7 +8,7 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../../src/common_widgets/my_appbar.dart';
 import '../../../theme/colors.dart';
-import 'my_order_details.dart';
+import 'active_order_details.dart';
 
 class ActiveOrders extends StatefulWidget {
   const ActiveOrders({super.key});
@@ -77,8 +77,8 @@ class _ActiveOrdersState extends State<ActiveOrders> {
     double subtotalPrice = calculateSubtotal();
 
     //===================== Navigate to Order Details Page ================================\\
-    void toOrderDetailsPage() => Get.to(
-          () => MyOrderDetails(
+    void _toActiveOrderDetailsPage() => Get.to(
+          () => ActiveOrderDetails(
             formatted12HrTime: formattedDateAndTime,
             orderID: orderID,
             orderImage: orderImage,
@@ -91,7 +91,7 @@ class _ActiveOrdersState extends State<ActiveOrders> {
           duration: const Duration(milliseconds: 300),
           fullscreenDialog: true,
           curve: Curves.easeIn,
-          routeName: "Order details",
+          routeName: "Active order details",
           preventDuplicates: true,
           popGesture: true,
           transition: Transition.downToUp,
@@ -154,7 +154,7 @@ class _ActiveOrdersState extends State<ActiveOrders> {
                                   orderID < 30;
                                   orderID += incrementOrderID)
                                 InkWell(
-                                  onTap: toOrderDetailsPage,
+                                  onTap: _toActiveOrderDetailsPage,
                                   borderRadius:
                                       BorderRadius.circular(kDefaultPadding),
                                   child: Container(
