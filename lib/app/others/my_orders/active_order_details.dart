@@ -75,10 +75,10 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "Pending orders",
+        routeName: "Track order",
         preventDuplicates: true,
         popGesture: true,
-        transition: Transition.downToUp,
+        transition: Transition.rightToLeft,
       );
 
   double calculateTotalPrice() {
