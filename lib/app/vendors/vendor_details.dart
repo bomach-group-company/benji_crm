@@ -12,13 +12,13 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../src/common_widgets/category_button_section.dart';
 import '../../src/common_widgets/my_appbar.dart';
+import '../../src/common_widgets/vendor_orders_tab.dart';
+import '../../src/common_widgets/vendor_products_tab.dart';
 import '../../src/common_widgets/vendors_order_container.dart';
 import '../../src/common_widgets/vendors_product_container.dart';
 import '../../src/skeletons/vendors_tabbar_orders_content_skeleton.dart';
 import '../../src/skeletons/vendors_tabbar_products_content_skeleton.dart';
 import '../../theme/colors.dart';
-import 'vendor_orders_tab.dart';
-import 'vendor_products_tab.dart';
 
 class VendorDetailsPage extends StatefulWidget {
   final String vendorCoverImage;

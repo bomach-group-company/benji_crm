@@ -5,8 +5,8 @@ import 'package:shimmer/shimmer.dart';
 import '../../theme/colors.dart';
 import '../providers/constants.dart';
 
-class DashboardOrdersListSkeleton extends StatelessWidget {
-  const DashboardOrdersListSkeleton({
+class OrdersListSkeleton extends StatelessWidget {
+  const OrdersListSkeleton({
     super.key,
   });
 

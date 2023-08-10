@@ -1,8 +1,13 @@
 import 'package:benji_aggregator/src/common_widgets/my_appbar.dart';
+import 'package:benji_aggregator/src/skeletons/all_orders_page_skeleton.dart';
+import 'package:benji_aggregator/src/skeletons/dashboard_orders_list_skeleton.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
+import '../../../src/common_widgets/all_orders_container.dart';
+import '../../../src/common_widgets/completed_orders_tab.dart';
 import '../../../src/providers/constants.dart';
 
 class AllOrders extends StatefulWidget {
@@ -50,13 +55,6 @@ class _AllOrdersState extends State<AllOrders>
   final String _orderImage = "chizzy's-food";
   final String _customerName = "Mercy Luke";
 
-  //=============================== Products ====================================\\
-  final String _productName = "Smokey Jollof Pasta";
-  final String _productImage = "pasta";
-  final double _productPrice = 1200;
-  final String _productDescription =
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit, tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit, quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos  sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam recusandae alias error harum maxime adipisci amet laborum. Perspiciatis  minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit  quibusdam sed amet tempora. Sit laborum ab, eius fugit doloribus tenetur  fugiat, temporibus enim commodi iusto libero magni deleniti quod quam consequuntur! Commodi minima excepturi repudiandae velit hic maxime doloremque. Quaerat provident commodi consectetur veniam similique ad earum omnis ipsum saepe, voluptas, hic voluptates pariatur est explicabo fugiat, dolorum eligendi quam cupiditate excepturi mollitia maiores labore suscipit quas? Nulla, placeat. Voluptatem quaerat non architecto ab laudantium modi minima sunt esse temporibus sint culpa, recusandae aliquam numquam totam ratione voluptas quod exercitationem fuga. Possim";
-
 //===================== BOOL VALUES =======================\\
   // bool isLoading = false;
   late bool _loadingScreen;
@@ -102,7 +100,6 @@ class _AllOrdersState extends State<AllOrders>
     String formattedDateAndTime = formatDateAndTime(now);
     double mediaWidth = MediaQuery.of(context).size.width;
     double mediaHeight = MediaQuery.of(context).size.height;
-    double subtotalPrice = calculateSubtotal();
 
     return LiquidPullToRefresh(
       onRefresh: _handleRefresh,
@@ -125,17 +122,162 @@ class _AllOrdersState extends State<AllOrders>
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: FutureBuilder(
-            builder: (context, snapshot) => Scrollbar(
-              controller: _scrollController,
-              radius: const Radius.circular(10),
-              scrollbarOrientation: ScrollbarOrientation.right,
-              child: ListView(
-                physics: BouncingScrollPhysics(),
-                padding: EdgeInsets.all(kDefaultPadding),
-                // controller: _scrollController,
-                children: [],
-              ),
-            ),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                Center(child: SpinKitDoubleBounce(color: kAccentColor));
+              }
+              if (snapshot.connectionState == ConnectionState.none) {
+                const Center(
+                  child: Text("Please connect to the internet"),
+                );
+              }
+              // if (snapshot.connectionState == snapshot.requireData) {
+              //   SpinKitDoubleBounce(color: kAccentColor);
+              // }
+              if (snapshot.connectionState == snapshot.error) {
+                const Center(
+                  child: Text("Error, Please try again later"),
+                );
+              }
+              return _loadingScreen
+                  ? AllOrdersPageskeleton()
+                  : Scrollbar(
+                      controller: _scrollController,
+                      radius: const Radius.circular(10),
+                      scrollbarOrientation: ScrollbarOrientation.right,
+                      child: ListView(
+                        physics: BouncingScrollPhysics(),
+                        padding: EdgeInsets.all(kDefaultPadding),
+                        // controller: _scrollController,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: kDefaultPadding,
+                            ),
+                            child: Container(
+                              width: mediaWidth,
+                              decoration: BoxDecoration(
+                                color: kDefaultCategoryBackgroundColor,
+                                borderRadius: BorderRadius.circular(50),
+                                border: Border.all(
+                                  color: kLightGreyColor,
+                                  style: BorderStyle.solid,
+                                  strokeAlign: BorderSide.strokeAlignOutside,
+                                ),
+                              ),
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: TabBar(
+                                      controller: _tabBarController,
+                                      onTap: (value) => _clickOnTabBarOption(),
+                                      enableFeedback: true,
+                                      mouseCursor: SystemMouseCursors.click,
+                                      automaticIndicatorColorAdjustment: true,
+                                      overlayColor: MaterialStatePropertyAll(
+                                          kAccentColor),
+                                      labelColor: kPrimaryColor,
+                                      unselectedLabelColor: kTextGreyColor,
+                                      indicatorColor: kAccentColor,
+                                      indicatorWeight: 2,
+                                      splashBorderRadius:
+                                          BorderRadius.circular(50),
+                                      indicator: BoxDecoration(
+                                        color: kAccentColor,
+                                        borderRadius: BorderRadius.circular(50),
+                                      ),
+                                      tabs: const [
+                                        Tab(text: "Completed"),
+                                        Tab(text: "Rejected"),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          kSizedBox,
+                          SizedBox(
+                            height: mediaHeight + mediaHeight,
+                            width: mediaWidth,
+                            child: Column(
+                              children: [
+                                Expanded(
+                                  child: TabBarView(
+                                    controller: _tabBarController,
+                                    physics: const BouncingScrollPhysics(),
+                                    children: [
+                                      _loadingTabBarContent
+                                          ? OrdersListSkeleton()
+                                          : CompletedOrdersTab(
+                                              list: Column(
+                                                children: [
+                                                  for (_orderID = 1;
+                                                      _orderID < 30;
+                                                      _orderID +=
+                                                          _incrementOrderID)
+                                                    AllOrdersContainer(
+                                                      mediaWidth: mediaWidth,
+                                                      orderImage: _orderImage,
+                                                      orderID: _orderID,
+                                                      orderStatusIcon: Icon(
+                                                        Icons.check_circle,
+                                                        color: kSuccessColor,
+                                                      ),
+                                                      formattedDateAndTime:
+                                                          formattedDateAndTime,
+                                                      orderItem: _orderItem,
+                                                      itemQuantity:
+                                                          _itemQuantity,
+                                                      itemPrice: _itemPrice,
+                                                      customerName:
+                                                          _customerName,
+                                                      customerAddress:
+                                                          _customerAddress,
+                                                    ),
+                                                ],
+                                              ),
+                                            ),
+                                      _loadingTabBarContent
+                                          ? SpinKitDoubleBounce(
+                                              color: kAccentColor,
+                                            )
+                                          : Column(
+                                              children: [
+                                                for (_orderID = 1;
+                                                    _orderID < 30;
+                                                    _orderID +=
+                                                        _incrementOrderID)
+                                                  AllOrdersContainer(
+                                                    mediaWidth: mediaWidth,
+                                                    orderImage: _orderImage,
+                                                    orderID: _orderID,
+                                                    orderStatusIcon: Icon(
+                                                      Icons.cancel,
+                                                      color: kAccentColor,
+                                                    ),
+                                                    formattedDateAndTime:
+                                                        formattedDateAndTime,
+                                                    orderItem: _orderItem,
+                                                    itemQuantity: _itemQuantity,
+                                                    itemPrice: _itemPrice,
+                                                    customerName: _customerName,
+                                                    customerAddress:
+                                                        _customerAddress,
+                                                  ),
+                                              ],
+                                            ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+            },
           ),
         ),
       ),

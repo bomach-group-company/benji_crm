@@ -125,7 +125,7 @@ class _PendingOrdersState extends State<PendingOrders> {
           child: FutureBuilder(
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                const DashboardOrdersListSkeleton();
+                const OrdersListSkeleton();
               }
               if (snapshot.connectionState == ConnectionState.none) {
                 const Center(
@@ -143,7 +143,7 @@ class _PendingOrdersState extends State<PendingOrders> {
               return _loadingScreen
                   ? const Padding(
                       padding: EdgeInsets.all(kDefaultPadding),
-                      child: DashboardOrdersListSkeleton(),
+                      child: OrdersListSkeleton(),
                     )
                   : Scrollbar(
                       controller: _scrollController,

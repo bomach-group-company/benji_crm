@@ -443,7 +443,7 @@ class _RidersDetailState extends State<RidersDetail> {
                           ),
                           kHalfSizedBox,
                           _loadingDeliveryStatus
-                              ? const DashboardOrdersListSkeleton()
+                              ? const OrdersListSkeleton()
                               : _deliveryStatus
                                   ? ListView.builder(
                                       itemCount: _numberOfOrders,

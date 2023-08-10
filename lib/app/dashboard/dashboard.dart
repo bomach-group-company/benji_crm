@@ -294,7 +294,7 @@ class _DashboardState extends State<Dashboard>
                             ],
                           ),
                           kSizedBox,
-                          AllOrdersContainer(
+                          DasboardAllOrdersContainer(
                             onTap: _toSeeAllOrders,
                             number: "200",
                             typeOf: "All Orders",

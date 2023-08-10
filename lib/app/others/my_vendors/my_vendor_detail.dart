@@ -12,13 +12,13 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../src/common_widgets/category_button_section.dart';
 import '../../../src/common_widgets/my_appbar.dart';
+import '../../../src/common_widgets/vendor_orders_tab.dart';
+import '../../../src/common_widgets/vendor_products_tab.dart';
 import '../../../src/common_widgets/vendors_order_container.dart';
 import '../../../src/common_widgets/vendors_product_container.dart';
 import '../../../src/skeletons/vendors_tabbar_orders_content_skeleton.dart';
 import '../../../src/skeletons/vendors_tabbar_products_content_skeleton.dart';
 import '../../../theme/colors.dart';
-import '../../vendors/vendor_orders_tab.dart';
-import '../../vendors/vendor_products_tab.dart';
 
 class MyVendorDetailsPage extends StatefulWidget {
   final String vendorCoverImage;
@@ -70,6 +70,9 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
   // bool isLoading = false;
   late bool _loadingScreen;
   bool _loadingTabBarContent = false;
+
+  //=================================== Vendor Details =======================================\\
+  String _vendorImage = "ntachi-osa-logo.png";
 
   //=================================== Orders =======================================\\
   final int _incrementOrderID = 2 + 2;
@@ -543,15 +546,14 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                   height: 100,
                                   decoration: ShapeDecoration(
                                     color: kPageSkeletonColor,
-                                    image: const DecorationImage(
+                                    image: DecorationImage(
                                       image: AssetImage(
-                                        "assets/images/vendors/ntachi-osa-logo.png",
+                                        "assets/images/vendors/$_vendorImage",
                                       ),
                                       fit: BoxFit.cover,
                                     ),
                                     shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(43.50),
+                                      borderRadius: BorderRadius.circular(44),
                                     ),
                                   ),
                                 ),

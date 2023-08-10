@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import '../../../theme/colors.dart';
 import '../providers/constants.dart';
 
-class AllOrdersContainer extends StatelessWidget {
+class DasboardAllOrdersContainer extends StatelessWidget {
   final Function() onTap;
   final String number;
   final String typeOf;
   final String onlineStatus;
-  const AllOrdersContainer({
+  const DasboardAllOrdersContainer({
     super.key,
     required this.onTap,
     required this.number,
