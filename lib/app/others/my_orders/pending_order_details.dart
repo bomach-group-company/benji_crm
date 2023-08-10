@@ -50,7 +50,7 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
 
     _loadingScreen = true;
     Future.delayed(
-      const Duration(seconds: 2),
+      const Duration(milliseconds: 1000),
       () => setState(
         () => _loadingScreen = false,
       ),
@@ -100,7 +100,7 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
     setState(() {
       _loadingScreen = true;
     });
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 1000));
     setState(() {
       _loadingScreen = false;
     });

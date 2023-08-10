@@ -74,7 +74,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
 
     _loadingScreen = true;
     Future.delayed(
-      const Duration(seconds: 2),
+      const Duration(milliseconds: 1000),
       () => setState(
         () => _loadingScreen = false,
       ),
@@ -125,7 +125,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
     });
 
     // Simulating a delay of 3 seconds
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
 
     //Display snackBar
     myFixedSnackBar(
@@ -135,16 +135,12 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
       const Duration(seconds: 2),
     );
 
-    Future.delayed(
-        const Duration(
-          seconds: 2,
-        ), () {
+    Future.delayed(const Duration(seconds: 1), () {
       // Navigate to the new page
       Navigator.of(context).pop(context);
-    });
-
-    setState(() {
-      isLoading = false;
+      setState(() {
+        isLoading = false;
+      });
     });
   }
 
@@ -490,7 +486,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
                                                   MainAxisAlignment.center,
                                               children: [
                                                 Image.asset(
-                                                    "assets/images/icons/image-upload.png"),
+                                                    "assets/icons/image-upload.png"),
                                                 kHalfSizedBox,
                                                 Text(
                                                   'Upload cover image',

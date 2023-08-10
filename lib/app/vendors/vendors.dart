@@ -53,7 +53,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
     });
     _loadingScreen = true;
     Future.delayed(
-      const Duration(seconds: 2),
+      const Duration(milliseconds: 1000),
       () => setState(
         () => _loadingScreen = false,
       ),
@@ -86,7 +86,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
   final String _onlineVendorsName = "Ntachi Osa";
   final String _onlineVendorsImage = "ntachi-osa";
   final double _onlineVendorsRating = 4.6;
-  final int _numberOfOnlineVendors = 10;
+  final int _numberOfOnlineVendors = 15;
 
   final String _vendorActive = "Online";
   final String _vendorInactive = "Offline";
@@ -99,7 +99,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
   final double _offlineVendorsRating = 4.0;
   final int _lastSeenCount = 20;
   final String _lastSeenMessage = "minutes ago";
-  final int _noOfOfflineVendors = 10;
+  final int _noOfOfflineVendors = 15;
 
 //============================================== CONTROLLERS =================================================\\
   final ScrollController _scrollController = ScrollController();
@@ -113,7 +113,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
     setState(() {
       _loadingScreen = true;
     });
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 1000));
     setState(() {
       _loadingScreen = false;
     });

@@ -1,5 +1,4 @@
 import 'package:benji_aggregator/src/common_widgets/my_appbar.dart';
-import 'package:benji_aggregator/src/skeletons/all_orders_page_skeleton.dart';
 import 'package:benji_aggregator/src/skeletons/dashboard_orders_list_skeleton.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +26,7 @@ class _AllOrdersState extends State<AllOrders>
     _tabBarController = TabController(length: 2, vsync: this);
     _loadingScreen = true;
     Future.delayed(
-      const Duration(seconds: 3),
+      const Duration(milliseconds: 500),
       () => setState(
         () => _loadingScreen = false,
       ),
@@ -75,7 +74,7 @@ class _AllOrdersState extends State<AllOrders>
     setState(() {
       _loadingScreen = true;
     });
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(milliseconds: 1000));
     setState(() {
       _loadingScreen = false;
     });
@@ -87,7 +86,7 @@ class _AllOrdersState extends State<AllOrders>
       _loadingTabBarContent = true;
     });
 
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(milliseconds: 1000));
 
     setState(() {
       _loadingTabBarContent = false;
@@ -140,7 +139,7 @@ class _AllOrdersState extends State<AllOrders>
                 );
               }
               return _loadingScreen
-                  ? AllOrdersPageskeleton()
+                  ? SpinKitDoubleBounce(color: kAccentColor)
                   : Scrollbar(
                       controller: _scrollController,
                       radius: const Radius.circular(10),
@@ -240,9 +239,7 @@ class _AllOrdersState extends State<AllOrders>
                                               ),
                                             ),
                                       _loadingTabBarContent
-                                          ? SpinKitDoubleBounce(
-                                              color: kAccentColor,
-                                            )
+                                          ? OrdersListSkeleton()
                                           : Column(
                                               children: [
                                                 for (_orderID = 1;

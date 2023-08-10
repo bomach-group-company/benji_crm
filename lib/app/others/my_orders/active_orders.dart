@@ -25,7 +25,7 @@ class _ActiveOrdersState extends State<ActiveOrders> {
 
     _loadingScreen = true;
     Future.delayed(
-      const Duration(seconds: 2),
+      const Duration(milliseconds: 1000),
       () => setState(
         () => _loadingScreen = false,
       ),
@@ -61,7 +61,7 @@ class _ActiveOrdersState extends State<ActiveOrders> {
     setState(() {
       _loadingScreen = true;
     });
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 1000));
     setState(() {
       _loadingScreen = false;
     });

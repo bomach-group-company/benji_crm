@@ -79,7 +79,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
 
     _loadingScreen = true;
     Future.delayed(
-      const Duration(seconds: 2),
+      const Duration(milliseconds: 1000),
       () => setState(
         () => _loadingScreen = false,
       ),
@@ -137,19 +137,16 @@ class _RegisterVendorState extends State<RegisterVendor> {
       context,
       "Your changes have been saved successfully".toUpperCase(),
       kAccentColor,
-      const Duration(seconds: 2),
+      const Duration(seconds: 1),
     );
 
-    Future.delayed(
-        const Duration(
-          seconds: 2,
-        ), () {
+    Future.delayed(const Duration(seconds: 1), () {
       // Navigate to the new page
       Navigator.of(context).pop(context);
-    });
 
-    setState(() {
-      isLoading = false;
+      setState(() {
+        isLoading = false;
+      });
     });
   }
 
@@ -495,7 +492,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                                                   MainAxisAlignment.center,
                                               children: [
                                                 Image.asset(
-                                                    "assets/images/icons/image-upload.png"),
+                                                    "assets/icons/image-upload.png"),
                                                 kHalfSizedBox,
                                                 Text(
                                                   'Upload cover image',

@@ -49,7 +49,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
     _tabBarController = TabController(length: 2, vsync: this);
     _loadingScreen = true;
     Future.delayed(
-      const Duration(seconds: 3),
+      const Duration(milliseconds: 500),
       () => setState(
         () => _loadingScreen = false,
       ),
@@ -139,7 +139,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
     setState(() {
       _loadingScreen = true;
     });
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(milliseconds: 500));
     setState(() {
       _loadingScreen = false;
     });

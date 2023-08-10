@@ -51,7 +51,7 @@ class _DashboardState extends State<Dashboard>
     });
     _loadingScreen = true;
     Future.delayed(
-      const Duration(seconds: 2),
+      const Duration(milliseconds: 1000),
       () => setState(
         () => _loadingScreen = false,
       ),
@@ -104,7 +104,7 @@ class _DashboardState extends State<Dashboard>
     setState(() {
       _loadingScreen = true;
     });
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
     setState(() {
       _loadingScreen = false;
     });

@@ -48,7 +48,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
 
     _loadingScreen = true;
     Future.delayed(
-      const Duration(seconds: 2),
+      const Duration(milliseconds: 1000),
       () => setState(
         () => _loadingScreen = false,
       ),
@@ -95,7 +95,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
     setState(() {
       _loadingScreen = true;
     });
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 1000));
     setState(() {
       _loadingScreen = false;
     });

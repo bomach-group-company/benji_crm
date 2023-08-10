@@ -42,7 +42,7 @@ class _VendorsProductsPageState extends State<VendorsProductsPage>
 
     _loadingScreen = true;
     Future.delayed(
-      const Duration(seconds: 3),
+      const Duration(milliseconds: 500),
       () => setState(
         () => _loadingScreen = false,
       ),
@@ -59,7 +59,7 @@ class _VendorsProductsPageState extends State<VendorsProductsPage>
     setState(() {
       _loadingScreen = true;
     });
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(milliseconds: 500));
     setState(() {
       _loadingScreen = false;
     });

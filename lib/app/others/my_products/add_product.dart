@@ -36,7 +36,7 @@ class _AddProductState extends State<AddProduct> {
 
     _loadingScreen = true;
     Future.delayed(
-      const Duration(seconds: 2),
+      const Duration(milliseconds: 1000),
       () => setState(
         () => _loadingScreen = false,
       ),
@@ -57,7 +57,7 @@ class _AddProductState extends State<AddProduct> {
     setState(() {
       _loadingScreen = true;
     });
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(milliseconds: 500));
     setState(() {
       _loadingScreen = false;
     });
