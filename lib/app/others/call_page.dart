@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:benji_aggregator/src/common_widgets/my_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
@@ -91,7 +92,7 @@ class _CallPageState extends State<CallPage> {
     });
 
     //Cause a delay before popping context
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(seconds: 1));
     //Pop context
     Get.back();
   }
@@ -99,7 +100,13 @@ class _CallPageState extends State<CallPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kPrimaryColor,
+      appBar: MyAppBar(
+        title: "",
+        elevation: 0,
+        actions: [],
+        backgroundColor: kPrimaryColor,
+        toolbarHeight: kToolbarHeight,
+      ),
       body: SafeArea(
         child: ListView(
           physics: const BouncingScrollPhysics(),

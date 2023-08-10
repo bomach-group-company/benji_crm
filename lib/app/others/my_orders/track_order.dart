@@ -42,7 +42,7 @@ class _TrackOrderState extends State<TrackOrder> {
 
 //=============================================== ALL VARIABLES ===================================================\\
   late bool _loadingScreen;
-  String riderImage = "rider/martins-okafor.png";
+  String riderImage = "rider/martins_okafor.png";
   String riderName = "Martins Okafor";
   String riderPhoneNumber = "09047589382";
 
@@ -165,12 +165,25 @@ class _TrackOrderState extends State<TrackOrder> {
                     ),
                   ],
                 ),
-                IconButton.filled(
-                  onPressed: _callRider,
-                  icon: Icon(
-                    Icons.phone_rounded,
+                Container(
+                  height: 48,
+                  width: 48,
+                  decoration: ShapeDecoration(
+                    color: const Color(0xFFFDD5D5),
+                    shape: RoundedRectangleBorder(
+                      side: const BorderSide(
+                          width: 0.40, color: Color(0xFFD4DAF0)),
+                      borderRadius: BorderRadius.circular(24),
+                    ),
                   ),
-                  color: kAccentColor,
+                  child: IconButton(
+                    splashRadius: 30,
+                    onPressed: _callRider,
+                    icon: Icon(
+                      Icons.phone,
+                      color: kAccentColor,
+                    ),
+                  ),
                 ),
               ],
             ),

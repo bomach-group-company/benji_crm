@@ -1,4 +1,3 @@
-import 'package:benji_aggregator/src/skeletons/dashboard_orders_list_skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -36,11 +35,11 @@ class DashboardPageSkeleton extends StatelessWidget {
         ),
         kSizedBox,
         SizedBox(
-          height: 300,
+          height: 450,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: List.generate(
-              2,
+              3,
               (index) => Shimmer.fromColors(
                 highlightColor: kBlackColor.withOpacity(0.02),
                 baseColor: kBlackColor.withOpacity(0.8),
@@ -54,18 +53,6 @@ class DashboardPageSkeleton extends StatelessWidget {
             ),
           ),
         ),
-        kSizedBox,
-        Shimmer.fromColors(
-          highlightColor: kBlackColor.withOpacity(0.02),
-          baseColor: kBlackColor.withOpacity(0.8),
-          direction: ShimmerDirection.ltr,
-          child: PageSkeleton(
-            width: mediaWidth,
-            height: 30,
-          ),
-        ),
-        kSizedBox,
-        const DashboardOrdersListSkeleton(),
       ],
     );
   }

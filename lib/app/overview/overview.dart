@@ -97,38 +97,34 @@ class _OverViewState extends State<OverView> {
               ),
               items: [
                 BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.grid_view,
-                  ),
+                  icon: Icon(Icons.grid_view),
                   label: "Dashboard",
-                  activeIcon: Icon(
-                    Icons.grid_view_rounded,
-                  ),
+                  tooltip: "Dashboard",
+                  activeIcon: Icon(Icons.grid_view_rounded),
                 ),
                 BottomNavigationBarItem(
                   icon: Image.asset("assets/icons/vendor-icon.png"),
                   label: "Vendors",
-                  activeIcon: Icon(
-                    Icons.business_rounded,
+                  tooltip: "Vendors",
+                  activeIcon: Image.asset(
+                    "assets/icons/vendor-icon.png",
+                    color: kAccentColor,
                   ),
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.delivery_dining_rounded,
-                  ),
+                  icon: Image.asset("assets/icons/rider-icon.png"),
                   label: "Riders",
-                  activeIcon: Icon(
-                    Icons.delivery_dining_rounded,
+                  tooltip: "Riders",
+                  activeIcon: Image.asset(
+                    "assets/icons/rider-icon.png",
+                    color: kAccentColor,
                   ),
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.person_2_outlined,
-                  ),
+                  icon: Icon(Icons.person_2_outlined),
                   label: "Profile",
-                  activeIcon: Icon(
-                    Icons.person_2_rounded,
-                  ),
+                  tooltip: "Profile",
+                  activeIcon: Icon(Icons.person_2_rounded),
                 ),
               ],
             ),

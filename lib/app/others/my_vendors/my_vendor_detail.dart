@@ -41,8 +41,7 @@ class MyVendorDetailsPage extends StatefulWidget {
 
 class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
     with SingleTickerProviderStateMixin {
-  //=================================== ALL VARIABLES ====================================\\
-  //======================================================================================\\
+  //======================================= INITIAL AND DISPOSE ===============================================\\
   @override
   void initState() {
     super.initState();
@@ -64,6 +63,8 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
   }
 
 //==========================================================================================\\
+
+  //=================================== ALL VARIABLES ====================================\\
 
 //===================== BOOL VALUES =======================\\
   // bool isLoading = false;
@@ -173,6 +174,10 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
           value: 'suspend',
           child: Text("Suspend vendor"),
         ),
+        const PopupMenuItem<String>(
+          value: 'Delete',
+          child: Text("Delete vendor"),
+        ),
       ],
     ).then((value) {
       // Handle the selected value from the popup menu
@@ -182,6 +187,9 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
             () {};
             break;
           case 'suspend':
+            () {};
+            break;
+          case 'delete':
             () {};
             break;
         }
