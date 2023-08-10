@@ -27,7 +27,6 @@ dependencies:
   url_launcher: ^6.1.12
   shimmer: ^3.0.0-nullsafety.0
   liquid_pull_to_refresh: ^3.0.1
-  liquid_swipe: ^3.1.0
   readmore: ^2.2.0
   dotted_border: ^2.0.0+3
   video_player: ^2.7.0
@@ -66,7 +65,7 @@ flutter:
     - assets/images/vendors/
     - assets/images/customer/
     - assets/images/products/
-    - assets/images/icons/
+    - assets/icons/
     - assets/images/rider/
     - assets/images/profile/
     - assets/animations/splash_screen/
