@@ -95,7 +95,7 @@ class _OverViewState extends State<OverView> {
               unselectedIconTheme: const IconThemeData(
                 color: Color(0xFFBDBDBD),
               ),
-              items: const [
+              items: [
                 BottomNavigationBarItem(
                   icon: Icon(
                     Icons.grid_view,
@@ -106,9 +106,7 @@ class _OverViewState extends State<OverView> {
                   ),
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.business_rounded,
-                  ),
+                  icon: Image.asset("assets/icons/vendor-icon.png"),
                   label: "Vendors",
                   activeIcon: Icon(
                     Icons.business_rounded,
