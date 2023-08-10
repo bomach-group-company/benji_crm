@@ -376,7 +376,7 @@ class _LoginState extends State<Login> {
                                     10,
                                   ),
                                   border: Border.all(
-                                    color: kGreyColor1,
+                                    color: kLightGreyColor,
                                   ),
                                 ),
                                 child: Row(

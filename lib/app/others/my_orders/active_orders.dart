@@ -303,7 +303,7 @@ class _ActiveOrdersState extends State<ActiveOrders> {
                                             ),
                                             kHalfSizedBox,
                                             Container(
-                                              color: kGreyColor1,
+                                              color: kLightGreyColor,
                                               height: 1,
                                               width: mediaWidth / 1.8,
                                             ),

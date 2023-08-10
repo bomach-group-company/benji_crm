@@ -197,9 +197,9 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
                         decoration: ShapeDecoration(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100),
-                            side: const BorderSide(
+                            side: BorderSide(
                               width: 0.5,
-                              color: kGreyColor1,
+                              color: kLightGreyColor,
                             ),
                           ),
                         ),
@@ -227,9 +227,9 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
                         decoration: ShapeDecoration(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100),
-                            side: const BorderSide(
+                            side: BorderSide(
                               width: 0.5,
-                              color: kGreyColor1,
+                              color: kLightGreyColor,
                             ),
                           ),
                         ),
@@ -297,9 +297,9 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
                         decoration: ShapeDecoration(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100),
-                            side: const BorderSide(
+                            side: BorderSide(
                               width: 0.5,
-                              color: kGreyColor1,
+                              color: kLightGreyColor,
                             ),
                           ),
                         ),
@@ -327,9 +327,9 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
                         decoration: ShapeDecoration(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100),
-                            side: const BorderSide(
+                            side: BorderSide(
                               width: 0.5,
-                              color: kGreyColor1,
+                              color: kLightGreyColor,
                             ),
                           ),
                         ),
@@ -439,7 +439,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
                           ),
                           kSizedBox,
                           DottedBorder(
-                            color: kGreyColor1,
+                            color: kLightGreyColor,
                             borderPadding: const EdgeInsets.all(3),
                             padding: const EdgeInsets.all(kDefaultPadding / 2),
                             borderType: BorderType.RRect,

@@ -561,7 +561,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                               color: kDefaultCategoryBackgroundColor,
                               borderRadius: BorderRadius.circular(50),
                               border: Border.all(
-                                color: kGreyColor1,
+                                color: kLightGreyColor,
                                 style: BorderStyle.solid,
                                 strokeAlign: BorderSide.strokeAlignOutside,
                               ),

@@ -165,7 +165,7 @@ class VendorsOrderContainer extends StatelessWidget {
               ),
               kHalfSizedBox,
               Container(
-                color: kGreyColor1,
+                color: kLightGreyColor,
                 height: 1,
                 width: mediaWidth / 1.8,
               ),

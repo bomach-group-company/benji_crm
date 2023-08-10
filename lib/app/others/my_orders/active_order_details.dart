@@ -62,12 +62,25 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
 
   double deliveryFee = 300.00;
 //============================== FUNCTIONS ================================\\
+
+//============================== Navigation ================================\\
   void _callCustomer() => Get.to(
         () => CallPage(
           userImage: widget.customerImage,
           userName: widget.customerName,
           userPhoneNumber: widget.customerPhoneNumber,
         ),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "Call customer",
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
+  void _trackOrder() => Get.to(
+        () => const TrackOrder(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -87,17 +100,6 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
       _loadingScreen = false;
     });
   }
-
-  _trackOrder() => Get.to(
-        () => const TrackOrder(),
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "Track order",
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
 
   double calculateTotalPrice() {
     return widget.subtotalPrice + deliveryFee;
@@ -432,12 +434,25 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                     ),
                                   ],
                                 ),
-                                IconButton(
-                                  onPressed: _callCustomer,
-                                  icon: Icon(
-                                    Icons.phone_rounded,
-                                    color: kAccentColor,
-                                    size: 20,
+                                Container(
+                                  height: 48,
+                                  width: 48,
+                                  decoration: ShapeDecoration(
+                                    color: const Color(0xFFFDD5D5),
+                                    shape: RoundedRectangleBorder(
+                                      side: const BorderSide(
+                                          width: 0.40,
+                                          color: Color(0xFFD4DAF0)),
+                                      borderRadius: BorderRadius.circular(24),
+                                    ),
+                                  ),
+                                  child: IconButton(
+                                    splashRadius: 30,
+                                    onPressed: _callCustomer,
+                                    icon: Icon(
+                                      Icons.phone,
+                                      color: kAccentColor,
+                                    ),
                                   ),
                                 ),
                               ],

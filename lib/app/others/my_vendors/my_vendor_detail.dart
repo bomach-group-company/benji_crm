@@ -55,7 +55,6 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
         () => _loadingScreen = false,
       ),
     );
-
   }
 
   @override
@@ -562,7 +561,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                               color: kDefaultCategoryBackgroundColor,
                               borderRadius: BorderRadius.circular(50),
                               border: Border.all(
-                                color: kGreyColor1,
+                                color: kLightGreyColor,
                                 style: BorderStyle.solid,
                                 strokeAlign: BorderSide.strokeAlignOutside,
                               ),

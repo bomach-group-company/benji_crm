@@ -33,14 +33,10 @@ class MyDisabledOutlinedElevatedButton extends StatelessWidget {
         elevation: 0.0,
         disabledBackgroundColor: kPrimaryColor,
         enableFeedback: false,
-        disabledForegroundColor: kGreyColor1,
+        disabledForegroundColor: kLightGreyColor,
         shape: RoundedRectangleBorder(
-          side: const BorderSide(
-            color: kGreyColor1,
-          ),
-          borderRadius: BorderRadius.circular(
-            circularBorderRadius,
-          ),
+          side: BorderSide(color: kLightGreyColor),
+          borderRadius: BorderRadius.circular(circularBorderRadius),
         ),
         minimumSize: Size(
           minimumSizeWidth,

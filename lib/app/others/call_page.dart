@@ -1,10 +1,12 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
 
-import '../../src/common_widgets/my_appbar.dart';
+import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
+
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 
-class CallPage extends StatelessWidget {
+class CallPage extends StatefulWidget {
   final String userName;
   final String userImage;
   final String userPhoneNumber;
@@ -16,15 +18,88 @@ class CallPage extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<CallPage> createState() => _CallPageState();
+}
+
+class _CallPageState extends State<CallPage> {
+//============================================= INITIAL STATE AND DISPOSE =========================================\\
+  @override
+  void initState() {
+    _phoneConnecting = true;
+    _phoneRinging = false;
+    _callConnected = false;
+    _callDropped = false;
+
+    _callTimer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (_callConnected) {
+        setState(() {
+          _callDuration++;
+        });
+      }
+    });
+
+    Future.delayed(Duration(seconds: 2), () {
+      setState(() {
+        _phoneConnecting = false;
+        _phoneRinging = true;
+      });
+    });
+
+    Future.delayed(Duration(seconds: 4), () {
+      setState(() {
+        _phoneRinging = false;
+        _callConnected = true;
+      });
+    });
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _callTimer.cancel();
+    super.dispose();
+  }
+
+//============================================= ALL VARAIBLES =========================================\\
+  late bool _phoneConnecting;
+  late bool _phoneRinging;
+  late bool _callConnected;
+  late bool _callDropped;
+  int _callDuration = 0;
+  late Timer _callTimer;
+//============================================= CONTROLLERS =========================================\\
+
+//============================================= FUNCTIONS =========================================\\
+
+  String _formatDuration() {
+    int minutes = _callDuration ~/ 60;
+    int seconds = _callDuration % 60;
+    return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
+  }
+
+  String _totalCallDuration() {
+    int minutes = _callDuration ~/ 60;
+    int seconds = _callDuration % 60;
+    return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
+  }
+
+  Future<void> _endCallFunc() async {
+    setState(() {
+      _callConnected = false;
+      _callDropped = true;
+    });
+
+    //Cause a delay before popping context
+    await Future.delayed(Duration(seconds: 2));
+    //Pop context
+    Get.back();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kPrimaryColor,
-      appBar: MyAppBar(
-          title: "Call",
-          elevation: 0.0,
-          actions: [],
-          backgroundColor: kPrimaryColor,
-          toolbarHeight: kToolbarHeight),
       body: SafeArea(
         child: ListView(
           physics: const BouncingScrollPhysics(),
@@ -39,7 +114,7 @@ class CallPage extends StatelessWidget {
                     decoration: ShapeDecoration(
                       color: kPageSkeletonColor,
                       image: DecorationImage(
-                        image: AssetImage("assets/images/${userImage}"),
+                        image: AssetImage("assets/images/${widget.userImage}"),
                         fit: BoxFit.cover,
                       ),
                       shape: const OvalBorder(),
@@ -47,7 +122,7 @@ class CallPage extends StatelessWidget {
                   ),
                   kSizedBox,
                   Text(
-                    userName,
+                    widget.userName,
                     style: TextStyle(
                       color: kTextBlackColor,
                       fontSize: 20,
@@ -57,72 +132,86 @@ class CallPage extends StatelessWidget {
                   ),
                   kSizedBox,
                   Text(
-                    userPhoneNumber,
+                    widget.userPhoneNumber,
                     style: TextStyle(
                       color: kTextBlackColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w200,
                       letterSpacing: 0.40,
                     ),
                   ),
                   kSizedBox,
-                  Text(
-                    "Ringing...",
-                    style: TextStyle(
-                      color: kTextGreyColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      letterSpacing: 0.32,
+                  if (_phoneConnecting)
+                    Text(
+                      "Connecting...",
+                      style: TextStyle(
+                        color: kLoadingColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: 0.32,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: kDefaultPadding * 5),
-                  SizedBox(
-                    width: 160,
-                    height: 48,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  if (_phoneRinging)
+                    Text(
+                      "Ringing...",
+                      style: TextStyle(
+                        color: kAccentColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: 0.32,
+                      ),
+                    ),
+                  if (_callConnected)
+                    Column(
                       children: [
-                        Container(
-                          height: 48,
-                          width: 48,
-                          decoration: ShapeDecoration(
-                            color: const Color(0xFFFDD5D5),
-                            shape: RoundedRectangleBorder(
-                              side: const BorderSide(
-                                  width: 0.40, color: Color(0xFFD4DAF0)),
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                          ),
-                          child: IconButton(
-                            splashRadius: 30,
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.close,
-                              color: kAccentColor,
-                            ),
+                        Text(
+                          "Call connected",
+                          style: TextStyle(
+                            color: kSuccessColor,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 0.32,
                           ),
                         ),
-                        Container(
-                          height: 48,
-                          width: 48,
-                          decoration: ShapeDecoration(
-                            color: const Color(0xFFEDF0FD),
-                            shape: RoundedRectangleBorder(
-                              side: const BorderSide(
-                                  width: 0.40, color: Color(0xFFD4DAF0)),
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                          ),
-                          child: IconButton(
-                            splashRadius: 30,
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.phone,
-                              color: kSecondaryColor,
-                            ),
-                          ),
-                        ),
+                        kSizedBox,
+                        Text('${_formatDuration()}'),
                       ],
+                    ),
+                  if (_callDropped)
+                    Text(
+                      "Call ended",
+                      style: TextStyle(
+                        color: kAccentColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: 0.32,
+                      ),
+                    ),
+                  kSizedBox,
+                  if (_callDropped)
+                    Text(
+                      "${_totalCallDuration()}",
+                      style: TextStyle(color: kAccentColor),
+                    ),
+                  const SizedBox(height: kDefaultPadding * 8),
+                  Container(
+                    height: 60,
+                    width: 60,
+                    decoration: ShapeDecoration(
+                      color: const Color(0xFFFDD5D5),
+                      shape: RoundedRectangleBorder(
+                        side: const BorderSide(
+                            width: 0.40, color: Color(0xFFD4DAF0)),
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                    ),
+                    child: IconButton(
+                      splashRadius: 40,
+                      onPressed: _endCallFunc,
+                      icon: Icon(
+                        Icons.call_end,
+                        color: kAccentColor,
+                      ),
                     ),
                   )
                 ],

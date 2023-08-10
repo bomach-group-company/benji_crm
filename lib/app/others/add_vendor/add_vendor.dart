@@ -109,7 +109,7 @@ class _AddVendorState extends State<AddVendor> {
                     children: [
                       DottedBorder(
                         borderType: BorderType.RRect,
-                        color: kGreyColor1,
+                        color: kLightGreyColor,
                         radius: Radius.circular(kDefaultPadding),
                         padding: const EdgeInsets.all(kDefaultPadding),
                         child: Align(
@@ -164,9 +164,9 @@ class _AddVendorState extends State<AddVendor> {
                         horizontalTitleGap: 10,
                         mouseCursor: SystemMouseCursors.click,
                         enableFeedback: true,
-                        tileColor: kGreyColor1.withOpacity(0.15),
-                        focusColor: kGreyColor1.withOpacity(0.15),
-                        splashColor: kGreyColor1.withOpacity(0.15),
+                        tileColor: kLightGreyColor.withOpacity(0.15),
+                        focusColor: kLightGreyColor.withOpacity(0.15),
+                        splashColor: kLightGreyColor.withOpacity(0.15),
                         minVerticalPadding: kDefaultPadding / 2,
                         shape: RoundedRectangleBorder(
                           borderRadius:

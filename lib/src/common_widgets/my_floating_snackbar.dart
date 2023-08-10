@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 
-import '../providers/constants.dart';
 import '../../theme/colors.dart';
+import '../providers/constants.dart';
 
 void mySnackBar(
   BuildContext context,
@@ -56,10 +56,10 @@ void mySnackBar(
                       child: Text(
                         message.toUpperCase(),
                         // overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
-                          color: kGreyColor1,
+                          color: kTextGreyColor,
                         ),
                       ),
                     ),
