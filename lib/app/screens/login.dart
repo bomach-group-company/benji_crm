@@ -12,7 +12,6 @@ import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 import '../splash_screens/login_splashscreen.dart';
 import 'forgot_password.dart';
-import 'signup.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -49,17 +48,6 @@ class _LoginState extends State<Login> {
   FocusNode passwordFocusNode = FocusNode();
 
   //=========================== FUNCTIONS ====================================\\
-  //Navigate to Signup
-  void toSignupPage() => Get.offAll(
-        () => const SignUp(),
-        duration: const Duration(milliseconds: 500),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "Signup",
-        predicate: (route) => false,
-        popGesture: true,
-        transition: Transition.downToUp,
-      );
 
   //Navigate to forgotPassword
   void toForgotPasswordPage() => Get.to(
@@ -329,85 +317,6 @@ class _LoginState extends State<Login> {
                               ),
                             ),
                       kHalfSizedBox,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            "Don't have an account? ",
-                            style: TextStyle(
-                              color: Color(
-                                0xFF646982,
-                              ),
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              toSignupPage();
-                            },
-                            child: Text(
-                              "Sign up",
-                              style: myAccentFontStyle,
-                            ),
-                          ),
-                        ],
-                      ),
-                      kHalfSizedBox,
-                      Center(
-                        child: Column(
-                          children: [
-                            const Text(
-                              "Or log in with ",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Color(
-                                  0xFF646982,
-                                ),
-                              ),
-                            ),
-                            kSizedBox,
-                            InkWell(
-                              borderRadius: BorderRadius.circular(10),
-                              onTap: () {},
-                              child: Container(
-                                width: MediaQuery.of(context).size.width / 2,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(
-                                    10,
-                                  ),
-                                  border: Border.all(
-                                    color: kLightGreyColor,
-                                  ),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      height: 50,
-                                      width: 50,
-                                      decoration: const BoxDecoration(
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                            "assets/images/icons/google-signup-icon.png",
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    const Text(
-                                      "Google",
-                                      style: TextStyle(
-                                        color: kTextBlackColor,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            kSizedBox,
-                          ],
-                        ),
-                      ),
                     ],
                   ),
                 ),

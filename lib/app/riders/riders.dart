@@ -56,7 +56,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
     });
     _loadingScreen = true;
     Future.delayed(
-      const Duration(milliseconds: 1000),
+      const Duration(seconds: 1000),
       () => setState(
         () => _loadingScreen = false,
       ),

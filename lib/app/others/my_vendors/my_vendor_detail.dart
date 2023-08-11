@@ -19,6 +19,7 @@ import '../../../src/common_widgets/vendors_product_container.dart';
 import '../../../src/skeletons/vendors_tabbar_orders_content_skeleton.dart';
 import '../../../src/skeletons/vendors_tabbar_products_content_skeleton.dart';
 import '../../../theme/colors.dart';
+import '../my_products/add_product.dart';
 
 class MyVendorDetailsPage extends StatefulWidget {
   final String vendorCoverImage;
@@ -238,6 +239,23 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
       child: Scaffold(
         extendBody: true,
         extendBodyBehindAppBar: true,
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => AddProduct(),
+              ),
+            );
+          },
+          elevation: 20.0,
+          mouseCursor: SystemMouseCursors.click,
+          tooltip: "Add Product",
+          backgroundColor: kAccentColor,
+          foregroundColor: kPrimaryColor,
+          child: const Icon(
+            Icons.add,
+          ),
+        ),
         appBar: MyAppBar(
           title: "My Vendor Details",
           elevation: 10.0,
