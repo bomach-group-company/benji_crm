@@ -263,7 +263,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
               icon: Icon(
                 Icons.search_rounded,
                 color: widget.appBarSearchIconColor,
-                size: 30,
+                size: 24,
               ),
             ),
             Padding(
@@ -348,7 +348,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
                                   ),
                                 ),
                               ),
-                              kWidthSizedBox,
+                              kHalfWidthSizedBox,
                               ElevatedButton(
                                 onPressed: _clickOfflineVendors,
                                 onLongPress: null,
@@ -437,7 +437,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   SizedBox(
-                                                    width: 200,
+                                                    width: mediaWidth - 200,
                                                     child: Text(
                                                       _onlineVendorsName,
                                                       overflow:
@@ -454,7 +454,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
                                                   ),
                                                   kSizedBox,
                                                   SizedBox(
-                                                    width: 200,
+                                                    width: mediaWidth - 200,
                                                     child: Text(
                                                       "Restaurant",
                                                       style: TextStyle(
@@ -504,8 +504,8 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
                                                             .start,
                                                     children: [
                                                       SizedBox(
-                                                        width: 20,
-                                                        height: 20,
+                                                        width: 25,
+                                                        height: 25,
                                                         child: Icon(
                                                           Icons.star_rounded,
                                                           color: kStarColor,
@@ -604,7 +604,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   SizedBox(
-                                                    width: 200,
+                                                    width: mediaWidth - 200,
                                                     child: Text(
                                                       _offlineVendorsName,
                                                       overflow:
@@ -621,7 +621,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
                                                   ),
                                                   kSizedBox,
                                                   SizedBox(
-                                                    width: 200,
+                                                    width: mediaWidth - 200,
                                                     child: Text(
                                                       "Restaurant",
                                                       overflow:
@@ -650,7 +650,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
                                                       ),
                                                       kHalfWidthSizedBox,
                                                       SizedBox(
-                                                        width: 180,
+                                                        width: mediaWidth - 240,
                                                         child: Text(
                                                           "Last seen $_lastSeenCount $_lastSeenMessage",
                                                           overflow: TextOverflow
@@ -679,8 +679,8 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
                                                             .start,
                                                     children: [
                                                       SizedBox(
-                                                        width: 20,
-                                                        height: 20,
+                                                        width: 25,
+                                                        height: 25,
                                                         child: Icon(
                                                           Icons.star_rounded,
                                                           color: kStarColor,

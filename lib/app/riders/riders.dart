@@ -231,7 +231,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
               icon: Icon(
                 Icons.search_rounded,
                 color: widget.appBarSearchIconColor,
-                size: 30,
+                size: 24,
               ),
             ),
           ],
@@ -420,7 +420,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                                     CrossAxisAlignment.center,
                                                 children: [
                                                   SizedBox(
-                                                    width: 200,
+                                                    width: mediaWidth - 200,
                                                     child: Text(
                                                       _onlineRidersName,
                                                       overflow:
@@ -449,7 +449,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                                       ),
                                                       kHalfWidthSizedBox,
                                                       SizedBox(
-                                                        width: 200,
+                                                        width: mediaWidth - 200,
                                                         child: Text(
                                                           _onlineRidersLocation,
                                                           overflow: TextOverflow
@@ -482,7 +482,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                                       ),
                                                       kHalfWidthSizedBox,
                                                       SizedBox(
-                                                        width: 200,
+                                                        width: mediaWidth - 200,
                                                         child: Text(
                                                           "$_onlineRidersNoOfTrips Trips Completed",
                                                           style: TextStyle(
@@ -565,7 +565,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                                       CrossAxisAlignment.center,
                                                   children: [
                                                     SizedBox(
-                                                      width: 200,
+                                                      width: mediaWidth - 200,
                                                       child: Text(
                                                         _offlineRidersName,
                                                         overflow: TextOverflow
@@ -594,7 +594,8 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                                         ),
                                                         kHalfWidthSizedBox,
                                                         SizedBox(
-                                                          width: 200,
+                                                          width:
+                                                              mediaWidth - 200,
                                                           child: Text(
                                                             "Last seen $_lastSeenCount $_lastSeenMessage",
                                                             overflow:
@@ -628,7 +629,8 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                                         ),
                                                         kHalfWidthSizedBox,
                                                         SizedBox(
-                                                          width: 200,
+                                                          width:
+                                                              mediaWidth - 200,
                                                           child: Text(
                                                             "$_offlineRiderNoOfTrips Trips Completed",
                                                             style: TextStyle(

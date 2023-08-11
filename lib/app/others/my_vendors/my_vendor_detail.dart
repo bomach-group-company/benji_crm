@@ -363,8 +363,8 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                               size: 15,
                                             ),
                                             kHalfWidthSizedBox,
-                                            const SizedBox(
-                                              width: 300,
+                                            SizedBox(
+                                              width: mediaWidth - 100,
                                               child: Text(
                                                 "Old Abakaliki Rd, Thinkers Corner 400103, Enugu",
                                                 overflow: TextOverflow.ellipsis,
@@ -424,7 +424,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                               MainAxisAlignment.spaceEvenly,
                                           children: [
                                             Container(
-                                              width: 102,
+                                              width: mediaWidth * 0.25,
                                               height: 56.67,
                                               decoration: ShapeDecoration(
                                                 color: Colors.white,
@@ -460,7 +460,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                               ),
                                             ),
                                             Container(
-                                              width: 102,
+                                              width: mediaWidth * 0.23,
                                               height: 56.67,
                                               decoration: ShapeDecoration(
                                                 color: Colors.white,
@@ -496,7 +496,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                               ),
                                             ),
                                             Container(
-                                              width: 102,
+                                              width: mediaWidth * 0.25,
                                               height: 56.67,
                                               decoration: ShapeDecoration(
                                                 color: Colors.white,

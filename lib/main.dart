@@ -1,8 +1,8 @@
-import 'package:benji_aggregator/app/overview/overview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/route_manager.dart';
 
+import 'app/overview/overview.dart';
 import 'theme/app theme.dart';
 import 'theme/colors.dart';
 
@@ -33,6 +33,33 @@ class MyApp extends StatelessWidget {
       darkTheme: AppTheme.darkTheme,
       theme: AppTheme.lightTheme,
       home: OverView(),
+      // home: RidersDetail(
+      //     ridersImage: "jerry_emmanuel",
+      //     ridersName: "Jerry Emmanuel",
+      //     ridersPhoneNumber: "08032300044",
+      //     noOfTrips: 238,
+      //     onlineIndicator: Container(
+      //       height: 20,
+      //       width: 20,
+      //       decoration: const ShapeDecoration(
+      //         color: kSuccessColor,
+      //         shape: OvalBorder(),
+      //       ),
+      //     ))
+      // home: VendorDetailsPage(
+      //   vendorCoverImage: "ntachi-osa",
+      //   vendorName: "Ntachi Osa",
+      //   vendorRating: 4.5,
+      //   vendorActiveStatus: "Online",
+      //   vendorActiveStatusColor: kSuccessColor,
+      // ),
+      // home: Vendors(
+      //   showNavigation: () {},
+      //   hideNavigation: () {},
+      //   appBarBackgroundColor: kPrimaryColor,
+      //   appTitleColor: kTextBlackColor,
+      //   appBarSearchIconColor: kAccentColor,
+      // ),
     );
   }
 }

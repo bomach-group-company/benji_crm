@@ -277,7 +277,7 @@ class _RidersDetailState extends State<RidersDetail> {
                                       radius: 60,
                                       backgroundColor: kSecondaryColor,
                                       backgroundImage: AssetImage(
-                                        "assets/images/${widget.ridersImage}",
+                                        "assets/images/rider/${widget.ridersImage}.png",
                                       ),
                                     ),
                                     Positioned(
@@ -289,11 +289,11 @@ class _RidersDetailState extends State<RidersDetail> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: kDefaultPadding),
+                                      horizontal: kDefaultPadding / 2),
                                   child: Column(
                                     children: [
                                       SizedBox(
-                                        width: 140,
+                                        width: mediaWidth - 250,
                                         child: Text(
                                           widget.ridersName,
                                           overflow: TextOverflow.ellipsis,
@@ -318,7 +318,7 @@ class _RidersDetailState extends State<RidersDetail> {
                                           ),
                                           kHalfWidthSizedBox,
                                           SizedBox(
-                                            width: 140,
+                                            width: mediaWidth - 250,
                                             child: Text(
                                               widget.ridersPhoneNumber,
                                               overflow: TextOverflow.ellipsis,
@@ -346,7 +346,7 @@ class _RidersDetailState extends State<RidersDetail> {
                                           ),
                                           kHalfWidthSizedBox,
                                           SizedBox(
-                                            width: 140,
+                                            width: mediaWidth - 250,
                                             child: Text(
                                               "${widget.noOfTrips} Trips Completed",
                                               style: TextStyle(
@@ -492,7 +492,7 @@ class _RidersDetailState extends State<RidersDetail> {
                                               padding: const EdgeInsets.all(
                                                   kDefaultPadding / 2),
                                               // color: kAccentColor,
-                                              width: 240,
+                                              width: mediaWidth - 175,
                                               height: 120,
                                               child: Column(
                                                 mainAxisAlignment:
@@ -511,7 +511,7 @@ class _RidersDetailState extends State<RidersDetail> {
                                                                   .start,
                                                           children: [
                                                             const SizedBox(
-                                                              width: 120,
+                                                              width: 100,
                                                               child: Text(
                                                                 "ID 213081",
                                                                 maxLines: 1,
@@ -603,8 +603,9 @@ class _RidersDetailState extends State<RidersDetail> {
                                                             size: 18,
                                                           ),
                                                           kHalfWidthSizedBox,
-                                                          const SizedBox(
-                                                            width: 160,
+                                                          SizedBox(
+                                                            width: mediaWidth -
+                                                                230,
                                                             child: Text(
                                                               "21 Bartus Street, Abuja Nigeria",
                                                               overflow:
@@ -630,8 +631,9 @@ class _RidersDetailState extends State<RidersDetail> {
                                                             size: 18,
                                                           ),
                                                           kHalfWidthSizedBox,
-                                                          const SizedBox(
-                                                            width: 160,
+                                                          SizedBox(
+                                                            width: mediaWidth -
+                                                                230,
                                                             child: Text(
                                                               "3 Edwins Close, Wuse, Abuja",
                                                               overflow:
@@ -714,7 +716,7 @@ class _RidersDetailState extends State<RidersDetail> {
                                               padding: const EdgeInsets.all(
                                                   kDefaultPadding / 2),
                                               // color: kAccentColor,
-                                              width: 240,
+                                              width: mediaWidth - 175,
                                               height: 120,
                                               child: Column(
                                                 mainAxisAlignment:
@@ -817,8 +819,9 @@ class _RidersDetailState extends State<RidersDetail> {
                                                             size: 18,
                                                           ),
                                                           kHalfWidthSizedBox,
-                                                          const SizedBox(
-                                                            width: 160,
+                                                          SizedBox(
+                                                            width: mediaWidth -
+                                                                230,
                                                             child: Text(
                                                               "21 Bartus Street, Abuja Nigeria",
                                                               overflow:
@@ -844,8 +847,9 @@ class _RidersDetailState extends State<RidersDetail> {
                                                             size: 18,
                                                           ),
                                                           kHalfWidthSizedBox,
-                                                          const SizedBox(
-                                                            width: 160,
+                                                          SizedBox(
+                                                            width: mediaWidth -
+                                                                230,
                                                             child: Text(
                                                               "3 Edwins Close, Wuse, Abuja",
                                                               overflow:
