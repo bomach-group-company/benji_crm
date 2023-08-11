@@ -30,7 +30,7 @@ class MyDisabledOutlinedElevatedButton extends StatelessWidget {
       onPressed: null,
       style: ElevatedButton.styleFrom(
         backgroundColor: kPrimaryColor,
-        elevation: 0.0,
+        elevation: 10.0,
         disabledBackgroundColor: kPrimaryColor,
         enableFeedback: false,
         disabledForegroundColor: kLightGreyColor,

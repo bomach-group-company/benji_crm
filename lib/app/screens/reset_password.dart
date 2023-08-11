@@ -94,7 +94,7 @@ class _ResetPasswordState extends State<ResetPassword> {
         backgroundColor: kSecondaryColor,
         appBar: const MyAppBar(
           title: "",
-          elevation: 0.0,
+          elevation: 10.0,
           toolbarHeight: 80,
           actions: [],
           backgroundColor: kTransparentColor,

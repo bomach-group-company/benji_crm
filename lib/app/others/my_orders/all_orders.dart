@@ -111,7 +111,7 @@ class _AllOrdersState extends State<AllOrders>
       child: Scaffold(
         appBar: MyAppBar(
           title: "All Orders",
-          elevation: 0.0,
+          elevation: 10.0,
           actions: [],
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,

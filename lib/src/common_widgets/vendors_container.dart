@@ -63,7 +63,7 @@ class VendorContainer extends StatelessWidget {
                       image: AssetImage(
                         "assets/images/products$cardImage",
                       ),
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
@@ -84,12 +84,8 @@ class VendorContainer extends StatelessWidget {
                       color:
                           bannerColor, // Customize the banner background color
                       borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(
-                          20.0,
-                        ),
-                        bottomRight: Radius.circular(
-                          20.0,
-                        ),
+                        topLeft: Radius.circular(20.0),
+                        bottomRight: Radius.circular(20.0),
                       ),
                     ),
                     child: SizedBox(
@@ -112,9 +108,7 @@ class VendorContainer extends StatelessWidget {
             ),
             kHalfWidthSizedBox,
             Container(
-              padding: const EdgeInsets.only(
-                top: 10.0,
-              ),
+              padding: const EdgeInsets.only(top: kDefaultPadding),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -140,9 +134,7 @@ class VendorContainer extends StatelessWidget {
                         food,
                         textAlign: TextAlign.center,
                         style: const TextStyle(
-                          color: Color(
-                            0x662F2E3C,
-                          ),
+                          color: Color(0x662F2E3C),
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
                         ),

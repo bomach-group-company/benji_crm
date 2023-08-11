@@ -139,7 +139,7 @@ class _AssignRiderState extends State<AssignRider> {
       child: Scaffold(
         appBar: MyAppBar(
           title: "Available Riders",
-          elevation: 0.0,
+          elevation: 10.0,
           actions: [
             IconButton(
               onPressed: () {

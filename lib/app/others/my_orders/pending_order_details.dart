@@ -159,7 +159,7 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
         appBar: MyAppBar(
           title: "Order Details",
           toolbarHeight: 80,
-          elevation: 0.0,
+          elevation: 10.0,
           actions: const [],
           backgroundColor: kPrimaryColor,
         ),

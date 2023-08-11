@@ -40,9 +40,9 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
 
-    _animationController =
-        AnimationController(vsync: this, duration: const Duration(seconds: 1));
-    _scrollController.addListener(_scrollListener);
+    // _animationController =
+    //     AnimationController(vsync: this, duration: const Duration(seconds: 1));
+    // _scrollController.addListener(_scrollListener);
     _scrollController.addListener(() {
       if (_scrollController.position.userScrollDirection ==
           ScrollDirection.forward) {
@@ -63,7 +63,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
   @override
   void dispose() {
     super.dispose();
-    _animationController.dispose();
+    // _animationController.dispose();
     _scrollController.dispose();
 
     _scrollController.removeListener(() {
@@ -80,7 +80,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
   late bool _loadingScreen;
   bool _vendorStatus = true;
   bool _isLoadingVendorStatus = false;
-  bool _isScrollToTopBtnVisible = false;
+  // bool _isScrollToTopBtnVisible = false;
 
   //Online Vendors
   final String _onlineVendorsName = "Ntachi Osa";
@@ -103,7 +103,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
 
 //============================================== CONTROLLERS =================================================\\
   final ScrollController _scrollController = ScrollController();
-  late AnimationController _animationController;
+  // late AnimationController _animationController;
 
 //============================================== FUNCTIONS =================================================\\
 
@@ -119,25 +119,25 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
     });
   }
 
-//============================= Scroll to Top ======================================//
-  void _scrollToTop() {
-    _animationController.reverse();
-    _scrollController.animateTo(0,
-        duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn);
-  }
+// //============================= Scroll to Top ======================================//
+//   void _scrollToTop() {
+//     _animationController.reverse();
+//     _scrollController.animateTo(0,
+//         duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn);
+//   }
 
-  void _scrollListener() {
-    //========= Show action button ========//
-    if (_scrollController.position.pixels >= 200) {
-      _animationController.forward();
-      setState(() => _isScrollToTopBtnVisible = true);
-    }
-    //========= Hide action button ========//
-    else if (_scrollController.position.pixels < 200) {
-      _animationController.reverse();
-      setState(() => _isScrollToTopBtnVisible = true);
-    }
-  }
+//   void _scrollListener() {
+//     //========= Show action button ========//
+//     if (_scrollController.position.pixels >= 200) {
+//       _animationController.forward();
+//       setState(() => _isScrollToTopBtnVisible = true);
+//     }
+//     //========= Hide action button ========//
+//     else if (_scrollController.position.pixels < 200) {
+//       _animationController.reverse();
+//       setState(() => _isScrollToTopBtnVisible = true);
+//     }
+//   }
 
 //===================== Handle Vendor Status ==========================\\
   void _clickOnlineVendors() async {
@@ -231,43 +231,16 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
       animSpeedFactor: 2,
       showChildOpacityTransition: false,
       child: Scaffold(
-        floatingActionButton: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Stack(
-              children: <Widget>[
-                if (_isScrollToTopBtnVisible) ...[
-                  ScaleTransition(
-                    scale: CurvedAnimation(
-                        parent: _animationController,
-                        curve: Curves.fastEaseInToSlowEaseOut),
-                    child: FloatingActionButton(
-                      onPressed: _scrollToTop,
-                      mini: true,
-                      backgroundColor: kAccentColor,
-                      enableFeedback: true,
-                      mouseCursor: SystemMouseCursors.click,
-                      tooltip: "Scroll to top",
-                      hoverColor: kAccentColor,
-                      hoverElevation: 50.0,
-                      child: const Icon(Icons.keyboard_arrow_up),
-                    ),
-                  ),
-                ]
-              ],
-            ),
-            FloatingActionButton(
-              onPressed: _toAddVendor,
-              elevation: 20.0,
-              mouseCursor: SystemMouseCursors.click,
-              tooltip: "Add a vendor",
-              backgroundColor: kAccentColor,
-              foregroundColor: kPrimaryColor,
-              child: const Icon(
-                Icons.add,
-              ),
-            ),
-          ],
+        floatingActionButton: FloatingActionButton(
+          onPressed: _toAddVendor,
+          elevation: 20.0,
+          mouseCursor: SystemMouseCursors.click,
+          tooltip: "Add a vendor",
+          backgroundColor: kAccentColor,
+          foregroundColor: kPrimaryColor,
+          child: const Icon(
+            Icons.add,
+          ),
         ),
         appBar: AppBar(
           leadingWidth: 40,

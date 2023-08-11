@@ -356,7 +356,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
         extendBodyBehindAppBar: true,
         appBar: MyAppBar(
           title: "Add third party vendor",
-          elevation: 0.0,
+          elevation: 10.0,
           actions: const [],
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,
@@ -923,7 +923,8 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
                                   textInputAction: TextInputAction.newline,
                                   focusNode: vendorBusinessBioFN,
                                   hintText: "Write about the business...",
-                                  maxLines: 5,
+                                  maxLines: 10,
+                                  maxLength: 6000,
                                   keyboardType: TextInputType.multiline,
                                   validator: (value) {
                                     // if (value == null || value!.isEmpty) {

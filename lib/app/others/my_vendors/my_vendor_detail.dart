@@ -240,7 +240,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
         extendBodyBehindAppBar: true,
         appBar: MyAppBar(
           title: "My Vendor Details",
-          elevation: 0.0,
+          elevation: 10.0,
           backgroundColor: kPrimaryColor,
           toolbarHeight: 40,
           actions: [

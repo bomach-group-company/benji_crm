@@ -124,7 +124,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
         appBar: MyAppBar(
           title: "Order Details",
           toolbarHeight: 80,
-          elevation: 0.0,
+          elevation: 10.0,
           actions: const [],
           backgroundColor: kPrimaryColor,
         ),
@@ -157,7 +157,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                         width: mediaWidth,
                         padding: const EdgeInsets.all(kDefaultPadding / 2),
                         decoration: ShapeDecoration(
-                          color: Colors.white,
+                          color: kPrimaryColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(14.30),
                           ),

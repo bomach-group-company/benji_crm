@@ -198,7 +198,7 @@ class _RidersDetailState extends State<RidersDetail> {
       child: Scaffold(
         appBar: MyAppBar(
           title: "Riders Details",
-          elevation: 0.0,
+          elevation: 10.0,
           actions: [
             IconButton(
               onPressed: showSearchField,

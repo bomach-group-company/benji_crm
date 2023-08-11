@@ -214,7 +214,7 @@ class _TrackOrderState extends State<TrackOrder> {
     return Scaffold(
       appBar: MyAppBar(
         title: "Track order",
-        elevation: 0.0,
+        elevation: 10.0,
         actions: [],
         backgroundColor: kPrimaryColor,
         toolbarHeight: kToolbarHeight,

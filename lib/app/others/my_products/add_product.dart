@@ -310,7 +310,7 @@ class _AddProductState extends State<AddProduct> {
         extendBodyBehindAppBar: true,
         appBar: MyAppBar(
           title: "Add New Vendor",
-          elevation: 0.0,
+          elevation: 10.0,
           actions: const [],
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,

@@ -115,7 +115,7 @@ class _PendingOrdersState extends State<PendingOrders> {
       child: Scaffold(
         appBar: MyAppBar(
           title: "Pending Orders",
-          elevation: 0.0,
+          elevation: 10.0,
           actions: const [],
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,

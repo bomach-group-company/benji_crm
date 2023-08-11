@@ -117,7 +117,7 @@ class _NotificationsState extends State<Notifications> {
           title: "Notifications",
           toolbarHeight: 80,
           backgroundColor: kPrimaryColor,
-          elevation: 0.0,
+          elevation: 10.0,
           actions: const [],
         ),
         body: SafeArea(

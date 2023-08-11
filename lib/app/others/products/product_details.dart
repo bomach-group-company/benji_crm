@@ -106,7 +106,7 @@ class _ProductDetailsState extends State<ProductDetails> {
       child: Scaffold(
         appBar: MyAppBar(
           title: "Product Details",
-          elevation: 0.0,
+          elevation: 10.0,
           backgroundColor: kPrimaryColor,
           toolbarHeight: 40,
           actions: const [],

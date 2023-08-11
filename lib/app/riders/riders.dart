@@ -235,7 +235,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
               ),
             ),
           ],
-          elevation: 0.0,
+          elevation: 10.0,
         ),
         floatingActionButton: Stack(
           children: <Widget>[

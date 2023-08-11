@@ -36,7 +36,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
 
   //===================== BOOL VALUES =======================\\
   late bool _loadingScreen;
-  bool isLoading = false;
+  bool _savingChanges = false;
 
   //=================================== CONTROLLERS ====================================\\
   final ScrollController _scrollController = ScrollController();
@@ -124,9 +124,9 @@ class _RegisterVendorState extends State<RegisterVendor> {
   }
 
   //========================== Save data ==================================\\
-  Future<void> loadData() async {
+  Future<void> _saveChanges() async {
     setState(() {
-      isLoading = true;
+      _savingChanges = true;
     });
 
     // Simulating a delay of 3 seconds
@@ -145,7 +145,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
       Navigator.of(context).pop(context);
 
       setState(() {
-        isLoading = false;
+        _savingChanges = false;
       });
     });
   }
@@ -362,12 +362,12 @@ class _RegisterVendorState extends State<RegisterVendor> {
         extendBodyBehindAppBar: true,
         appBar: MyAppBar(
           title: "Register a vendor",
-          elevation: 0.0,
+          elevation: 10.0,
           actions: const [],
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,
         ),
-        bottomNavigationBar: isLoading
+        bottomNavigationBar: _savingChanges
             ? Center(
                 child: SpinKitDoubleBounce(
                   color: kAccentColor,
@@ -384,7 +384,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                 child: MyElevatedButton(
                   onPressed: (() async {
                     if (_formKey.currentState!.validate()) {
-                      loadData();
+                      _saveChanges();
                     }
                   }),
                   buttonTitle: "Save",
@@ -968,8 +968,9 @@ class _RegisterVendorState extends State<RegisterVendor> {
                                   textInputAction: TextInputAction.newline,
                                   focusNode: vendorBusinessBioFN,
                                   hintText: "About the business...",
-                                  maxLines: 5,
+                                  maxLines: 10,
                                   keyboardType: TextInputType.multiline,
+                                  maxLength: 6000,
                                   validator: (value) {
                                     // if (value == null || value!.isEmpty) {
                                     //   vendorBusinessBioFN.requestFocus();

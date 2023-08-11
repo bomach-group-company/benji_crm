@@ -19,6 +19,8 @@ import '../../src/common_widgets/vendors_product_container.dart';
 import '../../src/skeletons/vendors_tabbar_orders_content_skeleton.dart';
 import '../../src/skeletons/vendors_tabbar_products_content_skeleton.dart';
 import '../../theme/colors.dart';
+import 'about_vendor.dart';
+import 'suspend_vendor.dart';
 
 class VendorDetailsPage extends StatefulWidget {
   final String vendorCoverImage;
@@ -41,8 +43,7 @@ class VendorDetailsPage extends StatefulWidget {
 
 class _VendorDetailsPageState extends State<VendorDetailsPage>
     with SingleTickerProviderStateMixin {
-  //=================================== ALL VARIABLES ====================================\\
-  //======================================================================================\\
+  //========================================= INITIAL STATE AND DISPOSE =============================================\\
   @override
   void initState() {
     super.initState();
@@ -62,8 +63,9 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
     _tabBarController.dispose();
     super.dispose();
   }
-
 //==========================================================================================\\
+
+  //=================================== ALL VARIABLES ====================================\\
 
 //===================== BOOL VALUES =======================\\
   // bool isLoading = false;
@@ -146,7 +148,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
       _loadingTabBarContent = true;
     });
 
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(milliseconds: 1000));
 
     setState(() {
       _loadingTabBarContent = false;
@@ -166,8 +168,8 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       items: [
         const PopupMenuItem<String>(
-          value: 'visit',
-          child: Text("Visit vendor"),
+          value: 'about',
+          child: Text("About vendor"),
         ),
         const PopupMenuItem<String>(
           value: 'suspend',
@@ -178,11 +180,11 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
       // Handle the selected value from the popup menu
       if (value != null) {
         switch (value) {
-          case 'more':
-            () {};
+          case 'about':
+            _toAboutVendor();
             break;
           case 'suspend':
-            () {};
+            _toSuspendVendor();
             break;
         }
       }
@@ -201,6 +203,38 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
         fullscreenDialog: true,
         curve: Curves.easeIn,
         routeName: "Product Details",
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
+  void _toAboutVendor() => Get.to(
+        () => AboutVendor(
+          vendorName: widget.vendorName,
+          vendorHeadLine:
+              "Cruiselings whale shark diving pan Pacific romance at sea rusty dancemoves endless horizon home is where the anchor drops back packers Endless summer cruise insider paradise island languid afternoons the love boat cruise life.",
+          monToFriOpeningHours: "8 AM",
+          monToFriClosingHours: "10 PM",
+          satOpeningHours: "8 AM",
+          satClosingHours: "10 PM",
+          sunOpeningHours: "8 AM",
+          sunClosingHours: "10 PM",
+        ),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "About vendor",
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
+  void _toSuspendVendor() => Get.to(
+        () => SuspendVendor(),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "Suspend vendor",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.rightToLeft,
@@ -229,7 +263,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
         extendBodyBehindAppBar: true,
         appBar: MyAppBar(
           title: "Vendor Details",
-          elevation: 0.0,
+          elevation: 10.0,
           backgroundColor: kPrimaryColor,
           toolbarHeight: 40,
           actions: [
@@ -513,9 +547,12 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                                   const SizedBox(
                                                     width: 5,
                                                   ),
-                                                  Icon(
-                                                    Icons.info_outline,
-                                                    color: kAccentColor,
+                                                  InkWell(
+                                                    onTap: _toAboutVendor,
+                                                    child: Icon(
+                                                      Icons.info_outline,
+                                                      color: kAccentColor,
+                                                    ),
                                                   ),
                                                 ],
                                               ),
@@ -600,7 +637,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                         ),
                         kSizedBox,
                         SizedBox(
-                          height: mediaHeight + mediaHeight + mediaHeight,
+                          height: mediaHeight + mediaHeight,
                           width: mediaWidth,
                           child: Column(
                             children: [

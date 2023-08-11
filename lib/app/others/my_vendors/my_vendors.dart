@@ -102,7 +102,7 @@ class _MyVendorsState extends State<MyVendors> {
         extendBodyBehindAppBar: true,
         appBar: MyAppBar(
           title: "My Vendors",
-          elevation: 0.0,
+          elevation: 10.0,
           actions: const [],
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,

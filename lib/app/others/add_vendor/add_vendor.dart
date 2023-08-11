@@ -73,7 +73,7 @@ class _AddVendorState extends State<AddVendor> {
     return Scaffold(
       appBar: MyAppBar(
         title: "Add a new vendor",
-        elevation: 0.0,
+        elevation: 10.0,
         actions: [],
         backgroundColor: kPrimaryColor,
         toolbarHeight: kToolbarHeight,

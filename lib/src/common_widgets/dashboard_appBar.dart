@@ -50,7 +50,7 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: kPrimaryColor,
       automaticallyImplyLeading: false,
       titleSpacing: kDefaultPadding / 2,
-      elevation: 0.0,
+      elevation: 10.0,
       title: Row(
         children: [
           Padding(

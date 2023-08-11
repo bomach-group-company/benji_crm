@@ -116,7 +116,7 @@ class _VendorsProductsPageState extends State<VendorsProductsPage>
         extendBodyBehindAppBar: true,
         appBar: MyAppBar(
           title: "Vendors Products",
-          elevation: 0.0,
+          elevation: 10.0,
           backgroundColor: kPrimaryColor,
           toolbarHeight: 40,
           actions: [
