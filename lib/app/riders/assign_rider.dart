@@ -13,6 +13,7 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../src/providers/constants.dart';
 import '../../src/skeletons/assign_rider_page_skeleton.dart';
+import '../others/call_page.dart';
 import 'riders_detail.dart';
 
 class AssignRider extends StatefulWidget {
@@ -30,7 +31,7 @@ class _AssignRiderState extends State<AssignRider> {
 
     _loadingScreen = true;
     Future.delayed(
-      const Duration(seconds: 2),
+      const Duration(milliseconds: 1000),
       () => setState(
         () => _loadingScreen = false,
       ),
@@ -41,12 +42,12 @@ class _AssignRiderState extends State<AssignRider> {
   late bool _loadingScreen;
   bool _assigningRider = false;
   bool _isAssigned = false;
-  String ridersImage = "martins-okafor";
+  String ridersImage = "rider/martins_okafor.png";
   String ridersName = "Martins Okafor";
   String ridersLocation = "Achara Layout";
-  int noOfTrips = 238;
-  int ridersPhoneNumber = 8032300044;
+  String ridersPhoneNumber = "08032300044";
   final int _numberOfAvailableRider = 10;
+  int noOfTrips = 238;
 
   //============================================== CONTROLLERS =================================================\\
   final ScrollController _scrollController = ScrollController();
@@ -61,7 +62,7 @@ class _AssignRiderState extends State<AssignRider> {
     setState(() {
       _loadingScreen = true;
     });
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 1000));
     setState(() {
       _loadingScreen = false;
     });
@@ -106,7 +107,20 @@ class _AssignRiderState extends State<AssignRider> {
     });
   }
 
-  void _callRider() {}
+  void _callRider() => Get.to(
+        () => CallPage(
+          userName: ridersName,
+          userImage: ridersImage,
+          userPhoneNumber: ridersPhoneNumber,
+        ),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "Call rider",
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +139,7 @@ class _AssignRiderState extends State<AssignRider> {
       child: Scaffold(
         appBar: MyAppBar(
           title: "Available Riders",
-          elevation: 0.0,
+          elevation: 10.0,
           actions: [
             IconButton(
               onPressed: () {
@@ -177,7 +191,7 @@ class _AssignRiderState extends State<AssignRider> {
                             physics: const BouncingScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (context, index) => InkWell(
-                              onTap: toRidersDetailPage,
+                              onTap: _isAssigned ? toRidersDetailPage : null,
                               child: Container(
                                 width: max(mediaWidth, 374),
                                 margin: const EdgeInsets.only(
@@ -208,7 +222,7 @@ class _AssignRiderState extends State<AssignRider> {
                                           decoration: ShapeDecoration(
                                             image: DecorationImage(
                                               image: AssetImage(
-                                                  "assets/images/rider/$ridersImage.png"),
+                                                  "assets/images/$ridersImage"),
                                             ),
                                             shape: const OvalBorder(),
                                           ),

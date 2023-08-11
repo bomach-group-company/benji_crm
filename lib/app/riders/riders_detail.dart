@@ -4,18 +4,20 @@ import 'package:benji_aggregator/src/common_widgets/my_appbar.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../src/common_widgets/my_outlined_elevatedButton.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/custom show search.dart';
 import '../../src/skeletons/dashboard_orders_list_skeleton.dart';
+import '../others/call_page.dart';
 
 class RidersDetail extends StatefulWidget {
   final String ridersImage;
   final String ridersName;
   final int noOfTrips;
-  final int ridersPhoneNumber;
+  final String ridersPhoneNumber;
   final Widget onlineIndicator;
   const RidersDetail(
       {super.key,
@@ -37,7 +39,7 @@ class _RidersDetailState extends State<RidersDetail> {
 
     _loadingScreen = true;
     Future.delayed(
-      const Duration(seconds: 2),
+      const Duration(milliseconds: 1000),
       () => setState(
         () => _loadingScreen = false,
       ),
@@ -65,12 +67,28 @@ class _RidersDetailState extends State<RidersDetail> {
     setState(() {
       _loadingScreen = true;
     });
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 1000));
     setState(() {
       _loadingScreen = false;
     });
   }
 //==========================================================================================\\
+
+//=========================================== Navigation ===============================================\\
+  void _callRider() => Get.to(
+        () => CallPage(
+          userName: widget.ridersName,
+          userImage: widget.ridersImage,
+          userPhoneNumber: widget.ridersPhoneNumber,
+        ),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "Call rider",
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
 
   void _seeMoreDeliveredOrders() {}
   void _seeMorePendingOrders() {}
@@ -180,7 +198,7 @@ class _RidersDetailState extends State<RidersDetail> {
       child: Scaffold(
         appBar: MyAppBar(
           title: "Riders Details",
-          elevation: 0.0,
+          elevation: 10.0,
           actions: [
             IconButton(
               onPressed: showSearchField,
@@ -259,7 +277,7 @@ class _RidersDetailState extends State<RidersDetail> {
                                       radius: 60,
                                       backgroundColor: kSecondaryColor,
                                       backgroundImage: AssetImage(
-                                        "assets/images/rider/${widget.ridersImage}.png",
+                                        "assets/images/${widget.ridersImage}",
                                       ),
                                     ),
                                     Positioned(
@@ -302,7 +320,7 @@ class _RidersDetailState extends State<RidersDetail> {
                                           SizedBox(
                                             width: 140,
                                             child: Text(
-                                              "0${widget.ridersPhoneNumber}",
+                                              widget.ridersPhoneNumber,
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 1,
                                               style: TextStyle(
@@ -342,7 +360,7 @@ class _RidersDetailState extends State<RidersDetail> {
                                       ),
                                       kHalfSizedBox,
                                       MyOutlinedElevatedButton(
-                                        onPressed: () {},
+                                        onPressed: _callRider,
                                         circularBorderRadius: 16,
                                         minimumSizeWidth: 100,
                                         minimumSizeHeight: 30,
@@ -425,7 +443,7 @@ class _RidersDetailState extends State<RidersDetail> {
                           ),
                           kHalfSizedBox,
                           _loadingDeliveryStatus
-                              ? const DashboardOrdersListSkeleton()
+                              ? const OrdersListSkeleton()
                               : _deliveryStatus
                                   ? ListView.builder(
                                       itemCount: _numberOfOrders,
@@ -549,7 +567,7 @@ class _RidersDetailState extends State<RidersDetail> {
                                                               BoxDecoration(
                                                             border: Border.all(
                                                               color:
-                                                                  kGreyColor1,
+                                                                  kLightGreyColor,
                                                               strokeAlign:
                                                                   BorderSide
                                                                       .strokeAlignInside,
@@ -763,7 +781,7 @@ class _RidersDetailState extends State<RidersDetail> {
                                                               BoxDecoration(
                                                             border: Border.all(
                                                               color:
-                                                                  kGreyColor1,
+                                                                  kLightGreyColor,
                                                               strokeAlign:
                                                                   BorderSide
                                                                       .strokeAlignInside,

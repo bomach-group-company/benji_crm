@@ -50,7 +50,7 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: kPrimaryColor,
       automaticallyImplyLeading: false,
       titleSpacing: kDefaultPadding / 2,
-      elevation: 0.0,
+      elevation: 10.0,
       title: Row(
         children: [
           Padding(
@@ -83,13 +83,11 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       actions: [
         IconButton(
-          onPressed: showSearchField,
-          icon: Icon(
-            Icons.search_rounded,
-            color: kAccentColor,
-            size: 30,
-          ),
-        ),
+            onPressed: showSearchField,
+            icon: Icon(
+              Icons.search,
+              color: kGreyColor,
+            )),
         Stack(
           children: [
             IconButton(

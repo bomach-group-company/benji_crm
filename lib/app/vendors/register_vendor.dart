@@ -36,7 +36,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
 
   //===================== BOOL VALUES =======================\\
   late bool _loadingScreen;
-  bool isLoading = false;
+  bool _savingChanges = false;
 
   //=================================== CONTROLLERS ====================================\\
   final ScrollController _scrollController = ScrollController();
@@ -79,7 +79,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
 
     _loadingScreen = true;
     Future.delayed(
-      const Duration(seconds: 2),
+      const Duration(milliseconds: 1000),
       () => setState(
         () => _loadingScreen = false,
       ),
@@ -124,9 +124,9 @@ class _RegisterVendorState extends State<RegisterVendor> {
   }
 
   //========================== Save data ==================================\\
-  Future<void> loadData() async {
+  Future<void> _saveChanges() async {
     setState(() {
-      isLoading = true;
+      _savingChanges = true;
     });
 
     // Simulating a delay of 3 seconds
@@ -137,19 +137,16 @@ class _RegisterVendorState extends State<RegisterVendor> {
       context,
       "Your changes have been saved successfully".toUpperCase(),
       kAccentColor,
-      const Duration(seconds: 2),
+      const Duration(seconds: 1),
     );
 
-    Future.delayed(
-        const Duration(
-          seconds: 2,
-        ), () {
+    Future.delayed(const Duration(seconds: 1), () {
       // Navigate to the new page
       Navigator.of(context).pop(context);
-    });
 
-    setState(() {
-      isLoading = false;
+      setState(() {
+        _savingChanges = false;
+      });
     });
   }
 
@@ -202,9 +199,9 @@ class _RegisterVendorState extends State<RegisterVendor> {
                         decoration: ShapeDecoration(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100),
-                            side: const BorderSide(
+                            side: BorderSide(
                               width: 0.5,
-                              color: kGreyColor1,
+                              color: kLightGreyColor,
                             ),
                           ),
                         ),
@@ -232,9 +229,9 @@ class _RegisterVendorState extends State<RegisterVendor> {
                         decoration: ShapeDecoration(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100),
-                            side: const BorderSide(
+                            side: BorderSide(
                               width: 0.5,
-                              color: kGreyColor1,
+                              color: kLightGreyColor,
                             ),
                           ),
                         ),
@@ -302,9 +299,9 @@ class _RegisterVendorState extends State<RegisterVendor> {
                         decoration: ShapeDecoration(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100),
-                            side: const BorderSide(
+                            side: BorderSide(
                               width: 0.5,
-                              color: kGreyColor1,
+                              color: kLightGreyColor,
                             ),
                           ),
                         ),
@@ -332,9 +329,9 @@ class _RegisterVendorState extends State<RegisterVendor> {
                         decoration: ShapeDecoration(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100),
-                            side: const BorderSide(
+                            side: BorderSide(
                               width: 0.5,
-                              color: kGreyColor1,
+                              color: kLightGreyColor,
                             ),
                           ),
                         ),
@@ -365,12 +362,12 @@ class _RegisterVendorState extends State<RegisterVendor> {
         extendBodyBehindAppBar: true,
         appBar: MyAppBar(
           title: "Register a vendor",
-          elevation: 0.0,
+          elevation: 10.0,
           actions: const [],
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,
         ),
-        bottomNavigationBar: isLoading
+        bottomNavigationBar: _savingChanges
             ? Center(
                 child: SpinKitDoubleBounce(
                   color: kAccentColor,
@@ -387,7 +384,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                 child: MyElevatedButton(
                   onPressed: (() async {
                     if (_formKey.currentState!.validate()) {
-                      loadData();
+                      _saveChanges();
                     }
                   }),
                   buttonTitle: "Save",
@@ -444,7 +441,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                           ),
                           kSizedBox,
                           DottedBorder(
-                            color: kGreyColor1,
+                            color: kLightGreyColor,
                             borderPadding: const EdgeInsets.all(3),
                             padding: const EdgeInsets.all(kDefaultPadding / 2),
                             borderType: BorderType.RRect,
@@ -495,7 +492,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                                                   MainAxisAlignment.center,
                                               children: [
                                                 Image.asset(
-                                                    "assets/images/icons/image-upload.png"),
+                                                    "assets/icons/image-upload.png"),
                                                 kHalfSizedBox,
                                                 Text(
                                                   'Upload cover image',
@@ -971,8 +968,9 @@ class _RegisterVendorState extends State<RegisterVendor> {
                                   textInputAction: TextInputAction.newline,
                                   focusNode: vendorBusinessBioFN,
                                   hintText: "About the business...",
-                                  maxLines: 5,
+                                  maxLines: 10,
                                   keyboardType: TextInputType.multiline,
+                                  maxLength: 6000,
                                   validator: (value) {
                                     // if (value == null || value!.isEmpty) {
                                     //   vendorBusinessBioFN.requestFocus();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../theme/colors.dart';
 
@@ -10,6 +11,7 @@ class MyMessageTextFormField extends StatelessWidget {
   final TextInputAction textInputAction;
   final FocusNode focusNode;
   final int maxLines;
+  final int maxLength;
   final TextInputType keyboardType;
 
   const MyMessageTextFormField({
@@ -22,6 +24,7 @@ class MyMessageTextFormField extends StatelessWidget {
     required this.hintText,
     required this.maxLines,
     required this.keyboardType,
+    required this.maxLength,
   });
 
   @override
@@ -37,6 +40,8 @@ class MyMessageTextFormField extends StatelessWidget {
       maxLines: maxLines,
       enableSuggestions: true,
       keyboardType: keyboardType,
+      maxLengthEnforcement: MaxLengthEnforcement.enforced,
+      maxLength: maxLength,
       scrollPhysics: const BouncingScrollPhysics(),
       textCapitalization: TextCapitalization.sentences,
       style: TextStyle(

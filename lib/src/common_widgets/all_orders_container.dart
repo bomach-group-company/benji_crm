@@ -1,14 +1,16 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
 import '../../theme/colors.dart';
 import '../providers/constants.dart';
 
-class VendorsOrderContainer extends StatelessWidget {
-  const VendorsOrderContainer({
+class AllOrdersContainer extends StatelessWidget {
+  const AllOrdersContainer({
     super.key,
     required this.mediaWidth,
     required String orderImage,
     required int orderID,
+    required Icon orderStatusIcon,
     required this.formattedDateAndTime,
     required String orderItem,
     required int itemQuantity,
@@ -17,6 +19,7 @@ class VendorsOrderContainer extends StatelessWidget {
     required String customerAddress,
   })  : _orderImage = orderImage,
         _orderID = orderID,
+        _orderStatusIcon = orderStatusIcon,
         _orderItem = orderItem,
         _itemQuantity = itemQuantity,
         _itemPrice = itemPrice,
@@ -27,6 +30,7 @@ class VendorsOrderContainer extends StatelessWidget {
   final String _orderImage;
   final int _orderID;
   final String formattedDateAndTime;
+  final Icon _orderStatusIcon;
   final String _orderItem;
   final int _itemQuantity;
   final double _itemPrice;
@@ -85,7 +89,15 @@ class VendorsOrderContainer extends StatelessWidget {
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
                 ),
-              )
+              ),
+              SizedBox(height: 5),
+              DottedBorder(
+                borderType: BorderType.RRect,
+                color: kGreyColor,
+                padding: EdgeInsets.all(kDefaultPadding / 3),
+                radius: Radius.circular(kDefaultPadding),
+                child: _orderStatusIcon,
+              ),
             ],
           ),
           kWidthSizedBox,

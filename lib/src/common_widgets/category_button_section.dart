@@ -26,6 +26,7 @@ class CategoryButtonSection extends StatelessWidget {
     return SizedBox(
       height: 60,
       child: ListView.builder(
+        shrinkWrap: true,
         itemCount: _category.length,
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),

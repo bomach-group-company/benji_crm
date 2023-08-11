@@ -36,7 +36,7 @@ class _AddProductState extends State<AddProduct> {
 
     _loadingScreen = true;
     Future.delayed(
-      const Duration(seconds: 2),
+      const Duration(milliseconds: 1000),
       () => setState(
         () => _loadingScreen = false,
       ),
@@ -57,7 +57,7 @@ class _AddProductState extends State<AddProduct> {
     setState(() {
       _loadingScreen = true;
     });
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(milliseconds: 500));
     setState(() {
       _loadingScreen = false;
     });
@@ -141,9 +141,9 @@ class _AddProductState extends State<AddProduct> {
                         decoration: ShapeDecoration(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100),
-                            side: const BorderSide(
+                            side: BorderSide(
                               width: 0.5,
-                              color: kGreyColor1,
+                              color: kLightGreyColor,
                             ),
                           ),
                         ),
@@ -171,9 +171,9 @@ class _AddProductState extends State<AddProduct> {
                         decoration: ShapeDecoration(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100),
-                            side: const BorderSide(
+                            side: BorderSide(
                               width: 0.5,
-                              color: kGreyColor1,
+                              color: kLightGreyColor,
                             ),
                           ),
                         ),
@@ -241,9 +241,9 @@ class _AddProductState extends State<AddProduct> {
                         decoration: ShapeDecoration(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100),
-                            side: const BorderSide(
+                            side: BorderSide(
                               width: 0.5,
-                              color: kGreyColor1,
+                              color: kLightGreyColor,
                             ),
                           ),
                         ),
@@ -271,9 +271,9 @@ class _AddProductState extends State<AddProduct> {
                         decoration: ShapeDecoration(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100),
-                            side: const BorderSide(
+                            side: BorderSide(
                               width: 0.5,
-                              color: kGreyColor1,
+                              color: kLightGreyColor,
                             ),
                           ),
                         ),
@@ -310,7 +310,7 @@ class _AddProductState extends State<AddProduct> {
         extendBodyBehindAppBar: true,
         appBar: MyAppBar(
           title: "Add New Vendor",
-          elevation: 0.0,
+          elevation: 10.0,
           actions: const [],
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,
@@ -358,7 +358,7 @@ class _AddProductState extends State<AddProduct> {
                             ),
                           ),
                           DottedBorder(
-                            color: kGreyColor1,
+                            color: kLightGreyColor,
                             borderPadding: const EdgeInsets.all(3),
                             padding: const EdgeInsets.all(kDefaultPadding / 2),
                             borderType: BorderType.RRect,

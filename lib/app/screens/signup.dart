@@ -469,7 +469,7 @@ class _SignUpState extends State<SignUp> {
                                     10,
                                   ),
                                   border: Border.all(
-                                    color: kGreyColor1,
+                                    color: kLightGreyColor,
                                   ),
                                 ),
                                 child: Row(

@@ -25,7 +25,7 @@ class _PendingOrdersState extends State<PendingOrders> {
 
     _loadingScreen = true;
     Future.delayed(
-      const Duration(seconds: 2),
+      const Duration(milliseconds: 1000),
       () => setState(
         () => _loadingScreen = false,
       ),
@@ -37,20 +37,23 @@ class _PendingOrdersState extends State<PendingOrders> {
 
 //========================================================= ALL VARIABLES =======================================================\\
   late bool _loadingScreen;
-  int incrementOrderID = 2 + 2;
-  late int orderID;
-  String orderItem = "Jollof Rice and Chicken";
-  String customerAddress = "21 Odogwu Street, New Haven";
-  int itemQuantity = 2;
+  int _incrementOrderID = 2 + 2;
+  late int _orderID;
+  String _orderItem = "Jollof Rice and Chicken";
+  int _itemQuantity = 2;
   double price = 2500;
-  double itemPrice = 2500;
-  String orderImage = "chizzy's-food";
-  String customerName = "Mercy Luke";
+  double _itemPrice = 2500;
+  String _orderImage = "chizzy's-food";
+
+  String _customerImage = "customer/mercy_luke.png";
+  String _customerName = "Mercy Luke";
+  String _customerPhoneNumber = "09037453342";
+  String _customerAddress = "21 Odogwu Street, New Haven";
 
 //========================================================= FUNCTIONS =======================================================\\
 
   double calculateSubtotal() {
-    return itemPrice * itemQuantity;
+    return _itemPrice * _itemQuantity;
   }
 
 //===================== Handle refresh ==========================\\
@@ -59,7 +62,7 @@ class _PendingOrdersState extends State<PendingOrders> {
     setState(() {
       _loadingScreen = true;
     });
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 1000));
     setState(() {
       _loadingScreen = false;
     });
@@ -80,13 +83,15 @@ class _PendingOrdersState extends State<PendingOrders> {
     void toOrderDetailsPage() => Get.to(
           () => PendingOrderDetails(
             formatted12HrTime: formattedDateAndTime,
-            orderID: orderID,
-            orderImage: orderImage,
-            orderItem: orderItem,
-            itemQuantity: itemQuantity,
+            orderID: _orderID,
+            orderImage: _orderImage,
+            orderItem: _orderItem,
+            itemQuantity: _itemQuantity,
             subtotalPrice: subtotalPrice,
-            customerName: customerName,
-            customerAddress: customerAddress,
+            customerImage: _customerImage,
+            customerPhoneNumber: _customerPhoneNumber,
+            customerName: _customerName,
+            customerAddress: _customerAddress,
           ),
           duration: const Duration(milliseconds: 300),
           fullscreenDialog: true,
@@ -94,7 +99,7 @@ class _PendingOrdersState extends State<PendingOrders> {
           routeName: "Pending order details",
           preventDuplicates: true,
           popGesture: true,
-          transition: Transition.downToUp,
+          transition: Transition.rightToLeft,
         );
 
 //====================================================================================\\
@@ -110,7 +115,7 @@ class _PendingOrdersState extends State<PendingOrders> {
       child: Scaffold(
         appBar: MyAppBar(
           title: "Pending Orders",
-          elevation: 0.0,
+          elevation: 10.0,
           actions: const [],
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,
@@ -120,7 +125,7 @@ class _PendingOrdersState extends State<PendingOrders> {
           child: FutureBuilder(
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                const DashboardOrdersListSkeleton();
+                const OrdersListSkeleton();
               }
               if (snapshot.connectionState == ConnectionState.none) {
                 const Center(
@@ -138,7 +143,7 @@ class _PendingOrdersState extends State<PendingOrders> {
               return _loadingScreen
                   ? const Padding(
                       padding: EdgeInsets.all(kDefaultPadding),
-                      child: DashboardOrdersListSkeleton(),
+                      child: OrdersListSkeleton(),
                     )
                   : Scrollbar(
                       controller: _scrollController,
@@ -150,9 +155,9 @@ class _PendingOrdersState extends State<PendingOrders> {
                         children: [
                           Column(
                             children: [
-                              for (orderID = 1;
-                                  orderID < 30;
-                                  orderID += incrementOrderID)
+                              for (_orderID = 1;
+                                  _orderID < 30;
+                                  _orderID += _incrementOrderID)
                                 InkWell(
                                   onTap: toOrderDetailsPage,
                                   borderRadius:
@@ -196,14 +201,14 @@ class _PendingOrdersState extends State<PendingOrders> {
                                                     BorderRadius.circular(16),
                                                 image: DecorationImage(
                                                   image: AssetImage(
-                                                    "assets/images/products/$orderImage.png",
+                                                    "assets/images/products/$_orderImage.png",
                                                   ),
                                                 ),
                                               ),
                                             ),
                                             kHalfSizedBox,
                                             Text(
-                                              "#00${orderID.toString()}",
+                                              "#00${_orderID.toString()}",
                                               style: TextStyle(
                                                 color: kTextGreyColor,
                                                 fontSize: 13,
@@ -258,7 +263,7 @@ class _PendingOrdersState extends State<PendingOrders> {
                                               color: kTransparentColor,
                                               width: 250,
                                               child: Text(
-                                                orderItem,
+                                                _orderItem,
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 2,
                                                 style: const TextStyle(
@@ -275,7 +280,7 @@ class _PendingOrdersState extends State<PendingOrders> {
                                                 TextSpan(
                                                   children: [
                                                     TextSpan(
-                                                      text: "x $itemQuantity",
+                                                      text: "x $_itemQuantity",
                                                       style: const TextStyle(
                                                         fontSize: 13,
                                                         fontWeight:
@@ -285,7 +290,7 @@ class _PendingOrdersState extends State<PendingOrders> {
                                                     const TextSpan(text: "  "),
                                                     TextSpan(
                                                       text:
-                                                          "₦ ${itemPrice.toStringAsFixed(2)}",
+                                                          "₦ ${_itemPrice.toStringAsFixed(2)}",
                                                       style: const TextStyle(
                                                         fontSize: 15,
                                                         fontFamily: 'sen',
@@ -299,7 +304,7 @@ class _PendingOrdersState extends State<PendingOrders> {
                                             ),
                                             kHalfSizedBox,
                                             Container(
-                                              color: kGreyColor1,
+                                              color: kLightGreyColor,
                                               height: 1,
                                               width: mediaWidth / 1.8,
                                             ),
@@ -307,7 +312,7 @@ class _PendingOrdersState extends State<PendingOrders> {
                                             SizedBox(
                                               width: mediaWidth / 1.8,
                                               child: Text(
-                                                customerName,
+                                                _customerName,
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 1,
                                                 style: const TextStyle(
@@ -319,7 +324,7 @@ class _PendingOrdersState extends State<PendingOrders> {
                                             SizedBox(
                                               width: mediaWidth / 1.8,
                                               child: Text(
-                                                customerAddress,
+                                                _customerAddress,
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 1,
                                                 style: const TextStyle(

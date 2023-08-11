@@ -23,7 +23,7 @@ class _AddVendorState extends State<AddVendor> {
     super.initState();
     _loadingScreen = true;
     Future.delayed(
-      const Duration(seconds: 2),
+      const Duration(milliseconds: 1000),
       () => setState(
         () => _loadingScreen = false,
       ),
@@ -73,7 +73,7 @@ class _AddVendorState extends State<AddVendor> {
     return Scaffold(
       appBar: MyAppBar(
         title: "Add a new vendor",
-        elevation: 0.0,
+        elevation: 10.0,
         actions: [],
         backgroundColor: kPrimaryColor,
         toolbarHeight: kToolbarHeight,
@@ -109,7 +109,7 @@ class _AddVendorState extends State<AddVendor> {
                     children: [
                       DottedBorder(
                         borderType: BorderType.RRect,
-                        color: kGreyColor1,
+                        color: kLightGreyColor,
                         radius: Radius.circular(kDefaultPadding),
                         padding: const EdgeInsets.all(kDefaultPadding),
                         child: Align(
@@ -164,9 +164,9 @@ class _AddVendorState extends State<AddVendor> {
                         horizontalTitleGap: 10,
                         mouseCursor: SystemMouseCursors.click,
                         enableFeedback: true,
-                        tileColor: kGreyColor1.withOpacity(0.15),
-                        focusColor: kGreyColor1.withOpacity(0.15),
-                        splashColor: kGreyColor1.withOpacity(0.15),
+                        tileColor: kLightGreyColor.withOpacity(0.15),
+                        focusColor: kLightGreyColor.withOpacity(0.15),
+                        splashColor: kLightGreyColor.withOpacity(0.15),
                         minVerticalPadding: kDefaultPadding / 2,
                         shape: RoundedRectangleBorder(
                           borderRadius:

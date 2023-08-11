@@ -56,7 +56,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
     });
     _loadingScreen = true;
     Future.delayed(
-      const Duration(seconds: 2),
+      const Duration(milliseconds: 1000),
       () => setState(
         () => _loadingScreen = false,
       ),
@@ -77,17 +77,17 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
   bool _isScrollToTopBtnVisible = false;
 
 //Online Riders
-  final String _onlineRidersImage = "jerry-emmanuel";
+  final String _onlineRidersImage = "jerry_emmanuel";
   final String _onlineRidersName = "Jerry Emmanuel";
   final String _onlineRidersLocation = "Achara Layout";
   final int _onlineRidersNoOfTrips = 238;
-  final int _onlineRidersPhoneNumber = 8032300044;
+  final String _onlineRidersPhoneNumber = "08032300044";
   final int _numberOfOnlineRiders = 10;
 
 //Offline Riders
   final String _offlineRidersName = "Martins Okafor";
-  final String _offlineRidersImage = "martins-okafor";
-  final int _offlineRidersPhoneNumber = 8032300253;
+  final String _offlineRidersImage = "martins_okafor";
+  final String _offlineRidersPhoneNumber = "08032300253";
   final int _lastSeenCount = 20;
   final String _lastSeenMessage = "minutes ago";
   final int _offlineRiderNoOfTrips = 221;
@@ -105,7 +105,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
     setState(() {
       _loadingScreen = true;
     });
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 1000));
     setState(() {
       _loadingScreen = false;
     });
@@ -235,7 +235,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
               ),
             ),
           ],
-          elevation: 0.0,
+          elevation: 10.0,
         ),
         floatingActionButton: Stack(
           children: <Widget>[

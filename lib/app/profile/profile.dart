@@ -28,7 +28,7 @@ class _ProfileState extends State<Profile> {
             ),
           ),
         ),
-        elevation: 0.0,
+        elevation: 10.0,
       ),
     );
   }

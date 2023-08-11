@@ -43,12 +43,11 @@ class _MyProductDetailsState extends State<MyProductDetails> {
 
     _loadingScreen = true;
     Future.delayed(
-      const Duration(seconds: 3),
+      const Duration(milliseconds: 500),
       () => setState(
         () => _loadingScreen = false,
       ),
     );
-
   }
 
 //===================== Handle refresh ==========================\\
@@ -57,7 +56,7 @@ class _MyProductDetailsState extends State<MyProductDetails> {
     setState(() {
       _loadingScreen = true;
     });
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(milliseconds: 500));
     setState(() {
       _loadingScreen = false;
     });
@@ -86,7 +85,7 @@ class _MyProductDetailsState extends State<MyProductDetails> {
       child: Scaffold(
         appBar: MyAppBar(
           title: "Product Details",
-          elevation: 0.0,
+          elevation: 10.0,
           backgroundColor: kPrimaryColor,
           toolbarHeight: 40,
           actions: const [],

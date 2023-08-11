@@ -12,13 +12,13 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../src/common_widgets/category_button_section.dart';
 import '../../../src/common_widgets/my_appbar.dart';
+import '../../../src/common_widgets/vendor_orders_tab.dart';
+import '../../../src/common_widgets/vendor_products_tab.dart';
 import '../../../src/common_widgets/vendors_order_container.dart';
 import '../../../src/common_widgets/vendors_product_container.dart';
 import '../../../src/skeletons/vendors_tabbar_orders_content_skeleton.dart';
 import '../../../src/skeletons/vendors_tabbar_products_content_skeleton.dart';
 import '../../../theme/colors.dart';
-import '../../vendors/vendor_orders_tab.dart';
-import '../../vendors/vendor_products_tab.dart';
 
 class MyVendorDetailsPage extends StatefulWidget {
   final String vendorCoverImage;
@@ -41,8 +41,7 @@ class MyVendorDetailsPage extends StatefulWidget {
 
 class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
     with SingleTickerProviderStateMixin {
-  //=================================== ALL VARIABLES ====================================\\
-  //======================================================================================\\
+  //======================================= INITIAL AND DISPOSE ===============================================\\
   @override
   void initState() {
     super.initState();
@@ -50,12 +49,11 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
     _tabBarController = TabController(length: 2, vsync: this);
     _loadingScreen = true;
     Future.delayed(
-      const Duration(seconds: 3),
+      const Duration(milliseconds: 500),
       () => setState(
         () => _loadingScreen = false,
       ),
     );
-
   }
 
   @override
@@ -66,10 +64,15 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
 
 //==========================================================================================\\
 
+  //=================================== ALL VARIABLES ====================================\\
+
 //===================== BOOL VALUES =======================\\
   // bool isLoading = false;
   late bool _loadingScreen;
   bool _loadingTabBarContent = false;
+
+  //=================================== Vendor Details =======================================\\
+  String _vendorImage = "ntachi-osa-logo.png";
 
   //=================================== Orders =======================================\\
   final int _incrementOrderID = 2 + 2;
@@ -136,7 +139,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
     setState(() {
       _loadingScreen = true;
     });
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(milliseconds: 500));
     setState(() {
       _loadingScreen = false;
     });
@@ -174,6 +177,10 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
           value: 'suspend',
           child: Text("Suspend vendor"),
         ),
+        const PopupMenuItem<String>(
+          value: 'Delete',
+          child: Text("Delete vendor"),
+        ),
       ],
     ).then((value) {
       // Handle the selected value from the popup menu
@@ -183,6 +190,9 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
             () {};
             break;
           case 'suspend':
+            () {};
+            break;
+          case 'delete':
             () {};
             break;
         }
@@ -230,7 +240,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
         extendBodyBehindAppBar: true,
         appBar: MyAppBar(
           title: "My Vendor Details",
-          elevation: 0.0,
+          elevation: 10.0,
           backgroundColor: kPrimaryColor,
           toolbarHeight: 40,
           actions: [
@@ -536,15 +546,14 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                   height: 100,
                                   decoration: ShapeDecoration(
                                     color: kPageSkeletonColor,
-                                    image: const DecorationImage(
+                                    image: DecorationImage(
                                       image: AssetImage(
-                                        "assets/images/vendors/ntachi-osa-logo.png",
+                                        "assets/images/vendors/$_vendorImage",
                                       ),
                                       fit: BoxFit.cover,
                                     ),
                                     shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(43.50),
+                                      borderRadius: BorderRadius.circular(44),
                                     ),
                                   ),
                                 ),
@@ -562,7 +571,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                               color: kDefaultCategoryBackgroundColor,
                               borderRadius: BorderRadius.circular(50),
                               border: Border.all(
-                                color: kGreyColor1,
+                                color: kLightGreyColor,
                                 style: BorderStyle.solid,
                                 strokeAlign: BorderSide.strokeAlignOutside,
                               ),

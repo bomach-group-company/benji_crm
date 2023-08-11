@@ -1,5 +1,6 @@
 // ignore_for_file: file_names, unused_local_variable
 
+import 'package:benji_aggregator/app/others/call_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
@@ -16,8 +17,11 @@ class PendingOrderDetails extends StatefulWidget {
   final int orderID;
   final String formatted12HrTime;
   final String orderItem;
+  final String customerImage;
   final String customerName;
   final String customerAddress;
+  final String customerPhoneNumber;
+
   final int itemQuantity;
   final double subtotalPrice;
   final String orderImage;
@@ -30,7 +34,9 @@ class PendingOrderDetails extends StatefulWidget {
       required this.subtotalPrice,
       required this.orderImage,
       required this.formatted12HrTime,
-      required this.customerName});
+      required this.customerName,
+      required this.customerImage,
+      required this.customerPhoneNumber});
 
   @override
   State<PendingOrderDetails> createState() => _PendingOrderDetailsState();
@@ -44,7 +50,7 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
 
     _loadingScreen = true;
     Future.delayed(
-      const Duration(seconds: 2),
+      const Duration(milliseconds: 1000),
       () => setState(
         () => _loadingScreen = false,
       ),
@@ -55,28 +61,13 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
 
 //============================== BOOLS ================================\\
   late bool _loadingScreen;
-  bool isOrderProcessing = false;
-  bool isOrderAccepted = false;
+  bool _orderProcessing = false;
+  bool _orderAccepted = false;
   bool isOrderCanceled = false;
   double deliveryFee = 300.00;
 //============================== FUNCTIONS ================================\\
 
-//===================== Handle refresh ==========================\\
-
-  Future<void> _handleRefresh() async {
-    setState(() {
-      _loadingScreen = true;
-    });
-    await Future.delayed(const Duration(seconds: 2));
-    setState(() {
-      _loadingScreen = false;
-    });
-  }
-
-  double calculateTotalPrice() {
-    return widget.subtotalPrice + deliveryFee;
-  }
-
+//============================== Navigation ================================\\
   //ASSIGN RIDER
   void _assignRider() => Get.to(
         () => const AssignRider(),
@@ -88,18 +79,48 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
         popGesture: true,
         transition: Transition.rightToLeft,
       );
+  //CALL CUSTOMER
+  void _callCustomer() => Get.to(
+        () => CallPage(
+            userName: widget.customerName,
+            userImage: widget.customerImage,
+            userPhoneNumber: widget.customerPhoneNumber),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "Call customer",
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
+//===================== Handle refresh ==========================\\
+
+  Future<void> _handleRefresh() async {
+    setState(() {
+      _loadingScreen = true;
+    });
+    await Future.delayed(const Duration(milliseconds: 1000));
+    setState(() {
+      _loadingScreen = false;
+    });
+  }
+
+  double calculateTotalPrice() {
+    return widget.subtotalPrice + deliveryFee;
+  }
 
   //Order Accepted
   void _processOrderAccepted() {
     setState(() {
-      isOrderProcessing = true;
+      _orderProcessing = true;
     });
 
     // Simulating an asynchronous process
     Future.delayed(const Duration(seconds: 3), () {
       setState(() {
-        isOrderProcessing = false;
-        isOrderAccepted = true;
+        _orderProcessing = false;
+        _orderAccepted = true;
       });
     });
   }
@@ -107,13 +128,13 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
   //Order Canceled
   void _processOrderCanceled() {
     setState(() {
-      isOrderProcessing = true;
+      _orderProcessing = true;
     });
 
     // Simulating an asynchronous process
     Future.delayed(const Duration(seconds: 3), () {
       setState(() {
-        isOrderProcessing = false;
+        _orderProcessing = false;
         isOrderCanceled = true;
       });
     });
@@ -138,7 +159,7 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
         appBar: MyAppBar(
           title: "Order Details",
           toolbarHeight: 80,
-          elevation: 0.0,
+          elevation: 10.0,
           actions: const [],
           backgroundColor: kPrimaryColor,
         ),
@@ -239,7 +260,7 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
                                             letterSpacing: -0.32,
                                           ),
                                         )
-                                      : isOrderAccepted
+                                      : _orderAccepted
                                           ? const Text(
                                               'Accepted',
                                               textAlign: TextAlign.right,
@@ -250,7 +271,7 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
                                                 letterSpacing: -0.32,
                                               ),
                                             )
-                                          : isOrderProcessing
+                                          : _orderProcessing
                                               ? Text(
                                                   'Processing',
                                                   textAlign: TextAlign.right,
@@ -425,9 +446,9 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
                                   height: 60,
                                   decoration: ShapeDecoration(
                                     color: kPageSkeletonColor,
-                                    image: const DecorationImage(
+                                    image: DecorationImage(
                                       image: AssetImage(
-                                        "assets/images/customer/blessing-elechi.png",
+                                        "assets/images/${widget.customerImage}",
                                       ),
                                       fit: BoxFit.cover,
                                     ),
@@ -448,7 +469,7 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
                                     ),
                                     kHalfSizedBox,
                                     Text(
-                                      '09023348400',
+                                      widget.customerPhoneNumber,
                                       style: TextStyle(
                                         color: kTextGreyColor,
                                         fontSize: 11.62,
@@ -481,32 +502,50 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
                                     ),
                                   ],
                                 ),
-                                Container(
-                                  width: 40,
-                                  height: 40,
-                                  decoration: ShapeDecoration(
-                                    color: kAccentColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16),
-                                    ),
-                                    shadows: [
-                                      BoxShadow(
-                                        blurRadius: 4,
-                                        spreadRadius: 0.7,
-                                        color: kBlackColor.withOpacity(0.4),
-                                        offset: const Offset(0, 4),
+                                _orderAccepted
+                                    ? Container(
+                                        height: 48,
+                                        width: 48,
+                                        decoration: ShapeDecoration(
+                                          color: const Color(0xFFFDD5D5),
+                                          shape: RoundedRectangleBorder(
+                                            side: const BorderSide(
+                                                width: 0.40,
+                                                color: Color(0xFFD4DAF0)),
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                          ),
+                                        ),
+                                        child: IconButton(
+                                          onPressed: _callCustomer,
+                                          icon: Icon(
+                                            Icons.phone,
+                                            color: kAccentColor,
+                                          ),
+                                        ),
                                       )
-                                    ],
-                                  ),
-                                  child: IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.phone_rounded,
-                                      color: kPrimaryColor,
-                                      size: 20,
-                                    ),
-                                  ),
-                                ),
+                                    : Container(
+                                        height: 48,
+                                        width: 48,
+                                        decoration: ShapeDecoration(
+                                          color: kLightGreyColor,
+                                          shape: RoundedRectangleBorder(
+                                            side: const BorderSide(
+                                                width: 0.40,
+                                                color: Color(0xFFD4DAF0)),
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                          ),
+                                        ),
+                                        child: IconButton(
+                                          onPressed: null,
+                                          disabledColor: kLightGreyColor,
+                                          icon: Icon(
+                                            Icons.phone,
+                                            color: kPrimaryColor,
+                                          ),
+                                        ),
+                                      ),
                               ],
                             ),
                           ],
@@ -747,7 +786,7 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
                                 ],
                               ),
                             )
-                          : isOrderAccepted
+                          : _orderAccepted
                               ? MyElevatedButton(
                                   onPressed: () {
                                     _assignRider();
@@ -761,7 +800,7 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
                                   titleFontSize: 20,
                                   elevation: 10.0,
                                 )
-                              : isOrderProcessing
+                              : _orderProcessing
                                   ? SpinKitChasingDots(
                                       color: kAccentColor,
                                       duration: const Duration(seconds: 2),

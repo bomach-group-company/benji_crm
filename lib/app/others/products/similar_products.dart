@@ -41,12 +41,11 @@ class _SimilarProductsPageState extends State<SimilarProductsPage>
 
     _loadingScreen = true;
     Future.delayed(
-      const Duration(seconds: 3),
+      const Duration(milliseconds: 500),
       () => setState(
         () => _loadingScreen = false,
       ),
     );
-
   }
 
 //==========================================================================================\\
@@ -59,7 +58,7 @@ class _SimilarProductsPageState extends State<SimilarProductsPage>
     setState(() {
       _loadingScreen = true;
     });
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(milliseconds: 500));
     setState(() {
       _loadingScreen = false;
     });
@@ -116,7 +115,7 @@ class _SimilarProductsPageState extends State<SimilarProductsPage>
         extendBodyBehindAppBar: true,
         appBar: MyAppBar(
           title: "Similar Products",
-          elevation: 0.0,
+          elevation: 10.0,
           backgroundColor: kPrimaryColor,
           toolbarHeight: 40,
           actions: [

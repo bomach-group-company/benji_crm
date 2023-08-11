@@ -25,7 +25,7 @@ class _ActiveOrdersState extends State<ActiveOrders> {
 
     _loadingScreen = true;
     Future.delayed(
-      const Duration(seconds: 2),
+      const Duration(milliseconds: 1000),
       () => setState(
         () => _loadingScreen = false,
       ),
@@ -40,12 +40,14 @@ class _ActiveOrdersState extends State<ActiveOrders> {
   int incrementOrderID = 2 + 2;
   late int orderID;
   String orderItem = "Jollof Rice and Chicken";
+  String customerImage = "customer/juliet_gomes.png";
+  String customerName = "Juliet Gomes";
   String customerAddress = "21 Odogwu Street, New Haven";
+  String customerPhoneNumber = "07023348400";
   int itemQuantity = 2;
   double price = 2500;
   double itemPrice = 2500;
   String orderImage = "chizzy's-food";
-  String customerName = "Mercy Luke";
 
 //========================================================= FUNCTIONS =======================================================\\
 
@@ -59,7 +61,7 @@ class _ActiveOrdersState extends State<ActiveOrders> {
     setState(() {
       _loadingScreen = true;
     });
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 1000));
     setState(() {
       _loadingScreen = false;
     });
@@ -79,14 +81,16 @@ class _ActiveOrdersState extends State<ActiveOrders> {
     //===================== Navigate to Order Details Page ================================\\
     void _toActiveOrderDetailsPage() => Get.to(
           () => ActiveOrderDetails(
+            customerImage: customerImage,
+            customerName: customerName,
+            customerPhoneNumber: customerPhoneNumber,
+            customerAddress: customerAddress,
             formatted12HrTime: formattedDateAndTime,
             orderID: orderID,
             orderImage: orderImage,
             orderItem: orderItem,
             itemQuantity: itemQuantity,
             subtotalPrice: subtotalPrice,
-            customerName: customerName,
-            customerAddress: customerAddress,
           ),
           duration: const Duration(milliseconds: 300),
           fullscreenDialog: true,
@@ -110,7 +114,7 @@ class _ActiveOrdersState extends State<ActiveOrders> {
       child: Scaffold(
         appBar: MyAppBar(
           title: "Active Orders",
-          elevation: 0.0,
+          elevation: 10.0,
           actions: const [],
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,
@@ -120,7 +124,7 @@ class _ActiveOrdersState extends State<ActiveOrders> {
           child: FutureBuilder(
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                const DashboardOrdersListSkeleton();
+                const OrdersListSkeleton();
               }
               if (snapshot.connectionState == ConnectionState.none) {
                 const Center(
@@ -138,7 +142,7 @@ class _ActiveOrdersState extends State<ActiveOrders> {
               return _loadingScreen
                   ? const Padding(
                       padding: EdgeInsets.all(kDefaultPadding),
-                      child: DashboardOrdersListSkeleton(),
+                      child: OrdersListSkeleton(),
                     )
                   : Scrollbar(
                       controller: _scrollController,
@@ -299,7 +303,7 @@ class _ActiveOrdersState extends State<ActiveOrders> {
                                             ),
                                             kHalfSizedBox,
                                             Container(
-                                              color: kGreyColor1,
+                                              color: kLightGreyColor,
                                               height: 1,
                                               width: mediaWidth / 1.8,
                                             ),
