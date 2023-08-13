@@ -8,6 +8,7 @@ import 'package:readmore/readmore.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../src/common_widgets/my_appbar.dart';
+import '../../../src/common_widgets/showModalBottomSheetTitleWithIcon.dart';
 import '../../../src/providers/constants.dart';
 import '../../../src/skeletons/product_details_page_skeleton.dart';
 import '../../../theme/colors.dart';
@@ -69,6 +70,38 @@ class _MyProductDetailsState extends State<MyProductDetails> {
   // void _toSimilarProductsPage() => Get.to(() {});
   void _toSimilarProductsPage() => {};
 
+  void _editProduct() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: kPrimaryColor,
+      barrierColor: kBlackColor.withOpacity(0.5),
+      showDragHandle: true,
+      useSafeArea: true,
+      isScrollControlled: true,
+      isDismissible: true,
+      elevation: 20.0,
+      shape: RoundedRectangleBorder(
+          borderRadius:
+              BorderRadius.vertical(top: Radius.circular(kDefaultPadding))),
+      enableDrag: true,
+      builder: (context) => SingleChildScrollView(
+        physics: ScrollPhysics(),
+        padding: const EdgeInsets.all(kDefaultPadding),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const ShowModalBottomSheetTitleWithIcon(
+              title: "Option",
+            ),
+            SizedBox(height: kDefaultPadding * 2),
+            ListTile()
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double mediaHeight = MediaQuery.of(context).size.height;
@@ -88,7 +121,15 @@ class _MyProductDetailsState extends State<MyProductDetails> {
           elevation: 10.0,
           backgroundColor: kPrimaryColor,
           toolbarHeight: 40,
-          actions: const [],
+          actions: [
+            IconButton(
+              onPressed: _editProduct,
+              icon: Icon(
+                Icons.more_vert,
+                color: kAccentColor,
+              ),
+            ),
+          ],
         ),
         extendBodyBehindAppBar: true,
         backgroundColor: kPrimaryColor,
