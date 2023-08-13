@@ -4,7 +4,6 @@ import 'package:get/route_manager.dart';
 
 import 'app/overview/overview.dart';
 import 'theme/app theme.dart';
-import 'theme/colors.dart';
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(
@@ -28,7 +27,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       defaultTransition: Transition.rightToLeft,
       title: "Benji Aggregator",
-      color: kSecondaryColor,
       themeMode: ThemeMode.light,
       darkTheme: AppTheme.darkTheme,
       theme: AppTheme.lightTheme,

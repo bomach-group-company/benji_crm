@@ -43,8 +43,8 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
 
-    _animationController =
-        AnimationController(vsync: this, duration: const Duration(seconds: 1));
+    _animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 300));
     _scrollController.addListener(_scrollListener);
     _scrollController.addListener(() {
       if (_scrollController.position.userScrollDirection ==
@@ -56,7 +56,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
     });
     _loadingScreen = true;
     Future.delayed(
-      const Duration(seconds: 1000),
+      const Duration(milliseconds: 1000),
       () => setState(
         () => _loadingScreen = false,
       ),

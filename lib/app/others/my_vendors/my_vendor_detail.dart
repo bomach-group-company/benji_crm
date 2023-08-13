@@ -1,6 +1,5 @@
 // ignore_for_file: unused_local_variable
 
-import 'package:benji_aggregator/app/others/products/product_details.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
 import 'package:benji_aggregator/src/providers/custom%20show%20search.dart';
 import 'package:flutter/gestures.dart';
@@ -20,6 +19,10 @@ import '../../../src/skeletons/vendors_tabbar_orders_content_skeleton.dart';
 import '../../../src/skeletons/vendors_tabbar_products_content_skeleton.dart';
 import '../../../theme/colors.dart';
 import '../my_products/add_product.dart';
+import '../my_products/my_product_details.dart';
+import 'about_my_vendor.dart';
+import 'delete_my_vendor.dart';
+import 'suspend_my_vendor.dart';
 
 class MyVendorDetailsPage extends StatefulWidget {
   final String vendorCoverImage;
@@ -160,7 +163,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
 
   //=================================== Show Popup Menu =====================================\\
   //Show popup menu
-  void showPopupMenu(BuildContext context) {
+  void _showPopupMenu(BuildContext context) {
     final RenderBox overlay =
         Overlay.of(context).context.findRenderObject() as RenderBox;
     const position = RelativeRect.fromLTRB(10, 60, 0, 0);
@@ -171,15 +174,15 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       items: [
         const PopupMenuItem<String>(
-          value: 'visit',
-          child: Text("Visit vendor"),
+          value: 'about',
+          child: Text("About vendor"),
         ),
         const PopupMenuItem<String>(
           value: 'suspend',
           child: Text("Suspend vendor"),
         ),
         const PopupMenuItem<String>(
-          value: 'Delete',
+          value: 'delete',
           child: Text("Delete vendor"),
         ),
       ],
@@ -187,14 +190,52 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
       // Handle the selected value from the popup menu
       if (value != null) {
         switch (value) {
-          case 'more':
-            () {};
+          case 'about':
+            Get.to(
+              () => AboutMyVendor(
+                vendorName: widget.vendorName,
+                vendorHeadLine:
+                    "Cruiselings whale shark diving pan Pacific romance at sea rusty dancemoves endless horizon home is where the anchor drops back packers Endless summer cruise insider paradise island languid afternoons the love boat cruise life.",
+                monToFriOpeningHours: "8 AM",
+                monToFriClosingHours: "10 PM",
+                satOpeningHours: "8 AM",
+                satClosingHours: "10 PM",
+                sunClosingHours: "Closed",
+                sunOpeningHours: "Closed",
+              ),
+              duration: const Duration(milliseconds: 300),
+              fullscreenDialog: true,
+              curve: Curves.easeIn,
+              routeName: "About my vendor",
+              preventDuplicates: true,
+              popGesture: true,
+              transition: Transition.rightToLeft,
+            );
             break;
           case 'suspend':
-            () {};
+            Get.to(
+              () => SuspendMyVendor(),
+              duration: const Duration(milliseconds: 300),
+              fullscreenDialog: true,
+              curve: Curves.easeIn,
+              routeName: "Suspend my vendor",
+              preventDuplicates: true,
+              popGesture: true,
+              transition: Transition.rightToLeft,
+            );
             break;
+
           case 'delete':
-            () {};
+            Get.to(
+              () => DeleteMyVendor(),
+              duration: const Duration(milliseconds: 300),
+              fullscreenDialog: true,
+              curve: Curves.easeIn,
+              routeName: "Delete my vendor",
+              preventDuplicates: true,
+              popGesture: true,
+              transition: Transition.rightToLeft,
+            );
             break;
         }
       }
@@ -203,7 +244,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
 
   //===================== Navigation ==========================\\
   void toProductDetailScreen() => Get.to(
-        () => ProductDetails(
+        () => MyProductDetails(
           productImage: _productImage,
           productName: _productName,
           productPrice: _productPrice,
@@ -212,10 +253,21 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "Product Details",
+        routeName: "My product details",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.rightToLeft,
+      );
+
+  void _toAddProduct() => Get.to(
+        () => AddProduct(),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "Add product",
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.downToUp,
       );
 
   @override
@@ -240,13 +292,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
         extendBody: true,
         extendBodyBehindAppBar: true,
         floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => AddProduct(),
-              ),
-            );
-          },
+          onPressed: _toAddProduct,
           elevation: 20.0,
           mouseCursor: SystemMouseCursors.click,
           tooltip: "Add Product",
@@ -272,7 +318,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
               ),
             ),
             IconButton(
-              onPressed: () => showPopupMenu(context),
+              onPressed: () => _showPopupMenu(context),
               icon: Icon(
                 Icons.more_vert,
                 color: kAccentColor,

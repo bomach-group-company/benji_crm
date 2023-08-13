@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 
 import '../../theme/colors.dart';
 
@@ -13,6 +14,10 @@ class ShowModalBottomSheetTitleWithIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+//Remove Context
+
+    void _removeContext() => Get.back();
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -26,9 +31,7 @@ class ShowModalBottomSheetTitleWithIcon extends StatelessWidget {
           ),
         ),
         InkWell(
-          onTap: () {
-            Navigator.of(context).pop(context);
-          },
+          onTap: _removeContext,
           child: Container(
             width: 30,
             height: 30,

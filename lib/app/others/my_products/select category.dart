@@ -168,9 +168,7 @@ class _SelectCategoryState extends State<SelectCategory> {
                   ),
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(
-                        kDefaultPadding,
-                      ),
+                      top: Radius.circular(kDefaultPadding),
                     ),
                   ),
                   enableDrag: true,
