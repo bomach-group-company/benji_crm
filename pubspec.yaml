@@ -30,6 +30,7 @@ dependencies:
   readmore: ^2.2.0
   dotted_border: ^2.0.0+3
   video_player: ^2.7.0
+  font_awesome_flutter: ^10.5.0
 
 dev_dependencies:
   flutter_test:
@@ -47,7 +48,7 @@ flutter_launcher_icons:
   android: "launcher_icon"
   remove_alpha_ios: true
   ios: true
-  image_path: "assets/images/logo/benji_blue_logo_icon.jpg"
+  image_path: "assets/images/logo/benji_red_logo_icon.jpg"
 
   flutter_lints: ^2.0.0
 

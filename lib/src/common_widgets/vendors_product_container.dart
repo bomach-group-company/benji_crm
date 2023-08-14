@@ -11,6 +11,7 @@ class VendorsProductContainer extends StatefulWidget {
   final String productName;
   final String productDescription;
   final double productPrice;
+  final String productQuantity;
 
   const VendorsProductContainer({
     super.key,
@@ -19,6 +20,7 @@ class VendorsProductContainer extends StatefulWidget {
     required this.productName,
     required this.productDescription,
     required this.productPrice,
+    required this.productQuantity,
   });
 
   @override
@@ -92,12 +94,12 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                kHalfSizedBox,
                 SizedBox(
                   width: mediaWidth / 2,
                   child: Text(
                     widget.productDescription,
                     overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
                     style: TextStyle(
                       color: kTextGreyColor,
                       fontSize: 13,
@@ -106,18 +108,37 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
                   ),
                 ),
                 kHalfSizedBox,
-                SizedBox(
-                  child: Text(
-                    '₦${widget.productPrice.toStringAsFixed(2)}',
-                    style: const TextStyle(
-                      color: Color(
-                        0xFF333333,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: mediaWidth / 4,
+                      child: Text(
+                        '₦${widget.productPrice.toStringAsFixed(2)}',
+                        style: const TextStyle(
+                          color: Color(
+                            0xFF333333,
+                          ),
+                          fontSize: 14,
+                          fontFamily: 'Sen',
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
-                      fontSize: 14,
-                      fontFamily: 'Sen',
-                      fontWeight: FontWeight.w400,
                     ),
-                  ),
+                    SizedBox(
+                      width: mediaWidth / 4,
+                      height: 17,
+                      child: Text(
+                        'Qty: ${widget.productQuantity}',
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          color: kTextGreyColor,
+                          fontSize: 13.60,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

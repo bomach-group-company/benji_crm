@@ -1,6 +1,5 @@
 // ignore_for_file: unused_local_variable
 
-import 'package:benji_aggregator/app/others/products/product_details.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
 import 'package:benji_aggregator/src/providers/custom%20show%20search.dart';
 import 'package:flutter/gestures.dart';
@@ -19,6 +18,11 @@ import '../../../src/common_widgets/vendors_product_container.dart';
 import '../../../src/skeletons/vendors_tabbar_orders_content_skeleton.dart';
 import '../../../src/skeletons/vendors_tabbar_products_content_skeleton.dart';
 import '../../../theme/colors.dart';
+import '../my_products/add_product.dart';
+import '../my_products/my_product_details.dart';
+import 'about_my_vendor.dart';
+import 'delete_my_vendor.dart';
+import 'suspend_my_vendor.dart';
 
 class MyVendorDetailsPage extends StatefulWidget {
   final String vendorCoverImage;
@@ -79,7 +83,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
   late int _orderID;
   final String _orderItem = "Jollof Rice and Chicken";
   final String _customerAddress = "21 Odogwu Street, New Haven";
-  final int _itemQuantity = 2;
+  final int _orderQuantity = 2;
   // final double _price = 2500;
   final double _itemPrice = 2500;
   final String _orderImage = "chizzy's-food";
@@ -88,6 +92,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
   //=============================== Products ====================================\\
   final String _productName = "Smokey Jollof Pasta";
   final String _productImage = "pasta";
+  final String _productQuantity = "3200";
   final String _productDescription =
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit, tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit, quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos  sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam recusandae alias error harum maxime adipisci amet laborum. Perspiciatis  minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit  quibusdam sed amet tempora. Sit laborum ab, eius fugit doloribus tenetur  fugiat, temporibus enim commodi iusto libero magni deleniti quod quam consequuntur! Commodi minima excepturi repudiandae velit hic maxime doloremque. Quaerat provident commodi consectetur veniam similique ad earum omnis ipsum saepe, voluptas, hic voluptates pariatur est explicabo fugiat, dolorum eligendi quam cupiditate excepturi mollitia maiores labore suscipit quas? Nulla, placeat. Voluptatem quaerat non architecto ab laudantium modi minima sunt esse temporibus sint culpa, recusandae aliquam numquam totam ratione voluptas quod exercitationem fuga. Possim";
   final double _productPrice = 1200;
@@ -128,7 +133,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
 
 //===================== FUNCTIONS =======================\\
   double calculateSubtotal() {
-    return _itemPrice * _itemQuantity;
+    return _itemPrice * _orderQuantity;
   }
 
   void _changeProductCategory() {}
@@ -159,7 +164,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
 
   //=================================== Show Popup Menu =====================================\\
   //Show popup menu
-  void showPopupMenu(BuildContext context) {
+  void _showPopupMenu(BuildContext context) {
     final RenderBox overlay =
         Overlay.of(context).context.findRenderObject() as RenderBox;
     const position = RelativeRect.fromLTRB(10, 60, 0, 0);
@@ -170,15 +175,15 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       items: [
         const PopupMenuItem<String>(
-          value: 'visit',
-          child: Text("Visit vendor"),
+          value: 'about',
+          child: Text("About vendor"),
         ),
         const PopupMenuItem<String>(
           value: 'suspend',
           child: Text("Suspend vendor"),
         ),
         const PopupMenuItem<String>(
-          value: 'Delete',
+          value: 'delete',
           child: Text("Delete vendor"),
         ),
       ],
@@ -186,14 +191,52 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
       // Handle the selected value from the popup menu
       if (value != null) {
         switch (value) {
-          case 'more':
-            () {};
+          case 'about':
+            Get.to(
+              () => AboutMyVendor(
+                vendorName: widget.vendorName,
+                vendorHeadLine:
+                    "Cruiselings whale shark diving pan Pacific romance at sea rusty dancemoves endless horizon home is where the anchor drops back packers Endless summer cruise insider paradise island languid afternoons the love boat cruise life.",
+                monToFriOpeningHours: "8 AM",
+                monToFriClosingHours: "10 PM",
+                satOpeningHours: "8 AM",
+                satClosingHours: "10 PM",
+                sunClosingHours: "Closed",
+                sunOpeningHours: "Closed",
+              ),
+              duration: const Duration(milliseconds: 300),
+              fullscreenDialog: true,
+              curve: Curves.easeIn,
+              routeName: "About my vendor",
+              preventDuplicates: true,
+              popGesture: true,
+              transition: Transition.rightToLeft,
+            );
             break;
           case 'suspend':
-            () {};
+            Get.to(
+              () => SuspendMyVendor(),
+              duration: const Duration(milliseconds: 300),
+              fullscreenDialog: true,
+              curve: Curves.easeIn,
+              routeName: "Suspend my vendor",
+              preventDuplicates: true,
+              popGesture: true,
+              transition: Transition.rightToLeft,
+            );
             break;
+
           case 'delete':
-            () {};
+            Get.to(
+              () => DeleteMyVendor(),
+              duration: const Duration(milliseconds: 300),
+              fullscreenDialog: true,
+              curve: Curves.easeIn,
+              routeName: "Delete my vendor",
+              preventDuplicates: true,
+              popGesture: true,
+              transition: Transition.rightToLeft,
+            );
             break;
         }
       }
@@ -202,7 +245,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
 
   //===================== Navigation ==========================\\
   void toProductDetailScreen() => Get.to(
-        () => ProductDetails(
+        () => MyProductDetails(
           productImage: _productImage,
           productName: _productName,
           productPrice: _productPrice,
@@ -211,10 +254,21 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "Product Details",
+        routeName: "My product details",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.rightToLeft,
+      );
+
+  void _toAddProduct() => Get.to(
+        () => AddProduct(),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "Add product",
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.downToUp,
       );
 
   @override
@@ -238,6 +292,17 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
       child: Scaffold(
         extendBody: true,
         extendBodyBehindAppBar: true,
+        floatingActionButton: FloatingActionButton(
+          onPressed: _toAddProduct,
+          elevation: 20.0,
+          mouseCursor: SystemMouseCursors.click,
+          tooltip: "Add Product",
+          backgroundColor: kAccentColor,
+          foregroundColor: kPrimaryColor,
+          child: const Icon(
+            Icons.add,
+          ),
+        ),
         appBar: MyAppBar(
           title: "My Vendor Details",
           elevation: 10.0,
@@ -254,7 +319,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
               ),
             ),
             IconButton(
-              onPressed: () => showPopupMenu(context),
+              onPressed: () => _showPopupMenu(context),
               icon: Icon(
                 Icons.more_vert,
                 color: kAccentColor,
@@ -363,8 +428,8 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                               size: 15,
                                             ),
                                             kHalfWidthSizedBox,
-                                            const SizedBox(
-                                              width: 300,
+                                            SizedBox(
+                                              width: mediaWidth - 100,
                                               child: Text(
                                                 "Old Abakaliki Rd, Thinkers Corner 400103, Enugu",
                                                 overflow: TextOverflow.ellipsis,
@@ -424,7 +489,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                               MainAxisAlignment.spaceEvenly,
                                           children: [
                                             Container(
-                                              width: 102,
+                                              width: mediaWidth * 0.25,
                                               height: 56.67,
                                               decoration: ShapeDecoration(
                                                 color: Colors.white,
@@ -460,7 +525,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                               ),
                                             ),
                                             Container(
-                                              width: 102,
+                                              width: mediaWidth * 0.23,
                                               height: 56.67,
                                               decoration: ShapeDecoration(
                                                 color: Colors.white,
@@ -496,7 +561,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                               ),
                                             ),
                                             Container(
-                                              width: 102,
+                                              width: mediaWidth * 0.25,
                                               height: 56.67,
                                               decoration: ShapeDecoration(
                                                 color: Colors.white,
@@ -647,6 +712,8 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                                     productDescription:
                                                         _productDescription,
                                                     productPrice: _productPrice,
+                                                    productQuantity:
+                                                        _productQuantity,
                                                   ),
                                               ],
                                             ),
@@ -667,7 +734,8 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                                     formattedDateAndTime:
                                                         formattedDateAndTime,
                                                     orderItem: _orderItem,
-                                                    itemQuantity: _itemQuantity,
+                                                    itemQuantity:
+                                                        _orderQuantity,
                                                     itemPrice: _itemPrice,
                                                     customerName: _customerName,
                                                     customerAddress:

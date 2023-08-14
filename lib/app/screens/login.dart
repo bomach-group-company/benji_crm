@@ -12,7 +12,6 @@ import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 import '../splash_screens/login_splashscreen.dart';
 import 'forgot_password.dart';
-import 'signup.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -22,6 +21,13 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  //=========================== INITIAL STATE ====================================\\
+  @override
+  void initState() {
+    super.initState();
+    _isObscured = true;
+  }
+
   //=========================== ALL VARIABBLES ====================================\\
 
   //=========================== CONTROLLERS ====================================\\
@@ -35,8 +41,8 @@ class _LoginState extends State<Login> {
 
   //=========================== BOOL VALUES ====================================\\
   bool isLoading = false;
-  bool isChecked = false;
-  var isObscured;
+  bool _isChecked = false;
+  var _isObscured;
 
   //=========================== STYLE ====================================\\
 
@@ -49,17 +55,6 @@ class _LoginState extends State<Login> {
   FocusNode passwordFocusNode = FocusNode();
 
   //=========================== FUNCTIONS ====================================\\
-  //Navigate to Signup
-  void toSignupPage() => Get.offAll(
-        () => const SignUp(),
-        duration: const Duration(milliseconds: 500),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "Signup",
-        predicate: (route) => false,
-        popGesture: true,
-        transition: Transition.downToUp,
-      );
 
   //Navigate to forgotPassword
   void toForgotPasswordPage() => Get.to(
@@ -104,13 +99,6 @@ class _LoginState extends State<Login> {
     setState(() {
       isLoading = false;
     });
-  }
-
-  //=========================== INITIAL STATE ====================================\\
-  @override
-  void initState() {
-    super.initState();
-    isObscured = true;
   }
 
   @override
@@ -215,7 +203,7 @@ class _LoginState extends State<Login> {
                               controller: passwordController,
                               passwordFocusNode: passwordFocusNode,
                               keyboardType: TextInputType.visiblePassword,
-                              obscureText: isObscured,
+                              obscureText: _isObscured,
                               textInputAction: TextInputAction.done,
                               validator: (value) {
                                 RegExp passwordPattern = RegExp(
@@ -235,10 +223,10 @@ class _LoginState extends State<Login> {
                               suffixIcon: IconButton(
                                 onPressed: () {
                                   setState(() {
-                                    isObscured = !isObscured;
+                                    _isObscured = !_isObscured;
                                   });
                                 },
-                                icon: isObscured
+                                icon: _isObscured
                                     ? const Icon(
                                         Icons.visibility_off_rounded,
                                       )
@@ -259,17 +247,15 @@ class _LoginState extends State<Login> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Checkbox(
-                                value: isChecked,
+                                value: _isChecked,
                                 splashRadius: 50,
                                 activeColor: kSecondaryColor,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    5,
-                                  ),
+                                  borderRadius: BorderRadius.circular(5),
                                 ),
                                 onChanged: (newValue) {
                                   setState(() {
-                                    isChecked = newValue!;
+                                    _isChecked = newValue!;
                                   });
                                 },
                               ),
@@ -329,85 +315,6 @@ class _LoginState extends State<Login> {
                               ),
                             ),
                       kHalfSizedBox,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            "Don't have an account? ",
-                            style: TextStyle(
-                              color: Color(
-                                0xFF646982,
-                              ),
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              toSignupPage();
-                            },
-                            child: Text(
-                              "Sign up",
-                              style: myAccentFontStyle,
-                            ),
-                          ),
-                        ],
-                      ),
-                      kHalfSizedBox,
-                      Center(
-                        child: Column(
-                          children: [
-                            const Text(
-                              "Or log in with ",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Color(
-                                  0xFF646982,
-                                ),
-                              ),
-                            ),
-                            kSizedBox,
-                            InkWell(
-                              borderRadius: BorderRadius.circular(10),
-                              onTap: () {},
-                              child: Container(
-                                width: MediaQuery.of(context).size.width / 2,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(
-                                    10,
-                                  ),
-                                  border: Border.all(
-                                    color: kLightGreyColor,
-                                  ),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      height: 50,
-                                      width: 50,
-                                      decoration: const BoxDecoration(
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                            "assets/images/icons/google-signup-icon.png",
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    const Text(
-                                      "Google",
-                                      style: TextStyle(
-                                        color: kTextBlackColor,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            kSizedBox,
-                          ],
-                        ),
-                      ),
                     ],
                   ),
                 ),
