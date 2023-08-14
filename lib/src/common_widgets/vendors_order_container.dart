@@ -41,11 +41,12 @@ class VendorsOrderContainer extends StatelessWidget {
       ),
       padding: const EdgeInsets.only(
         top: kDefaultPadding / 2,
+        bottom: kDefaultPadding / 2,
         left: kDefaultPadding / 2,
         right: kDefaultPadding / 2,
       ),
       width: mediaWidth / 1.1,
-      height: 150,
+      // height: 150,
       decoration: ShapeDecoration(
         color: kPrimaryColor,
         shape: RoundedRectangleBorder(
@@ -93,16 +94,16 @@ class VendorsOrderContainer extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                width: mediaWidth / 1.55,
+                width: mediaWidth * 0.6 - 2,
                 // color: kAccentColor,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Wrap(
+                  alignment: WrapAlignment.spaceBetween,
                   children: [
-                    const SizedBox(
+                    SizedBox(
                       child: Text(
                         "Hot Kitchen",
                         maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
+                        overflow: TextOverflow.clip,
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
@@ -110,9 +111,12 @@ class VendorsOrderContainer extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
+                      width: 5,
+                    ),
+                    SizedBox(
                       child: Text(
                         formattedDateAndTime,
-                        overflow: TextOverflow.ellipsis,
+                        overflow: TextOverflow.clip,
                         style: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
@@ -125,7 +129,7 @@ class VendorsOrderContainer extends StatelessWidget {
               kHalfSizedBox,
               Container(
                 color: kTransparentColor,
-                width: 250,
+                width: 150,
                 child: Text(
                   _orderItem,
                   overflow: TextOverflow.ellipsis,
@@ -138,7 +142,7 @@ class VendorsOrderContainer extends StatelessWidget {
               ),
               kHalfSizedBox,
               Container(
-                width: 200,
+                width: 150,
                 color: kTransparentColor,
                 child: Text.rich(
                   TextSpan(
@@ -167,11 +171,11 @@ class VendorsOrderContainer extends StatelessWidget {
               Container(
                 color: kLightGreyColor,
                 height: 1,
-                width: mediaWidth / 1.8,
+                width: mediaWidth * 0.5,
               ),
               kHalfSizedBox,
               SizedBox(
-                width: mediaWidth / 1.8,
+                width: mediaWidth * 0.5,
                 child: Text(
                   _customerName,
                   overflow: TextOverflow.ellipsis,
@@ -183,7 +187,7 @@ class VendorsOrderContainer extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                width: mediaWidth / 1.8,
+                width: mediaWidth * 0.5,
                 child: Text(
                   _customerAddress,
                   overflow: TextOverflow.ellipsis,

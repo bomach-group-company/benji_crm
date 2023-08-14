@@ -199,6 +199,16 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 ],
                               ),
                               kSizedBox,
+                              const Text(
+                                "Description",
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                  color: kTextBlackColor,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              kHalfSizedBox,
                               ReadMoreText(
                                 widget.productDescription,
                                 callback: (val) {},

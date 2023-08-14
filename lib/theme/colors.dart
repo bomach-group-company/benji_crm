@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+// copied from vendor app
+const Color kGreyColor1 = Color(
+  0xFFA5A5A5,
+);
+Color kGreyColor2 = const Color(
+  0xFF757575,
+);
+
 //App Main Colors
 Color kPrimaryColor = const Color(0xFFFFFFFF);
 Color kSecondaryColor = HexColor("#0003C4");

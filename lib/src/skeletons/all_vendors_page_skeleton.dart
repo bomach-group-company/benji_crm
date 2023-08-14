@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
 
-import '../../theme/colors.dart';
 import '../providers/constants.dart';
-import 'vendors_list_skeleton.dart';
 import 'page_skeleton.dart';
+import 'vendors_list_skeleton.dart';
 
 class AllVendorsPageSkeleton extends StatelessWidget {
   const AllVendorsPageSkeleton({
@@ -25,12 +23,7 @@ class AllVendorsPageSkeleton extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: List.generate(
                 2,
-                (index) => Shimmer.fromColors(
-                  highlightColor: kBlackColor.withOpacity(0.02),
-                  baseColor: kBlackColor.withOpacity(0.8),
-                  direction: ShimmerDirection.ltr,
-                  child: const PageSkeleton(height: 35, width: 130),
-                ),
+                (index) => const PageSkeleton(height: 35, width: 130),
                 growable: true,
               ),
             ),

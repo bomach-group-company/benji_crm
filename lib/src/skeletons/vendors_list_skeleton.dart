@@ -12,6 +12,7 @@ class VendorsListSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final media = MediaQuery.of(context).size;
     return ListView.separated(
       separatorBuilder: (context, index) =>
           const SizedBox(height: kDefaultPadding),
@@ -30,19 +31,15 @@ class VendorsListSkeleton extends StatelessWidget {
           ),
           kWidthSizedBox,
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                width: 200,
-                child: Shimmer.fromColors(
-                  highlightColor: kBlackColor.withOpacity(0.02),
-                  baseColor: kBlackColor.withOpacity(0.8),
-                  direction: ShimmerDirection.ltr,
-                  child: const PageSkeleton(height: 20, width: 200),
-                ),
+                width: 100,
+                child: PageSkeleton(height: 20, width: 100),
               ),
               kSizedBox,
-              const SizedBox(
-                width: 200,
+              SizedBox(
+                width: media.width - 200,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -53,9 +50,9 @@ class VendorsListSkeleton extends StatelessWidget {
                 ),
               ),
               kHalfSizedBox,
-              const PageSkeleton(height: 15, width: 200),
+              PageSkeleton(height: 15, width: media.width - 200),
               kSizedBox,
-              const PageSkeleton(height: 15, width: 200),
+              PageSkeleton(height: 15, width: media.width - 200),
             ],
           ),
         ],

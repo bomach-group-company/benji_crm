@@ -89,6 +89,7 @@ class _MyVendorsState extends State<MyVendors> {
 
   @override
   Widget build(BuildContext context) {
+    final media = MediaQuery.of(context).size;
     return LiquidPullToRefresh(
       onRefresh: _handleRefresh,
       color: kAccentColor,
@@ -198,7 +199,7 @@ class _MyVendorsState extends State<MyVendors> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 SizedBox(
-                                                  width: 200,
+                                                  width: media.width - 200,
                                                   child: Text(
                                                     _vendorName,
                                                     overflow:
@@ -215,7 +216,7 @@ class _MyVendorsState extends State<MyVendors> {
                                                 ),
                                                 kSizedBox,
                                                 SizedBox(
-                                                  width: 200,
+                                                  width: media.width - 200,
                                                   child: Text(
                                                     "Restaurant",
                                                     style: TextStyle(
@@ -263,8 +264,8 @@ class _MyVendorsState extends State<MyVendors> {
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     SizedBox(
-                                                      width: 20,
-                                                      height: 20,
+                                                      width: 25,
+                                                      height: 25,
                                                       child: Icon(
                                                         Icons.star_rounded,
                                                         color: kStarColor,

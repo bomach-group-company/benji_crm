@@ -12,6 +12,7 @@ import '../../src/providers/constants.dart';
 import '../../src/providers/custom show search.dart';
 import '../../src/skeletons/dashboard_orders_list_skeleton.dart';
 import '../others/call_page.dart';
+import 'suspend_rider.dart';
 
 class RidersDetail extends StatefulWidget {
   final String ridersImage;
@@ -93,6 +94,18 @@ class _RidersDetailState extends State<RidersDetail> {
   void _seeMoreDeliveredOrders() {}
   void _seeMorePendingOrders() {}
 
+  void _toSuspendRider() => Get.to(
+        () => SuspendRider(),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "Suspend rider",
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
+//=====================================================================================\\
   void clickOnDelivered() async {
     setState(() {
       _loadingDeliveryStatus = true;
@@ -141,7 +154,7 @@ class _RidersDetailState extends State<RidersDetail> {
       if (value != null) {
         switch (value) {
           case 'suspend':
-            () {};
+            _toSuspendRider();
             break;
         }
       }
@@ -289,11 +302,11 @@ class _RidersDetailState extends State<RidersDetail> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: kDefaultPadding),
+                                      horizontal: kDefaultPadding / 2),
                                   child: Column(
                                     children: [
                                       SizedBox(
-                                        width: 140,
+                                        width: mediaWidth - 250,
                                         child: Text(
                                           widget.ridersName,
                                           overflow: TextOverflow.ellipsis,
@@ -318,7 +331,7 @@ class _RidersDetailState extends State<RidersDetail> {
                                           ),
                                           kHalfWidthSizedBox,
                                           SizedBox(
-                                            width: 140,
+                                            width: mediaWidth - 250,
                                             child: Text(
                                               widget.ridersPhoneNumber,
                                               overflow: TextOverflow.ellipsis,
@@ -346,7 +359,7 @@ class _RidersDetailState extends State<RidersDetail> {
                                           ),
                                           kHalfWidthSizedBox,
                                           SizedBox(
-                                            width: 140,
+                                            width: mediaWidth - 250,
                                             child: Text(
                                               "${widget.noOfTrips} Trips Completed",
                                               style: TextStyle(
@@ -492,7 +505,7 @@ class _RidersDetailState extends State<RidersDetail> {
                                               padding: const EdgeInsets.all(
                                                   kDefaultPadding / 2),
                                               // color: kAccentColor,
-                                              width: 240,
+                                              width: mediaWidth - 175,
                                               height: 120,
                                               child: Column(
                                                 mainAxisAlignment:
@@ -511,7 +524,7 @@ class _RidersDetailState extends State<RidersDetail> {
                                                                   .start,
                                                           children: [
                                                             const SizedBox(
-                                                              width: 120,
+                                                              width: 100,
                                                               child: Text(
                                                                 "ID 213081",
                                                                 maxLines: 1,
@@ -603,8 +616,9 @@ class _RidersDetailState extends State<RidersDetail> {
                                                             size: 18,
                                                           ),
                                                           kHalfWidthSizedBox,
-                                                          const SizedBox(
-                                                            width: 160,
+                                                          SizedBox(
+                                                            width: mediaWidth -
+                                                                230,
                                                             child: Text(
                                                               "21 Bartus Street, Abuja Nigeria",
                                                               overflow:
@@ -630,8 +644,9 @@ class _RidersDetailState extends State<RidersDetail> {
                                                             size: 18,
                                                           ),
                                                           kHalfWidthSizedBox,
-                                                          const SizedBox(
-                                                            width: 160,
+                                                          SizedBox(
+                                                            width: mediaWidth -
+                                                                230,
                                                             child: Text(
                                                               "3 Edwins Close, Wuse, Abuja",
                                                               overflow:
@@ -714,7 +729,7 @@ class _RidersDetailState extends State<RidersDetail> {
                                               padding: const EdgeInsets.all(
                                                   kDefaultPadding / 2),
                                               // color: kAccentColor,
-                                              width: 240,
+                                              width: mediaWidth - 175,
                                               height: 120,
                                               child: Column(
                                                 mainAxisAlignment:
@@ -817,8 +832,9 @@ class _RidersDetailState extends State<RidersDetail> {
                                                             size: 18,
                                                           ),
                                                           kHalfWidthSizedBox,
-                                                          const SizedBox(
-                                                            width: 160,
+                                                          SizedBox(
+                                                            width: mediaWidth -
+                                                                230,
                                                             child: Text(
                                                               "21 Bartus Street, Abuja Nigeria",
                                                               overflow:
@@ -844,8 +860,9 @@ class _RidersDetailState extends State<RidersDetail> {
                                                             size: 18,
                                                           ),
                                                           kHalfWidthSizedBox,
-                                                          const SizedBox(
-                                                            width: 160,
+                                                          SizedBox(
+                                                            width: mediaWidth -
+                                                                230,
                                                             child: Text(
                                                               "3 Edwins Close, Wuse, Abuja",
                                                               overflow:

@@ -61,9 +61,7 @@ class _TrackOrderState extends State<TrackOrder> {
     showModalBottomSheet(
       context: context,
       backgroundColor: kPrimaryColor,
-      barrierColor: kBlackColor.withOpacity(
-        0.5,
-      ),
+      barrierColor: kBlackColor.withOpacity(0.5),
       showDragHandle: true,
       useSafeArea: true,
       isScrollControlled: true,
