@@ -21,6 +21,13 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  //=========================== INITIAL STATE ====================================\\
+  @override
+  void initState() {
+    super.initState();
+    _isObscured = true;
+  }
+
   //=========================== ALL VARIABBLES ====================================\\
 
   //=========================== CONTROLLERS ====================================\\
@@ -34,8 +41,8 @@ class _LoginState extends State<Login> {
 
   //=========================== BOOL VALUES ====================================\\
   bool isLoading = false;
-  bool isChecked = false;
-  var isObscured;
+  bool _isChecked = false;
+  var _isObscured;
 
   //=========================== STYLE ====================================\\
 
@@ -92,13 +99,6 @@ class _LoginState extends State<Login> {
     setState(() {
       isLoading = false;
     });
-  }
-
-  //=========================== INITIAL STATE ====================================\\
-  @override
-  void initState() {
-    super.initState();
-    isObscured = true;
   }
 
   @override
@@ -203,7 +203,7 @@ class _LoginState extends State<Login> {
                               controller: passwordController,
                               passwordFocusNode: passwordFocusNode,
                               keyboardType: TextInputType.visiblePassword,
-                              obscureText: isObscured,
+                              obscureText: _isObscured,
                               textInputAction: TextInputAction.done,
                               validator: (value) {
                                 RegExp passwordPattern = RegExp(
@@ -223,10 +223,10 @@ class _LoginState extends State<Login> {
                               suffixIcon: IconButton(
                                 onPressed: () {
                                   setState(() {
-                                    isObscured = !isObscured;
+                                    _isObscured = !_isObscured;
                                   });
                                 },
-                                icon: isObscured
+                                icon: _isObscured
                                     ? const Icon(
                                         Icons.visibility_off_rounded,
                                       )
@@ -247,17 +247,15 @@ class _LoginState extends State<Login> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Checkbox(
-                                value: isChecked,
+                                value: _isChecked,
                                 splashRadius: 50,
                                 activeColor: kSecondaryColor,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    5,
-                                  ),
+                                  borderRadius: BorderRadius.circular(5),
                                 ),
                                 onChanged: (newValue) {
                                   setState(() {
-                                    isChecked = newValue!;
+                                    _isChecked = newValue!;
                                   });
                                 },
                               ),

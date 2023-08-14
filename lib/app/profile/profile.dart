@@ -1,3 +1,4 @@
+import 'package:benji_aggregator/app/others/withdrawal/withdraw_history.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
@@ -26,6 +27,16 @@ class _ProfileState extends State<Profile> {
         curve: Curves.easeIn,
         routeName: "Logout",
         predicate: (routes) => false,
+        popGesture: false,
+        transition: Transition.rightToLeft,
+      );
+  void _toWithdrawalHistory() => Get.to(
+        () => WithdrawHistoryPage(),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "Withdrawal history",
+        preventDuplicates: true,
         popGesture: false,
         transition: Transition.rightToLeft,
       );
@@ -154,7 +165,7 @@ class _ProfileState extends State<Profile> {
                 child: Column(
                   children: [
                     ListTile(
-                      onTap: () {},
+                      onTap: _toWithdrawalHistory,
                       mouseCursor: SystemMouseCursors.click,
                       leading: Icon(
                         Icons.payment_rounded,
@@ -163,9 +174,7 @@ class _ProfileState extends State<Profile> {
                       title: const Text(
                         'Withdrawal History',
                         style: TextStyle(
-                          color: Color(
-                            0xFF333333,
-                          ),
+                          color: kTextBlackColor,
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
                         ),
@@ -193,9 +202,7 @@ class _ProfileState extends State<Profile> {
                         '29K',
                         textAlign: TextAlign.right,
                         style: TextStyle(
-                          color: Color(
-                            0xFF9B9BA5,
-                          ),
+                          color: Color(0xFF9B9BA5),
                           fontSize: 17,
                           fontWeight: FontWeight.w700,
                         ),

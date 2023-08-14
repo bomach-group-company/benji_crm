@@ -77,7 +77,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
   bool _isScrollToTopBtnVisible = false;
 
 //Online Riders
-  final String _onlineRidersImage = "jerry_emmanuel";
+  final String _onlineRidersImage = "rider/jerry_emmanuel.png";
   final String _onlineRidersName = "Jerry Emmanuel";
   final String _onlineRidersLocation = "Achara Layout";
   final int _onlineRidersNoOfTrips = 238;
@@ -86,7 +86,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
 
 //Offline Riders
   final String _offlineRidersName = "Martins Okafor";
-  final String _offlineRidersImage = "martins_okafor";
+  final String _offlineRidersImage = "rider/martins_okafor.png";
   final String _offlineRidersPhoneNumber = "08032300253";
   final int _lastSeenCount = 20;
   final String _lastSeenMessage = "minutes ago";
@@ -390,7 +390,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                                 CircleAvatar(
                                                   radius: 30,
                                                   backgroundImage: AssetImage(
-                                                    "assets/images/rider/$_onlineRidersImage.png",
+                                                    "assets/images/$_onlineRidersImage",
                                                   ),
                                                 ),
                                                 Positioned(
@@ -545,7 +545,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                                     decoration: ShapeDecoration(
                                                       image: DecorationImage(
                                                         image: AssetImage(
-                                                          "assets/images/rider/$_offlineRidersImage.png",
+                                                          "assets/images/$_offlineRidersImage",
                                                         ),
                                                       ),
                                                       shape: const OvalBorder(),

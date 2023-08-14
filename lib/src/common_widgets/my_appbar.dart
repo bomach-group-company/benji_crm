@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 
 import '../../theme/colors.dart';
 import '../providers/constants.dart';
@@ -27,7 +28,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    void popContext() => Navigator.of(context).pop(context);
+    void _popContext() => Get.back();
     return AppBar(
       toolbarHeight: toolbarHeight,
       automaticallyImplyLeading: false,
@@ -38,7 +39,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         children: [
           InkWell(
             borderRadius: BorderRadius.circular(24),
-            onTap: popContext,
+            onTap: _popContext,
             child: Container(
               width: 40,
               height: 40,

@@ -1,13 +1,17 @@
 // ignore_for_file: file_names, prefer_typing_uninitialized_variables, use_build_context_synchronously, unused_field
 
+import 'package:benji_aggregator/src/common_widgets/my_elevatedButton.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:readmore/readmore.dart';
-import 'package:shimmer/shimmer.dart';
 
+import '../../../src/common_widgets/category_button_section.dart';
 import '../../../src/common_widgets/my_appbar.dart';
+import '../../../src/common_widgets/my_textformfield2.dart';
 import '../../../src/common_widgets/showModalBottomSheetTitleWithIcon.dart';
 import '../../../src/providers/constants.dart';
 import '../../../src/skeletons/product_details_page_skeleton.dart';
@@ -33,9 +37,32 @@ class MyProductDetails extends StatefulWidget {
 class _MyProductDetailsState extends State<MyProductDetails> {
   //=================================== ALL VARIABLES ==========================================\\
   late bool _loadingScreen;
+  bool _isChecked = false;
+
+  //===================== CATEGORY BUTTONS =======================\\
+  final List _categoryButtonText = [
+    "Protein",
+    "Stew",
+  ];
+
+  final List<Color> _categoryButtonBgColor = [
+    kAccentColor,
+    kDefaultCategoryBackgroundColor,
+  ];
+  final List<Color> _categoryButtonFontColor = [
+    kPrimaryColor,
+    kTextGreyColor,
+  ];
+
+  //======================================= KEYS ==========================================\\
+  GlobalKey<FormState> _updateQuantityKey = GlobalKey();
 
   //======================================= CONTROLLERS ==========================================\\
   final ScrollController _scrollController = ScrollController();
+  final _updateQuantityEC = TextEditingController();
+
+  //======================================= FOCUS NODES ==========================================\\
+  final _updateQuantityFN = FocusNode();
 
   //======================================= FUNCTIONS ==========================================\\
   @override
@@ -64,11 +91,97 @@ class _MyProductDetailsState extends State<MyProductDetails> {
   }
 
   //===================== Navigation ==========================\\
-  // void _toVendorsProductsPage() => Get.to(() {});
-  void _toVendorsProductsPage() => {};
 
-  // void _toSimilarProductsPage() => Get.to(() {});
-  void _toSimilarProductsPage() => {};
+  void _changeProductCategory() {}
+
+  //Edit product details
+  void _editProductDetails() {}
+
+  //Delete product
+  void _deleteProduct() {}
+
+  //Save Updated Quantity
+  void _saveUpdatedQuantity() => Get.back();
+
+  //Update quantity
+  void _updateQuantity() {
+    // Get.back();
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: kPrimaryColor,
+      barrierColor: kBlackColor.withOpacity(0.5),
+      showDragHandle: true,
+      useSafeArea: true,
+      isScrollControlled: true,
+      isDismissible: true,
+      elevation: 20.0,
+      shape: RoundedRectangleBorder(
+          borderRadius:
+              BorderRadius.vertical(top: Radius.circular(kDefaultPadding))),
+      enableDrag: true,
+      builder: (context) => SingleChildScrollView(
+        physics: ScrollPhysics(),
+        padding: const EdgeInsets.all(kDefaultPadding),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const ShowModalBottomSheetTitleWithIcon(title: "Update Quantity"),
+            SizedBox(height: kDefaultPadding * 2),
+            Form(
+              key: _updateQuantityKey,
+              child: Column(
+                children: [
+                  Text(
+                    'Quantity',
+                    style: TextStyle(
+                      color: kTextGreyColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            kSizedBox,
+            MyTextFormField2(
+              controller: _updateQuantityEC,
+              textInputAction: TextInputAction.done,
+              focusNode: _updateQuantityFN,
+              hintText: "Enter quantity here",
+              textInputType: TextInputType.number,
+              validator: (value) {
+                return null;
+              },
+              onSaved: (value) {},
+            ),
+            kSizedBox,
+            Text(
+              'Current qty: 230',
+              style: TextStyle(
+                color: kTextGreyColor,
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            kSizedBox,
+            MyElevatedButton(
+              onPressed: _saveUpdatedQuantity,
+              circularBorderRadius: 16,
+              minimumSizeWidth: MediaQuery.of(context).size.width - 50,
+              minimumSizeHeight: 60,
+              maximumSizeWidth: MediaQuery.of(context).size.width - 50,
+              maximumSizeHeight: 60,
+              buttonTitle: "Save",
+              titleFontSize: 15,
+              elevation: 10.0,
+            ),
+            kSizedBox,
+          ],
+        ),
+      ),
+    );
+  }
 
   void _editProduct() {
     showModalBottomSheet(
@@ -91,11 +204,59 @@ class _MyProductDetailsState extends State<MyProductDetails> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const ShowModalBottomSheetTitleWithIcon(
-              title: "Option",
-            ),
+            const ShowModalBottomSheetTitleWithIcon(title: "Option"),
             SizedBox(height: kDefaultPadding * 2),
-            ListTile()
+            ListTile(
+              onTap: _updateQuantity,
+              leading: Icon(
+                FontAwesomeIcons.boxesStacked,
+                color: kAccentColor,
+                size: 16,
+              ),
+              title: Text(
+                'Update quantity',
+                style: TextStyle(
+                  color: kTextGreyColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: -0.32,
+                ),
+              ),
+            ),
+            ListTile(
+              onTap: _editProductDetails,
+              leading: Icon(
+                Icons.edit,
+                color: kAccentColor,
+                size: 16,
+              ),
+              title: Text(
+                'Edit',
+                style: TextStyle(
+                  color: kTextGreyColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: -0.32,
+                ),
+              ),
+            ),
+            ListTile(
+              onTap: _deleteProduct,
+              leading: Icon(
+                Icons.delete,
+                color: kAccentColor,
+                size: 16,
+              ),
+              title: Text(
+                'Delete',
+                style: TextStyle(
+                  color: kTextGreyColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: -0.32,
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -189,7 +350,7 @@ class _MyProductDetailsState extends State<MyProductDetails> {
                           ),
                         ),
                         Container(
-                          height: mediaHeight + mediaHeight,
+                          height: mediaHeight,
                           width: mediaWidth,
                           // color: kAccentColor,
                           padding: const EdgeInsets.all(kDefaultPadding),
@@ -225,7 +386,9 @@ class _MyProductDetailsState extends State<MyProductDetails> {
                                 widget.productDescription,
                                 callback: (val) {},
                                 delimiter: "...",
-                                trimLines: 10,
+                                trimMode: TrimMode.Line,
+                                textAlign: TextAlign.justify,
+                                trimLines: 5,
                                 trimExpandedText: "...show less",
                                 style: TextStyle(
                                   color: kTextGreyColor,
@@ -250,117 +413,76 @@ class _MyProductDetailsState extends State<MyProductDetails> {
                                 colorClickableText: kAccentColor,
                               ),
                               kSizedBox,
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    "Similar products",
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      color: kTextBlackColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  TextButton(
-                                    onPressed: _toSimilarProductsPage,
-                                    child: Text(
-                                      "See all",
-                                      style: TextStyle(
-                                        color: kAccentColor,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              kSizedBox,
                               SizedBox(
-                                height: 100,
-                                child: ListView.separated(
-                                  scrollDirection: Axis.horizontal,
-                                  physics: const BouncingScrollPhysics(),
-                                  separatorBuilder: (context, index) =>
-                                      const SizedBox(
-                                    width: kDefaultPadding / 2,
+                                height: 17,
+                                child: Text(
+                                  'Qty: 3200',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: kTextGreyColor,
+                                    fontSize: 13.60,
+                                    fontWeight: FontWeight.w400,
                                   ),
-                                  itemBuilder: (context, index) => InkWell(
-                                    onTap: () {},
-                                    child: Shimmer.fromColors(
-                                      highlightColor:
-                                          kBlackColor.withOpacity(0.02),
-                                      baseColor: kBlackColor.withOpacity(0.8),
-                                      direction: ShimmerDirection.ltr,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: kPageSkeletonColor,
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                        ),
-                                        width: 100,
-                                      ),
-                                    ),
-                                  ),
-                                  itemCount: 30,
                                 ),
                               ),
                               kSizedBox,
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Text(
-                                    "Other Products from this vendor",
-                                    textAlign: TextAlign.start,
+                                  Text(
+                                    'Out of stock',
                                     style: TextStyle(
                                       color: kTextBlackColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w700,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
                                     ),
                                   ),
-                                  TextButton(
-                                    onPressed: _toVendorsProductsPage,
-                                    child: Text(
-                                      "See all",
-                                      style: TextStyle(
-                                        color: kAccentColor,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w700,
-                                      ),
+                                  Checkbox(
+                                    value: _isChecked,
+                                    splashRadius: 50,
+                                    activeColor: kAccentColor,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5),
                                     ),
+                                    onChanged: (newValue) {
+                                      setState(() {
+                                        _isChecked = newValue!;
+                                      });
+                                    },
                                   ),
                                 ],
                               ),
                               kSizedBox,
-                              SizedBox(
-                                height: 100,
-                                child: ListView.separated(
-                                  scrollDirection: Axis.horizontal,
-                                  physics: const BouncingScrollPhysics(),
-                                  separatorBuilder: (context, index) =>
-                                      const SizedBox(
-                                    width: kDefaultPadding / 2,
-                                  ),
-                                  itemBuilder: (context, index) => InkWell(
-                                    onTap: () {},
-                                    child: Shimmer.fromColors(
-                                      highlightColor:
-                                          kBlackColor.withOpacity(0.02),
-                                      baseColor: kBlackColor.withOpacity(0.8),
-                                      direction: ShimmerDirection.ltr,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: kPageSkeletonColor,
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                        ),
-                                        width: 100,
-                                      ),
-                                    ),
-                                  ),
-                                  itemCount: 30,
+                              CategoryButtonSection(
+                                onPressed: _changeProductCategory,
+                                category: _categoryButtonText,
+                                categorybgColor: _categoryButtonBgColor,
+                                categoryFontColor: _categoryButtonFontColor,
+                              ),
+                              SizedBox(height: kDefaultPadding * 2),
+                              Text(
+                                'Beef (N2,000)',
+                                style: TextStyle(
+                                  color: kTextBlackColor,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              kSizedBox,
+                              Text(
+                                'Fish (N2,000)',
+                                style: TextStyle(
+                                  color: kTextBlackColor,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              kSizedBox,
+                              Text(
+                                'Goat meat (N2,000)',
+                                style: TextStyle(
+                                  color: kTextBlackColor,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
                                 ),
                               ),
                             ],

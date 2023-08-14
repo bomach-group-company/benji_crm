@@ -12,6 +12,7 @@ import '../../src/providers/constants.dart';
 import '../../src/providers/custom show search.dart';
 import '../../src/skeletons/dashboard_orders_list_skeleton.dart';
 import '../others/call_page.dart';
+import 'suspend_rider.dart';
 
 class RidersDetail extends StatefulWidget {
   final String ridersImage;
@@ -93,6 +94,18 @@ class _RidersDetailState extends State<RidersDetail> {
   void _seeMoreDeliveredOrders() {}
   void _seeMorePendingOrders() {}
 
+  void _toSuspendRider() => Get.to(
+        () => SuspendRider(),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "Suspend rider",
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
+//=====================================================================================\\
   void clickOnDelivered() async {
     setState(() {
       _loadingDeliveryStatus = true;
@@ -141,7 +154,7 @@ class _RidersDetailState extends State<RidersDetail> {
       if (value != null) {
         switch (value) {
           case 'suspend':
-            () {};
+            _toSuspendRider();
             break;
         }
       }
@@ -277,7 +290,7 @@ class _RidersDetailState extends State<RidersDetail> {
                                       radius: 60,
                                       backgroundColor: kSecondaryColor,
                                       backgroundImage: AssetImage(
-                                        "assets/images/rider/${widget.ridersImage}.png",
+                                        "assets/images/${widget.ridersImage}",
                                       ),
                                     ),
                                     Positioned(
