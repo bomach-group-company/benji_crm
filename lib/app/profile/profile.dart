@@ -5,7 +5,7 @@ import 'package:get/route_manager.dart';
 import '../../src/common_widgets/profile_first_half.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
-import '../screens/login.dart';
+import '../auth_screens/login.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -102,9 +102,7 @@ class _ProfileState extends State<Profile> {
                       title: const Text(
                         'Personal Info',
                         style: TextStyle(
-                          color: Color(
-                            0xFF333333,
-                          ),
+                          color: kTextBlackColor,
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
                         ),
@@ -121,9 +119,7 @@ class _ProfileState extends State<Profile> {
                       title: const Text(
                         'Settings',
                         style: TextStyle(
-                          color: Color(
-                            0xFF333333,
-                          ),
+                          color: kTextBlackColor,
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
                         ),
@@ -191,9 +187,7 @@ class _ProfileState extends State<Profile> {
                       title: const Text(
                         'Number of Orders',
                         style: TextStyle(
-                          color: Color(
-                            0xFF333333,
-                          ),
+                          color: kTextBlackColor,
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
                         ),
@@ -250,9 +244,7 @@ class _ProfileState extends State<Profile> {
                   title: const Text(
                     'Log Out',
                     style: TextStyle(
-                      color: Color(
-                        0xFF333333,
-                      ),
+                      color: kTextBlackColor,
                       fontSize: 15,
                       fontWeight: FontWeight.w400,
                     ),

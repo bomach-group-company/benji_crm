@@ -7,7 +7,7 @@ import 'package:video_player/video_player.dart';
 
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
-import '../screens/login.dart';
+import '../auth_screens/login.dart';
 
 class StartupSplashscreen extends StatefulWidget {
   const StartupSplashscreen({super.key});

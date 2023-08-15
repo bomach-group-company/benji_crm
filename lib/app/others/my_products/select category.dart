@@ -130,7 +130,8 @@ class _SelectCategoryState extends State<SelectCategory> {
               onPressed: () {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
-                    builder: (context) => const SuccessfulScreen(
+                    builder: (context) => SuccessfulScreen(
+                      buttonAction: () {},
                       text: "Product added successfully",
                       elevatedButtonTitle: "Okay",
                     ),
@@ -220,7 +221,8 @@ class _SelectCategoryState extends State<SelectCategory> {
                             onPressed: () {
                               Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
-                                  builder: (context) => const SuccessfulScreen(
+                                  builder: (context) => SuccessfulScreen(
+                                    buttonAction: () {},
                                     text: "Product created successfully",
                                     elevatedButtonTitle: "Okay",
                                   ),
