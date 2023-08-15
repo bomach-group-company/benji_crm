@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/route_manager.dart';
 
-import 'app/overview/overview.dart';
+import 'app/splash_screens/startup_splashscreen.dart';
 import 'theme/app theme.dart';
 
 void main() async {
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.light,
       darkTheme: AppTheme.darkTheme,
       theme: AppTheme.lightTheme,
-      home: OverView(),
+      home: StartupSplashscreen(),
     );
   }
 }
