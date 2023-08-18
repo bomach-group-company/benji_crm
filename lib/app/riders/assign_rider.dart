@@ -4,7 +4,7 @@ import 'dart:math';
 
 import 'package:benji_aggregator/src/common_widgets/my_appbar.dart';
 import 'package:benji_aggregator/src/common_widgets/my_outlined_elevatedButton.dart';
-import 'package:benji_aggregator/src/providers/custom%20show%20search.dart';
+import 'package:benji_aggregator/src/providers/custom_show_search.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';

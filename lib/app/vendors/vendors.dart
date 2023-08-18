@@ -8,7 +8,7 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../src/common_widgets/my_outlined_elevatedButton.dart';
 import '../../src/providers/constants.dart';
-import '../../src/providers/custom show search.dart';
+import '../../src/providers/custom_show_search.dart';
 import '../../src/skeletons/all_vendors_page_skeleton.dart';
 import '../../src/skeletons/vendors_list_skeleton.dart';
 import '../../theme/colors.dart';
@@ -238,9 +238,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
           tooltip: "Add a vendor",
           backgroundColor: kAccentColor,
           foregroundColor: kPrimaryColor,
-          child: const Icon(
-            Icons.add,
-          ),
+          child: const Icon(Icons.add),
         ),
         appBar: AppBar(
           leadingWidth: 40,
@@ -504,20 +502,13 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
                                                             .start,
                                                     children: [
                                                       SizedBox(
-                                                        width: 25,
-                                                        height: 25,
                                                         child: Icon(
                                                           Icons.star_rounded,
                                                           color: kStarColor,
                                                         ),
                                                       ),
-                                                      const SizedBox(
-                                                          width:
-                                                              kDefaultPadding /
-                                                                  2),
                                                       Container(
                                                         width: 81,
-                                                        height: 19,
                                                         padding:
                                                             const EdgeInsets
                                                                 .only(

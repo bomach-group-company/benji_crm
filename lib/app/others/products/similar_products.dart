@@ -1,6 +1,6 @@
 // ignore_for_file: unused_local_variable
 
-import 'package:benji_aggregator/src/providers/custom%20show%20search.dart';
+import 'package:benji_aggregator/src/providers/custom_show_search.dart';
 import 'package:benji_aggregator/src/skeletons/page_skeleton.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';

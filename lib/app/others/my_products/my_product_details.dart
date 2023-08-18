@@ -9,7 +9,6 @@ import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:readmore/readmore.dart';
 
-import '../../../src/common_widgets/category_button_section.dart';
 import '../../../src/common_widgets/my_appbar.dart';
 import '../../../src/common_widgets/my_textformfield2.dart';
 import '../../../src/common_widgets/showModalBottomSheetTitleWithIcon.dart';
@@ -38,21 +37,6 @@ class _MyProductDetailsState extends State<MyProductDetails> {
   //=================================== ALL VARIABLES ==========================================\\
   late bool _loadingScreen;
   bool _isChecked = false;
-
-  //===================== CATEGORY BUTTONS =======================\\
-  final List _categoryButtonText = [
-    "Protein",
-    "Stew",
-  ];
-
-  final List<Color> _categoryButtonBgColor = [
-    kAccentColor,
-    kDefaultCategoryBackgroundColor,
-  ];
-  final List<Color> _categoryButtonFontColor = [
-    kPrimaryColor,
-    kTextGreyColor,
-  ];
 
   //======================================= KEYS ==========================================\\
   GlobalKey<FormState> _updateQuantityKey = GlobalKey();
@@ -452,39 +436,6 @@ class _MyProductDetailsState extends State<MyProductDetails> {
                                 ],
                               ),
                               kSizedBox,
-                              CategoryButtonSection(
-                                onPressed: _changeProductCategory,
-                                category: _categoryButtonText,
-                                categorybgColor: _categoryButtonBgColor,
-                                categoryFontColor: _categoryButtonFontColor,
-                              ),
-                              SizedBox(height: kDefaultPadding * 2),
-                              Text(
-                                'Beef (N2,000)',
-                                style: TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              kSizedBox,
-                              Text(
-                                'Fish (N2,000)',
-                                style: TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              kSizedBox,
-                              Text(
-                                'Goat meat (N2,000)',
-                                style: TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
                             ],
                           ),
                         ),

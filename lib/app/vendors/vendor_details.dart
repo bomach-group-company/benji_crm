@@ -2,7 +2,7 @@
 
 import 'package:benji_aggregator/app/others/products/product_details.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
-import 'package:benji_aggregator/src/providers/custom%20show%20search.dart';
+import 'package:benji_aggregator/src/providers/custom_show_search.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
