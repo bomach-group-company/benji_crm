@@ -31,6 +31,8 @@ dependencies:
   dotted_border: ^2.0.0+3
   video_player: ^2.7.0
   font_awesome_flutter: ^10.5.0
+  shared_preferences:
+  cached_network_image:
 
 dev_dependencies:
   flutter_test:
