@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../providers/constants.dart';
 import 'page_skeleton.dart';
 import 'vendors_list_skeleton.dart';
@@ -8,7 +7,6 @@ class AllVendorsPageSkeleton extends StatelessWidget {
   const AllVendorsPageSkeleton({
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
     return ListView(

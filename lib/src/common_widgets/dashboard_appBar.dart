@@ -1,7 +1,9 @@
 // ignore_for_file: file_names
 
 import 'package:benji_aggregator/app/others/notifications.dart';
+import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 
 import '../../app/profile/profile.dart';
@@ -51,36 +53,39 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
       automaticallyImplyLeading: false,
       titleSpacing: kDefaultPadding / 2,
       elevation: 10.0,
-      title: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: kDefaultPadding / 2,
-            ),
-            child: InkWell(
-              onTap: () {
-                toProfilePage();
-              },
-              child: Container(
-                width: 45,
-                height: 45,
-                decoration: ShapeDecoration(
-                  color: kPageSkeletonColor,
-                  image: const DecorationImage(
-                    image: AssetImage("assets/images/profile/avatar-image.jpg"),
-                    fit: BoxFit.cover,
+      title: GetBuilder<UserController>(builder: (controller) {
+        return Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: kDefaultPadding / 2,
+              ),
+              child: InkWell(
+                onTap: () {
+                  toProfilePage();
+                },
+                child: Container(
+                  width: 45,
+                  height: 45,
+                  decoration: ShapeDecoration(
+                    color: kPageSkeletonColor,
+                    image: const DecorationImage(
+                      image:
+                          AssetImage("assets/images/profile/avatar-image.jpg"),
+                      fit: BoxFit.cover,
+                    ),
+                    shape: const OvalBorder(),
                   ),
-                  shape: const OvalBorder(),
                 ),
               ),
             ),
-          ),
-          const AppBarAggregator(
-            title: "Welcome,",
-            aggregatorName: "Mishaal Erickson",
-          ),
-        ],
-      ),
+            AppBarAggregator(
+              title: "Welcome,",
+              aggregatorName: controller.user.value.username ?? "",
+            ),
+          ],
+        );
+      }),
       actions: [
         IconButton(
             onPressed: showSearchField,

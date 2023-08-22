@@ -6,14 +6,11 @@ class MyResponsiveWidthAppbar extends StatelessWidget
     implements PreferredSizeWidget {
   final Widget child;
   const MyResponsiveWidthAppbar({super.key, required this.child});
-
   @override
   Size get preferredSize => const Size.fromHeight(80);
-
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context).size;
-
     return SizedBox(
       child: Center(
         heightFactor: 1,

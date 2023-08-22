@@ -10,19 +10,19 @@ class LoginSplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(
-      const Duration(seconds: 3),
-      () => Get.offAll(
-        () => const OverView(),
-        duration: const Duration(seconds: 3),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "Dashboard",
-        predicate: (route) => false,
-        popGesture: true,
-        transition: Transition.fadeIn,
-      ),
-    );
+    // Future.delayed(
+    //   const Duration(seconds: 3),
+    //   () => Get.offAll(
+    //     () => const OverView(),
+    //     duration: const Duration(seconds: 3),
+    //     fullscreenDialog: true,
+    //     curve: Curves.easeIn,
+    //     routeName: "Dashboard",
+    //     predicate: (route) => false,
+    //     popGesture: true,
+    //     transition: Transition.fadeIn,
+    //   ),
+    // );
 
     return SafeArea(
       maintainBottomViewPadding: true,

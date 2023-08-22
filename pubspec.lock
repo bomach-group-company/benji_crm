@@ -33,6 +33,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  cached_network_image:
+    dependency: "direct main"
+    description:
+      name: cached_network_image
+      sha256: fd3d0dc1d451f9a252b32d95d3f0c3c487bc41a75eba2e6097cb0b9c71491b15
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.3"
+  cached_network_image_platform_interface:
+    dependency: transitive
+    description:
+      name: cached_network_image_platform_interface
+      sha256: bb2b8403b4ccdc60ef5f25c70dead1f3d32d24b9d6117cfc087f496b178594a7
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
+  cached_network_image_web:
+    dependency: transitive
+    description:
+      name: cached_network_image_web
+      sha256: b8eb814ebfcb4dea049680f8c1ffb2df399e4d03bf7a352c775e26fa06e02fa0
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   characters:
     dependency: transitive
     description:
@@ -153,6 +177,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.4"
+  file:
+    dependency: transitive
+    description:
+      name: file
+      sha256: "1b92bec4fc2a72f59a8e15af5f52cd441e4a7860b49499d69dfa817af20e925d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.4"
   file_selector_linux:
     dependency: transitive
     description:
@@ -190,6 +222,22 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_blurhash:
+    dependency: transitive
+    description:
+      name: flutter_blurhash
+      sha256: "05001537bd3fac7644fa6558b09ec8c0a3f2eba78c0765f88912882b1331a5c6"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.7.0"
+  flutter_cache_manager:
+    dependency: transitive
+    description:
+      name: flutter_cache_manager
+      sha256: "8207f27539deb83732fdda03e259349046a39a4c767269285f449ade355d54ba"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.3.1"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -496,6 +544,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+  octo_image:
+    dependency: transitive
+    description:
+      name: octo_image
+      sha256: "107f3ed1330006a3bea63615e81cf637433f5135a52466c7caa0e7152bca9143"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   path:
     dependency: transitive
     description:
@@ -608,6 +664,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.0"
+  rxdart:
+    dependency: transitive
+    description:
+      name: rxdart
+      sha256: "0c7c0cedd93788d996e33041ffecda924cc54389199cde4e6a34b440f50044cb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.27.7"
   sanitize_html:
     dependency: transitive
     description:
@@ -616,62 +680,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
-  shared_preferences:
-    dependency: "direct main"
-    description:
-      name: shared_preferences
-      sha256: "0344316c947ffeb3a529eac929e1978fcd37c26be4e8468628bac399365a3ca1"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.0"
-  shared_preferences_android:
-    dependency: transitive
-    description:
-      name: shared_preferences_android
-      sha256: fe8401ec5b6dcd739a0fe9588802069e608c3fdbfd3c3c93e546cf2f90438076
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.0"
-  shared_preferences_foundation:
-    dependency: transitive
-    description:
-      name: shared_preferences_foundation
-      sha256: d29753996d8eb8f7619a1f13df6ce65e34bc107bef6330739ed76f18b22310ef
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.3.3"
-  shared_preferences_linux:
-    dependency: transitive
-    description:
-      name: shared_preferences_linux
-      sha256: "71d6806d1449b0a9d4e85e0c7a917771e672a3d5dc61149cc9fac871115018e1"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.3.0"
-  shared_preferences_platform_interface:
-    dependency: transitive
-    description:
-      name: shared_preferences_platform_interface
-      sha256: "23b052f17a25b90ff2b61aad4cc962154da76fb62848a9ce088efe30d7c50ab1"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.3.0"
-  shared_preferences_web:
-    dependency: transitive
-    description:
-      name: shared_preferences_web
-      sha256: "7347b194fb0bbeb4058e6a4e87ee70350b6b2b90f8ac5f8bd5b3a01548f6d33a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.0"
-  shared_preferences_windows:
-    dependency: transitive
-    description:
-      name: shared_preferences_windows
-      sha256: f95e6a43162bce43c9c3405f3eb6f39e5b5d11f65fab19196cf8225e2777624d
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.3.0"
   shimmer:
     dependency: "direct main"
     description:
@@ -692,7 +700,7 @@ packages:
       sha256: "53e943d4206a5e30df338fd4c6e7a077e02254531b138a15aec3bd143c1a8b3c"
       url: "https://pub.dev"
     source: hosted
-    version: "1.10.0"
+    version: "1.9.1"
   stack_trace:
     dependency: transitive
     description:
@@ -725,6 +733,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  synchronized:
+    dependency: transitive
+    description:
+      name: synchronized
+      sha256: "5fcbd27688af6082f5abd611af56ee575342c30e87541d0245f7ff99faa02c60"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.0"
   term_glyph:
     dependency: transitive
     description:
@@ -821,6 +837,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.7"
+  uuid:
+    dependency: transitive
+    description:
+      name: uuid
+      sha256: "648e103079f7c64a36dc7d39369cabb358d377078a051d6ae2ad3aa539519313"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.7"
   vector_math:
     dependency: transitive
     description:
@@ -870,5 +894,5 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-  dart: ">=3.1.0-185.0.dev <4.0.0"
+  dart: ">=3.0.5 <4.0.0"
   flutter: ">=3.10.0"

@@ -1,7 +1,10 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, use_build_context_synchronously
 
+import 'package:benji_aggregator/controller/login_controller.dart';
+import 'package:benji_aggregator/model/login_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/email_textformfield.dart';
@@ -21,6 +24,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  var login = Get.put(LoginController());
   //=========================== INITIAL STATE ====================================\\
   @override
   void initState() {
@@ -280,40 +284,46 @@ class _LoginState extends State<Login> {
                         ],
                       ),
                       kSizedBox,
-                      isLoading
-                          ? Center(
-                              child: SpinKitChasingDots(
-                                color: kAccentColor,
-                              ),
-                            )
-                          : ElevatedButton(
-                              onPressed: (() async {
-                                if (_formKey.currentState!.validate()) {
-                                  loadData();
-                                }
-                              }),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: kAccentColor,
-                                maximumSize:
-                                    Size(MediaQuery.of(context).size.width, 62),
-                                minimumSize:
-                                    Size(MediaQuery.of(context).size.width, 60),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
+                      GetBuilder<LoginController>(builder: (controller) {
+                        return controller.isLoad.value
+                            ? Center(
+                                child: SpinKitChasingDots(
+                                  color: kAccentColor,
                                 ),
-                                elevation: 10,
-                                shadowColor: kDarkGreyColor,
-                              ),
-                              child: Text(
-                                "Log in".toUpperCase(),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: kPrimaryColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
+                              )
+                            : ElevatedButton(
+                                onPressed: (() async {
+                                  if (_formKey.currentState!.validate()) {
+                                    SendLogin data = SendLogin(
+                                        password: passwordController.text,
+                                        username: emailController.text);
+
+                                    await controller.runLoginTask(data);
+                                  }
+                                }),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: kAccentColor,
+                                  maximumSize: Size(
+                                      MediaQuery.of(context).size.width, 62),
+                                  minimumSize: Size(
+                                      MediaQuery.of(context).size.width, 60),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  elevation: 10,
+                                  shadowColor: kDarkGreyColor,
                                 ),
-                              ),
-                            ),
+                                child: Text(
+                                  "Log in".toUpperCase(),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: kPrimaryColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              );
+                      }),
                       kHalfSizedBox,
                     ],
                   ),
