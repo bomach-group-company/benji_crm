@@ -158,7 +158,7 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
       child: Scaffold(
         appBar: MyAppBar(
           title: "Order Details",
-          toolbarHeight: 80,
+          toolbarHeight: kToolbarHeight,
           elevation: 10.0,
           actions: const [],
           backgroundColor: kPrimaryColor,

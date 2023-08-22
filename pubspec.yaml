@@ -47,6 +47,7 @@ flutter_launcher_icons:
   android: "launcher_icon"
   remove_alpha_ios: true
   ios: true
+  web: "launcher_icon"
   image_path: "assets/images/logo/benji_red_logo_icon.jpg"
 
   flutter_lints: ^2.0.0

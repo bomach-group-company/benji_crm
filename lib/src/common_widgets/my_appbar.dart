@@ -1,9 +1,10 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
-import '../../theme/colors.dart';
+import '../../../theme/colors.dart';
 import '../providers/constants.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -13,7 +14,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget> actions;
   final double toolbarHeight;
   @override
-  Size get preferredSize => const Size.fromHeight(40);
+  Size get preferredSize => const Size.fromHeight(45);
   const MyAppBar({
     super.key,
     required this.title,
@@ -54,9 +55,11 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                   borderRadius: BorderRadius.circular(24),
                 ),
               ),
-              child: Icon(
-                Icons.arrow_back_ios_new_rounded,
-                color: kAccentColor,
+              child: Center(
+                child: FaIcon(
+                  FontAwesomeIcons.circleArrowLeft,
+                  color: kAccentColor,
+                ),
               ),
             ),
           ),
@@ -65,7 +68,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
             child: Text(
               title,
               style: const TextStyle(
-                color: Color(0xFF151515),
+                color: kTextBlackColor,
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
                 letterSpacing: -0.40,

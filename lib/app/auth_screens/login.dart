@@ -4,8 +4,8 @@ import 'package:benji_aggregator/controller/login_controller.dart';
 import 'package:benji_aggregator/model/login_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
 
 import '../../src/common_widgets/email_textformfield.dart';
 import '../../src/common_widgets/my_fixed_snackBar.dart';
@@ -44,6 +44,7 @@ class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
 
   //=========================== BOOL VALUES ====================================\\
+
   bool isLoading = false;
   bool _isChecked = false;
   var _isObscured;
@@ -61,7 +62,7 @@ class _LoginState extends State<Login> {
   //=========================== FUNCTIONS ====================================\\
 
   //Navigate to forgotPassword
-  void toForgotPasswordPage() => Get.to(
+  void _toForgotPasswordPage() => Get.to(
         () => const ForgotPassword(),
         duration: const Duration(milliseconds: 500),
         fullscreenDialog: true,
@@ -94,7 +95,7 @@ class _LoginState extends State<Login> {
       duration: const Duration(seconds: 2),
       fullscreenDialog: true,
       curve: Curves.easeIn,
-      routeName: "Login processing",
+      routeName: "LoginSplashScreen",
       preventDuplicates: true,
       popGesture: true,
       transition: Transition.fadeIn,
@@ -119,16 +120,21 @@ class _LoginState extends State<Login> {
               ReusableAuthenticationFirstHalf(
                 title: "Log In",
                 subtitle: "Please log in to your existing account",
-                decoration: ShapeDecoration(
-                  image: const DecorationImage(
-                    image: AssetImage("assets/images/login/avatar-image.png"),
-                    fit: BoxFit.cover,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(43.50),
+                curves: Curves.easeInOut,
+                duration: Duration(milliseconds: 300),
+                child: Center(
+                  child: FaIcon(
+                    FontAwesomeIcons.rightToBracket,
+                    color: kSecondaryColor,
+                    size: 80,
+                    semanticLabel: "lock_icon",
                   ),
                 ),
-                imageContainerHeight: 88,
+                decoration: ShapeDecoration(
+                  color: kPrimaryColor,
+                  shape: OvalBorder(),
+                ),
+                imageContainerHeight: 120,
               ),
               kSizedBox,
               Expanded(
@@ -274,7 +280,7 @@ class _LoginState extends State<Login> {
                           ),
                           TextButton(
                             onPressed: () {
-                              toForgotPasswordPage();
+                              _toForgotPasswordPage();
                             },
                             child: Text(
                               "Forgot Password",

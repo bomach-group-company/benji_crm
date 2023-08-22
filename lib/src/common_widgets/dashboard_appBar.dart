@@ -4,7 +4,6 @@ import 'package:benji_aggregator/app/others/notifications.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
 
 import '../../app/profile/profile.dart';
 import '../../theme/colors.dart';

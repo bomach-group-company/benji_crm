@@ -53,7 +53,7 @@ class _SelectCategoryState extends State<SelectCategory> {
       backgroundColor: kPrimaryColor,
       appBar: MyAppBar(
         title: "Select Category",
-        toolbarHeight: 80,
+        toolbarHeight: kToolbarHeight,
         elevation: 0.0,
         actions: const [],
         backgroundColor: kPrimaryColor,
