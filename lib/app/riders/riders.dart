@@ -6,7 +6,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:get/get.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
@@ -495,177 +495,27 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                         ),
                                       ),
                                     ),
+                                  ),
+                            kSizedBox,
+                            _riderStatus
+                                ? TextButton(
+                                    onPressed: _seeMoreOnlineRiders,
+                                    child: Text(
+                                      "See more",
+                                      style: TextStyle(color: kAccentColor),
+                                    ),
                                   )
-                                : SizedBox(
-                                    // height: mediaHeight - 120,
-                                    child: ListView.builder(
-                                      itemCount: _numberOfOfflineRiders,
-                                      addAutomaticKeepAlives: true,
-                                      physics: const BouncingScrollPhysics(),
-                                      shrinkWrap: true,
-                                      itemBuilder: (context, index) => InkWell(
-                                        onTap: toRidersDetailPage,
-                                        borderRadius: BorderRadius.circular(16),
-                                        child: Container(
-                                          width: max(mediaWidth, 374),
-                                          margin: const EdgeInsets.only(
-                                              bottom: kDefaultPadding / 2),
-                                          padding: const EdgeInsets.all(
-                                              kDefaultPadding / 2),
-                                          decoration: ShapeDecoration(
-                                            color: Colors.white,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(16),
-                                            ),
-                                            shadows: const [
-                                              BoxShadow(
-                                                color: Color(0x0F000000),
-                                                blurRadius: 24,
-                                                offset: Offset(0, 4),
-                                                spreadRadius: 0,
-                                              ),
-                                            ],
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              Stack(
-                                                children: [
-                                                  Container(
-                                                    height: 45,
-                                                    width: 45,
-                                                    decoration: ShapeDecoration(
-                                                      image: DecorationImage(
-                                                        image: AssetImage(
-                                                          "assets/images/$_offlineRidersImage",
-                                                        ),
-                                                      ),
-                                                      shape: const OvalBorder(),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal:
-                                                            kDefaultPadding),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: [
-                                                    SizedBox(
-                                                      width: mediaWidth - 200,
-                                                      child: Text(
-                                                        _offlineRidersName,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        maxLines: 1,
-                                                        style: const TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    kHalfSizedBox,
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Icon(
-                                                          Icons.visibility,
-                                                          color: kAccentColor,
-                                                          size: 18,
-                                                        ),
-                                                        kHalfWidthSizedBox,
-                                                        SizedBox(
-                                                          width:
-                                                              mediaWidth - 200,
-                                                          child: Text(
-                                                            "Last seen $_lastSeenCount $_lastSeenMessage",
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            maxLines: 1,
-                                                            style: TextStyle(
-                                                              fontSize: 12,
-                                                              color:
-                                                                  kAccentColor,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Icon(
-                                                          Icons.route,
-                                                          color: kAccentColor,
-                                                          size: 18,
-                                                        ),
-                                                        kHalfWidthSizedBox,
-                                                        SizedBox(
-                                                          width:
-                                                              mediaWidth - 200,
-                                                          child: Text(
-                                                            "$_offlineRiderNoOfTrips Trips Completed",
-                                                            style: TextStyle(
-                                                              fontSize: 12,
-                                                              color:
-                                                                  kTextGreyColor,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
+                                : TextButton(
+                                    onPressed: _seeMoreOfflineRiders,
+                                    child: Text(
+                                      "See more",
+                                      style: TextStyle(color: kAccentColor),
                                     ),
                                   ),
-                        kSizedBox,
-                        _riderStatus
-                            ? TextButton(
-                                onPressed: _seeMoreOnlineRiders,
-                                child: Text(
-                                  "See more",
-                                  style: TextStyle(color: kAccentColor),
-                                ),
-                              )
-                            : TextButton(
-                                onPressed: _seeMoreOfflineRiders,
-                                child: Text(
-                                  "See more",
-                                  style: TextStyle(color: kAccentColor),
-                                ),
-                              ),
-                      ],
-                    ),
-                  );
-          }),
+                          ],
+                        ),
+                      );
+              }),
         ),
       ),
     );

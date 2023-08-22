@@ -7,7 +7,7 @@ class MyResponsiveWidthAppbar extends StatelessWidget
   final Widget child;
   const MyResponsiveWidthAppbar({super.key, required this.child});
   @override
-  Size get preferredSize => const Size.fromHeight(80);
+  Size get preferredSize => const Size.fromHeight(50);
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context).size;

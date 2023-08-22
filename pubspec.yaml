@@ -21,7 +21,7 @@ dependencies:
   google_fonts: ^5.1.0
   google_maps_flutter: ^2.4.0
   hexcolor: ^3.0.1
-  get: ^4.6.5
+  get:
   url_launcher: ^6.1.12
   shimmer: ^3.0.0-nullsafety.0
   liquid_pull_to_refresh: ^3.0.1
@@ -29,9 +29,7 @@ dependencies:
   dotted_border: ^2.0.0+3
   font_awesome_flutter: ^10.5.0
   shared_preferences: ^2.2.0
-
-shared_preferences:
-  cached_network_image: 54a00a5bd13e4690fe497f97b74e386a1d308c85
+  cached_network_image: ^3.2.3
 
 dev_dependencies:
   flutter_test:
