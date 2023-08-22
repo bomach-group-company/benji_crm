@@ -164,6 +164,7 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
           backgroundColor: kPrimaryColor,
         ),
         body: FutureBuilder(
+          future: null,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               SpinKitDoubleBounce(color: kAccentColor);

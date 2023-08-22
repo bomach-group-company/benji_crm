@@ -7,11 +7,14 @@ import '../../src/providers/constants.dart';
 
 class SuccessfulScreen extends StatelessWidget {
   final String text;
+
   final String elevatedButtonTitle;
+  final Function() buttonAction;
   const SuccessfulScreen({
     super.key,
     required this.text,
     required this.elevatedButtonTitle,
+    required this.buttonAction,
   });
 
   @override
@@ -74,9 +77,7 @@ class SuccessfulScreen extends StatelessWidget {
                 maximumSizeWidth: MediaQuery.of(context).size.width,
                 minimumSizeHeight: 68,
                 minimumSizeWidth: MediaQuery.of(context).size.width,
-                onPressed: () {
-                  Navigator.of(context).pop(context);
-                },
+                onPressed: buttonAction,
               ),
             ],
           ),

@@ -1,19 +1,10 @@
-import 'dart:convert';
-
 import 'package:benji_aggregator/controller/error_controller.dart';
-import 'package:benji_aggregator/controller/user_controller.dart';
-import 'package:benji_aggregator/model/notificatin_model.dart';
-import 'package:benji_aggregator/model/user_model.dart';
 import 'package:benji_aggregator/model/vendor_list_model.dart';
 import 'package:benji_aggregator/model/vendor_model.dart';
 import 'package:benji_aggregator/services/api_url.dart';
 import 'package:benji_aggregator/services/pref.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:http/http.dart' as http;
-
-import '../model/rider_list_model.dart';
 
 class VendorController extends GetxController {
   static VendorController get instance {
@@ -83,8 +74,8 @@ class VendorController extends GetxController {
     update();
   }
 
-  Future filterProductBySubCat( vendorId, subCatId) async {
-     isLoad.value = true;
+  Future filterProductBySubCat(vendorId, subCatId) async {
+    isLoad.value = true;
     late String token;
     update();
     var url = Api.baseUrl + Api.getVendorProducts + "";
@@ -101,6 +92,5 @@ class VendorController extends GetxController {
     } catch (e) {}
     isLoad.value = false;
     update();
-
   }
 }

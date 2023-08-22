@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:benji_aggregator/app/screens/login.dart';
+
 import 'package:benji_aggregator/controller/error_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/model/login_model.dart';
@@ -8,6 +8,8 @@ import 'package:benji_aggregator/services/pref.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../app/auth_screens/login.dart';
 
 class LoginController extends GetxController {
   static LoginController get instance {

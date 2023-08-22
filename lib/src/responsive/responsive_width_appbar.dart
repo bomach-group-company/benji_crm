@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+
 import '../providers/responsive_constant.dart';
 
-class MyResponsiveWidthAppbar extends StatelessWidget 
-implements PreferredSizeWidget {
+class MyResponsiveWidthAppbar extends StatelessWidget
+    implements PreferredSizeWidget {
   final Widget child;
   const MyResponsiveWidthAppbar({super.key, required this.child});
   @override
-  Size get preferredSize => const Size.fromHeight(80);
+  Size get preferredSize => const Size.fromHeight(50);
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context).size;

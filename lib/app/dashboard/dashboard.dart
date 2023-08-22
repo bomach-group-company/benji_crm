@@ -244,6 +244,7 @@ class _DashboardState extends State<Dashboard>
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: FutureBuilder(
+            future: null,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 const AllRidersPageSkeleton();

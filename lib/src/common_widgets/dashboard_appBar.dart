@@ -9,7 +9,7 @@ import 'package:get/route_manager.dart';
 import '../../app/profile/profile.dart';
 import '../../theme/colors.dart';
 import '../providers/constants.dart';
-import '../providers/custom show search.dart';
+import '../providers/custom_show_search.dart';
 import 'dashboard_appBar_aggregator.dart';
 
 class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {

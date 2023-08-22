@@ -1,6 +1,6 @@
 // ignore_for_file: unused_local_variable
 
-import 'package:benji_aggregator/src/providers/custom%20show%20search.dart';
+import 'package:benji_aggregator/src/providers/custom_show_search.dart';
 import 'package:benji_aggregator/src/skeletons/page_skeleton.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -139,50 +139,52 @@ class _SimilarProductsPageState extends State<SimilarProductsPage>
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,
-          child: FutureBuilder(builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              Center(child: SpinKitDoubleBounce(color: kAccentColor));
-            }
-            if (snapshot.connectionState == ConnectionState.none) {
-              const Center(
-                child: Text("Please connect to the internet"),
-              );
-            }
-            // if (snapshot.connectionState == snapshot.requireData) {
-            //   SpinKitDoubleBounce(color: kAccentColor);
-            // }
-            if (snapshot.connectionState == snapshot.error) {
-              const Center(
-                child: Text("Error, Please try again later"),
-              );
-            }
-            return _loadingScreen
-                ? Center(child: SpinKitDoubleBounce(color: kAccentColor))
-                : Scrollbar(
-                    controller: _scrollController,
-                    radius: const Radius.circular(10),
-                    scrollbarOrientation: ScrollbarOrientation.right,
-                    child: GridView.builder(
-                      physics: const BouncingScrollPhysics(),
-                      padding: const EdgeInsets.all(kDefaultPadding / 2),
-                      dragStartBehavior: DragStartBehavior.down,
-                      itemCount: 30,
-                      itemBuilder: (context, index) => Shimmer.fromColors(
-                        highlightColor: kBlackColor.withOpacity(0.02),
-                        baseColor: kBlackColor.withOpacity(0.8),
-                        direction: ShimmerDirection.ltr,
-                        child: const PageSkeleton(height: 160, width: 60),
-                      ),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
-                        mainAxisExtent: 200,
-                      ),
-                    ),
+          child: FutureBuilder(
+              future: null,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  Center(child: SpinKitDoubleBounce(color: kAccentColor));
+                }
+                if (snapshot.connectionState == ConnectionState.none) {
+                  const Center(
+                    child: Text("Please connect to the internet"),
                   );
-          }),
+                }
+                // if (snapshot.connectionState == snapshot.requireData) {
+                //   SpinKitDoubleBounce(color: kAccentColor);
+                // }
+                if (snapshot.connectionState == snapshot.error) {
+                  const Center(
+                    child: Text("Error, Please try again later"),
+                  );
+                }
+                return _loadingScreen
+                    ? Center(child: SpinKitDoubleBounce(color: kAccentColor))
+                    : Scrollbar(
+                        controller: _scrollController,
+                        radius: const Radius.circular(10),
+                        scrollbarOrientation: ScrollbarOrientation.right,
+                        child: GridView.builder(
+                          physics: const BouncingScrollPhysics(),
+                          padding: const EdgeInsets.all(kDefaultPadding / 2),
+                          dragStartBehavior: DragStartBehavior.down,
+                          itemCount: 30,
+                          itemBuilder: (context, index) => Shimmer.fromColors(
+                            highlightColor: kBlackColor.withOpacity(0.02),
+                            baseColor: kBlackColor.withOpacity(0.8),
+                            direction: ShimmerDirection.ltr,
+                            child: const PageSkeleton(height: 160, width: 60),
+                          ),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                            mainAxisExtent: 200,
+                          ),
+                        ),
+                      );
+              }),
         ),
       ),
     );

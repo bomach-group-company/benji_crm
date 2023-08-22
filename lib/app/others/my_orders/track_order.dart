@@ -222,6 +222,7 @@ class _TrackOrderState extends State<TrackOrder> {
       body: _loadingScreen
           ? SpinKitDoubleBounce(color: kAccentColor)
           : FutureBuilder(
+              future: null,
               builder: (context, snapshot) => Stack(
                 children: [
                   GoogleMap(

@@ -6,13 +6,13 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:get/get.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../controller/rider_controller.dart';
 import '../../src/providers/constants.dart';
-import '../../src/providers/custom show search.dart';
+import '../../src/providers/custom_show_search.dart';
 import '../../src/skeletons/all_riders_page_skeleton.dart';
 import '../../src/skeletons/riders_list_skeleton.dart';
 import '../../theme/colors.dart';
@@ -108,7 +108,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
     setState(() {
       _loadingScreen = true;
     });
-    await Future.delayed(const Duration(milliseconds: 1000));
+    await Future.delayed(const Duration(milliseconds: 500));
     setState(() {
       _loadingScreen = false;
     });
@@ -117,8 +117,11 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
 //============================= Scroll to Top ======================================//
   void _scrollToTop() {
     _animationController.reverse();
-    _scrollController.animateTo(0,
-        duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn);
+    _scrollController.animateTo(
+      0,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
   }
 
   void _scrollListener() {
@@ -141,7 +144,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
       _riderStatus = true;
     });
 
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 500));
 
     setState(() {
       _loadingRiderStatus = false;
@@ -154,7 +157,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
       _riderStatus = false;
     });
 
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 500));
 
     setState(() {
       _loadingRiderStatus = false;
@@ -245,8 +248,9 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
             if (_isScrollToTopBtnVisible) ...[
               ScaleTransition(
                 scale: CurvedAnimation(
-                    parent: _animationController,
-                    curve: Curves.fastEaseInToSlowEaseOut),
+                  parent: _animationController,
+                  curve: Curves.easeInOut,
+                ),
                 child: FloatingActionButton(
                   onPressed: _scrollToTop,
                   mini: true,
@@ -410,9 +414,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                                   SizedBox(
                                                     width: mediaWidth - 200,
                                                     child: Text(
-                                                      controller
-                                                          .riderList[index]
-                                                          .username!,
+                                                      _onlineRidersName,
                                                       overflow:
                                                           TextOverflow.ellipsis,
                                                       maxLines: 1,

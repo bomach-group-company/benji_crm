@@ -22,12 +22,13 @@ class ProductDetails extends StatefulWidget {
   final String productDescription;
   final double productPrice;
 
-  const ProductDetails(
-      {super.key,
-      required this.productImage,
-      required this.productName,
-      required this.productDescription,
-      required this.productPrice});
+  const ProductDetails({
+    super.key,
+    required this.productImage,
+    required this.productName,
+    required this.productDescription,
+    required this.productPrice,
+  });
 
   @override
   State<ProductDetails> createState() => _ProductDetailsState();
@@ -119,236 +120,239 @@ class _ProductDetailsState extends State<ProductDetails> {
             controller: _scrollController,
             radius: const Radius.circular(10),
             scrollbarOrientation: ScrollbarOrientation.right,
-            child: FutureBuilder(builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                Center(child: SpinKitDoubleBounce(color: kAccentColor));
-              }
-              if (snapshot.connectionState == ConnectionState.none) {
-                const Center(
-                  child: Text("Please connect to the internet"),
-                );
-              }
-              // if (snapshot.connectionState == snapshot.requireData) {
-              //   SpinKitDoubleBounce(color: kAccentColor);
-              // }
-              if (snapshot.connectionState == snapshot.error) {
-                const Center(
-                  child: Text("Error, Please try again later"),
-                );
-              }
-              return _loadingScreen
-                  ? const ProductDetailsPageSkeleton()
-                  // ? Center(child: SpinKitDoubleBounce(color: kAccentColor))
-                  : ListView(
-                      physics: const BouncingScrollPhysics(),
-                      dragStartBehavior: DragStartBehavior.down,
-                      children: [
-                        Container(
-                          height: mediaHeight * 0.4,
-                          decoration: ShapeDecoration(
-                            color: kPageSkeletonColor,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(30),
-                                bottomLeft: Radius.circular(30),
+            child: FutureBuilder(
+              future: null,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  Center(child: SpinKitDoubleBounce(color: kAccentColor));
+                }
+                if (snapshot.connectionState == ConnectionState.none) {
+                  const Center(
+                    child: Text("Please connect to the internet"),
+                  );
+                }
+                // if (snapshot.connectionState == snapshot.requireData) {
+                //   SpinKitDoubleBounce(color: kAccentColor);
+                // }
+                if (snapshot.connectionState == snapshot.error) {
+                  const Center(
+                    child: Text("Error, Please try again later"),
+                  );
+                }
+                return _loadingScreen
+                    ? const ProductDetailsPageSkeleton()
+                    // ? Center(child: SpinKitDoubleBounce(color: kAccentColor))
+                    : ListView(
+                        physics: const BouncingScrollPhysics(),
+                        dragStartBehavior: DragStartBehavior.down,
+                        children: [
+                          Container(
+                            height: mediaHeight * 0.4,
+                            decoration: ShapeDecoration(
+                              color: kPageSkeletonColor,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                  bottomRight: Radius.circular(30),
+                                  bottomLeft: Radius.circular(30),
+                                ),
                               ),
-                            ),
-                            image: DecorationImage(
-                              fit: BoxFit.fill,
-                              image: AssetImage(
-                                  "assets/images/products/${widget.productImage}.png"),
-                            ),
-                            shadows: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.6),
-                                blurRadius: 8,
-                                spreadRadius: 4,
-                                blurStyle: BlurStyle.normal,
+                              image: DecorationImage(
+                                fit: BoxFit.fill,
+                                image: AssetImage(
+                                    "assets/images/products/${widget.productImage}.png"),
                               ),
-                            ],
+                              shadows: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.6),
+                                  blurRadius: 8,
+                                  spreadRadius: 4,
+                                  blurStyle: BlurStyle.normal,
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        Container(
-                          width: mediaWidth,
-                          padding: const EdgeInsets.all(kDefaultPadding),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    widget.productName,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                      color: kTextBlackColor,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w700,
+                          Container(
+                            width: mediaWidth,
+                            padding: const EdgeInsets.all(kDefaultPadding),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      widget.productName,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        color: kTextBlackColor,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w700,
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    "₦ ${widget.productPrice.toStringAsFixed(2)}",
-                                    style: const TextStyle(
-                                      color: kTextBlackColor,
-                                      fontSize: 22,
-                                      fontFamily: 'sen',
-                                      fontWeight: FontWeight.w400,
+                                    Text(
+                                      "₦ ${widget.productPrice.toStringAsFixed(2)}",
+                                      style: const TextStyle(
+                                        color: kTextBlackColor,
+                                        fontSize: 22,
+                                        fontFamily: 'sen',
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                     ),
+                                  ],
+                                ),
+                                kSizedBox,
+                                const Text(
+                                  "Description",
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                    color: kTextBlackColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
                                   ),
-                                ],
-                              ),
-                              kSizedBox,
-                              const Text(
-                                "Description",
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
                                 ),
-                              ),
-                              kHalfSizedBox,
-                              ReadMoreText(
-                                widget.productDescription,
-                                callback: (val) {},
-                                delimiter: "...",
-                                trimLines: 10,
-                                trimExpandedText: "...show less",
-                                style: TextStyle(
-                                  color: kTextGreyColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                moreStyle: TextStyle(
-                                  color: kAccentColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                lessStyle: TextStyle(
-                                  color: kAccentColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                delimiterStyle: TextStyle(
-                                  color: kAccentColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                colorClickableText: kAccentColor,
-                              ),
-                              kSizedBox,
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    "Similar products",
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      color: kTextBlackColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w700,
-                                    ),
+                                kHalfSizedBox,
+                                ReadMoreText(
+                                  widget.productDescription,
+                                  callback: (val) {},
+                                  delimiter: "...",
+                                  trimLines: 10,
+                                  trimExpandedText: "...show less",
+                                  style: TextStyle(
+                                    color: kTextGreyColor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
                                   ),
-                                  TextButton(
-                                    onPressed: _toSimilarProductsPage,
-                                    child: Text(
-                                      "See all",
+                                  moreStyle: TextStyle(
+                                    color: kAccentColor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  lessStyle: TextStyle(
+                                    color: kAccentColor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  delimiterStyle: TextStyle(
+                                    color: kAccentColor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  colorClickableText: kAccentColor,
+                                ),
+                                kSizedBox,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      "Similar products",
+                                      textAlign: TextAlign.start,
                                       style: TextStyle(
-                                        color: kAccentColor,
+                                        color: kTextBlackColor,
                                         fontSize: 18,
                                         fontWeight: FontWeight.w700,
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              kSizedBox,
-                              SizedBox(
-                                height: 160,
-                                child: ListView.separated(
-                                  scrollDirection: Axis.horizontal,
-                                  physics: const BouncingScrollPhysics(),
-                                  separatorBuilder: (context, index) =>
-                                      const SizedBox(
-                                    width: kDefaultPadding / 2,
-                                  ),
-                                  itemBuilder: (context, index) => InkWell(
-                                    onTap: () {},
-                                    child: Shimmer.fromColors(
-                                      highlightColor:
-                                          kBlackColor.withOpacity(0.02),
-                                      baseColor: kBlackColor.withOpacity(0.8),
-                                      direction: ShimmerDirection.ltr,
-                                      child: const PageSkeleton(
-                                        height: 160,
-                                        width: 140,
+                                    TextButton(
+                                      onPressed: _toSimilarProductsPage,
+                                      child: Text(
+                                        "See all",
+                                        style: TextStyle(
+                                          color: kAccentColor,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w700,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  itemCount: 30,
+                                  ],
                                 ),
-                              ),
-                              kSizedBox,
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    "Vendors Products",
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      color: kTextBlackColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w700,
+                                kSizedBox,
+                                SizedBox(
+                                  height: 160,
+                                  child: ListView.separated(
+                                    scrollDirection: Axis.horizontal,
+                                    physics: const BouncingScrollPhysics(),
+                                    separatorBuilder: (context, index) =>
+                                        const SizedBox(
+                                      width: kDefaultPadding / 2,
                                     ),
+                                    itemBuilder: (context, index) => InkWell(
+                                      onTap: () {},
+                                      child: Shimmer.fromColors(
+                                        highlightColor:
+                                            kBlackColor.withOpacity(0.02),
+                                        baseColor: kBlackColor.withOpacity(0.8),
+                                        direction: ShimmerDirection.ltr,
+                                        child: const PageSkeleton(
+                                          height: 160,
+                                          width: 140,
+                                        ),
+                                      ),
+                                    ),
+                                    itemCount: 30,
                                   ),
-                                  TextButton(
-                                    onPressed: _toVendorsProductsPage,
-                                    child: Text(
-                                      "See all",
+                                ),
+                                kSizedBox,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      "Vendors Products",
+                                      textAlign: TextAlign.start,
                                       style: TextStyle(
-                                        color: kAccentColor,
+                                        color: kTextBlackColor,
                                         fontSize: 18,
                                         fontWeight: FontWeight.w700,
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              kSizedBox,
-                              SizedBox(
-                                height: 160,
-                                child: ListView.separated(
-                                  scrollDirection: Axis.horizontal,
-                                  physics: const BouncingScrollPhysics(),
-                                  separatorBuilder: (context, index) =>
-                                      const SizedBox(
-                                    width: kDefaultPadding / 2,
-                                  ),
-                                  itemBuilder: (context, index) => InkWell(
-                                    onTap: () {},
-                                    child: Shimmer.fromColors(
-                                      highlightColor:
-                                          kBlackColor.withOpacity(0.02),
-                                      baseColor: kBlackColor.withOpacity(0.8),
-                                      direction: ShimmerDirection.ltr,
-                                      child: const PageSkeleton(
-                                        height: 160,
-                                        width: 140,
+                                    TextButton(
+                                      onPressed: _toVendorsProductsPage,
+                                      child: Text(
+                                        "See all",
+                                        style: TextStyle(
+                                          color: kAccentColor,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w700,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  itemCount: 30,
+                                  ],
                                 ),
-                              ),
-                            ],
+                                kSizedBox,
+                                SizedBox(
+                                  height: 160,
+                                  child: ListView.separated(
+                                    scrollDirection: Axis.horizontal,
+                                    physics: const BouncingScrollPhysics(),
+                                    separatorBuilder: (context, index) =>
+                                        const SizedBox(
+                                      width: kDefaultPadding / 2,
+                                    ),
+                                    itemBuilder: (context, index) => InkWell(
+                                      onTap: () {},
+                                      child: Shimmer.fromColors(
+                                        highlightColor:
+                                            kBlackColor.withOpacity(0.02),
+                                        baseColor: kBlackColor.withOpacity(0.8),
+                                        direction: ShimmerDirection.ltr,
+                                        child: const PageSkeleton(
+                                          height: 160,
+                                          width: 140,
+                                        ),
+                                      ),
+                                    ),
+                                    itemCount: 30,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    );
-            }),
+                        ],
+                      );
+              },
+            ),
           ),
         ),
       ),

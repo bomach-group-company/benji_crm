@@ -9,7 +9,7 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../src/common_widgets/my_outlined_elevatedButton.dart';
 import '../../src/providers/constants.dart';
-import '../../src/providers/custom show search.dart';
+import '../../src/providers/custom_show_search.dart';
 import '../../src/skeletons/dashboard_orders_list_skeleton.dart';
 import '../others/call_page.dart';
 import 'suspend_rider.dart';
@@ -237,6 +237,7 @@ class _RidersDetailState extends State<RidersDetail> {
           child: _loadingScreen
               ? SpinKitDoubleBounce(color: kAccentColor)
               : FutureBuilder(
+                  future: null,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       SpinKitDoubleBounce(color: kAccentColor);
@@ -573,7 +574,7 @@ class _RidersDetailState extends State<RidersDetail> {
                                                                 .circular(10),
                                                         child: Container(
                                                           padding: const EdgeInsets
-                                                                  .all(
+                                                              .all(
                                                               kDefaultPadding /
                                                                   3),
                                                           decoration:
@@ -789,7 +790,7 @@ class _RidersDetailState extends State<RidersDetail> {
                                                                 .circular(10),
                                                         child: Container(
                                                           padding: const EdgeInsets
-                                                                  .all(
+                                                              .all(
                                                               kDefaultPadding /
                                                                   3),
                                                           decoration:

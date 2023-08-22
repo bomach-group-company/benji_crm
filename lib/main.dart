@@ -3,17 +3,17 @@ import 'package:benji_aggregator/controller/notification_controller.dart';
 import 'package:benji_aggregator/controller/rider_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
+import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
+
 import 'app/overview/overview.dart';
-import 'app/screens/login.dart';
 import 'theme/app theme.dart';
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+    const SystemUiOverlayStyle(statusBarColor: kTransparentColor),
   );
 
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,11 +22,12 @@ void main() async {
   );
   Get.put(UserController());
   Get.put(VendorController());
-    Get.put(NotificationController());
+  Get.put(NotificationController());
   Get.put(RiderController());
   runApp(MyApp());
 }
 
+// ignore: must_be_immutable
 class MyApp extends StatelessWidget {
   var value = Get.put(LoginController());
 
@@ -41,12 +42,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.light,
       darkTheme: AppTheme.darkTheme,
       theme: AppTheme.lightTheme,
-      home: GetBuilder<LoginController>(
-          init: LoginController(),
-          builder: (controller) {
-            bool val = controller.tokenExist.value;
-            return val ? OverView() : Login();
-          }),
+      home: OverView(),
     );
   }
 }

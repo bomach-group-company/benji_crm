@@ -13,9 +13,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget> actions;
   final double toolbarHeight;
   @override
-  Size get preferredSize => const Size.fromHeight(
-        50,
-      );
+  Size get preferredSize => const Size.fromHeight(40);
   const MyAppBar({
     super.key,
     required this.title,
@@ -26,9 +24,11 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   });
 //========================================= FUNCTIONS ============================================\\
 
+//========================================= Navigation ============================================\\
+  void _popContext() => Get.back();
+
   @override
   Widget build(BuildContext context) {
-    void _popContext() => Get.back();
     return AppBar(
       toolbarHeight: toolbarHeight,
       automaticallyImplyLeading: false,
@@ -40,6 +40,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           InkWell(
             borderRadius: BorderRadius.circular(24),
             onTap: _popContext,
+            mouseCursor: SystemMouseCursors.click,
             child: Container(
               width: 40,
               height: 40,
