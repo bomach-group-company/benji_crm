@@ -22,12 +22,13 @@ class ProductDetails extends StatefulWidget {
   final String productDescription;
   final double productPrice;
 
-  const ProductDetails(
-      {super.key,
-      required this.productImage,
-      required this.productName,
-      required this.productDescription,
-      required this.productPrice});
+  const ProductDetails({
+    super.key,
+    required this.productImage,
+    required this.productName,
+    required this.productDescription,
+    required this.productPrice,
+  });
 
   @override
   State<ProductDetails> createState() => _ProductDetailsState();
@@ -188,7 +189,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     ),
                                   ),
                                   Text(
-                                    "₦ ${widget.productPrice.toStringAsFixed(2)}",
+                                    "₦ ${Price.toStringAsFixed(2)}",
                                     style: const TextStyle(
                                       color: kTextBlackColor,
                                       fontSize: 22,

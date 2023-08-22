@@ -41,10 +41,7 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
       onTap: widget.onTap,
       borderRadius: BorderRadius.circular(12),
       child: Container(
-        margin: const EdgeInsets.symmetric(
-          vertical: kDefaultPadding / 3,
-          horizontal: kDefaultPadding,
-        ),
+        margin: EdgeInsets.symmetric(vertical: kDefaultPadding / 2.5),
         width: MediaQuery.of(context).size.width,
         decoration: ShapeDecoration(
           color: kPrimaryColor,
@@ -116,9 +113,7 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
                       child: Text(
                         '₦${widget.productPrice.toStringAsFixed(2)}',
                         style: const TextStyle(
-                          color: Color(
-                            0xFF333333,
-                          ),
+                          color: Color(0xFF333333),
                           fontSize: 14,
                           fontFamily: 'Sen',
                           fontWeight: FontWeight.w400,
