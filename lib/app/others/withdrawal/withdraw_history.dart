@@ -66,6 +66,7 @@ class _WithdrawHistoryPageState extends State<WithdrawHistoryPage> {
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: FutureBuilder(
+            future: null,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 SpinKitDoubleBounce(color: kAccentColor);

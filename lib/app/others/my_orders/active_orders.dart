@@ -122,6 +122,7 @@ class _ActiveOrdersState extends State<ActiveOrders> {
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: FutureBuilder(
+            future: null,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 const OrdersListSkeleton();

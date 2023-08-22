@@ -399,6 +399,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
               ),
         body: SafeArea(
           child: FutureBuilder(
+            future: null,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 const VendorsListSkeleton();

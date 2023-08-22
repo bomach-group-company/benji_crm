@@ -166,6 +166,7 @@ class _AssignRiderState extends State<AssignRider> {
               padding: const EdgeInsets.all(kDefaultPadding),
               children: [
                 FutureBuilder(
+                  future: null,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       SpinKitDoubleBounce(color: kAccentColor);

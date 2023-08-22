@@ -121,6 +121,7 @@ class _AllOrdersState extends State<AllOrders>
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: FutureBuilder(
+            future: null,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 Center(child: SpinKitDoubleBounce(color: kAccentColor));

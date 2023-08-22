@@ -101,6 +101,7 @@ class _SuspendMyVendorState extends State<SuspendMyVendor> {
             ),
       body: SafeArea(
         child: FutureBuilder(
+          future: null,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               Center(child: SpinKitDoubleBounce(color: kAccentColor));

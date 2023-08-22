@@ -101,6 +101,7 @@ class _SuspendRiderState extends State<SuspendRider> {
             ),
       body: SafeArea(
         child: FutureBuilder(
+          future: null,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               Center(child: SpinKitDoubleBounce(color: kAccentColor));
