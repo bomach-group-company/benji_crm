@@ -43,7 +43,7 @@ class _ProfileFirstHalfState extends State<ProfileFirstHalf> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: kDefaultPadding * 2),
+      padding: const EdgeInsets.only(top: kDefaultPadding),
       decoration: ShapeDecoration(
         color: kAccentColor,
         shape: const RoundedRectangleBorder(

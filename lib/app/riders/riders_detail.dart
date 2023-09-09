@@ -17,7 +17,7 @@ import '../../model/driver_history_model.dart';
 import '../../model/rider_list_model.dart';
 import '../../src/common_widgets/my_outlined_elevatedButton.dart';
 import '../../src/providers/constants.dart';
-import '../../src/providers/custom show search.dart';
+import '../../src/providers/custom_show_search.dart';
 import '../../src/skeletons/dashboard_orders_list_skeleton.dart';
 import '../others/call_page.dart';
 import 'suspend_rider.dart';
@@ -244,6 +244,7 @@ class _RidersDetailState extends State<RidersDetail> {
           child: _loadingScreen
               ? SpinKitDoubleBounce(color: kAccentColor)
               : FutureBuilder(
+                  future: null,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       SpinKitDoubleBounce(color: kAccentColor);
@@ -686,7 +687,84 @@ class _RidersDetailState extends State<RidersDetail> {
                                                                 ),
                                                               ),
                                                             ),
+<<<<<<< HEAD
                                                           )
+=======
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      InkWell(
+                                                        onTap:
+                                                            seeDeliveredMessage,
+                                                        enableFeedback: true,
+                                                        splashColor:
+                                                            kSuccessColor,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        child: Container(
+                                                          padding: const EdgeInsets
+                                                              .all(
+                                                              kDefaultPadding /
+                                                                  3),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            border: Border.all(
+                                                              color:
+                                                                  kLightGreyColor,
+                                                              strokeAlign:
+                                                                  BorderSide
+                                                                      .strokeAlignInside,
+                                                            ),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                          ),
+                                                          child: const Text(
+                                                            "Delivered",
+                                                            style: TextStyle(
+                                                              fontSize: 10,
+                                                              color:
+                                                                  kSuccessColor,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  kHalfSizedBox,
+                                                  Column(
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          Icon(
+                                                            Icons.my_location,
+                                                            color: kAccentColor,
+                                                            size: 18,
+                                                          ),
+                                                          kHalfWidthSizedBox,
+                                                          SizedBox(
+                                                            width: mediaWidth -
+                                                                230,
+                                                            child: Text(
+                                                              "21 Bartus Street, Abuja Nigeria",
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              maxLines: 1,
+                                                              style: TextStyle(
+                                                                fontSize: 10,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                              ),
+                                                            ),
+                                                          ),
+>>>>>>> 5ae30100fdd3a739cc791f0ea3af5cb058fdd492
                                                         ],
                                                       ),
                                                       kHalfSizedBox,
@@ -740,6 +818,7 @@ class _RidersDetailState extends State<RidersDetail> {
                                                                     kAccentColor,
                                                                 size: 18,
                                                               ),
+<<<<<<< HEAD
                                                               kHalfWidthSizedBox,
                                                               SizedBox(
                                                                 width:
@@ -767,6 +846,39 @@ class _RidersDetailState extends State<RidersDetail> {
                                                                 ),
                                                               ),
                                                             ],
+=======
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      InkWell(
+                                                        onTap:
+                                                            seeDeliveredMessage,
+                                                        enableFeedback: true,
+                                                        splashColor:
+                                                            kSuccessColor,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        child: Container(
+                                                          padding: const EdgeInsets
+                                                              .all(
+                                                              kDefaultPadding /
+                                                                  3),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            border: Border.all(
+                                                              color:
+                                                                  kLightGreyColor,
+                                                              strokeAlign:
+                                                                  BorderSide
+                                                                      .strokeAlignInside,
+                                                            ),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+>>>>>>> 5ae30100fdd3a739cc791f0ea3af5cb058fdd492
                                                           ),
                                                           const SizedBox(
                                                               height: 5),

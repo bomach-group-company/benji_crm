@@ -1,23 +1,24 @@
+<<<<<<< HEAD
 import 'dart:convert';
+=======
+>>>>>>> 5ae30100fdd3a739cc791f0ea3af5cb058fdd492
 import 'package:benji_aggregator/controller/error_controller.dart';
-import 'package:benji_aggregator/controller/user_controller.dart';
-import 'package:benji_aggregator/model/notificatin_model.dart';
-import 'package:benji_aggregator/model/user_model.dart';
 import 'package:benji_aggregator/model/vendor_list_model.dart';
 import 'package:benji_aggregator/model/vendor_model.dart';
 import 'package:benji_aggregator/services/api_url.dart';
 import 'package:benji_aggregator/services/pref.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:http/http.dart' as http;
 
+<<<<<<< HEAD
 import '../model/business_trype_model.dart';
 import '../model/create_vendor_model.dart';
 import '../model/rider_list_model.dart';
 import '../model/vendor_orders_model.dart';
 import '../model/vendor_product_model.dart';
 
+=======
+>>>>>>> 5ae30100fdd3a739cc791f0ea3af5cb058fdd492
 class VendorController extends GetxController {
   static VendorController get instance {
     return Get.find<VendorController>();
@@ -111,7 +112,11 @@ class VendorController extends GetxController {
     update();
   }
 
+<<<<<<< HEAD
   Future listVendorOrder(id, [int? end]) async {
+=======
+  Future filterProductBySubCat(vendorId, subCatId) async {
+>>>>>>> 5ae30100fdd3a739cc791f0ea3af5cb058fdd492
     isLoad.value = true;
     late String token;
     update();
@@ -167,6 +172,7 @@ class VendorController extends GetxController {
     } catch (e) {}
     isLoad.value = false;
     update();
+<<<<<<< HEAD
   }
 
   Future createVendor(SendCreateModel data, bool classify) async {
@@ -203,5 +209,7 @@ class VendorController extends GetxController {
     } catch (e) {}
     isLoadCreate.value = false;
     update();
+=======
+>>>>>>> 5ae30100fdd3a739cc791f0ea3af5cb058fdd492
   }
 }

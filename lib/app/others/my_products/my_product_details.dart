@@ -9,7 +9,6 @@ import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:readmore/readmore.dart';
 
-import '../../../src/common_widgets/category_button_section.dart';
 import '../../../src/common_widgets/my_appbar.dart';
 import '../../../src/common_widgets/my_textformfield2.dart';
 import '../../../src/common_widgets/showModalBottomSheetTitleWithIcon.dart';
@@ -38,21 +37,6 @@ class _MyProductDetailsState extends State<MyProductDetails> {
   //=================================== ALL VARIABLES ==========================================\\
   late bool _loadingScreen;
   bool _isChecked = false;
-
-  //===================== CATEGORY BUTTONS =======================\\
-  final List _categoryButtonText = [
-    "Protein",
-    "Stew",
-  ];
-
-  final List<Color> _categoryButtonBgColor = [
-    kAccentColor,
-    kDefaultCategoryBackgroundColor,
-  ];
-  final List<Color> _categoryButtonFontColor = [
-    kPrimaryColor,
-    kTextGreyColor,
-  ];
 
   //======================================= KEYS ==========================================\\
   GlobalKey<FormState> _updateQuantityKey = GlobalKey();
@@ -92,7 +76,7 @@ class _MyProductDetailsState extends State<MyProductDetails> {
 
   //===================== Navigation ==========================\\
 
-  void _changeProductCategory() {}
+  // void _changeProductCategory() {}
 
   //Edit product details
   void _editProductDetails() {}
@@ -300,197 +284,167 @@ class _MyProductDetailsState extends State<MyProductDetails> {
             controller: _scrollController,
             radius: const Radius.circular(10),
             scrollbarOrientation: ScrollbarOrientation.right,
-            child: FutureBuilder(builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                Center(child: SpinKitDoubleBounce(color: kAccentColor));
-              }
-              if (snapshot.connectionState == ConnectionState.none) {
-                const Center(
-                  child: Text("Please connect to the internet"),
-                );
-              }
-              // if (snapshot.connectionState == snapshot.requireData) {
-              //   SpinKitDoubleBounce(color: kAccentColor);
-              // }
-              if (snapshot.connectionState == snapshot.error) {
-                const Center(
-                  child: Text("Error, Please try again later"),
-                );
-              }
-              return _loadingScreen
-                  ? const ProductDetailsPageSkeleton()
-                  // ? Center(child: SpinKitDoubleBounce(color: kAccentColor))
-                  : ListView(
-                      physics: const BouncingScrollPhysics(),
-                      dragStartBehavior: DragStartBehavior.down,
-                      children: [
-                        Container(
-                          height: mediaHeight * 0.4,
-                          decoration: ShapeDecoration(
-                            color: kPageSkeletonColor,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(30),
-                                bottomLeft: Radius.circular(30),
-                              ),
-                            ),
-                            image: DecorationImage(
-                              fit: BoxFit.fill,
-                              image: AssetImage(
-                                  "assets/images/products/${widget.productImage}.png"),
-                            ),
-                            shadows: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.6),
-                                blurRadius: 8,
-                                spreadRadius: 4,
-                                blurStyle: BlurStyle.normal,
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          height: mediaHeight,
-                          width: mediaWidth,
-                          // color: kAccentColor,
-                          padding: const EdgeInsets.all(kDefaultPadding),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    widget.productName,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                      color: kTextBlackColor,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w700,
-                                    ),
+            child: FutureBuilder(
+                future: null,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    Center(child: SpinKitDoubleBounce(color: kAccentColor));
+                  }
+                  if (snapshot.connectionState == ConnectionState.none) {
+                    const Center(
+                      child: Text("Please connect to the internet"),
+                    );
+                  }
+                  // if (snapshot.connectionState == snapshot.requireData) {
+                  //   SpinKitDoubleBounce(color: kAccentColor);
+                  // }
+                  if (snapshot.connectionState == snapshot.error) {
+                    const Center(
+                      child: Text("Error, Please try again later"),
+                    );
+                  }
+                  return _loadingScreen
+                      ? const ProductDetailsPageSkeleton()
+                      // ? Center(child: SpinKitDoubleBounce(color: kAccentColor))
+                      : ListView(
+                          physics: const BouncingScrollPhysics(),
+                          dragStartBehavior: DragStartBehavior.down,
+                          children: [
+                            Container(
+                              height: mediaHeight * 0.4,
+                              decoration: ShapeDecoration(
+                                color: kPageSkeletonColor,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    bottomRight: Radius.circular(30),
+                                    bottomLeft: Radius.circular(30),
                                   ),
-                                  Text(
-                                    "₦ ${widget.productPrice.toStringAsFixed(2)}",
-                                    style: const TextStyle(
-                                      color: kTextBlackColor,
-                                      fontSize: 22,
-                                      fontFamily: 'sen',
-                                      fontWeight: FontWeight.w400,
-                                    ),
+                                ),
+                                image: DecorationImage(
+                                  fit: BoxFit.fill,
+                                  image: AssetImage(
+                                      "assets/images/products/${widget.productImage}.png"),
+                                ),
+                                shadows: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.6),
+                                    blurRadius: 8,
+                                    spreadRadius: 4,
+                                    blurStyle: BlurStyle.normal,
                                   ),
                                 ],
                               ),
-                              kSizedBox,
-                              ReadMoreText(
-                                widget.productDescription,
-                                callback: (val) {},
-                                delimiter: "...",
-                                trimMode: TrimMode.Line,
-                                textAlign: TextAlign.justify,
-                                trimLines: 5,
-                                trimExpandedText: "...show less",
-                                style: TextStyle(
-                                  color: kTextGreyColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                moreStyle: TextStyle(
-                                  color: kAccentColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                lessStyle: TextStyle(
-                                  color: kAccentColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                delimiterStyle: TextStyle(
-                                  color: kAccentColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                colorClickableText: kAccentColor,
-                              ),
-                              kSizedBox,
-                              SizedBox(
-                                height: 17,
-                                child: Text(
-                                  'Qty: 3200',
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: kTextGreyColor,
-                                    fontSize: 13.60,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ),
-                              kSizedBox,
-                              Row(
+                            ),
+                            Container(
+                              height: mediaHeight,
+                              width: mediaWidth,
+                              // color: kAccentColor,
+                              padding: const EdgeInsets.all(kDefaultPadding),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    'Out of stock',
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        widget.productName,
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                          color: kTextBlackColor,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                      Text(
+                                        "₦ ${widget.productPrice.toStringAsFixed(2)}",
+                                        style: const TextStyle(
+                                          color: kTextBlackColor,
+                                          fontSize: 22,
+                                          fontFamily: 'sen',
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  kSizedBox,
+                                  ReadMoreText(
+                                    widget.productDescription,
+                                    callback: (val) {},
+                                    delimiter: "...",
+                                    trimMode: TrimMode.Line,
+                                    textAlign: TextAlign.justify,
+                                    trimLines: 5,
+                                    trimExpandedText: "...show less",
                                     style: TextStyle(
-                                      color: kTextBlackColor,
+                                      color: kTextGreyColor,
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,
                                     ),
-                                  ),
-                                  Checkbox(
-                                    value: _isChecked,
-                                    splashRadius: 50,
-                                    activeColor: kAccentColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5),
+                                    moreStyle: TextStyle(
+                                      color: kAccentColor,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
                                     ),
-                                    onChanged: (newValue) {
-                                      setState(() {
-                                        _isChecked = newValue!;
-                                      });
-                                    },
+                                    lessStyle: TextStyle(
+                                      color: kAccentColor,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                    delimiterStyle: TextStyle(
+                                      color: kAccentColor,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                    colorClickableText: kAccentColor,
                                   ),
+                                  kSizedBox,
+                                  SizedBox(
+                                    height: 17,
+                                    child: Text(
+                                      'Qty: 3200',
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        color: kTextGreyColor,
+                                        fontSize: 13.60,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                  kSizedBox,
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'Out of stock',
+                                        style: TextStyle(
+                                          color: kTextBlackColor,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                      Checkbox(
+                                        value: _isChecked,
+                                        splashRadius: 50,
+                                        activeColor: kAccentColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
+                                        onChanged: (newValue) {
+                                          setState(() {
+                                            _isChecked = newValue!;
+                                          });
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                  kSizedBox,
                                 ],
                               ),
-                              kSizedBox,
-                              CategoryButtonSection(
-                                onPressed: _changeProductCategory,
-                                category: _categoryButtonText,
-                                categorybgColor: _categoryButtonBgColor,
-                                categoryFontColor: _categoryButtonFontColor,
-                              ),
-                              SizedBox(height: kDefaultPadding * 2),
-                              Text(
-                                'Beef (N2,000)',
-                                style: TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              kSizedBox,
-                              Text(
-                                'Fish (N2,000)',
-                                style: TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              kSizedBox,
-                              Text(
-                                'Goat meat (N2,000)',
-                                style: TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    );
-            }),
+                            ),
+                          ],
+                        );
+                }),
           ),
         ),
       ),

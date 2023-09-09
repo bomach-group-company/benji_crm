@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import 'dart:convert';
 import 'dart:developer';
 
@@ -6,10 +7,12 @@ import 'package:benji_aggregator/controller/order_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/model/notificatin_model.dart';
 import 'package:benji_aggregator/model/user_model.dart';
+=======
+
+import 'package:benji_aggregator/controller/error_controller.dart';
+>>>>>>> 5ae30100fdd3a739cc791f0ea3af5cb058fdd492
 import 'package:benji_aggregator/services/api_url.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:http/http.dart' as http;
 
 import '../model/driver_history_model.dart';

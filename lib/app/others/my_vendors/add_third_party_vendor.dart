@@ -463,6 +463,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
         }),
         body: SafeArea(
           child: FutureBuilder(
+            future: null,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 const VendorsListSkeleton();

@@ -6,7 +6,7 @@ import 'package:benji_aggregator/controller/rider_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/src/common_widgets/my_appbar.dart';
 import 'package:benji_aggregator/src/common_widgets/my_outlined_elevatedButton.dart';
-import 'package:benji_aggregator/src/providers/custom%20show%20search.dart';
+import 'package:benji_aggregator/src/providers/custom_show_search.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -179,6 +179,7 @@ class _AssignRiderState extends State<AssignRider> {
               padding: const EdgeInsets.all(kDefaultPadding),
               children: [
                 FutureBuilder(
+                  future: null,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       SpinKitDoubleBounce(color: kAccentColor);

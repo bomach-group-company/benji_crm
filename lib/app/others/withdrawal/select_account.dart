@@ -31,7 +31,6 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
 
   @override
   Widget build(BuildContext context) {
-    final media = MediaQuery.of(context).size;
     return Scaffold(
       // backgroundColor: kPrimaryColor,
       appBar: AppBar(

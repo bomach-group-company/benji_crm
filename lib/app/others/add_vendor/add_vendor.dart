@@ -80,126 +80,128 @@ class _AddVendorState extends State<AddVendor> {
       ),
       body: SafeArea(
         maintainBottomViewPadding: true,
-        child: FutureBuilder(builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            SpinKitDoubleBounce(color: kAccentColor);
-          }
-          if (snapshot.connectionState == ConnectionState.none) {
-            const Center(
-              child: Text("Please connect to the internet"),
-            );
-          }
-          // if (snapshot.connectionState == snapshot.requireData) {
-          //   SpinKitDoubleBounce(color: kAccentColor);
-          // }
-          if (snapshot.connectionState == snapshot.error) {
-            const Center(
-              child: Text("Error, Please try again later"),
-            );
-          }
-          return _loadingScreen
-              ? SpinKitDoubleBounce(color: kAccentColor)
-              : Scrollbar(
-                  controller: _scrollController,
-                  radius: const Radius.circular(10),
-                  scrollbarOrientation: ScrollbarOrientation.right,
-                  child: ListView(
-                    physics: ScrollPhysics(),
-                    padding: const EdgeInsets.all(kDefaultPadding),
-                    children: [
-                      DottedBorder(
-                        borderType: BorderType.RRect,
-                        color: kLightGreyColor,
-                        radius: Radius.circular(kDefaultPadding),
-                        padding: const EdgeInsets.all(kDefaultPadding),
-                        child: Align(
-                          alignment: Alignment.topCenter,
-                          child: Icon(
-                            Icons.add_business_sharp,
-                            color: kAccentColor,
-                            size: 80,
-                          ),
-                        ),
-                      ),
-                      kSizedBox,
-                      ListTile(
-                        onTap: _toRegisterVendorPage,
-                        horizontalTitleGap: 10,
-                        mouseCursor: SystemMouseCursors.click,
-                        tileColor: kAccentColor.withOpacity(0.15),
-                        focusColor: kAccentColor.withOpacity(0.15),
-                        splashColor: kAccentColor.withOpacity(0.15),
-                        enableFeedback: true,
-                        minVerticalPadding: kDefaultPadding / 2,
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(kDefaultPadding / 2),
-                        ),
-                        leading: Icon(
-                          Icons.add_business_outlined,
-                          color: kAccentColor,
-                          size: 30,
-                        ),
-                        title: Text(
-                          "Register a vendor",
-                        ),
-                        titleTextStyle: TextStyle(
-                          color: kTextBlackColor,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        subtitle: Text(
-                          "Register a new vendor account",
-                        ),
-                        subtitleTextStyle: TextStyle(color: kTextGreyColor),
-                        trailing: Icon(
-                          Icons.arrow_forward_ios,
-                          color: kAccentColor,
-                          size: 26,
-                        ),
-                      ),
-                      kSizedBox,
-                      ListTile(
-                        onTap: _toAddThirdPartyVendor,
-                        horizontalTitleGap: 10,
-                        mouseCursor: SystemMouseCursors.click,
-                        enableFeedback: true,
-                        tileColor: kLightGreyColor.withOpacity(0.15),
-                        focusColor: kLightGreyColor.withOpacity(0.15),
-                        splashColor: kLightGreyColor.withOpacity(0.15),
-                        minVerticalPadding: kDefaultPadding / 2,
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(kDefaultPadding / 2),
-                        ),
-                        leading: Icon(
-                          Icons.add_business_outlined,
-                          color: kAccentColor,
-                          size: 30,
-                        ),
-                        title: Text(
-                          "Add third party vendor",
-                        ),
-                        titleTextStyle: TextStyle(
-                          color: kTextBlackColor,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        subtitle: Text(
-                          "Create a vendor account on behalf of a vendor (3rd party account)",
-                        ),
-                        subtitleTextStyle: TextStyle(color: kTextGreyColor),
-                        trailing: Icon(
-                          Icons.arrow_forward_ios,
-                          color: kAccentColor,
-                          size: 26,
-                        ),
-                      ),
-                      kSizedBox,
-                    ],
-                  ),
+        child: FutureBuilder(
+            future: null,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                SpinKitDoubleBounce(color: kAccentColor);
+              }
+              if (snapshot.connectionState == ConnectionState.none) {
+                const Center(
+                  child: Text("Please connect to the internet"),
                 );
-        }),
+              }
+              // if (snapshot.connectionState == snapshot.requireData) {
+              //   SpinKitDoubleBounce(color: kAccentColor);
+              // }
+              if (snapshot.connectionState == snapshot.error) {
+                const Center(
+                  child: Text("Error, Please try again later"),
+                );
+              }
+              return _loadingScreen
+                  ? SpinKitDoubleBounce(color: kAccentColor)
+                  : Scrollbar(
+                      controller: _scrollController,
+                      radius: const Radius.circular(10),
+                      scrollbarOrientation: ScrollbarOrientation.right,
+                      child: ListView(
+                        physics: ScrollPhysics(),
+                        padding: const EdgeInsets.all(kDefaultPadding),
+                        children: [
+                          DottedBorder(
+                            borderType: BorderType.RRect,
+                            color: kLightGreyColor,
+                            radius: Radius.circular(kDefaultPadding),
+                            padding: const EdgeInsets.all(kDefaultPadding),
+                            child: Align(
+                              alignment: Alignment.topCenter,
+                              child: Icon(
+                                Icons.add_business_sharp,
+                                color: kAccentColor,
+                                size: 80,
+                              ),
+                            ),
+                          ),
+                          kSizedBox,
+                          ListTile(
+                            onTap: _toRegisterVendorPage,
+                            horizontalTitleGap: 10,
+                            mouseCursor: SystemMouseCursors.click,
+                            tileColor: kAccentColor.withOpacity(0.15),
+                            focusColor: kAccentColor.withOpacity(0.15),
+                            splashColor: kAccentColor.withOpacity(0.15),
+                            enableFeedback: true,
+                            minVerticalPadding: kDefaultPadding / 2,
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.circular(kDefaultPadding / 2),
+                            ),
+                            leading: Icon(
+                              Icons.add_business_outlined,
+                              color: kAccentColor,
+                              size: 30,
+                            ),
+                            title: Text(
+                              "Register a vendor",
+                            ),
+                            titleTextStyle: TextStyle(
+                              color: kTextBlackColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            subtitle: Text(
+                              "Register a new vendor account",
+                            ),
+                            subtitleTextStyle: TextStyle(color: kTextGreyColor),
+                            trailing: Icon(
+                              Icons.arrow_forward_ios,
+                              color: kAccentColor,
+                              size: 26,
+                            ),
+                          ),
+                          kSizedBox,
+                          ListTile(
+                            onTap: _toAddThirdPartyVendor,
+                            horizontalTitleGap: 10,
+                            mouseCursor: SystemMouseCursors.click,
+                            enableFeedback: true,
+                            tileColor: kLightGreyColor.withOpacity(0.15),
+                            focusColor: kLightGreyColor.withOpacity(0.15),
+                            splashColor: kLightGreyColor.withOpacity(0.15),
+                            minVerticalPadding: kDefaultPadding / 2,
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.circular(kDefaultPadding / 2),
+                            ),
+                            leading: Icon(
+                              Icons.add_business_outlined,
+                              color: kAccentColor,
+                              size: 30,
+                            ),
+                            title: Text(
+                              "Add third party vendor",
+                            ),
+                            titleTextStyle: TextStyle(
+                              color: kTextBlackColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            subtitle: Text(
+                              "Create a vendor account on behalf of a vendor (3rd party account)",
+                            ),
+                            subtitleTextStyle: TextStyle(color: kTextGreyColor),
+                            trailing: Icon(
+                              Icons.arrow_forward_ios,
+                              color: kAccentColor,
+                              size: 26,
+                            ),
+                          ),
+                          kSizedBox,
+                        ],
+                      ),
+                    );
+            }),
       ),
     );
   }
