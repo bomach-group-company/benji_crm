@@ -5,12 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
+import '../../../model/order_list_model.dart';
 import '../../../src/common_widgets/all_orders_container.dart';
 import '../../../src/common_widgets/completed_orders_tab.dart';
 import '../../../src/providers/constants.dart';
 
 class AllOrders extends StatefulWidget {
-  const AllOrders({super.key});
+  List<OrderItem> completed;
+  List<OrderItem> rejected;
+  AllOrders({super.key, required this.completed, required this.rejected});
 
   @override
   State<AllOrders> createState() => _AllOrdersState();
@@ -211,48 +214,18 @@ class _AllOrdersState extends State<AllOrders>
                                           ? OrdersListSkeleton()
                                           : CompletedOrdersTab(
                                               list: Column(
-                                                children: [
-                                                  for (_orderID = 1;
-                                                      _orderID < 30;
-                                                      _orderID +=
-                                                          _incrementOrderID)
-                                                    AllOrdersContainer(
-                                                      mediaWidth: mediaWidth,
-                                                      orderImage: _orderImage,
-                                                      orderID: _orderID,
-                                                      orderStatusIcon: Icon(
-                                                        Icons.check_circle,
-                                                        color: kSuccessColor,
-                                                      ),
-                                                      formattedDateAndTime:
-                                                          formattedDateAndTime,
-                                                      orderItem: _orderItem,
-                                                      itemQuantity:
-                                                          _itemQuantity,
-                                                      itemPrice: _itemPrice,
-                                                      customerName:
-                                                          _customerName,
-                                                      customerAddress:
-                                                          _customerAddress,
-                                                    ),
-                                                ],
-                                              ),
-                                            ),
-                                      _loadingTabBarContent
-                                          ? OrdersListSkeleton()
-                                          : Column(
-                                              children: [
-                                                for (_orderID = 1;
-                                                    _orderID < 30;
-                                                    _orderID +=
-                                                        _incrementOrderID)
-                                                  AllOrdersContainer(
+                                                children: List.generate(
+                                                    widget.completed.length,
+                                                    (index) {
+                                                  OrderItem completeOrder =
+                                                      widget.completed[index];
+                                                  return AllOrdersContainer(
                                                     mediaWidth: mediaWidth,
                                                     orderImage: _orderImage,
-                                                    orderID: _orderID,
+                                                    orderID: 123,
                                                     orderStatusIcon: Icon(
-                                                      Icons.cancel,
-                                                      color: kAccentColor,
+                                                      Icons.check_circle,
+                                                      color: kSuccessColor,
                                                     ),
                                                     formattedDateAndTime:
                                                         formattedDateAndTime,
@@ -262,9 +235,38 @@ class _AllOrdersState extends State<AllOrders>
                                                     customerName: _customerName,
                                                     customerAddress:
                                                         _customerAddress,
-                                                  ),
-                                              ],
+                                                    order: completeOrder,
+                                                  );
+                                                }),
+                                              ),
                                             ),
+                                      _loadingTabBarContent
+                                          ? OrdersListSkeleton()
+                                          : Column(
+                                              children: List.generate(
+                                                  widget.rejected.length,
+                                                  (index) {
+                                              OrderItem rejectedOrder =
+                                                  widget.rejected[index];
+                                              return AllOrdersContainer(
+                                                mediaWidth: mediaWidth,
+                                                orderImage: _orderImage,
+                                                orderID: 132,
+                                                orderStatusIcon: Icon(
+                                                  Icons.cancel,
+                                                  color: kAccentColor,
+                                                ),
+                                                formattedDateAndTime:
+                                                    formattedDateAndTime,
+                                                orderItem: _orderItem,
+                                                itemQuantity: _itemQuantity,
+                                                itemPrice: _itemPrice,
+                                                customerName: _customerName,
+                                                customerAddress:
+                                                    _customerAddress,
+                                                order: rejectedOrder,
+                                              );
+                                            })),
                                     ],
                                   ),
                                 ),

@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../../controller/notification_controller.dart';
+import '../../controller/order_controller.dart';
+import '../../controller/rider_controller.dart';
+import '../../controller/user_controller.dart';
+import '../../controller/vendor_controller.dart';
 import '../../theme/colors.dart';
 import '../dashboard/dashboard.dart';
 import '../profile/profile.dart';
@@ -7,7 +13,12 @@ import '../riders/riders.dart';
 import '../vendors/vendors.dart';
 
 class OverView extends StatefulWidget {
-  const OverView({super.key});
+
+ var user=    Get.put(UserController());
+ var vendor = Get.put(VendorController());
+ var notiication =  Get.put(NotificationController());
+ var ride =  Get.put(RiderController());
+  var order  = Get.put(OrderController());
 
   @override
   State<OverView> createState() => _OverViewState();

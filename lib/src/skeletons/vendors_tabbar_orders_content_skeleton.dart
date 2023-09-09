@@ -27,7 +27,7 @@ class VendorsTabBarOrdersContentSkeleton extends StatelessWidget {
             highlightColor: kBlackColor.withOpacity(0.02),
             baseColor: kBlackColor.withOpacity(0.8),
             direction: ShimmerDirection.ltr,
-            child: const PageSkeleton(height: 120, width: 130),
+            child: const PageSkeleton(height: 120, width: 80),
           ),
           kWidthSizedBox,
           Column(

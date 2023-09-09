@@ -7,13 +7,18 @@ import 'package:get/route_manager.dart';
 void ConsoleLog(data) => log(data.toString());
 
 class ApiProcessorController extends GetxController {
-  static Future<dynamic> errorState(data) async {
+  static Future<dynamic> errorState(data,[bool? isUser]) async {
     try {
       if (data == null) {
+        return;
       } else if (data.statusCode == 200) {
         return data.body;
       } else {
-        errorSnack("Something went wrong");
+        if(isUser != true){
+           errorSnack("Something went wrong");
+
+        }
+       
         return;
       }
     } on SocketException {
@@ -30,6 +35,15 @@ class ApiProcessorController extends GetxController {
       title: "ERROR",
       message: "$msg",
       backgroundColor: Colors.red,
+      duration: Duration(seconds: 5),
+    ));
+  }
+
+    static void successSnack(msg) {
+    Get.showSnackbar(GetSnackBar(
+      title: "Successful",
+      message: "$msg",
+      backgroundColor: Colors.green,
       duration: Duration(seconds: 5),
     ));
   }

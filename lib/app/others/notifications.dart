@@ -1,8 +1,12 @@
+import 'package:benji_aggregator/controller/notification_controller.dart';
+import 'package:benji_aggregator/controller/operation.dart';
 import 'package:benji_aggregator/src/skeletons/notifications_page_skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
+import '../../model/notificatin_model.dart';
 import '../../src/common_widgets/my_appbar.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
@@ -18,6 +22,9 @@ class _NotificationsState extends State<Notifications> {
   //===================== Initial State ==========================\\
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      NotificationController.instance.runTask();
+    });
     super.initState();
 
     _loadingScreen = true;
@@ -140,81 +147,90 @@ class _NotificationsState extends State<Notifications> {
                   child: Text("Error, Please try again later"),
                 );
               }
-              return _loadingScreen
-                  ? const NotificationsPageSkeleton()
-                  : Scrollbar(
-                      controller: _scrollController,
-                      radius: const Radius.circular(10),
-                      child: ListView(
-                        physics: const BouncingScrollPhysics(),
-                        scrollDirection: Axis.vertical,
-                        children: [
-                          ListView.separated(
-                            itemCount: _notificationTitle.length,
-                            physics: const BouncingScrollPhysics(),
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            separatorBuilder: (context, index) => Container(
-                              width: 327,
-                              height: 1,
-                              decoration:
-                                  const BoxDecoration(color: Color(0xFFF0F4F9)),
-                            ),
-                            itemBuilder: (context, index) {
-                              return ListTile(
-                                minVerticalPadding: kDefaultPadding / 2,
-                                enableFeedback: true,
-                                leading: Container(
-                                  width: 45,
-                                  height: 45,
-                                  decoration: ShapeDecoration(
-                                    color: kPageSkeletonColor,
-                                    shape: const OvalBorder(),
+              return GetBuilder<NotificationController>(
+                  builder: (notifications) {
+                return notifications.isLoad.value
+                    ? const NotificationsPageSkeleton()
+                    : Scrollbar(
+                        controller: _scrollController,
+                        radius: const Radius.circular(10),
+                        child: ListView(
+                          physics: const BouncingScrollPhysics(),
+                          scrollDirection: Axis.vertical,
+                          children: [
+                            ListView.separated(
+                              itemCount: notifications.notification.length,
+                              physics: const BouncingScrollPhysics(),
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              separatorBuilder: (context, index) => Container(
+                                width: 327,
+                                height: 1,
+                                decoration: const BoxDecoration(
+                                    color: Color(0xFFF0F4F9)),
+                              ),
+                              itemBuilder: (context, index) {
+                                final NotificationModel notify =
+                                    notifications.notification[index];
+                                return ListTile(
+                                  minVerticalPadding: kDefaultPadding / 2,
+                                  enableFeedback: true,
+                                  leading: Container(
+                                    width: 45,
+                                    height: 45,
+                                    decoration: ShapeDecoration(
+                                      color: kPageSkeletonColor,
+                                      shape: const OvalBorder(),
+                                    ),
                                   ),
-                                ),
-                                title: Text.rich(
-                                  TextSpan(
-                                    children: [
-                                      TextSpan(
-                                        text: "${_notificationTitle[index]} \n",
-                                        style: const TextStyle(
-                                          color: Color(0xFF32343E),
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w400,
+                                  title: Text.rich(
+                                    TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text:
+                                              "${notify.agent!.username ?? ""} \n",
+                                          style: const TextStyle(
+                                            color: Color(0xFF32343E),
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w400,
+                                          ),
                                         ),
-                                      ),
-                                      TextSpan(
-                                        text: _notificationSubject[index],
-                                        style: const TextStyle(
-                                          color: Color(0xFF9B9BA5),
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w400,
+                                        TextSpan(
+                                          text: notify.message ?? "",
+                                          style: const TextStyle(
+                                            color: Color(0xFF9B9BA5),
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w400,
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                subtitle: Text(
-                                  _notificationTime[index],
-                                  style: const TextStyle(
-                                    color: Color(0xFF9B9BA5),
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w400,
+                                  subtitle: Text(
+                                    notify.created == null
+                                        ? ""
+                                        : Operation.convertDate(
+                                            notify.created!),
+                                    style: const TextStyle(
+                                      color: Color(0xFF9B9BA5),
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w400,
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
-                          ),
-                          TextButton(
-                            onPressed: _seeMoreNotifications,
-                            child: Text(
-                              "See more",
-                              style: TextStyle(color: kAccentColor),
+                                );
+                              },
                             ),
-                          ),
-                        ],
-                      ),
-                    );
+                            TextButton(
+                              onPressed: _seeMoreNotifications,
+                              child: Text(
+                                "See more",
+                                style: TextStyle(color: kAccentColor),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+              });
             },
           ),
         ),

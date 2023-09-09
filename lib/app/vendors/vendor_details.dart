@@ -3,13 +3,19 @@
 import 'package:benji_aggregator/app/others/products/product_details.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
 import 'package:benji_aggregator/src/providers/custom%20show%20search.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../controller/vendor_controller.dart';
+import '../../model/vendor_list_model.dart';
+import '../../model/vendor_product_model.dart';
 import '../../src/common_widgets/category_button_section.dart';
 import '../../src/common_widgets/my_appbar.dart';
 import '../../src/common_widgets/vendor_orders_tab.dart';
@@ -28,14 +34,15 @@ class VendorDetailsPage extends StatefulWidget {
   final double vendorRating;
   final String vendorActiveStatus;
   final Color vendorActiveStatusColor;
-  const VendorDetailsPage({
-    super.key,
-    required this.vendorCoverImage,
-    required this.vendorName,
-    required this.vendorRating,
-    required this.vendorActiveStatus,
-    required this.vendorActiveStatusColor,
-  });
+  final VendorListModel vendor;
+  const VendorDetailsPage(
+      {super.key,
+      required this.vendorCoverImage,
+      required this.vendorName,
+      required this.vendorRating,
+      required this.vendorActiveStatus,
+      required this.vendorActiveStatusColor,
+      required this.vendor});
 
   @override
   State<VendorDetailsPage> createState() => _VendorDetailsPageState();
@@ -47,6 +54,12 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      VendorController.instance.listVendorProduct(widget.vendor.id);
+    });
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      VendorController.instance.listVendorOrder(widget.vendor.id);
+    });
 
     _tabBarController = TabController(length: 2, vsync: this);
     _loadingScreen = true;
@@ -74,7 +87,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
 
   //=================================== Orders =======================================\\
   final int _incrementOrderID = 2 + 2;
-  late int _orderID;
+  int _orderID = 0;
   final String _orderItem = "Jollof Rice and Chicken";
   final String _customerAddress = "21 Odogwu Street, New Haven";
   final int _itemQuantity = 2;
@@ -193,12 +206,13 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
   }
 
   //===================== Navigation ==========================\\
-  void toProductDetailScreen() => Get.to(
+  void toProductDetailScreen(Item  data) => Get.to(
         () => ProductDetails(
           productImage: _productImage,
           productName: _productName,
           productPrice: _productPrice,
           productDescription: _productDescription,
+          product: data,
         ),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -328,12 +342,29 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                       MediaQuery.of(context).size.height * 0.3,
                                   decoration: BoxDecoration(
                                     color: kPageSkeletonColor,
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: AssetImage(
-                                          "assets/images/vendors/${widget.vendorCoverImage}.png"),
+                                    // image: DecorationImage(
+                                    //   fit: BoxFit.cover,
+                                    //   image: AssetImage(
+                                    //       "assets/images/vendors/${widget.vendorCoverImage}.png"),
+                                    // ),
+                                  ),
+                                  child: CachedNetworkImage(
+                                    imageUrl: widget.vendor.shopImage ?? "",
+                                    fit: BoxFit.cover,
+                                    progressIndicatorBuilder: (context, url,
+                                            downloadProgress) =>
+                                        Center(
+                                            child: CupertinoActivityIndicator(
+                                      color: kRedColor,
+                                    )),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(
+                                      Icons.error,
+                                      color: kRedColor,
                                     ),
                                   ),
+                               
+                               
                                 ),
                               ),
                               Positioned(
@@ -368,7 +399,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                     child: Column(
                                       children: [
                                         Text(
-                                          widget.vendorName,
+                                          widget.vendor.shopName ?? "",
                                           textAlign: TextAlign.center,
                                           style: const TextStyle(
                                             color: kTextBlackColor,
@@ -403,20 +434,20 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                         kHalfSizedBox,
                                         InkWell(
                                           onTap: (() async {
-                                            final websiteurl = Uri.parse(
-                                              "https://goo.gl/maps/8pKoBVCsew5oqjU49",
-                                            );
-                                            if (await canLaunchUrl(
-                                              websiteurl,
-                                            )) {
-                                              launchUrl(
-                                                websiteurl,
-                                                mode: LaunchMode
-                                                    .externalApplication,
-                                              );
-                                            } else {
-                                              throw "An unexpected error occured and $websiteurl cannot be loaded";
-                                            }
+                                            // final websiteurl = Uri.parse(
+                                            //   "https://goo.gl/maps/8pKoBVCsew5oqjU49",
+                                            // );
+                                            // if (await canLaunchUrl(
+                                            //   websiteurl,
+                                            // )) {
+                                            //   launchUrl(
+                                            //     websiteurl,
+                                            //     mode: LaunchMode
+                                            //         .externalApplication,
+                                            //   );
+                                            // } else {
+                                            //   throw "An unexpected error occured and $websiteurl cannot be loaded";
+                                            // }
                                           }),
                                           borderRadius:
                                               BorderRadius.circular(10),
@@ -507,7 +538,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                                     width: 5,
                                                   ),
                                                   Text(
-                                                    "${widget.vendorRating}",
+                                                    "${widget.vendor.averageRating ?? 0}",
                                                     style: const TextStyle(
                                                       color: Colors.black,
                                                       fontSize: 14,
@@ -534,7 +565,11 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                                     MainAxisAlignment.center,
                                                 children: [
                                                   Text(
-                                                    widget.vendorActiveStatus,
+                                                    widget.vendor.shopType!
+                                                                .isActive ==
+                                                            true
+                                                        ? "online"
+                                                        : "offline",
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                       color: widget
@@ -573,16 +608,35 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                   height: 100,
                                   decoration: ShapeDecoration(
                                     color: kPageSkeletonColor,
-                                    image: const DecorationImage(
-                                      image: AssetImage(
-                                        "assets/images/vendors/ntachi-osa-logo.png",
-                                      ),
-                                      fit: BoxFit.cover,
-                                    ),
+                                    // image: const DecorationImage(
+                                    //   image: AssetImage(
+                                    //     "assets/images/vendors/ntachi-osa-logo.png",
+                                    //   ),
+                                    //   fit: BoxFit.cover,
+                                    // ),
+
                                     shape: RoundedRectangleBorder(
                                       borderRadius:
                                           BorderRadius.circular(43.50),
                                     ),
+                                  ),
+                                  child: ClipOval(
+                                    child: CachedNetworkImage(
+                                      imageUrl: widget.vendor.shopImage ?? "",
+                                      fit: BoxFit.cover,
+                                      progressIndicatorBuilder: (context, url,
+                                              downloadProgress) =>
+                                          Center(
+                                              child: CupertinoActivityIndicator(
+                                        color: kRedColor,
+                                      )),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(
+                                        Icons.error,
+                                        color: kRedColor,
+                                      ),
+                                    ),
+                                
                                   ),
                                 ),
                               ),
@@ -638,80 +692,113 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                         ),
                         kSizedBox,
                         SizedBox(
-                          height: mediaHeight + mediaHeight + mediaHeight,
-                          width: mediaWidth,
-                          child: Column(
-                            children: [
-                              Expanded(
-                                child: TabBarView(
-                                  controller: _tabBarController,
-                                  physics: const BouncingScrollPhysics(),
-                                  dragStartBehavior: DragStartBehavior.down,
-                                  children: [
-                                    _loadingTabBarContent
-                                        ? const VendorsTabBarProductsContentSkeleton()
-                                        : VendorsProductsTab(
-                                            list: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                CategoryButtonSection(
-                                                  onPressed:
-                                                      _changeProductCategory,
-                                                  category: _categoryButtonText,
-                                                  categorybgColor:
-                                                      _categoryButtonBgColor,
-                                                  categoryFontColor:
-                                                      _categoryButtonFontColor,
-                                                ),
-                                                for (int i = 0;
-                                                    i < foodListView.length;
-                                                    i++)
-                                                  VendorsProductContainer(
-                                                    onTap:
-                                                        toProductDetailScreen,
-                                                    productImage: _productImage,
-                                                    productName: _productName,
-                                                    productDescription:
-                                                        _productDescription,
-                                                    productPrice: _productPrice,
-                                                    productQuantity:
-                                                        _productQuantity,
-                                                  ),
-                                              ],
+                            height: mediaHeight + mediaHeight + mediaHeight,
+                            width: mediaWidth,
+                            child: Column(
+                              children: [
+                                Expanded(
+                                  child: TabBarView(
+                                    controller: _tabBarController,
+                                    physics: const BouncingScrollPhysics(),
+                                    dragStartBehavior: DragStartBehavior.down,
+                                    children: [
+                                      _loadingTabBarContent
+                                          ? const VendorsTabBarProductsContentSkeleton()
+                                          : VendorsProductsTab(
+                                              list: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  GetBuilder<VendorController>(
+                                                    init: VendorController(),
+                                                    builder: (controller) {
+                                                      return Column(
+                                                        children: [
+                                                          CategoryButtonSection(
+                                                            onPressed: ()=> 
+                                                                _changeProductCategory(),
+                                                            category:
+                                                                _categoryButtonText,
+                                                            categorybgColor:
+                                                                _categoryButtonBgColor,
+                                                            categoryFontColor:
+                                                                _categoryButtonFontColor,
+                                                          ),
+                                                          ...controller
+                                                              .vendorProductList
+                                                              .map(
+                                                            (element) =>
+                                                                VendorsProductContainer(
+                                                              onTap:
+                                                                 ()=>  toProductDetailScreen(element),
+                                                              productImage:
+                                                                  _productImage,
+                                                              productName:
+                                                                  _productName,
+                                                              productDescription:
+                                                                  _productDescription,
+                                                              productPrice:
+                                                                  _productPrice,
+                                                              productQuantity:
+                                                                  _productQuantity,
+                                                              // ignore: invalid_use_of_protected_member
+                                                              product: element,
+                                                            ),
+                                                          )
+                                                        ],
+                                                      );
+                                                    },
+                                                  )
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                    _loadingTabBarContent
-                                        ? const VendorsTabBarOrdersContentSkeleton()
-                                        : VendorsOrdersTab(
-                                            list: Column(
-                                              children: [
-                                                for (_orderID = 1;
-                                                    _orderID < 30;
-                                                    _orderID +=
-                                                        _incrementOrderID)
-                                                  VendorsOrderContainer(
-                                                    mediaWidth: mediaWidth,
-                                                    orderImage: _orderImage,
-                                                    orderID: _orderID,
-                                                    formattedDateAndTime:
-                                                        formattedDateAndTime,
-                                                    orderItem: _orderItem,
-                                                    itemQuantity: _itemQuantity,
-                                                    itemPrice: _itemPrice,
-                                                    customerName: _customerName,
-                                                    customerAddress:
-                                                        _customerAddress,
-                                                  ),
-                                              ],
+                                      _loadingTabBarContent
+                                          ? const VendorsTabBarOrdersContentSkeleton()
+                                          : VendorsOrdersTab(
+                                              list: Column(
+                                                children: [
+                                                  GetBuilder<VendorController>(
+                                                    init: VendorController(),
+                                                    builder: (controller) {
+                                                      return Column(
+                                                        children: [
+                                                          ...controller
+                                                              .vendorOrderList
+                                                              .map(
+                                                            (element) =>
+                                                                VendorsOrderContainer(
+                                                              mediaWidth:
+                                                                  mediaWidth,
+                                                              orderImage:
+                                                                  _orderImage,
+                                                              orderID: _orderID,
+                                                              formattedDateAndTime:
+                                                                  formattedDateAndTime,
+                                                              orderItem:
+                                                                  _orderItem,
+                                                              itemQuantity:
+                                                                  _itemQuantity,
+                                                              itemPrice:
+                                                                  _itemPrice,
+                                                              customerName:
+                                                                  _customerName,
+                                                              customerAddress:
+                                                                  _customerAddress,
+                                                              order: element,
+                                                            ),
+                                                          )
+                                                        ],
+                                                      );
+                                                    },
+                                                  )
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
+                              ],
+                            )),
                       ],
                     ),
                   );

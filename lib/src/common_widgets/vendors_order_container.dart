@@ -1,21 +1,26 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../controller/operation.dart';
+import '../../model/vendor_orders_model.dart';
 import '../../theme/colors.dart';
 import '../providers/constants.dart';
 
 class VendorsOrderContainer extends StatelessWidget {
-  const VendorsOrderContainer({
-    super.key,
-    required this.mediaWidth,
-    required String orderImage,
-    required int orderID,
-    required this.formattedDateAndTime,
-    required String orderItem,
-    required int itemQuantity,
-    required double itemPrice,
-    required String customerName,
-    required String customerAddress,
-  })  : _orderImage = orderImage,
+  VendorsOrderContainer(
+      {super.key,
+      required this.mediaWidth,
+      required String orderImage,
+      required int orderID,
+      required this.formattedDateAndTime,
+      required String orderItem,
+      required int itemQuantity,
+      required double itemPrice,
+      required String customerName,
+      required String customerAddress,
+      required this.order})
+      : _orderImage = orderImage,
         _orderID = orderID,
         _orderItem = orderItem,
         _itemQuantity = itemQuantity,
@@ -32,9 +37,15 @@ class VendorsOrderContainer extends StatelessWidget {
   final double _itemPrice;
   final String _customerName;
   final String _customerAddress;
-
+  DataItem? order;
   @override
   Widget build(BuildContext context) {
+    int qty = 0;
+    if (order != null) {
+      order!.orderitems!.forEach((element) {
+        qty += int.tryParse(element.quantity!.toString())!;
+      });
+    }
     return Container(
       margin: const EdgeInsets.symmetric(
         vertical: kDefaultPadding / 2,
@@ -71,20 +82,38 @@ class VendorsOrderContainer extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: kPageSkeletonColor,
                   borderRadius: BorderRadius.circular(16),
-                  image: DecorationImage(
-                    image: AssetImage(
-                      "assets/images/products/$_orderImage.png",
-                    ),
-                  ),
+                  // image: DecorationImage(
+                  //   image: AssetImage(
+                  //     "assets/images/products/$_orderImage.png",
+                  //   ),
+                  // ),
                 ),
+                child: CachedNetworkImage(
+                                      imageUrl: order!.client!.image ?? "",
+                                      fit: BoxFit.cover,
+                                      progressIndicatorBuilder: (context, url,
+                                              downloadProgress) =>
+                                          Center(
+                                              child: CupertinoActivityIndicator(
+                                        color: kRedColor,
+                                      )),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(
+                                        Icons.error,
+                                        color: kRedColor,
+                                      ),
+                                  ),
               ),
               kHalfSizedBox,
-              Text(
-                "#00${_orderID.toString()}",
-                style: TextStyle(
-                  color: kTextGreyColor,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
+              SizedBox(
+                width: 60,
+                child: Text(
+                  "#00${order!.id ?? ""}",
+                  style: TextStyle(
+                    color: kTextGreyColor,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               )
             ],
@@ -115,7 +144,7 @@ class VendorsOrderContainer extends StatelessWidget {
                     ),
                     SizedBox(
                       child: Text(
-                        formattedDateAndTime,
+                        Operation.convertDate(order!.created!),
                         overflow: TextOverflow.clip,
                         style: const TextStyle(
                           fontSize: 12,
@@ -148,7 +177,7 @@ class VendorsOrderContainer extends StatelessWidget {
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: "x $_itemQuantity",
+                        text: "x ${qty ?? 0}",
                         style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w400,
@@ -156,7 +185,8 @@ class VendorsOrderContainer extends StatelessWidget {
                       ),
                       const TextSpan(text: "  "),
                       TextSpan(
-                        text: "₦ ${_itemPrice.toStringAsFixed(2)}",
+                        text:
+                            "₦ ${convertToCurrency(order == null ? "0.0" : order!.totalPrice!.toString())}",
                         style: const TextStyle(
                           fontSize: 15,
                           fontFamily: 'sen',
@@ -177,7 +207,7 @@ class VendorsOrderContainer extends StatelessWidget {
               SizedBox(
                 width: mediaWidth * 0.5,
                 child: Text(
-                  _customerName,
+                  "${order!.client!.lastName!} ${order!.client!.firstName!}",
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: const TextStyle(
@@ -189,7 +219,7 @@ class VendorsOrderContainer extends StatelessWidget {
               SizedBox(
                 width: mediaWidth * 0.5,
                 child: Text(
-                  _customerAddress,
+                  order!.deliveryAddress!.streetAddress!,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: const TextStyle(

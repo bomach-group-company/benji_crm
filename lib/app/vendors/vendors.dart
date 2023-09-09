@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
+import '../../model/vendor_list_model.dart';
 import '../../src/common_widgets/my_outlined_elevatedButton.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/custom show search.dart';
@@ -199,7 +200,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
         transition: Transition.downToUp,
       );
 
-  void _toVendorDetailsPage() => Get.to(
+  void _toVendorDetailsPage(VendorListModel data) => Get.to(
         () => VendorDetailsPage(
           vendorCoverImage:
               _vendorStatus ? _onlineVendorsImage : _offlineVendorsImage,
@@ -209,6 +210,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
           vendorActiveStatus: _vendorStatus ? _vendorActive : _vendorInactive,
           vendorActiveStatusColor:
               _vendorStatus ? _vendorActiveColor : _vendorInactiveColor,
+          vendor: data,
         ),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -371,154 +373,101 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
                                 ),
                                 controller.isLoad.value
                                     ? const VendorsListSkeleton()
-                                    : ListView.separated(
-                                        separatorBuilder: (context, index) =>
-                                            const SizedBox(
-                                                height: kDefaultPadding / 2),
-                                        itemCount: controller.vendorList.length,
-                                        addAutomaticKeepAlives: true,
-                                        physics: const BouncingScrollPhysics(),
-                                        shrinkWrap: true,
-                                        itemBuilder: (context, index) =>
-                                            InkWell(
-                                          onTap: _toVendorDetailsPage,
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                          child: Container(
-                                            decoration: ShapeDecoration(
-                                              color: Colors.white,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(16),
-                                              ),
-                                              shadows: const [
-                                                BoxShadow(
-                                                  color: Color(0x0F000000),
-                                                  blurRadius: 24,
-                                                  offset: Offset(0, 4),
-                                                  spreadRadius: 0,
-                                                ),
-                                              ],
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                Container(
-                                                  width: 130,
-                                                  height: 130,
-                                                  decoration: ShapeDecoration(
-                                                    color: kPageSkeletonColor,
-                                                    // image: DecorationImage(
-                                                    //   image: AssetImage(
-                                                    //     "assets/images/vendors/$_onlineVendorsImage.png",
-                                                    //   ),
-                                                    //   fit: BoxFit.fill,
-                                                    // ),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              16),
-                                                    ),
+                                    : StreamBuilder(
+                                        stream: null,
+                                        builder: (context, snapshot) {
+                                          List<VendorListModel> vendor =
+                                              controller.vendorList
+                                                  .where((p0) =>
+                                                      p0.shopType!.isActive ==
+                                                      _vendorStatus)
+                                                  .toList();
+                                          return ListView.separated(
+                                            separatorBuilder: (context,
+                                                    index) =>
+                                                const SizedBox(
+                                                    height:
+                                                        kDefaultPadding / 2),
+                                            itemCount: vendor.length,
+                                            addAutomaticKeepAlives: true,
+                                            physics:
+                                                const BouncingScrollPhysics(),
+                                            shrinkWrap: true,
+                                            itemBuilder: (context, index) =>
+                                                InkWell(
+                                              onTap: () => _toVendorDetailsPage(
+                                                  vendor[index]),
+                                              borderRadius:
+                                                  BorderRadius.circular(16),
+                                              child: Container(
+                                                decoration: ShapeDecoration(
+                                                  color: Colors.white,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            16),
                                                   ),
-                                                  child: CachedNetworkImage(
-                                                    imageUrl: "",
-                                                    fit: BoxFit.cover,
-                                                    progressIndicatorBuilder: (context,
-                                                            url,
-                                                            downloadProgress) =>
-                                                        Center(
-                                                            child:
-                                                                CupertinoActivityIndicator(
-                                                      color: kRedColor,
-                                                    )),
-                                                    errorWidget:
-                                                        (context, url, error) =>
+                                                  shadows: const [
+                                                    BoxShadow(
+                                                      color: Color(0x0F000000),
+                                                      blurRadius: 24,
+                                                      offset: Offset(0, 4),
+                                                      spreadRadius: 0,
+                                                    ),
+                                                  ],
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    Container(
+                                                      width: 130,
+                                                      height: 130,
+                                                      decoration:
+                                                          ShapeDecoration(
+                                                        color:
+                                                            kPageSkeletonColor,
+                                                        // image: DecorationImage(
+                                                        //   image: AssetImage(
+                                                        //     "assets/images/vendors/$_onlineVendorsImage.png",
+                                                        //   ),
+                                                        //   fit: BoxFit.fill,
+                                                        // ),
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(16),
+                                                        ),
+                                                      ),
+                                                      child: CachedNetworkImage(
+                                                        imageUrl: vendor[index]
+                                                                .shopImage ??
+                                                            "",
+                                                        fit: BoxFit.cover,
+                                                        progressIndicatorBuilder:
+                                                            (context, url,
+                                                                    downloadProgress) =>
+                                                                Center(
+                                                                    child:
+                                                                        CupertinoActivityIndicator(
+                                                          color: kRedColor,
+                                                        )),
+                                                        errorWidget: (context,
+                                                                url, error) =>
                                                             const Icon(
-                                                      Icons.error,
-                                                      color: kRedColor,
+                                                          Icons.error,
+                                                          color: kRedColor,
+                                                        ),
+                                                      ),
+                                                    
+                                                    
                                                     ),
-                                                  ),
-                                                ),
-                                                kHalfWidthSizedBox,
-                                                Container(
-                                                  padding: const EdgeInsets.all(
-                                                      kDefaultPadding / 2),
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      SizedBox(
-                                                        width: mediaWidth - 200,
-                                                        child: Text(
-                                                          controller
-                                                              .vendorList[index]
-                                                              .username!,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          maxLines: 1,
-                                                          style:
-                                                              const TextStyle(
-                                                            color: kBlackColor,
-                                                            fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight.w700,
-                                                            letterSpacing:
-                                                                -0.36,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      kSizedBox,
-                                                      SizedBox(
-                                                        width: mediaWidth - 200,
-                                                        child: Text(
-                                                          "Restaurant",
-                                                          style: TextStyle(
-                                                            color:
-                                                                kTextGreyColor,
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          Container(
-                                                            width: 3.90,
-                                                            height: 3.90,
-                                                            decoration:
-                                                                ShapeDecoration(
-                                                              color:
-                                                                  _vendorActiveColor,
-                                                              shape:
-                                                                  const OvalBorder(),
-                                                            ),
-                                                          ),
-                                                          const SizedBox(
-                                                              width: 5.0),
-                                                          Text(
-                                                            _vendorActive,
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            style:
-                                                                const TextStyle(
-                                                              color:
-                                                                  kSuccessColor,
-                                                              fontSize: 14,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      kSizedBox,
-                                                      Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
+                                                    kHalfWidthSizedBox,
+                                                    Container(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              kDefaultPadding /
+                                                                  2),
+                                                      child: Column(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
                                                                 .start,
@@ -527,51 +476,140 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
                                                                 .start,
                                                         children: [
                                                           SizedBox(
-                                                            width: 25,
-                                                            height: 25,
-                                                            child: Icon(
-                                                              Icons
-                                                                  .star_rounded,
-                                                              color: kStarColor,
-                                                            ),
-                                                          ),
-                                                          const SizedBox(
-                                                              width:
-                                                                  kDefaultPadding /
-                                                                      2),
-                                                          Container(
-                                                            width: 81,
-                                                            height: 19,
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .only(
-                                                              top: 4,
-                                                            ),
+                                                            width: mediaWidth -
+                                                                200,
                                                             child: Text(
-                                                              "$_onlineVendorsRating (500+)",
+                                                              vendor[index]
+                                                                  .shopName!,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              maxLines: 1,
                                                               style:
                                                                   const TextStyle(
                                                                 color:
-                                                                    kTextBlackColor,
-                                                                fontSize: 15,
+                                                                    kBlackColor,
+                                                                fontSize: 16,
                                                                 fontWeight:
                                                                     FontWeight
-                                                                        .w400,
+                                                                        .w700,
                                                                 letterSpacing:
-                                                                    -0.24,
+                                                                    -0.36,
                                                               ),
                                                             ),
                                                           ),
+                                                          kSizedBox,
+                                                          SizedBox(
+                                                            width: mediaWidth -
+                                                                200,
+                                                            child: Text(
+                                                              vendor[index]
+                                                                      .shopType!
+                                                                      .name ??
+                                                                  "",
+                                                              style: TextStyle(
+                                                                color:
+                                                                    kTextGreyColor,
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Container(
+                                                                width: 3.90,
+                                                                height: 3.90,
+                                                                decoration:
+                                                                    ShapeDecoration(
+                                                                  color:
+                                                                      _vendorActiveColor,
+                                                                  shape:
+                                                                      const OvalBorder(),
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                  width: 5.0),
+                                                              Text(
+                                                                _vendorActive,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                style:
+                                                                    const TextStyle(
+                                                                  color:
+                                                                      kSuccessColor,
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          kSizedBox,
+                                                          Row(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .min,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .start,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              SizedBox(
+                                                                width: 25,
+                                                                height: 25,
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .star_rounded,
+                                                                  color:
+                                                                      kStarColor,
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                  width:
+                                                                      kDefaultPadding /
+                                                                          2),
+                                                              Container(
+                                                                width: 81,
+                                                                height: 19,
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .only(
+                                                                  top: 4,
+                                                                ),
+                                                                child: Text(
+                                                                  "${vendor[index].averageRating ?? 0} ",
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    color:
+                                                                        kTextBlackColor,
+                                                                    fontSize:
+                                                                        15,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400,
+                                                                    letterSpacing:
+                                                                        -0.24,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
                                                         ],
                                                       ),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ],
+                                              ),
                                             ),
-                                          ),
-                                        ),
-                                      ),
+                                          );
+                                        }),
                                 kSizedBox,
                                 kSizedBox,
                                 _vendorStatus

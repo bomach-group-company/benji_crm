@@ -10,8 +10,8 @@ String userModelToJson(UserModel data) => json.encode(data.toJson());
 
 class UserModel {
     int? id;
-    String? username;
-    String? email;
+    dynamic username;
+    dynamic email;
 
     UserModel({
         this.id,

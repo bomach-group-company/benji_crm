@@ -22,6 +22,7 @@ class SendCreateModel {
   String? businessBio;
   SendCreateModel(
       {this.coverImage,
+      this.businessBio,
       this.profileImage,
       this.personaId,
       this.businessId,

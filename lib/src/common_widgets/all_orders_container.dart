@@ -1,6 +1,10 @@
+import 'package:benji_aggregator/controller/operation.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../model/order_list_model.dart';
 import '../../theme/colors.dart';
 import '../providers/constants.dart';
 
@@ -17,6 +21,7 @@ class AllOrdersContainer extends StatelessWidget {
     required double itemPrice,
     required String customerName,
     required String customerAddress,
+    required this.order,
   })  : _orderImage = orderImage,
         _orderID = orderID,
         _orderStatusIcon = orderStatusIcon,
@@ -36,9 +41,17 @@ class AllOrdersContainer extends StatelessWidget {
   final double _itemPrice;
   final String _customerName;
   final String _customerAddress;
+  final OrderItem order;
 
   @override
   Widget build(BuildContext context) {
+    int qty = 0;
+    if (order.orderitems != null) {
+      if (order.orderitems!.isNotEmpty)
+        order.orderitems!.forEach((element) {
+          qty += int.tryParse(element.quantity!.toString())!;
+        });
+    }
     return Container(
       margin: const EdgeInsets.symmetric(
         vertical: kDefaultPadding / 2,
@@ -74,20 +87,36 @@ class AllOrdersContainer extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: kPageSkeletonColor,
                   borderRadius: BorderRadius.circular(16),
-                  image: DecorationImage(
-                    image: AssetImage(
-                      "assets/images/products/$_orderImage.png",
-                    ),
+                  // image: DecorationImage(
+                  //   image: AssetImage(
+                  //     "assets/images/products/$_orderImage.png",
+                  //   ),
+                  // ),
+                ),
+                child: CachedNetworkImage(
+                  imageUrl: order.client!.image ?? "",
+                  fit: BoxFit.cover,
+                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                      Center(
+                          child: CupertinoActivityIndicator(
+                    color: kRedColor,
+                  )),
+                  errorWidget: (context, url, error) => const Icon(
+                    Icons.error,
+                    color: kRedColor,
                   ),
                 ),
               ),
               kHalfSizedBox,
-              Text(
-                "#00${_orderID.toString()}",
-                style: TextStyle(
-                  color: kTextGreyColor,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
+              SizedBox(
+                width: 60,
+                child: Text(
+                  "#00${1234.toString()}",
+                  style: TextStyle(
+                    color: kTextGreyColor,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ),
               SizedBox(height: 5),
@@ -112,7 +141,7 @@ class AllOrdersContainer extends StatelessWidget {
                   children: [
                     const SizedBox(
                       child: Text(
-                        "Hot Kitchen",
+                        "",
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -123,7 +152,7 @@ class AllOrdersContainer extends StatelessWidget {
                     ),
                     SizedBox(
                       child: Text(
-                        formattedDateAndTime,
+                        Operation.convertDate(order.created!),
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                           fontSize: 12,
@@ -156,7 +185,7 @@ class AllOrdersContainer extends StatelessWidget {
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: "x $_itemQuantity",
+                        text: "x $qty",
                         style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w400,
@@ -164,7 +193,8 @@ class AllOrdersContainer extends StatelessWidget {
                       ),
                       const TextSpan(text: "  "),
                       TextSpan(
-                        text: "₦ ${_itemPrice.toStringAsFixed(2)}",
+                        text:
+                            "₦ ${convertToCurrency(order.totalPrice.toString())}",
                         style: const TextStyle(
                           fontSize: 15,
                           fontFamily: 'sen',
@@ -185,7 +215,7 @@ class AllOrdersContainer extends StatelessWidget {
               SizedBox(
                 width: mediaWidth / 1.8,
                 child: Text(
-                  _customerName,
+                  "${order.client!.lastName} ${order.client!.firstName}",
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: const TextStyle(
@@ -197,7 +227,7 @@ class AllOrdersContainer extends StatelessWidget {
               SizedBox(
                 width: mediaWidth / 1.8,
                 child: Text(
-                  _customerAddress,
+                  "${order.deliveryAddress!.streetAddress ?? ""}",
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: const TextStyle(

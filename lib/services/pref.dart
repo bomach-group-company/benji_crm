@@ -23,7 +23,7 @@ class KeyStore {
     static Future<bool> checkToken() async {
   
     var pref = await initPref();
-   if(pref.containsKey(tokenKey)){
+   if(pref.containsKey(isLoggedInKey)){
     return true;
    }else{
     return false;
@@ -38,5 +38,9 @@ class KeyStore {
    }else{
     return "";
    }
+  }
+     static Future remove(key) async {
+    var pref = await initPref();
+    pref.remove(key);
   }
 }

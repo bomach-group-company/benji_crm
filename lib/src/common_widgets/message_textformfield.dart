@@ -33,6 +33,7 @@ class MyMessageTextFormField extends StatelessWidget {
       focusNode: focusNode,
       controller: controller,
       onSaved: onSaved,
+       validator: validator,
       textInputAction: textInputAction,
       textAlign: TextAlign.start,
       cursorColor: kSecondaryColor,
@@ -51,9 +52,7 @@ class MyMessageTextFormField extends StatelessWidget {
       ),
       decoration: InputDecoration(
         hintText: hintText,
-        errorStyle: const TextStyle(
-          color: kErrorColor,
-        ),
+        errorStyle: const TextStyle(color: Colors.red),
         filled: true,
         fillColor: Colors.blue.shade50,
         focusColor: Colors.blue.shade50,

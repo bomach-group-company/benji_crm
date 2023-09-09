@@ -4,6 +4,9 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
+import '../model/create_vendor_model.dart';
+
+// API URLS AND HTTP CALL FUNCTIONS
 class Api {
   static const baseUrl = "https://benji-app.onrender.com";
   static const login = "/api/v1/auth/token";
@@ -14,14 +17,23 @@ class Api {
   static const agentCreateVendor = "/api/v1/agents/agentCreateVendor";
   static const getSpecificVendor = "/api/v1/agents/getVendor/";
   static const getVendorProducts = "/api/v1/agents/listVendorProducts/";
-  static const filterVendorProduct = "/api/v1/agents/filterVendorProductsBySubCategory";
+  static const filterVendorProduct =
+      "/api/v1/agents/filterVendorProductsBySubCategory";
   static const listVendorOrders = "/api/v1/agents/listVendorOrders/";
   static const getVendorRatings = "/api/v1/agents/getVendorAverageRating/";
+  static const createVendor = "/api/v1/agents/agentCreateVendor/";
+
+  //order
+  static const orderList = "/api/v1/agents/getAllMyVendorsOrders/";
 
   //Rider
-    static const riderList = "/api/v1/agents/listAllRiders";
+  static const riderList = "/api/v1/agents/listAllRiders";
   static const getSpecificRider = "/api/v1/agents/getRider/";
-  static const assignRiderTask = "/api/v1/agents/assignRiderTask";
+  static const assignRiderTask = "/api/v1/agents/assignOrdersToRider";
+    static const riderHistory = "/api/v1/agents/ridersHistories/";
+
+  //BusinessTypes
+  static const businessType = "/api/v1/categories/list";
 }
 
 String header = "application/json";
@@ -55,7 +67,7 @@ class RequestData {
                 "Content-Type": content,
                 HttpHeaders.authorizationHeader: "Bearer $token",
               },
-              body: jsonEncode(body.toJson()),
+              body: jsonEncode(body),
             )
             .timeout(const Duration(seconds: 20));
       }
@@ -82,7 +94,7 @@ class RequestData {
         },
       );
 
-      consoleLog(response.body);
+    //  consoleLog(response.body);
     } catch (e) {
       response = null;
       consoleLog(e.toString());
@@ -91,8 +103,61 @@ class RequestData {
   }
 
   static Future put() async {}
-
   static Future delete() async {}
+
+  static Future<http.StreamedResponse?> streamAddVCendor(url, token, SendCreateModel data,bool  vendorClassifier) async {
+    http.StreamedResponse? response;
+ 
+
+
+  //  final filePhotoName = basename(data.image!.path);
+
+    var request =
+        http.MultipartRequest("POST", Uri.parse(url));
+    Map<String, String> headers = {
+      'Accept': 'application/json',
+      "Content-Type": content,
+      'authorization': 'Bearer $token',
+    };
+
+    // var file = await http.MultipartFile.fromPath('image', data.image!.path,
+    //     filename: filePhotoName);
+
+    request.headers.addAll(headers);
+
+    request.fields["email"] = data.businessEmail!.toString();
+    request.fields["phone"] = data.businessPhone!.toString();
+    request.fields["address"] = data.bussinessAddress!.toString();
+    request.fields["shop_name"] = data.businessName!.toString();
+
+    request.fields["shop_type"] = data.businessType!.toString();
+    request.fields["weekOpeningHours"] = data.openHours!.toString();
+    request.fields["weekClosingHours"] = data.closeHours!.toString();
+    request.fields["satOpeningHours"] = data.satOpenHours!.toString();
+    request.fields["satClosingHours"] = data.satCloseHours!.toString();
+    request.fields["sunWeekOpeningHours"] = data.sunOpenHours!.toString();
+
+    request.fields["sunWeekClosingHours"] = data.sunCloseHours!.toString();
+
+    request.fields["personalId"] = data.personaId!.toString();
+    request.fields["businessId"] = data.businessId!.toString();
+    request.fields["businessBio"] = data.businessBio!.toString();
+    request.fields["city"] = data.city!.toString();
+
+    request.fields["state"] = data.state!.toString();
+        request.fields["country"] = data.country!.toString();
+        request.fields["vendorClassifier"] = vendorClassifier.toString();
+  //  request.files.add(file);
+    try {
+      response = await request.send();
+   
+    } catch (e) {
+      log(e.toString());
+      response = null;
+    }
+    return response;
+  }
+
 }
 
 void consoleLog(String val) {

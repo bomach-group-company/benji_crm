@@ -53,7 +53,8 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
       automaticallyImplyLeading: false,
       titleSpacing: kDefaultPadding / 2,
       elevation: 10.0,
-      title: GetBuilder<UserController>(builder: (controller) {
+      title: GetBuilder<UserController>(
+        builder: (controller) {
         return Row(
           children: [
             Padding(

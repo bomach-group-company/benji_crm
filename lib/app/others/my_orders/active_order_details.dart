@@ -1,11 +1,15 @@
 // ignore_for_file: file_names, unused_local_variable
 
 import 'package:benji_aggregator/app/others/my_orders/track_order.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
+import '../../../controller/url_launch_controller.dart';
+import '../../../model/order_list_model.dart';
 import '../../../src/common_widgets/my_appbar.dart';
 import '../../../src/common_widgets/my_elevatedButton.dart';
 import '../../../src/providers/constants.dart';
@@ -23,6 +27,7 @@ class ActiveOrderDetails extends StatefulWidget {
   final int itemQuantity;
   final double subtotalPrice;
   final String orderImage;
+  final OrderItem order;
   const ActiveOrderDetails(
       {super.key,
       required this.orderID,
@@ -34,7 +39,8 @@ class ActiveOrderDetails extends StatefulWidget {
       required this.formatted12HrTime,
       required this.customerName,
       required this.customerImage,
-      required this.customerPhoneNumber});
+      required this.customerPhoneNumber,
+      required this.order});
 
   @override
   State<ActiveOrderDetails> createState() => _ActiveOrderDetailsState();
@@ -215,7 +221,11 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                     ),
                                   ),
                                   Text(
-                                    "Accepted",
+                                    !widget.order.assignedStatus!
+                                            .toLowerCase()
+                                            .contains("ASSG".toLowerCase())
+                                        ? "Pending"
+                                        : "Accepted",
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
                                       color: kSuccessColor,
@@ -269,14 +279,29 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                   width: 56,
                                   height: 56,
                                   decoration: ShapeDecoration(
-                                    image: DecorationImage(
-                                      image: AssetImage(
-                                        "assets/images/products/${widget.orderImage}.png",
-                                      ),
-                                      fit: BoxFit.fill,
-                                    ),
+                                    // image: DecorationImage(
+                                    //   image: AssetImage(
+                                    //     "assets/images/products/${widget.orderImage}.png",
+                                    //   ),
+                                    //   fit: BoxFit.fill,
+                                    // ),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(16),
+                                    ),
+                                  ),
+                                  child: CachedNetworkImage(
+                                    imageUrl: "",
+                                    fit: BoxFit.cover,
+                                    progressIndicatorBuilder: (context, url,
+                                            downloadProgress) =>
+                                        Center(
+                                            child: CupertinoActivityIndicator(
+                                      color: kRedColor,
+                                    )),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(
+                                      Icons.error,
+                                      color: kRedColor,
                                     ),
                                   ),
                                 ),
@@ -306,7 +331,8 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                           ),
                                         ),
                                         TextSpan(
-                                          text: "x ${widget.itemQuantity}",
+                                          text:
+                                              "x ${widget.order.orderitems!.first.quantity}",
                                           style: const TextStyle(
                                             color: kTextBlackColor,
                                             fontSize: 12.52,
@@ -321,7 +347,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                   TextSpan(
                                     children: [
                                       TextSpan(
-                                        text: "₦ ${widget.subtotalPrice}",
+                                        text: "₦ ${0.0}",
                                         style: const TextStyle(
                                           color: kTextBlackColor,
                                           fontSize: 14,
@@ -378,20 +404,38 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                   height: 60,
                                   decoration: ShapeDecoration(
                                     color: kPageSkeletonColor,
-                                    image: DecorationImage(
-                                      image: AssetImage(
-                                        "assets/images/${widget.customerImage}",
-                                      ),
-                                      fit: BoxFit.cover,
-                                    ),
+                                    // image: DecorationImage(
+                                    //   image: AssetImage(
+                                    //     "assets/images/${widget.customerImage}",
+                                    //   ),
+                                    //   fit: BoxFit.cover,
+                                    // ),
                                     shape: const OvalBorder(),
+                                  ),
+                                  child: ClipOval(
+                                    child: CachedNetworkImage(
+                                      imageUrl:
+                                          widget.order.client!.image ?? "",
+                                      fit: BoxFit.cover,
+                                      progressIndicatorBuilder: (context, url,
+                                              downloadProgress) =>
+                                          Center(
+                                              child: CupertinoActivityIndicator(
+                                        color: kRedColor,
+                                      )),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(
+                                        Icons.error,
+                                        color: kRedColor,
+                                      ),
+                                    ),
                                   ),
                                 ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      widget.customerName,
+                                      "${widget.order.client!.lastName} ${widget.order.client!.firstName} ",
                                       overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(
                                         color: kTextBlackColor,
@@ -401,7 +445,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                     ),
                                     kHalfSizedBox,
                                     Text(
-                                      widget.customerPhoneNumber,
+                                      widget.order.client!.phone ?? "",
                                       style: TextStyle(
                                         color: kTextGreyColor,
                                         fontSize: 11.62,
@@ -421,7 +465,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                     SizedBox(
                                       width: 155,
                                       child: Text(
-                                        widget.customerAddress,
+                                        "${widget.order.deliveryAddress!.streetAddress}",
                                         maxLines: 3,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
@@ -448,7 +492,15 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                   ),
                                   child: IconButton(
                                     splashRadius: 30,
-                                    onPressed: _callCustomer,
+                                    onPressed: () {
+                                      if (widget.order.client!.phone != null) {
+                                        if (widget
+                                            .order.client!.phone!.isNotEmpty) {
+                                          UrlLaunchController.makePhoneCall(
+                                              widget.order.client!.phone!);
+                                        }
+                                      }
+                                    },
                                     icon: Icon(
                                       Icons.phone,
                                       color: kAccentColor,
@@ -524,8 +576,8 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                         ),
                                       ),
                                       TextSpan(
-                                        text: widget.subtotalPrice
-                                            .toStringAsFixed(2),
+                                        text: convertToCurrency(
+                                            widget.order.totalPrice.toString()),
                                         style: const TextStyle(
                                           color: kTextBlackColor,
                                           fontSize: 14,

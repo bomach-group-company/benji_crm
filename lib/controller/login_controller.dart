@@ -5,6 +5,7 @@ import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/model/login_model.dart';
 import 'package:benji_aggregator/services/api_url.dart';
 import 'package:benji_aggregator/services/pref.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,6 +14,9 @@ class LoginController extends GetxController {
   static LoginController get instance {
     return Get.find<LoginController>();
   }
+
+  bool? isFirst;
+  LoginController({this.isFirst});
 
   var tokenExist = false.obs;
   @override
@@ -26,7 +30,7 @@ class LoginController extends GetxController {
 
   Future checkToken() async {
     tokenExist.value = await KeyStore.checkToken();
-    update();
+   // update();
 
     if (tokenExist.value) {
       SharedPreferences pref = await KeyStore.initPref();
@@ -36,13 +40,13 @@ class LoginController extends GetxController {
       await runLoginTask(data);
     } else {
       Get.offAll(() => Login());
-    }
+   }
     update();
   }
 
   Future runLoginTask(SendLogin data) async {
     isLoad.value = true;
-    update();
+   // update();
     var url = Api.baseUrl + Api.login;
     Map finalData = {
       "username": "${data.username}",
@@ -51,19 +55,58 @@ class LoginController extends GetxController {
 
     try {
       http.Response? response = await RequestData.postApi(url, null, finalData);
-      var responseData = await ApiProcessorController.errorState(response);
-      var save = LoginModel.fromJson(jsonDecode(responseData));
-      await KeyStore.storeString(KeyStore.tokenKey, save.token);
-      await KeyStore.storeString(KeyStore.usernameKey, data.username);
-      await KeyStore.storeString(KeyStore.passwordKey, data.password);
-      await KeyStore.storeBool(KeyStore.isLoggedInKey, true);
-      await UserController.instance.runUserTask(save.token);
-      consoleLog("Here is your token ${save.token}");
+
+      var responseData =
+          await ApiProcessorController.errorState(response, isFirst);
+      if (responseData == null) {
+         Get.offAll(
+          () => const Login(),
+          fullscreenDialog: true,
+          curve: Curves.easeIn,
+          routeName: "Dashboard",
+          predicate: (route) => false,
+          popGesture: true,
+          transition: Transition.fadeIn,
+        );
+        return;
+      }
+      var jsonData = jsonDecode(response!.body);
+
+      if (jsonData["token"] == false) {
+        ApiProcessorController.errorSnack('Failed to log user in');
+        isLoad.value = false;
+        if (await KeyStore.checkToken == true) {
+          KeyStore.storeBool(KeyStore.isLoggedInKey, false);
+          KeyStore.remove(
+            KeyStore.tokenKey,
+          );
+          checkToken();
+        }
+        tokenExist.value = false;
+
+      //  update();
+        return;
+      } else {
+        var save = LoginModel.fromJson(jsonDecode(responseData));
+        await KeyStore.storeString(KeyStore.tokenKey, save.token);
+        await KeyStore.storeString(KeyStore.usernameKey, data.username);
+        await KeyStore.storeString(KeyStore.passwordKey, data.password);
+        await KeyStore.storeBool(KeyStore.isLoggedInKey, true);
+         Get.put(UserController());
+        await UserController.instance.runUserTask(save.token);
+        consoleLog("Here is your token ${save.token}");
+        tokenExist.value = true;
+      }
     } catch (e) {
       consoleLog(e.toString());
     }
 
     isLoad.value = false;
+    update();
+  }
+
+  Future resetTokenValue(bool isVal) async {
+    tokenExist.value = isVal;
     update();
   }
 }

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:benji_aggregator/controller/error_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/model/notificatin_model.dart';
@@ -13,29 +12,48 @@ import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:http/http.dart' as http;
 
+import '../model/business_trype_model.dart';
+import '../model/create_vendor_model.dart';
 import '../model/rider_list_model.dart';
+import '../model/vendor_orders_model.dart';
+import '../model/vendor_product_model.dart';
 
 class VendorController extends GetxController {
   static VendorController get instance {
     return Get.find<VendorController>();
   }
 
+  bool? isFirst;
+  VendorController({this.isFirst});
   var isLoad = false.obs;
+  var isLoadCreate = false.obs;
   var vendorList = <VendorListModel>[].obs;
-  var vendorProductList = <VendorListModel>[].obs;
+  var businessType = <BusinessType>[].obs;
+  var vendorProductList = <Item>[].obs;
+  var vendorOrderList = <DataItem>[].obs;
   var vendor = VendorModel().obs;
+
+  @override
+  void onInit() {
+    runTask();
+    // TODO: implement onInit
+    super.onInit();
+  }
+
   Future runTask() async {
     isLoad.value = true;
     late String token;
-    update();
-    var url = Api.baseUrl + Api.riderList;
+    String id = UserController.instance.user.value.id.toString();
+    //update();
+    var url = Api.baseUrl + Api.vendorList + "?agent_id=$id";
     await KeyStore.getToken().then((element) {
       token = element!;
     });
-    consoleLog(KeyStore.getToken.toString());
+    consoleLog(token);
     try {
       http.Response? response = await RequestData.getApi(url, token);
-      var responseData = await ApiProcessorController.errorState(response);
+      var responseData =
+          await ApiProcessorController.errorState(response, isFirst ?? true);
       var save = vendorListModelFromJson(responseData);
       vendorList.value = save;
       update();
@@ -63,11 +81,14 @@ class VendorController extends GetxController {
     update();
   }
 
-  Future listVendorProduct(id) async {
+  Future listVendorProduct(id, [int? end]) async {
     isLoad.value = true;
     late String token;
     update();
-    var url = Api.baseUrl + Api.getVendorProducts + id.toString();
+    var url = Api.baseUrl +
+        Api.getVendorProducts +
+        id.toString() +
+        "?start=1&end=${end ?? 1}";
     await KeyStore.getToken().then((element) {
       token = element!;
     });
@@ -75,19 +96,29 @@ class VendorController extends GetxController {
     try {
       http.Response? response = await RequestData.getApi(url, token);
       var responseData = await ApiProcessorController.errorState(response);
-      var save = vendorListModelFromJson(responseData);
-      vendorProductList.value = save;
+      if (responseData == null) {
+        return;
+      }
+      try {
+        var save = VendorProductListModel.fromJson(jsonDecode(responseData));
+        vendorProductList.value = save.items!;
+      } catch (e) {
+        print(e);
+      }
       update();
     } catch (e) {}
     isLoad.value = false;
     update();
   }
 
-  Future filterProductBySubCat( vendorId, subCatId) async {
-     isLoad.value = true;
+  Future listVendorOrder(id, [int? end]) async {
+    isLoad.value = true;
     late String token;
     update();
-    var url = Api.baseUrl + Api.getVendorProducts + "";
+    var url = Api.baseUrl +
+        Api.listVendorOrders +
+        id.toString() +
+        "?start=1&end=${end ?? 1}";
     await KeyStore.getToken().then((element) {
       token = element!;
     });
@@ -95,12 +126,82 @@ class VendorController extends GetxController {
     try {
       http.Response? response = await RequestData.getApi(url, token);
       var responseData = await ApiProcessorController.errorState(response);
-      var save = vendorListModelFromJson(responseData);
-      vendorProductList.value = save;
+      if (responseData == null) {
+        return;
+      }
+      try {
+        var save = VendorOrderModel.fromJson(jsonDecode(responseData));
+        vendorOrderList.value = save.items!;
+      } catch (e) {
+        print(e);
+      }
       update();
     } catch (e) {}
     isLoad.value = false;
     update();
+  }
 
+  Future getBusinessTypes() async {
+    isLoad.value = true;
+    late String token;
+
+    var url = Api.baseUrl + Api.businessType;
+    await KeyStore.getToken().then((element) {
+      token = element!;
+    });
+
+    try {
+      http.Response? response = await RequestData.getApi(url, token);
+      try {
+        var responseData =
+            await ApiProcessorController.errorState(response, isFirst ?? true);
+        if (responseData == null) {
+          return;
+        }
+        var save = businessTypeFromJson(responseData);
+        businessType.value = save;
+      } catch (e) {
+        consoleLog('from $e');
+      }
+      update();
+    } catch (e) {}
+    isLoad.value = false;
+    update();
+  }
+
+  Future createVendor(SendCreateModel data, bool classify) async {
+    isLoadCreate.value = true;
+    late String token;
+    String id = UserController.instance.user.value.id.toString();
+    update();
+    var url = Api.baseUrl + Api.createVendor + id;
+    await KeyStore.getToken().then((element) {
+      token = element!;
+    });
+
+    try {
+      http.StreamedResponse? response =
+          await RequestData.streamAddVCendor(url, token, data, classify);
+      if (response == null) {
+        isLoadCreate.value = false;
+      } else if (response.statusCode == 200) {
+        final res = await http.Response.fromStream(response);
+        var jsonData = jsonDecode(res.body);
+        ApiProcessorController.successSnack(jsonData);
+        consoleLog(jsonData);
+        isLoadCreate.value = false;
+        Get.close(1);
+      } else {
+        final res = await http.Response.fromStream(response);
+        var jsonData = jsonDecode(res.body);
+        consoleLog(res.body.toString());
+        isLoadCreate.value = false;
+      }
+      isLoadCreate.value = false;
+
+      update();
+    } catch (e) {}
+    isLoadCreate.value = false;
+    update();
   }
 }

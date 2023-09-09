@@ -5,10 +5,12 @@ import 'package:benji_aggregator/src/providers/custom%20show%20search.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../controller/vendor_controller.dart';
 import '../../../src/common_widgets/category_button_section.dart';
 import '../../../src/common_widgets/my_appbar.dart';
 import '../../../src/common_widgets/vendor_orders_tab.dart';
@@ -701,20 +703,36 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                                   categoryFontColor:
                                                       _categoryButtonFontColor,
                                                 ),
-                                                for (int i = 0;
-                                                    i < foodListView.length;
-                                                    i++)
-                                                  VendorsProductContainer(
-                                                    onTap:
-                                                        toProductDetailScreen,
-                                                    productImage: _productImage,
-                                                    productName: _productName,
-                                                    productDescription:
-                                                        _productDescription,
-                                                    productPrice: _productPrice,
-                                                    productQuantity:
-                                                        _productQuantity,
-                                                  ),
+                                                GetBuilder<VendorController>(
+                                                  init: VendorController(),
+                                                  builder: (controller) {
+                                                    return Column(
+                                                      children: [
+                                                        ...controller
+                                                            .vendorProductList
+                                                            .map(
+                                                          (element) =>
+                                                              VendorsProductContainer(
+                                                            onTap:
+                                                                toProductDetailScreen,
+                                                            productImage:
+                                                                _productImage,
+                                                            productName:
+                                                                _productName,
+                                                            productDescription:
+                                                                _productDescription,
+                                                            productPrice:
+                                                                _productPrice,
+                                                            productQuantity:
+                                                                _productQuantity,
+                                                            // ignore: invalid_use_of_protected_member
+                                                            product: element,
+                                                          ),
+                                                        )
+                                                      ],
+                                                    );
+                                                  },
+                                                )
                                               ],
                                             ),
                                           ),
@@ -740,6 +758,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                                     customerName: _customerName,
                                                     customerAddress:
                                                         _customerAddress,
+                                                        order: null,
                                                   ),
                                               ],
                                             ),

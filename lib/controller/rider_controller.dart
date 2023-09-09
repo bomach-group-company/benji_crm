@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:benji_aggregator/controller/error_controller.dart';
+import 'package:benji_aggregator/controller/order_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/model/notificatin_model.dart';
 import 'package:benji_aggregator/model/user_model.dart';
@@ -10,6 +12,7 @@ import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:http/http.dart' as http;
 
+import '../model/driver_history_model.dart';
 import '../model/rider_list_model.dart';
 import '../model/rifer_model.dart';
 import '../services/pref.dart';
@@ -19,23 +22,70 @@ class RiderController extends GetxController {
     return Get.find<RiderController>();
   }
 
-  var isLoad = false.obs;
-  var riderList = <RiderListModel>[].obs;
-  var rider = RiderModel().obs;
+  bool? isFirst;
+  RiderController({this.isFirst});
 
-  Future runTask() async {
+  var isLoad = false.obs;
+  var isLoadAssign = false.obs;
+  var riderList = <RiderItem>[].obs;
+  var rider = RiderModel().obs;
+  var historyList = <HistoryItem>[].obs;
+  @override
+  void onInit() {
+    runTask();
+    // TODO: implement onInit
+    super.onInit();
+  }
+
+  Future runTask([String? end]) async {
     late String token;
     isLoad.value = true;
+    //update();
+    var url = Api.baseUrl + Api.riderList + "?start=0&end=${end ?? 100}";
+    await KeyStore.getToken().then((element) {
+      token = element!;
+    });
+    try {
+      http.Response? response = await RequestData.getApi(url, token);
+      var responseData =
+          await ApiProcessorController.errorState(response, isFirst ?? true);
+      log(responseData);
+      if (responseData == null) {
+        return;
+      }
+      var save = RiderListModel.fromJson(jsonDecode(responseData));
+      riderList.value = save.items!;
+      log("${riderList.length}" "${riderList.first.firstName!.toString()}");
+      update();
+    } catch (e) {
+      consoleLog("$e");
+    }
+    isLoad.value = false;
     update();
-    var url = Api.baseUrl + Api.riderList;
+  }
+
+  Future riderHistory(id, [String? end]) async {
+    isLoad.value = true;
+    late String token;
+    update();
+
+    var url = Api.baseUrl +
+        Api.riderHistory +
+        "?rider_id=$id&start=0&end=${end ?? 100}";
+
     await KeyStore.getToken().then((element) {
       token = element!;
     });
     try {
       http.Response? response = await RequestData.getApi(url, token);
       var responseData = await ApiProcessorController.errorState(response);
-      var save = riderListModelFromJson(responseData);
-      riderList.value = save;
+      try {
+        var save = DriverHistoryModel.fromJson(jsonDecode(responseData));
+        historyList.value = save.items!;
+      } catch (e) {
+        consoleLog("$e");
+      }
+      // notification.value = save;
       update();
     } catch (e) {}
     isLoad.value = false;
@@ -46,8 +96,7 @@ class RiderController extends GetxController {
     late String token;
     isLoad.value = true;
     update();
-    var url = Api.baseUrl +
-        Api.getSpecificRider + id.toString();
+    var url = Api.baseUrl + Api.getSpecificRider + id.toString();
     await KeyStore.getToken().then((element) {
       token = element!;
     });
@@ -62,27 +111,35 @@ class RiderController extends GetxController {
     update();
   }
 
-  Future assignRiderTask (riderId, orderId) async {
-      late String token;
-    isLoad.value = true;
+  Future assignRiderTask(agentId, riderId, orderId) async {
+    late String token;
+    isLoadAssign.value = true;
     update();
     var url = Api.baseUrl +
-        Api.assignRiderTask;
-        var data = {
-          "rider_id": "$riderId",
-          "order_id":"$orderId"
-        };
+        Api.assignRiderTask +
+        "?agent_id=$agentId&rider_id=$riderId";
+    var order = {
+      "orders": ["$orderId"]
+    };
+    consoleLog(order.toString());
+    var data = order;
     await KeyStore.getToken().then((element) {
       token = element!;
     });
     try {
       http.Response? response = await RequestData.postApi(url, token, data);
       var responseData = await ApiProcessorController.errorState(response);
-    
+      if (responseData == null) {
+        isLoadAssign.value = false;
+      } else {
+        OrderController.instance.runTask();
+        isLoadAssign.value = false;
+        Get.close(3);
+      }
+
       update();
     } catch (e) {}
-    isLoad.value = false;
+    isLoadAssign.value = false;
     update();
-
   }
 }

@@ -13,7 +13,7 @@ class SignUpSplashScreen extends StatelessWidget {
     Future.delayed(
       const Duration(seconds: 3),
       () => Get.offAll(
-        () => const OverView(),
+        () =>  OverView(),
         duration: const Duration(seconds: 3),
         fullscreenDialog: true,
         curve: Curves.easeIn,

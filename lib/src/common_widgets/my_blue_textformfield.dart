@@ -12,8 +12,10 @@ class MyBlueTextFormField extends StatelessWidget {
   final dynamic onSaved;
   final TextInputAction textInputAction;
   final FocusNode focusNode;
+  final bool? isEnabled;
+  VoidCallback? click;
 
-  const MyBlueTextFormField({
+   MyBlueTextFormField({
     super.key,
     required this.controller,
     required this.validator,
@@ -22,6 +24,8 @@ class MyBlueTextFormField extends StatelessWidget {
     required this.focusNode,
     required this.hintText,
     required this.textInputType,
+    this.isEnabled,
+    this.click,
   });
 
   @override
@@ -38,6 +42,9 @@ class MyBlueTextFormField extends StatelessWidget {
       enableSuggestions: true,
       keyboardType: textInputType,
       maxLines: 1,
+      enabled:  isEnabled ?? true,
+      onTap: click ,
+      
       style: TextStyle(
         color: kSecondaryColor,
         fontSize: 14,
@@ -45,10 +52,11 @@ class MyBlueTextFormField extends StatelessWidget {
       ),
       decoration: InputDecoration(
         hintText: hintText,
-        errorStyle: const TextStyle(color: kErrorColor),
+        errorStyle: const TextStyle(color: Colors.red),
         filled: true,
         fillColor: Colors.blue.shade50,
         focusColor: Colors.blue.shade50,
+        
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide(color: Colors.blue.shade50),
