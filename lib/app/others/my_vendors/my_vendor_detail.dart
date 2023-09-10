@@ -666,7 +666,6 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                 ),
                                 child: Column(
                                   children: [
-<<<<<<< HEAD
                                     _loadingTabBarContent
                                         ? const VendorsTabBarProductsContentSkeleton()
                                         : VendorsProductsTab(
@@ -743,36 +742,6 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                               ],
                                             ),
                                           ),
-=======
-                                    Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: TabBar(
-                                        controller: _tabBarController,
-                                        onTap: (value) =>
-                                            _clickOnTabBarOption(),
-                                        enableFeedback: true,
-                                        mouseCursor: SystemMouseCursors.click,
-                                        automaticIndicatorColorAdjustment: true,
-                                        overlayColor: MaterialStatePropertyAll(
-                                            kAccentColor),
-                                        labelColor: kPrimaryColor,
-                                        unselectedLabelColor: kTextGreyColor,
-                                        indicatorColor: kAccentColor,
-                                        indicatorWeight: 2,
-                                        splashBorderRadius:
-                                            BorderRadius.circular(50),
-                                        indicator: BoxDecoration(
-                                          color: kAccentColor,
-                                          borderRadius:
-                                              BorderRadius.circular(50),
-                                        ),
-                                        tabs: const [
-                                          Tab(text: "Products"),
-                                          Tab(text: "Orders"),
-                                        ],
-                                      ),
-                                    ),
->>>>>>> 5ae30100fdd3a739cc791f0ea3af5cb058fdd492
                                   ],
                                 ),
                               ),
@@ -821,7 +790,8 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                                         productPrice:
                                                             _productPrice,
                                                         productQuantity:
-                                                            _productQuantity,
+                                                            _productQuantity, product: null,
+                                                            
                                                       ),
                                                   ],
                                                 ),
@@ -849,6 +819,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                                             _customerName,
                                                         customerAddress:
                                                             _customerAddress,
+                                                            order: null,
                                                       ),
                                                   ],
                                                 ),

@@ -448,32 +448,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                                           .symmetric(
                                                       horizontal:
                                                           kDefaultPadding),
-<<<<<<< HEAD
                                                   child: Column(
-=======
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  SizedBox(
-                                                    width: mediaWidth - 200,
-                                                    child: Text(
-                                                      _onlineRidersName,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      maxLines: 1,
-                                                      style: const TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  kHalfSizedBox,
-                                                  Row(
->>>>>>> 5ae30100fdd3a739cc791f0ea3af5cb058fdd492
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
                                                             .center,
