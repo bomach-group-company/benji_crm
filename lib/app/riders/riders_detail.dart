@@ -124,7 +124,6 @@ class _RidersDetailState extends State<RidersDetail> {
       _loadingDeliveryStatus = false;
       _deliveryStatus = true;
     });
-
   }
 
   void clickOnPending() async {
@@ -133,10 +132,10 @@ class _RidersDetailState extends State<RidersDetail> {
       _deliveryStatus = false;
     });
 
-      //  await Future.delayed(const Duration(seconds: 3));
-     // setState(() {
-     //   _loadingDeliveryStatus = false;
-     // });
+    //  await Future.delayed(const Duration(seconds: 3));
+    // setState(() {
+    //   _loadingDeliveryStatus = false;
+    // });
   }
 
   //=================================== Show Popup Menu =====================================\\
@@ -262,25 +261,25 @@ class _RidersDetailState extends State<RidersDetail> {
                         child: Text("Error, Please try again later"),
                       );
                     }
-                    return StreamBuilder<Object>(
-                        stream: null,
-                        builder: (context, snapshot) {
-                          return GetBuilder<RiderController>(builder: (rider) {
-                            List<HistoryItem> history = _deliveryStatus
-                                ? rider.historyList
-                                    .where((p0) => p0.deliveryStatus!
-                                        .toLowerCase()
-                                        .contains("completed".toLowerCase()))
-                                    .toList()
-                                : rider.historyList
-                                    .where((p0) => !p0.deliveryStatus!
-                                        .toLowerCase()
-                                        .contains("completed".toLowerCase()))
-                                    .toList();
-                            return Scrollbar(
-                              controller: _scrollController,
-                              radius: const Radius.circular(10),
-                              child: ListView(
+                    return GetBuilder<RiderController>(builder: (rider) {
+                      return Scrollbar(
+                        controller: _scrollController,
+                        radius: const Radius.circular(10),
+                        child: StreamBuilder<Object>(
+                            stream: null,
+                            builder: (context, snapshot) {
+                              List<HistoryItem> history = _deliveryStatus
+                                  ? rider.historyList
+                                      .where((p0) => p0.deliveryStatus!
+                                          .toLowerCase()
+                                          .contains("completed".toLowerCase()))
+                                      .toList()
+                                  : rider.historyList
+                                      .where((p0) => !p0.deliveryStatus!
+                                          .toLowerCase()
+                                          .contains("completed".toLowerCase()))
+                                      .toList();
+                              return ListView(
                                 physics: const BouncingScrollPhysics(),
                                 padding: const EdgeInsets.only(
                                   top: kDefaultPadding / 4,
@@ -510,292 +509,272 @@ class _RidersDetailState extends State<RidersDetail> {
                                   ),
                                   kHalfSizedBox,
                                   ListView.builder(
-                                          itemCount: history.length,
-                                          shrinkWrap: true,
-                                          physics:
-                                              const BouncingScrollPhysics(),
-                                          itemBuilder: (context, index) =>
-                                              Container(
-                                            margin: const EdgeInsets.only(
-                                                bottom: kDefaultPadding / 2),
-                                            decoration: ShapeDecoration(
-                                              color: Colors.white,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(16),
+                                    itemCount: history.length,
+                                    shrinkWrap: true,
+                                    physics: const BouncingScrollPhysics(),
+                                    itemBuilder: (context, index) => Container(
+                                      margin: const EdgeInsets.only(
+                                          bottom: kDefaultPadding / 2),
+                                      decoration: ShapeDecoration(
+                                        color: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                        ),
+                                        shadows: const [
+                                          BoxShadow(
+                                            color: Color(0x0F000000),
+                                            blurRadius: 24,
+                                            offset: Offset(0, 4),
+                                            spreadRadius: 0,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            height: 120,
+                                            width: 120,
+                                            decoration: BoxDecoration(
+                                              color: kAccentColor,
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                topLeft: Radius.circular(16),
+                                                bottomLeft: Radius.circular(16),
                                               ),
-                                              shadows: const [
-                                                BoxShadow(
-                                                  color: Color(0x0F000000),
-                                                  blurRadius: 24,
-                                                  offset: Offset(0, 4),
-                                                  spreadRadius: 0,
-                                                ),
-                                              ],
+                                              // image: const DecorationImage(
+                                              //   image: AssetImage(
+                                              //       "assets/images/products/new-food.png"),
+                                              //   fit: BoxFit.cover,
+                                              // ),
                                             ),
-                                            child: Row(
+                                            child: CachedNetworkImage(
+                                              imageUrl:
+                                                  history[index].orders!.isEmpty
+                                                      ? ""
+                                                      : history[index]
+                                                              .orders!
+                                                              .first
+                                                              .client!
+                                                              .image ??
+                                                          "",
+                                              fit: BoxFit.cover,
+                                              progressIndicatorBuilder: (context,
+                                                      url, downloadProgress) =>
+                                                  Center(
+                                                      child:
+                                                          CupertinoActivityIndicator(
+                                                color: kRedColor,
+                                              )),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      const Icon(
+                                                Icons.error,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            padding: const EdgeInsets.all(
+                                                kDefaultPadding / 2),
+                                            // color: kAccentColor,
+                                            width: mediaWidth - 175,
+                                            height: 120,
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
                                               children: [
-                                                Container(
-                                                  height: 120,
-                                                  width: 120,
-                                                  decoration: BoxDecoration(
-                                                    color: kAccentColor,
-                                                    borderRadius:
-                                                        const BorderRadius.only(
-                                                      topLeft:
-                                                          Radius.circular(16),
-                                                      bottomLeft:
-                                                          Radius.circular(16),
-                                                    ),
-                                                    // image: const DecorationImage(
-                                                    //   image: AssetImage(
-                                                    //       "assets/images/products/new-food.png"),
-                                                    //   fit: BoxFit.cover,
-                                                    // ),
-                                                  ),
-                                                  child: CachedNetworkImage(
-                                                    imageUrl: history[index]
-                                                            .orders!
-                                                            .first
-                                                            .client!
-                                                            .image ??
-                                                        "",
-                                                    fit: BoxFit.cover,
-                                                    progressIndicatorBuilder: (context,
-                                                            url,
-                                                            downloadProgress) =>
-                                                        Center(
-                                                            child:
-                                                                CupertinoActivityIndicator(
-                                                      color: kRedColor,
-                                                    )),
-                                                    errorWidget:
-                                                        (context, url, error) =>
-                                                            const Icon(
-                                                      Icons.error,
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  padding: const EdgeInsets.all(
-                                                      kDefaultPadding / 2),
-                                                  // color: kAccentColor,
-                                                  width: mediaWidth - 175,
-                                                  height: 120,
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    children: [
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    SizedBox(
+                                                      width: 80,
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
                                                         children: [
                                                           SizedBox(
-                                                            width: 80,
-                                                            child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                SizedBox(
-                                                                  width: 100,
-                                                                  child: Text(
-                                                                    "ID ${history[index].orders!.first.code ?? "000"}",
-                                                                    maxLines: 1,
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          14,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w700,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                SizedBox(
-                                                                  width: 120,
-                                                                  child: Text(
-                                                                    "Items",
-                                                                    maxLines: 1,
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          12,
-                                                                      color:
-                                                                          kTextGreyColor,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ],
+                                                            width: 100,
+                                                            child: Text(
+                                                              "ID ${history[index].orders!.isEmpty ? "" : history[index].orders!.first.code ?? "000"}",
+                                                              maxLines: 1,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700,
+                                                              ),
                                                             ),
                                                           ),
-                                                          InkWell(
-                                                            onTap:
-                                                                seeDeliveredMessage,
-                                                            enableFeedback:
-                                                                true,
-                                                            splashColor:
-                                                                kSuccessColor,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
-                                                            child: Container(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .all(
-                                                                      kDefaultPadding /
-                                                                          3),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                border:
-                                                                    Border.all(
-                                                                  color:
-                                                                      kLightGreyColor,
-                                                                  strokeAlign:
-                                                                      BorderSide
-                                                                          .strokeAlignInside,
-                                                                ),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10),
-                                                              ),
-                                                              child: Text(
-                                                                _deliveryStatus
-                                                                    ? "Delivered"
-                                                                    : "Pending",
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize: 10,
-                                                                  color:
-                                                                      kSuccessColor,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                ),
+                                                          SizedBox(
+                                                            width: 120,
+                                                            child: Text(
+                                                              "Items",
+                                                              maxLines: 1,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style: TextStyle(
+                                                                fontSize: 12,
+                                                                color:
+                                                                    kTextGreyColor,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
                                                               ),
                                                             ),
-                                                          )
+                                                          ),
                                                         ],
                                                       ),
-                                                      kHalfSizedBox,
-                                                      Column(
-                                                        children: [
-                                                          Row(
-                                                            children: [
-                                                              Icon(
-                                                                Icons
-                                                                    .my_location,
-                                                                color:
-                                                                    kAccentColor,
-                                                                size: 18,
-                                                              ),
-                                                              kHalfWidthSizedBox,
-                                                              SizedBox(
-                                                                width:
-                                                                    mediaWidth -
-                                                                        230,
-                                                                child: Text(
-                                                                  history[index]
-                                                                          .orders!
-                                                                          .first
-                                                                          .deliveryAddress!
-                                                                          .streetAddress ??
-                                                                      "",
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  maxLines: 1,
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        10,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
+                                                    ),
+                                                    InkWell(
+                                                      onTap:
+                                                          seeDeliveredMessage,
+                                                      enableFeedback: true,
+                                                      splashColor:
+                                                          kSuccessColor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      child: Container(
+                                                        padding: const EdgeInsets
+                                                                .all(
+                                                            kDefaultPadding /
+                                                                3),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          border: Border.all(
+                                                            color:
+                                                                kLightGreyColor,
+                                                            strokeAlign: BorderSide
+                                                                .strokeAlignInside,
                                                           ),
-                                                          const SizedBox(
-                                                              height: 5),
-                                                          Row(
-                                                            children: [
-                                                              Icon(
-                                                                Icons
-                                                                    .location_on,
-                                                                color:
-                                                                    kAccentColor,
-                                                                size: 18,
-                                                              ),
-                                                              kHalfWidthSizedBox,
-                                                              SizedBox(
-                                                                width:
-                                                                    mediaWidth -
-                                                                        230,
-                                                                child: Text(
-                                                                  history[index]
-                                                                          .orders!
-                                                                          .first
-                                                                          .deliveryAddress!
-                                                                          .streetAddress ??
-                                                                      "",
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  maxLines: 1,
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        10,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
+                                                        ),
+                                                        child: Text(
+                                                          _deliveryStatus
+                                                              ? "Delivered"
+                                                              : "Pending",
+                                                          style: TextStyle(
+                                                            fontSize: 10,
+                                                            color:
+                                                                kSuccessColor,
+                                                            fontWeight:
+                                                                FontWeight.w400,
                                                           ),
-                                                          const SizedBox(
-                                                              height: 5),
-                                                          Text(
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                                kHalfSizedBox,
+                                                Column(
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Icon(
+                                                          Icons.my_location,
+                                                          color: kAccentColor,
+                                                          size: 18,
+                                                        ),
+                                                        kHalfWidthSizedBox,
+                                                        SizedBox(
+                                                          width:
+                                                              mediaWidth - 230,
+                                                          child: Text(
                                                             history[index]
-                                                                        .createdDate ==
-                                                                    null
-                                                                ? formattedDateAndTime
-                                                                : Operation.convertDate(
-                                                                    history[index]
-                                                                        .createdDate!),
-                                                            style:
-                                                                const TextStyle(
+                                                                    .orders!
+                                                                    .isEmpty
+                                                                ? ""
+                                                                : history[index]
+                                                                        .orders!
+                                                                        .first
+                                                                        .deliveryAddress!
+                                                                        .streetAddress ??
+                                                                    "",
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            maxLines: 1,
+                                                            style: TextStyle(
                                                               fontSize: 10,
                                                               fontWeight:
                                                                   FontWeight
-                                                                      .w700,
+                                                                      .w400,
                                                             ),
                                                           ),
-                                                        ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(height: 5),
+                                                    Row(
+                                                      children: [
+                                                        Icon(
+                                                          Icons.location_on,
+                                                          color: kAccentColor,
+                                                          size: 18,
+                                                        ),
+                                                        kHalfWidthSizedBox,
+                                                        SizedBox(
+                                                          width:
+                                                              mediaWidth - 230,
+                                                          child: Text(
+                                                            history[index]
+                                                                    .orders!
+                                                                    .isEmpty
+                                                                ? ""
+                                                                : history[index]
+                                                                        .orders!
+                                                                        .first
+                                                                        .deliveryAddress!
+                                                                        .streetAddress ??
+                                                                    "",
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            maxLines: 1,
+                                                            style: TextStyle(
+                                                              fontSize: 10,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(height: 5),
+                                                    Text(
+                                                      history[index]
+                                                                  .createdDate ==
+                                                              null
+                                                          ? formattedDateAndTime
+                                                          : Operation.convertDate(
+                                                              history[index]
+                                                                  .createdDate!),
+                                                      style: const TextStyle(
+                                                        fontSize: 10,
+                                                        fontWeight:
+                                                            FontWeight.w700,
                                                       ),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ],
                                             ),
                                           ),
-                                        ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                   kSizedBox,
                                   _deliveryStatus
                                       ? TextButton(
@@ -815,10 +794,10 @@ class _RidersDetailState extends State<RidersDetail> {
                                           ),
                                         ),
                                 ],
-                              ),
-                            );
-                          });
-                        });
+                              );
+                            }),
+                      );
+                    });
                   },
                 ),
         ),

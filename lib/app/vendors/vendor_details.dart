@@ -410,16 +410,21 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            Icon(
-                                              Icons.location_pin,
-                                              color: kAccentColor,
-                                              size: 15,
-                                            ),
-                                            kHalfWidthSizedBox,
-                                            SizedBox(
-                                              width: mediaWidth - 100,
+                                            widget.vendor.address == null
+                                                ? SizedBox.shrink()
+                                                : Icon(
+                                                    Icons.location_pin,
+                                                    color: kAccentColor,
+                                                    size: 15,
+                                                  ),
+                                            widget.vendor.address == null
+                                                ? SizedBox.shrink()
+                                                : kHalfWidthSizedBox,
+                                            Container(
+                                              constraints:
+                                                  BoxConstraints(maxWidth: 150),
                                               child: Text(
-                                                "Old Abakaliki Rd, Thinkers Corner 400103, Enugu",
+                                                widget.vendor.address ?? "",
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
                                                   fontSize: 14,
@@ -520,60 +525,40 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                                 ],
                                               ),
                                             ),
-                                            Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Icon(
-                                                    Icons.star_rounded,
-                                                    color: kStarColor,
+                                            Container(
+                                              width: mediaWidth * 0.25,
+                                              height: 56.67,
+                                              decoration: ShapeDecoration(
+                                                color: kPrimaryColor,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                    19,
                                                   ),
-                                                  const SizedBox(
-                                                    width: 5,
-                                                  ),
-                                                  Text(
-                                                    "${widget.vendor.averageRating ?? 0}",
-                                                    style: const TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      letterSpacing: -0.28,
+                                                ),
+                                              ),
+                                              child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(
+                                                      Icons.star_rounded,
+                                                      color: kStarColor,
                                                     ),
-                                                  ),
-                                                ]),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  widget.vendor.shopType!
-                                                              .isActive ==
-                                                          true
-                                                      ? "online"
-                                                      : "offline",
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    color: widget
-                                                        .vendorActiveStatusColor,
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w400,
-                                                    letterSpacing: -0.36,
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  width: 5,
-                                                ),
-                                                Text(
-                                                  "${widget.vendorRating}",
-                                                  style: const TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w400,
-                                                    letterSpacing: -0.28,
-                                                  ),
-                                                ),
-                                              ],
+                                                    const SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Text(
+                                                      "${double.tryParse(widget.vendor.averageRating.toString())!.toStringAsFixed(1)}",
+                                                      style: const TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        letterSpacing: -0.28,
+                                                      ),
+                                                    ),
+                                                  ]),
                                             ),
                                             Container(
                                               width: mediaWidth * 0.25,
@@ -590,7 +575,11 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                                     MainAxisAlignment.center,
                                                 children: [
                                                   Text(
-                                                    widget.vendorActiveStatus,
+                                                    widget.vendor.shopType!
+                                                                .isActive ==
+                                                            true
+                                                        ? "online"
+                                                        : "offline",
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                       color: widget

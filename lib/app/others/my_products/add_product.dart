@@ -2,9 +2,16 @@
 
 import 'dart:io';
 
+import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../controller/error_controller.dart';
+import '../../../model/my_vendor.dart';
+import '../../../model/sub_category_model.dart';
+import '../../../model/upload_prod_model.dart';
 import '../../../src/common_widgets/my_appbar.dart';
 import '../../../src/common_widgets/my_disabled_outlined_elevatedButton.dart';
 import '../../../src/common_widgets/my_elevatedButton.dart';
@@ -16,7 +23,8 @@ import 'select category.dart';
 import 'set variety.dart';
 
 class AddProduct extends StatefulWidget {
-  const AddProduct({super.key});
+  final MyVendorModel vendor;
+  const AddProduct({super.key, required this.vendor});
 
   @override
   State<AddProduct> createState() => _AddProductState();
@@ -189,12 +197,25 @@ class _AddProductState extends State<AddProduct> {
   //OVERRIDES
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      VendorController.instance.getSubCat();
+    });
     super.initState();
     isToggled = true;
   }
 
   @override
   Widget build(BuildContext context) {
+    var txt = {
+      "dropDown": ["Select"],
+    };
+
+    VendorController.instance.subCategoryList.forEach((element) {
+      if (txt["dropDown"]!.contains("${element.name!}|${element.id}")) {
+      } else {
+        txt["dropDown"]!.add("${element.name!}|${element.id}");
+      }
+    });
     return GestureDetector(
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
@@ -303,96 +324,78 @@ class _AddProductState extends State<AddProduct> {
                         ),
                       ),
                       kHalfSizedBox,
-                      DropdownButtonFormField<String>(
-                        value: dropDownItemValue,
-                        onChanged: dropDownOnChanged,
-                        enableFeedback: true,
-                        focusNode: productType,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        elevation: 20,
-                        validator: (value) {
-                          if (value == null) {
-                            productType.requestFocus();
-                            return "Pick a Product Type";
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(color: Colors.blue.shade50),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(color: Colors.blue.shade50),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(color: Colors.blue.shade50),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: const BorderSide(
-                              color: kErrorBorderColor,
-                              width: 2.0,
-                            ),
-                          ),
-                        ),
-                        borderRadius: BorderRadius.circular(16),
-                        icon: const Icon(Icons.keyboard_arrow_down_rounded),
-                        iconEnabledColor: kAccentColor,
-                        iconDisabledColor: kGreyColor2,
-                        items: const [
-                          DropdownMenuItem<String>(
-                            value: "Food",
-                            enabled: true,
-                            child: Text(
-                              'Food',
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
+                      GetBuilder(
+                          init: VendorController(),
+                          builder: (cat) {
+                            return DropdownButtonFormField(
+                              value: cat.subCatSelected.value.split("|").first,
+                              onChanged: (value) async {
+                                List<String> selected = txt["dropDown"]!
+                                    .where((element) =>
+                                        element.split("|").first == value)
+                                    .toList();
+                                cat.addSubCat(selected.first.toString());
+                              },
+                              enableFeedback: true,
+                              focusNode: productType,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              elevation: 20,
+                              validator: (value) {
+                                if (value == null ||
+                                    value.toString() == "Select") {
+                                  productType.requestFocus();
+                                  return "Set product type";
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide:
+                                      BorderSide(color: Colors.blue.shade50),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide:
+                                      BorderSide(color: Colors.blue.shade50),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide:
+                                      BorderSide(color: Colors.blue.shade50),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: const BorderSide(
+                                    color: kErrorBorderColor,
+                                    width: 2.0,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                          DropdownMenuItem<String>(
-                            value: "Drinks",
-                            enabled: true,
-                            child: Text(
-                              'Drinks',
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                          DropdownMenuItem<String>(
-                            value: "Vegetables",
-                            enabled: true,
-                            child: Text(
-                              "Vegetables",
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                          DropdownMenuItem<String>(
-                            value: "Meat",
-                            enabled: true,
-                            child: Text(
-                              "Meat",
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                              borderRadius: BorderRadius.circular(16),
+                              icon:
+                                  const Icon(Icons.keyboard_arrow_down_rounded),
+                              iconEnabledColor: kAccentColor,
+                              iconDisabledColor: kGreyColor2,
+                              items: txt["dropDown"]!
+                                  .map(
+                                    (e) => DropdownMenuItem(
+                                      value: e.split("|").first,
+                                      //  enabled: true,
+                                      child: Text(
+                                        e.split("|").first,
+                                        style: const TextStyle(
+                                          color: kTextBlackColor,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
+                            );
+                          }),
                       kSizedBox,
                       const Text(
                         'Product Name',
@@ -881,17 +884,32 @@ class _AddProductState extends State<AddProduct> {
                               ),
                             ),
                       kSizedBox,
-                      MyElevatedButton(
-                        onPressed: () {},
-                        elevation: 10.0,
-                        buttonTitle: "Save",
-                        titleFontSize: 14,
-                        circularBorderRadius: 20,
-                        maximumSizeHeight: 56,
-                        maximumSizeWidth: MediaQuery.of(context).size.width,
-                        minimumSizeHeight: 56,
-                        minimumSizeWidth: MediaQuery.of(context).size.width,
-                      ),
+                      GetBuilder<VendorController>(builder: (create) {
+                        return create.isLoadAdd.value
+                            ? Center(
+                                child: SpinKitDoubleBounce(
+                                  color: kAccentColor,
+                                ),
+                              )
+                            : MyElevatedButton(
+                                onPressed: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    _formKey.currentState!.save();
+                                    _submit();
+                                  }
+                                },
+                                elevation: 10.0,
+                                buttonTitle: "Save",
+                                titleFontSize: 14,
+                                circularBorderRadius: 20,
+                                maximumSizeHeight: 56,
+                                maximumSizeWidth:
+                                    MediaQuery.of(context).size.width,
+                                minimumSizeHeight: 56,
+                                minimumSizeWidth:
+                                    MediaQuery.of(context).size.width,
+                              );
+                      }),
                     ],
                   ),
                 ),
@@ -901,5 +919,23 @@ class _AddProductState extends State<AddProduct> {
         ),
       ),
     );
+  }
+
+  _submit() async {
+    if (selectedImage == null) {
+      ApiProcessorController.errorSnack("Add Product Image");
+      return;
+    }
+
+    UploadProduct upload = UploadProduct(
+        vendorId: widget.vendor.vendor!.id,
+        name: productNameEC.text,
+        description: productDescriptionEC.text,
+        subCategoryId: VendorController.instance.subCatSelected.split("|").last,
+        price: productPriceEC.text,
+        isAvailable: true,
+        image: selectedImage,
+        qty: productQuantityEC.text);
+    VendorController.instance.addProductToVendor(upload);
   }
 }

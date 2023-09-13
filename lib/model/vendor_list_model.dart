@@ -20,6 +20,7 @@ class VendorListModel {
   String? firstName;
   String? lastName;
   String? gender;
+  String? address;
   bool? isOnline;
   dynamic averageRating;
   dynamic numberOfClientsReactions;
@@ -36,6 +37,7 @@ class VendorListModel {
     this.firstName,
     this.lastName,
     this.gender,
+    this.address,
     this.isOnline,
     this.averageRating,
     this.numberOfClientsReactions,
@@ -54,6 +56,7 @@ class VendorListModel {
         firstName: json["first_name"],
         lastName: json["last_name"],
         gender: json["gender"],
+        address: json["address"],
         isOnline: json["is_online"],
         averageRating: json["average_rating"],
         numberOfClientsReactions: json["number_of_clients_reactions"],
@@ -73,6 +76,7 @@ class VendorListModel {
         "first_name": firstName,
         "last_name": lastName,
         "gender": gender,
+        "address": address,
         "is_online": isOnline,
         "average_rating": averageRating,
         "number_of_clients_reactions": numberOfClientsReactions,
