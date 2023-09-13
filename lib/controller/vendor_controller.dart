@@ -10,9 +10,6 @@ import 'package:http/http.dart' as http;
 
 import '../model/business_trype_model.dart';
 import '../model/create_vendor_model.dart';
-import '../model/my_vendor.dart';
-import '../model/sub_category_model.dart';
-import '../model/upload_prod_model.dart';
 import '../model/vendor_orders_model.dart';
 import '../model/vendor_product_model.dart';
 
@@ -24,19 +21,12 @@ class VendorController extends GetxController {
   bool? isFirst;
   VendorController({this.isFirst});
   var isLoad = false.obs;
-  var isLoadMyVendor = false.obs;
   var isLoadCreate = false.obs;
-  var isLoadAdd = false.obs;
-  var isLoadCat = false.obs;
   var vendorList = <VendorListModel>[].obs;
-  var subCategoryList = <SubCategoryModel>[].obs;
-  var myVendorList = <MyVendorModel>[].obs;
   var businessType = <BusinessType>[].obs;
   var vendorProductList = <Item>[].obs;
   var vendorOrderList = <DataItem>[].obs;
   var vendor = VendorModel().obs;
-  var subCatSelected = "Select".obs;
-  var subCategoryListString = <String>[].obs;
 
   @override
   void onInit() {
@@ -64,34 +54,6 @@ class VendorController extends GetxController {
       update();
     } catch (e) {}
     isLoad.value = false;
-    update();
-  }
-
-  Future getMyVendor() async {
-    isLoadMyVendor.value = true;
-    late String token;
-    String id = UserController.instance.user.value.id.toString();
-    //update();
-    var url = Api.baseUrl + Api.myVendor + "?agent_id=$id";
-    await KeyStore.getToken().then((element) {
-      token = element!;
-    });
-    // consoleLog(token);
-    try {
-      http.Response? response = await RequestData.getApi(url, token);
-      var responseData =
-          await ApiProcessorController.errorState(response, isFirst ?? true);
-      //    consoleLog(responseData.toString());
-      var save = myVendorModelFromJson(responseData);
-      // consoleLog(save.length.toString());
-
-      myVendorList.value = save;
-//consoleLog(myVendorList.length.toString());
-      update();
-    } catch (e) {
-      consoleLog(e.toString());
-    }
-    isLoadMyVendor.value = false;
     update();
   }
 
@@ -226,7 +188,7 @@ class VendorController extends GetxController {
         Get.close(1);
       } else {
         final res = await http.Response.fromStream(response);
-        //    var jsonData = jsonDecode(res.body);
+    //    var jsonData = jsonDecode(res.body);
         consoleLog(res.body.toString());
         isLoadCreate.value = false;
       }
@@ -235,71 +197,6 @@ class VendorController extends GetxController {
       update();
     } catch (e) {}
     isLoadCreate.value = false;
-    update();
-  }
-
-  Future addProductToVendor(UploadProduct data) async {
-    isLoadAdd.value = true;
-    late String token;
-    String id = UserController.instance.user.value.id.toString();
-    update();
-    var url = Api.baseUrl + Api.addProductToVendor;
-    await KeyStore.getToken().then((element) {
-      token = element!;
-    });
-
-    try {
-      http.StreamedResponse? response =
-          await RequestData.streamAddProductToVendor(url, token, data);
-      if (response == null) {
-        isLoadAdd.value = false;
-      } else if (response.statusCode == 200) {
-        final res = await http.Response.fromStream(response);
-        var jsonData = jsonDecode(res.body);
-        ApiProcessorController.successSnack(jsonData);
-        consoleLog(jsonData);
-        isLoadAdd.value = false;
-        Get.close(1);
-      } else {
-        final res = await http.Response.fromStream(response);
-        //    var jsonData = jsonDecode(res.body);
-        consoleLog(res.body.toString());
-        isLoadAdd.value = false;
-      }
-      isLoadAdd.value = false;
-
-      update();
-    } catch (e) {}
-    isLoadAdd.value = false;
-    update();
-  }
-
-  Future getSubCat() async {
-    isLoadCat.value = true;
-    late String token;
-    //update();
-    var url = Api.baseUrl + Api.subCategory;
-    await KeyStore.getToken().then((element) {
-      token = element!;
-    });
-    consoleLog(token);
-    try {
-      http.Response? response = await RequestData.getApi(url, token);
-      var responseData =
-          await ApiProcessorController.errorState(response, isFirst ?? true);
-      var save = subCategoryModelFromJson(responseData);
-      subCategoryList.value = save;
-      save.forEach((element) {
-        subCategoryListString.add("${element.name}|${element.id}");
-      });
-      update();
-    } catch (e) {}
-    isLoadCat.value = false;
-    update();
-  }
-
-  Future addSubCat(String val) async {
-    subCatSelected.value = val;
     update();
   }
 }
