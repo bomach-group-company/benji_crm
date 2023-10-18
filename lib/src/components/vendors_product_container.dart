@@ -3,7 +3,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
 import '../../model/vendor_product_model.dart';
 import '../../theme/colors.dart';
@@ -46,7 +45,7 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
       onTap: widget.onTap,
       borderRadius: BorderRadius.circular(12),
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: kDefaultPadding / 2.5),
+        margin: const EdgeInsets.symmetric(vertical: kDefaultPadding / 2.5),
         width: MediaQuery.of(context).size.width,
         decoration: ShapeDecoration(
           color: kPrimaryColor,
@@ -86,7 +85,7 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
                 imageUrl: widget.product!.productImage ?? "",
                 fit: BoxFit.cover,
                 progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    Center(
+                    const Center(
                         child: CupertinoActivityIndicator(
                   color: kRedColor,
                 )),

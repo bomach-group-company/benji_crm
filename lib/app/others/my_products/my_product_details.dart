@@ -39,7 +39,7 @@ class _MyProductDetailsState extends State<MyProductDetails> {
   bool _isChecked = false;
 
   //======================================= KEYS ==========================================\\
-  GlobalKey<FormState> _updateQuantityKey = GlobalKey();
+  final GlobalKey<FormState> _updateQuantityKey = GlobalKey();
 
   //======================================= CONTROLLERS ==========================================\\
   final ScrollController _scrollController = ScrollController();
@@ -99,19 +99,19 @@ class _MyProductDetailsState extends State<MyProductDetails> {
       isScrollControlled: true,
       isDismissible: true,
       elevation: 20.0,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
           borderRadius:
               BorderRadius.vertical(top: Radius.circular(kDefaultPadding))),
       enableDrag: true,
       builder: (context) => SingleChildScrollView(
-        physics: ScrollPhysics(),
+        physics: const ScrollPhysics(),
         padding: const EdgeInsets.all(kDefaultPadding),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const ShowModalBottomSheetTitleWithIcon(title: "Update Quantity"),
-            SizedBox(height: kDefaultPadding * 2),
+            const SizedBox(height: kDefaultPadding * 2),
             Form(
               key: _updateQuantityKey,
               child: Column(
@@ -177,19 +177,19 @@ class _MyProductDetailsState extends State<MyProductDetails> {
       isScrollControlled: true,
       isDismissible: true,
       elevation: 20.0,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
           borderRadius:
               BorderRadius.vertical(top: Radius.circular(kDefaultPadding))),
       enableDrag: true,
       builder: (context) => SingleChildScrollView(
-        physics: ScrollPhysics(),
+        physics: const ScrollPhysics(),
         padding: const EdgeInsets.all(kDefaultPadding),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const ShowModalBottomSheetTitleWithIcon(title: "Option"),
-            SizedBox(height: kDefaultPadding * 2),
+            const SizedBox(height: kDefaultPadding * 2),
             ListTile(
               onTap: _updateQuantity,
               leading: Icon(
@@ -414,7 +414,7 @@ class _MyProductDetailsState extends State<MyProductDetails> {
                                   kSizedBox,
                                   Row(
                                     children: [
-                                      Text(
+                                      const Text(
                                         'Out of stock',
                                         style: TextStyle(
                                           color: kTextBlackColor,

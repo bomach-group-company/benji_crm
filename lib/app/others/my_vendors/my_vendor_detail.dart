@@ -1,4 +1,4 @@
-// ignore_for_file: unused_local_variable
+// ignore_for_file: unused_local_variable, unused_element
 
 import 'package:benji_aggregator/src/providers/constants.dart';
 import 'package:benji_aggregator/src/providers/custom_show_search.dart';
@@ -6,7 +6,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -78,7 +77,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
   bool _loadingTabBarContent = false;
 
   //=================================== Vendor Details =======================================\\
-  String _vendorImage = "ntachi-osa-logo.png";
+  final String _vendorImage = "ntachi-osa-logo.png";
 
   //=================================== Orders =======================================\\
   final int _incrementOrderID = 2 + 2;
@@ -217,7 +216,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
             break;
           case 'suspend':
             Get.to(
-              () => SuspendMyVendor(),
+              () => const SuspendMyVendor(),
               duration: const Duration(milliseconds: 300),
               fullscreenDialog: true,
               curve: Curves.easeIn,
@@ -230,7 +229,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
 
           case 'delete':
             Get.to(
-              () => DeleteMyVendor(),
+              () => const DeleteMyVendor(),
               duration: const Duration(milliseconds: 300),
               fullscreenDialog: true,
               curve: Curves.easeIn,
@@ -263,7 +262,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
       );
 
   void _toAddProduct() => Get.to(
-        () => AddProduct(),
+        () => const AddProduct(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -438,7 +437,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                                 kHalfWidthSizedBox,
                                                 SizedBox(
                                                   width: mediaWidth - 100,
-                                                  child: Text(
+                                                  child: const Text(
                                                     "Old Abakaliki Rd, Thinkers Corner 400103, Enugu",
                                                     overflow:
                                                         TextOverflow.ellipsis,
@@ -666,7 +665,6 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                 ),
                                 child: Column(
                                   children: [
-<<<<<<< HEAD
                                     _loadingTabBarContent
                                         ? const VendorsTabBarProductsContentSkeleton()
                                         : VendorsProductsTab(
@@ -738,127 +736,16 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                                     customerName: _customerName,
                                                     customerAddress:
                                                         _customerAddress,
-                                                        order: null,
+                                                    order: null,
                                                   ),
                                               ],
                                             ),
                                           ),
-=======
-                                    Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: TabBar(
-                                        controller: _tabBarController,
-                                        onTap: (value) =>
-                                            _clickOnTabBarOption(),
-                                        enableFeedback: true,
-                                        mouseCursor: SystemMouseCursors.click,
-                                        automaticIndicatorColorAdjustment: true,
-                                        overlayColor: MaterialStatePropertyAll(
-                                            kAccentColor),
-                                        labelColor: kPrimaryColor,
-                                        unselectedLabelColor: kTextGreyColor,
-                                        indicatorColor: kAccentColor,
-                                        indicatorWeight: 2,
-                                        splashBorderRadius:
-                                            BorderRadius.circular(50),
-                                        indicator: BoxDecoration(
-                                          color: kAccentColor,
-                                          borderRadius:
-                                              BorderRadius.circular(50),
-                                        ),
-                                        tabs: const [
-                                          Tab(text: "Products"),
-                                          Tab(text: "Orders"),
-                                        ],
-                                      ),
-                                    ),
->>>>>>> 5ae30100fdd3a739cc791f0ea3af5cb058fdd492
                                   ],
                                 ),
                               ),
                             ),
                             kSizedBox,
-                            SizedBox(
-                              height: mediaHeight + mediaHeight + mediaHeight,
-                              width: mediaWidth,
-                              child: Column(
-                                children: [
-                                  Expanded(
-                                    child: TabBarView(
-                                      controller: _tabBarController,
-                                      physics: const BouncingScrollPhysics(),
-                                      dragStartBehavior: DragStartBehavior.down,
-                                      children: [
-                                        _loadingTabBarContent
-                                            ? const VendorsTabBarProductsContentSkeleton()
-                                            : VendorsProductsTab(
-                                                list: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: [
-                                                    CategoryButtonSection(
-                                                      onPressed:
-                                                          _changeProductCategory,
-                                                      category:
-                                                          _categoryButtonText,
-                                                      categorybgColor:
-                                                          _categoryButtonBgColor,
-                                                      categoryFontColor:
-                                                          _categoryButtonFontColor,
-                                                    ),
-                                                    for (int i = 0;
-                                                        i < foodListView.length;
-                                                        i++)
-                                                      VendorsProductContainer(
-                                                        onTap:
-                                                            toProductDetailScreen,
-                                                        productImage:
-                                                            _productImage,
-                                                        productName:
-                                                            _productName,
-                                                        productDescription:
-                                                            _productDescription,
-                                                        productPrice:
-                                                            _productPrice,
-                                                        productQuantity:
-                                                            _productQuantity,
-                                                      ),
-                                                  ],
-                                                ),
-                                              ),
-                                        _loadingTabBarContent
-                                            ? const VendorsTabBarOrdersContentSkeleton()
-                                            : VendorsOrdersTab(
-                                                list: Column(
-                                                  children: [
-                                                    for (_orderID = 1;
-                                                        _orderID < 30;
-                                                        _orderID +=
-                                                            _incrementOrderID)
-                                                      VendorsOrderContainer(
-                                                        mediaWidth: mediaWidth,
-                                                        orderImage: _orderImage,
-                                                        orderID: _orderID,
-                                                        formattedDateAndTime:
-                                                            formattedDateAndTime,
-                                                        orderItem: _orderItem,
-                                                        itemQuantity:
-                                                            _orderQuantity,
-                                                        itemPrice: _itemPrice,
-                                                        customerName:
-                                                            _customerName,
-                                                        customerAddress:
-                                                            _customerAddress,
-                                                      ),
-                                                  ],
-                                                ),
-                                              ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
                           ],
                         ),
                       );

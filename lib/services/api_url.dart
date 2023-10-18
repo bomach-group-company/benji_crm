@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
@@ -29,7 +31,7 @@ class Api {
   static const riderList = "/api/v1/agents/listAllRiders";
   static const getSpecificRider = "/api/v1/agents/getRider/";
   static const assignRiderTask = "/api/v1/agents/assignOrdersToRider";
-    static const riderHistory = "/api/v1/agents/ridersHistories/";
+  static const riderHistory = "/api/v1/agents/ridersHistories/";
 
   //BusinessTypes
   static const businessType = "/api/v1/categories/list";
@@ -93,7 +95,7 @@ class RequestData {
         },
       );
 
-    //  consoleLog(response.body);
+      //  consoleLog(response.body);
     } catch (e) {
       response = null;
       consoleLog(e.toString());
@@ -104,15 +106,13 @@ class RequestData {
   static Future put() async {}
   static Future delete() async {}
 
-  static Future<http.StreamedResponse?> streamAddVCendor(url, token, SendCreateModel data,bool  vendorClassifier) async {
+  static Future<http.StreamedResponse?> streamAddVCendor(
+      url, token, SendCreateModel data, bool vendorClassifier) async {
     http.StreamedResponse? response;
- 
 
+    //  final filePhotoName = basename(data.image!.path);
 
-  //  final filePhotoName = basename(data.image!.path);
-
-    var request =
-        http.MultipartRequest("POST", Uri.parse(url));
+    var request = http.MultipartRequest("POST", Uri.parse(url));
     Map<String, String> headers = {
       'Accept': 'application/json',
       "Content-Type": content,
@@ -144,19 +144,17 @@ class RequestData {
     request.fields["city"] = data.city!.toString();
 
     request.fields["state"] = data.state!.toString();
-        request.fields["country"] = data.country!.toString();
-        request.fields["vendorClassifier"] = vendorClassifier.toString();
-  //  request.files.add(file);
+    request.fields["country"] = data.country!.toString();
+    request.fields["vendorClassifier"] = vendorClassifier.toString();
+    //  request.files.add(file);
     try {
       response = await request.send();
-   
     } catch (e) {
       log(e.toString());
       response = null;
     }
     return response;
   }
-
 }
 
 void consoleLog(String val) {

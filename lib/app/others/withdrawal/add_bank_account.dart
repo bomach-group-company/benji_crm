@@ -17,9 +17,9 @@ class AddBankAccountPage extends StatefulWidget {
 
 class _AddBankAccountPageState extends State<AddBankAccountPage> {
 //===================================== ALL VARIABLES =========================================\\
-  FocusNode _bankNames = FocusNode();
-  FocusNode _accountNumberFN = FocusNode();
-  TextEditingController _accountNumberEC = TextEditingController();
+  final FocusNode _bankNames = FocusNode();
+  final FocusNode _accountNumberFN = FocusNode();
+  final TextEditingController _accountNumberEC = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -48,7 +48,7 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
         appBar: MyAppBar(
           title: "Add bank account",
           elevation: 0.0,
-          actions: [],
+          actions: const [],
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,
         ),
@@ -57,7 +57,7 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
             physics: const BouncingScrollPhysics(),
             child: MyResponsiveWidth(
               child: Container(
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                     horizontal: kDefaultPadding, vertical: kDefaultPadding * 2),
                 child: Form(
                   key: _formKey,
@@ -65,7 +65,7 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Bank Details',
                         style: TextStyle(
                           color: kTextBlackColor,
@@ -137,7 +137,7 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
                                   height: 45,
                                   width: 45,
                                 ),
-                                Text(
+                                const Text(
                                   'Access Bank',
                                   style: TextStyle(
                                     color: kTextBlackColor,
@@ -158,7 +158,7 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
                                   height: 45,
                                   width: 45,
                                 ),
-                                Text(
+                                const Text(
                                   'UBA',
                                   style: TextStyle(
                                     color: kTextBlackColor,
@@ -179,7 +179,7 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
                                   height: 45,
                                   width: 45,
                                 ),
-                                Text(
+                                const Text(
                                   'FCMB',
                                   style: TextStyle(
                                     color: kTextBlackColor,
@@ -200,7 +200,7 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
                                   height: 45,
                                   width: 45,
                                 ),
-                                Text(
+                                const Text(
                                   'First Bank',
                                   style: TextStyle(
                                     color: kTextBlackColor,
@@ -213,10 +213,10 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: kDefaultPadding * 2,
                       ),
-                      Text(
+                      const Text(
                         'Account Number',
                         style: TextStyle(
                           color: Color(0xFF575757),
@@ -251,7 +251,7 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: kDefaultPadding * 4,
                       ),
                       MyElevatedButton(

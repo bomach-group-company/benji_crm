@@ -5,44 +5,29 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:readmore/readmore.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../../../model/vendor_product_model.dart';
 import '../../../src/common_widgets/my_appbar.dart';
 import '../../../src/providers/constants.dart';
-import '../../../src/skeletons/page_skeleton.dart';
 import '../../../src/skeletons/product_details_page_skeleton.dart';
 import '../../../theme/colors.dart';
-import 'similar_products.dart';
-import 'vendors_products.dart';
 
 class ProductDetails extends StatefulWidget {
   final String productImage;
   final String productName;
   final String productDescription;
   final double productPrice;
-  Item? product;
+  final Item? product;
 
-<<<<<<< HEAD
-  ProductDetails(
+  const ProductDetails(
       {super.key,
       required this.productImage,
       required this.productName,
       required this.productDescription,
       required this.productPrice,
       required this.product});
-=======
-  const ProductDetails({
-    super.key,
-    required this.productImage,
-    required this.productName,
-    required this.productDescription,
-    required this.productPrice,
-  });
->>>>>>> 5ae30100fdd3a739cc791f0ea3af5cb058fdd492
 
   @override
   State<ProductDetails> createState() => _ProductDetailsState();
@@ -83,26 +68,26 @@ class _ProductDetailsState extends State<ProductDetails> {
 
   //===================== Navigation ==========================\\
 
-  void _toSimilarProductsPage() => Get.to(
-        () => const SimilarProductsPage(),
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "Similar Products",
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
-  void _toVendorsProductsPage() => Get.to(
-        () => const VendorsProductsPage(),
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "Vendors Products",
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+  // void _toSimilarProductsPage() => Get.to(
+  //       () => const SimilarProductsPage(),
+  //       duration: const Duration(milliseconds: 300),
+  //       fullscreenDialog: true,
+  //       curve: Curves.easeIn,
+  //       routeName: "Similar Products",
+  //       preventDuplicates: true,
+  //       popGesture: true,
+  //       transition: Transition.rightToLeft,
+  //     );
+  // void _toVendorsProductsPage() => Get.to(
+  //       () => const VendorsProductsPage(),
+  //       duration: const Duration(milliseconds: 300),
+  //       fullscreenDialog: true,
+  //       curve: Curves.easeIn,
+  //       routeName: "Vendors Products",
+  //       preventDuplicates: true,
+  //       popGesture: true,
+  //       transition: Transition.rightToLeft,
+  //     );
 //===========================================================================\\
 
   @override
@@ -170,26 +155,13 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   bottomLeft: Radius.circular(30),
                                 ),
                               ),
-<<<<<<< HEAD
-                            ),
-                            // image: DecorationImage(
-                            //   fit: BoxFit.fill,
-                            //   image: AssetImage(
-                            //       "assets/images/products/${widget.productImage}.png"),
-                            // ),
-                            shadows: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.6),
-                                blurRadius: 8,
-                                spreadRadius: 4,
-                                blurStyle: BlurStyle.normal,
-=======
-                              image: DecorationImage(
-                                fit: BoxFit.fill,
-                                image: AssetImage(
-                                    "assets/images/products/${widget.productImage}.png"),
->>>>>>> 5ae30100fdd3a739cc791f0ea3af5cb058fdd492
-                              ),
+
+                              // image: DecorationImage(
+                              //   fit: BoxFit.fill,
+                              //   image: AssetImage(
+                              //       "assets/images/products/${widget.productImage}.png"),
+                              // ),
+
                               shadows: [
                                 BoxShadow(
                                   color: Colors.black.withOpacity(0.6),
@@ -199,84 +171,21 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 ),
                               ],
                             ),
-                          ),
-<<<<<<< HEAD
-                          child: CachedNetworkImage(
-                            imageUrl: widget.product!.productImage ?? "",
-                            fit: BoxFit.cover,
-                            progressIndicatorBuilder:
-                                (context, url, downloadProgress) => Center(
-                                    child: CupertinoActivityIndicator(
-                              color: kRedColor,
-                            )),
-                            errorWidget: (context, url, error) => const Icon(
-                              Icons.error,
-                              color: kRedColor,
+                            child: CachedNetworkImage(
+                              imageUrl: widget.product!.productImage ?? "",
+                              fit: BoxFit.cover,
+                              progressIndicatorBuilder:
+                                  (context, url, downloadProgress) =>
+                                      const Center(
+                                          child: CupertinoActivityIndicator(
+                                color: kRedColor,
+                              )),
+                              errorWidget: (context, url, error) => const Icon(
+                                Icons.error,
+                                color: kRedColor,
+                              ),
                             ),
                           ),
-                        ),
-                        Container(
-                          width: mediaWidth,
-                          padding: const EdgeInsets.all(kDefaultPadding),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    widget.product!.name ?? "",
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                      color: kTextBlackColor,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  Text(
-                                    "₦ ${convertToCurrency(widget.product!.price.toString())}",
-                                    style: const TextStyle(
-                                      color: kTextBlackColor,
-                                      fontSize: 22,
-                                      fontFamily: 'sen',
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              kSizedBox,
-                              const Text(
-                                "Description",
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              kHalfSizedBox,
-                              ReadMoreText(
-                                widget.product!.description ?? "",
-                                callback: (val) {},
-                                delimiter: "...",
-                                trimLines: 10,
-                                trimExpandedText: "...show less",
-                                style: TextStyle(
-                                  color: kTextGreyColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                moreStyle: TextStyle(
-                                  color: kAccentColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                lessStyle: TextStyle(
-                                  color: kAccentColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-=======
                           Container(
                             width: mediaWidth,
                             padding: const EdgeInsets.all(kDefaultPadding),
@@ -288,7 +197,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      widget.productName,
+                                      widget.product!.name ?? "",
                                       textAlign: TextAlign.center,
                                       style: const TextStyle(
                                         color: kTextBlackColor,
@@ -297,7 +206,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       ),
                                     ),
                                     Text(
-                                      "₦ ${widget.productPrice.toStringAsFixed(2)}",
+                                      "₦ ${convertToCurrency(widget.product!.price.toString())}",
                                       style: const TextStyle(
                                         color: kTextBlackColor,
                                         fontSize: 22,
@@ -306,7 +215,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       ),
                                     ),
                                   ],
->>>>>>> 5ae30100fdd3a739cc791f0ea3af5cb058fdd492
                                 ),
                                 kSizedBox,
                                 const Text(
@@ -318,120 +226,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
-<<<<<<< HEAD
-                                colorClickableText: kAccentColor,
-                              ),
-                              // kSizedBox,
-                              // Row(
-                              //   mainAxisAlignment:
-                              //       MainAxisAlignment.spaceBetween,
-                              //   children: [
-                              //     const Text(
-                              //       "Similar products",
-                              //       textAlign: TextAlign.start,
-                              //       style: TextStyle(
-                              //         color: kTextBlackColor,
-                              //         fontSize: 18,
-                              //         fontWeight: FontWeight.w700,
-                              //       ),
-                              //     ),
-                              //     TextButton(
-                              //       onPressed: _toSimilarProductsPage,
-                              //       child: Text(
-                              //         "See all",
-                              //         style: TextStyle(
-                              //           color: kAccentColor,
-                              //           fontSize: 18,
-                              //           fontWeight: FontWeight.w700,
-                              //         ),
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
-                              // kSizedBox,
-                              // SizedBox(
-                              //   height: 160,
-                              //   child: ListView.separated(
-                              //     scrollDirection: Axis.horizontal,
-                              //     physics: const BouncingScrollPhysics(),
-                              //     separatorBuilder: (context, index) =>
-                              //         const SizedBox(
-                              //       width: kDefaultPadding / 2,
-                              //     ),
-                              //     itemBuilder: (context, index) => InkWell(
-                              //       onTap: () {},
-                              //       child: Shimmer.fromColors(
-                              //         highlightColor:
-                              //             kBlackColor.withOpacity(0.02),
-                              //         baseColor: kBlackColor.withOpacity(0.8),
-                              //         direction: ShimmerDirection.ltr,
-                              //         child: const PageSkeleton(
-                              //           height: 160,
-                              //           width: 140,
-                              //         ),
-                              //       ),
-                              //     ),
-                              //     itemCount: 30,
-                              //   ),
-                              // ),
-                              // kSizedBox,
-                              // Row(
-                              //   mainAxisAlignment:
-                              //       MainAxisAlignment.spaceBetween,
-                              //   children: [
-                              //     const Text(
-                              //       "Vendors Products",
-                              //       textAlign: TextAlign.start,
-                              //       style: TextStyle(
-                              //         color: kTextBlackColor,
-                              //         fontSize: 18,
-                              //         fontWeight: FontWeight.w700,
-                              //       ),
-                              //     ),
-                              //     TextButton(
-                              //       onPressed: _toVendorsProductsPage,
-                              //       child: Text(
-                              //         "See all",
-                              //         style: TextStyle(
-                              //           color: kAccentColor,
-                              //           fontSize: 18,
-                              //           fontWeight: FontWeight.w700,
-                              //         ),
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
-                              // kSizedBox,
-                              // SizedBox(
-                              //   height: 160,
-                              //   child: ListView.separated(
-                              //     scrollDirection: Axis.horizontal,
-                              //     physics: const BouncingScrollPhysics(),
-                              //     separatorBuilder: (context, index) =>
-                              //         const SizedBox(
-                              //       width: kDefaultPadding / 2,
-                              //     ),
-                              //     itemBuilder: (context, index) => InkWell(
-                              //       onTap: () {},
-                              //       child: Shimmer.fromColors(
-                              //         highlightColor:
-                              //             kBlackColor.withOpacity(0.02),
-                              //         baseColor: kBlackColor.withOpacity(0.8),
-                              //         direction: ShimmerDirection.ltr,
-                              //         child: const PageSkeleton(
-                              //           height: 160,
-                              //           width: 140,
-                              //         ),
-                              //       ),
-                              //     ),
-                              //     itemCount: 30,
-                              //   ),
-                              // ),
-                            ],
-=======
                                 kHalfSizedBox,
                                 ReadMoreText(
-                                  widget.productDescription,
+                                  widget.product!.description ?? "",
                                   callback: (val) {},
                                   delimiter: "...",
                                   trimLines: 10,
@@ -451,122 +248,127 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
                                   ),
-                                  delimiterStyle: TextStyle(
-                                    color: kAccentColor,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                  colorClickableText: kAccentColor,
                                 ),
-                                kSizedBox,
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text(
-                                      "Similar products",
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        color: kTextBlackColor,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    TextButton(
-                                      onPressed: _toSimilarProductsPage,
-                                      child: Text(
-                                        "See all",
-                                        style: TextStyle(
-                                          color: kAccentColor,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                kSizedBox,
-                                SizedBox(
-                                  height: 160,
-                                  child: ListView.separated(
-                                    scrollDirection: Axis.horizontal,
-                                    physics: const BouncingScrollPhysics(),
-                                    separatorBuilder: (context, index) =>
-                                        const SizedBox(
-                                      width: kDefaultPadding / 2,
-                                    ),
-                                    itemBuilder: (context, index) => InkWell(
-                                      onTap: () {},
-                                      child: Shimmer.fromColors(
-                                        highlightColor:
-                                            kBlackColor.withOpacity(0.02),
-                                        baseColor: kBlackColor.withOpacity(0.8),
-                                        direction: ShimmerDirection.ltr,
-                                        child: const PageSkeleton(
-                                          height: 160,
-                                          width: 140,
-                                        ),
-                                      ),
-                                    ),
-                                    itemCount: 30,
-                                  ),
-                                ),
-                                kSizedBox,
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text(
-                                      "Vendors Products",
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        color: kTextBlackColor,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    TextButton(
-                                      onPressed: _toVendorsProductsPage,
-                                      child: Text(
-                                        "See all",
-                                        style: TextStyle(
-                                          color: kAccentColor,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                kSizedBox,
-                                SizedBox(
-                                  height: 160,
-                                  child: ListView.separated(
-                                    scrollDirection: Axis.horizontal,
-                                    physics: const BouncingScrollPhysics(),
-                                    separatorBuilder: (context, index) =>
-                                        const SizedBox(
-                                      width: kDefaultPadding / 2,
-                                    ),
-                                    itemBuilder: (context, index) => InkWell(
-                                      onTap: () {},
-                                      child: Shimmer.fromColors(
-                                        highlightColor:
-                                            kBlackColor.withOpacity(0.02),
-                                        baseColor: kBlackColor.withOpacity(0.8),
-                                        direction: ShimmerDirection.ltr,
-                                        child: const PageSkeleton(
-                                          height: 160,
-                                          width: 140,
-                                        ),
-                                      ),
-                                    ),
-                                    itemCount: 30,
-                                  ),
-                                ),
+                                //   kSizedBox,
+                                //   const Text(
+                                //     "Description",
+                                //     textAlign: TextAlign.start,
+                                //     style: TextStyle(
+                                //       color: kTextBlackColor,
+                                //       fontSize: 16,
+                                //       fontWeight: FontWeight.w700,
+                                //     ),
+                                //   ),
+                                //   colorClickableText: kAccentColor,
+                                // ),
+                                // kSizedBox,
+                                // Row(
+                                //   mainAxisAlignment:
+                                //       MainAxisAlignment.spaceBetween,
+                                //   children: [
+                                //     const Text(
+                                //       "Similar products",
+                                //       textAlign: TextAlign.start,
+                                //       style: TextStyle(
+                                //         color: kTextBlackColor,
+                                //         fontSize: 18,
+                                //         fontWeight: FontWeight.w700,
+                                //       ),
+                                //     ),
+                                //     TextButton(
+                                //       onPressed: _toSimilarProductsPage,
+                                //       child: Text(
+                                //         "See all",
+                                //         style: TextStyle(
+                                //           color: kAccentColor,
+                                //           fontSize: 18,
+                                //           fontWeight: FontWeight.w700,
+                                //         ),
+                                //       ),
+                                //     ),
+                                //   ],
+                                // ),
+                                // kSizedBox,
+                                // SizedBox(
+                                //   height: 160,
+                                //   child: ListView.separated(
+                                //     scrollDirection: Axis.horizontal,
+                                //     physics: const BouncingScrollPhysics(),
+                                //     separatorBuilder: (context, index) =>
+                                //         const SizedBox(
+                                //       width: kDefaultPadding / 2,
+                                //     ),
+                                //     itemBuilder: (context, index) => InkWell(
+                                //       onTap: () {},
+                                //       child: Shimmer.fromColors(
+                                //         highlightColor:
+                                //             kBlackColor.withOpacity(0.02),
+                                //         baseColor: kBlackColor.withOpacity(0.8),
+                                //         direction: ShimmerDirection.ltr,
+                                //         child: const PageSkeleton(
+                                //           height: 160,
+                                //           width: 140,
+                                //         ),
+                                //       ),
+                                //     ),
+                                //     itemCount: 30,
+                                //   ),
+                                // ),
+                                // kSizedBox,
+                                // Row(
+                                //   mainAxisAlignment:
+                                //       MainAxisAlignment.spaceBetween,
+                                //   children: [
+                                //     const Text(
+                                //       "Vendors Products",
+                                //       textAlign: TextAlign.start,
+                                //       style: TextStyle(
+                                //         color: kTextBlackColor,
+                                //         fontSize: 18,
+                                //         fontWeight: FontWeight.w700,
+                                //       ),
+                                //     ),
+                                //     TextButton(
+                                //       onPressed: _toVendorsProductsPage,
+                                //       child: Text(
+                                //         "See all",
+                                //         style: TextStyle(
+                                //           color: kAccentColor,
+                                //           fontSize: 18,
+                                //           fontWeight: FontWeight.w700,
+                                //         ),
+                                //       ),
+                                //     ),
+                                //   ],
+                                // ),
+                                // kSizedBox,
+                                // SizedBox(
+                                //   height: 160,
+                                //   child: ListView.separated(
+                                //     scrollDirection: Axis.horizontal,
+                                //     physics: const BouncingScrollPhysics(),
+                                //     separatorBuilder: (context, index) =>
+                                //         const SizedBox(
+                                //       width: kDefaultPadding / 2,
+                                //     ),
+                                //     itemBuilder: (context, index) => InkWell(
+                                //       onTap: () {},
+                                //       child: Shimmer.fromColors(
+                                //         highlightColor:
+                                //             kBlackColor.withOpacity(0.02),
+                                //         baseColor: kBlackColor.withOpacity(0.8),
+                                //         direction: ShimmerDirection.ltr,
+                                //         child: const PageSkeleton(
+                                //           height: 160,
+                                //           width: 140,
+                                //         ),
+                                //       ),
+                                //     ),
+                                //     itemCount: 30,
+                                //   ),
+                                // ),
                               ],
                             ),
->>>>>>> 5ae30100fdd3a739cc791f0ea3af5cb058fdd492
                           ),
                         ],
                       );

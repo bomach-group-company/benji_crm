@@ -11,9 +11,9 @@ import '../../../src/common_widgets/completed_orders_tab.dart';
 import '../../../src/providers/constants.dart';
 
 class AllOrders extends StatefulWidget {
-  List<OrderItem> completed;
-  List<OrderItem> rejected;
-  AllOrders({super.key, required this.completed, required this.rejected});
+  final List<OrderItem> completed;
+  final List<OrderItem> rejected;
+  const AllOrders({super.key, required this.completed, required this.rejected});
 
   @override
   State<AllOrders> createState() => _AllOrdersState();
@@ -47,8 +47,8 @@ class _AllOrdersState extends State<AllOrders>
   //=================================== ALL VARIABLES ====================================\\
 
   //=================================== Orders =======================================\\
-  final int _incrementOrderID = 2 + 2;
-  late int _orderID;
+  // final int _incrementOrderID = 2 + 2;
+  // late int _orderID;
   final String _orderItem = "Jollof Rice and Chicken";
   final String _customerAddress = "21 Odogwu Street, New Haven";
   final int _itemQuantity = 2;
@@ -115,7 +115,7 @@ class _AllOrdersState extends State<AllOrders>
         appBar: MyAppBar(
           title: "All Orders",
           elevation: 10.0,
-          actions: [],
+          actions: const [],
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,
         ),
@@ -149,8 +149,8 @@ class _AllOrdersState extends State<AllOrders>
                       radius: const Radius.circular(10),
                       scrollbarOrientation: ScrollbarOrientation.right,
                       child: ListView(
-                        physics: BouncingScrollPhysics(),
-                        padding: EdgeInsets.all(kDefaultPadding),
+                        physics: const BouncingScrollPhysics(),
+                        padding: const EdgeInsets.all(kDefaultPadding),
                         // controller: _scrollController,
                         children: [
                           Padding(
@@ -212,7 +212,7 @@ class _AllOrdersState extends State<AllOrders>
                                     physics: const BouncingScrollPhysics(),
                                     children: [
                                       _loadingTabBarContent
-                                          ? OrdersListSkeleton()
+                                          ? const OrdersListSkeleton()
                                           : CompletedOrdersTab(
                                               list: Column(
                                                 children: List.generate(
@@ -224,7 +224,7 @@ class _AllOrdersState extends State<AllOrders>
                                                     mediaWidth: mediaWidth,
                                                     orderImage: _orderImage,
                                                     orderID: 123,
-                                                    orderStatusIcon: Icon(
+                                                    orderStatusIcon: const Icon(
                                                       Icons.check_circle,
                                                       color: kSuccessColor,
                                                     ),
@@ -242,7 +242,7 @@ class _AllOrdersState extends State<AllOrders>
                                               ),
                                             ),
                                       _loadingTabBarContent
-                                          ? OrdersListSkeleton()
+                                          ? const OrdersListSkeleton()
                                           : Column(
                                               children: List.generate(
                                                   widget.rejected.length,

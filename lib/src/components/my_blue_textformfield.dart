@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names,
 
 import 'package:flutter/material.dart';
 
@@ -13,9 +13,9 @@ class MyBlueTextFormField extends StatelessWidget {
   final TextInputAction textInputAction;
   final FocusNode focusNode;
   final bool? isEnabled;
-  VoidCallback? click;
+  final VoidCallback? click;
 
-   MyBlueTextFormField({
+  const MyBlueTextFormField({
     super.key,
     required this.controller,
     required this.validator,
@@ -42,9 +42,8 @@ class MyBlueTextFormField extends StatelessWidget {
       enableSuggestions: true,
       keyboardType: textInputType,
       maxLines: 1,
-      enabled:  isEnabled ?? true,
-      onTap: click ,
-      
+      enabled: isEnabled ?? true,
+      onTap: click,
       style: TextStyle(
         color: kSecondaryColor,
         fontSize: 14,
@@ -56,7 +55,6 @@ class MyBlueTextFormField extends StatelessWidget {
         filled: true,
         fillColor: Colors.blue.shade50,
         focusColor: Colors.blue.shade50,
-        
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide(color: Colors.blue.shade50),

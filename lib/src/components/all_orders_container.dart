@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field
+
 import 'package:benji_aggregator/controller/operation.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -47,10 +49,11 @@ class AllOrdersContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     int qty = 0;
     if (order.orderitems != null) {
-      if (order.orderitems!.isNotEmpty)
-        order.orderitems!.forEach((element) {
+      if (order.orderitems!.isNotEmpty) {
+        for (var element in order.orderitems!) {
           qty += int.tryParse(element.quantity!.toString())!;
-        });
+        }
+      }
     }
     return Container(
       margin: const EdgeInsets.symmetric(
@@ -97,7 +100,7 @@ class AllOrdersContainer extends StatelessWidget {
                   imageUrl: order.client!.image ?? "",
                   fit: BoxFit.cover,
                   progressIndicatorBuilder: (context, url, downloadProgress) =>
-                      Center(
+                      const Center(
                           child: CupertinoActivityIndicator(
                     color: kRedColor,
                   )),
@@ -119,12 +122,12 @@ class AllOrdersContainer extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
               DottedBorder(
                 borderType: BorderType.RRect,
                 color: kGreyColor,
-                padding: EdgeInsets.all(kDefaultPadding / 3),
-                radius: Radius.circular(kDefaultPadding),
+                padding: const EdgeInsets.all(kDefaultPadding / 3),
+                radius: const Radius.circular(kDefaultPadding),
                 child: _orderStatusIcon,
               ),
             ],
@@ -227,7 +230,7 @@ class AllOrdersContainer extends StatelessWidget {
               SizedBox(
                 width: mediaWidth / 1.8,
                 child: Text(
-                  "${order.deliveryAddress!.streetAddress ?? ""}",
+                  order.deliveryAddress!.streetAddress ?? "",
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: const TextStyle(

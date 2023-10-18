@@ -62,7 +62,7 @@ class _StartupSplashscreenState extends State<StartupSplashscreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 AnimatedContainer(
-                  duration: Duration(seconds: 6),
+                  duration: const Duration(seconds: 6),
                   curve: Curves.bounceIn,
                   transform: Matrix4.rotationY(270),
                   height: MediaQuery.of(context).size.height / 4,

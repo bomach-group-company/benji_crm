@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field
+
 import 'package:benji_aggregator/controller/notification_controller.dart';
 import 'package:benji_aggregator/controller/operation.dart';
 import 'package:benji_aggregator/src/skeletons/notifications_page_skeleton.dart';

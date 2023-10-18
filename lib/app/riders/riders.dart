@@ -1,6 +1,6 @@
 // ignorFontWeight_for_file: unused_local_variable,
 
-// ignore_for_file: unused_local_variable
+// ignore_for_file: unused_local_variable, unused_field
 
 import 'dart:math';
 
@@ -372,28 +372,27 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                           borderRadius:
                                               BorderRadius.circular(16),
                                           child: Container(
-                                            width: max(mediaWidth, 374),
-                                            margin: const EdgeInsets.only(
-                                                bottom: kDefaultPadding / 2),
-                                            padding: const EdgeInsets.all(
-                                                kDefaultPadding / 2),
-                                            decoration: ShapeDecoration(
-                                              color: Colors.white,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(16),
-                                              ),
-                                              shadows: const [
-                                                BoxShadow(
-                                                  color: Color(0x0F000000),
-                                                  blurRadius: 24,
-                                                  offset: Offset(0, 4),
-                                                  spreadRadius: 0,
+                                              width: max(mediaWidth, 374),
+                                              margin: const EdgeInsets.only(
+                                                  bottom: kDefaultPadding / 2),
+                                              padding: const EdgeInsets.all(
+                                                  kDefaultPadding / 2),
+                                              decoration: ShapeDecoration(
+                                                color: Colors.white,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(16),
                                                 ),
-                                              ],
-                                            ),
-                                            child: Row(
-                                              children: [
+                                                shadows: const [
+                                                  BoxShadow(
+                                                    color: Color(0x0F000000),
+                                                    blurRadius: 24,
+                                                    offset: Offset(0, 4),
+                                                    spreadRadius: 0,
+                                                  ),
+                                                ],
+                                              ),
+                                              child: Row(children: [
                                                 Stack(
                                                   children: [
                                                     CircleAvatar(
@@ -414,7 +413,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                                           progressIndicatorBuilder:
                                                               (context, url,
                                                                       downloadProgress) =>
-                                                                  Center(
+                                                                  const Center(
                                                                       child:
                                                                           CupertinoActivityIndicator(
                                                             color: kRedColor,
@@ -445,35 +444,10 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                                 ),
                                                 Padding(
                                                   padding: const EdgeInsets
-                                                          .symmetric(
+                                                      .symmetric(
                                                       horizontal:
                                                           kDefaultPadding),
-<<<<<<< HEAD
                                                   child: Column(
-=======
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  SizedBox(
-                                                    width: mediaWidth - 200,
-                                                    child: Text(
-                                                      _onlineRidersName,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      maxLines: 1,
-                                                      style: const TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  kHalfSizedBox,
-                                                  Row(
->>>>>>> 5ae30100fdd3a739cc791f0ea3af5cb058fdd492
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
                                                             .center,
@@ -484,7 +458,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                                       SizedBox(
                                                         width: mediaWidth - 200,
                                                         child: Text(
-                                                          ride[index].username!,
+                                                          _onlineRidersName,
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                           maxLines: 1,
@@ -505,75 +479,112 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                                             CrossAxisAlignment
                                                                 .center,
                                                         children: [
-                                                          Icon(
-                                                            Icons.location_on,
-                                                            color: kAccentColor,
-                                                            size: 18,
-                                                          ),
-                                                          kHalfWidthSizedBox,
                                                           SizedBox(
                                                             width: mediaWidth -
                                                                 200,
                                                             child: Text(
-                                                              controller
-                                                                      .riderList[
-                                                                          index]
-                                                                      .address ??
-                                                                  "",
+                                                              ride[index]
+                                                                  .username!,
                                                               overflow:
                                                                   TextOverflow
                                                                       .ellipsis,
                                                               maxLines: 1,
-                                                              style: TextStyle(
-                                                                fontSize: 12,
-                                                                color:
-                                                                    kTextGreyColor,
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontSize: 14,
                                                                 fontWeight:
                                                                     FontWeight
-                                                                        .w400,
+                                                                        .w700,
                                                               ),
                                                             ),
                                                           ),
+                                                          kHalfSizedBox,
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Icon(
+                                                                Icons
+                                                                    .location_on,
+                                                                color:
+                                                                    kAccentColor,
+                                                                size: 18,
+                                                              ),
+                                                              kHalfWidthSizedBox,
+                                                              SizedBox(
+                                                                width:
+                                                                    mediaWidth -
+                                                                        200,
+                                                                child: Text(
+                                                                  controller
+                                                                          .riderList[
+                                                                              index]
+                                                                          .address ??
+                                                                      "",
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  maxLines: 1,
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        12,
+                                                                    color:
+                                                                        kTextGreyColor,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          kHalfSizedBox,
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Icon(
+                                                                Icons.route,
+                                                                color:
+                                                                    kAccentColor,
+                                                                size: 18,
+                                                              ),
+                                                              kHalfWidthSizedBox,
+                                                              SizedBox(
+                                                                width:
+                                                                    mediaWidth -
+                                                                        200,
+                                                                child: Text(
+                                                                  "0 Trips Completed",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        12,
+                                                                    color:
+                                                                        kTextGreyColor,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          )
                                                         ],
                                                       ),
-                                                      kHalfSizedBox,
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Icon(
-                                                            Icons.route,
-                                                            color: kAccentColor,
-                                                            size: 18,
-                                                          ),
-                                                          kHalfWidthSizedBox,
-                                                          SizedBox(
-                                                            width: mediaWidth -
-                                                                200,
-                                                            child: Text(
-                                                              "0 Trips Completed",
-                                                              style: TextStyle(
-                                                                fontSize: 12,
-                                                                color:
-                                                                    kTextGreyColor,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      )
                                                     ],
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
+                                                )
+                                              ])),
                                         ),
                                       );
                                     }),

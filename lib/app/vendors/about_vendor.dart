@@ -84,7 +84,7 @@ class _AboutVendorState extends State<AboutVendor> {
         appBar: MyAppBar(
           title: widget.vendorName,
           elevation: 0,
-          actions: [],
+          actions: const [],
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,
         ),
@@ -154,7 +154,7 @@ class _AboutVendorState extends State<AboutVendor> {
                                 ),
                                 child: Text(
                                   widget.vendorHeadLine,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w400,
                                   ),
@@ -193,7 +193,7 @@ class _AboutVendorState extends State<AboutVendor> {
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Column(
+                                    const Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
@@ -222,7 +222,7 @@ class _AboutVendorState extends State<AboutVendor> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(width: kDefaultPadding * 2),
+                                    const SizedBox(width: kDefaultPadding * 2),
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -234,12 +234,12 @@ class _AboutVendorState extends State<AboutVendor> {
                                                 text: widget
                                                     .monToFriOpeningHours
                                                     .toUpperCase(),
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w700,
                                                 ),
                                               ),
-                                              TextSpan(
+                                              const TextSpan(
                                                 text: " - ",
                                                 style: TextStyle(
                                                   fontSize: 16,
@@ -250,7 +250,7 @@ class _AboutVendorState extends State<AboutVendor> {
                                                 text: widget
                                                     .monToFriClosingHours
                                                     .toUpperCase(),
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w700,
                                                 ),
@@ -265,12 +265,12 @@ class _AboutVendorState extends State<AboutVendor> {
                                               TextSpan(
                                                 text: widget.satOpeningHours
                                                     .toUpperCase(),
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w700,
                                                 ),
                                               ),
-                                              TextSpan(
+                                              const TextSpan(
                                                 text: " - ",
                                                 style: TextStyle(
                                                   fontSize: 16,
@@ -280,7 +280,7 @@ class _AboutVendorState extends State<AboutVendor> {
                                               TextSpan(
                                                 text: widget.satClosingHours
                                                     .toUpperCase(),
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w700,
                                                 ),
@@ -295,12 +295,12 @@ class _AboutVendorState extends State<AboutVendor> {
                                               TextSpan(
                                                 text: widget.sunOpeningHours
                                                     .toUpperCase(),
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w700,
                                                 ),
                                               ),
-                                              TextSpan(
+                                              const TextSpan(
                                                 text: " - ",
                                                 style: TextStyle(
                                                   fontSize: 16,
@@ -310,7 +310,7 @@ class _AboutVendorState extends State<AboutVendor> {
                                               TextSpan(
                                                 text: widget.sunClosingHours
                                                     .toUpperCase(),
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w700,
                                                 ),
@@ -349,7 +349,7 @@ class _AboutVendorState extends State<AboutVendor> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
+                                    const Text(
                                       "Reviews View & Ratings",
                                       style: TextStyle(
                                         fontSize: 16,
@@ -357,18 +357,18 @@ class _AboutVendorState extends State<AboutVendor> {
                                       ),
                                     ),
                                     Container(
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                         vertical: kDefaultPadding,
                                         horizontal: kDefaultPadding * 0.5,
                                       ),
-                                      child: StarRow(),
+                                      child: const StarRow(),
                                     ),
                                   ],
                                 ),
                               ),
                               kSizedBox,
                               ListView.separated(
-                                physics: BouncingScrollPhysics(),
+                                physics: const BouncingScrollPhysics(),
                                 separatorBuilder: (context, index) => kSizedBox,
                                 shrinkWrap: true,
                                 itemCount: 5,

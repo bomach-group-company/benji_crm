@@ -21,15 +21,12 @@ dependencies:
   google_fonts: ^5.1.0
   google_maps_flutter: ^2.4.0
   hexcolor: ^3.0.1
-<<<<<<< HEAD
-  get: ^4.6.5
   provider: ^5.0.0
   firebase_core: ^2.15.0
   firebase_auth: ^4.7.2
-=======
   get:
->>>>>>> 5ae30100fdd3a739cc791f0ea3af5cb058fdd492
   url_launcher: ^6.1.12
+  http:
   shimmer: ^3.0.0-nullsafety.0
   liquid_pull_to_refresh: ^3.0.1
   readmore: ^2.2.0
@@ -43,6 +40,7 @@ dev_dependencies:
     sdk: flutter
   flutter_native_splash: ^2.3.1
   flutter_launcher_icons: ^0.13.1
+  flutter_lints: ^2.0.0
 
 flutter_native_splash:
   image: assets/images/splash_screen/frame_1.png
@@ -55,8 +53,6 @@ flutter_launcher_icons:
   remove_alpha_ios: true
   ios: true
   image_path: "assets/images/logo/benji_red_logo_icon.jpg"
-
-  flutter_lints: ^2.0.0
 
 flutter:
   uses-material-design: true

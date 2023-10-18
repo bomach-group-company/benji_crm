@@ -39,7 +39,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
   final _cscPickerKey = GlobalKey<CSCPickerState>();
 
   //===================== BOOL VALUES =======================\\
-  late bool _loadingScreen;
+  // late bool _loadingScreen;
   bool isLoading = false;
 
   //=================================== CONTROLLERS ====================================\\
@@ -75,17 +75,17 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      VendorController.instance.getBusinessTypes();
+      // VendorController.instance.getBusinessTypes();
     });
     super.initState();
 
-    _loadingScreen = true;
-    Future.delayed(
-      const Duration(milliseconds: 1000),
-      () => setState(
-        () => _loadingScreen = false,
-      ),
-    );
+    // _loadingScreen = true;
+    // Future.delayed(
+    //   const Duration(milliseconds: 1000),
+    //   () => setState(
+    //     () => _loadingScreen = false,
+    //   ),
+    // );
   }
 
   @override
@@ -189,7 +189,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
       coverImage: selectedCoverImage,
       profileImage: selectedLogoImage,
     );
-    VendorController.instance.createVendor(data, false);
+    // VendorController.instance.createVendor(data, false);
 
     // Simulating a delay of 3 seconds
 

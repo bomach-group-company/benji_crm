@@ -10,7 +10,7 @@ Future shopTypeModal(BuildContext context, List<BusinessType> type) async {
           borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
       builder: (context) => Padding(
             padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-            child: Container(
+            child: SizedBox(
               height: MediaQuery.of(context).size.height * 0.4,
               child: Padding(
                 padding: const EdgeInsets.only(left: 20, top: 10),
@@ -24,7 +24,7 @@ Future shopTypeModal(BuildContext context, List<BusinessType> type) async {
                         const SizedBox(
                           height: 20,
                         ),
-                        Text(
+                        const Text(
                           "Business Type",
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold),

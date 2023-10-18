@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, unused_local_variable
+// ignore_for_file: file_names, unused_local_variable, unused_element
 
 import 'package:benji_aggregator/app/others/my_orders/track_order.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -228,7 +228,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                         ? "Pending"
                                         : "Accepted",
                                     textAlign: TextAlign.right,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: kSuccessColor,
                                       fontSize: 16.09,
                                       fontWeight: FontWeight.w700,
@@ -295,7 +295,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                     fit: BoxFit.cover,
                                     progressIndicatorBuilder: (context, url,
                                             downloadProgress) =>
-                                        Center(
+                                        const Center(
                                             child: CupertinoActivityIndicator(
                                       color: kRedColor,
                                     )),
@@ -344,12 +344,12 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                     ),
                                   ),
                                 ),
-                                Text.rich(
+                                const Text.rich(
                                   TextSpan(
                                     children: [
                                       TextSpan(
                                         text: "₦ ${0.0}",
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           color: kTextBlackColor,
                                           fontSize: 14,
                                           fontFamily: 'Sen',
@@ -420,7 +420,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                       fit: BoxFit.cover,
                                       progressIndicatorBuilder: (context, url,
                                               downloadProgress) =>
-                                          Center(
+                                          const Center(
                                               child: CupertinoActivityIndicator(
                                         color: kRedColor,
                                       )),
@@ -705,7 +705,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                         ),
                         child: Row(
                           children: [
-                            Icon(
+                            const Icon(
                               color: kSuccessColor,
                               Icons.check_circle_outline,
                               size: 30,

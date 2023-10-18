@@ -194,10 +194,11 @@ class OrderDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     int qty = 0;
     if (order.orderitems != null) {
-      if (order.orderitems!.isNotEmpty)
-        order.orderitems!.forEach((element) {
+      if (order.orderitems!.isNotEmpty) {
+        for (var element in order.orderitems!) {
           qty += int.tryParse(element.quantity!.toString())!;
-        });
+        }
+      }
     }
     //  String formattedDateAndTime = formatDateAndTime(now);
     double mediaWidth = MediaQuery.of(context).size.width;
@@ -251,7 +252,7 @@ class OrderDetail extends StatelessWidget {
                     imageUrl: order.client!.image ?? "",
                     fit: BoxFit.cover,
                     progressIndicatorBuilder:
-                        (context, url, downloadProgress) => Center(
+                        (context, url, downloadProgress) => const Center(
                             child: CupertinoActivityIndicator(
                       color: kRedColor,
                     )),
@@ -313,11 +314,11 @@ class OrderDetail extends StatelessWidget {
                 Container(
                   color: kTransparentColor,
                   width: 250,
-                  child: Text(
+                  child: const Text(
                     "Order",
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
                     ),

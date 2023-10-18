@@ -1,4 +1,4 @@
-import 'dart:convert';
+// ignore_for_file: empty_catches
 
 import 'package:benji_aggregator/controller/error_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
@@ -18,27 +18,24 @@ class NotificationController extends GetxController {
   var notification = <NotificationModel>[].obs;
   Future runTask() async {
     isLoad.value = true;
-     late String token;
+    late String token;
     update();
-
 
     var url = Api.baseUrl +
         Api.notification +
         UserController.instance.user.value.id!.toString();
 
-            await KeyStore.getToken().then((element) {
+    await KeyStore.getToken().then((element) {
       token = element!;
     });
     try {
       http.Response? response = await RequestData.getApi(url, token);
       var responseData = await ApiProcessorController.errorState(response);
-      var save =notificationModelFromJson(responseData);
+      var save = notificationModelFromJson(responseData);
       notification.value = save;
       update();
     } catch (e) {}
     isLoad.value = false;
     update();
   }
-
-
 }

@@ -50,7 +50,7 @@ class _ProfileState extends State<Profile> {
 
 //=============================================== Navigation ======================================================\\
   void _logOut() => Get.offAll(
-        () => Login(),
+        () => const Login(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -60,7 +60,7 @@ class _ProfileState extends State<Profile> {
         transition: Transition.rightToLeft,
       );
   void _toWithdrawalHistory() => Get.to(
-        () => WithdrawHistoryPage(),
+        () => const WithdrawHistoryPage(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,

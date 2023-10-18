@@ -31,7 +31,7 @@ class _CallPageState extends State<CallPage> {
     _callConnected = false;
     _callDropped = false;
 
-    _callTimer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _callTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_callConnected) {
         setState(() {
           _callDuration++;
@@ -39,14 +39,14 @@ class _CallPageState extends State<CallPage> {
       }
     });
 
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () {
       setState(() {
         _phoneConnecting = false;
         _phoneRinging = true;
       });
     });
 
-    Future.delayed(Duration(seconds: 4), () {
+    Future.delayed(const Duration(seconds: 4), () {
       setState(() {
         _phoneRinging = false;
         _callConnected = true;
@@ -92,7 +92,7 @@ class _CallPageState extends State<CallPage> {
     });
 
     //Cause a delay before popping context
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 1));
     //Pop context
     Get.back();
   }
@@ -103,7 +103,7 @@ class _CallPageState extends State<CallPage> {
       appBar: MyAppBar(
         title: "",
         elevation: 0,
-        actions: [],
+        actions: const [],
         backgroundColor: kPrimaryColor,
         toolbarHeight: kToolbarHeight,
       ),
@@ -130,7 +130,7 @@ class _CallPageState extends State<CallPage> {
                   kSizedBox,
                   Text(
                     widget.userName,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: kTextBlackColor,
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
@@ -140,7 +140,7 @@ class _CallPageState extends State<CallPage> {
                   kSizedBox,
                   Text(
                     widget.userPhoneNumber,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: kTextBlackColor,
                       fontSize: 15,
                       fontWeight: FontWeight.w200,
@@ -171,7 +171,7 @@ class _CallPageState extends State<CallPage> {
                   if (_callConnected)
                     Column(
                       children: [
-                        Text(
+                        const Text(
                           "Call connected",
                           style: TextStyle(
                             color: kSuccessColor,
@@ -181,7 +181,7 @@ class _CallPageState extends State<CallPage> {
                           ),
                         ),
                         kSizedBox,
-                        Text('${_formatDuration()}'),
+                        Text(_formatDuration()),
                       ],
                     ),
                   if (_callDropped)
@@ -197,7 +197,7 @@ class _CallPageState extends State<CallPage> {
                   kSizedBox,
                   if (_callDropped)
                     Text(
-                      "${_totalCallDuration()}",
+                      _totalCallDuration(),
                       style: TextStyle(color: kAccentColor),
                     ),
                   const SizedBox(height: kDefaultPadding * 8),

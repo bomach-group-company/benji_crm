@@ -79,7 +79,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                     ),
                   ),
                   kHalfWidthSizedBox,
-                  Text(
+                  const Text(
                     "Withdraw",
                     style: TextStyle(
                       fontSize: 20,
@@ -97,7 +97,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
             physics: const BouncingScrollPhysics(),
             child: MyResponsiveWidth(
               child: Container(
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                     horizontal: kDefaultPadding, vertical: kDefaultPadding * 2),
                 child: Form(
                   key: _formKey,
@@ -106,7 +106,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       kSizedBox,
-                      Text(
+                      const Text(
                         'Amount',
                         style: TextStyle(
                           color: Color(0xFF575757),

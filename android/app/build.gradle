@@ -28,7 +28,7 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 android {
     namespace "com.benji.benji_aggregator"
     compileSdk 34
-    ndkVersion '25.2.9519653'
+    ndkVersion '26.0.10792818'
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -45,15 +45,15 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.benji.benji_aggregator"
+        applicationId "com.benji"
+        minSdk 21
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion 20
         targetSdk 34
         versionCode 1
-        versionName 'benji_aggregator_1'
-        applicationIdSuffix 'Benji_Aggregator'
-        versionNameSuffix 'Benji_Aggregator'
+        versionName 'v.0.0.1'
+        applicationIdSuffix '.benji_aggregator'
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -61,8 +61,9 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
-            applicationIdSuffix 'com.benji.benji_aggregator'
-            versionNameSuffix 'Benji_Aggregator'
+            applicationIdSuffix '.benji_aggregator'
+            versionNameSuffix 'v0.0.1'
+            multiDexEnabled true
         }
     }
     buildToolsVersion '34.0.0'

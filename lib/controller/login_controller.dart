@@ -1,3 +1,5 @@
+// ignore_for_file: unrelated_type_equality_checks
+
 import 'dart:convert';
 
 import 'package:benji_aggregator/controller/error_controller.dart';
@@ -32,7 +34,7 @@ class LoginController extends GetxController {
 
   Future checkToken() async {
     tokenExist.value = await KeyStore.checkToken();
-   // update();
+    // update();
 
     if (tokenExist.value) {
       SharedPreferences pref = await KeyStore.initPref();
@@ -41,18 +43,18 @@ class LoginController extends GetxController {
           username: pref.getString(KeyStore.usernameKey)!);
       await runLoginTask(data);
     } else {
-      Get.offAll(() => Login());
-   }
+      Get.offAll(() => const Login());
+    }
     update();
   }
 
   Future runLoginTask(SendLogin data) async {
     isLoad.value = true;
-   // update();
+    // update();
     var url = Api.baseUrl + Api.login;
     Map finalData = {
-      "username": "${data.username}",
-      "password": "${data.password}",
+      "username": data.username,
+      "password": data.password,
     };
 
     try {
@@ -61,7 +63,7 @@ class LoginController extends GetxController {
       var responseData =
           await ApiProcessorController.errorState(response, isFirst);
       if (responseData == null) {
-         Get.offAll(
+        Get.offAll(
           () => const Login(),
           fullscreenDialog: true,
           curve: Curves.easeIn,
@@ -77,7 +79,7 @@ class LoginController extends GetxController {
       if (jsonData["token"] == false) {
         ApiProcessorController.errorSnack('Failed to log user in');
         isLoad.value = false;
-        if (await KeyStore.checkToken == true) {
+        if (KeyStore.checkToken == true) {
           KeyStore.storeBool(KeyStore.isLoggedInKey, false);
           KeyStore.remove(
             KeyStore.tokenKey,
@@ -86,7 +88,7 @@ class LoginController extends GetxController {
         }
         tokenExist.value = false;
 
-      //  update();
+        //  update();
         return;
       } else {
         var save = LoginModel.fromJson(jsonDecode(responseData));
@@ -94,7 +96,7 @@ class LoginController extends GetxController {
         await KeyStore.storeString(KeyStore.usernameKey, data.username);
         await KeyStore.storeString(KeyStore.passwordKey, data.password);
         await KeyStore.storeBool(KeyStore.isLoggedInKey, true);
-         Get.put(UserController());
+        Get.put(UserController());
         await UserController.instance.runUserTask(save.token);
         consoleLog("Here is your token ${save.token}");
         tokenExist.value = true;

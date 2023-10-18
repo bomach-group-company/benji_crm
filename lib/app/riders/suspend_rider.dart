@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:benji_aggregator/src/common_widgets/message_textformfield.dart';
 import 'package:benji_aggregator/src/common_widgets/my_appbar.dart';
 import 'package:benji_aggregator/theme/colors.dart';
@@ -20,13 +22,13 @@ class _SuspendRiderState extends State<SuspendRider> {
   bool _submittingRequest = false;
 
   //============================================ CONTROLLERS ===========================================\\
-  TextEditingController _messageEC = TextEditingController();
+  final TextEditingController _messageEC = TextEditingController();
 
   //============================================ FOCUS NODES ===========================================\\
-  FocusNode _messageFN = FocusNode();
+  final FocusNode _messageFN = FocusNode();
 
   //============================================ KEYS ===========================================\\
-  GlobalKey<FormState> _formKey = GlobalKey();
+  final GlobalKey<FormState> _formKey = GlobalKey();
 
   //============================================ FUNCTIONS ===========================================\\
   //========================== Save data ==================================\\
@@ -65,7 +67,7 @@ class _SuspendRiderState extends State<SuspendRider> {
       appBar: MyAppBar(
         title: "Suspend Rider",
         elevation: 10.0,
-        actions: [],
+        actions: const [],
         backgroundColor: kPrimaryColor,
         toolbarHeight: kToolbarHeight,
       ),
@@ -123,7 +125,7 @@ class _SuspendRiderState extends State<SuspendRider> {
               padding: const EdgeInsets.all(kDefaultPadding),
               physics: const BouncingScrollPhysics(),
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 292,
                   child: Text(
                     'We will like to hear from you',
@@ -146,7 +148,7 @@ class _SuspendRiderState extends State<SuspendRider> {
                     ),
                   ),
                 ),
-                SizedBox(height: kDefaultPadding * 2),
+                const SizedBox(height: kDefaultPadding * 2),
                 Form(
                   key: _formKey,
                   child: Column(

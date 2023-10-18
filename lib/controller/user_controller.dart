@@ -1,3 +1,5 @@
+// ignore_for_file: empty_catches
+
 import 'dart:convert';
 
 import 'package:benji_aggregator/controller/error_controller.dart';
@@ -38,7 +40,7 @@ class UserController extends GetxController {
           user.value = save;
           // update();
           Get.offAll(
-            () =>  OverView(),
+            () => OverView(),
             fullscreenDialog: true,
             curve: Curves.easeIn,
             routeName: "Dashboard",
