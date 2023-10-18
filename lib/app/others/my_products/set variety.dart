@@ -39,7 +39,6 @@ class _SetVarietyState extends State<SetVariety> {
       backgroundColor: kPrimaryColor,
       appBar: MyAppBar(
         title: "Set Variety",
-        toolbarHeight: 80,
         elevation: 0.0,
         actions: const [],
         backgroundColor: kPrimaryColor,

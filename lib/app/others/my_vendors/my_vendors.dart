@@ -106,7 +106,6 @@ class _MyVendorsState extends State<MyVendors> {
           elevation: 10.0,
           actions: const [],
           backgroundColor: kPrimaryColor,
-          toolbarHeight: kToolbarHeight,
         ),
         body: SafeArea(
           child: FutureBuilder(

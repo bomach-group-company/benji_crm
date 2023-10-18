@@ -50,7 +50,6 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
           elevation: 0.0,
           actions: const [],
           backgroundColor: kPrimaryColor,
-          toolbarHeight: kToolbarHeight,
         ),
         body: SafeArea(
           child: SingleChildScrollView(

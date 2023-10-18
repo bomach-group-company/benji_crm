@@ -69,7 +69,6 @@ class _SuspendVendorState extends State<SuspendVendor> {
         elevation: 10.0,
         actions: const [],
         backgroundColor: kPrimaryColor,
-        toolbarHeight: kToolbarHeight,
       ),
       bottomNavigationBar: _submittingRequest
           ? Center(

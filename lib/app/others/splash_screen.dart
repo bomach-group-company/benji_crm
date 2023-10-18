@@ -1,5 +1,6 @@
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 
 import '../../controller/login_controller.dart';
@@ -14,21 +15,45 @@ class SplashScreen extends StatelessWidget {
     return GetBuilder<LoginController>(
         init: LoginController(isFirst: true),
         builder: (controller) {
-          return Container(
-            color: kPrimaryColor,
-            height: size.height,
-            width: size.width,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
+          return Scaffold(
+            body: ListView(
+              physics: const NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.all(kDefaultPadding),
               children: [
-                Image.asset(
-                  "assets/images/logo/benji_full_logo.png",
-                  height: 50,
-                  width: 50,
+                SizedBox(
+                  height: size.height,
+                  width: size.width,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: size.height / 4,
+                        width: size.width / 2,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                              "assets/images/splash_screen/frame_1.png",
+                            ),
+                          ),
+                        ),
+                      ),
+                      SpinKitThreeInOut(
+                        color: kSecondaryColor,
+                        size: 20,
+                      ),
+                      kSizedBox,
+                      Text(
+                        "CRM",
+                        style: TextStyle(
+                          color: kAccentColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 2,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                kSizedBox,
-                CircularProgressIndicator(color: kAccentColor),
               ],
             ),
           );

@@ -265,7 +265,6 @@ class _MyProductDetailsState extends State<MyProductDetails> {
           title: "Product Details",
           elevation: 10.0,
           backgroundColor: kPrimaryColor,
-          toolbarHeight: 40,
           actions: [
             IconButton(
               onPressed: _editProduct,

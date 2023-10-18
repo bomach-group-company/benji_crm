@@ -117,7 +117,6 @@ class _AllOrdersState extends State<AllOrders>
           elevation: 10.0,
           actions: const [],
           backgroundColor: kPrimaryColor,
-          toolbarHeight: kToolbarHeight,
         ),
         extendBody: true,
         extendBodyBehindAppBar: true,

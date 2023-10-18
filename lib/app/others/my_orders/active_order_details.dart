@@ -129,7 +129,6 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
       child: Scaffold(
         appBar: MyAppBar(
           title: "Order Details",
-          toolbarHeight: 80,
           elevation: 10.0,
           actions: const [],
           backgroundColor: kPrimaryColor,

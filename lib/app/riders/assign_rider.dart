@@ -162,7 +162,6 @@ class _AssignRiderState extends State<AssignRider> {
             kWidthSizedBox,
           ],
           backgroundColor: kPrimaryColor,
-          toolbarHeight: kToolbarHeight,
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,

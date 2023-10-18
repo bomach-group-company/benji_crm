@@ -429,7 +429,6 @@ class _RegisterVendorState extends State<RegisterVendor> {
           elevation: 10.0,
           actions: const [],
           backgroundColor: kPrimaryColor,
-          toolbarHeight: kToolbarHeight,
         ),
         bottomNavigationBar: GetBuilder<VendorController>(builder: (sending) {
           return sending.isLoadCreate.value

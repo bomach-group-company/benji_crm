@@ -215,7 +215,6 @@ class _TrackOrderState extends State<TrackOrder> {
         elevation: 10.0,
         actions: const [],
         backgroundColor: kPrimaryColor,
-        toolbarHeight: kToolbarHeight,
       ),
       extendBody: true,
       extendBodyBehindAppBar: true,

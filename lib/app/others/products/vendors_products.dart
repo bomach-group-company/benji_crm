@@ -118,7 +118,6 @@ class _VendorsProductsPageState extends State<VendorsProductsPage>
           title: "Vendors Products",
           elevation: 10.0,
           backgroundColor: kPrimaryColor,
-          toolbarHeight: 40,
           actions: [
             IconButton(
               onPressed: () {

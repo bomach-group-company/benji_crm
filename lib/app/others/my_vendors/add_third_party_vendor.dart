@@ -426,7 +426,6 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
           elevation: 10.0,
           actions: const [],
           backgroundColor: kPrimaryColor,
-          toolbarHeight: kToolbarHeight,
         ),
         bottomNavigationBar: GetBuilder<VendorController>(builder: (sending) {
           return sending.isLoadCreate.value

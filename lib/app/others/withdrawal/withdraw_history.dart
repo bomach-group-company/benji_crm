@@ -61,7 +61,6 @@ class _WithdrawHistoryPageState extends State<WithdrawHistoryPage> {
           elevation: 0.0,
           actions: const [],
           backgroundColor: kPrimaryColor,
-          toolbarHeight: kToolbarHeight,
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,

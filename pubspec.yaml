@@ -34,7 +34,7 @@ dependencies:
   font_awesome_flutter: ^10.5.0
   shared_preferences: ^2.2.0
   cached_network_image: ^3.2.3
-  path:
+  flutter_layout_grid:
 
 dev_dependencies:
   flutter_test:

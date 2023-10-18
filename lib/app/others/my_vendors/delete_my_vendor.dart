@@ -69,7 +69,6 @@ class _DeleteMyVendorState extends State<DeleteMyVendor> {
         elevation: 10.0,
         actions: const [],
         backgroundColor: kPrimaryColor,
-        toolbarHeight: kToolbarHeight,
       ),
       bottomNavigationBar: _submittingRequest
           ? Center(

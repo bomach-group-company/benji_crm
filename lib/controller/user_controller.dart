@@ -33,7 +33,7 @@ class UserController extends GetxController {
             await ApiProcessorController.errorState(response, isFirst ?? true);
         if (responseData == null) {
           LoginController.instance.resetTokenValue(false);
-          consoleLog("We cant get this user details");
+          consoleLog("We can't get this user's details");
         } else {
           LoginController.instance.resetTokenValue(true);
           var save = UserModel.fromJson(jsonDecode(responseData));
@@ -46,7 +46,7 @@ class UserController extends GetxController {
             routeName: "Dashboard",
             predicate: (route) => false,
             popGesture: true,
-            transition: Transition.fadeIn,
+            transition: Transition.cupertinoDialog,
           );
         }
       }

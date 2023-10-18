@@ -201,7 +201,6 @@ class _AddProductState extends State<AddProduct> {
         backgroundColor: kPrimaryColor,
         appBar: MyAppBar(
           title: "Add New Item ",
-          toolbarHeight: 80,
           backgroundColor: kPrimaryColor,
           elevation: 0.0,
           actions: const [],

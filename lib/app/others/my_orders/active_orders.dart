@@ -101,7 +101,6 @@ class _ActiveOrdersState extends State<ActiveOrders> {
           elevation: 10.0,
           actions: const [],
           backgroundColor: kPrimaryColor,
-          toolbarHeight: kToolbarHeight,
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,

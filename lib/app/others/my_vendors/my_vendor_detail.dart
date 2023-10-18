@@ -308,7 +308,6 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
           title: "My Vendor Details",
           elevation: 10.0,
           backgroundColor: kPrimaryColor,
-          toolbarHeight: 40,
           actions: [
             IconButton(
               onPressed: () {
