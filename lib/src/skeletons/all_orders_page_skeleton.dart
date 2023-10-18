@@ -13,9 +13,9 @@ class AllOrdersPageskeleton extends StatelessWidget {
         ListView.separated(
           shrinkWrap: true,
           physics: const BouncingScrollPhysics(),
-          itemBuilder: (context, index) => OrdersListSkeleton(),
+          itemBuilder: (context, index) => const OrdersListSkeleton(),
           separatorBuilder: (context, index) =>
-              SizedBox(height: kDefaultPadding / 2),
+              const SizedBox(height: kDefaultPadding / 2),
           itemCount: 10,
         )
       ],

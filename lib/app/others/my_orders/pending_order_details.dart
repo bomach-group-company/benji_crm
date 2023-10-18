@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, unused_local_variable
+// ignore_for_file: file_names, unused_local_variable, unused_element
 
 import 'package:benji_aggregator/app/others/call_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -9,9 +9,9 @@ import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../../model/order_list_model.dart';
-import '../../../src/common_widgets/my_appbar.dart';
-import '../../../src/common_widgets/my_elevatedButton.dart';
-import '../../../src/common_widgets/my_outlined_elevatedButton.dart';
+import '../../../src/components/my_appbar.dart';
+import '../../../src/components/my_elevatedButton.dart';
+import '../../../src/components/my_outlined_elevatedButton.dart';
 import '../../../src/providers/constants.dart';
 import '../../../theme/colors.dart';
 import '../../riders/assign_rider.dart';
@@ -75,7 +75,9 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
 //============================== Navigation ================================\\
   //ASSIGN RIDER
   void _assignRider() => Get.to(
-        () =>  AssignRider(item: widget.order,),
+        () => AssignRider(
+          item: widget.order,
+        ),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -365,7 +367,7 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
                                     fit: BoxFit.cover,
                                     progressIndicatorBuilder: (context, url,
                                             downloadProgress) =>
-                                        Center(
+                                        const Center(
                                             child: CupertinoActivityIndicator(
                                       color: kRedColor,
                                     )),
@@ -384,9 +386,9 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
                                     overflow: TextOverflow.ellipsis,
                                     TextSpan(
                                       children: [
-                                        TextSpan(
+                                        const TextSpan(
                                           text: "order",
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 12.52,
                                             overflow: TextOverflow.ellipsis,
@@ -489,7 +491,7 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
                                     fit: BoxFit.cover,
                                     progressIndicatorBuilder: (context, url,
                                             downloadProgress) =>
-                                        Center(
+                                        const Center(
                                             child: CupertinoActivityIndicator(
                                       color: kRedColor,
                                     )),

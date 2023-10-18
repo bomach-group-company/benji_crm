@@ -1,16 +1,10 @@
-<<<<<<< HEAD
+// ignore_for_file: empty_catches
+
 import 'dart:convert';
 import 'dart:developer';
 
 import 'package:benji_aggregator/controller/error_controller.dart';
 import 'package:benji_aggregator/controller/order_controller.dart';
-import 'package:benji_aggregator/controller/user_controller.dart';
-import 'package:benji_aggregator/model/notificatin_model.dart';
-import 'package:benji_aggregator/model/user_model.dart';
-=======
-
-import 'package:benji_aggregator/controller/error_controller.dart';
->>>>>>> 5ae30100fdd3a739cc791f0ea3af5cb058fdd492
 import 'package:benji_aggregator/services/api_url.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -36,7 +30,7 @@ class RiderController extends GetxController {
   @override
   void onInit() {
     runTask();
-    // TODO: implement onInit
+
     super.onInit();
   }
 
@@ -44,7 +38,7 @@ class RiderController extends GetxController {
     late String token;
     isLoad.value = true;
     //update();
-    var url = Api.baseUrl + Api.riderList + "?start=0&end=${end ?? 100}";
+    var url = "${Api.baseUrl}${Api.riderList}?start=0&end=${end ?? 100}";
     await KeyStore.getToken().then((element) {
       token = element!;
     });
@@ -72,9 +66,8 @@ class RiderController extends GetxController {
     late String token;
     update();
 
-    var url = Api.baseUrl +
-        Api.riderHistory +
-        "?rider_id=$id&start=0&end=${end ?? 100}";
+    var url =
+        "${Api.baseUrl}${Api.riderHistory}?rider_id=$id&start=0&end=${end ?? 100}";
 
     await KeyStore.getToken().then((element) {
       token = element!;
@@ -118,9 +111,8 @@ class RiderController extends GetxController {
     late String token;
     isLoadAssign.value = true;
     update();
-    var url = Api.baseUrl +
-        Api.assignRiderTask +
-        "?agent_id=$agentId&rider_id=$riderId";
+    var url =
+        "${Api.baseUrl}${Api.assignRiderTask}?agent_id=$agentId&rider_id=$riderId";
     var order = {
       "orders": ["$orderId"]
     };

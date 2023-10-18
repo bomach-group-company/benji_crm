@@ -1,10 +1,10 @@
-import 'package:benji_aggregator/src/common_widgets/my_appbar.dart';
+import 'package:benji_aggregator/src/components/my_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
-import '../../../src/common_widgets/customer_review_card.dart';
-import '../../../src/common_widgets/star_row.dart';
+import '../../../src/components/customer_review_card.dart';
+import '../../../src/components/star_row.dart';
 import '../../../src/providers/constants.dart';
 import '../../../theme/colors.dart';
 
@@ -84,7 +84,7 @@ class _AboutMyVendorState extends State<AboutMyVendor> {
         appBar: MyAppBar(
           title: widget.vendorName,
           elevation: 0,
-          actions: [],
+          actions: const [],
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,
         ),
@@ -154,7 +154,7 @@ class _AboutMyVendorState extends State<AboutMyVendor> {
                                 ),
                                 child: Text(
                                   widget.vendorHeadLine,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w400,
                                   ),
@@ -193,7 +193,7 @@ class _AboutMyVendorState extends State<AboutMyVendor> {
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Column(
+                                    const Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
@@ -222,7 +222,7 @@ class _AboutMyVendorState extends State<AboutMyVendor> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(width: kDefaultPadding * 2),
+                                    const SizedBox(width: kDefaultPadding * 2),
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -234,12 +234,12 @@ class _AboutMyVendorState extends State<AboutMyVendor> {
                                                 text: widget
                                                     .monToFriOpeningHours
                                                     .toUpperCase(),
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w700,
                                                 ),
                                               ),
-                                              TextSpan(
+                                              const TextSpan(
                                                 text: " - ",
                                                 style: TextStyle(
                                                   fontSize: 16,
@@ -250,7 +250,7 @@ class _AboutMyVendorState extends State<AboutMyVendor> {
                                                 text: widget
                                                     .monToFriClosingHours
                                                     .toUpperCase(),
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w700,
                                                 ),
@@ -265,12 +265,12 @@ class _AboutMyVendorState extends State<AboutMyVendor> {
                                               TextSpan(
                                                 text: widget.satOpeningHours
                                                     .toUpperCase(),
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w700,
                                                 ),
                                               ),
-                                              TextSpan(
+                                              const TextSpan(
                                                 text: " - ",
                                                 style: TextStyle(
                                                   fontSize: 16,
@@ -280,7 +280,7 @@ class _AboutMyVendorState extends State<AboutMyVendor> {
                                               TextSpan(
                                                 text: widget.satClosingHours
                                                     .toUpperCase(),
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w700,
                                                 ),
@@ -295,12 +295,12 @@ class _AboutMyVendorState extends State<AboutMyVendor> {
                                               TextSpan(
                                                 text: widget.sunOpeningHours
                                                     .toUpperCase(),
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w700,
                                                 ),
                                               ),
-                                              TextSpan(
+                                              const TextSpan(
                                                 text: " - ",
                                                 style: TextStyle(
                                                   fontSize: 16,
@@ -310,7 +310,7 @@ class _AboutMyVendorState extends State<AboutMyVendor> {
                                               TextSpan(
                                                 text: widget.sunClosingHours
                                                     .toUpperCase(),
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w700,
                                                 ),
@@ -349,7 +349,7 @@ class _AboutMyVendorState extends State<AboutMyVendor> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
+                                    const Text(
                                       "Reviews View & Ratings",
                                       style: TextStyle(
                                         fontSize: 16,
@@ -357,18 +357,18 @@ class _AboutMyVendorState extends State<AboutMyVendor> {
                                       ),
                                     ),
                                     Container(
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                         vertical: kDefaultPadding,
                                         horizontal: kDefaultPadding * 0.5,
                                       ),
-                                      child: StarRow(),
+                                      child: const StarRow(),
                                     ),
                                   ],
                                 ),
                               ),
                               kSizedBox,
                               ListView.separated(
-                                physics: BouncingScrollPhysics(),
+                                physics: const BouncingScrollPhysics(),
                                 separatorBuilder: (context, index) => kSizedBox,
                                 shrinkWrap: true,
                                 itemCount: 5,

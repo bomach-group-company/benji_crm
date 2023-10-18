@@ -10,7 +10,7 @@ import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../../model/order_list_model.dart';
-import '../../../src/common_widgets/my_appbar.dart';
+import '../../../src/components/my_appbar.dart';
 import '../../../theme/colors.dart';
 import 'pending_order_details.dart';
 
@@ -42,18 +42,18 @@ class _PendingOrdersState extends State<PendingOrders> {
 
 //========================================================= ALL VARIABLES =======================================================\\
   late bool _loadingScreen;
-  int _incrementOrderID = 2 + 2;
-  late int _orderID;
-  String _orderItem = "Jollof Rice and Chicken";
-  int _itemQuantity = 2;
+  // final int _incrementOrderID = 2 + 2;
+  // late int _orderID;
+  // final String _orderItem = "Jollof Rice and Chicken";
+  final int _itemQuantity = 2;
   double price = 2500;
-  double _itemPrice = 2500;
-  String _orderImage = "chizzy's-food";
+  final double _itemPrice = 2500;
+  // final String _orderImage = "chizzy's-food";
 
-  String _customerImage = "customer/mercy_luke.png";
-  String _customerName = "Mercy Luke";
-  String _customerPhoneNumber = "09037453342";
-  String _customerAddress = "21 Odogwu Street, New Haven";
+  // final String _customerImage = "customer/mercy_luke.png";
+  // final String _customerName = "Mercy Luke";
+  // final String _customerPhoneNumber = "09037453342";
+  // final String _customerAddress = "21 Odogwu Street, New Haven";
 
 //========================================================= FUNCTIONS =======================================================\\
 
@@ -167,8 +167,8 @@ class _PendingOrdersState extends State<PendingOrders> {
 }
 
 class PendingOrderView extends StatelessWidget {
-  OrderItem order;
-  PendingOrderView({super.key, required this.order});
+  final OrderItem order;
+  const PendingOrderView({super.key, required this.order});
 
   void toOrderDetailsPage() => Get.to(
         () => PendingOrderDetails(
@@ -197,10 +197,11 @@ class PendingOrderView extends StatelessWidget {
   Widget build(BuildContext context) {
     int qty = 0;
     if (order.orderitems != null) {
-      if (order.orderitems!.isNotEmpty)
-        order.orderitems!.forEach((element) {
+      if (order.orderitems!.isNotEmpty) {
+        for (var element in order.orderitems!) {
           qty += int.tryParse(element.quantity!.toString())!;
-        });
+        }
+      }
     }
     double mediaWidth = MediaQuery.of(context).size.width;
     double mediaHeight = MediaQuery.of(context).size.height;
@@ -252,7 +253,7 @@ class PendingOrderView extends StatelessWidget {
                     imageUrl: order.client!.image ?? "",
                     fit: BoxFit.cover,
                     progressIndicatorBuilder:
-                        (context, url, downloadProgress) => Center(
+                        (context, url, downloadProgress) => const Center(
                             child: CupertinoActivityIndicator(
                       color: kRedColor,
                     )),
@@ -263,7 +264,7 @@ class PendingOrderView extends StatelessWidget {
                   ),
                 ),
                 kHalfSizedBox,
-                Container(
+                SizedBox(
                   width: 60,
                   child: Text(
                     "#00${order.id.toString()}",
@@ -319,11 +320,11 @@ class PendingOrderView extends StatelessWidget {
                 Container(
                   color: kTransparentColor,
                   width: 250,
-                  child: Text(
+                  child: const Text(
                     "order",
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
                     ),

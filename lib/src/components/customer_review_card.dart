@@ -45,7 +45,7 @@ class CostumerReviewCard extends StatelessWidget {
               Container(
                 height: 45,
                 width: 45,
-                decoration: ShapeDecoration(
+                decoration: const ShapeDecoration(
                   shape: OvalBorder(),
                   image: DecorationImage(
                     image: AssetImage('assets/images/customer/ebuka_henry.png'),
@@ -54,7 +54,7 @@ class CostumerReviewCard extends StatelessWidget {
                 ),
               ),
               kHalfWidthSizedBox,
-              Text(
+              const Text(
                 'Ebuka Henry',
                 textAlign: TextAlign.center,
                 style: TextStyle(

@@ -10,7 +10,7 @@ import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../../model/order_list_model.dart';
-import '../../../src/common_widgets/my_appbar.dart';
+import '../../../src/components/my_appbar.dart';
 import '../../../theme/colors.dart';
 import 'active_order_details.dart';
 
@@ -194,17 +194,18 @@ class OrderDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     int qty = 0;
     if (order.orderitems != null) {
-      if (order.orderitems!.isNotEmpty)
-        order.orderitems!.forEach((element) {
+      if (order.orderitems!.isNotEmpty) {
+        for (var element in order.orderitems!) {
           qty += int.tryParse(element.quantity!.toString())!;
-        });
+        }
+      }
     }
     //  String formattedDateAndTime = formatDateAndTime(now);
     double mediaWidth = MediaQuery.of(context).size.width;
     double mediaHeight = MediaQuery.of(context).size.height;
 
     return InkWell(
-      onTap:()=>  _toActiveOrderDetailsPage(),
+      onTap: () => _toActiveOrderDetailsPage(),
       borderRadius: BorderRadius.circular(kDefaultPadding),
       child: Container(
         margin: const EdgeInsets.symmetric(
@@ -251,7 +252,7 @@ class OrderDetail extends StatelessWidget {
                     imageUrl: order.client!.image ?? "",
                     fit: BoxFit.cover,
                     progressIndicatorBuilder:
-                        (context, url, downloadProgress) => Center(
+                        (context, url, downloadProgress) => const Center(
                             child: CupertinoActivityIndicator(
                       color: kRedColor,
                     )),
@@ -313,11 +314,11 @@ class OrderDetail extends StatelessWidget {
                 Container(
                   color: kTransparentColor,
                   width: 250,
-                  child: Text(
+                  child: const Text(
                     "Order",
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
                     ),

@@ -1,11 +1,9 @@
 // ignore_for_file: file_names, unused_local_variable
 
-import 'dart:math';
-
 import 'package:benji_aggregator/controller/rider_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
-import 'package:benji_aggregator/src/common_widgets/my_appbar.dart';
-import 'package:benji_aggregator/src/common_widgets/my_outlined_elevatedButton.dart';
+import 'package:benji_aggregator/src/components/my_appbar.dart';
+import 'package:benji_aggregator/src/components/my_outlined_elevatedButton.dart';
 import 'package:benji_aggregator/src/providers/custom_show_search.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -13,19 +11,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../model/order_list_model.dart';
 import '../../model/rider_list_model.dart';
 import '../../src/providers/constants.dart';
 import '../../src/skeletons/assign_rider_page_skeleton.dart';
-import '../others/call_page.dart';
 import 'riders_detail.dart';
 
 class AssignRider extends StatefulWidget {
-  OrderItem? item;
-  AssignRider({super.key, required this.item});
+  final OrderItem? item;
+  const AssignRider({super.key, required this.item});
 
   @override
   State<AssignRider> createState() => _AssignRiderState();
@@ -51,13 +47,13 @@ class _AssignRiderState extends State<AssignRider> {
 
 //============================= ALL VARIABLES ===============================\\
   late bool _loadingScreen;
-  bool _assigningRider = false;
-  bool _isAssigned = false;
+  // final bool _assigningRider = false;
+  final bool _isAssigned = false;
   String ridersImage = "rider/martins_okafor.png";
   String ridersName = "Martins Okafor";
   String ridersLocation = "Achara Layout";
   String ridersPhoneNumber = "08032300044";
-  final int _numberOfAvailableRider = 10;
+  // final int _numberOfAvailableRider = 10;
   int noOfTrips = 238;
 
   //============================================== CONTROLLERS =================================================\\
@@ -120,25 +116,25 @@ class _AssignRiderState extends State<AssignRider> {
     // });
   }
 
-  void _callRider() => Get.to(
-        () => CallPage(
-          userName: ridersName,
-          userImage: ridersImage,
-          userPhoneNumber: ridersPhoneNumber,
-        ),
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "Call rider",
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+  // void _callRider() => Get.to(
+  //       () => CallPage(
+  //         userName: ridersName,
+  //         userImage: ridersImage,
+  //         userPhoneNumber: ridersPhoneNumber,
+  //       ),
+  //       duration: const Duration(milliseconds: 300),
+  //       fullscreenDialog: true,
+  //       curve: Curves.easeIn,
+  //       routeName: "Call rider",
+  //       preventDuplicates: true,
+  //       popGesture: true,
+  //       transition: Transition.rightToLeft,
+  //     );
 
   @override
   Widget build(BuildContext context) {
-    double mediaWidth = MediaQuery.of(context).size.width;
-    double mediaHeight = MediaQuery.of(context).size.height;
+    var media = MediaQuery.of(context).size;
+
     //=============================================================================\\
 
     return LiquidPullToRefresh(
@@ -242,12 +238,13 @@ class _AssignRiderState extends State<AssignRider> {
                                                 Container(
                                                   height: 45,
                                                   width: 45,
-                                                  decoration: ShapeDecoration(
+                                                  decoration:
+                                                      const ShapeDecoration(
                                                     // image: DecorationImage(
                                                     //   image: AssetImage(
                                                     //       "assets/images/$ridersImage"),
                                                     // ),
-                                                    shape: const OvalBorder(),
+                                                    shape: OvalBorder(),
                                                   ),
                                                   child: CachedNetworkImage(
                                                     imageUrl: "",
@@ -255,7 +252,7 @@ class _AssignRiderState extends State<AssignRider> {
                                                     progressIndicatorBuilder: (context,
                                                             url,
                                                             downloadProgress) =>
-                                                        Center(
+                                                        const Center(
                                                             child:
                                                                 CupertinoActivityIndicator(
                                                       color: kRedColor,

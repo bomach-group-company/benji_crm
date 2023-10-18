@@ -60,7 +60,7 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
                   ),
                 ),
                 kHalfWidthSizedBox,
-                Text(
+                const Text(
                   "Select Account",
                   style: TextStyle(
                     fontSize: 20,
@@ -84,7 +84,7 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
                 return InkWell(
                   onTap: _goToWithdraw,
                   child: Container(
-                    margin: EdgeInsets.symmetric(
+                    margin: const EdgeInsets.symmetric(
                       horizontal: kDefaultPadding,
                       vertical: kDefaultPadding / 2,
                     ),
@@ -100,7 +100,7 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
                       ],
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    padding: EdgeInsets.all(kDefaultPadding),
+                    padding: const EdgeInsets.all(kDefaultPadding),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -111,7 +111,7 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
                               children: [
                                 Image.asset('assets/icons/accessbank.png'),
                                 kHalfWidthSizedBox,
-                                Text(
+                                const Text(
                                   'Access Bank',
                                   style: TextStyle(
                                     color: Color(0xFF979797),
@@ -133,7 +133,7 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
                           ],
                         ),
                         kSizedBox,
-                        Text(
+                        const Text(
                           'Blessing George....09876',
                           style: TextStyle(
                             color: Color(0xFF131514),
@@ -152,11 +152,11 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
               margin: const EdgeInsets.symmetric(horizontal: 20),
               child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
-                      backgroundColor: Color(0xFFFEF8F8),
-                      minimumSize: Size(double.infinity, 60)),
+                      backgroundColor: const Color(0xFFFEF8F8),
+                      minimumSize: const Size(double.infinity, 60)),
                   onPressed: () {
                     Get.to(
-                      () => AddBankAccountPage(),
+                      () => const AddBankAccountPage(),
                       routeName: 'AddBankAccountPage',
                       duration: const Duration(milliseconds: 300),
                       fullscreenDialog: true,
@@ -187,18 +187,18 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
       showDragHandle: true,
       context: context,
       backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
       ),
       builder: (BuildContext context) {
         return SingleChildScrollView(
           child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 borderRadius: BorderRadius.vertical(
                   top: Radius.circular(10),
                 ),
               ),
-              padding: EdgeInsets.only(left: 100, right: 100, bottom: 25),
+              padding: const EdgeInsets.only(left: 100, right: 100, bottom: 25),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -211,7 +211,7 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
                           color: kTextGreyColor,
                         ),
                         kWidthSizedBox,
-                        Text(
+                        const Text(
                           'Delete account',
                           style: TextStyle(
                             color: Color(0xFF131514),
@@ -223,7 +223,7 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
                     ),
                   ),
                   kSizedBox,
-                  Divider(),
+                  const Divider(),
                 ],
               )),
         );

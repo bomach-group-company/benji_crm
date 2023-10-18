@@ -4,19 +4,18 @@ import 'package:benji_aggregator/app/others/my_orders/all_orders.dart';
 import 'package:benji_aggregator/controller/order_controller.dart';
 import 'package:benji_aggregator/controller/rider_controller.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
-import 'package:benji_aggregator/src/common_widgets/dashboard_all_orders_container.dart';
+import 'package:benji_aggregator/src/components/dashboard_all_orders_container.dart';
 import 'package:benji_aggregator/src/skeletons/dashboard_page_skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../controller/user_controller.dart';
 import '../../model/order_list_model.dart';
-import '../../src/common_widgets/dashboard_appBar.dart';
-import '../../src/common_widgets/dashboard_orders_container.dart';
-import '../../src/common_widgets/dashboard_rider_vendor_container.dart';
+import '../../src/components/dashboard_appBar.dart';
+import '../../src/components/dashboard_orders_container.dart';
+import '../../src/components/dashboard_rider_vendor_container.dart';
 import '../../src/providers/constants.dart';
 import '../../src/skeletons/all_riders_page_skeleton.dart';
 import '../../theme/colors.dart';
@@ -28,12 +27,12 @@ import '../vendors/vendors.dart';
 class Dashboard extends StatefulWidget {
   final VoidCallback showNavigation;
   final VoidCallback hideNavigation;
-   Dashboard(
+  Dashboard(
       {Key? key, required this.showNavigation, required this.hideNavigation})
       : super(key: key);
-       var user=    Get.put(UserController());
-        var vendor = Get.put(VendorController());
-         var ride =  Get.put(RiderController());
+  final user = Get.put(UserController());
+  final vendor = Get.put(VendorController());
+  final ride = Get.put(RiderController());
 
   @override
   State<Dashboard> createState() => _DashboardState();
@@ -182,8 +181,12 @@ class _DashboardState extends State<Dashboard>
         transition: Transition.downToUp,
       );
 
-  void _toSeeAllOrders(List <OrderItem> completed,List <OrderItem> rejected ) => Get.to(
-        () =>  AllOrders(completed: completed, rejected: rejected,),
+  void _toSeeAllOrders(List<OrderItem> completed, List<OrderItem> rejected) =>
+      Get.to(
+        () => AllOrders(
+          completed: completed,
+          rejected: rejected,
+        ),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -354,7 +357,7 @@ class _DashboardState extends State<Dashboard>
                                     .toList();
 
                                 return DasboardAllOrdersContainer(
-                                  onTap: ()=>  _toSeeAllOrders(allOrders, rej),
+                                  onTap: () => _toSeeAllOrders(allOrders, rej),
                                   number: "${allOrders.length}",
                                   typeOf: "All Orders",
                                   onlineStatus: "${rej.length} rejected",

@@ -1,4 +1,4 @@
-import 'package:benji_aggregator/src/common_widgets/my_appbar.dart';
+import 'package:benji_aggregator/src/components/my_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
@@ -59,7 +59,7 @@ class _WithdrawHistoryPageState extends State<WithdrawHistoryPage> {
         appBar: MyAppBar(
           title: "Withdrawal History",
           elevation: 0.0,
-          actions: [],
+          actions: const [],
           backgroundColor: kPrimaryColor,
           toolbarHeight: kToolbarHeight,
         ),
@@ -92,7 +92,7 @@ class _WithdrawHistoryPageState extends State<WithdrawHistoryPage> {
                       itemCount: 10,
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
-                          margin: EdgeInsets.symmetric(
+                          margin: const EdgeInsets.symmetric(
                             horizontal: kDefaultPadding,
                             vertical: kDefaultPadding / 2,
                           ),
@@ -108,7 +108,7 @@ class _WithdrawHistoryPageState extends State<WithdrawHistoryPage> {
                             ],
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          padding: EdgeInsets.all(kDefaultPadding),
+                          padding: const EdgeInsets.all(kDefaultPadding),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -124,7 +124,7 @@ class _WithdrawHistoryPageState extends State<WithdrawHistoryPage> {
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
-                                  Text(
+                                  const Text(
                                     '21/03/2023 | 12:19 pm',
                                     style: TextStyle(
                                       color: Color(0xFFA9AAB1),
@@ -135,7 +135,7 @@ class _WithdrawHistoryPageState extends State<WithdrawHistoryPage> {
                                 ],
                               ),
                               kSizedBox,
-                              Text(
+                              const Text(
                                 'Access Bank ...9876',
                                 style: TextStyle(
                                   color: kTextBlackColor,

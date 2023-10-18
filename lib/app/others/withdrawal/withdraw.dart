@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
-import '../../../src/common_widgets/my_elevatedButton.dart';
-import '../../../src/common_widgets/my_textformfield2.dart';
+import '../../../src/components/my_elevatedButton.dart';
+import '../../../src/components/my_textformfield2.dart';
 import '../../../src/providers/constants.dart';
 import '../../../src/responsive/reponsive_width.dart';
 import '../../../theme/colors.dart';
@@ -79,7 +79,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                     ),
                   ),
                   kHalfWidthSizedBox,
-                  Text(
+                  const Text(
                     "Withdraw",
                     style: TextStyle(
                       fontSize: 20,
@@ -97,7 +97,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
             physics: const BouncingScrollPhysics(),
             child: MyResponsiveWidth(
               child: Container(
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                     horizontal: kDefaultPadding, vertical: kDefaultPadding * 2),
                 child: Form(
                   key: _formKey,
@@ -106,7 +106,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       kSizedBox,
-                      Text(
+                      const Text(
                         'Amount',
                         style: TextStyle(
                           color: Color(0xFF575757),

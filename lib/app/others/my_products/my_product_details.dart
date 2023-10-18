@@ -1,6 +1,6 @@
 // ignore_for_file: file_names, prefer_typing_uninitialized_variables, use_build_context_synchronously, unused_field
 
-import 'package:benji_aggregator/src/common_widgets/my_elevatedButton.dart';
+import 'package:benji_aggregator/src/components/my_elevatedButton.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -9,9 +9,9 @@ import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:readmore/readmore.dart';
 
-import '../../../src/common_widgets/my_appbar.dart';
-import '../../../src/common_widgets/my_textformfield2.dart';
-import '../../../src/common_widgets/showModalBottomSheetTitleWithIcon.dart';
+import '../../../src/components/my_appbar.dart';
+import '../../../src/components/my_textformfield2.dart';
+import '../../../src/components/showModalBottomSheetTitleWithIcon.dart';
 import '../../../src/providers/constants.dart';
 import '../../../src/skeletons/product_details_page_skeleton.dart';
 import '../../../theme/colors.dart';
@@ -39,7 +39,7 @@ class _MyProductDetailsState extends State<MyProductDetails> {
   bool _isChecked = false;
 
   //======================================= KEYS ==========================================\\
-  GlobalKey<FormState> _updateQuantityKey = GlobalKey();
+  final GlobalKey<FormState> _updateQuantityKey = GlobalKey();
 
   //======================================= CONTROLLERS ==========================================\\
   final ScrollController _scrollController = ScrollController();
@@ -99,19 +99,19 @@ class _MyProductDetailsState extends State<MyProductDetails> {
       isScrollControlled: true,
       isDismissible: true,
       elevation: 20.0,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
           borderRadius:
               BorderRadius.vertical(top: Radius.circular(kDefaultPadding))),
       enableDrag: true,
       builder: (context) => SingleChildScrollView(
-        physics: ScrollPhysics(),
+        physics: const ScrollPhysics(),
         padding: const EdgeInsets.all(kDefaultPadding),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const ShowModalBottomSheetTitleWithIcon(title: "Update Quantity"),
-            SizedBox(height: kDefaultPadding * 2),
+            const SizedBox(height: kDefaultPadding * 2),
             Form(
               key: _updateQuantityKey,
               child: Column(
@@ -177,19 +177,19 @@ class _MyProductDetailsState extends State<MyProductDetails> {
       isScrollControlled: true,
       isDismissible: true,
       elevation: 20.0,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
           borderRadius:
               BorderRadius.vertical(top: Radius.circular(kDefaultPadding))),
       enableDrag: true,
       builder: (context) => SingleChildScrollView(
-        physics: ScrollPhysics(),
+        physics: const ScrollPhysics(),
         padding: const EdgeInsets.all(kDefaultPadding),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const ShowModalBottomSheetTitleWithIcon(title: "Option"),
-            SizedBox(height: kDefaultPadding * 2),
+            const SizedBox(height: kDefaultPadding * 2),
             ListTile(
               onTap: _updateQuantity,
               leading: Icon(
@@ -414,7 +414,7 @@ class _MyProductDetailsState extends State<MyProductDetails> {
                                   kSizedBox,
                                   Row(
                                     children: [
-                                      Text(
+                                      const Text(
                                         'Out of stock',
                                         style: TextStyle(
                                           color: kTextBlackColor,

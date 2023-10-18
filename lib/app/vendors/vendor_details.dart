@@ -2,17 +2,12 @@
 
 import 'package:benji_aggregator/app/others/products/product_details.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
-<<<<<<< HEAD
-import 'package:benji_aggregator/src/providers/custom%20show%20search.dart';
+import 'package:benji_aggregator/src/providers/custom_show_search.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
-=======
-import 'package:benji_aggregator/src/providers/custom_show_search.dart';
->>>>>>> 5ae30100fdd3a739cc791f0ea3af5cb058fdd492
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/route_manager.dart';
 import 'package:intl/intl.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
@@ -21,12 +16,12 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../controller/vendor_controller.dart';
 import '../../model/vendor_list_model.dart';
 import '../../model/vendor_product_model.dart';
-import '../../src/common_widgets/category_button_section.dart';
-import '../../src/common_widgets/my_appbar.dart';
-import '../../src/common_widgets/vendor_orders_tab.dart';
-import '../../src/common_widgets/vendor_products_tab.dart';
-import '../../src/common_widgets/vendors_order_container.dart';
-import '../../src/common_widgets/vendors_product_container.dart';
+import '../../src/components/category_button_section.dart';
+import '../../src/components/my_appbar.dart';
+import '../../src/components/vendor_orders_tab.dart';
+import '../../src/components/vendor_products_tab.dart';
+import '../../src/components/vendors_order_container.dart';
+import '../../src/components/vendors_product_container.dart';
 import '../../src/skeletons/vendors_tabbar_orders_content_skeleton.dart';
 import '../../src/skeletons/vendors_tabbar_products_content_skeleton.dart';
 import '../../theme/colors.dart';
@@ -217,7 +212,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
   }
 
   //===================== Navigation ==========================\\
-  void toProductDetailScreen(Item  data) => Get.to(
+  void toProductDetailScreen(Item data) => Get.to(
         () => ProductDetails(
           productImage: _productImage,
           productName: _productName,
@@ -256,7 +251,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
       );
 
   void _toSuspendVendor() => Get.to(
-        () => SuspendVendor(),
+        () => const SuspendVendor(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -313,67 +308,6 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,
-<<<<<<< HEAD
-          child: FutureBuilder(builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              Center(child: SpinKitDoubleBounce(color: kAccentColor));
-            }
-            if (snapshot.connectionState == ConnectionState.none) {
-              const Center(
-                child: Text("Please connect to the internet"),
-              );
-            }
-            // if (snapshot.connectionState == snapshot.requireData) {
-            //   SpinKitDoubleBounce(color: kAccentColor);
-            // }
-            if (snapshot.connectionState == snapshot.error) {
-              const Center(
-                child: Text("Error, Please try again later"),
-              );
-            }
-            return _loadingScreen
-                ? Center(child: SpinKitDoubleBounce(color: kAccentColor))
-                : Scrollbar(
-                    controller: _scrollController,
-                    radius: const Radius.circular(10),
-                    scrollbarOrientation: ScrollbarOrientation.right,
-                    child: ListView(
-                      physics: const BouncingScrollPhysics(),
-                      dragStartBehavior: DragStartBehavior.down,
-                      children: [
-                        SizedBox(
-                          height: 340,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                top: 0,
-                                left: 0,
-                                right: 0,
-                                child: Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.3,
-                                  decoration: BoxDecoration(
-                                    color: kPageSkeletonColor,
-                                    // image: DecorationImage(
-                                    //   fit: BoxFit.cover,
-                                    //   image: AssetImage(
-                                    //       "assets/images/vendors/${widget.vendorCoverImage}.png"),
-                                    // ),
-                                  ),
-                                  child: CachedNetworkImage(
-                                    imageUrl: widget.vendor.shopImage ?? "",
-                                    fit: BoxFit.cover,
-                                    progressIndicatorBuilder: (context, url,
-                                            downloadProgress) =>
-                                        Center(
-                                            child: CupertinoActivityIndicator(
-                                      color: kRedColor,
-                                    )),
-                                    errorWidget: (context, url, error) =>
-                                        const Icon(
-                                      Icons.error,
-                                      color: kRedColor,
-=======
           child: FutureBuilder(
             future: null,
             builder: (context, snapshot) {
@@ -421,11 +355,8 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                         image: AssetImage(
                                             "assets/images/vendors/${widget.vendorCoverImage}.png"),
                                       ),
->>>>>>> 5ae30100fdd3a739cc791f0ea3af5cb058fdd492
                                     ),
                                   ),
-                               
-                               
                                 ),
                                 Positioned(
                                   top:
@@ -454,32 +385,6 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                         borderRadius: BorderRadius.circular(25),
                                       ),
                                     ),
-<<<<<<< HEAD
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: kDefaultPadding * 2.6),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          widget.vendor.shopName ?? "",
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                            color: kTextBlackColor,
-                                            fontSize: 24,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                        kHalfSizedBox,
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              Icons.location_pin,
-                                              color: kAccentColor,
-                                              size: 15,
-=======
                                     child: Padding(
                                       padding: const EdgeInsets.only(
                                           top: kDefaultPadding * 2.6),
@@ -492,7 +397,6 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                               color: kTextBlackColor,
                                               fontSize: 24,
                                               fontWeight: FontWeight.w700,
->>>>>>> 5ae30100fdd3a739cc791f0ea3af5cb058fdd492
                                             ),
                                           ),
                                           kHalfSizedBox,
@@ -508,7 +412,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                               kHalfWidthSizedBox,
                                               SizedBox(
                                                 width: mediaWidth - 100,
-                                                child: Text(
+                                                child: const Text(
                                                   "Old Abakaliki Rd, Thinkers Corner 400103, Enugu",
                                                   overflow:
                                                       TextOverflow.ellipsis,
@@ -518,41 +422,6 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                                   ),
                                                 ),
                                               ),
-<<<<<<< HEAD
-                                            ),
-                                          ],
-                                        ),
-                                        kHalfSizedBox,
-                                        InkWell(
-                                          onTap: (() async {
-                                            // final websiteurl = Uri.parse(
-                                            //   "https://goo.gl/maps/8pKoBVCsew5oqjU49",
-                                            // );
-                                            // if (await canLaunchUrl(
-                                            //   websiteurl,
-                                            // )) {
-                                            //   launchUrl(
-                                            //     websiteurl,
-                                            //     mode: LaunchMode
-                                            //         .externalApplication,
-                                            //   );
-                                            // } else {
-                                            //   throw "An unexpected error occured and $websiteurl cannot be loaded";
-                                            // }
-                                          }),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          child: Container(
-                                            width: mediaWidth / 4,
-                                            padding: const EdgeInsets.all(
-                                                kDefaultPadding / 4),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              border: Border.all(
-                                                color: kAccentColor,
-                                                width: 1,
-=======
                                             ],
                                           ),
                                           kHalfSizedBox,
@@ -586,7 +455,6 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                                   color: kAccentColor,
                                                   width: 1,
                                                 ),
->>>>>>> 5ae30100fdd3a739cc791f0ea3af5cb058fdd492
                                               ),
                                               child: const Text(
                                                 "Show on map",
@@ -640,27 +508,6 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                                   ],
                                                 ),
                                               ),
-<<<<<<< HEAD
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Icon(
-                                                    Icons.star_rounded,
-                                                    color: kStarColor,
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 5,
-                                                  ),
-                                                  Text(
-                                                    "${widget.vendor.averageRating ?? 0}",
-                                                    style: const TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      letterSpacing: -0.28,
-=======
                                               Container(
                                                 width: mediaWidth * 0.23,
                                                 height: 56.67,
@@ -670,31 +517,9 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                       19,
->>>>>>> 5ae30100fdd3a739cc791f0ea3af5cb058fdd492
                                                     ),
                                                   ),
                                                 ),
-<<<<<<< HEAD
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    widget.vendor.shopType!
-                                                                .isActive ==
-                                                            true
-                                                        ? "online"
-                                                        : "offline",
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                      color: widget
-                                                          .vendorActiveStatusColor,
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      letterSpacing: -0.36,
-=======
                                                 child: Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.center,
@@ -702,7 +527,6 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                                     Icon(
                                                       Icons.star_rounded,
                                                       color: kStarColor,
->>>>>>> 5ae30100fdd3a739cc791f0ea3af5cb058fdd492
                                                     ),
                                                     const SizedBox(
                                                       width: 5,
@@ -768,56 +592,17 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                     ),
                                   ),
                                 ),
-<<<<<<< HEAD
-                              ),
-                              Positioned(
-                                top: MediaQuery.of(context).size.height * 0.07,
-                                left: MediaQuery.of(context).size.width / 2.7,
-                                child: Container(
-                                  width: 100,
-                                  height: 100,
-                                  decoration: ShapeDecoration(
-                                    color: kPageSkeletonColor,
-                                    // image: const DecorationImage(
-                                    //   image: AssetImage(
-                                    //     "assets/images/vendors/ntachi-osa-logo.png",
-                                    //   ),
-                                    //   fit: BoxFit.cover,
-                                    // ),
-
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(43.50),
-=======
                                 Positioned(
                                   top:
                                       MediaQuery.of(context).size.height * 0.07,
                                   left: MediaQuery.of(context).size.width / 2.7,
-                                  child: Container(
-                                    width: 100,
-                                    height: 100,
-                                    decoration: ShapeDecoration(
-                                      color: kPageSkeletonColor,
-                                      image: const DecorationImage(
-                                        image: AssetImage(
-                                          "assets/images/vendors/ntachi-osa-logo.png",
-                                        ),
-                                        fit: BoxFit.cover,
-                                      ),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(43.50),
-                                      ),
->>>>>>> 5ae30100fdd3a739cc791f0ea3af5cb058fdd492
-                                    ),
-                                  ),
                                   child: ClipOval(
                                     child: CachedNetworkImage(
                                       imageUrl: widget.vendor.shopImage ?? "",
                                       fit: BoxFit.cover,
                                       progressIndicatorBuilder: (context, url,
                                               downloadProgress) =>
-                                          Center(
+                                          const Center(
                                               child: CupertinoActivityIndicator(
                                         color: kRedColor,
                                       )),
@@ -827,7 +612,6 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                         color: kRedColor,
                                       ),
                                     ),
-                                
                                   ),
                                 ),
                               ],
@@ -918,8 +702,8 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                                       i < foodListView.length;
                                                       i++)
                                                     VendorsProductContainer(
-                                                      onTap:
-                                                          toProductDetailScreen,
+                                                      onTap: () {},
+                                                      product: null,
                                                       productImage:
                                                           _productImage,
                                                       productName: _productName,
@@ -944,6 +728,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                                           _incrementOrderID)
                                                     VendorsOrderContainer(
                                                       mediaWidth: mediaWidth,
+                                                      order: null,
                                                       orderImage: _orderImage,
                                                       orderID: _orderID,
                                                       formattedDateAndTime:
@@ -966,128 +751,11 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                               ],
                             ),
                           ),
-<<<<<<< HEAD
-                        ),
-                        kSizedBox,
-                        SizedBox(
-                            height: mediaHeight + mediaHeight + mediaHeight,
-                            width: mediaWidth,
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  child: TabBarView(
-                                    controller: _tabBarController,
-                                    physics: const BouncingScrollPhysics(),
-                                    dragStartBehavior: DragStartBehavior.down,
-                                    children: [
-                                      _loadingTabBarContent
-                                          ? const VendorsTabBarProductsContentSkeleton()
-                                          : VendorsProductsTab(
-                                              list: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  GetBuilder<VendorController>(
-                                                    init: VendorController(),
-                                                    builder: (controller) {
-                                                      return Column(
-                                                        children: [
-                                                          CategoryButtonSection(
-                                                            onPressed: ()=> 
-                                                                _changeProductCategory(),
-                                                            category:
-                                                                _categoryButtonText,
-                                                            categorybgColor:
-                                                                _categoryButtonBgColor,
-                                                            categoryFontColor:
-                                                                _categoryButtonFontColor,
-                                                          ),
-                                                          ...controller
-                                                              .vendorProductList
-                                                              .map(
-                                                            (element) =>
-                                                                VendorsProductContainer(
-                                                              onTap:
-                                                                 ()=>  toProductDetailScreen(element),
-                                                              productImage:
-                                                                  _productImage,
-                                                              productName:
-                                                                  _productName,
-                                                              productDescription:
-                                                                  _productDescription,
-                                                              productPrice:
-                                                                  _productPrice,
-                                                              productQuantity:
-                                                                  _productQuantity,
-                                                              // ignore: invalid_use_of_protected_member
-                                                              product: element,
-                                                            ),
-                                                          )
-                                                        ],
-                                                      );
-                                                    },
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                      _loadingTabBarContent
-                                          ? const VendorsTabBarOrdersContentSkeleton()
-                                          : VendorsOrdersTab(
-                                              list: Column(
-                                                children: [
-                                                  GetBuilder<VendorController>(
-                                                    init: VendorController(),
-                                                    builder: (controller) {
-                                                      return Column(
-                                                        children: [
-                                                          ...controller
-                                                              .vendorOrderList
-                                                              .map(
-                                                            (element) =>
-                                                                VendorsOrderContainer(
-                                                              mediaWidth:
-                                                                  mediaWidth,
-                                                              orderImage:
-                                                                  _orderImage,
-                                                              orderID: _orderID,
-                                                              formattedDateAndTime:
-                                                                  formattedDateAndTime,
-                                                              orderItem:
-                                                                  _orderItem,
-                                                              itemQuantity:
-                                                                  _itemQuantity,
-                                                              itemPrice:
-                                                                  _itemPrice,
-                                                              customerName:
-                                                                  _customerName,
-                                                              customerAddress:
-                                                                  _customerAddress,
-                                                              order: element,
-                                                            ),
-                                                          )
-                                                        ],
-                                                      );
-                                                    },
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            )),
-                      ],
-                    ),
-                  );
-          }),
-=======
                         ],
                       ),
                     );
             },
           ),
->>>>>>> 5ae30100fdd3a739cc791f0ea3af5cb058fdd492
         ),
       ),
     );

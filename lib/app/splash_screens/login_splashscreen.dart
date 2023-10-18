@@ -1,9 +1,7 @@
 // ignore_for_file: camel_case_types, file_names
 
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
 
-import '../overview/overview.dart';
 
 class LoginSplashScreen extends StatelessWidget {
   const LoginSplashScreen({super.key});

@@ -4,7 +4,6 @@ import 'package:benji_aggregator/app/others/notifications.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
 
 import '../../app/profile/profile.dart';
 import '../../theme/colors.dart';
@@ -53,8 +52,7 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
       automaticallyImplyLeading: false,
       titleSpacing: kDefaultPadding / 2,
       elevation: 10.0,
-      title: GetBuilder<UserController>(
-        builder: (controller) {
+      title: GetBuilder<UserController>(builder: (controller) {
         return Row(
           children: [
             Padding(

@@ -1,29 +1,26 @@
-// ignore_for_file: unused_local_variable, use_build_context_synchronously
+// ignore_for_file: unused_local_variable, use_build_context_synchronously, unused_field
 
 import 'dart:io';
 
 import 'package:benji_aggregator/controller/vendor_controller.dart';
-import 'package:benji_aggregator/services/api_url.dart';
-import 'package:benji_aggregator/src/common_widgets/my_appbar.dart';
+import 'package:benji_aggregator/src/components/my_appbar.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
-import '../../../src/common_widgets/message_textformfield.dart';
-import '../../../src/common_widgets/my_blue_textformfield.dart';
-import '../../../src/common_widgets/my_elevatedButton.dart';
-import '../../../src/common_widgets/my_fixed_snackBar.dart';
-import '../../../src/common_widgets/my_intl_phonefield.dart';
 import '../../../src/providers/constants.dart';
 import '../../../src/skeletons/vendors_list_skeleton.dart';
-import '../../model/business_trype_model.dart';
 import '../../model/create_vendor_model.dart';
+import '../../src/components/message_textformfield.dart';
+import '../../src/components/my_blue_textformfield.dart';
+import '../../src/components/my_elevatedButton.dart';
+import '../../src/components/my_fixed_snackBar.dart';
+import '../../src/components/my_intl_phonefield.dart';
 import 'business_category_modal.dart';
 
 class RegisterVendor extends StatefulWidget {
@@ -42,7 +39,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
 
   //===================== BOOL VALUES =======================\\
   late bool _loadingScreen;
-  bool _savingChanges = false;
+  final bool _savingChanges = false;
 
   //=================================== CONTROLLERS ====================================\\
   final ScrollController _scrollController = ScrollController();
@@ -82,7 +79,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      VendorController.instance.getBusinessTypes();
+      VendorController.instance.businessType();
     });
     super.initState();
 
@@ -195,7 +192,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
       coverImage: selectedCoverImage,
       profileImage: selectedLogoImage,
     );
-    VendorController.instance.createVendor(data, true);
+    // VendorController.instance.createVendor(data, true);
 
     // Simulating a delay of 3 seconds
 
@@ -467,8 +464,6 @@ class _RegisterVendorState extends State<RegisterVendor> {
                   ),
                 );
         }),
-     
-
         body: SafeArea(
           child: FutureBuilder(
             future: null,

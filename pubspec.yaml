@@ -21,15 +21,12 @@ dependencies:
   google_fonts: ^5.1.0
   google_maps_flutter: ^2.4.0
   hexcolor: ^3.0.1
-<<<<<<< HEAD
-  get: ^4.6.5
   provider: ^5.0.0
   firebase_core: ^2.15.0
   firebase_auth: ^4.7.2
-=======
   get:
->>>>>>> 5ae30100fdd3a739cc791f0ea3af5cb058fdd492
   url_launcher: ^6.1.12
+  http:
   shimmer: ^3.0.0-nullsafety.0
   liquid_pull_to_refresh: ^3.0.1
   readmore: ^2.2.0
@@ -37,12 +34,14 @@ dependencies:
   font_awesome_flutter: ^10.5.0
   shared_preferences: ^2.2.0
   cached_network_image: ^3.2.3
+  path:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_native_splash: ^2.3.1
   flutter_launcher_icons: ^0.13.1
+  flutter_lints: ^2.0.0
 
 flutter_native_splash:
   image: assets/images/splash_screen/frame_1.png
@@ -54,9 +53,20 @@ flutter_launcher_icons:
   android: "launcher_icon"
   remove_alpha_ios: true
   ios: true
-  image_path: "assets/images/logo/benji_red_logo_icon.jpg"
-
-  flutter_lints: ^2.0.0
+  image_path: "assets/icons/app_icon.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "assets/icons/app_icon.png"
+    background_color: "#FFFFFF"
+    theme_color: "#FFFFFF"
+  windows:
+    generate: true
+    image_path: "assets/icons/app_icon.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/icons/app_icon.png"
 
 flutter:
   uses-material-design: true

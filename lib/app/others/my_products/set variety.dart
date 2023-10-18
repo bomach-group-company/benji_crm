@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 
-import '../../../src/common_widgets/my_appbar.dart';
-import '../../../src/common_widgets/my_elevatedButton.dart';
-import '../../../src/common_widgets/my_outlined_elevatedButton.dart';
-import '../../../src/common_widgets/my_textformfield2.dart';
+import '../../../src/components/my_appbar.dart';
+import '../../../src/components/my_elevatedButton.dart';
+import '../../../src/components/my_outlined_elevatedButton.dart';
+import '../../../src/components/my_textformfield2.dart';
 import '../../../src/providers/constants.dart';
 import '../../../theme/colors.dart';
 

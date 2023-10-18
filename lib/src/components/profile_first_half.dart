@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, prefer_typing_uninitialized_variables
 
 import 'package:benji_aggregator/app/others/withdrawal/select_account.dart';
 import 'package:flutter/material.dart';

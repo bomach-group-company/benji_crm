@@ -2,7 +2,7 @@
 
 import 'dart:io';
 
-import 'package:benji_aggregator/src/common_widgets/my_appbar.dart';
+import 'package:benji_aggregator/src/components/my_appbar.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -15,11 +15,11 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../../controller/vendor_controller.dart';
 import '../../../model/create_vendor_model.dart';
-import '../../../src/common_widgets/message_textformfield.dart';
-import '../../../src/common_widgets/my_blue_textformfield.dart';
-import '../../../src/common_widgets/my_elevatedButton.dart';
-import '../../../src/common_widgets/my_fixed_snackBar.dart';
-import '../../../src/common_widgets/my_intl_phonefield.dart';
+import '../../../src/components/message_textformfield.dart';
+import '../../../src/components/my_blue_textformfield.dart';
+import '../../../src/components/my_elevatedButton.dart';
+import '../../../src/components/my_fixed_snackBar.dart';
+import '../../../src/components/my_intl_phonefield.dart';
 import '../../../src/providers/constants.dart';
 import '../../../src/skeletons/vendors_list_skeleton.dart';
 import '../../vendors/business_category_modal.dart';
@@ -39,7 +39,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
   final _cscPickerKey = GlobalKey<CSCPickerState>();
 
   //===================== BOOL VALUES =======================\\
-  late bool _loadingScreen;
+  // late bool _loadingScreen;
   bool isLoading = false;
 
   //=================================== CONTROLLERS ====================================\\
@@ -75,17 +75,17 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      VendorController.instance.getBusinessTypes();
+      // VendorController.instance.getBusinessTypes();
     });
     super.initState();
 
-    _loadingScreen = true;
-    Future.delayed(
-      const Duration(milliseconds: 1000),
-      () => setState(
-        () => _loadingScreen = false,
-      ),
-    );
+    // _loadingScreen = true;
+    // Future.delayed(
+    //   const Duration(milliseconds: 1000),
+    //   () => setState(
+    //     () => _loadingScreen = false,
+    //   ),
+    // );
   }
 
   @override
@@ -189,7 +189,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
       coverImage: selectedCoverImage,
       profileImage: selectedLogoImage,
     );
-    VendorController.instance.createVendor(data, false);
+    // VendorController.instance.createVendor(data, false);
 
     // Simulating a delay of 3 seconds
 

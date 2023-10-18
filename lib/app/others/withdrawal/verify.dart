@@ -1,10 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:benji_aggregator/app/overview/overview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 
-import '../../../src/common_widgets/my_fixed_snackBar.dart';
-import '../../../src/common_widgets/otp_textFormField.dart';
+import '../../../src/components/my_fixed_snackBar.dart';
+import '../../../src/components/otp_textFormField.dart';
 import '../../../src/providers/constants.dart';
 import '../../../src/responsive/reponsive_width.dart';
 import '../../../theme/colors.dart';
@@ -123,7 +125,7 @@ class _VerifyWithdrawalPageState extends State<VerifyWithdrawalPage> {
                     ),
                   ),
                   kHalfWidthSizedBox,
-                  Text(
+                  const Text(
                     "Verify Withdrawal",
                     style: TextStyle(
                       fontSize: 20,
@@ -141,15 +143,15 @@ class _VerifyWithdrawalPageState extends State<VerifyWithdrawalPage> {
             physics: const BouncingScrollPhysics(),
             child: MyResponsiveWidth(
               child: Container(
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                     horizontal: kDefaultPadding, vertical: kDefaultPadding * 2),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 30),
-                      child: Column(
+                      padding: const EdgeInsets.symmetric(horizontal: 30),
+                      child: const Column(
                         children: [
                           Opacity(
                             opacity: 0.90,
@@ -189,7 +191,7 @@ class _VerifyWithdrawalPageState extends State<VerifyWithdrawalPage> {
                       ),
                     ),
                     kSizedBox,
-                    Row(
+                    const Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

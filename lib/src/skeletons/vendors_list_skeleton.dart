@@ -33,14 +33,14 @@ class VendorsListSkeleton extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
+              const SizedBox(
                 width: 100,
                 child: PageSkeleton(height: 20, width: 100),
               ),
               kSizedBox,
               SizedBox(
                 width: media.width - 200,
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     PageSkeleton(height: 15, width: 60),

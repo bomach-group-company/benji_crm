@@ -1,14 +1,14 @@
 // ignore_for_file: unused_field
 
 import 'package:benji_aggregator/app/others/call_page.dart';
-import 'package:benji_aggregator/src/common_widgets/my_appbar.dart';
+import 'package:benji_aggregator/src/components/my_appbar.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../../../src/common_widgets/my_elevatedButton.dart';
+import '../../../src/components/my_elevatedButton.dart';
 import '../../../src/providers/constants.dart';
 
 class TrackOrder extends StatefulWidget {
@@ -66,19 +66,19 @@ class _TrackOrderState extends State<TrackOrder> {
       useSafeArea: true,
       isScrollControlled: true,
       isDismissible: true,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius:
             BorderRadius.vertical(top: Radius.circular(kDefaultPadding)),
       ),
       enableDrag: true,
       builder: (context) => SingleChildScrollView(
-        physics: ScrollPhysics(),
+        physics: const ScrollPhysics(),
         padding: const EdgeInsets.all(kDefaultPadding),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               "Delivery Officer",
               style: TextStyle(
                 color: kTextBlackColor,
@@ -100,7 +100,7 @@ class _TrackOrderState extends State<TrackOrder> {
                       ),
                       fit: BoxFit.cover,
                     ),
-                    shape: OvalBorder(),
+                    shape: const OvalBorder(),
                   ),
                 ),
                 // kWidthSizedBox,
@@ -116,7 +116,7 @@ class _TrackOrderState extends State<TrackOrder> {
                             riderName,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: kTextBlackColor,
                               fontSize: 18,
                               fontWeight: FontWeight.w700,
@@ -130,7 +130,7 @@ class _TrackOrderState extends State<TrackOrder> {
                             riderPhoneNumber,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: kTextBlackColor,
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
@@ -213,7 +213,7 @@ class _TrackOrderState extends State<TrackOrder> {
       appBar: MyAppBar(
         title: "Track order",
         elevation: 10.0,
-        actions: [],
+        actions: const [],
         backgroundColor: kPrimaryColor,
         toolbarHeight: kToolbarHeight,
       ),

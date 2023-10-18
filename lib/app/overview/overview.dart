@@ -13,12 +13,13 @@ import '../riders/riders.dart';
 import '../vendors/vendors.dart';
 
 class OverView extends StatefulWidget {
+  final user = Get.put(UserController());
+  final vendor = Get.put(VendorController());
+  final notiication = Get.put(NotificationController());
+  final ride = Get.put(RiderController());
+  final order = Get.put(OrderController());
 
- var user=    Get.put(UserController());
- var vendor = Get.put(VendorController());
- var notiication =  Get.put(NotificationController());
- var ride =  Get.put(RiderController());
-  var order  = Get.put(OrderController());
+  OverView({super.key});
 
   @override
   State<OverView> createState() => _OverViewState();
@@ -107,7 +108,7 @@ class _OverViewState extends State<OverView> {
                 color: Color(0xFFBDBDBD),
               ),
               items: [
-                BottomNavigationBarItem(
+                const BottomNavigationBarItem(
                   icon: Icon(Icons.grid_view),
                   label: "Dashboard",
                   tooltip: "Dashboard",
@@ -131,7 +132,7 @@ class _OverViewState extends State<OverView> {
                     color: kAccentColor,
                   ),
                 ),
-                BottomNavigationBarItem(
+                const BottomNavigationBarItem(
                   icon: Icon(Icons.person_2_outlined),
                   label: "Profile",
                   tooltip: "Profile",

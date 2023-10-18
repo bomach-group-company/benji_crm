@@ -5,12 +5,11 @@ import 'package:benji_aggregator/model/login_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
 
-import '../../src/common_widgets/email_textformfield.dart';
-import '../../src/common_widgets/my_fixed_snackBar.dart';
-import '../../src/common_widgets/password_textformfield.dart';
-import '../../src/common_widgets/reusable_authentication_firsthalf.dart';
+import '../../src/components/email_textformfield.dart';
+import '../../src/components/my_fixed_snackBar.dart';
+import '../../src/components/password_textformfield.dart';
+import '../../src/components/reusable_authentication_firsthalf.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 import '../splash_screens/login_splashscreen.dart';

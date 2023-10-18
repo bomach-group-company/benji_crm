@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +10,7 @@ import '../../theme/colors.dart';
 import '../providers/constants.dart';
 
 class VendorsOrderContainer extends StatelessWidget {
-  VendorsOrderContainer(
+  const VendorsOrderContainer(
       {super.key,
       required this.mediaWidth,
       required String orderImage,
@@ -37,14 +39,14 @@ class VendorsOrderContainer extends StatelessWidget {
   final double _itemPrice;
   final String _customerName;
   final String _customerAddress;
-  DataItem? order;
+  final DataItem? order;
   @override
   Widget build(BuildContext context) {
     int qty = 0;
     if (order != null) {
-      order!.orderitems!.forEach((element) {
+      for (var element in order!.orderitems!) {
         qty += int.tryParse(element.quantity!.toString())!;
-      });
+      }
     }
     return Container(
       margin: const EdgeInsets.symmetric(
@@ -89,20 +91,18 @@ class VendorsOrderContainer extends StatelessWidget {
                   // ),
                 ),
                 child: CachedNetworkImage(
-                                      imageUrl: order!.client!.image ?? "",
-                                      fit: BoxFit.cover,
-                                      progressIndicatorBuilder: (context, url,
-                                              downloadProgress) =>
-                                          Center(
-                                              child: CupertinoActivityIndicator(
-                                        color: kRedColor,
-                                      )),
-                                      errorWidget: (context, url, error) =>
-                                          const Icon(
-                                        Icons.error,
-                                        color: kRedColor,
-                                      ),
-                                  ),
+                  imageUrl: order!.client!.image ?? "",
+                  fit: BoxFit.cover,
+                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                      const Center(
+                          child: CupertinoActivityIndicator(
+                    color: kRedColor,
+                  )),
+                  errorWidget: (context, url, error) => const Icon(
+                    Icons.error,
+                    color: kRedColor,
+                  ),
+                ),
               ),
               kHalfSizedBox,
               SizedBox(
@@ -128,7 +128,7 @@ class VendorsOrderContainer extends StatelessWidget {
                 child: Wrap(
                   alignment: WrapAlignment.spaceBetween,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       child: Text(
                         "Hot Kitchen",
                         maxLines: 2,
@@ -139,7 +139,7 @@ class VendorsOrderContainer extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 5,
                     ),
                     SizedBox(

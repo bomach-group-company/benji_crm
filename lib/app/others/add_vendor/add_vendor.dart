@@ -1,5 +1,5 @@
 import 'package:benji_aggregator/app/others/my_vendors/add_third_party_vendor.dart';
-import 'package:benji_aggregator/src/common_widgets/my_appbar.dart';
+import 'package:benji_aggregator/src/components/my_appbar.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +38,7 @@ class _AddVendorState extends State<AddVendor> {
   }
 
   //============================================ CONTROLLERS =================================================\\
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   //============================================ ALL VARIABLES =================================================\\
   late bool _loadingScreen;
@@ -58,7 +58,7 @@ class _AddVendorState extends State<AddVendor> {
       );
 
   void _toAddThirdPartyVendor() => Get.to(
-        () => AddThirdPartyVendor(),
+        () => const AddThirdPartyVendor(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -74,7 +74,7 @@ class _AddVendorState extends State<AddVendor> {
       appBar: MyAppBar(
         title: "Add a new vendor",
         elevation: 10.0,
-        actions: [],
+        actions: const [],
         backgroundColor: kPrimaryColor,
         toolbarHeight: kToolbarHeight,
       ),
@@ -106,13 +106,13 @@ class _AddVendorState extends State<AddVendor> {
                       radius: const Radius.circular(10),
                       scrollbarOrientation: ScrollbarOrientation.right,
                       child: ListView(
-                        physics: ScrollPhysics(),
+                        physics: const ScrollPhysics(),
                         padding: const EdgeInsets.all(kDefaultPadding),
                         children: [
                           DottedBorder(
                             borderType: BorderType.RRect,
                             color: kLightGreyColor,
-                            radius: Radius.circular(kDefaultPadding),
+                            radius: const Radius.circular(kDefaultPadding),
                             padding: const EdgeInsets.all(kDefaultPadding),
                             child: Align(
                               alignment: Alignment.topCenter,
@@ -142,15 +142,15 @@ class _AddVendorState extends State<AddVendor> {
                               color: kAccentColor,
                               size: 30,
                             ),
-                            title: Text(
+                            title: const Text(
                               "Register a vendor",
                             ),
-                            titleTextStyle: TextStyle(
+                            titleTextStyle: const TextStyle(
                               color: kTextBlackColor,
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
                             ),
-                            subtitle: Text(
+                            subtitle: const Text(
                               "Register a new vendor account",
                             ),
                             subtitleTextStyle: TextStyle(color: kTextGreyColor),
@@ -179,15 +179,15 @@ class _AddVendorState extends State<AddVendor> {
                               color: kAccentColor,
                               size: 30,
                             ),
-                            title: Text(
+                            title: const Text(
                               "Add third party vendor",
                             ),
-                            titleTextStyle: TextStyle(
+                            titleTextStyle: const TextStyle(
                               color: kTextBlackColor,
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
                             ),
-                            subtitle: Text(
+                            subtitle: const Text(
                               "Create a vendor account on behalf of a vendor (3rd party account)",
                             ),
                             subtitleTextStyle: TextStyle(color: kTextGreyColor),
