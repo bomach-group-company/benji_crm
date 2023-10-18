@@ -44,9 +44,9 @@ dev_dependencies:
   flutter_lints: ^2.0.0
 
 flutter_native_splash:
-  image: assets/images/splash_screen/frame_1.png
+  image: assets/images/logo/benji_full_logo.png
   color: "#f9f9f9"
-  image_dark: assets/images/splash_screen/frame_1.png
+  image_dark: assets/images/logo/benji_full_logo.png
   color_dark: "#000000"
 
 flutter_launcher_icons:

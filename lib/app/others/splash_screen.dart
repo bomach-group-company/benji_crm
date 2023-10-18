@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controller/login_controller.dart';
+import '../../src/providers/constants.dart';
 
 class SplashScreen extends StatelessWidget {
   SplashScreen({super.key});
@@ -25,7 +26,9 @@ class SplashScreen extends StatelessWidget {
                   "assets/images/logo/benji_full_logo.png",
                   height: 50,
                   width: 50,
-                )
+                ),
+                kSizedBox,
+                CircularProgressIndicator(color: kAccentColor),
               ],
             ),
           );

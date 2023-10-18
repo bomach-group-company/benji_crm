@@ -3,9 +3,10 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/route_manager.dart';
+
+import '../theme/colors.dart';
 
 void ConsoleLog(data) => log(data.toString());
 
@@ -36,8 +37,8 @@ class ApiProcessorController extends GetxController {
     Get.showSnackbar(GetSnackBar(
       title: "ERROR",
       message: "$msg",
-      backgroundColor: Colors.red,
-      duration: const Duration(seconds: 5),
+      backgroundColor: kAccentColor,
+      duration: const Duration(seconds: 3),
     ));
   }
 
@@ -45,8 +46,8 @@ class ApiProcessorController extends GetxController {
     Get.showSnackbar(GetSnackBar(
       title: "Successful",
       message: "$msg",
-      backgroundColor: Colors.green,
-      duration: const Duration(seconds: 5),
+      backgroundColor: kSuccessColor,
+      duration: const Duration(seconds: 3),
     ));
   }
 }
