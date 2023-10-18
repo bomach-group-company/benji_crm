@@ -5,10 +5,10 @@ import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 
-import '../../src/common_widgets/my_appbar.dart';
-import '../../src/common_widgets/my_fixed_snackBar.dart';
-import '../../src/common_widgets/password_textformfield.dart';
-import '../../src/common_widgets/reusable_authentication_firsthalf.dart';
+import '../../src/components/my_appbar.dart';
+import '../../src/components/my_fixed_snackBar.dart';
+import '../../src/components/password_textformfield.dart';
+import '../../src/components/reusable_authentication_firsthalf.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 import 'login.dart';

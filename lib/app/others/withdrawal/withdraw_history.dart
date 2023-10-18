@@ -1,4 +1,4 @@
-import 'package:benji_aggregator/src/common_widgets/my_appbar.dart';
+import 'package:benji_aggregator/src/components/my_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';

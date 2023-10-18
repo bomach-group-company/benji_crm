@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
-import '../../../src/common_widgets/my_appbar.dart';
+import '../../../src/components/my_appbar.dart';
 import '../../../theme/colors.dart';
 import 'my_vendor_detail.dart';
 

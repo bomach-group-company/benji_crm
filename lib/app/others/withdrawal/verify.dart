@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 
-import '../../../src/common_widgets/my_fixed_snackBar.dart';
-import '../../../src/common_widgets/otp_textFormField.dart';
+import '../../../src/components/my_fixed_snackBar.dart';
+import '../../../src/components/otp_textFormField.dart';
 import '../../../src/providers/constants.dart';
 import '../../../src/responsive/reponsive_width.dart';
 import '../../../theme/colors.dart';

@@ -1,9 +1,9 @@
-import 'package:benji_aggregator/src/common_widgets/my_appbar.dart';
+import 'package:benji_aggregator/src/components/my_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
-import '../../../src/common_widgets/my_elevatedButton.dart';
-import '../../../src/common_widgets/my_textformfield2.dart';
+import '../../../src/components/my_elevatedButton.dart';
+import '../../../src/components/my_textformfield2.dart';
 import '../../../src/providers/constants.dart';
 import '../../../src/responsive/reponsive_width.dart';
 import '../../../theme/colors.dart';

@@ -1,4 +1,4 @@
-import 'package:benji_aggregator/src/common_widgets/my_appbar.dart';
+import 'package:benji_aggregator/src/components/my_appbar.dart';
 import 'package:benji_aggregator/src/skeletons/dashboard_orders_list_skeleton.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
@@ -6,8 +6,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../../model/order_list_model.dart';
-import '../../../src/common_widgets/all_orders_container.dart';
-import '../../../src/common_widgets/completed_orders_tab.dart';
+import '../../../src/components/all_orders_container.dart';
+import '../../../src/components/completed_orders_tab.dart';
 import '../../../src/providers/constants.dart';
 
 class AllOrders extends StatefulWidget {

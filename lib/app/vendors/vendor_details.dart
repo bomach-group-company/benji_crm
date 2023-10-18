@@ -2,10 +2,9 @@
 
 import 'package:benji_aggregator/app/others/products/product_details.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
-
+import 'package:benji_aggregator/src/providers/custom_show_search.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:benji_aggregator/src/providers/custom_show_search.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -17,12 +16,12 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../controller/vendor_controller.dart';
 import '../../model/vendor_list_model.dart';
 import '../../model/vendor_product_model.dart';
-import '../../src/common_widgets/category_button_section.dart';
-import '../../src/common_widgets/my_appbar.dart';
-import '../../src/common_widgets/vendor_orders_tab.dart';
-import '../../src/common_widgets/vendor_products_tab.dart';
-import '../../src/common_widgets/vendors_order_container.dart';
-import '../../src/common_widgets/vendors_product_container.dart';
+import '../../src/components/category_button_section.dart';
+import '../../src/components/my_appbar.dart';
+import '../../src/components/vendor_orders_tab.dart';
+import '../../src/components/vendor_products_tab.dart';
+import '../../src/components/vendors_order_container.dart';
+import '../../src/components/vendors_product_container.dart';
 import '../../src/skeletons/vendors_tabbar_orders_content_skeleton.dart';
 import '../../src/skeletons/vendors_tabbar_products_content_skeleton.dart';
 import '../../theme/colors.dart';

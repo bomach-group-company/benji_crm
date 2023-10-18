@@ -10,7 +10,7 @@ import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../../model/order_list_model.dart';
-import '../../../src/common_widgets/my_appbar.dart';
+import '../../../src/components/my_appbar.dart';
 import '../../../theme/colors.dart';
 import 'active_order_details.dart';
 
@@ -205,7 +205,7 @@ class OrderDetail extends StatelessWidget {
     double mediaHeight = MediaQuery.of(context).size.height;
 
     return InkWell(
-      onTap:()=>  _toActiveOrderDetailsPage(),
+      onTap: () => _toActiveOrderDetailsPage(),
       borderRadius: BorderRadius.circular(kDefaultPadding),
       child: Container(
         margin: const EdgeInsets.symmetric(

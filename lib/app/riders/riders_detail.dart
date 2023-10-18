@@ -1,7 +1,7 @@
 // ignore_for_file: file_names, unused_local_variable, unused_field
 
 import 'package:benji_aggregator/controller/operation.dart';
-import 'package:benji_aggregator/src/common_widgets/my_appbar.dart';
+import 'package:benji_aggregator/src/components/my_appbar.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,7 +14,7 @@ import '../../controller/rider_controller.dart';
 import '../../controller/url_launch_controller.dart';
 import '../../model/driver_history_model.dart';
 import '../../model/rider_list_model.dart';
-import '../../src/common_widgets/my_outlined_elevatedButton.dart';
+import '../../src/components/my_outlined_elevatedButton.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/custom_show_search.dart';
 import 'suspend_rider.dart';

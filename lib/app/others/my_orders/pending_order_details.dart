@@ -9,9 +9,9 @@ import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../../model/order_list_model.dart';
-import '../../../src/common_widgets/my_appbar.dart';
-import '../../../src/common_widgets/my_elevatedButton.dart';
-import '../../../src/common_widgets/my_outlined_elevatedButton.dart';
+import '../../../src/components/my_appbar.dart';
+import '../../../src/components/my_elevatedButton.dart';
+import '../../../src/components/my_outlined_elevatedButton.dart';
 import '../../../src/providers/constants.dart';
 import '../../../theme/colors.dart';
 import '../../riders/assign_rider.dart';

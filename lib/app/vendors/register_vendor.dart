@@ -3,7 +3,7 @@
 import 'dart:io';
 
 import 'package:benji_aggregator/controller/vendor_controller.dart';
-import 'package:benji_aggregator/src/common_widgets/my_appbar.dart';
+import 'package:benji_aggregator/src/components/my_appbar.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -13,14 +13,14 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
-import '../../../src/common_widgets/message_textformfield.dart';
-import '../../../src/common_widgets/my_blue_textformfield.dart';
-import '../../../src/common_widgets/my_elevatedButton.dart';
-import '../../../src/common_widgets/my_fixed_snackBar.dart';
-import '../../../src/common_widgets/my_intl_phonefield.dart';
 import '../../../src/providers/constants.dart';
 import '../../../src/skeletons/vendors_list_skeleton.dart';
 import '../../model/create_vendor_model.dart';
+import '../../src/components/message_textformfield.dart';
+import '../../src/components/my_blue_textformfield.dart';
+import '../../src/components/my_elevatedButton.dart';
+import '../../src/components/my_fixed_snackBar.dart';
+import '../../src/components/my_intl_phonefield.dart';
 import 'business_category_modal.dart';
 
 class RegisterVendor extends StatefulWidget {

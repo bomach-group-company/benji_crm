@@ -4,7 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
-import '../../src/common_widgets/profile_first_half.dart';
+import '../../src/components/profile_first_half.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 import '../auth_screens/login.dart';

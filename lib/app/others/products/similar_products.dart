@@ -8,7 +8,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../../src/common_widgets/my_appbar.dart';
+import '../../../src/components/my_appbar.dart';
 import '../../../src/providers/constants.dart';
 import '../../../theme/colors.dart';
 

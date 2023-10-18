@@ -5,11 +5,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../src/common_widgets/my_appbar.dart';
-import '../../../src/common_widgets/my_disabled_outlined_elevatedButton.dart';
-import '../../../src/common_widgets/my_elevatedButton.dart';
-import '../../../src/common_widgets/my_outlined_elevatedButton.dart';
-import '../../../src/common_widgets/my_textformfield.dart';
+import '../../../src/components/my_appbar.dart';
+import '../../../src/components/my_disabled_outlined_elevatedButton.dart';
+import '../../../src/components/my_elevatedButton.dart';
+import '../../../src/components/my_outlined_elevatedButton.dart';
+import '../../../src/components/my_textformfield.dart';
 import '../../../src/providers/constants.dart';
 import '../../../theme/colors.dart';
 import 'select category.dart';

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:benji_aggregator/src/common_widgets/my_appbar.dart';
+import 'package:benji_aggregator/src/components/my_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 

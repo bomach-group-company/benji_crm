@@ -33,7 +33,7 @@ class MyMessageTextFormField extends StatelessWidget {
       focusNode: focusNode,
       controller: controller,
       onSaved: onSaved,
-       validator: validator,
+      validator: validator,
       textInputAction: textInputAction,
       textAlign: TextAlign.start,
       cursorColor: kSecondaryColor,

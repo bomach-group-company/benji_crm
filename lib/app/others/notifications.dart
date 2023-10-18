@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../model/notificatin_model.dart';
-import '../../src/common_widgets/my_appbar.dart';
+import '../../src/components/my_appbar.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 

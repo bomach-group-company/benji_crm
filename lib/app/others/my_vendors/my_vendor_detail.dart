@@ -10,12 +10,12 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../controller/vendor_controller.dart';
-import '../../../src/common_widgets/category_button_section.dart';
-import '../../../src/common_widgets/my_appbar.dart';
-import '../../../src/common_widgets/vendor_orders_tab.dart';
-import '../../../src/common_widgets/vendor_products_tab.dart';
-import '../../../src/common_widgets/vendors_order_container.dart';
-import '../../../src/common_widgets/vendors_product_container.dart';
+import '../../../src/components/category_button_section.dart';
+import '../../../src/components/my_appbar.dart';
+import '../../../src/components/vendor_orders_tab.dart';
+import '../../../src/components/vendor_products_tab.dart';
+import '../../../src/components/vendors_order_container.dart';
+import '../../../src/components/vendors_product_container.dart';
 import '../../../src/skeletons/vendors_tabbar_orders_content_skeleton.dart';
 import '../../../src/skeletons/vendors_tabbar_products_content_skeleton.dart';
 import '../../../theme/colors.dart';

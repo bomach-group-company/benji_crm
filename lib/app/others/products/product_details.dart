@@ -9,7 +9,7 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:readmore/readmore.dart';
 
 import '../../../model/vendor_product_model.dart';
-import '../../../src/common_widgets/my_appbar.dart';
+import '../../../src/components/my_appbar.dart';
 import '../../../src/providers/constants.dart';
 import '../../../src/skeletons/product_details_page_skeleton.dart';
 import '../../../theme/colors.dart';

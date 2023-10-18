@@ -63,11 +63,13 @@ class _StarRowState extends State<StarRow> {
                       OutlinedButton(
                         style: OutlinedButton.styleFrom(
                           side: BorderSide(
-                            color:
-                                active == item ? kStarColor : const Color(0xFFA9AAB1),
+                            color: active == item
+                                ? kStarColor
+                                : const Color(0xFFA9AAB1),
                           ),
-                          foregroundColor:
-                              active == item ? kStarColor : const Color(0xFFA9AAB1),
+                          foregroundColor: active == item
+                              ? kStarColor
+                              : const Color(0xFFA9AAB1),
                         ),
                         onPressed: () {
                           setState(() {
