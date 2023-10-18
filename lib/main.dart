@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       defaultTransition: Transition.rightToLeft,
-      title: "Benji Aggregator",
+      title: "Benji Agent",
       themeMode: ThemeMode.light,
       darkTheme: AppTheme.darkTheme,
       theme: AppTheme.lightTheme,

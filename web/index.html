@@ -22,12 +22,14 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="benji_aggregator">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png">
 
-  <title>benji_aggregator</title>
+  <title>Benji Agent</title>
   <link rel="manifest" href="manifest.json">
 
   <script>
@@ -36,9 +38,11 @@
   </script>
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer=""></script>
-  
-  
+
+
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+  
+  
   <style id="splash-screen-style">
     html {
       height: 100%
@@ -111,6 +115,7 @@
     }
   </script>
 </head>
+
 <body>
   <picture id="splash">
       <source srcset="splash/img/light-1x.png 1x, splash/img/light-2x.png 2x, splash/img/light-3x.png 3x, splash/img/light-4x.png 4x" media="(prefers-color-scheme: light)">
@@ -118,21 +123,24 @@
       <img class="center" aria-hidden="true" src="splash/img/light-1x.png" alt="">
   </picture>
   
+
   <script>
-    window.addEventListener('load', function(ev) {
+    window.addEventListener('load', function (ev) {
       // Download main.dart.js
       _flutter.loader.loadEntrypoint({
         serviceWorker: {
           serviceWorkerVersion: serviceWorkerVersion,
         },
-        onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine().then(function(appRunner) {
+        onEntrypointLoaded: function (engineInitializer) {
+          engineInitializer.initializeEngine().then(function (appRunner) {
             appRunner.runApp();
           });
         }
       });
     });
   </script>
+
+
 
 
 </body></html>

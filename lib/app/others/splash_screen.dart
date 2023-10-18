@@ -22,7 +22,7 @@ class SplashScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  "assets/images/logo/benji_blue_logo_icon.jpg",
+                  "assets/images/logo/benji_full_logo.png",
                   height: 50,
                   width: 50,
                 )
