@@ -32,13 +32,13 @@ class _ProfileFirstHalfState extends State<ProfileFirstHalf> {
 //======================================================= FUNCTIONS ================================================\\
   void _toSelectAccount() => Get.to(
         () => const SelectAccountPage(),
-        duration: const Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 1000),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "Select Account",
+        routeName: "SelectAccountPage",
         preventDuplicates: true,
         popGesture: true,
-        transition: Transition.rightToLeft,
+        transition: Transition.cupertinoDialog,
       );
   @override
   Widget build(BuildContext context) {

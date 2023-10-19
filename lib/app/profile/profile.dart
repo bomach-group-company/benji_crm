@@ -1,6 +1,7 @@
+import 'dart:async';
+
 import 'package:benji_aggregator/app/others/withdrawal/withdraw_history.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
@@ -11,6 +12,7 @@ import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 import '../auth_screens/login.dart';
 import 'personal_info.dart';
+import 'settings.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -24,17 +26,23 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     super.initState();
-
     _loadingScreen = true;
-    Future.delayed(
-      const Duration(milliseconds: 1000),
-      () => setState(
-        () => _loadingScreen = false,
-      ),
-    );
+    _timer = Timer(const Duration(milliseconds: 1000), () {
+      setState(() => _loadingScreen = false);
+    });
+  }
+
+  @override
+  void dispose() {
+    _handleRefresh().ignore();
+    _timer.cancel();
+    super.dispose();
   }
 
 //=============================================== ALL VARIABLES ======================================================\\
+  late Timer _timer;
+
+//=============================================== ALL BOOL VALUES ======================================================\\
   late bool _loadingScreen;
 
 //=============================================== FUNCTIONS ======================================================\\
@@ -45,7 +53,9 @@ class _ProfileState extends State<Profile> {
     setState(() {
       _loadingScreen = true;
     });
-    await Future.delayed(const Duration(seconds: 1));
+    _timer = Timer(const Duration(milliseconds: 1000), () {
+      setState(() => _loadingScreen = false);
+    });
     setState(() {
       _loadingScreen = false;
     });
@@ -58,6 +68,16 @@ class _ProfileState extends State<Profile> {
         fullscreenDialog: true,
         curve: Curves.easeIn,
         routeName: "PersonalInfo",
+        preventDuplicates: true,
+        popGesture: false,
+        transition: Transition.rightToLeft,
+      );
+  void _toSettings() => Get.to(
+        () => const Settings(),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "Settings",
         preventDuplicates: true,
         popGesture: false,
         transition: Transition.rightToLeft,
@@ -108,7 +128,9 @@ class _ProfileState extends State<Profile> {
           child: GetBuilder<UserController>(
             builder: (controller) {
               return _loadingScreen
-                  ? SpinKitDoubleBounce(color: kAccentColor)
+                  ? Center(
+                      child: CircularProgressIndicator(color: kAccentColor),
+                    )
                   : ListView(
                       scrollDirection: Axis.vertical,
                       children: [
@@ -160,7 +182,7 @@ class _ProfileState extends State<Profile> {
                                   ),
                                 ),
                                 ListTile(
-                                  onTap: () {},
+                                  onTap: _toSettings,
                                   enableFeedback: true,
                                   mouseCursor: SystemMouseCursors.click,
                                   leading: FaIcon(
@@ -230,7 +252,6 @@ class _ProfileState extends State<Profile> {
                                   ),
                                 ),
                                 ListTile(
-                                  onTap: () {},
                                   enableFeedback: true,
                                   mouseCursor: SystemMouseCursors.click,
                                   leading: FaIcon(

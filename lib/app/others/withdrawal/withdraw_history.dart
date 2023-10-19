@@ -83,6 +83,8 @@ class _WithdrawalHistoryPageState extends State<WithdrawalHistoryPage> {
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
+    DateTime now = DateTime.now();
+    String formattedDateAndTime = formatDateAndTime(now);
     return LiquidPullToRefresh(
       onRefresh: _handleRefresh,
       color: kAccentColor,
@@ -133,28 +135,28 @@ class _WithdrawalHistoryPageState extends State<WithdrawalHistoryPage> {
                 );
               }
               return _loadingScreen
-                  ? SpinKitDoubleBounce(color: kAccentColor)
+                  ? Center(
+                      child: CircularProgressIndicator(color: kAccentColor),
+                    )
                   : Scrollbar(
                       controller: _scrollController,
-                      child: ListView.builder(
+                      child: ListView.separated(
+                        controller: _scrollController,
                         physics: const BouncingScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: 10,
-                        controller: _scrollController,
-                        itemBuilder: (BuildContext context, int index) {
+                        itemCount: 20,
+                        padding: const EdgeInsets.all(10),
+                        separatorBuilder: (context, index) => kSizedBox,
+                        itemBuilder: (context, index) {
                           return Container(
-                            margin: const EdgeInsets.symmetric(
-                              horizontal: kDefaultPadding,
-                              vertical: kDefaultPadding / 2,
-                            ),
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: kPrimaryColor,
                               boxShadow: [
                                 BoxShadow(
                                   blurRadius: 5,
                                   color: Colors.grey.shade400,
                                   spreadRadius: 2,
-                                  // offset: Offset(1, 1),
+                                  offset: const Offset(1, 1),
                                 ),
                               ],
                               borderRadius: BorderRadius.circular(10),
@@ -168,17 +170,18 @@ class _WithdrawalHistoryPageState extends State<WithdrawalHistoryPage> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      'NGN 20,000',
+                                      '₦ 20,000',
                                       style: TextStyle(
                                         color: kAccentColor,
                                         fontSize: 16,
+                                        fontFamily: 'sen',
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
-                                    const Text(
-                                      '21/03/2023 | 12:19 pm',
+                                    Text(
+                                      formattedDateAndTime,
                                       style: TextStyle(
-                                        color: Color(0xFFA9AAB1),
+                                        color: kTextGreyColor,
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500,
                                       ),
