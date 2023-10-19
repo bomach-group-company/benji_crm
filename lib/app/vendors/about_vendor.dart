@@ -86,7 +86,6 @@ class _AboutVendorState extends State<AboutVendor> {
           elevation: 0,
           actions: const [],
           backgroundColor: kPrimaryColor,
-          toolbarHeight: kToolbarHeight,
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,

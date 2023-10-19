@@ -117,7 +117,6 @@ class _SimilarProductsPageState extends State<SimilarProductsPage>
           title: "Similar Products",
           elevation: 10.0,
           backgroundColor: kPrimaryColor,
-          toolbarHeight: 40,
           actions: [
             IconButton(
               onPressed: () {

@@ -34,7 +34,8 @@ dependencies:
   font_awesome_flutter: ^10.5.0
   shared_preferences: ^2.2.0
   cached_network_image: ^3.2.3
-  path:
+  flutter_layout_grid:
+  lottie:
 
 dev_dependencies:
   flutter_test:
@@ -44,9 +45,9 @@ dev_dependencies:
   flutter_lints: ^2.0.0
 
 flutter_native_splash:
-  image: assets/images/splash_screen/frame_1.png
+  image: assets/images/logo/benji_full_logo.png
   color: "#f9f9f9"
-  image_dark: assets/images/splash_screen/frame_1.png
+  image_dark: assets/images/logo/benji_full_logo.png
   color_dark: "#000000"
 
 flutter_launcher_icons:
@@ -87,6 +88,16 @@ flutter:
     - assets/images/profile/
     - assets/animations/splash_screen/
     - assets/animations/successful/
+    - assets/animations/login/
+    - assets/animations/signup/
+    - assets/animations/payment/
+    - assets/animations/no_internet/
+    - assets/animations/error/
+    - assets/animations/empty/
+    - assets/animations/credit_card/
+    - assets/animations/delivery/
+    - assets/animations/google_maps/
+    - assets/animations/help_and_support/
 
   #For example:
   # fonts:

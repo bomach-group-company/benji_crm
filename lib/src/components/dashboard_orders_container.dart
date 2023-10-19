@@ -1,6 +1,8 @@
 // ignore_for_file: file_names
 
+import 'package:benji_aggregator/src/responsive/responsive_constant.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../theme/colors.dart';
 import '../providers/constants.dart';
@@ -25,6 +27,7 @@ class OrdersContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var media = MediaQuery.of(context).size;
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(kDefaultPadding),
@@ -34,8 +37,8 @@ class OrdersContainer extends StatelessWidget {
           left: kDefaultPadding,
           right: kDefaultPadding / 1.5,
         ),
-        width: MediaQuery.of(context).size.width * 0.41,
-        height: 140,
+        width: media.width * 0.41,
+        height: deviceType(media.width) > 2 ? 200 : 140,
         decoration: ShapeDecoration(
           color: containerColor,
           shape: RoundedRectangleBorder(
@@ -54,9 +57,9 @@ class OrdersContainer extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.topRight,
-              child: Icon(
-                Icons.arrow_forward_rounded,
-                size: 20,
+              child: FaIcon(
+                FontAwesomeIcons.chevronRight,
+                // size: 20,
                 color: iconColor,
               ),
             ),
@@ -67,13 +70,13 @@ class OrdersContainer extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: SizedBox(
                     width: 100,
-                    height: 62.78,
                     child: Text(
                       numberOfOrders,
                       textAlign: TextAlign.left,
+                      // overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: kAccentColor,
-                        fontSize: 52.32,
+                        fontSize: deviceType(media.width) > 2 ? 64 : 54,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -86,7 +89,7 @@ class OrdersContainer extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: typeOfOrderColor,
-                      fontSize: 13,
+                      fontSize: deviceType(media.width) > 2 ? 23 : 13,
                       fontWeight: FontWeight.w700,
                     ),
                   ),

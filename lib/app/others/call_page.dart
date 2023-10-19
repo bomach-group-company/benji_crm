@@ -105,7 +105,6 @@ class _CallPageState extends State<CallPage> {
         elevation: 0,
         actions: const [],
         backgroundColor: kPrimaryColor,
-        toolbarHeight: kToolbarHeight,
       ),
       body: SafeArea(
         child: ListView(

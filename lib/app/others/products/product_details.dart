@@ -108,7 +108,6 @@ class _ProductDetailsState extends State<ProductDetails> {
           title: "Product Details",
           elevation: 10.0,
           backgroundColor: kPrimaryColor,
-          toolbarHeight: 40,
           actions: const [],
         ),
         extendBodyBehindAppBar: true,

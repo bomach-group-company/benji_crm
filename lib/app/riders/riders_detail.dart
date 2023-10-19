@@ -233,7 +233,6 @@ class _RidersDetailState extends State<RidersDetail> {
             ),
           ],
           backgroundColor: kPrimaryColor,
-          toolbarHeight: kToolbarHeight,
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,

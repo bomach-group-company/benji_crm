@@ -2,7 +2,9 @@
 
 import 'package:benji_aggregator/app/others/notifications.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
+import 'package:benji_aggregator/src/responsive/responsive_constant.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../../app/profile/profile.dart';
@@ -12,10 +14,12 @@ import '../providers/custom_show_search.dart';
 import 'dashboard_appBar_aggregator.dart';
 
 class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final int numberOfNotifications;
   @override
-  Size get preferredSize => const Size.fromHeight(80);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
   const DashboardAppBar({
     super.key,
+    required this.numberOfNotifications,
   });
 //======================================== ALL VARIABLES ==============================================\\
 
@@ -43,6 +47,7 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
       );
   @override
   Widget build(BuildContext context) {
+    var media = MediaQuery.of(context).size;
     void showSearchField() {
       showSearch(context: context, delegate: CustomSearchDelegate());
     }
@@ -50,7 +55,8 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: kPrimaryColor,
       automaticallyImplyLeading: false,
-      titleSpacing: kDefaultPadding / 2,
+      titleSpacing:
+          deviceType(media.width) > 2 ? kDefaultPadding : kDefaultPadding / 2,
       elevation: 10.0,
       title: GetBuilder<UserController>(builder: (controller) {
         return Row(
@@ -60,9 +66,7 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
                 horizontal: kDefaultPadding / 2,
               ),
               child: InkWell(
-                onTap: () {
-                  toProfilePage();
-                },
+                onTap: toProfilePage,
                 child: Container(
                   width: 45,
                   height: 45,
@@ -80,7 +84,7 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
             AppBarAggregator(
               title: "Welcome,",
-              aggregatorName: controller.user.value.username ?? "",
+              aggregatorName: controller.user.value.username ?? "Loading...",
             ),
           ],
         );
@@ -88,8 +92,8 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         IconButton(
             onPressed: showSearchField,
-            icon: Icon(
-              Icons.search,
+            icon: FaIcon(
+              FontAwesomeIcons.magnifyingGlass,
               color: kGreyColor,
             )),
         Stack(
@@ -97,29 +101,29 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
             IconButton(
               iconSize: 20,
               onPressed: toNotificationsPage,
-              icon: Icon(
-                Icons.notifications_outlined,
+              icon: FaIcon(
+                FontAwesomeIcons.bell,
                 color: kAccentColor,
                 size: 30,
               ),
             ),
             Positioned(
               top: 10,
-              right: 12,
+              right: 5,
               child: Container(
-                height: 15,
-                width: 15,
+                height: 20,
+                width: 20,
                 decoration: ShapeDecoration(
                   color: kAccentColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100),
                   ),
                 ),
-                child: const Center(
+                child: Center(
                   child: Text(
-                    "4",
+                    "$numberOfNotifications",
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 9,
                       fontWeight: FontWeight.w400,
                     ),

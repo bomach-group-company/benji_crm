@@ -5,57 +5,46 @@ import 'package:flutter/material.dart';
 import '../../theme/colors.dart';
 
 class MyElevatedButton extends StatelessWidget {
+  final String title;
   final Function() onPressed;
-  final double circularBorderRadius;
-  final double minimumSizeWidth;
-  final double minimumSizeHeight;
-  final double maximumSizeWidth;
-  final double maximumSizeHeight;
-  final String buttonTitle;
-  final double titleFontSize;
-  final double elevation;
+  final bool isLoading;
 
   const MyElevatedButton({
     super.key,
+    required this.title,
     required this.onPressed,
-    required this.circularBorderRadius,
-    required this.minimumSizeWidth,
-    required this.minimumSizeHeight,
-    required this.maximumSizeWidth,
-    required this.maximumSizeHeight,
-    required this.buttonTitle,
-    required this.titleFontSize,
-    required this.elevation,
+    this.isLoading = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    double mediaWidth = MediaQuery.of(context).size.width;
     return ElevatedButton(
-      onPressed: onPressed,
+      onPressed: isLoading ? null : onPressed,
       style: ElevatedButton.styleFrom(
+        disabledBackgroundColor: kAccentColor.withOpacity(0.5),
         backgroundColor: kAccentColor,
-        elevation: elevation,
+        elevation: 0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(
-            circularBorderRadius,
-          ),
+          borderRadius: BorderRadius.circular(20),
         ),
-        minimumSize: Size(
-          minimumSizeWidth,
-          minimumSizeHeight,
-        ),
-        maximumSize: Size(
-          maximumSizeWidth,
-          maximumSizeHeight,
-        ),
+        shadowColor: kBlackColor.withOpacity(0.4),
+        minimumSize: Size(mediaWidth, 60),
       ),
-      child: Text(
-        buttonTitle,
-        style: TextStyle(
-          fontSize: titleFontSize,
-          fontWeight: FontWeight.w400,
-        ),
-      ),
+      child: isLoading
+          ? const CircularProgressIndicator(
+              color: Colors.white,
+            )
+          : Text(
+              title.toUpperCase(),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: kPrimaryColor,
+                fontSize: 18,
+                fontFamily: "Sen",
+                fontWeight: FontWeight.w700,
+              ),
+            ),
     );
   }
 }

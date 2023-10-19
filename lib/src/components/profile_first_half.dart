@@ -2,10 +2,12 @@
 
 import 'package:benji_aggregator/app/others/withdrawal/select_account.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
 import '../../theme/colors.dart';
 import '../providers/constants.dart';
+import '../utils/remember.dart';
 
 class ProfileFirstHalf extends StatefulWidget {
   final String availableBalance;
@@ -23,22 +25,20 @@ class _ProfileFirstHalfState extends State<ProfileFirstHalf> {
   @override
   void initState() {
     super.initState();
-    _isObscured = true;
   }
 
 //======================================================= ALL VARIABLES ================================================\\
-  var _isObscured;
 
 //======================================================= FUNCTIONS ================================================\\
   void _toSelectAccount() => Get.to(
         () => const SelectAccountPage(),
-        duration: const Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 1000),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "Select Account",
+        routeName: "SelectAccountPage",
         preventDuplicates: true,
         popGesture: true,
-        transition: Transition.rightToLeft,
+        transition: Transition.cupertinoDialog,
       );
   @override
   Widget build(BuildContext context) {
@@ -71,16 +71,16 @@ class _ProfileFirstHalfState extends State<ProfileFirstHalf> {
               IconButton(
                 onPressed: () {
                   setState(() {
-                    _isObscured = !_isObscured;
+                    setRememberBalance(!rememberBalance());
                   });
                 },
-                icon: _isObscured
-                    ? Icon(
-                        Icons.visibility,
+                icon: rememberBalance()
+                    ? FaIcon(
+                        FontAwesomeIcons.solidEye,
                         color: kPrimaryColor,
                       )
-                    : Icon(
-                        Icons.visibility_off_rounded,
+                    : FaIcon(
+                        FontAwesomeIcons.solidEyeSlash,
                         color: kPrimaryColor,
                       ),
               ),
@@ -88,7 +88,7 @@ class _ProfileFirstHalfState extends State<ProfileFirstHalf> {
           ),
           kSizedBox,
           Text(
-            _isObscured ? '₦${widget.availableBalance}' : 'XXXXXXXXX',
+            rememberBalance() ? '₦${widget.availableBalance}' : 'XXXXXXXXX',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: kPrimaryColor,

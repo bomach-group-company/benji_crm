@@ -11,7 +11,7 @@ import 'package:http/http.dart' as http;
 
 import '../model/driver_history_model.dart';
 import '../model/rider_list_model.dart';
-import '../model/rifer_model.dart';
+import '../model/rider_model.dart';
 import '../services/pref.dart';
 
 class RiderController extends GetxController {

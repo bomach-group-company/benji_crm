@@ -129,7 +129,6 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
       child: Scaffold(
         appBar: MyAppBar(
           title: "Order Details",
-          toolbarHeight: 80,
           elevation: 10.0,
           actions: const [],
           backgroundColor: kPrimaryColor,
@@ -754,14 +753,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                       kSizedBox,
                       MyElevatedButton(
                         onPressed: _trackOrder,
-                        circularBorderRadius: kDefaultPadding,
-                        minimumSizeWidth: mediaWidth / 1.5,
-                        minimumSizeHeight: 60,
-                        maximumSizeWidth: mediaWidth / 1.5,
-                        maximumSizeHeight: 60,
-                        buttonTitle: "Track order",
-                        titleFontSize: 20,
-                        elevation: 10.0,
+                        title: "Track order",
                       ),
                       kSizedBox,
                     ],

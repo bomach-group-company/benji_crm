@@ -69,7 +69,6 @@ class _SuspendMyVendorState extends State<SuspendMyVendor> {
         elevation: 10.0,
         actions: const [],
         backgroundColor: kPrimaryColor,
-        toolbarHeight: kToolbarHeight,
       ),
       bottomNavigationBar: _submittingRequest
           ? Center(
@@ -91,14 +90,7 @@ class _SuspendMyVendorState extends State<SuspendMyVendor> {
                     _submitRequest();
                   }
                 }),
-                buttonTitle: "Submit",
-                circularBorderRadius: 16,
-                minimumSizeWidth: 60,
-                minimumSizeHeight: 60,
-                maximumSizeWidth: 60,
-                maximumSizeHeight: 60,
-                titleFontSize: 16,
-                elevation: 10.0,
+                title: "Submit",
               ),
             ),
       body: SafeArea(

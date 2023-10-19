@@ -53,7 +53,6 @@ class _SelectCategoryState extends State<SelectCategory> {
       backgroundColor: kPrimaryColor,
       appBar: MyAppBar(
         title: "Select Category",
-        toolbarHeight: 80,
         elevation: 0.0,
         actions: const [],
         backgroundColor: kPrimaryColor,
@@ -126,7 +125,7 @@ class _SelectCategoryState extends State<SelectCategory> {
               ),
             ),
             MyElevatedButton(
-              buttonTitle: "Save",
+              title: "Save",
               onPressed: () {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
@@ -138,13 +137,6 @@ class _SelectCategoryState extends State<SelectCategory> {
                   ),
                 );
               },
-              circularBorderRadius: 16,
-              minimumSizeWidth: MediaQuery.of(context).size.width,
-              minimumSizeHeight: 50,
-              maximumSizeWidth: MediaQuery.of(context).size.width,
-              maximumSizeHeight: 50,
-              titleFontSize: 14,
-              elevation: 0,
             ),
             kSizedBox,
             InkWell(
@@ -217,7 +209,7 @@ class _SelectCategoryState extends State<SelectCategory> {
                           ),
                           kSizedBox,
                           MyElevatedButton(
-                            buttonTitle: "Save",
+                            title: "Save",
                             onPressed: () {
                               Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
@@ -229,13 +221,6 @@ class _SelectCategoryState extends State<SelectCategory> {
                                 ),
                               );
                             },
-                            circularBorderRadius: 16,
-                            minimumSizeWidth: MediaQuery.of(context).size.width,
-                            minimumSizeHeight: 50,
-                            maximumSizeWidth: MediaQuery.of(context).size.width,
-                            maximumSizeHeight: 50,
-                            titleFontSize: 14,
-                            elevation: 0,
                           ),
                         ],
                       ),

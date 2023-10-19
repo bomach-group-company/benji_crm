@@ -151,14 +151,7 @@ class _MyProductDetailsState extends State<MyProductDetails> {
             kSizedBox,
             MyElevatedButton(
               onPressed: _saveUpdatedQuantity,
-              circularBorderRadius: 16,
-              minimumSizeWidth: MediaQuery.of(context).size.width - 50,
-              minimumSizeHeight: 60,
-              maximumSizeWidth: MediaQuery.of(context).size.width - 50,
-              maximumSizeHeight: 60,
-              buttonTitle: "Save",
-              titleFontSize: 15,
-              elevation: 10.0,
+              title: "Save",
             ),
             kSizedBox,
           ],
@@ -265,7 +258,6 @@ class _MyProductDetailsState extends State<MyProductDetails> {
           title: "Product Details",
           elevation: 10.0,
           backgroundColor: kPrimaryColor,
-          toolbarHeight: 40,
           actions: [
             IconButton(
               onPressed: _editProduct,

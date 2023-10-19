@@ -67,10 +67,10 @@ class LoginController extends GetxController {
           () => const Login(),
           fullscreenDialog: true,
           curve: Curves.easeIn,
-          routeName: "Dashboard",
+          routeName: "Login",
           predicate: (route) => false,
           popGesture: true,
-          transition: Transition.fadeIn,
+          transition: Transition.cupertinoDialog,
         );
         return;
       }

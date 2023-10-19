@@ -177,7 +177,7 @@ class VendorsOrderContainer extends StatelessWidget {
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: "x ${qty ?? 0}",
+                        text: "x $qty",
                         style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w400,

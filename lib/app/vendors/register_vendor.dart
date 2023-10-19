@@ -429,7 +429,6 @@ class _RegisterVendorState extends State<RegisterVendor> {
           elevation: 10.0,
           actions: const [],
           backgroundColor: kPrimaryColor,
-          toolbarHeight: kToolbarHeight,
         ),
         bottomNavigationBar: GetBuilder<VendorController>(builder: (sending) {
           return sending.isLoadCreate.value
@@ -453,14 +452,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                         _saveChanges();
                       }
                     }),
-                    buttonTitle: "Save",
-                    circularBorderRadius: 16,
-                    minimumSizeWidth: 60,
-                    minimumSizeHeight: 60,
-                    maximumSizeWidth: 60,
-                    maximumSizeHeight: 60,
-                    titleFontSize: 16,
-                    elevation: 10.0,
+                    title: "Save",
                   ),
                 );
         }),

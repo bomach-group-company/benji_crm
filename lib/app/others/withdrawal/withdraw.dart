@@ -4,7 +4,7 @@ import 'package:get/route_manager.dart';
 import '../../../src/components/my_elevatedButton.dart';
 import '../../../src/components/my_textformfield2.dart';
 import '../../../src/providers/constants.dart';
-import '../../../src/responsive/reponsive_width.dart';
+import '../../../src/responsive/my_reponsive_width.dart';
 import '../../../theme/colors.dart';
 import 'verify.dart';
 
@@ -135,14 +135,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                       kSizedBox,
                       MyElevatedButton(
                         onPressed: _goToVerify,
-                        buttonTitle: "Withdraw",
-                        circularBorderRadius: 16,
-                        elevation: 10.0,
-                        maximumSizeHeight: 60,
-                        maximumSizeWidth: media.width,
-                        minimumSizeHeight: 60,
-                        minimumSizeWidth: media.width,
-                        titleFontSize: 14,
+                        title: "Withdraw",
                       )
                     ],
                   ),

@@ -5,7 +5,7 @@ import 'package:get/route_manager.dart';
 import '../../../src/components/my_elevatedButton.dart';
 import '../../../src/components/my_textformfield2.dart';
 import '../../../src/providers/constants.dart';
-import '../../../src/responsive/reponsive_width.dart';
+import '../../../src/responsive/my_reponsive_width.dart';
 import '../../../theme/colors.dart';
 
 class AddBankAccountPage extends StatefulWidget {
@@ -50,7 +50,6 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
           elevation: 0.0,
           actions: const [],
           backgroundColor: kPrimaryColor,
-          toolbarHeight: kToolbarHeight,
         ),
         body: SafeArea(
           child: SingleChildScrollView(
@@ -256,14 +255,7 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
                       ),
                       MyElevatedButton(
                         onPressed: _saveAccount,
-                        buttonTitle: "Save Account",
-                        circularBorderRadius: 16,
-                        elevation: 10.0,
-                        maximumSizeHeight: 60,
-                        maximumSizeWidth: media.width,
-                        minimumSizeHeight: 60,
-                        minimumSizeWidth: media.width,
-                        titleFontSize: 14,
+                        title: "Save Account",
                       )
                     ],
                   ),

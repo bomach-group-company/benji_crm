@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app/others/splash_screen.dart';
 import 'theme/app theme.dart';
+
+late SharedPreferences prefs;
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(
@@ -13,6 +16,7 @@ void main() async {
   );
 
   WidgetsFlutterBinding.ensureInitialized();
+  prefs = await SharedPreferences.getInstance();
   await SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp],
   );

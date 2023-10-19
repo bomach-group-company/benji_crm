@@ -1,25 +1,27 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../theme/colors.dart';
 import '../providers/constants.dart';
+import '../responsive/responsive_constant.dart';
 
-class DasboardAllOrdersContainer extends StatelessWidget {
+class DasboardAllCompletedOrdersContainer extends StatelessWidget {
   final Function() onTap;
-  final String number;
+  final int number;
   final String typeOf;
-  final String onlineStatus;
-  const DasboardAllOrdersContainer({
+
+  const DasboardAllCompletedOrdersContainer({
     super.key,
     required this.onTap,
     required this.number,
     required this.typeOf,
-    required this.onlineStatus,
   });
 
   @override
   Widget build(BuildContext context) {
+    var media = MediaQuery.of(context).size;
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(kDefaultPadding),
@@ -30,7 +32,7 @@ class DasboardAllOrdersContainer extends StatelessWidget {
           right: kDefaultPadding / 1.5,
         ),
         width: MediaQuery.of(context).size.width,
-        height: 140,
+        height: deviceType(media.width) > 2 ? 200 : 140,
         decoration: ShapeDecoration(
           color: kPrimaryColor,
           shape: RoundedRectangleBorder(
@@ -49,9 +51,8 @@ class DasboardAllOrdersContainer extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.topRight,
-              child: Icon(
-                Icons.arrow_forward_rounded,
-                size: 20,
+              child: FaIcon(
+                FontAwesomeIcons.chevronRight,
                 color: kAccentColor,
               ),
             ),
@@ -73,27 +74,16 @@ class DasboardAllOrdersContainer extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: SizedBox(
-                    height: 62.78,
+                    width: media.width - 250,
                     child: Text(
-                      number,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
+                      intFormattedText(number),
+                      textAlign: TextAlign.left,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
                         color: kTextBlackColor,
-                        fontSize: 52.32,
+                        fontSize: deviceType(media.width) > 2 ? 64 : 54,
                         fontWeight: FontWeight.w700,
                       ),
-                    ),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: Text(
-                    onlineStatus,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: kAccentColor,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),

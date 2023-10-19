@@ -4,78 +4,77 @@ import 'package:flutter/material.dart';
 
 import '../../theme/colors.dart';
 import '../providers/constants.dart';
+import '../responsive/responsive_constant.dart';
 
 void mySnackBar(
   BuildContext context,
+  Color indicatorColor,
   String title,
   String message,
   Duration duration,
 ) {
+  final media = MediaQuery.of(context).size;
+
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      content: SizedBox(
-        height: 60,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 60,
-                  width: 10,
-                  decoration: ShapeDecoration(
-                    color: kAccentColor,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(
-                          20.0,
-                        ),
-                        bottom: Radius.circular(
-                          20.0,
-                        ),
-                      ),
-                    ),
+      content: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Flexible(
+            fit: FlexFit.loose,
+            child: Container(
+              height: 50,
+              width: 10,
+              decoration: ShapeDecoration(
+                color: indicatorColor,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(20.0),
+                    bottom: Radius.circular(20.0),
                   ),
                 ),
-                kHalfWidthSizedBox,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title.toUpperCase(),
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        color: kTextBlackColor,
-                      ),
-                    ),
-                    kHalfSizedBox,
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 1.7,
-                      child: Text(
-                        message.toUpperCase(),
-                        // overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: kTextGreyColor,
-                        ),
-                      ),
-                    ),
-                  ],
+              ),
+            ),
+          ),
+          kHalfWidthSizedBox,
+          Container(
+            constraints: BoxConstraints(maxWidth: media.width - 175),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title.toUpperCase(),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: kTextBlackColor,
+                  ),
+                ),
+                Text(
+                  message.toUpperCase(),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    color: kGreyColor1,
+                  ),
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       duration: duration,
-      dismissDirection: DismissDirection.vertical,
+      dismissDirection: DismissDirection.horizontal,
       margin: EdgeInsets.only(
         left: kDefaultPadding * 2,
         right: kDefaultPadding * 2,
-        bottom: MediaQuery.of(context).size.height - 120,
+        bottom: deviceType(media.width) > 2
+            ? media.height - 220
+            : media.height - 160,
       ),
       showCloseIcon: true,
       closeIconColor: kAccentColor,

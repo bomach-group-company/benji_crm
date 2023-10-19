@@ -39,7 +39,6 @@ class _SetVarietyState extends State<SetVariety> {
       backgroundColor: kPrimaryColor,
       appBar: MyAppBar(
         title: "Set Variety",
-        toolbarHeight: 80,
         elevation: 0.0,
         actions: const [],
         backgroundColor: kPrimaryColor,
@@ -182,14 +181,7 @@ class _SetVarietyState extends State<SetVariety> {
               ),
               MyElevatedButton(
                 onPressed: () {},
-                circularBorderRadius: 20,
-                minimumSizeWidth: MediaQuery.of(context).size.width,
-                minimumSizeHeight: 50,
-                maximumSizeWidth: MediaQuery.of(context).size.width,
-                maximumSizeHeight: 50,
-                buttonTitle: "Set Variety",
-                titleFontSize: 14,
-                elevation: 0.0,
+                title: "Set Variety",
               ),
             ],
           ),
