@@ -160,12 +160,15 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
         displacement: 5,
         color: kAccentColor,
         child: SafeArea(
-          child: ListView(
-            padding: const EdgeInsets.all(10),
-            children: [
-              _loadingScreen
-                  ? kSizedBox
-                  : Scrollbar(
+          maintainBottomViewPadding: true,
+          child: _loadingScreen
+              ? Center(
+                  child: CircularProgressIndicator(color: kAccentColor),
+                )
+              : ListView(
+                  padding: const EdgeInsets.all(10),
+                  children: [
+                    Scrollbar(
                       controller: _scrollController,
                       child: ListView.builder(
                         controller: _scrollController,
@@ -242,15 +245,19 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
                         },
                       ),
                     ),
-              kSizedBox,
-            ],
-          ),
+                    kSizedBox,
+                  ],
+                ),
         ),
       ),
     );
   }
 
+//Delete Account
+  void _deleteAccount() {}
+
   void _showBottomSheet(BuildContext context) {
+    var media = MediaQuery.of(context).size;
     showModalBottomSheet(
       showDragHandle: true,
       context: context,
@@ -259,7 +266,7 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
       useSafeArea: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
-      ),git 
+      ),
       builder: (BuildContext context) {
         return SingleChildScrollView(
           padding: const EdgeInsets.only(left: 100, right: 100, bottom: 25),
@@ -270,26 +277,38 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 InkWell(
+                  onTap: _deleteAccount,
                   mouseCursor: SystemMouseCursors.click,
-                  child: Row(
-                    children: [
-                      FaIcon(
-                        FontAwesomeIcons.solidTrashCan,
-                        color: kAccentColor,
-                      ),
-                      kWidthSizedBox,
-                      const Text(
-                        'Delete account',
-                        style: TextStyle(
-                          color: kTextBlackColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
+                  borderRadius: BorderRadius.circular(12),
+                  child: Container(
+                    padding: const EdgeInsets.all(5),
+                    width: media.width - 200,
+                    height: 50,
+                    child: Row(
+                      children: [
+                        FaIcon(
+                          FontAwesomeIcons.solidTrashCan,
+                          color: kAccentColor,
                         ),
-                      )
-                    ],
+                        kWidthSizedBox,
+                        const SizedBox(
+                          child: Center(
+                            child: Text(
+                              'Delete account',
+                              textAlign: TextAlign.left,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: kTextBlackColor,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-                kSizedBox,
                 const Divider(),
               ],
             ),
