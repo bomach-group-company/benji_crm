@@ -49,7 +49,7 @@
         </intent>
     </queries>
     <application
-        android:label="Benji Agent"
+        android:label="Benji CRM"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

@@ -10,7 +10,7 @@ import '../../src/components/email_textformfield.dart';
 import '../../src/components/password_textformfield.dart';
 import '../../src/components/reusable_authentication_firsthalf.dart';
 import '../../src/providers/constants.dart';
-import '../../src/providers/responsive_constant.dart';
+import '../../src/responsive/responsive_constant.dart';
 import '../../theme/colors.dart';
 import 'forgot_password.dart';
 

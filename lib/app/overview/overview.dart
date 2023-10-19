@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../../controller/notification_controller.dart';
@@ -112,7 +113,7 @@ class _OverViewState extends State<OverView> {
                   icon: Icon(Icons.grid_view),
                   label: "Dashboard",
                   tooltip: "Dashboard",
-                  activeIcon: Icon(Icons.grid_view_rounded),
+                  activeIcon: FaIcon(Icons.grid_view_rounded),
                 ),
                 BottomNavigationBarItem(
                   icon: Image.asset("assets/icons/vendor-icon.png"),

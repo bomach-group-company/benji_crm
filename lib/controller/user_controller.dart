@@ -43,7 +43,7 @@ class UserController extends GetxController {
             () => OverView(),
             fullscreenDialog: true,
             curve: Curves.easeIn,
-            routeName: "Dashboard",
+            routeName: "OverView",
             predicate: (route) => false,
             popGesture: true,
             transition: Transition.cupertinoDialog,

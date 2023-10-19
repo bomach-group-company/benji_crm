@@ -15,6 +15,7 @@ class AppBarAggregator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var media = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {},
       child: Column(
@@ -23,26 +24,25 @@ class AppBarAggregator extends StatelessWidget {
         children: [
           Row(
             children: [
-              SizedBox(
-                width: 130,
-                child: Text(
-                  title,
-                  overflow: TextOverflow.fade,
-                  style: TextStyle(
-                    color: kTextGreyColor,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                  ),
+              Text(
+                title,
+                style: TextStyle(
+                  color: kAccentColor,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
             ],
           ),
-          Text(
-            aggregatorName,
-            style: const TextStyle(
-              color: kTextBlackColor,
-              fontSize: 12,
-              fontWeight: FontWeight.w700,
+          SizedBox(
+            width: media.width - 250,
+            child: Text(
+              aggregatorName,
+              style: const TextStyle(
+                color: kTextBlackColor,
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
         ],

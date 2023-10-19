@@ -4,7 +4,7 @@ import 'package:get/route_manager.dart';
 import '../../../src/components/my_elevatedButton.dart';
 import '../../../src/components/my_textformfield2.dart';
 import '../../../src/providers/constants.dart';
-import '../../../src/responsive/reponsive_width.dart';
+import '../../../src/responsive/my_reponsive_width.dart';
 import '../../../theme/colors.dart';
 import 'verify.dart';
 

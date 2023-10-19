@@ -12,7 +12,7 @@ class DashboardPageSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double mediaWidth = MediaQuery.of(context).size.width;
+    var media = MediaQuery.of(context).size;
     return ListView(
       physics: const BouncingScrollPhysics(),
       padding: const EdgeInsets.all(kDefaultPadding),
@@ -22,8 +22,8 @@ class DashboardPageSkeleton extends StatelessWidget {
           children: List.generate(
             2,
             (index) => Shimmer.fromColors(
-              highlightColor: kBlackColor.withOpacity(0.02),
-              baseColor: kBlackColor.withOpacity(0.8),
+              highlightColor: kBlackColor.withOpacity(0.9),
+              baseColor: kBlackColor.withOpacity(0.6),
               direction: ShimmerDirection.ltr,
               child: const PageSkeleton(
                 width: 160,
@@ -41,11 +41,11 @@ class DashboardPageSkeleton extends StatelessWidget {
             children: List.generate(
               3,
               (index) => Shimmer.fromColors(
-                highlightColor: kBlackColor.withOpacity(0.02),
-                baseColor: kBlackColor.withOpacity(0.8),
+                highlightColor: kBlackColor.withOpacity(0.9),
+                baseColor: kBlackColor.withOpacity(0.6),
                 direction: ShimmerDirection.ltr,
                 child: PageSkeleton(
-                  width: mediaWidth,
+                  width: media.width,
                   height: 140,
                 ),
               ),
