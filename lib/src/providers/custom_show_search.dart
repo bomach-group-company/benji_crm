@@ -9,7 +9,7 @@ import '../responsive/responsive_constant.dart';
 import 'constants.dart';
 
 class CustomSearchDelegate extends SearchDelegate {
-  void _toProductDetailScreenPage(product) {}
+  // void _toProductDetailScreenPage(product) {}
 
   @override
   Widget buildLeading(BuildContext context) {
@@ -126,7 +126,7 @@ class CustomSearchDelegate extends SearchDelegate {
                 ),
                 kSizedBox,
                 Text(
-                  "Search for a vendor",
+                  "Your search shows here",
                   style: TextStyle(
                     color: kTextGreyColor,
                     fontSize: 18,

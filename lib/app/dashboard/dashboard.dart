@@ -13,7 +13,7 @@ import 'package:get/get.dart';
 
 import '../../controller/user_controller.dart';
 import '../../model/order_list_model.dart';
-import '../../src/components/dashboard_appBar.dart';
+import '../../src/components/dashboard_appbar.dart';
 import '../../src/components/dashboard_orders_container.dart';
 import '../../src/components/dashboard_rider_vendor_container.dart';
 import '../../src/providers/constants.dart';
@@ -164,7 +164,7 @@ class _DashboardState extends State<Dashboard>
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "All riders",
+        routeName: "Riders",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.downToUp,
@@ -181,35 +181,31 @@ class _DashboardState extends State<Dashboard>
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "All vendors",
+        routeName: "Vendors",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.downToUp,
       );
 
-  void _toSeeAllOrders(List<OrderItem> completed, List<OrderItem> rejected) =>
-      Get.to(
-        () => AllOrders(
-          completed: completed,
-          rejected: rejected,
-        ),
+  void _toSeeAllCompletedOrders(List<OrderItem> completed) => Get.to(
+        () => AllCompletedOrders(completed: completed),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "All orders",
+        routeName: "AllCompletedOrders",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.downToUp,
       );
 
-  void _toSeeAllNewOrders(List<OrderItem> orderList) => Get.to(
+  void _toSeeAllPendingOrders(List<OrderItem> orderList) => Get.to(
         () => PendingOrders(
           orderList: orderList,
         ),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "Pending orders",
+        routeName: "PendingOrders",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.downToUp,
@@ -222,7 +218,7 @@ class _DashboardState extends State<Dashboard>
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "Active orders",
+        routeName: "ActiveOrders",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.downToUp,
@@ -295,17 +291,21 @@ class _DashboardState extends State<Dashboard>
                                   containerColor: kPrimaryColor,
                                   typeOfOrderColor: kTextGreyColor,
                                   iconColor: kLightGreyColor,
-                                  numberOfOrders: "${active.length}",
+                                  numberOfOrders:
+                                      intFormattedText(active.length),
                                   typeOfOrders: "Active",
                                   onTap: () => _toSeeAllActiveOrders(active),
                                 ),
                                 OrdersContainer(
-                                  containerColor: Colors.red.shade100,
+                                  containerColor:
+                                      // Colors.red.shade200,
+                                      kAccentColor.withOpacity(0.4),
                                   typeOfOrderColor: kAccentColor,
                                   iconColor: kAccentColor,
-                                  numberOfOrders: "${pending.length}",
+                                  numberOfOrders:
+                                      intFormattedText(pending.length),
                                   typeOfOrders: "Pending",
-                                  onTap: () => _toSeeAllNewOrders(pending),
+                                  onTap: () => _toSeeAllPendingOrders(pending),
                                 ),
                               ],
                             );
@@ -314,22 +314,13 @@ class _DashboardState extends State<Dashboard>
                       GetBuilder<OrderController>(
                           init: OrderController(),
                           builder: (order) {
-                            final allOrders = order.orderList.toList();
-                            final rej = order.orderList
-                                .where((p0) =>
-                                    !p0.deliveryStatus!
-                                        .toLowerCase()
-                                        .contains("CANC".toLowerCase()) ||
-                                    p0.assignedStatus!
-                                        .toLowerCase()
-                                        .contains("CANC".toLowerCase()))
-                                .toList();
+                            final allCompletedOrders = order.orderList.toList();
 
-                            return DasboardAllOrdersContainer(
-                              onTap: () => _toSeeAllOrders(allOrders, rej),
-                              number: "${allOrders.length}",
-                              typeOf: "All Orders",
-                              onlineStatus: "${rej.length} rejected",
+                            return DasboardAllCompletedOrdersContainer(
+                              onTap: () =>
+                                  _toSeeAllCompletedOrders(allCompletedOrders),
+                              number: allCompletedOrders.length,
+                              typeOf: "All completed orders",
                             );
                           }),
                       kSizedBox,
@@ -342,9 +333,10 @@ class _DashboardState extends State<Dashboard>
                                 .toList();
                             return RiderVendorContainer(
                               onTap: _toSeeAllVendors,
-                              number: "${allVendor.length}",
+                              number: intFormattedText(allVendor.length),
                               typeOf: "Vendors",
-                              onlineStatus: "${allOnlineVendor.length} Online",
+                              onlineStatus:
+                                  "${intFormattedText(allOnlineVendor.length)} Online",
                             );
                           }),
                       kSizedBox,

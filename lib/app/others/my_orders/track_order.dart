@@ -252,15 +252,8 @@ class _TrackOrderState extends State<TrackOrder> {
                     right: 20,
                     bottom: 25,
                     child: MyElevatedButton(
-                      buttonTitle: "Track Order",
+                      title: "Track Order",
                       onPressed: _showModal,
-                      circularBorderRadius: 16,
-                      elevation: 10.0,
-                      maximumSizeHeight: 60,
-                      maximumSizeWidth: 60,
-                      minimumSizeHeight: 60,
-                      minimumSizeWidth: 60,
-                      titleFontSize: 14,
                     ),
                   )
                 ],

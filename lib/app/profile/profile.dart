@@ -1,13 +1,16 @@
 import 'package:benji_aggregator/app/others/withdrawal/withdraw_history.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:get/route_manager.dart';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 
+import '../../controller/user_controller.dart';
+import '../../src/components/my_liquid_refresh.dart';
 import '../../src/components/profile_first_half.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 import '../auth_screens/login.dart';
+import 'personal_info.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -49,45 +52,47 @@ class _ProfileState extends State<Profile> {
   }
 
 //=============================================== Navigation ======================================================\\
+  void _toPersonalInfo() => Get.to(
+        () => const PersonalInfo(),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "PersonalInfo",
+        preventDuplicates: true,
+        popGesture: false,
+        transition: Transition.rightToLeft,
+      );
+  void _toWithdrawalHistory() => Get.to(
+        () => const WithdrawalHistoryPage(),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "WithdrawalHistoryPage",
+        preventDuplicates: true,
+        popGesture: false,
+        transition: Transition.rightToLeft,
+      );
   void _logOut() => Get.offAll(
         () => const Login(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "Logout",
+        routeName: "Login",
         predicate: (routes) => false,
-        popGesture: false,
-        transition: Transition.rightToLeft,
-      );
-  void _toWithdrawalHistory() => Get.to(
-        () => const WithdrawHistoryPage(),
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "Withdrawal history",
-        preventDuplicates: true,
         popGesture: false,
         transition: Transition.rightToLeft,
       );
 
   @override
   Widget build(BuildContext context) {
-    double mediaWidth = MediaQuery.of(context).size.width;
-    return LiquidPullToRefresh(
+    var media = MediaQuery.of(context).size;
+    return MyLiquidRefresh(
       onRefresh: _handleRefresh,
-      color: kAccentColor,
-      borderWidth: 5.0,
-      backgroundColor: kPrimaryColor,
-      height: 150,
-      animSpeedFactor: 2,
-      showChildOpacityTransition: false,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: kAccentColor,
           title: const Padding(
-            padding: EdgeInsets.only(
-              left: kDefaultPadding,
-            ),
+            padding: EdgeInsets.only(left: kDefaultPadding),
             child: Text(
               'My Profile',
               style: TextStyle(
@@ -100,26 +105,8 @@ class _ProfileState extends State<Profile> {
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,
-          child: FutureBuilder(
-            future: null,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                SpinKitDoubleBounce(color: kAccentColor);
-              }
-              if (snapshot.connectionState == ConnectionState.none) {
-                const Center(
-                  child: Text("Please connect to the internet"),
-                );
-              }
-              // if (snapshot.connectionState == snapshot.requireData) {
-              //   SpinKitDoubleBounce(color: kAccentColor);
-              // }
-              if (snapshot.connectionState == snapshot.error) {
-                const Center(
-                  child: Text("Error, Please try again later"),
-                );
-              }
-
+          child: GetBuilder<UserController>(
+            builder: (controller) {
               return _loadingScreen
                   ? SpinKitDoubleBounce(color: kAccentColor)
                   : ListView(
@@ -134,7 +121,8 @@ class _ProfileState extends State<Profile> {
                             bottom: kDefaultPadding / 1.5,
                           ),
                           child: Container(
-                            width: mediaWidth,
+                            width: media.width,
+                            padding: const EdgeInsets.all(kDefaultPadding / 2),
                             decoration: ShapeDecoration(
                               color: kPrimaryColor,
                               shape: RoundedRectangleBorder(
@@ -152,10 +140,11 @@ class _ProfileState extends State<Profile> {
                             child: Column(
                               children: [
                                 ListTile(
-                                  onTap: () {},
+                                  onTap: _toPersonalInfo,
+                                  enableFeedback: true,
                                   mouseCursor: SystemMouseCursors.click,
-                                  leading: Icon(
-                                    Icons.person_outlined,
+                                  leading: FaIcon(
+                                    FontAwesomeIcons.solidUser,
                                     color: kAccentColor,
                                   ),
                                   title: const Text(
@@ -166,14 +155,16 @@ class _ProfileState extends State<Profile> {
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
-                                  trailing: const Icon(
-                                      Icons.arrow_forward_ios_rounded),
+                                  trailing: const FaIcon(
+                                    FontAwesomeIcons.chevronRight,
+                                  ),
                                 ),
                                 ListTile(
                                   onTap: () {},
+                                  enableFeedback: true,
                                   mouseCursor: SystemMouseCursors.click,
-                                  leading: Icon(
-                                    Icons.settings_rounded,
+                                  leading: FaIcon(
+                                    FontAwesomeIcons.gear,
                                     color: kAccentColor,
                                   ),
                                   title: const Text(
@@ -184,8 +175,8 @@ class _ProfileState extends State<Profile> {
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
-                                  trailing: const Icon(
-                                    Icons.arrow_forward_ios_rounded,
+                                  trailing: const FaIcon(
+                                    FontAwesomeIcons.chevronRight,
                                   ),
                                 ),
                               ],
@@ -201,9 +192,7 @@ class _ProfileState extends State<Profile> {
                           child: Container(
                             width: 327,
                             height: 141,
-                            padding: const EdgeInsets.all(
-                              kDefaultPadding / 2,
-                            ),
+                            padding: const EdgeInsets.all(kDefaultPadding / 2),
                             decoration: ShapeDecoration(
                               color: kPrimaryColor,
                               shape: RoundedRectangleBorder(
@@ -222,9 +211,10 @@ class _ProfileState extends State<Profile> {
                               children: [
                                 ListTile(
                                   onTap: _toWithdrawalHistory,
+                                  enableFeedback: true,
                                   mouseCursor: SystemMouseCursors.click,
-                                  leading: Icon(
-                                    Icons.payment_rounded,
+                                  leading: FaIcon(
+                                    FontAwesomeIcons.solidCreditCard,
                                     color: kAccentColor,
                                   ),
                                   title: const Text(
@@ -235,14 +225,16 @@ class _ProfileState extends State<Profile> {
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
-                                  trailing: const Icon(
-                                      Icons.arrow_forward_ios_rounded),
+                                  trailing: const FaIcon(
+                                    FontAwesomeIcons.chevronRight,
+                                  ),
                                 ),
                                 ListTile(
                                   onTap: () {},
+                                  enableFeedback: true,
                                   mouseCursor: SystemMouseCursors.click,
-                                  leading: Icon(
-                                    Icons.receipt_long_outlined,
+                                  leading: FaIcon(
+                                    FontAwesomeIcons.receipt,
                                     color: kAccentColor,
                                   ),
                                   title: const Text(
@@ -274,17 +266,12 @@ class _ProfileState extends State<Profile> {
                             bottom: kDefaultPadding / 1.5,
                           ),
                           child: Container(
-                            width: 327,
-                            height: 78,
-                            padding: const EdgeInsets.all(
-                              kDefaultPadding / 2,
-                            ),
+                            width: media.width,
+                            padding: const EdgeInsets.all(kDefaultPadding / 2),
                             decoration: ShapeDecoration(
                               color: kPrimaryColor,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                  15,
-                                ),
+                                borderRadius: BorderRadius.circular(15),
                               ),
                               shadows: const [
                                 BoxShadow(
@@ -298,8 +285,9 @@ class _ProfileState extends State<Profile> {
                             child: ListTile(
                               mouseCursor: SystemMouseCursors.click,
                               onTap: _logOut,
-                              leading: Icon(
-                                Icons.logout_rounded,
+                              enableFeedback: true,
+                              leading: FaIcon(
+                                FontAwesomeIcons.rightFromBracket,
                                 color: kAccentColor,
                               ),
                               title: const Text(
@@ -309,9 +297,6 @@ class _ProfileState extends State<Profile> {
                                   fontSize: 15,
                                   fontWeight: FontWeight.w400,
                                 ),
-                              ),
-                              trailing: const Icon(
-                                Icons.arrow_forward_ios_rounded,
                               ),
                             ),
                           ),

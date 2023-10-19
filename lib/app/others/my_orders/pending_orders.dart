@@ -7,10 +7,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../../model/order_list_model.dart';
 import '../../../src/components/my_appbar.dart';
+import '../../../src/components/my_future_builder.dart';
+import '../../../src/components/my_liquid_refresh.dart';
 import '../../../theme/colors.dart';
 import 'pending_order_details.dart';
 
@@ -88,42 +89,20 @@ class _PendingOrdersState extends State<PendingOrders> {
 
 //====================================================================================\\
 
-    return LiquidPullToRefresh(
+    return MyLiquidRefresh(
       onRefresh: _handleRefresh,
-      color: kAccentColor,
-      borderWidth: 5.0,
-      backgroundColor: kPrimaryColor,
-      height: 150,
-      animSpeedFactor: 2,
-      showChildOpacityTransition: false,
       child: Scaffold(
         appBar: MyAppBar(
           title: "Pending Orders",
-          elevation: 10.0,
+          elevation: 0.0,
           actions: const [],
           backgroundColor: kPrimaryColor,
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,
-          child: FutureBuilder(
+          child: MyFutureBuilder(
             future: null,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                const OrdersListSkeleton();
-              }
-              if (snapshot.connectionState == ConnectionState.none) {
-                const Center(
-                  child: Text("Please connect to the internet"),
-                );
-              }
-              // if (snapshot.connectionState == snapshot.requireData) {
-              //   SpinKitDoubleBounce(color: kAccentColor);
-              // }
-              if (snapshot.connectionState == snapshot.error) {
-                const Center(
-                  child: Text("Error, Please try again later"),
-                );
-              }
+            child: () {
               return _loadingScreen
                   ? const Padding(
                       padding: EdgeInsets.all(kDefaultPadding),

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../providers/constants.dart';
 
-class AllOrdersPageskeleton extends StatelessWidget {
-  const AllOrdersPageskeleton({super.key});
+class AllCompletedOrdersPageskeleton extends StatelessWidget {
+  const AllCompletedOrdersPageskeleton({super.key});
 
   @override
   Widget build(BuildContext context) {

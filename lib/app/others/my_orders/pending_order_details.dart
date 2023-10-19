@@ -839,14 +839,7 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
                                   onPressed: () {
                                     _assignRider();
                                   },
-                                  circularBorderRadius: kDefaultPadding,
-                                  minimumSizeWidth: mediaWidth / 1.5,
-                                  minimumSizeHeight: 60,
-                                  maximumSizeWidth: mediaWidth / 1.5,
-                                  maximumSizeHeight: 60,
-                                  buttonTitle: "Assign a rider",
-                                  titleFontSize: 20,
-                                  elevation: 10.0,
+                                  title: "Assign a rider",
                                 )
                               : _orderProcessing
                                   ? SpinKitChasingDots(
@@ -875,22 +868,7 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
                                           onPressed: () {
                                             _processOrderAccepted();
                                           },
-                                          elevation: 10.0,
-                                          buttonTitle: "Accept Order",
-                                          titleFontSize: 16.09,
-                                          circularBorderRadius: 10.0,
-                                          maximumSizeHeight: 50.07,
-                                          maximumSizeWidth:
-                                              MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  2.5,
-                                          minimumSizeHeight: 50.07,
-                                          minimumSizeWidth:
-                                              MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  2.5,
+                                          title: "Accept Order",
                                         ),
                                       ],
                                     ),

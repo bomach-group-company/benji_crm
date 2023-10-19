@@ -19,6 +19,11 @@ class MyFutureBuilder extends StatelessWidget {
         if (snapshot.hasData) {
           return child(snapshot.data);
         }
+        if (snapshot.hasError) {
+          return const Text(
+            'An unexpected error occurred, please refresh',
+          );
+        }
         return Center(
           child: CircularProgressIndicator(color: kAccentColor),
         );

@@ -14,7 +14,6 @@ import '../providers/custom_show_search.dart';
 import 'dashboard_appBar_aggregator.dart';
 
 class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
-  @override
   final int numberOfNotifications;
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);

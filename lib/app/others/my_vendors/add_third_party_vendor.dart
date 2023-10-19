@@ -449,14 +449,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
                         _saveChanges();
                       }
                     }),
-                    buttonTitle: "Save",
-                    circularBorderRadius: 16,
-                    minimumSizeWidth: 60,
-                    minimumSizeHeight: 60,
-                    maximumSizeWidth: 60,
-                    maximumSizeHeight: 60,
-                    titleFontSize: 16,
-                    elevation: 10.0,
+                    title: "Save",
                   ),
                 );
         }),

@@ -255,14 +255,7 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
                       ),
                       MyElevatedButton(
                         onPressed: _saveAccount,
-                        buttonTitle: "Save Account",
-                        circularBorderRadius: 16,
-                        elevation: 10.0,
-                        maximumSizeHeight: 60,
-                        maximumSizeWidth: media.width,
-                        minimumSizeHeight: 60,
-                        minimumSizeWidth: media.width,
-                        titleFontSize: 14,
+                        title: "Save Account",
                       )
                     ],
                   ),

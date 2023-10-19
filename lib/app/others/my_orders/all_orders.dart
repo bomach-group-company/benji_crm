@@ -1,32 +1,30 @@
 import 'package:benji_aggregator/src/components/my_appbar.dart';
-import 'package:benji_aggregator/src/skeletons/dashboard_orders_list_skeleton.dart';
+import 'package:benji_aggregator/src/components/my_future_builder.dart';
+import 'package:benji_aggregator/src/components/my_liquid_refresh.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../../model/order_list_model.dart';
 import '../../../src/components/all_orders_container.dart';
-import '../../../src/components/completed_orders_tab.dart';
 import '../../../src/providers/constants.dart';
 
-class AllOrders extends StatefulWidget {
+class AllCompletedOrders extends StatefulWidget {
   final List<OrderItem> completed;
-  final List<OrderItem> rejected;
-  const AllOrders({super.key, required this.completed, required this.rejected});
+
+  const AllCompletedOrders({super.key, required this.completed});
 
   @override
-  State<AllOrders> createState() => _AllOrdersState();
+  State<AllCompletedOrders> createState() => _AllCompletedOrdersState();
 }
 
-class _AllOrdersState extends State<AllOrders>
+class _AllCompletedOrdersState extends State<AllCompletedOrders>
     with SingleTickerProviderStateMixin {
   //======================================= INITIAL AND DISPOSE ===============================================\\
   @override
   void initState() {
     super.initState();
 
-    _tabBarController = TabController(length: 2, vsync: this);
     _loadingScreen = true;
     Future.delayed(
       const Duration(milliseconds: 500),
@@ -34,12 +32,6 @@ class _AllOrdersState extends State<AllOrders>
         () => _loadingScreen = false,
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _tabBarController.dispose();
-    super.dispose();
   }
 
 //==========================================================================================\\
@@ -60,10 +52,9 @@ class _AllOrdersState extends State<AllOrders>
 //===================== BOOL VALUES =======================\\
   // bool isLoading = false;
   late bool _loadingScreen;
-  bool _loadingTabBarContent = false;
 
   //=================================== CONTROLLERS ====================================\\
-  late TabController _tabBarController;
+
   final ScrollController _scrollController = ScrollController();
 
   //=============================================== FUNCTIONS ====================================================\\
@@ -83,64 +74,26 @@ class _AllOrdersState extends State<AllOrders>
     });
   }
 
-  //===================== Tab Bar ==========================\\
-  void _clickOnTabBarOption() async {
-    setState(() {
-      _loadingTabBarContent = true;
-    });
-
-    await Future.delayed(const Duration(milliseconds: 1000));
-
-    setState(() {
-      _loadingTabBarContent = false;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
     String formattedDateAndTime = formatDateAndTime(now);
-    double mediaWidth = MediaQuery.of(context).size.width;
-    double mediaHeight = MediaQuery.of(context).size.height;
+    var media = MediaQuery.of(context).size;
 
-    return LiquidPullToRefresh(
+    return MyLiquidRefresh(
       onRefresh: _handleRefresh,
-      color: kAccentColor,
-      borderWidth: 5.0,
-      backgroundColor: kPrimaryColor,
-      height: 150,
-      animSpeedFactor: 2,
-      showChildOpacityTransition: false,
       child: Scaffold(
         appBar: MyAppBar(
           title: "All Orders",
-          elevation: 10.0,
+          elevation: 0.0,
           actions: const [],
           backgroundColor: kPrimaryColor,
         ),
-        extendBody: true,
-        extendBodyBehindAppBar: true,
         body: SafeArea(
           maintainBottomViewPadding: true,
-          child: FutureBuilder(
+          child: MyFutureBuilder(
             future: null,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                Center(child: SpinKitDoubleBounce(color: kAccentColor));
-              }
-              if (snapshot.connectionState == ConnectionState.none) {
-                const Center(
-                  child: Text("Please connect to the internet"),
-                );
-              }
-              // if (snapshot.connectionState == snapshot.requireData) {
-              //   SpinKitDoubleBounce(color: kAccentColor);
-              // }
-              if (snapshot.connectionState == snapshot.error) {
-                const Center(
-                  child: Text("Error, Please try again later"),
-                );
-              }
+            child: () {
               return _loadingScreen
                   ? SpinKitDoubleBounce(color: kAccentColor)
                   : Scrollbar(
@@ -152,127 +105,34 @@ class _AllOrdersState extends State<AllOrders>
                         padding: const EdgeInsets.all(kDefaultPadding),
                         // controller: _scrollController,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: kDefaultPadding,
-                            ),
-                            child: Container(
-                              width: mediaWidth,
-                              decoration: BoxDecoration(
-                                color: kDefaultCategoryBackgroundColor,
-                                borderRadius: BorderRadius.circular(50),
-                                border: Border.all(
-                                  color: kLightGreyColor,
-                                  style: BorderStyle.solid,
-                                  strokeAlign: BorderSide.strokeAlignOutside,
-                                ),
-                              ),
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: TabBar(
-                                      controller: _tabBarController,
-                                      onTap: (value) => _clickOnTabBarOption(),
-                                      enableFeedback: true,
-                                      mouseCursor: SystemMouseCursors.click,
-                                      automaticIndicatorColorAdjustment: true,
-                                      overlayColor: MaterialStatePropertyAll(
-                                          kAccentColor),
-                                      labelColor: kPrimaryColor,
-                                      unselectedLabelColor: kTextGreyColor,
-                                      indicatorColor: kAccentColor,
-                                      indicatorWeight: 2,
-                                      splashBorderRadius:
-                                          BorderRadius.circular(50),
-                                      indicator: BoxDecoration(
-                                        color: kAccentColor,
-                                        borderRadius: BorderRadius.circular(50),
-                                      ),
-                                      tabs: const [
-                                        Tab(text: "Completed"),
-                                        Tab(text: "Rejected"),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
                           kSizedBox,
                           SizedBox(
-                            height: mediaHeight + mediaHeight,
-                            width: mediaWidth,
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  child: TabBarView(
-                                    controller: _tabBarController,
-                                    physics: const BouncingScrollPhysics(),
-                                    children: [
-                                      _loadingTabBarContent
-                                          ? const OrdersListSkeleton()
-                                          : CompletedOrdersTab(
-                                              list: Column(
-                                                children: List.generate(
-                                                    widget.completed.length,
-                                                    (index) {
-                                                  OrderItem completeOrder =
-                                                      widget.completed[index];
-                                                  return AllOrdersContainer(
-                                                    mediaWidth: mediaWidth,
-                                                    orderImage: _orderImage,
-                                                    orderID: 123,
-                                                    orderStatusIcon: const Icon(
-                                                      Icons.check_circle,
-                                                      color: kSuccessColor,
-                                                    ),
-                                                    formattedDateAndTime:
-                                                        formattedDateAndTime,
-                                                    orderItem: _orderItem,
-                                                    itemQuantity: _itemQuantity,
-                                                    itemPrice: _itemPrice,
-                                                    customerName: _customerName,
-                                                    customerAddress:
-                                                        _customerAddress,
-                                                    order: completeOrder,
-                                                  );
-                                                }),
-                                              ),
-                                            ),
-                                      _loadingTabBarContent
-                                          ? const OrdersListSkeleton()
-                                          : Column(
-                                              children: List.generate(
-                                                  widget.rejected.length,
-                                                  (index) {
-                                              OrderItem rejectedOrder =
-                                                  widget.rejected[index];
-                                              return AllOrdersContainer(
-                                                mediaWidth: mediaWidth,
-                                                orderImage: _orderImage,
-                                                orderID: 132,
-                                                orderStatusIcon: Icon(
-                                                  Icons.cancel,
-                                                  color: kAccentColor,
-                                                ),
-                                                formattedDateAndTime:
-                                                    formattedDateAndTime,
-                                                orderItem: _orderItem,
-                                                itemQuantity: _itemQuantity,
-                                                itemPrice: _itemPrice,
-                                                customerName: _customerName,
-                                                customerAddress:
-                                                    _customerAddress,
-                                                order: rejectedOrder,
-                                              );
-                                            })),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
+                            width: media.width,
+                            child: ListView.separated(
+                                separatorBuilder: (context, index) => kSizedBox,
+                                itemCount: widget.completed.length,
+                                itemBuilder: (context, index) {
+                                  OrderItem completeOrder =
+                                      widget.completed[index];
+
+                                  return AllCompletedOrdersContainer(
+                                    mediaWidth: media.width,
+                                    orderImage: _orderImage,
+                                    orderID: 123,
+                                    orderStatusIcon: const Icon(
+                                      Icons.check_circle,
+                                      color: kSuccessColor,
+                                    ),
+                                    formattedDateAndTime: formattedDateAndTime,
+                                    orderItem: _orderItem,
+                                    itemQuantity: _itemQuantity,
+                                    itemPrice: _itemPrice,
+                                    customerName: _customerName,
+                                    customerAddress: _customerAddress,
+                                    order: completeOrder,
+                                  );
+                                }),
+                          ),
                         ],
                       ),
                     );

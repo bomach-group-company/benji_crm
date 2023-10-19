@@ -135,14 +135,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                       kSizedBox,
                       MyElevatedButton(
                         onPressed: _goToVerify,
-                        buttonTitle: "Withdraw",
-                        circularBorderRadius: 16,
-                        elevation: 10.0,
-                        maximumSizeHeight: 60,
-                        maximumSizeWidth: media.width,
-                        minimumSizeHeight: 60,
-                        minimumSizeWidth: media.width,
-                        titleFontSize: 14,
+                        title: "Withdraw",
                       )
                     ],
                   ),

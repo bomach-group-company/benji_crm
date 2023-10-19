@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../theme/colors.dart';
 import '../providers/constants.dart';
@@ -20,6 +21,7 @@ class RiderVendorContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var media = MediaQuery.of(context).size;
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(kDefaultPadding),
@@ -49,8 +51,8 @@ class RiderVendorContainer extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.topRight,
-              child: Icon(
-                Icons.arrow_forward_rounded,
+              child: FaIcon(
+                FontAwesomeIcons.chevronRight,
                 size: 20,
                 color: kAccentColor,
               ),
@@ -73,10 +75,11 @@ class RiderVendorContainer extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: SizedBox(
-                    height: 62.78,
+                    width: media.width - 250,
                     child: Text(
                       number,
-                      textAlign: TextAlign.center,
+                      textAlign: TextAlign.left,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         color: kTextBlackColor,
                         fontSize: 52.32,
@@ -89,7 +92,7 @@ class RiderVendorContainer extends StatelessWidget {
                   alignment: Alignment.bottomRight,
                   child: Text(
                     onlineStatus,
-                    textAlign: TextAlign.center,
+                    textAlign: TextAlign.left,
                     style: TextStyle(
                       color: kAccentColor,
                       fontSize: 13,

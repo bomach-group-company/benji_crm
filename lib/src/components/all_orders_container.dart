@@ -10,8 +10,8 @@ import '../../model/order_list_model.dart';
 import '../../theme/colors.dart';
 import '../providers/constants.dart';
 
-class AllOrdersContainer extends StatelessWidget {
-  const AllOrdersContainer({
+class AllCompletedOrdersContainer extends StatelessWidget {
+  const AllCompletedOrdersContainer({
     super.key,
     required this.mediaWidth,
     required String orderImage,
