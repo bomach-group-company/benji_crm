@@ -16,6 +16,7 @@ void main() async {
   );
 
   WidgetsFlutterBinding.ensureInitialized();
+  prefs = await SharedPreferences.getInstance();
   await SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp],
   );

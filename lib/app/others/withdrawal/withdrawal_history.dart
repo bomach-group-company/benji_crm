@@ -170,7 +170,7 @@ class _WithdrawalHistoryPageState extends State<WithdrawalHistoryPage> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      '₦ 20,000',
+                                      '₦ ${doubleFormattedText(20000)}',
                                       style: TextStyle(
                                         color: kAccentColor,
                                         fontSize: 16,

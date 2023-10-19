@@ -52,7 +52,7 @@ class DasboardAllCompletedOrdersContainer extends StatelessWidget {
             Align(
               alignment: Alignment.topRight,
               child: FaIcon(
-                FontAwesomeIcons.arrowRight,
+                FontAwesomeIcons.chevronRight,
                 color: kAccentColor,
               ),
             ),

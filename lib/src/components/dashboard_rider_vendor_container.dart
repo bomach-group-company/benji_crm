@@ -53,7 +53,6 @@ class RiderVendorContainer extends StatelessWidget {
               alignment: Alignment.topRight,
               child: FaIcon(
                 FontAwesomeIcons.chevronRight,
-                size: 20,
                 color: kAccentColor,
               ),
             ),
