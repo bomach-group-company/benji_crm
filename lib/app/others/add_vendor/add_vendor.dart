@@ -4,6 +4,7 @@ import 'package:benji_aggregator/theme/colors.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
 import '../../../src/providers/constants.dart';
@@ -51,7 +52,7 @@ class _AddVendorState extends State<AddVendor> {
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "Register a vendor",
+        routeName: "RegisterVendor",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.rightToLeft,
@@ -62,7 +63,7 @@ class _AddVendorState extends State<AddVendor> {
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "Create vendor",
+        routeName: "AddThirdPartyVendor",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.rightToLeft,
@@ -70,10 +71,11 @@ class _AddVendorState extends State<AddVendor> {
 
   @override
   Widget build(BuildContext context) {
+    var media = MediaQuery.of(context).size;
     return Scaffold(
       appBar: MyAppBar(
         title: "Add a new vendor",
-        elevation: 10.0,
+        elevation: 0.0,
         actions: const [],
         backgroundColor: kPrimaryColor,
       ),
@@ -99,7 +101,9 @@ class _AddVendorState extends State<AddVendor> {
                 );
               }
               return _loadingScreen
-                  ? SpinKitDoubleBounce(color: kAccentColor)
+                  ? Center(
+                      child: CircularProgressIndicator(color: kAccentColor),
+                    )
                   : Scrollbar(
                       controller: _scrollController,
                       radius: const Radius.circular(10),
@@ -115,10 +119,10 @@ class _AddVendorState extends State<AddVendor> {
                             padding: const EdgeInsets.all(kDefaultPadding),
                             child: Align(
                               alignment: Alignment.topCenter,
-                              child: Icon(
-                                Icons.add_business_sharp,
-                                color: kAccentColor,
-                                size: 80,
+                              child: Image.asset(
+                                "assets/icons/store.png",
+                                fit: BoxFit.contain,
+                                height: media.height - 700,
                               ),
                             ),
                           ),
@@ -136,8 +140,8 @@ class _AddVendorState extends State<AddVendor> {
                               borderRadius:
                                   BorderRadius.circular(kDefaultPadding / 2),
                             ),
-                            leading: Icon(
-                              Icons.add_business_outlined,
+                            leading: FaIcon(
+                              FontAwesomeIcons.store,
                               color: kAccentColor,
                               size: 30,
                             ),
@@ -153,8 +157,8 @@ class _AddVendorState extends State<AddVendor> {
                               "Register a new vendor account",
                             ),
                             subtitleTextStyle: TextStyle(color: kTextGreyColor),
-                            trailing: Icon(
-                              Icons.arrow_forward_ios,
+                            trailing: FaIcon(
+                              FontAwesomeIcons.chevronRight,
                               color: kAccentColor,
                               size: 26,
                             ),
@@ -173,8 +177,8 @@ class _AddVendorState extends State<AddVendor> {
                               borderRadius:
                                   BorderRadius.circular(kDefaultPadding / 2),
                             ),
-                            leading: Icon(
-                              Icons.add_business_outlined,
+                            leading: FaIcon(
+                              FontAwesomeIcons.store,
                               color: kAccentColor,
                               size: 30,
                             ),
@@ -190,8 +194,8 @@ class _AddVendorState extends State<AddVendor> {
                               "Create a vendor account on behalf of a vendor (3rd party account)",
                             ),
                             subtitleTextStyle: TextStyle(color: kTextGreyColor),
-                            trailing: Icon(
-                              Icons.arrow_forward_ios,
+                            trailing: FaIcon(
+                              FontAwesomeIcons.chevronRight,
                               color: kAccentColor,
                               size: 26,
                             ),

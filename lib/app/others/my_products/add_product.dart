@@ -3,8 +3,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../src/components/icon_textformfield.dart';
 import '../../../src/components/my_appbar.dart';
 import '../../../src/components/my_disabled_outlined_elevatedButton.dart';
 import '../../../src/components/my_elevatedButton.dart';
@@ -290,12 +292,10 @@ class _AddProductState extends State<AddProduct> {
                         ),
                       ),
                       kSizedBox,
-                      const Text(
+                      Text(
                         'Product Type',
                         style: TextStyle(
-                          color: Color(
-                            0xFF575757,
-                          ),
+                          color: kTextGreyColor,
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           letterSpacing: -0.32,
@@ -409,12 +409,7 @@ class _AddProductState extends State<AddProduct> {
                         hintText: "Enter the product name here",
                         textInputAction: TextInputAction.next,
                         textInputType: TextInputType.name,
-                        prefixIcon: const Icon(
-                          null,
-                        ),
-                        suffixIcon: const Icon(
-                          null,
-                        ),
+                        textCapitalization: TextCapitalization.sentences,
                         validator: (value) {
                           if (value == null || value!.isEmpty) {
                             productNameFN.requestFocus();
@@ -427,12 +422,10 @@ class _AddProductState extends State<AddProduct> {
                         },
                       ),
                       kSizedBox,
-                      const Text(
+                      Text(
                         'Product Description',
                         style: TextStyle(
-                          color: Color(
-                            0xFF575757,
-                          ),
+                          color: kTextGreyColor,
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           letterSpacing: -0.32,
@@ -445,12 +438,7 @@ class _AddProductState extends State<AddProduct> {
                         hintText: "Enter the description here",
                         textInputAction: TextInputAction.next,
                         textInputType: TextInputType.text,
-                        prefixIcon: const Icon(
-                          null,
-                        ),
-                        suffixIcon: const Icon(
-                          null,
-                        ),
+                        textCapitalization: TextCapitalization.sentences,
                         validator: (value) {
                           if (value == null || value!.isEmpty) {
                             productDescriptionFN.requestFocus();
@@ -463,12 +451,10 @@ class _AddProductState extends State<AddProduct> {
                         },
                       ),
                       kSizedBox,
-                      const Text(
+                      Text(
                         'Unit Price',
                         style: TextStyle(
-                          color: Color(
-                            0xFF575757,
-                          ),
+                          color: kTextGreyColor,
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           letterSpacing: -0.32,
@@ -481,12 +467,7 @@ class _AddProductState extends State<AddProduct> {
                         hintText: "Enter the unit price here",
                         textInputAction: TextInputAction.next,
                         textInputType: TextInputType.number,
-                        prefixIcon: const Icon(
-                          null,
-                        ),
-                        suffixIcon: const Icon(
-                          null,
-                        ),
+                        textCapitalization: TextCapitalization.sentences,
                         validator: (value) {
                           if (value == null || value!.isEmpty) {
                             productPriceFN.requestFocus();
@@ -499,12 +480,10 @@ class _AddProductState extends State<AddProduct> {
                         },
                       ),
                       kSizedBox,
-                      const Text(
+                      Text(
                         'Quantity',
                         style: TextStyle(
-                          color: Color(
-                            0xFF575757,
-                          ),
+                          color: kTextGreyColor,
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           letterSpacing: -0.32,
@@ -517,12 +496,7 @@ class _AddProductState extends State<AddProduct> {
                         hintText: "Enter the quantity here",
                         textInputAction: TextInputAction.done,
                         textInputType: TextInputType.number,
-                        prefixIcon: const Icon(
-                          null,
-                        ),
-                        suffixIcon: const Icon(
-                          null,
-                        ),
+                        textCapitalization: TextCapitalization.sentences,
                         validator: (value) {
                           if (value == null || value!.isEmpty) {
                             productQuantityFN.requestFocus();
@@ -535,12 +509,10 @@ class _AddProductState extends State<AddProduct> {
                         },
                       ),
                       kSizedBox,
-                      const Text(
+                      Text(
                         'Product Category',
                         style: TextStyle(
-                          color: Color(
-                            0xFF575757,
-                          ),
+                          color: kTextGreyColor,
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           letterSpacing: -0.32,
@@ -755,7 +727,7 @@ class _AddProductState extends State<AddProduct> {
                         ),
                       ),
                       kHalfSizedBox,
-                      MyTextFormField(
+                      IconTextFormField(
                         controller: productDiscountEC,
                         validator: (value) {
                           return null;
@@ -764,14 +736,13 @@ class _AddProductState extends State<AddProduct> {
                         focusNode: productDiscountFN,
                         hintText: "Enter Discount",
                         textInputType: TextInputType.number,
-                        prefixIcon: const Icon(
-                          Icons.percent_rounded,
+                        textCapitalization: TextCapitalization.characters,
+                        prefixIcon: const FaIcon(
+                          FontAwesomeIcons.percent,
                           size: 20,
                           color: kBlackColor,
                         ),
-                        suffixIcon: const Icon(
-                          null,
-                        ),
+                        suffixIcon: const FaIcon(null),
                       ),
                       kSizedBox,
                       Row(

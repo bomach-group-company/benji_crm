@@ -36,6 +36,10 @@ dependencies:
   cached_network_image: ^3.2.3
   flutter_layout_grid:
   lottie:
+  flutter_polyline_points:
+  google_maps_flutter_web: ^0.5.4+2
+  geolocator: ^9.0.2
+  geocoding:
 
 dev_dependencies:
   flutter_test:

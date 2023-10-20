@@ -9,8 +9,8 @@ import '../model/create_vendor_model.dart';
 
 // API URLS AND HTTP CALL FUNCTIONS
 class Api {
-  static const baseUrl = "https://benji-app.onrender.com";
-  // static const baseUrl = "https://resource.bgbot.app/api/v1/docs#/";
+  // static const baseUrl = "https://benji-app.onrender.com";
+  static const baseUrl = "https://resource.bgbot.app";
   static const login = "/api/v1/auth/token";
   static const user = "/api/v1/auth/";
   static const notification = "/api/v1/agents/getAgentNotifications/";

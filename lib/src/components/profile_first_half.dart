@@ -32,7 +32,7 @@ class _ProfileFirstHalfState extends State<ProfileFirstHalf> {
 //======================================================= FUNCTIONS ================================================\\
   void _toSelectAccount() => Get.to(
         () => const SelectAccountPage(),
-        duration: const Duration(milliseconds: 1000),
+        duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
         routeName: "SelectAccountPage",
@@ -64,7 +64,7 @@ class _ProfileFirstHalfState extends State<ProfileFirstHalf> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: kPrimaryColor,
-                  fontSize: 16,
+                  fontSize: 20,
                   fontWeight: FontWeight.w400,
                 ),
               ),
@@ -86,15 +86,17 @@ class _ProfileFirstHalfState extends State<ProfileFirstHalf> {
               ),
             ],
           ),
-          kSizedBox,
-          Text(
-            rememberBalance() ? '₦${widget.availableBalance}' : 'XXXXXXXXX',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: kPrimaryColor,
-              fontSize: 40,
-              fontFamily: 'Sen',
-              fontWeight: FontWeight.w700,
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Text(
+              rememberBalance() ? '₦${widget.availableBalance}' : 'XXXXXXXXX',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: kPrimaryColor,
+                fontSize: 30,
+                fontFamily: 'Sen',
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
           kSizedBox,
