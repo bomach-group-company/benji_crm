@@ -5,13 +5,14 @@ import 'package:benji_aggregator/src/providers/custom_show_search.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../controller/vendor_controller.dart';
 import '../../../src/components/category_button_section.dart';
 import '../../../src/components/my_appbar.dart';
+import '../../../src/components/my_liquid_refresh.dart';
 import '../../../src/components/vendor_orders_tab.dart';
 import '../../../src/components/vendor_products_tab.dart';
 import '../../../src/components/vendors_order_container.dart';
@@ -50,7 +51,6 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
   @override
   void initState() {
     super.initState();
-
     _tabBarController = TabController(length: 2, vsync: this);
     _loadingScreen = true;
     Future.delayed(
@@ -276,20 +276,11 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
     String formattedDateAndTime = formatDateAndTime(now);
-    double mediaWidth = MediaQuery.of(context).size.width;
-    double mediaHeight = MediaQuery.of(context).size.height;
+    var media = MediaQuery.of(context).size;
     double subtotalPrice = calculateSubtotal();
-
-//====================================================================================\\
-
-    return LiquidPullToRefresh(
+//==========================================================================\\
+    return MyLiquidRefresh(
       onRefresh: _handleRefresh,
-      color: kAccentColor,
-      borderWidth: 5.0,
-      backgroundColor: kPrimaryColor,
-      height: 150,
-      animSpeedFactor: 2,
-      showChildOpacityTransition: false,
       child: Scaffold(
         extendBody: true,
         extendBodyBehindAppBar: true,
@@ -300,9 +291,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
           tooltip: "Add Product",
           backgroundColor: kAccentColor,
           foregroundColor: kPrimaryColor,
-          child: const Icon(
-            Icons.add,
-          ),
+          child: const FaIcon(FontAwesomeIcons.plus),
         ),
         appBar: MyAppBar(
           title: "My Vendor Details",
@@ -313,15 +302,15 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
               onPressed: () {
                 showSearch(context: context, delegate: CustomSearchDelegate());
               },
-              icon: Icon(
-                Icons.search,
+              icon: FaIcon(
+                FontAwesomeIcons.magnifyingGlass,
                 color: kAccentColor,
               ),
             ),
             IconButton(
               onPressed: () => _showPopupMenu(context),
-              icon: Icon(
-                Icons.more_vert,
+              icon: FaIcon(
+                FontAwesomeIcons.ellipsisVertical,
                 color: kAccentColor,
               ),
             ),
@@ -355,11 +344,11 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                         radius: const Radius.circular(10),
                         scrollbarOrientation: ScrollbarOrientation.right,
                         child: ListView(
-                          physics: const BouncingScrollPhysics(),
+                          physics: const ScrollPhysics(),
                           dragStartBehavior: DragStartBehavior.down,
                           children: [
                             SizedBox(
-                              height: 340,
+                              height: 350,
                               child: Stack(
                                 children: [
                                   Positioned(
@@ -367,9 +356,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                     left: 0,
                                     right: 0,
                                     child: Container(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.3,
+                                      height: media.height * 0.3,
                                       decoration: BoxDecoration(
                                         color: kPageSkeletonColor,
                                         image: DecorationImage(
@@ -428,14 +415,14 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
                                               children: [
-                                                Icon(
-                                                  Icons.location_pin,
+                                                FaIcon(
+                                                  FontAwesomeIcons.locationDot,
                                                   color: kAccentColor,
                                                   size: 15,
                                                 ),
                                                 kHalfWidthSizedBox,
                                                 SizedBox(
-                                                  width: mediaWidth - 100,
+                                                  width: media.width - 100,
                                                   child: const Text(
                                                     "Old Abakaliki Rd, Thinkers Corner 400103, Enugu",
                                                     overflow:
@@ -470,7 +457,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                               child: Container(
-                                                width: mediaWidth / 4,
+                                                width: media.width / 4,
                                                 padding: const EdgeInsets.all(
                                                     kDefaultPadding / 4),
                                                 decoration: BoxDecoration(
@@ -497,7 +484,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                                   MainAxisAlignment.spaceEvenly,
                                               children: [
                                                 Container(
-                                                  width: mediaWidth * 0.25,
+                                                  width: media.width * 0.25,
                                                   height: 56.67,
                                                   decoration: ShapeDecoration(
                                                     color: Colors.white,
@@ -536,7 +523,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                                   ),
                                                 ),
                                                 Container(
-                                                  width: mediaWidth * 0.23,
+                                                  width: media.width * 0.23,
                                                   height: 56.67,
                                                   decoration: ShapeDecoration(
                                                     color: Colors.white,
@@ -574,7 +561,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                                   ),
                                                 ),
                                                 Container(
-                                                  width: mediaWidth * 0.25,
+                                                  width: media.width * 0.25,
                                                   height: 56.67,
                                                   decoration: ShapeDecoration(
                                                     color: Colors.white,
@@ -652,7 +639,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                 horizontal: kDefaultPadding,
                               ),
                               child: Container(
-                                width: mediaWidth,
+                                width: media.width,
                                 decoration: BoxDecoration(
                                   color: kDefaultCategoryBackgroundColor,
                                   borderRadius: BorderRadius.circular(50),
@@ -723,7 +710,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                                     _orderID +=
                                                         _incrementOrderID)
                                                   VendorsOrderContainer(
-                                                    mediaWidth: mediaWidth,
+                                                    mediaWidth: media.width,
                                                     orderImage: _orderImage,
                                                     orderID: _orderID,
                                                     formattedDateAndTime:
