@@ -1,10 +1,12 @@
 import 'package:benji_aggregator/src/providers/constants.dart';
 import 'package:benji_aggregator/src/skeletons/vendors_list_skeleton.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../../src/components/my_appbar.dart';
+import '../../../src/components/my_liquid_refresh.dart';
+import '../../../src/responsive/responsive_constant.dart';
 import '../../../theme/colors.dart';
 import 'my_vendor_detail.dart';
 
@@ -16,26 +18,11 @@ class MyVendors extends StatefulWidget {
 }
 
 class _MyVendorsState extends State<MyVendors> {
-  //=================================== ALL VARIABLES ====================================\\
-  final int _numberOfVendors = 10;
-  final String _vendorName = "Ntachi Osa";
-  final String _vendorImage = "ntachi-osa";
-  final double _vendorRating = 4.6;
-
-  final String _vendorActiveStatus = "Online";
-  final Color _vendorActiveStatusColor = kSuccessColor;
-
-  //===================== BOOL VALUES =======================\\
-  late bool _loadingScreen;
-
-  //=================================== CONTROLLERS ====================================\\
-  final ScrollController _scrollController = ScrollController();
-
-//==========================================================================================\\
+  //=======================================================================\\
   @override
   void initState() {
     super.initState();
-
+    _scrollController.addListener(_scrollListener);
     _loadingScreen = true;
     Future.delayed(
       const Duration(milliseconds: 500),
@@ -47,10 +34,27 @@ class _MyVendorsState extends State<MyVendors> {
 
   @override
   void dispose() {
+    _scrollController.dispose();
+
     super.dispose();
   }
 
-//==========================================================================================\\
+//=========================================================================\\
+
+  //=================================== ALL VARIABLES ====================================\\
+  final int _numberOfVendors = 10;
+  final String _vendorName = "Ntachi Osa";
+  final String _vendorImage = "ntachi-osa";
+  final double _vendorRating = 4.6;
+  final String _vendorActiveStatus = "Online";
+  final Color _vendorActiveStatusColor = kSuccessColor;
+
+  //===================== BOOL VALUES =======================\\
+  bool _isScrollToTopBtnVisible = false;
+  late bool _loadingScreen;
+
+  //=================================== CONTROLLERS ====================================\\
+  final ScrollController _scrollController = ScrollController();
 
   //============================================= FUNCTIONS ===============================================\\
 
@@ -66,6 +70,23 @@ class _MyVendorsState extends State<MyVendors> {
     });
   }
   //==========================================================================\\
+
+  //============================= Scroll to Top ======================================//
+  void _scrollToTop() {
+    _scrollController.animateTo(0,
+        duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn);
+  }
+
+  void _scrollListener() {
+    //========= Show action button ========//
+    if (_scrollController.position.pixels >= 100) {
+      setState(() => _isScrollToTopBtnVisible = true);
+    }
+    //========= Hide action button ========//
+    else if (_scrollController.position.pixels < 100) {
+      setState(() => _isScrollToTopBtnVisible = false);
+    }
+  }
 
   void _seeMoreVendors() {}
 
@@ -90,20 +111,25 @@ class _MyVendorsState extends State<MyVendors> {
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context).size;
-    return LiquidPullToRefresh(
+    return MyLiquidRefresh(
       onRefresh: _handleRefresh,
-      color: kAccentColor,
-      borderWidth: 5.0,
-      backgroundColor: kPrimaryColor,
-      height: 150,
-      animSpeedFactor: 2,
-      showChildOpacityTransition: false,
       child: Scaffold(
-        extendBody: true,
-        extendBodyBehindAppBar: true,
+        floatingActionButton: _isScrollToTopBtnVisible
+            ? FloatingActionButton(
+                onPressed: _scrollToTop,
+                mini: deviceType(media.width) > 2 ? false : true,
+                backgroundColor: kAccentColor,
+                enableFeedback: true,
+                mouseCursor: SystemMouseCursors.click,
+                tooltip: "Scroll to top",
+                hoverColor: kAccentColor,
+                hoverElevation: 50.0,
+                child: const FaIcon(FontAwesomeIcons.chevronUp, size: 18),
+              )
+            : const SizedBox(),
         appBar: MyAppBar(
           title: "My Vendors",
-          elevation: 10.0,
+          elevation: 0,
           actions: const [],
           backgroundColor: kPrimaryColor,
         ),
@@ -133,10 +159,10 @@ class _MyVendorsState extends State<MyVendors> {
                       child: VendorsListSkeleton(),
                     )
                   : Scrollbar(
-                      controller: _scrollController,
                       radius: const Radius.circular(10),
                       scrollbarOrientation: ScrollbarOrientation.right,
                       child: ListView(
+                        controller: _scrollController,
                         physics: const BouncingScrollPhysics(),
                         padding: const EdgeInsets.all(kDefaultPadding),
                         children: [
@@ -148,7 +174,8 @@ class _MyVendorsState extends State<MyVendors> {
                                           height: kDefaultPadding / 2),
                                   itemCount: _numberOfVendors,
                                   addAutomaticKeepAlives: true,
-                                  physics: const BouncingScrollPhysics(),
+                                  physics: const ScrollPhysics(
+                                      parent: BouncingScrollPhysics()),
                                   shrinkWrap: true,
                                   itemBuilder: (context, index) => InkWell(
                                     onTap: _toMyVendorDetailsPage,
@@ -199,7 +226,7 @@ class _MyVendorsState extends State<MyVendors> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 SizedBox(
-                                                  width: media.width - 200,
+                                                  width: media.width - 250,
                                                   child: Text(
                                                     _vendorName,
                                                     overflow:
@@ -214,9 +241,9 @@ class _MyVendorsState extends State<MyVendors> {
                                                     ),
                                                   ),
                                                 ),
-                                                kSizedBox,
+                                                kHalfSizedBox,
                                                 SizedBox(
-                                                  width: media.width - 200,
+                                                  width: media.width - 250,
                                                   child: Text(
                                                     "Restaurant",
                                                     style: TextStyle(
@@ -254,7 +281,7 @@ class _MyVendorsState extends State<MyVendors> {
                                                     ),
                                                   ],
                                                 ),
-                                                kSizedBox,
+                                                kHalfSizedBox,
                                                 Row(
                                                   mainAxisSize:
                                                       MainAxisSize.min,
@@ -263,28 +290,21 @@ class _MyVendorsState extends State<MyVendors> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
-                                                    SizedBox(
-                                                      width: 25,
-                                                      height: 25,
-                                                      child: Icon(
-                                                        Icons.star_rounded,
-                                                        color: kStarColor,
-                                                      ),
+                                                    FaIcon(
+                                                      FontAwesomeIcons
+                                                          .solidStar,
+                                                      size: 18,
+                                                      color: kStarColor,
                                                     ),
-                                                    const SizedBox(
-                                                        width: kDefaultPadding /
-                                                            2),
-                                                    Container(
-                                                      width: 81,
-                                                      height: 19,
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                        top: 4,
-                                                      ),
+                                                    SizedBox(
+                                                      width: media.width - 250,
                                                       child: Text(
-                                                        "$_vendorRating (500+)",
+                                                        "$_vendorRating (${intFormattedText(1023)})",
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
                                                         style: const TextStyle(
-                                                          color: Colors.black,
+                                                          color:
+                                                              kTextBlackColor,
                                                           fontSize: 15,
                                                           fontWeight:
                                                               FontWeight.w400,

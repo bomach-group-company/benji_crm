@@ -1,5 +1,6 @@
 // ignore_for_file: unused_local_variable, use_build_context_synchronously, unused_field, invalid_use_of_protected_member
 
+import 'dart:async';
 import 'dart:io';
 
 import 'package:benji_aggregator/controller/vendor_controller.dart';
@@ -45,15 +46,13 @@ class _RegisterVendorState extends State<RegisterVendor> {
   //==========================================================================================\\
   @override
   void initState() {
-    _scrollController.addListener(_scrollListener);
-
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       VendorController.instance.businessType();
     });
     super.initState();
-
+    _scrollController.addListener(_scrollListener);
     _loadingScreen = true;
-    Future.delayed(
+    _timer = Timer(
       const Duration(milliseconds: 1000),
       () => setState(
         () => _loadingScreen = false,
@@ -64,6 +63,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
   @override
   void dispose() {
     super.dispose();
+    _timer.cancel();
     selectedLocation.dispose();
     _scrollController.dispose();
   }
@@ -71,6 +71,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
 //==========================================================================================\\
 
   //===================== ALL VARIABLES =======================\\
+  late Timer _timer;
   String? latitude;
   String? longitude;
   String countryDialCode = '234';
@@ -90,7 +91,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
   //============================================== CONTROLLERS =================================================\\
   final _scrollController = ScrollController();
 
-  final vendorPersonalIdEC = TextEditingController();
+  final personalIdEC = TextEditingController();
   final vendorBusinessIdEC = TextEditingController();
   final vendorNameEC = TextEditingController();
   final vendorEmailEC = TextEditingController();
@@ -123,7 +124,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
   final vendorMonToFriClosingHoursFN = FocusNode();
   final vendorSatClosingHoursFN = FocusNode();
   final vendorSunClosingHoursFN = FocusNode();
-  final _mapsLocationFN = FocusNode();
+  final mapsLocationFN = FocusNode();
 
   //============================================= FUNCTIONS ===============================================\\
 
@@ -253,7 +254,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
       return;
     }
     SendCreateModel data = SendCreateModel(
-      personaId: vendorPersonalIdEC.text,
+      personaId: personalIdEC.text,
       businessId: vendorBusinessIdEC.text,
       businessName: vendorNameEC.text,
       businessType: shopType,
@@ -557,775 +558,765 @@ class _RegisterVendorState extends State<RegisterVendor> {
               )
             : const SizedBox(),
         body: SafeArea(
-          child: FutureBuilder(
-            future: null,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                const VendorsListSkeleton();
-              }
-              if (snapshot.connectionState == ConnectionState.none) {
-                const Center(
-                  child: Text("Please connect to the internet"),
-                );
-              }
-              // if (snapshot.connectionState == snapshot.requireData) {
-              //   SpinKitDoubleBounce(color: kAccentColor);
-              // }
-              if (snapshot.connectionState == snapshot.error) {
-                const Center(
-                  child: Text("Error, Please try again later"),
-                );
-              }
-              return Scrollbar(
-                controller: _scrollController,
-                radius: const Radius.circular(10),
-                scrollbarOrientation: ScrollbarOrientation.right,
-                child: ListView(
-                  physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.all(kDefaultPadding),
-                  children: [
-                    const Text(
-                      "Header content",
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    kSizedBox,
-                    DottedBorder(
-                      color: kLightGreyColor,
-                      borderPadding: const EdgeInsets.all(3),
-                      padding: const EdgeInsets.all(kDefaultPadding / 2),
-                      borderType: BorderType.RRect,
-                      radius: const Radius.circular(20),
-                      child: Column(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              showModalBottomSheet(
-                                context: context,
-                                elevation: 20,
-                                barrierColor: kBlackColor.withOpacity(0.8),
-                                showDragHandle: true,
-                                useSafeArea: true,
-                                isDismissible: true,
-                                isScrollControlled: true,
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(kDefaultPadding),
-                                  ),
-                                ),
-                                enableDrag: true,
-                                builder: ((builder) => uploadCoverImage()),
-                              );
-                            },
-                            splashColor: kAccentColor.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(16),
-                            child: selectedCoverImage == null
-                                ? Container(
-                                    width: media.width,
-                                    height: 144,
-                                    decoration: ShapeDecoration(
-                                      shape: RoundedRectangleBorder(
-                                        side: const BorderSide(
-                                          width: 0.50,
-                                          color: Color(0xFFE6E6E6),
-                                        ),
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                    ),
-                                    child: Align(
-                                      alignment: Alignment.center,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Image.asset(
-                                              "assets/icons/image-upload.png"),
-                                          kHalfSizedBox,
-                                          Text(
-                                            'Upload cover image',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              color: kTextGreyColor,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                : Container(
-                                    width: media.width,
-                                    height: 144,
-                                    decoration: ShapeDecoration(
-                                      image: DecorationImage(
-                                        image: FileImage(selectedCoverImage!),
-                                        fit: BoxFit.cover,
-                                      ),
-                                      shape: RoundedRectangleBorder(
-                                        side: const BorderSide(
-                                          width: 0.50,
-                                          color: Color(0xFFE6E6E6),
-                                        ),
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                    ),
-                                  ),
+            child: _loadingScreen
+                ? Center(child: CircularProgressIndicator(color: kAccentColor))
+                : Scrollbar(
+                    controller: _scrollController,
+                    child: ListView(
+                      controller: _scrollController,
+                      physics: const BouncingScrollPhysics(),
+                      padding: const EdgeInsets.all(kDefaultPadding),
+                      children: [
+                        const Text(
+                          "Header content",
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w700,
                           ),
-                          kSizedBox,
-                          selectedLogoImage == null
-                              ? InkWell(
-                                  onTap: () {
-                                    showModalBottomSheet(
-                                      context: context,
-                                      elevation: 20,
-                                      barrierColor:
-                                          kBlackColor.withOpacity(0.8),
-                                      showDragHandle: true,
-                                      useSafeArea: true,
-                                      isDismissible: true,
-                                      isScrollControlled: true,
-                                      shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.vertical(
-                                          top: Radius.circular(kDefaultPadding),
-                                        ),
-                                      ),
-                                      enableDrag: true,
-                                      builder: ((builder) => uploadLogoImage()),
-                                    );
-                                  },
-                                  splashColor: kAccentColor.withOpacity(0.1),
-                                  borderRadius: BorderRadius.circular(16),
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    height: 144,
-                                    decoration: ShapeDecoration(
-                                      shape: RoundedRectangleBorder(
-                                        side: const BorderSide(
-                                          width: 0.50,
-                                          color: Color(0xFFE6E6E6),
-                                        ),
-                                        borderRadius: BorderRadius.circular(16),
-                                      ),
-                                    ),
-                                    child: Align(
-                                      alignment: Alignment.center,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          CircleAvatar(
-                                            backgroundColor: kTransparentColor,
-                                            minRadius: 40,
-                                            maxRadius: 50,
-                                            child: Icon(
-                                              Icons.image,
-                                              color: kAccentColor,
+                        ),
+                        kSizedBox,
+                        DottedBorder(
+                          color: kLightGreyColor,
+                          borderPadding: const EdgeInsets.all(3),
+                          padding: const EdgeInsets.all(kDefaultPadding / 2),
+                          borderType: BorderType.RRect,
+                          radius: const Radius.circular(20),
+                          child: Column(
+                            children: [
+                              Column(
+                                children: [
+                                  selectedCoverImage == null
+                                      ? Container(
+                                          width: media.width,
+                                          height: 144,
+                                          decoration: ShapeDecoration(
+                                            shape: RoundedRectangleBorder(
+                                              side: const BorderSide(
+                                                width: 0.50,
+                                                color: Color(0xFFE6E6E6),
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
                                             ),
                                           ),
-                                          kHalfSizedBox,
-                                          Text(
-                                            'Upload your profile logo',
-                                            style: TextStyle(
-                                              color: kTextGreyColor,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w400,
+                                          child: Center(
+                                            child: Image.asset(
+                                                "assets/icons/image-upload.png"),
+                                          ),
+                                        )
+                                      : Container(
+                                          width: media.width,
+                                          height: 144,
+                                          decoration: ShapeDecoration(
+                                            image: DecorationImage(
+                                              image: FileImage(
+                                                  selectedCoverImage!),
+                                              fit: BoxFit.cover,
+                                            ),
+                                            shape: RoundedRectangleBorder(
+                                              side: const BorderSide(
+                                                width: 0.50,
+                                                color: Color(0xFFE6E6E6),
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              : Column(
-                                  children: [
-                                    Container(
-                                      height: 200,
-                                      width: 200,
-                                      decoration: ShapeDecoration(
-                                        shape: const OvalBorder(),
-                                        image: DecorationImage(
-                                          image: FileImage(
-                                            selectedLogoImage!,
-                                          ),
-                                          fit: BoxFit.cover,
                                         ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                        ],
-                      ),
-                    ),
-                    kSizedBox,
-                    Form(
-                      key: _formKey,
-                      child: ValueListenableBuilder(
-                          valueListenable: selectedLocation,
-                          builder: (context, selectedLocationValue, index) {
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  "Personal Identification",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                kSizedBox,
-                                MyBlueTextFormField(
-                                  controller: vendorPersonalIdEC,
-                                  validator: (value) {
-                                    if (value == null ||
-                                        vendorPersonalIdEC.text.isEmpty) {
-                                      return "Field cannot be empty";
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                  textInputAction: TextInputAction.next,
-                                  focusNode: vendorPersonalIdFN,
-                                  hintText: "Enter personal ID",
-                                  textInputType: TextInputType.text,
-                                ),
-                                kSizedBox,
-                                const Text(
-                                  "Business Identification",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                kSizedBox,
-                                MyBlueTextFormField(
-                                  controller: vendorBusinessIdEC,
-                                  validator: (value) {
-                                    if (value == null ||
-                                        vendorBusinessIdEC.text.isEmpty) {
-                                      return "Field cannot be empty";
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                  textInputAction: TextInputAction.next,
-                                  focusNode: vendorBusinessIdFN,
-                                  hintText:
-                                      "Enter the business ID (if provided by the vendor)",
-                                  textInputType: TextInputType.text,
-                                ),
-                                kSizedBox,
-                                const Text(
-                                  "Business Name",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                kSizedBox,
-                                MyBlueTextFormField(
-                                  controller: vendorNameEC,
-                                  validator: (value) {
-                                    if (value == null ||
-                                        vendorNameEC.text.isEmpty) {
-                                      return "Field cannot be empty";
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                  textInputAction: TextInputAction.next,
-                                  focusNode: vendorNameFN,
-                                  hintText: "Enter the name of the business",
-                                  textInputType: TextInputType.name,
-                                ),
-                                kSizedBox,
-                                const Text(
-                                  "Type of Business",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                kSizedBox,
-                                GetBuilder<VendorController>(builder: (type) {
-                                  return InkWell(
-                                    onTap: () async {
-                                      var data = await shopTypeModal(
-                                          context, type.businessType);
-                                      if (data != null) {
-                                        setState(() {
-                                          shopType = data.id.toString();
-                                          shopTypeHint = data.name.toString();
-                                        });
-                                        //  consoleLog(data.name.toString());
-                                      }
+                                  InkWell(
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                        context: context,
+                                        elevation: 20,
+                                        barrierColor:
+                                            kBlackColor.withOpacity(0.8),
+                                        showDragHandle: true,
+                                        useSafeArea: true,
+                                        isDismissible: true,
+                                        isScrollControlled: true,
+                                        shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.vertical(
+                                            top: Radius.circular(
+                                                kDefaultPadding),
+                                          ),
+                                        ),
+                                        enableDrag: true,
+                                        builder: ((builder) =>
+                                            uploadCoverImage()),
+                                      );
                                     },
-                                    child: MyBlueTextFormField(
-                                      controller: vendorBusinessTypeEC,
-                                      isEnabled: false,
-                                      validator: (value) {
-                                        return null;
-                                      },
-                                      onSaved: (value) {},
-                                      textInputAction: TextInputAction.next,
-                                      focusNode: vendorBusinessTypeFN,
-                                      hintText: shopTypeHint ??
-                                          "E.g Restaurant, Auto Dealer, etc",
-                                      textInputType: TextInputType.name,
+                                    splashColor: kAccentColor.withOpacity(0.1),
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Text(
+                                        'Upload cover image',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: kAccentColor,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
                                     ),
-                                  );
-                                }),
-                                kSizedBox,
-                                const Text(
-                                  "Business Email",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
                                   ),
-                                ),
-                                kSizedBox,
-                                MyBlueTextFormField(
-                                  controller: vendorEmailEC,
-                                  validator: (value) {
-                                    if (value == null ||
-                                        vendorEmailEC.text.isEmpty) {
-                                      return "Field cannot be empty";
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                  onSaved: (value) {},
-                                  textInputAction: TextInputAction.next,
-                                  focusNode: vendorEmailFN,
-                                  hintText: "Enter the bussiness email",
-                                  textInputType: TextInputType.emailAddress,
-                                ),
-                                kSizedBox,
-                                const Text(
-                                  "Business Phone Number",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  selectedLogoImage == null
+                                      ? Container(
+                                          width: media.width,
+                                          height: 144,
+                                          decoration: ShapeDecoration(
+                                            shape: RoundedRectangleBorder(
+                                              side: const BorderSide(
+                                                width: 0.50,
+                                                color: Color(0xFFE6E6E6),
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                          ),
+                                          child: Center(
+                                            child: FaIcon(
+                                              FontAwesomeIcons.solidCircleUser,
+                                              color: kAccentColor,
+                                              size: 40,
+                                            ),
+                                          ),
+                                        )
+                                      : Container(
+                                          height: 200,
+                                          width: 200,
+                                          decoration: ShapeDecoration(
+                                            shape: const OvalBorder(),
+                                            image: DecorationImage(
+                                              image: FileImage(
+                                                selectedLogoImage!,
+                                              ),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                  InkWell(
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                        context: context,
+                                        elevation: 20,
+                                        barrierColor:
+                                            kBlackColor.withOpacity(0.8),
+                                        showDragHandle: true,
+                                        useSafeArea: true,
+                                        isDismissible: true,
+                                        isScrollControlled: true,
+                                        shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.vertical(
+                                            top: Radius.circular(
+                                                kDefaultPadding),
+                                          ),
+                                        ),
+                                        enableDrag: true,
+                                        builder: ((builder) =>
+                                            uploadLogoImage()),
+                                      );
+                                    },
+                                    splashColor: kAccentColor.withOpacity(0.1),
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Text(
+                                        'Upload business logo',
+                                        style: TextStyle(
+                                          color: kAccentColor,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                                kSizedBox,
-                                MyIntlPhoneField(
-                                  controller: vendorPhoneNumberEC,
-                                  initialCountryCode: "NG",
-                                  invalidNumberMessage: "Invalid phone number",
-                                  dropdownIconPosition: IconPosition.trailing,
-                                  showCountryFlag: true,
-                                  showDropdownIcon: true,
-                                  dropdownIcon: Icon(
-                                    Icons.arrow_drop_down_rounded,
-                                    color: kAccentColor,
-                                  ),
-                                  textInputAction: TextInputAction.next,
-                                  focusNode: vendorPhoneNumberFN,
-                                  validator: (value) {
-                                    if (value == null ||
-                                        vendorPhoneNumberEC.text.isEmpty) {
-                                      return "Field cannot be empty";
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                  onSaved: (value) {},
-                                ),
-                                kSizedBox,
-                                const Text(
-                                  "Business Address",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                kSizedBox,
-                                Column(
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        kSizedBox,
+                        Form(
+                          key: _formKey,
+                          child: ValueListenableBuilder(
+                              valueListenable: selectedLocation,
+                              builder: (context, selectedLocationValue, index) {
+                                return Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     const Text(
-                                      'Location on Google maps',
+                                      "Personal Identification",
                                       style: TextStyle(
-                                        color: kTextBlackColor,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                    kHalfSizedBox,
-                                    MyMapsTextFormField(
-                                      controller: mapsLocationEC,
-                                      validator: (value) {
-                                        if (value == null) {
-                                          _mapsLocationFN.requestFocus();
-                                          "Enter a location";
-                                        }
-                                        return null;
-                                      },
-                                      onChanged: (value) {
-                                        placeAutoComplete(value);
-                                        setState(() {
-                                          selectedLocation.value = value;
-                                          _typing = true;
-                                        });
-                                        if (kDebugMode) {
-                                          print(
-                                              "ONCHANGED VALUE: ${selectedLocation.value}");
-                                        }
-                                      },
-                                      textInputAction: TextInputAction.done,
-                                      focusNode: _mapsLocationFN,
-                                      hintText: "Search a location",
-                                      textInputType: TextInputType.text,
-                                      prefixIcon: Padding(
-                                        padding: const EdgeInsets.all(
-                                            kDefaultPadding),
-                                        child: FaIcon(
-                                          FontAwesomeIcons.locationDot,
-                                          color: kAccentColor,
-                                          size: 18,
-                                        ),
-                                      ),
-                                    ),
-                                    kSizedBox,
-                                    Divider(
-                                      height: 10,
-                                      thickness: 2,
-                                      color: kLightGreyColor,
-                                    ),
-                                    ElevatedButton.icon(
-                                      onPressed: _toGetLocationOnMap,
-                                      icon: FaIcon(
-                                        FontAwesomeIcons.locationArrow,
-                                        color: kAccentColor,
-                                        size: 18,
-                                      ),
-                                      label: const Text("Locate on map"),
-                                      style: ElevatedButton.styleFrom(
-                                        elevation: 0,
-                                        backgroundColor: kLightGreyColor,
-                                        foregroundColor: kTextBlackColor,
-                                        fixedSize: Size(media.width, 40),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                      ),
-                                    ),
-                                    Divider(
-                                      height: 10,
-                                      thickness: 2,
-                                      color: kLightGreyColor,
-                                    ),
-                                    const Text(
-                                      "Suggestions:",
-                                      style: TextStyle(
-                                        color: kTextBlackColor,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700,
                                       ),
                                     ),
-                                    kHalfSizedBox,
-                                    SizedBox(
-                                      height: () {
-                                        if (_typing == false) {
-                                          return 0.0;
+                                    kSizedBox,
+                                    MyBlueTextFormField(
+                                      controller: personalIdEC,
+                                      validator: (value) {
+                                        if (value == null ||
+                                            personalIdEC.text.isEmpty) {
+                                          return "Field cannot be empty";
+                                        } else {
+                                          return null;
                                         }
-                                        if (_typing == true) {
-                                          return 150.0;
+                                      },
+                                      textInputAction: TextInputAction.next,
+                                      focusNode: vendorPersonalIdFN,
+                                      hintText: "NIN, Driver's License, etc",
+                                      textInputType: TextInputType.text,
+                                    ),
+                                    kSizedBox,
+                                    const Text(
+                                      "Business Identification",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    kSizedBox,
+                                    MyBlueTextFormField(
+                                      controller: vendorBusinessIdEC,
+                                      validator: (value) {
+                                        if (value == null ||
+                                            vendorBusinessIdEC.text.isEmpty) {
+                                          return "Field cannot be empty";
+                                        } else {
+                                          return null;
                                         }
-                                      }(),
-                                      child: Scrollbar(
-                                        controller: _scrollController,
-                                        child: ListView.builder(
-                                          physics:
-                                              const BouncingScrollPhysics(),
-                                          shrinkWrap: true,
-                                          itemCount: placePredictions.length,
-                                          itemBuilder: (context, index) =>
-                                              LocationListTile(
-                                            onTap: () => _setLocation(index),
-                                            location: placePredictions[index]
-                                                .description!,
+                                      },
+                                      textInputAction: TextInputAction.next,
+                                      focusNode: vendorBusinessIdFN,
+                                      hintText:
+                                          "Enter the business ID (if provided by the vendor)",
+                                      textInputType: TextInputType.text,
+                                    ),
+                                    kSizedBox,
+                                    const Text(
+                                      "Business Name",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    kSizedBox,
+                                    MyBlueTextFormField(
+                                      controller: vendorNameEC,
+                                      validator: (value) {
+                                        if (value == null ||
+                                            vendorNameEC.text.isEmpty) {
+                                          return "Field cannot be empty";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      textInputAction: TextInputAction.next,
+                                      focusNode: vendorNameFN,
+                                      hintText:
+                                          "Enter the name of the business",
+                                      textInputType: TextInputType.name,
+                                    ),
+                                    kSizedBox,
+                                    const Text(
+                                      "Type of Business",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    kSizedBox,
+                                    GetBuilder<VendorController>(
+                                        builder: (type) {
+                                      return InkWell(
+                                        onTap: () async {
+                                          var data = await shopTypeModal(
+                                              context, type.businessType);
+                                          if (data != null) {
+                                            setState(() {
+                                              shopType = data.id.toString();
+                                              shopTypeHint =
+                                                  data.name.toString();
+                                            });
+                                            //  consoleLog(data.name.toString());
+                                          }
+                                        },
+                                        child: MyBlueTextFormField(
+                                          controller: vendorBusinessTypeEC,
+                                          isEnabled: false,
+                                          validator: (value) {
+                                            return null;
+                                          },
+                                          onSaved: (value) {},
+                                          textInputAction: TextInputAction.next,
+                                          focusNode: vendorBusinessTypeFN,
+                                          hintText: shopTypeHint ??
+                                              "E.g Restaurant, Auto Dealer, etc",
+                                          textInputType: TextInputType.name,
+                                        ),
+                                      );
+                                    }),
+                                    kSizedBox,
+                                    const Text(
+                                      "Business Email",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    kSizedBox,
+                                    MyBlueTextFormField(
+                                      controller: vendorEmailEC,
+                                      validator: (value) {
+                                        if (value == null ||
+                                            vendorEmailEC.text.isEmpty) {
+                                          return "Field cannot be empty";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      onSaved: (value) {},
+                                      textInputAction: TextInputAction.next,
+                                      focusNode: vendorEmailFN,
+                                      hintText: "Enter the bussiness email",
+                                      textInputType: TextInputType.emailAddress,
+                                    ),
+                                    kSizedBox,
+                                    const Text(
+                                      "Business Phone Number",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    kSizedBox,
+                                    MyIntlPhoneField(
+                                      controller: vendorPhoneNumberEC,
+                                      initialCountryCode: "NG",
+                                      invalidNumberMessage:
+                                          "Invalid phone number",
+                                      dropdownIconPosition:
+                                          IconPosition.trailing,
+                                      showCountryFlag: true,
+                                      showDropdownIcon: true,
+                                      dropdownIcon: Icon(
+                                        Icons.arrow_drop_down_rounded,
+                                        color: kAccentColor,
+                                      ),
+                                      textInputAction: TextInputAction.next,
+                                      focusNode: vendorPhoneNumberFN,
+                                      validator: (value) {
+                                        if (value == null ||
+                                            vendorPhoneNumberEC.text.isEmpty) {
+                                          return "Field cannot be empty";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      onSaved: (value) {},
+                                    ),
+                                    kSizedBox,
+                                    const Text(
+                                      "Business Address",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    kSizedBox,
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const Text(
+                                          'Location on Google maps',
+                                          style: TextStyle(
+                                            color: kTextBlackColor,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
                                           ),
+                                        ),
+                                        kHalfSizedBox,
+                                        MyMapsTextFormField(
+                                          controller: mapsLocationEC,
+                                          validator: (value) {
+                                            if (value == null) {
+                                              mapsLocationFN.requestFocus();
+                                              "Enter a location";
+                                            }
+                                            return null;
+                                          },
+                                          onChanged: (value) {
+                                            placeAutoComplete(value);
+                                            setState(() {
+                                              selectedLocation.value = value;
+                                              _typing = true;
+                                            });
+                                            if (kDebugMode) {
+                                              print(
+                                                  "ONCHANGED VALUE: ${selectedLocation.value}");
+                                            }
+                                          },
+                                          textInputAction: TextInputAction.done,
+                                          focusNode: mapsLocationFN,
+                                          hintText: "Search a location",
+                                          textInputType: TextInputType.text,
+                                          prefixIcon: Padding(
+                                            padding: const EdgeInsets.all(
+                                                kDefaultPadding),
+                                            child: FaIcon(
+                                              FontAwesomeIcons.locationDot,
+                                              color: kAccentColor,
+                                              size: 18,
+                                            ),
+                                          ),
+                                        ),
+                                        kSizedBox,
+                                        Divider(
+                                          height: 10,
+                                          thickness: 2,
+                                          color: kLightGreyColor,
+                                        ),
+                                        ElevatedButton.icon(
+                                          onPressed: _toGetLocationOnMap,
+                                          icon: FaIcon(
+                                            FontAwesomeIcons.locationArrow,
+                                            color: kAccentColor,
+                                            size: 18,
+                                          ),
+                                          label: const Text("Locate on map"),
+                                          style: ElevatedButton.styleFrom(
+                                            elevation: 0,
+                                            backgroundColor: kLightGreyColor,
+                                            foregroundColor: kTextBlackColor,
+                                            fixedSize: Size(media.width, 40),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                        ),
+                                        Divider(
+                                          height: 10,
+                                          thickness: 2,
+                                          color: kLightGreyColor,
+                                        ),
+                                        const Text(
+                                          "Suggestions:",
+                                          style: TextStyle(
+                                            color: kTextBlackColor,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                        kHalfSizedBox,
+                                        SizedBox(
+                                          height: () {
+                                            if (_typing == false) {
+                                              return 0.0;
+                                            }
+                                            if (_typing == true) {
+                                              return 150.0;
+                                            }
+                                          }(),
+                                          child: Scrollbar(
+                                            controller: _scrollController,
+                                            child: ListView.builder(
+                                              physics:
+                                                  const BouncingScrollPhysics(),
+                                              shrinkWrap: true,
+                                              itemCount:
+                                                  placePredictions.length,
+                                              itemBuilder: (context, index) =>
+                                                  LocationListTile(
+                                                onTap: () =>
+                                                    _setLocation(index),
+                                                location:
+                                                    placePredictions[index]
+                                                        .description!,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    kSizedBox,
+                                    const Text(
+                                      "Localization",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    kSizedBox,
+                                    CSCPicker(
+                                      key: _cscPickerKey,
+                                      layout: Layout.vertical,
+                                      countryDropdownLabel: "Select country",
+                                      stateDropdownLabel: "Select state",
+                                      cityDropdownLabel: "Select city",
+                                      onCountryChanged: (value) {
+                                        if (value.isNotEmpty) {
+                                          setState(() {
+                                            country = value;
+                                          });
+                                        }
+                                      },
+                                      onStateChanged: (value) {
+                                        if (value != null) {
+                                          setState(() {
+                                            state = value;
+                                          });
+                                        }
+                                      },
+                                      onCityChanged: (value) {
+                                        if (value != null) {
+                                          setState(() {
+                                            city = value;
+                                          });
+                                        }
+                                      },
+                                    ),
+                                    kSizedBox,
+                                    Center(
+                                      child: Text(
+                                        "Business hours".toUpperCase(),
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          decoration: TextDecoration.underline,
+                                          fontWeight: FontWeight.w700,
                                         ),
                                       ),
                                     ),
+                                    kSizedBox,
+                                    const Center(
+                                      child: Text(
+                                        "Mondays to Fridays",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ),
+                                    kSizedBox,
+                                    const Text(
+                                      "Opening hours",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    kSizedBox,
+                                    MyBlueTextFormField(
+                                      controller: vendorMonToFriOpeningHoursEC,
+                                      validator: (value) {
+                                        if (value == null ||
+                                            vendorMonToFriOpeningHoursEC
+                                                .text.isEmpty) {
+                                          return "Field cannot be empty";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      onSaved: (value) {},
+                                      textInputAction: TextInputAction.next,
+                                      focusNode: vendorMonToFriOpeningHoursFN,
+                                      hintText: "00:00 AM",
+                                      textInputType: TextInputType.text,
+                                    ),
+                                    kSizedBox,
+                                    const Text(
+                                      "Closing hours",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    kSizedBox,
+                                    MyBlueTextFormField(
+                                      controller: vendorMonToFriClosingHoursEC,
+                                      validator: (value) {
+                                        if (value == null ||
+                                            vendorMonToFriClosingHoursEC
+                                                .text.isEmpty) {
+                                          return "Field cannot be empty";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      onSaved: (value) {},
+                                      textInputAction: TextInputAction.next,
+                                      focusNode: vendorMonToFriClosingHoursFN,
+                                      hintText: "00:00 PM",
+                                      textInputType: TextInputType.text,
+                                    ),
+                                    kSizedBox,
+                                    const Center(
+                                      child: Text(
+                                        "Saturdays",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ),
+                                    kSizedBox,
+                                    const Text(
+                                      "Opening hours",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    kSizedBox,
+                                    MyBlueTextFormField(
+                                      controller: vendorSatOpeningHoursEC,
+                                      validator: (value) {
+                                        if (value == null ||
+                                            vendorSatOpeningHoursEC
+                                                .text.isEmpty) {
+                                          return "Field cannot be empty";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      onSaved: (value) {},
+                                      textInputAction: TextInputAction.next,
+                                      focusNode: vendorSatOpeningHoursFN,
+                                      hintText: "00:00 AM",
+                                      textInputType: TextInputType.text,
+                                    ),
+                                    kSizedBox,
+                                    const Text(
+                                      "Closing hours",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    kSizedBox,
+                                    MyBlueTextFormField(
+                                      controller: vendorSatClosingHoursEC,
+                                      validator: (value) {
+                                        if (value == null ||
+                                            vendorSatClosingHoursEC
+                                                .text.isEmpty) {
+                                          return "Field cannot be empty";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      onSaved: (value) {},
+                                      textInputAction: TextInputAction.next,
+                                      focusNode: vendorSatClosingHoursFN,
+                                      hintText: "00:00 PM",
+                                      textInputType: TextInputType.text,
+                                    ),
+                                    kSizedBox,
+                                    const Center(
+                                      child: Text(
+                                        "Sundays",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ),
+                                    kSizedBox,
+                                    const Text(
+                                      "Opening hours",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    kSizedBox,
+                                    MyBlueTextFormField(
+                                      controller: vendorSunOpeningHoursEC,
+                                      validator: (value) {
+                                        if (value == null ||
+                                            vendorSunOpeningHoursEC
+                                                .text.isEmpty) {
+                                          return "Field cannot be empty";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      onSaved: (value) {},
+                                      textInputAction: TextInputAction.next,
+                                      focusNode: vendorSunOpeningHoursFN,
+                                      hintText: "00:00 AM",
+                                      textInputType: TextInputType.text,
+                                    ),
+                                    kSizedBox,
+                                    const Text(
+                                      "Closing hours",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    kSizedBox,
+                                    MyBlueTextFormField(
+                                      controller: vendorSunClosingHoursEC,
+                                      validator: (value) {
+                                        if (value == null ||
+                                            vendorSunClosingHoursEC
+                                                .text.isEmpty) {
+                                          return "Field cannot be empty";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      onSaved: (value) {},
+                                      textInputAction: TextInputAction.next,
+                                      focusNode: vendorSunClosingHoursFN,
+                                      hintText: "00:00 PM",
+                                      textInputType: TextInputType.text,
+                                    ),
+                                    kSizedBox,
+                                    const Text(
+                                      "Business Bio",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    kSizedBox,
+                                    MyMessageTextFormField(
+                                      controller: vendorBusinessBioEC,
+                                      textInputAction: TextInputAction.newline,
+                                      focusNode: vendorBusinessBioFN,
+                                      hintText: "About the business...",
+                                      maxLines: 10,
+                                      keyboardType: TextInputType.multiline,
+                                      maxLength: 6000,
+                                      validator: (value) {
+                                        if (value == null ||
+                                            vendorBusinessBioEC.text.isEmpty) {
+                                          return "Field cannot be empty";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      onSaved: (value) {
+                                        vendorBusinessBioEC.text = value;
+                                      },
+                                    ),
                                   ],
-                                ),
-                                kSizedBox,
-                                const Text(
-                                  "Localization",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                kSizedBox,
-                                CSCPicker(
-                                  key: _cscPickerKey,
-                                  layout: Layout.vertical,
-                                  countryDropdownLabel: "Select country",
-                                  stateDropdownLabel: "Select state",
-                                  cityDropdownLabel: "Select city",
-                                  onCountryChanged: (value) {
-                                    if (value.isNotEmpty) {
-                                      setState(() {
-                                        country = value;
-                                      });
-                                    }
-                                  },
-                                  onStateChanged: (value) {
-                                    if (value != null) {
-                                      setState(() {
-                                        state = value;
-                                      });
-                                    }
-                                  },
-                                  onCityChanged: (value) {
-                                    if (value != null) {
-                                      setState(() {
-                                        city = value;
-                                      });
-                                    }
-                                  },
-                                ),
-                                kSizedBox,
-                                Center(
-                                  child: Text(
-                                    "Business hours".toUpperCase(),
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      decoration: TextDecoration.underline,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ),
-                                kSizedBox,
-                                const Center(
-                                  child: Text(
-                                    "Mondays to Fridays",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ),
-                                kSizedBox,
-                                const Text(
-                                  "Opening hours",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                kSizedBox,
-                                MyBlueTextFormField(
-                                  controller: vendorMonToFriOpeningHoursEC,
-                                  validator: (value) {
-                                    if (value == null ||
-                                        vendorMonToFriOpeningHoursEC
-                                            .text.isEmpty) {
-                                      return "Field cannot be empty";
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                  onSaved: (value) {},
-                                  textInputAction: TextInputAction.next,
-                                  focusNode: vendorMonToFriOpeningHoursFN,
-                                  hintText: "00:00 AM",
-                                  textInputType: TextInputType.text,
-                                ),
-                                kSizedBox,
-                                const Text(
-                                  "Closing hours",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                kSizedBox,
-                                MyBlueTextFormField(
-                                  controller: vendorMonToFriClosingHoursEC,
-                                  validator: (value) {
-                                    if (value == null ||
-                                        vendorMonToFriClosingHoursEC
-                                            .text.isEmpty) {
-                                      return "Field cannot be empty";
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                  onSaved: (value) {},
-                                  textInputAction: TextInputAction.next,
-                                  focusNode: vendorMonToFriClosingHoursFN,
-                                  hintText: "00:00 PM",
-                                  textInputType: TextInputType.text,
-                                ),
-                                kSizedBox,
-                                const Center(
-                                  child: Text(
-                                    "Saturdays",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ),
-                                kSizedBox,
-                                const Text(
-                                  "Opening hours",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                kSizedBox,
-                                MyBlueTextFormField(
-                                  controller: vendorSatOpeningHoursEC,
-                                  validator: (value) {
-                                    if (value == null ||
-                                        vendorSatOpeningHoursEC.text.isEmpty) {
-                                      return "Field cannot be empty";
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                  onSaved: (value) {},
-                                  textInputAction: TextInputAction.next,
-                                  focusNode: vendorSatOpeningHoursFN,
-                                  hintText: "00:00 AM",
-                                  textInputType: TextInputType.text,
-                                ),
-                                kSizedBox,
-                                const Text(
-                                  "Closing hours",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                kSizedBox,
-                                MyBlueTextFormField(
-                                  controller: vendorSatClosingHoursEC,
-                                  validator: (value) {
-                                    if (value == null ||
-                                        vendorSatClosingHoursEC.text.isEmpty) {
-                                      return "Field cannot be empty";
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                  onSaved: (value) {},
-                                  textInputAction: TextInputAction.next,
-                                  focusNode: vendorSatClosingHoursFN,
-                                  hintText: "00:00 PM",
-                                  textInputType: TextInputType.text,
-                                ),
-                                kSizedBox,
-                                const Center(
-                                  child: Text(
-                                    "Sundays",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ),
-                                kSizedBox,
-                                const Text(
-                                  "Opening hours",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                kSizedBox,
-                                MyBlueTextFormField(
-                                  controller: vendorSunOpeningHoursEC,
-                                  validator: (value) {
-                                    if (value == null ||
-                                        vendorSunOpeningHoursEC.text.isEmpty) {
-                                      return "Field cannot be empty";
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                  onSaved: (value) {},
-                                  textInputAction: TextInputAction.next,
-                                  focusNode: vendorSunOpeningHoursFN,
-                                  hintText: "00:00 AM",
-                                  textInputType: TextInputType.text,
-                                ),
-                                kSizedBox,
-                                const Text(
-                                  "Closing hours",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                kSizedBox,
-                                MyBlueTextFormField(
-                                  controller: vendorSunClosingHoursEC,
-                                  validator: (value) {
-                                    if (value == null ||
-                                        vendorSunClosingHoursEC.text.isEmpty) {
-                                      return "Field cannot be empty";
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                  onSaved: (value) {},
-                                  textInputAction: TextInputAction.next,
-                                  focusNode: vendorSunClosingHoursFN,
-                                  hintText: "00:00 PM",
-                                  textInputType: TextInputType.text,
-                                ),
-                                kSizedBox,
-                                const Text(
-                                  "Business Bio",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                kSizedBox,
-                                MyMessageTextFormField(
-                                  controller: vendorBusinessBioEC,
-                                  textInputAction: TextInputAction.newline,
-                                  focusNode: vendorBusinessBioFN,
-                                  hintText: "About the business...",
-                                  maxLines: 10,
-                                  keyboardType: TextInputType.multiline,
-                                  maxLength: 6000,
-                                  validator: (value) {
-                                    if (value == null ||
-                                        vendorBusinessBioEC.text.isEmpty) {
-                                      return "Field cannot be empty";
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                  onSaved: (value) {
-                                    vendorBusinessBioEC.text = value;
-                                  },
-                                ),
-                              ],
-                            );
-                          }),
+                                );
+                              }),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              );
-            },
-          ),
-        ),
+                  )),
       ),
     );
   }
