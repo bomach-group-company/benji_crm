@@ -181,7 +181,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "Add vendor",
+        routeName: "AddVendor",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.downToUp,
@@ -192,7 +192,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "My vendors",
+        routeName: "MyVendors",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.downToUp,
@@ -213,7 +213,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "Vendor details",
+        routeName: "VendorDetails",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.downToUp,
@@ -241,6 +241,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
         ),
         appBar: AppBar(
           backgroundColor: widget.appBarBackgroundColor,
+          elevation: 0.0,
           title: Padding(
             padding: const EdgeInsets.only(left: kDefaultPadding),
             child: Text(
@@ -276,7 +277,6 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
               ),
             ),
           ],
-          elevation: 0.0,
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,

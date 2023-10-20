@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../../theme/colors.dart';
 
-class MyTextFormField extends StatelessWidget {
+class IconTextFormField extends StatelessWidget {
   final String hintText;
   final TextInputType textInputType;
   final TextEditingController controller;
@@ -15,8 +15,10 @@ class MyTextFormField extends StatelessWidget {
   final TextCapitalization textCapitalization;
   final dynamic onChanged;
   final dynamic onFieldSubmitted;
+  final Widget prefixIcon;
+  final Widget suffixIcon;
 
-  const MyTextFormField({
+  const IconTextFormField({
     super.key,
     required this.controller,
     required this.validator,
@@ -28,6 +30,8 @@ class MyTextFormField extends StatelessWidget {
     required this.textCapitalization,
     this.onChanged,
     this.onFieldSubmitted,
+    required this.prefixIcon,
+    required this.suffixIcon,
   });
 
   @override
@@ -58,6 +62,8 @@ class MyTextFormField extends StatelessWidget {
         filled: true,
         fillColor: const Color(0xFFF6F6F7),
         focusColor: const Color(0xFFF6F6F7),
+        prefixIcon: prefixIcon,
+        suffixIcon: suffixIcon,
         hintStyle: const TextStyle(
           color: Color(0xFF979797),
           fontSize: 14,

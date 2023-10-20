@@ -41,7 +41,7 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   //=========================== BOOL VALUES====================================\\
   bool _isLoading = false;
-  bool _validAuthCredentials = false;
+  final bool _validAuthCredentials = false;
   bool isPWSuccess = false;
   var _isObscured;
 

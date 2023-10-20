@@ -1,11 +1,14 @@
+import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
+
 import '../../model/business_trype_model.dart';
 
 Future shopTypeModal(BuildContext context, List<BusinessType> type) async {
   return showModalBottomSheet(
       context: context,
       // isScrollControlled: true,
-      backgroundColor: Colors.white,
+
+      backgroundColor: kPrimaryColor,
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
       builder: (context) => Padding(

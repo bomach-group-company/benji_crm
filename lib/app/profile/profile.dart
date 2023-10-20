@@ -50,11 +50,11 @@ class _ProfileState extends State<Profile> {
 //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
-    setState(() {
-      _loadingScreen = true;
-    });
+    // setState(() {
+    //   _loadingScreen = true;
+    // });
     _timer = Timer(const Duration(milliseconds: 1000), () {
-      setState(() => _loadingScreen = false);
+      setState(() => _loadingScreen = true);
     });
     setState(() {
       _loadingScreen = false;
@@ -111,16 +111,6 @@ class _ProfileState extends State<Profile> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: kAccentColor,
-          title: const Padding(
-            padding: EdgeInsets.only(left: kDefaultPadding),
-            child: Text(
-              'My Profile',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ),
           elevation: 0.0,
         ),
         body: SafeArea(
@@ -134,7 +124,8 @@ class _ProfileState extends State<Profile> {
                   : ListView(
                       scrollDirection: Axis.vertical,
                       children: [
-                        const ProfileFirstHalf(availableBalance: "100,000.00"),
+                        ProfileFirstHalf(
+                            availableBalance: doubleFormattedText(1000000)),
                         Padding(
                           padding: const EdgeInsets.only(
                             top: kDefaultPadding,
