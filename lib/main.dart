@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'app/others/splash_screen.dart';
+import 'app/overview/overview.dart';
 import 'theme/app theme.dart';
 
 late SharedPreferences prefs;
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.light,
       darkTheme: AppTheme.darkTheme,
       theme: AppTheme.lightTheme,
-      home: SplashScreen(),
+      home: OverView(),
     );
   }
 }

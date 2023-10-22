@@ -1,9 +1,9 @@
 import 'package:benji_aggregator/src/components/my_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../../src/components/customer_review_card.dart';
+import '../../../src/components/my_liquid_refresh.dart';
 import '../../../src/components/star_row.dart';
 import '../../../src/providers/constants.dart';
 import '../../../theme/colors.dart';
@@ -72,14 +72,8 @@ class _AboutMyVendorState extends State<AboutMyVendor> {
   Widget build(BuildContext context) {
     double mediaWidth = MediaQuery.of(context).size.width;
 
-    return LiquidPullToRefresh(
+    return MyLiquidRefresh(
       onRefresh: _handleRefresh,
-      color: kAccentColor,
-      borderWidth: 5.0,
-      backgroundColor: kPrimaryColor,
-      height: 150,
-      animSpeedFactor: 2,
-      showChildOpacityTransition: false,
       child: Scaffold(
         appBar: MyAppBar(
           title: widget.vendorName,
@@ -109,7 +103,8 @@ class _AboutMyVendorState extends State<AboutMyVendor> {
                 );
               }
               return _loadingScreen
-                  ? Center(child: SpinKitDoubleBounce(color: kAccentColor))
+                  ? Center(
+                      child: CircularProgressIndicator(color: kAccentColor))
                   : Scrollbar(
                       controller: _scrollController,
                       radius: const Radius.circular(10),

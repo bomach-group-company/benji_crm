@@ -62,20 +62,14 @@ class _SuspendMyVendorState extends State<SuspendMyVendor> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      extendBody: true,
-      extendBodyBehindAppBar: true,
       appBar: MyAppBar(
         title: "Suspend my vendor",
-        elevation: 10.0,
+        elevation: 0,
         actions: const [],
         backgroundColor: kPrimaryColor,
       ),
       bottomNavigationBar: _submittingRequest
-          ? Center(
-              child: SpinKitDoubleBounce(
-                color: kAccentColor,
-              ),
-            )
+          ? Center(child: CircularProgressIndicator(color: kAccentColor))
           : Container(
               color: kPrimaryColor,
               padding: const EdgeInsets.only(

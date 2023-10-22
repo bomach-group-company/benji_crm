@@ -6,10 +6,10 @@ import 'package:benji_aggregator/src/skeletons/notifications_page_skeleton.dart'
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../model/notificatin_model.dart';
 import '../../src/components/my_appbar.dart';
+import '../../src/components/my_liquid_refresh.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 
@@ -57,8 +57,6 @@ class _NotificationsState extends State<Notifications> {
       _loadingScreen = false;
     });
   }
-
-  void _seeMoreNotifications() {}
 
 //=================================== LISTS =====================================\\
   final List<String> _notificationTitle = [
@@ -112,20 +110,14 @@ class _NotificationsState extends State<Notifications> {
 
   @override
   Widget build(BuildContext context) {
-    return LiquidPullToRefresh(
+    return MyLiquidRefresh(
       onRefresh: _handleRefresh,
-      color: kAccentColor,
-      borderWidth: 5.0,
-      backgroundColor: kPrimaryColor,
-      height: 150,
-      animSpeedFactor: 2,
-      showChildOpacityTransition: false,
       child: Scaffold(
         backgroundColor: kPrimaryColor,
         appBar: MyAppBar(
           title: "Notifications",
           backgroundColor: kPrimaryColor,
-          elevation: 10.0,
+          elevation: 0,
           actions: const [],
         ),
         body: SafeArea(
@@ -221,13 +213,6 @@ class _NotificationsState extends State<Notifications> {
                                   ),
                                 );
                               },
-                            ),
-                            TextButton(
-                              onPressed: _seeMoreNotifications,
-                              child: Text(
-                                "See more",
-                                style: TextStyle(color: kAccentColor),
-                              ),
                             ),
                           ],
                         ),
