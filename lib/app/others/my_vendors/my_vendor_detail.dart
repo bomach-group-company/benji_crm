@@ -4,10 +4,8 @@ import 'package:benji_aggregator/src/providers/constants.dart';
 import 'package:benji_aggregator/src/providers/custom_show_search.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../controller/vendor_controller.dart';
 import '../../../src/components/category_button_section.dart';
@@ -17,6 +15,7 @@ import '../../../src/components/vendor_orders_tab.dart';
 import '../../../src/components/vendor_products_tab.dart';
 import '../../../src/components/vendors_order_container.dart';
 import '../../../src/components/vendors_product_container.dart';
+import '../../../src/responsive/responsive_constant.dart';
 import '../../../src/skeletons/vendors_tabbar_orders_content_skeleton.dart';
 import '../../../src/skeletons/vendors_tabbar_products_content_skeleton.dart';
 import '../../../theme/colors.dart';
@@ -24,12 +23,14 @@ import '../my_products/add_product.dart';
 import '../my_products/my_product_details.dart';
 import 'about_my_vendor.dart';
 import 'delete_my_vendor.dart';
+import 'my_vendors_location.dart';
 import 'suspend_my_vendor.dart';
 
 class MyVendorDetailsPage extends StatefulWidget {
   final String vendorCoverImage;
   final String vendorName;
-  final double vendorRating;
+  final String vendorRating;
+  final String vendorAddress;
   final String vendorActiveStatus;
   final Color vendorActiveStatusColor;
   const MyVendorDetailsPage({
@@ -39,6 +40,7 @@ class MyVendorDetailsPage extends StatefulWidget {
     required this.vendorRating,
     required this.vendorActiveStatus,
     required this.vendorActiveStatusColor,
+    required this.vendorAddress,
   });
 
   @override
@@ -272,6 +274,21 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
         transition: Transition.downToUp,
       );
 
+  void _toVendorLocation() => Get.to(
+        () => MyVendorLocation(
+          vendorName: widget.vendorName,
+          vendorAddress: widget.vendorAddress,
+          vendorRating: widget.vendorRating,
+        ),
+        routeName: 'MyVendorLocation',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
   @override
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
@@ -282,8 +299,6 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
     return MyLiquidRefresh(
       onRefresh: _handleRefresh,
       child: Scaffold(
-        extendBody: true,
-        extendBodyBehindAppBar: true,
         floatingActionButton: FloatingActionButton(
           onPressed: _toAddProduct,
           elevation: 20.0,
@@ -295,7 +310,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
         ),
         appBar: MyAppBar(
           title: "My Vendor Details",
-          elevation: 10.0,
+          elevation: 0,
           backgroundColor: kPrimaryColor,
           actions: [
             IconButton(
@@ -317,426 +332,367 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
           ],
         ),
         body: SafeArea(
-          maintainBottomViewPadding: true,
-          child: FutureBuilder(
-              future: null,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  Center(child: SpinKitDoubleBounce(color: kAccentColor));
-                }
-                if (snapshot.connectionState == ConnectionState.none) {
-                  const Center(
-                    child: Text("Please connect to the internet"),
-                  );
-                }
-                // if (snapshot.connectionState == snapshot.requireData) {
-                //   SpinKitDoubleBounce(color: kAccentColor);
-                // }
-                if (snapshot.connectionState == snapshot.error) {
-                  const Center(
-                    child: Text("Error, Please try again later"),
-                  );
-                }
-                return _loadingScreen
-                    ? Center(child: SpinKitDoubleBounce(color: kAccentColor))
-                    : Scrollbar(
-                        controller: _scrollController,
-                        radius: const Radius.circular(10),
-                        scrollbarOrientation: ScrollbarOrientation.right,
-                        child: ListView(
-                          physics: const ScrollPhysics(),
-                          dragStartBehavior: DragStartBehavior.down,
-                          children: [
-                            SizedBox(
-                              height: 350,
-                              child: Stack(
-                                children: [
-                                  Positioned(
-                                    top: 0,
-                                    left: 0,
-                                    right: 0,
-                                    child: Container(
-                                      height: media.height * 0.3,
-                                      decoration: BoxDecoration(
-                                        color: kPageSkeletonColor,
-                                        image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: AssetImage(
-                                              "assets/images/vendors/${widget.vendorCoverImage}.png"),
-                                        ),
+            maintainBottomViewPadding: true,
+            child: _loadingScreen
+                ? Center(child: CircularProgressIndicator(color: kAccentColor))
+                : Scrollbar(
+                    controller: _scrollController,
+                    radius: const Radius.circular(10),
+                    scrollbarOrientation: ScrollbarOrientation.right,
+                    child: ListView(
+                      physics: const ScrollPhysics(),
+                      dragStartBehavior: DragStartBehavior.down,
+                      children: [
+                        SizedBox(
+                          height: deviceType(media.width) > 2 &&
+                                  deviceType(media.width) < 4
+                              ? 540
+                              : deviceType(media.width) > 2
+                                  ? 470
+                                  : 370,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                child: Container(
+                                  height: deviceType(media.width) > 3 &&
+                                          deviceType(media.width) < 5
+                                      ? media.height * 0.325
+                                      : deviceType(media.width) > 2
+                                          ? media.height * 0.305
+                                          : media.height * 0.28,
+                                  decoration: BoxDecoration(
+                                    color: kPageSkeletonColor,
+                                    image: DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image: AssetImage(
+                                        "assets/images/vendors/${widget.vendorCoverImage}.png",
                                       ),
                                     ),
                                   ),
-                                  Positioned(
-                                    top: MediaQuery.of(context).size.height *
-                                        0.13,
-                                    left: kDefaultPadding,
-                                    right: kDefaultPadding,
-                                    child: Container(
-                                      width: 200,
-                                      padding: const EdgeInsets.all(
-                                          kDefaultPadding / 2),
-                                      decoration: ShapeDecoration(
-                                        shadows: [
-                                          BoxShadow(
-                                            color:
-                                                Colors.black.withOpacity(0.1),
-                                            blurRadius: 5,
-                                            spreadRadius: 2,
-                                            blurStyle: BlurStyle.normal,
-                                          ),
-                                        ],
-                                        color: const Color(0xFFFEF8F8),
-                                        shape: RoundedRectangleBorder(
-                                          side: const BorderSide(
-                                            width: 0.50,
-                                            color: Color(0xFFFDEDED),
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(25),
-                                        ),
+                                ),
+                              ),
+                              Positioned(
+                                top: deviceType(media.width) > 2
+                                    ? media.height * 0.21
+                                    : media.height * 0.13,
+                                left: kDefaultPadding,
+                                right: kDefaultPadding,
+                                child: Container(
+                                  width: 200,
+                                  padding:
+                                      const EdgeInsets.all(kDefaultPadding / 2),
+                                  decoration: ShapeDecoration(
+                                    shadows: [
+                                      BoxShadow(
+                                        color: kBlackColor.withOpacity(0.1),
+                                        blurRadius: 5,
+                                        spreadRadius: 2,
+                                        blurStyle: BlurStyle.normal,
                                       ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: kDefaultPadding * 2.6),
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              widget.vendorName,
-                                              textAlign: TextAlign.center,
-                                              style: const TextStyle(
-                                                color: kTextBlackColor,
-                                                fontSize: 24,
-                                                fontWeight: FontWeight.w700,
+                                    ],
+                                    color: const Color(0xFFFEF8F8),
+                                    shape: RoundedRectangleBorder(
+                                      side: const BorderSide(
+                                        width: 0.50,
+                                        color: Color(0xFFFDEDED),
+                                      ),
+                                      borderRadius: BorderRadius.circular(25),
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: kDefaultPadding * 2.6),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SizedBox(
+                                          width: media.width - 200,
+                                          child: Text(
+                                            widget.vendorName,
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(
+                                              color: kTextBlackColor,
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                        ),
+                                        kHalfSizedBox,
+                                        Container(
+                                          width: media.width - 90,
+                                          alignment: Alignment.center,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              FaIcon(
+                                                FontAwesomeIcons.locationDot,
+                                                color: kAccentColor,
+                                                size: 15,
                                               ),
-                                            ),
-                                            kHalfSizedBox,
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                FaIcon(
-                                                  FontAwesomeIcons.locationDot,
-                                                  color: kAccentColor,
-                                                  size: 15,
-                                                ),
-                                                kHalfWidthSizedBox,
-                                                SizedBox(
-                                                  width: media.width - 100,
-                                                  child: const Text(
-                                                    "Old Abakaliki Rd, Thinkers Corner 400103, Enugu",
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            kHalfSizedBox,
-                                            InkWell(
-                                              onTap: (() async {
-                                                final websiteurl = Uri.parse(
-                                                  "https://goo.gl/maps/8pKoBVCsew5oqjU49",
-                                                );
-                                                if (await canLaunchUrl(
-                                                  websiteurl,
-                                                )) {
-                                                  launchUrl(
-                                                    websiteurl,
-                                                    mode: LaunchMode
-                                                        .externalApplication,
-                                                  );
-                                                } else {
-                                                  throw "An unexpected error occured and $websiteurl cannot be loaded";
-                                                }
-                                              }),
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              child: Container(
-                                                width: media.width / 4,
-                                                padding: const EdgeInsets.all(
-                                                    kDefaultPadding / 4),
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  border: Border.all(
-                                                    color: kAccentColor,
-                                                    width: 1,
-                                                  ),
-                                                ),
+                                              kHalfWidthSizedBox,
+                                              SizedBox(
+                                                width: media.width - 120,
                                                 child: const Text(
-                                                  "Show on map",
-                                                  textAlign: TextAlign.center,
+                                                  "Old Abakaliki Rd, Thinkers Corner 400103, Enugu",
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                   style: TextStyle(
-                                                    fontSize: 13,
+                                                    fontSize: 14,
                                                     fontWeight: FontWeight.w400,
                                                   ),
                                                 ),
                                               ),
+                                            ],
+                                          ),
+                                        ),
+                                        kHalfSizedBox,
+                                        InkWell(
+                                          onTap: _toVendorLocation,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: Container(
+                                            padding: const EdgeInsets.all(
+                                                kDefaultPadding / 4),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              border: Border.all(
+                                                color: kAccentColor,
+                                                width: 1,
+                                              ),
                                             ),
-                                            kHalfSizedBox,
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                Container(
-                                                  width: media.width * 0.25,
-                                                  height: 56.67,
-                                                  decoration: ShapeDecoration(
-                                                    color: Colors.white,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                        19,
-                                                      ),
+                                            child: const Text(
+                                              "Show on map",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        kHalfSizedBox,
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Container(
+                                              width: media.width * 0.23,
+                                              height: 57,
+                                              decoration: ShapeDecoration(
+                                                color: kPrimaryColor,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(19),
+                                                ),
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  FaIcon(
+                                                    FontAwesomeIcons.solidStar,
+                                                    color: kStarColor,
+                                                    size: 17,
+                                                  ),
+                                                  const SizedBox(width: 5),
+                                                  Text(
+                                                    widget.vendorRating,
+                                                    style: const TextStyle(
+                                                      color: kBlackColor,
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      letterSpacing: -0.28,
                                                     ),
                                                   ),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Icon(
-                                                        Icons
-                                                            .access_time_outlined,
-                                                        color: kAccentColor,
-                                                      ),
-                                                      const SizedBox(
-                                                        width: 5,
-                                                      ),
-                                                      const Text(
-                                                        "30 mins",
-                                                        style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          letterSpacing: -0.28,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                              width: media.width * 0.25,
+                                              height: 57,
+                                              decoration: ShapeDecoration(
+                                                color: kPrimaryColor,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(19),
                                                 ),
-                                                Container(
-                                                  width: media.width * 0.23,
-                                                  height: 56.67,
-                                                  decoration: ShapeDecoration(
-                                                    color: Colors.white,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                        19,
-                                                      ),
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  const Text(
+                                                    "Online",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      color: kSuccessColor,
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      letterSpacing: -0.36,
                                                     ),
                                                   ),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Icon(
-                                                        Icons.star_rounded,
-                                                        color: kStarColor,
-                                                      ),
-                                                      const SizedBox(
-                                                        width: 5,
-                                                      ),
-                                                      Text(
-                                                        "${widget.vendorRating}",
-                                                        style: const TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          letterSpacing: -0.28,
-                                                        ),
-                                                      ),
-                                                    ],
+                                                  const SizedBox(width: 5),
+                                                  FaIcon(
+                                                    Icons.info,
+                                                    color: kAccentColor,
                                                   ),
-                                                ),
-                                                Container(
-                                                  width: media.width * 0.25,
-                                                  height: 56.67,
-                                                  decoration: ShapeDecoration(
-                                                    color: Colors.white,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              19),
-                                                    ),
-                                                  ),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Text(
-                                                        widget
-                                                            .vendorActiveStatus,
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: TextStyle(
-                                                          color: widget
-                                                              .vendorActiveStatusColor,
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          letterSpacing: -0.36,
-                                                        ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                top: deviceType(media.width) > 3 &&
+                                        deviceType(media.width) < 5
+                                    ? media.height * 0.12
+                                    : deviceType(media.width) > 2
+                                        ? media.height * 0.14
+                                        : media.height * 0.08,
+                                left: deviceType(media.width) > 3 &&
+                                        deviceType(media.width) < 5
+                                    ? media.width / 2.24
+                                    : deviceType(media.width) > 2
+                                        ? media.width / 2.36
+                                        : media.width / 2.7,
+                                child: Container(
+                                  width:
+                                      deviceType(media.width) > 2 ? 150 : 100,
+                                  height:
+                                      deviceType(media.width) > 2 ? 150 : 100,
+                                  decoration: ShapeDecoration(
+                                    color: kPageSkeletonColor,
+                                    image: const DecorationImage(
+                                      image: AssetImage(
+                                        "assets/images/vendors/ntachi-osa-logo.png",
+                                      ),
+                                      fit: BoxFit.cover,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(100),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: kDefaultPadding,
+                          ),
+                          child: Container(
+                            width: media.width,
+                            decoration: BoxDecoration(
+                              color: kDefaultCategoryBackgroundColor,
+                              borderRadius: BorderRadius.circular(50),
+                              border: Border.all(
+                                color: kLightGreyColor,
+                                style: BorderStyle.solid,
+                                strokeAlign: BorderSide.strokeAlignOutside,
+                              ),
+                            ),
+                            child: Column(
+                              children: [
+                                _loadingTabBarContent
+                                    ? const VendorsTabBarProductsContentSkeleton()
+                                    : VendorsProductsTab(
+                                        list: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            CategoryButtonSection(
+                                              onPressed: _changeProductCategory,
+                                              category: _categoryButtonText,
+                                              categorybgColor:
+                                                  _categoryButtonBgColor,
+                                              categoryFontColor:
+                                                  _categoryButtonFontColor,
+                                            ),
+                                            GetBuilder<VendorController>(
+                                              init: VendorController(),
+                                              builder: (controller) {
+                                                return Column(
+                                                  children: [
+                                                    ...controller
+                                                        .vendorProductList
+                                                        .map(
+                                                      (element) =>
+                                                          VendorsProductContainer(
+                                                        onTap:
+                                                            toProductDetailScreen,
+                                                        productImage:
+                                                            _productImage,
+                                                        productName:
+                                                            _productName,
+                                                        productDescription:
+                                                            _productDescription,
+                                                        productPrice:
+                                                            _productPrice,
+                                                        productQuantity:
+                                                            _productQuantity,
+                                                        // ignore: invalid_use_of_protected_member
+                                                        product: element,
                                                       ),
-                                                      const SizedBox(
-                                                        width: 5,
-                                                      ),
-                                                      Icon(
-                                                        Icons.info_outline,
-                                                        color: kAccentColor,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
+                                                    )
+                                                  ],
+                                                );
+                                              },
                                             )
                                           ],
                                         ),
                                       ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    top: MediaQuery.of(context).size.height *
-                                        0.07,
-                                    left:
-                                        MediaQuery.of(context).size.width / 2.7,
-                                    child: Container(
-                                      width: 100,
-                                      height: 100,
-                                      decoration: ShapeDecoration(
-                                        color: kPageSkeletonColor,
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                            "assets/images/vendors/$_vendorImage",
-                                          ),
-                                          fit: BoxFit.cover,
-                                        ),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(44),
+                                _loadingTabBarContent
+                                    ? const VendorsTabBarOrdersContentSkeleton()
+                                    : VendorsOrdersTab(
+                                        list: Column(
+                                          children: [
+                                            for (_orderID = 1;
+                                                _orderID < 30;
+                                                _orderID += _incrementOrderID)
+                                              VendorsOrderContainer(
+                                                mediaWidth: media.width,
+                                                orderImage: _orderImage,
+                                                orderID: _orderID,
+                                                formattedDateAndTime:
+                                                    formattedDateAndTime,
+                                                orderItem: _orderItem,
+                                                itemQuantity: _orderQuantity,
+                                                itemPrice: _itemPrice,
+                                                customerName: _customerName,
+                                                customerAddress:
+                                                    _customerAddress,
+                                                order: null,
+                                              ),
+                                          ],
                                         ),
                                       ),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                              ],
                             ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: kDefaultPadding,
-                              ),
-                              child: Container(
-                                width: media.width,
-                                decoration: BoxDecoration(
-                                  color: kDefaultCategoryBackgroundColor,
-                                  borderRadius: BorderRadius.circular(50),
-                                  border: Border.all(
-                                    color: kLightGreyColor,
-                                    style: BorderStyle.solid,
-                                    strokeAlign: BorderSide.strokeAlignOutside,
-                                  ),
-                                ),
-                                child: Column(
-                                  children: [
-                                    _loadingTabBarContent
-                                        ? const VendorsTabBarProductsContentSkeleton()
-                                        : VendorsProductsTab(
-                                            list: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                CategoryButtonSection(
-                                                  onPressed:
-                                                      _changeProductCategory,
-                                                  category: _categoryButtonText,
-                                                  categorybgColor:
-                                                      _categoryButtonBgColor,
-                                                  categoryFontColor:
-                                                      _categoryButtonFontColor,
-                                                ),
-                                                GetBuilder<VendorController>(
-                                                  init: VendorController(),
-                                                  builder: (controller) {
-                                                    return Column(
-                                                      children: [
-                                                        ...controller
-                                                            .vendorProductList
-                                                            .map(
-                                                          (element) =>
-                                                              VendorsProductContainer(
-                                                            onTap:
-                                                                toProductDetailScreen,
-                                                            productImage:
-                                                                _productImage,
-                                                            productName:
-                                                                _productName,
-                                                            productDescription:
-                                                                _productDescription,
-                                                            productPrice:
-                                                                _productPrice,
-                                                            productQuantity:
-                                                                _productQuantity,
-                                                            // ignore: invalid_use_of_protected_member
-                                                            product: element,
-                                                          ),
-                                                        )
-                                                      ],
-                                                    );
-                                                  },
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                    _loadingTabBarContent
-                                        ? const VendorsTabBarOrdersContentSkeleton()
-                                        : VendorsOrdersTab(
-                                            list: Column(
-                                              children: [
-                                                for (_orderID = 1;
-                                                    _orderID < 30;
-                                                    _orderID +=
-                                                        _incrementOrderID)
-                                                  VendorsOrderContainer(
-                                                    mediaWidth: media.width,
-                                                    orderImage: _orderImage,
-                                                    orderID: _orderID,
-                                                    formattedDateAndTime:
-                                                        formattedDateAndTime,
-                                                    orderItem: _orderItem,
-                                                    itemQuantity:
-                                                        _orderQuantity,
-                                                    itemPrice: _itemPrice,
-                                                    customerName: _customerName,
-                                                    customerAddress:
-                                                        _customerAddress,
-                                                    order: null,
-                                                  ),
-                                              ],
-                                            ),
-                                          ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            kSizedBox,
-                          ],
+                          ),
                         ),
-                      );
-              }),
-        ),
+                        kSizedBox,
+                      ],
+                    ),
+                  )),
       ),
     );
   }

@@ -45,7 +45,9 @@ class _MyVendorsState extends State<MyVendors> {
   final int _numberOfVendors = 10;
   final String _vendorName = "Ntachi Osa";
   final String _vendorImage = "ntachi-osa";
-  final double _vendorRating = 4.6;
+  final String _vendorRating = "4.6";
+  final String _vendorAddress = "No 450 Ogui Rd, Enugu";
+  final String _totalNumberOfUsersRating = intFormattedText(2000);
   final String _vendorActiveStatus = "Online";
   final Color _vendorActiveStatusColor = kSuccessColor;
 
@@ -96,6 +98,7 @@ class _MyVendorsState extends State<MyVendors> {
           vendorCoverImage: _vendorImage,
           vendorName: _vendorName,
           vendorRating: _vendorRating,
+          vendorAddress: _vendorAddress,
           vendorActiveStatus: _vendorActiveStatus,
           vendorActiveStatusColor: _vendorActiveStatusColor,
         ),
@@ -299,7 +302,7 @@ class _MyVendorsState extends State<MyVendors> {
                                                     SizedBox(
                                                       width: media.width - 250,
                                                       child: Text(
-                                                        "$_vendorRating (${intFormattedText(1023)})",
+                                                        "$_vendorRating ($_totalNumberOfUsersRating)",
                                                         overflow: TextOverflow
                                                             .ellipsis,
                                                         style: const TextStyle(

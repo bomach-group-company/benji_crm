@@ -4,13 +4,14 @@
 
 import 'dart:math';
 
+import 'package:benji_aggregator/src/components/my_liquid_refresh.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/route_manager.dart';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../controller/rider_controller.dart';
 import '../../model/rider_list_model.dart';
@@ -207,23 +208,16 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    double mediaWidth = MediaQuery.of(context).size.width;
-    double mediaHeight = MediaQuery.of(context).size.height;
+    var media = MediaQuery.of(context).size;
 
     void showSearchField() =>
         showSearch(context: context, delegate: CustomSearchDelegate());
 
-    return LiquidPullToRefresh(
+    return MyLiquidRefresh(
       onRefresh: _handleRefresh,
-      color: kAccentColor,
-      borderWidth: 5.0,
-      backgroundColor: kPrimaryColor,
-      height: 150,
-      animSpeedFactor: 2,
-      showChildOpacityTransition: false,
       child: Scaffold(
         appBar: AppBar(
-          leadingWidth: 40,
+          elevation: 0,
           backgroundColor: widget.appBarBackgroundColor,
           title: Padding(
             padding: const EdgeInsets.only(left: kDefaultPadding),
@@ -240,14 +234,12 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
             IconButton(
               onPressed: showSearchField,
               tooltip: "Search",
-              icon: Icon(
-                Icons.search_rounded,
+              icon: FaIcon(
+                FontAwesomeIcons.magnifyingGlass,
                 color: widget.appBarSearchIconColor,
-                size: 24,
               ),
             ),
           ],
-          elevation: 10.0,
         ),
         floatingActionButton: Stack(
           children: <Widget>[
@@ -294,7 +286,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                           ),
                           children: [
                             SizedBox(
-                              width: mediaWidth,
+                              width: media.width,
                               child: Row(
                                 children: [
                                   ElevatedButton(
@@ -372,7 +364,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                           borderRadius:
                                               BorderRadius.circular(16),
                                           child: Container(
-                                              width: max(mediaWidth, 374),
+                                              width: max(media.width, 374),
                                               margin: const EdgeInsets.only(
                                                   bottom: kDefaultPadding / 2),
                                               padding: const EdgeInsets.all(
@@ -456,7 +448,8 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                                             .center,
                                                     children: [
                                                       SizedBox(
-                                                        width: mediaWidth - 200,
+                                                        width:
+                                                            media.width - 200,
                                                         child: Text(
                                                           _onlineRidersName,
                                                           overflow: TextOverflow
@@ -480,7 +473,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                                                 .center,
                                                         children: [
                                                           SizedBox(
-                                                            width: mediaWidth -
+                                                            width: media.width -
                                                                 200,
                                                             child: Text(
                                                               ride[index]
@@ -516,9 +509,9 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                                               ),
                                                               kHalfWidthSizedBox,
                                                               SizedBox(
-                                                                width:
-                                                                    mediaWidth -
-                                                                        200,
+                                                                width: media
+                                                                        .width -
+                                                                    200,
                                                                 child: Text(
                                                                   controller
                                                                           .riderList[
@@ -560,9 +553,9 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                                               ),
                                                               kHalfWidthSizedBox,
                                                               SizedBox(
-                                                                width:
-                                                                    mediaWidth -
-                                                                        200,
+                                                                width: media
+                                                                        .width -
+                                                                    200,
                                                                 child: Text(
                                                                   "0 Trips Completed",
                                                                   style:
