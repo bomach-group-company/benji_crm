@@ -39,7 +39,7 @@ class OrderController extends GetxController {
     });
     consoleLog(token);
     try {
-      http.Response? response = await RequestData.getApi(url, token);
+      http.Response? response = await HandleData.getApi(url, token);
       var responseData =
           await ApiProcessorController.errorState(response, isFirst ?? true);
       if (responseData == null) {

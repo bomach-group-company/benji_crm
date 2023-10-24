@@ -58,7 +58,7 @@ class LoginController extends GetxController {
     };
 
     try {
-      http.Response? response = await RequestData.postApi(url, null, finalData);
+      http.Response? response = await HandleData.postApi(url, null, finalData);
 
       var responseData =
           await ApiProcessorController.errorState(response, isFirst);
@@ -77,7 +77,8 @@ class LoginController extends GetxController {
       var jsonData = jsonDecode(response!.body);
 
       if (jsonData["token"] == false) {
-        ApiProcessorController.errorSnack('Failed to log user in');
+        ApiProcessorController.errorSnack(
+            "Invalid email or password. Try again");
         isLoad.value = false;
         if (KeyStore.checkToken == true) {
           KeyStore.storeBool(KeyStore.isLoggedInKey, false);
@@ -91,6 +92,7 @@ class LoginController extends GetxController {
         //  update();
         return;
       } else {
+        ApiProcessorController.successSnack("Login Successful");
         var save = LoginModel.fromJson(jsonDecode(responseData));
         await KeyStore.storeString(KeyStore.tokenKey, save.token);
         await KeyStore.storeString(KeyStore.usernameKey, data.username);

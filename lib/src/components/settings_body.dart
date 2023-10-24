@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
 import '../../app/profile/about_app.dart';
-import '../../app/profile/change_passord.dart';
+import '../../app/profile/change_password.dart';
 import '../providers/constants.dart';
 
 class SettingsBody extends StatefulWidget {

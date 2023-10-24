@@ -4,7 +4,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:benji_aggregator/controller/user_controller.dart';
-import 'package:benji_aggregator/src/components/email_textformfield.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,7 +11,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../app/google_maps/get_location_on_map.dart';
 import '../../controller/latlng_detail_controller.dart';
@@ -26,7 +24,6 @@ import '../utils/network_utils.dart';
 import 'location_list_tile.dart';
 import 'my_elevatedButton.dart';
 import 'my_floating_snackbar.dart';
-import 'my_intl_phonefield.dart';
 import 'my_maps_textformfield.dart';
 import 'name_textformfield.dart';
 
@@ -41,8 +38,8 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
   //==========================================================================================\\
   @override
   void initState() {
-    userID = "NG233-434";
-
+    userCode = UserController.instance.user.value.code;
+    usernameEC.text = UserController.instance.user.value.username;
     super.initState();
 
     _loadingScreen = true;
@@ -67,8 +64,10 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
 //======================================== ALL VARIABLES ==============================================\\
   late Timer _timer;
   final String countryDialCode = '234';
+  String? userCode;
   String? latitude;
   String? longitude;
+
   List<AutocompletePrediction> placePredictions = [];
   final selectedLocation = ValueNotifier<String?>(null);
 
@@ -82,24 +81,14 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
 
   //=========================== CONTROLLERS ====================================\\
   final _scrollController = ScrollController();
-  final userEmailEC = TextEditingController();
-  final userFirstNameEC = TextEditingController();
-  final userLastNameEC = TextEditingController();
-  final phoneNumberEC = TextEditingController();
   final usernameEC = TextEditingController();
   final mapsLocationEC = TextEditingController();
-  final passwordEC = TextEditingController();
   final LatLngDetailController latLngDetailController =
       Get.put(LatLngDetailController());
 
   //=========================== FOCUS NODES ====================================\\
-  final userEmailFN = FocusNode();
-  final userFirstNameFN = FocusNode();
-  final userLastNameFN = FocusNode();
-  final phoneNumberFN = FocusNode();
   final usernameFN = FocusNode();
   final mapsLocationFN = FocusNode();
-  final passwordFN = FocusNode();
 
   //=========================== IMAGE PICKER ====================================\\
 
@@ -303,37 +292,37 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
     }
   }
 
-  Future<bool> updateProfile({bool isCurrent = true}) async {
-    return false;
-  }
-
   Future<void> updateData() async {
     setState(() {
       _isLoading = true;
     });
 
-    bool res = await updateProfile();
+    await UserController.instance.updateProfile(
+      userName: usernameEC.text,
+      address: mapsLocationEC.text,
+      isCurrent: true,
+    );
 
-    if (res) {
-      //Display snackBar
-      mySnackBar(
-        context,
-        kSuccessColor,
-        "Success!",
-        "Your changes have been saved successfully".toUpperCase(),
-        const Duration(seconds: 2),
-      );
+    // if (res) {
+    //   //Display snackBar
+    //   mySnackBar(
+    //     context,
+    //     kSuccessColor,
+    //     "Success!",
+    //     "Your changes have been saved successfully".toUpperCase(),
+    //     const Duration(seconds: 2),
+    //   );
 
-      Get.back();
-    } else {
-      mySnackBar(
-        context,
-        kAccentColor,
-        "Failed!",
-        "Something unexpected happened, please try again later".toUpperCase(),
-        const Duration(seconds: 2),
-      );
-    }
+    //   // Get.back();
+    // } else {
+    //   mySnackBar(
+    //     context,
+    //     kAccentColor,
+    //     "Failed!",
+    //     "Something unexpected happened, please try again later".toUpperCase(),
+    //     const Duration(seconds: 2),
+    //   );
+    // }
 
     setState(() {
       _isLoading = false;
@@ -341,11 +330,9 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
   }
 
   //===================== COPY TO CLIPBOARD =======================\\
-  String? userID;
-
-  void _copyToClipboard(BuildContext context, String userID) {
+  void _copyToClipboard(BuildContext context, String userCode) {
     Clipboard.setData(
-      ClipboardData(text: userID),
+      ClipboardData(text: userCode),
     );
 
     //===================== SNACK BAR =======================\\
@@ -369,9 +356,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
       child: Scrollbar(
         controller: _scrollController,
         child: _loadingScreen
-            ? Center(
-                child: CircularProgressIndicator(color: kAccentColor),
-              )
+            ? Center(child: CircularProgressIndicator(color: kAccentColor))
             : ListView(
                 controller: _scrollController,
                 padding: const EdgeInsets.all(10),
@@ -420,7 +405,10 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                                                 ),
                                                 fit: BoxFit.contain,
                                               ),
-                                              shape: const OvalBorder(),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(100),
+                                              ),
                                             ),
                                           )
                                         : Container(
@@ -437,7 +425,10 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                                                     FileImage(selectedImage!),
                                                 fit: BoxFit.cover,
                                               ),
-                                              shape: const OvalBorder(),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(100),
+                                              ),
                                             ),
                                           ),
                                     Positioned(
@@ -505,8 +496,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    controller.user.value.username ??
-                                        "Loading...",
+                                    controller.user.value.username,
                                     softWrap: true,
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
@@ -518,7 +508,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                                     ),
                                   ),
                                   Text(
-                                    controller.user.value.email ?? "Loading...",
+                                    controller.user.value.email,
                                     softWrap: true,
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
@@ -534,7 +524,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                                       Container(
                                         margin: const EdgeInsets.only(top: 11),
                                         child: Text(
-                                          userID!,
+                                          userCode!,
                                           softWrap: true,
                                           style: const TextStyle(
                                             color: kTextBlackColor,
@@ -545,7 +535,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                                       ),
                                       IconButton(
                                         onPressed: () {
-                                          _copyToClipboard(context, userID!);
+                                          _copyToClipboard(context, userCode!);
                                         },
                                         tooltip: "Copy ID",
                                         mouseCursor: SystemMouseCursors.click,
@@ -585,67 +575,6 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "First Name".toUpperCase(),
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              kHalfSizedBox,
-                              NameTextFormField(
-                                controller: userFirstNameEC,
-                                validator: (value) {
-                                  RegExp userNamePattern =
-                                      RegExp(r'^.{3,}$'); //Min. of 3 characters
-                                  if (value == null || value!.isEmpty) {
-                                    userFirstNameFN.requestFocus();
-                                    return "Enter your first name";
-                                  } else if (!userNamePattern.hasMatch(value)) {
-                                    userFirstNameFN.requestFocus();
-                                    return "Name must be at least 3 characters";
-                                  }
-                                  return null;
-                                },
-                                onSaved: (value) {
-                                  userFirstNameEC.text = value;
-                                },
-                                textInputAction: TextInputAction.next,
-                                nameFocusNode: userFirstNameFN,
-                                hintText: "Enter first name",
-                              ),
-                              kSizedBox,
-                              Text(
-                                "Last Name".toUpperCase(),
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              kHalfSizedBox,
-                              NameTextFormField(
-                                controller: userLastNameEC,
-                                hintText: "Enter last name",
-                                validator: (value) {
-                                  RegExp userNamePattern = RegExp(
-                                    r'^.{3,}$', //Min. of 3 characters
-                                  );
-                                  if (value == null || value!.isEmpty) {
-                                    userLastNameFN.requestFocus();
-                                    return "Enter your last name";
-                                  } else if (!userNamePattern.hasMatch(value)) {
-                                    userLastNameFN.requestFocus();
-                                    return "Name must be at least 3 characters";
-                                  }
-                                  return null;
-                                },
-                                onSaved: (value) {
-                                  userLastNameEC.text = value;
-                                },
-                                textInputAction: TextInputAction.next,
-                                nameFocusNode: userLastNameFN,
-                              ),
-                              kSizedBox,
-                              Text(
                                 "Username".toUpperCase(),
                                 style: const TextStyle(
                                   fontSize: 14,
@@ -674,68 +603,6 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                                 },
                                 textInputAction: TextInputAction.next,
                                 nameFocusNode: usernameFN,
-                              ),
-                              kSizedBox,
-                              Text(
-                                "Email".toUpperCase(),
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              kHalfSizedBox,
-                              EmailTextFormField(
-                                controller: userEmailEC,
-                                textInputAction: TextInputAction.next,
-                                emailFocusNode: userEmailFN,
-                                validator: (value) {
-                                  RegExp emailPattern = RegExp(
-                                    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
-                                  );
-                                  if (value == null || value!.isEmpty) {
-                                    userEmailFN.requestFocus();
-                                    return "Enter your email address";
-                                  } else if (!emailPattern.hasMatch(value)) {
-                                    return "Please enter a valid email address";
-                                  }
-                                  return null;
-                                },
-                                onSaved: (value) {
-                                  userEmailEC.text = value;
-                                },
-                              ),
-                              kSizedBox,
-                              Text(
-                                "Phone Number".toUpperCase(),
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              kHalfSizedBox,
-                              MyIntlPhoneField(
-                                initialCountryCode: "NG",
-                                invalidNumberMessage: "Invalid phone number",
-                                dropdownIconPosition: IconPosition.trailing,
-                                showCountryFlag: true,
-                                showDropdownIcon: true,
-                                dropdownIcon: Icon(
-                                  Icons.arrow_drop_down_rounded,
-                                  color: kAccentColor,
-                                ),
-                                controller: phoneNumberEC,
-                                textInputAction: TextInputAction.next,
-                                focusNode: phoneNumberFN,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    phoneNumberFN.requestFocus();
-                                    return "Enter your phone number";
-                                  }
-                                  return null;
-                                },
-                                onSaved: (value) {
-                                  phoneNumberEC.text = value;
-                                },
                               ),
                               kSizedBox,
                               Text(
@@ -863,9 +730,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                   ),
                   _isLoading
                       ? Center(
-                          child: CircularProgressIndicator(
-                            color: kAccentColor,
-                          ),
+                          child: CircularProgressIndicator(color: kAccentColor),
                         )
                       : Padding(
                           padding: const EdgeInsets.all(kDefaultPadding),

@@ -50,7 +50,7 @@ class VendorController extends GetxController {
     });
     consoleLog(token);
     try {
-      http.Response? response = await RequestData.getApi(url, token);
+      http.Response? response = await HandleData.getApi(url, token);
       var responseData =
           await ApiProcessorController.errorState(response, isFirst ?? true);
       var save = vendorListModelFromJson(responseData);
@@ -70,7 +70,7 @@ class VendorController extends GetxController {
       token = element!;
     });
     try {
-      http.Response? response = await RequestData.getApi(url, token);
+      http.Response? response = await HandleData.getApi(url, token);
       var responseData = await ApiProcessorController.errorState(response);
       var save = VendorModel.fromJson(responseData);
       vendor.value = save;
@@ -91,7 +91,7 @@ class VendorController extends GetxController {
     });
 
     try {
-      http.Response? response = await RequestData.getApi(url, token);
+      http.Response? response = await HandleData.getApi(url, token);
       var responseData = await ApiProcessorController.errorState(response);
       if (responseData == null) {
         return;
@@ -122,7 +122,7 @@ class VendorController extends GetxController {
       });
 
       try {
-        http.Response? response = await RequestData.getApi(url, token);
+        http.Response? response = await HandleData.getApi(url, token);
         var responseData = await ApiProcessorController.errorState(response);
         if (responseData == null) {
           return;
@@ -151,7 +151,7 @@ class VendorController extends GetxController {
       });
 
       try {
-        http.Response? response = await RequestData.getApi(url, token);
+        http.Response? response = await HandleData.getApi(url, token);
         try {
           var responseData = await ApiProcessorController.errorState(
               response, isFirst ?? true);
@@ -181,7 +181,7 @@ class VendorController extends GetxController {
 
       try {
         http.StreamedResponse? response =
-            await RequestData.streamAddVCendor(url, token, data, classify);
+            await HandleData.streamAddVCendor(url, token, data, classify);
         if (response == null) {
           isLoadCreate.value = false;
         } else if (response.statusCode == 200) {

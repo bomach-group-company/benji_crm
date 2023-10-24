@@ -8,12 +8,15 @@ import 'package:http/http.dart' as http;
 import '../model/create_vendor_model.dart';
 
 // API URLS AND HTTP CALL FUNCTIONS
+
 class Api {
   // static const baseUrl = "https://benji-app.onrender.com";
   static const baseUrl = "https://resource.bgbot.app";
   static const login = "/api/v1/auth/token";
   static const user = "/api/v1/auth/";
   static const notification = "/api/v1/agents/getAgentNotifications/";
+  static const changePassword = "/api/v1/auth/changeNewPassword/";
+
 //Vendor
   static const vendorList = "/api/v1/agents/listAllMyVendors";
   static const agentCreateVendor = "/api/v1/agents/agentCreateVendor";
@@ -41,7 +44,7 @@ class Api {
 String header = "application/json";
 const content = "application/x-www-form-urlencoded";
 
-class RequestData {
+class HandleData {
   static Future<http.Response?> postApi([
     String? url,
     String? token,
@@ -158,6 +161,6 @@ class RequestData {
   }
 }
 
-void consoleLog(String val) {
+consoleLog(String val) {
   return debugPrint(val);
 }
