@@ -81,3 +81,5 @@ String intFormattedText(int value) {
   final numberFormat = NumberFormat('#,##0');
   return numberFormat.format(value);
 }
+
+const String notAvailable = "N/A";

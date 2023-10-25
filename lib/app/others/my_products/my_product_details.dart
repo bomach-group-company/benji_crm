@@ -42,7 +42,7 @@ class _MyProductDetailsState extends State<MyProductDetails> {
   final GlobalKey<FormState> _updateQuantityKey = GlobalKey();
 
   //======================================= CONTROLLERS ==========================================\\
-  final ScrollController _scrollController = ScrollController();
+  final ScrollController scrollController = ScrollController();
   final _updateQuantityEC = TextEditingController();
 
   //======================================= FOCUS NODES ==========================================\\
@@ -273,7 +273,7 @@ class _MyProductDetailsState extends State<MyProductDetails> {
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: Scrollbar(
-            controller: _scrollController,
+            controller: scrollController,
             radius: const Radius.circular(10),
             scrollbarOrientation: ScrollbarOrientation.right,
             child: FutureBuilder(

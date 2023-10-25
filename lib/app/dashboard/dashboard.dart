@@ -55,9 +55,9 @@ class _DashboardState extends State<Dashboard>
 
     _animationController =
         AnimationController(vsync: this, duration: const Duration(seconds: 1));
-    _scrollController.addListener(_scrollListener);
-    _scrollController.addListener(() {
-      if (_scrollController.position.userScrollDirection ==
+    scrollController.addListener(_scrollListener);
+    scrollController.addListener(() {
+      if (scrollController.position.userScrollDirection ==
           ScrollDirection.forward) {
         widget.showNavigation();
       } else {
@@ -77,9 +77,9 @@ class _DashboardState extends State<Dashboard>
   void dispose() {
     super.dispose();
     _animationController.dispose();
-    _scrollController.dispose();
-    _scrollController.removeListener(() {
-      if (_scrollController.position.userScrollDirection ==
+    scrollController.dispose();
+    scrollController.removeListener(() {
+      if (scrollController.position.userScrollDirection ==
           ScrollDirection.forward) {
         widget.showNavigation();
       } else {
@@ -104,7 +104,7 @@ class _DashboardState extends State<Dashboard>
   String customerName = "Mercy Luke";
 
 //============================================== CONTROLLERS =================================================\\
-  final _scrollController = ScrollController();
+  final scrollController = ScrollController();
   late AnimationController _animationController;
 
 //=================================== FUNCTIONS =====================================\\
@@ -134,18 +134,18 @@ class _DashboardState extends State<Dashboard>
 //============================= Scroll to Top ======================================//
   void _scrollToTop() {
     _animationController.reverse();
-    _scrollController.animateTo(0,
+    scrollController.animateTo(0,
         duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn);
   }
 
   void _scrollListener() {
     //========= Show action button ========//
-    if (_scrollController.position.pixels >= 100) {
+    if (scrollController.position.pixels >= 100) {
       _animationController.forward();
       setState(() => _isScrollToTopBtnVisible = true);
     }
     //========= Hide action button ========//
-    else if (_scrollController.position.pixels < 100) {
+    else if (scrollController.position.pixels < 100) {
       _animationController.reverse();
       setState(() => _isScrollToTopBtnVisible = false);
     }
@@ -257,9 +257,9 @@ class _DashboardState extends State<Dashboard>
           child: _loadingScreen
               ? const DashboardPageSkeleton()
               : Scrollbar(
-                  controller: _scrollController,
+                  controller: scrollController,
                   child: ListView(
-                    controller: _scrollController,
+                    controller: scrollController,
                     physics: const BouncingScrollPhysics(),
                     padding: const EdgeInsets.all(kDefaultPadding),
                     children: [

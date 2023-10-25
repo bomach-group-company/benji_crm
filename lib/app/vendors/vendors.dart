@@ -45,9 +45,9 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
 
     // _animationController =
     //     AnimationController(vsync: this, duration: const Duration(seconds: 1));
-    // _scrollController.addListener(_scrollListener);
-    _scrollController.addListener(() {
-      if (_scrollController.position.userScrollDirection ==
+    // scrollController.addListener(_scrollListener);
+    scrollController.addListener(() {
+      if (scrollController.position.userScrollDirection ==
           ScrollDirection.forward) {
         widget.showNavigation();
       } else {
@@ -67,10 +67,10 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
   void dispose() {
     super.dispose();
     // _animationController.dispose();
-    _scrollController.dispose();
+    scrollController.dispose();
 
-    _scrollController.removeListener(() {
-      if (_scrollController.position.userScrollDirection ==
+    scrollController.removeListener(() {
+      if (scrollController.position.userScrollDirection ==
           ScrollDirection.forward) {
         widget.showNavigation();
       } else {
@@ -105,7 +105,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
   final int _noOfOfflineVendors = 15;
 
 //============================================== CONTROLLERS =================================================\\
-  final _scrollController = ScrollController();
+  final scrollController = ScrollController();
   // late AnimationController _animationController;
 
 //============================================== FUNCTIONS =================================================\\
@@ -126,18 +126,18 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
 // //============================= Scroll to Top ======================================//
 //   void _scrollToTop() {
 //     _animationController.reverse();
-//     _scrollController.animateTo(0,
+//     scrollController.animateTo(0,
 //         duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn);
 //   }
 
 //   void _scrollListener() {
 //     //========= Show action button ========//
-//     if (_scrollController.position.pixels >= 200) {
+//     if (scrollController.position.pixels >= 200) {
 //       _animationController.forward();
 //       setState(() => _isScrollToTopBtnVisible = true);
 //     }
 //     //========= Hide action button ========//
-//     else if (_scrollController.position.pixels < 200) {
+//     else if (scrollController.position.pixels < 200) {
 //       _animationController.reverse();
 //       setState(() => _isScrollToTopBtnVisible = true);
 //     }
@@ -286,9 +286,9 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
               return controller.isLoad.value
                   ? const AllVendorsPageSkeleton()
                   : Scrollbar(
-                      controller: _scrollController,
+                      controller: scrollController,
                       child: ListView(
-                        controller: _scrollController,
+                        controller: scrollController,
                         physics: const BouncingScrollPhysics(),
                         padding: const EdgeInsets.fromLTRB(
                           kDefaultPadding,

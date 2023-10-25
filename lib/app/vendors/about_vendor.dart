@@ -49,7 +49,7 @@ class _AboutVendorState extends State<AboutVendor> {
   }
 
   //=================================== CONTROLLERS ====================================\\
-  final ScrollController _scrollController = ScrollController();
+  final ScrollController scrollController = ScrollController();
 
 //============================================= ALL VARIABLES  ===================================================\\
   late bool _loadingScreen;
@@ -111,7 +111,7 @@ class _AboutVendorState extends State<AboutVendor> {
               return _loadingScreen
                   ? Center(child: SpinKitDoubleBounce(color: kAccentColor))
                   : Scrollbar(
-                      controller: _scrollController,
+                      controller: scrollController,
                       radius: const Radius.circular(10),
                       scrollbarOrientation: ScrollbarOrientation.right,
                       child: ListView(

@@ -39,7 +39,7 @@ class _PendingOrdersState extends State<PendingOrders> {
   }
 
   //=================================== CONTROLLERS ====================================\\
-  final ScrollController _scrollController = ScrollController();
+  final ScrollController scrollController = ScrollController();
 
 //========================================================= ALL VARIABLES =======================================================\\
   late bool _loadingScreen;
@@ -109,7 +109,7 @@ class _PendingOrdersState extends State<PendingOrders> {
                       child: OrdersListSkeleton(),
                     )
                   : Scrollbar(
-                      controller: _scrollController,
+                      controller: scrollController,
                       radius: const Radius.circular(10),
                       scrollbarOrientation: ScrollbarOrientation.right,
                       child: ListView(

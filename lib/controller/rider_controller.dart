@@ -43,7 +43,7 @@ class RiderController extends GetxController {
       token = element!;
     });
     try {
-      http.Response? response = await RequestData.getApi(url, token);
+      http.Response? response = await HandleData.getApi(url, token);
       var responseData =
           await ApiProcessorController.errorState(response, isFirst ?? true);
       log(responseData);
@@ -73,7 +73,7 @@ class RiderController extends GetxController {
       token = element!;
     });
     try {
-      http.Response? response = await RequestData.getApi(url, token);
+      http.Response? response = await HandleData.getApi(url, token);
       var responseData = await ApiProcessorController.errorState(response);
       try {
         var save = DriverHistoryModel.fromJson(jsonDecode(responseData));
@@ -97,7 +97,7 @@ class RiderController extends GetxController {
       token = element!;
     });
     try {
-      http.Response? response = await RequestData.getApi(url, token);
+      http.Response? response = await HandleData.getApi(url, token);
       var responseData = await ApiProcessorController.errorState(response);
       var save = RiderModel.fromJson(responseData);
       rider.value = save;
@@ -122,7 +122,7 @@ class RiderController extends GetxController {
       token = element!;
     });
     try {
-      http.Response? response = await RequestData.postApi(url, token, data);
+      http.Response? response = await HandleData.postApi(url, token, data);
       var responseData = await ApiProcessorController.errorState(response);
       if (responseData == null) {
         isLoadAssign.value = false;

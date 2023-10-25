@@ -22,7 +22,7 @@ class _AboutAppState extends State<AboutApp> {
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    scrollController.dispose();
 
     super.dispose();
   }
@@ -32,7 +32,7 @@ class _AboutAppState extends State<AboutApp> {
 //============================================== BOOL VALUES =================================================\\
 
 //============================================== CONTROLLERS =================================================\\
-  final _scrollController = ScrollController();
+  final scrollController = ScrollController();
 
 //============================================== NAVIGATION =================================================\\
 
@@ -50,9 +50,9 @@ class _AboutAppState extends State<AboutApp> {
       extendBodyBehindAppBar: true,
       body: SafeArea(
         child: Scrollbar(
-          controller: _scrollController,
+          controller: scrollController,
           child: ListView(
-            controller: _scrollController,
+            controller: scrollController,
             padding: const EdgeInsets.all(10),
             physics: const BouncingScrollPhysics(),
             children: [

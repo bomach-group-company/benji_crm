@@ -17,7 +17,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../../src/providers/constants.dart';
-import '../../../src/skeletons/vendors_list_skeleton.dart';
 import '../../controller/latlng_detail_controller.dart';
 import '../../model/create_vendor_model.dart';
 import '../../services/keys.dart';
@@ -50,7 +49,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
       VendorController.instance.businessType();
     });
     super.initState();
-    _scrollController.addListener(_scrollListener);
+    scrollController.addListener(_scrollListener);
     _loadingScreen = true;
     _timer = Timer(
       const Duration(milliseconds: 1000),
@@ -65,7 +64,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
     super.dispose();
     _timer.cancel();
     selectedLocation.dispose();
-    _scrollController.dispose();
+    scrollController.dispose();
   }
 
 //==========================================================================================\\
@@ -89,7 +88,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
   bool _typing = false;
 
   //============================================== CONTROLLERS =================================================\\
-  final _scrollController = ScrollController();
+  final scrollController = ScrollController();
 
   final personalIdEC = TextEditingController();
   final vendorBusinessIdEC = TextEditingController();
@@ -480,7 +479,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
 
   //===================== Scroll to Top ==========================\\
   Future<void> _scrollToTop() async {
-    await _scrollController.animateTo(
+    await scrollController.animateTo(
       0.0,
       duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
@@ -491,13 +490,13 @@ class _RegisterVendorState extends State<RegisterVendor> {
   }
 
   Future<void> _scrollListener() async {
-    if (_scrollController.position.pixels >= 100 &&
+    if (scrollController.position.pixels >= 100 &&
         _isScrollToTopBtnVisible != true) {
       setState(() {
         _isScrollToTopBtnVisible = true;
       });
     }
-    if (_scrollController.position.pixels < 100 &&
+    if (scrollController.position.pixels < 100 &&
         _isScrollToTopBtnVisible == true) {
       setState(() {
         _isScrollToTopBtnVisible = false;
@@ -561,9 +560,9 @@ class _RegisterVendorState extends State<RegisterVendor> {
             child: _loadingScreen
                 ? Center(child: CircularProgressIndicator(color: kAccentColor))
                 : Scrollbar(
-                    controller: _scrollController,
+                    controller: scrollController,
                     child: ListView(
-                      controller: _scrollController,
+                      controller: scrollController,
                       physics: const BouncingScrollPhysics(),
                       padding: const EdgeInsets.all(kDefaultPadding),
                       children: [
@@ -1027,7 +1026,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                                             }
                                           }(),
                                           child: Scrollbar(
-                                            controller: _scrollController,
+                                            controller: scrollController,
                                             child: ListView.builder(
                                               physics:
                                                   const BouncingScrollPhysics(),

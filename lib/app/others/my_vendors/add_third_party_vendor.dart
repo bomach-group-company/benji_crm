@@ -49,7 +49,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
       VendorController.instance.businessType();
     });
     super.initState();
-    _scrollController.addListener(_scrollListener);
+    scrollController.addListener(_scrollListener);
     _loadingScreen = true;
     _timer = Timer(
       const Duration(milliseconds: 1000),
@@ -64,7 +64,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
     super.dispose();
     _timer.cancel();
     selectedLocation.dispose();
-    _scrollController.dispose();
+    scrollController.dispose();
   }
 
 //==========================================================================================\\
@@ -88,7 +88,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
   bool _typing = false;
 
   //============================================== CONTROLLERS =================================================\\
-  final _scrollController = ScrollController();
+  final scrollController = ScrollController();
   final vendorNameEC = TextEditingController();
   final vendorEmailEC = TextEditingController();
   final vendorPhoneNumberEC = TextEditingController();
@@ -476,7 +476,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
 
   //===================== Scroll to Top ==========================\\
   Future<void> _scrollToTop() async {
-    await _scrollController.animateTo(
+    await scrollController.animateTo(
       0.0,
       duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
@@ -487,13 +487,13 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
   }
 
   Future<void> _scrollListener() async {
-    if (_scrollController.position.pixels >= 100 &&
+    if (scrollController.position.pixels >= 100 &&
         _isScrollToTopBtnVisible != true) {
       setState(() {
         _isScrollToTopBtnVisible = true;
       });
     }
-    if (_scrollController.position.pixels < 100 &&
+    if (scrollController.position.pixels < 100 &&
         _isScrollToTopBtnVisible == true) {
       setState(() {
         _isScrollToTopBtnVisible = false;
@@ -557,9 +557,9 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
           child: _loadingScreen
               ? Center(child: CircularProgressIndicator(color: kAccentColor))
               : Scrollbar(
-                  controller: _scrollController,
+                  controller: scrollController,
                   child: ListView(
-                    controller: _scrollController,
+                    controller: scrollController,
                     physics: const BouncingScrollPhysics(),
                     padding: const EdgeInsets.all(kDefaultPadding),
                     children: [
@@ -967,7 +967,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
                                           }
                                         }(),
                                         child: Scrollbar(
-                                          controller: _scrollController,
+                                          controller: scrollController,
                                           child: ListView.builder(
                                             physics:
                                                 const BouncingScrollPhysics(),

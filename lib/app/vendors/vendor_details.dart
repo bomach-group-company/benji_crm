@@ -106,7 +106,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
 
   //=================================== CONTROLLERS ====================================\\
   late TabController _tabBarController;
-  final ScrollController _scrollController = ScrollController();
+  final ScrollController scrollController = ScrollController();
 
 //===================== KEYS =======================\\
   // final _formKey = GlobalKey<FormState>();
@@ -329,7 +329,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
               return _loadingScreen
                   ? Center(child: SpinKitDoubleBounce(color: kAccentColor))
                   : Scrollbar(
-                      controller: _scrollController,
+                      controller: scrollController,
                       radius: const Radius.circular(10),
                       scrollbarOrientation: ScrollbarOrientation.right,
                       child: ListView(

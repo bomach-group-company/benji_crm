@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'app/overview/overview.dart';
+import 'app/others/splash_screen.dart';
 import 'theme/app theme.dart';
 
 late SharedPreferences prefs;
@@ -38,10 +38,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       defaultTransition: Transition.rightToLeft,
       title: "Benji CRM",
+      color: kPrimaryColor,
       themeMode: ThemeMode.light,
       darkTheme: AppTheme.darkTheme,
       theme: AppTheme.lightTheme,
-      home: OverView(),
+      home: SplashScreen(),
     );
   }
 }

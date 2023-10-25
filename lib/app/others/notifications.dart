@@ -42,7 +42,7 @@ class _NotificationsState extends State<Notifications> {
   late bool _loadingScreen;
 
   //============================================== CONTROLLERS =================================================\\
-  final ScrollController _scrollController = ScrollController();
+  final ScrollController scrollController = ScrollController();
 
   //=================================== FUNCTIONS =====================================\\
 
@@ -146,7 +146,7 @@ class _NotificationsState extends State<Notifications> {
                 return notifications.isLoad.value
                     ? const NotificationsPageSkeleton()
                     : Scrollbar(
-                        controller: _scrollController,
+                        controller: scrollController,
                         radius: const Radius.circular(10),
                         child: ListView(
                           physics: const BouncingScrollPhysics(),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../model/business_trype_model.dart';
 
 Future shopTypeModal(BuildContext context, List<BusinessType> type) async {
+  var media = MediaQuery.of(context).size;
   return showModalBottomSheet(
       context: context,
       // isScrollControlled: true,
@@ -14,7 +15,7 @@ Future shopTypeModal(BuildContext context, List<BusinessType> type) async {
       builder: (context) => Padding(
             padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
             child: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.4,
+              height: media.height * 0.4,
               child: Padding(
                 padding: const EdgeInsets.only(left: 20, top: 10),
                 child: Column(
@@ -24,17 +25,13 @@ Future shopTypeModal(BuildContext context, List<BusinessType> type) async {
                   children: [
                     Column(
                       children: [
-                        const SizedBox(
-                          height: 20,
-                        ),
+                        const SizedBox(height: 20),
                         const Text(
                           "Business Type",
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold),
                         ),
-                        const SizedBox(
-                          height: 20,
-                        ),
+                        const SizedBox(height: 20),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: type
@@ -52,9 +49,7 @@ Future shopTypeModal(BuildContext context, List<BusinessType> type) async {
                               )
                               .toList(),
                         ),
-                        const SizedBox(
-                          height: 20,
-                        ),
+                        const SizedBox(height: 20),
                       ],
                     ),
                   ],
@@ -64,9 +59,9 @@ Future shopTypeModal(BuildContext context, List<BusinessType> type) async {
           ));
 }
 
-class ItemWeigth {
+class ItemWeight {
   String item;
   bool selected;
   int id;
-  ItemWeigth({required this.item, required this.selected, required this.id});
+  ItemWeight({required this.item, required this.selected, required this.id});
 }

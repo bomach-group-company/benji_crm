@@ -58,37 +58,39 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
       titleSpacing:
           deviceType(media.width) > 2 ? kDefaultPadding : kDefaultPadding / 2,
       elevation: 10.0,
-      title: GetBuilder<UserController>(builder: (controller) {
-        return Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: kDefaultPadding / 2,
-              ),
-              child: InkWell(
-                onTap: toProfilePage,
-                child: Container(
-                  width: 45,
-                  height: 45,
-                  decoration: ShapeDecoration(
-                    color: kPageSkeletonColor,
-                    image: const DecorationImage(
-                      image:
-                          AssetImage("assets/images/profile/avatar-image.jpg"),
-                      fit: BoxFit.cover,
+      title: GetBuilder<UserController>(
+          init: UserController(),
+          builder: (controller) {
+            return Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: kDefaultPadding / 2),
+                  child: InkWell(
+                    onTap: toProfilePage,
+                    child: Container(
+                      width: 45,
+                      height: 45,
+                      decoration: ShapeDecoration(
+                        color: kPageSkeletonColor,
+                        image: const DecorationImage(
+                          image: AssetImage(
+                              "assets/images/profile/avatar-image.jpg"),
+                          fit: BoxFit.cover,
+                        ),
+                        shape: const OvalBorder(),
+                      ),
                     ),
-                    shape: const OvalBorder(),
                   ),
                 ),
-              ),
-            ),
-            AppBarAggregator(
-              title: "Welcome,",
-              aggregatorName: controller.user.value.username ?? "Loading...",
-            ),
-          ],
-        );
-      }),
+                AppBarAggregator(
+                  title: "Welcome,",
+                  aggregatorName:
+                      controller.user.value.username ?? "Loading...",
+                ),
+              ],
+            );
+          }),
       actions: [
         IconButton(
             onPressed: showSearchField,

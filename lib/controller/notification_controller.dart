@@ -23,13 +23,13 @@ class NotificationController extends GetxController {
 
     var url = Api.baseUrl +
         Api.notification +
-        UserController.instance.user.value.id!.toString();
+        UserController.instance.user.value.id.toString();
 
     await KeyStore.getToken().then((element) {
       token = element!;
     });
     try {
-      http.Response? response = await RequestData.getApi(url, token);
+      http.Response? response = await HandleData.getApi(url, token);
       var responseData = await ApiProcessorController.errorState(response);
       var save = notificationModelFromJson(responseData);
       notification.value = save;

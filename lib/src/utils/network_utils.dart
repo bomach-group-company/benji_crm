@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:benji_aggregator/services/api_url.dart';
 import 'package:http/http.dart' as http;
 
 class NetworkUtility {
@@ -10,7 +10,7 @@ class NetworkUtility {
         return response.body;
       }
     } catch (e) {
-      debugPrint(e.toString());
+      consoleLog(e.toString());
     }
     return null;
   }

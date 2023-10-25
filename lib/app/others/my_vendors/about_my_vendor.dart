@@ -49,7 +49,7 @@ class _AboutMyVendorState extends State<AboutMyVendor> {
   }
 
   //=================================== CONTROLLERS ====================================\\
-  final ScrollController _scrollController = ScrollController();
+  final ScrollController scrollController = ScrollController();
 
 //============================================= ALL VARIABLES  ===================================================\\
   late bool _loadingScreen;
@@ -106,7 +106,7 @@ class _AboutMyVendorState extends State<AboutMyVendor> {
                   ? Center(
                       child: CircularProgressIndicator(color: kAccentColor))
                   : Scrollbar(
-                      controller: _scrollController,
+                      controller: scrollController,
                       radius: const Radius.circular(10),
                       scrollbarOrientation: ScrollbarOrientation.right,
                       child: ListView(

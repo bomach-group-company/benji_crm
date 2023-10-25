@@ -43,6 +43,7 @@ class PasswordTextFormField extends StatelessWidget {
       textAlign: TextAlign.start,
       obscuringCharacter: "*",
       maxLength: 32,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       maxLengthEnforcement: MaxLengthEnforcement.enforced,
       style: TextStyle(
         color: kSecondaryColor,
@@ -64,42 +65,32 @@ class PasswordTextFormField extends StatelessWidget {
           color: kErrorColor,
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(
-            10.0,
-          ),
+          borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide(
             color: Colors.blue.shade50,
           ),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(
-            10.0,
-          ),
+          borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide(
             color: Colors.blue.shade50,
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(
-            10.0,
-          ),
+          borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide(
             color: Colors.blue.shade50,
           ),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(
-            10.0,
-          ),
+          borderRadius: BorderRadius.circular(10.0),
           borderSide: const BorderSide(
             color: kErrorBorderColor,
             width: 2.0,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(
-            10.0,
-          ),
+          borderRadius: BorderRadius.circular(10.0),
           borderSide: const BorderSide(
             color: kErrorBorderColor,
             width: 2.0,

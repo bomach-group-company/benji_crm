@@ -1,13 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/route_manager.dart';
 
-import '../../services/api_url.dart';
 import '../../src/components/my_appbar.dart';
-import '../../src/components/my_fixed_snackBar.dart';
 import '../../src/components/password_textformfield.dart';
 import '../../src/components/reusable_authentication_firsthalf.dart';
 import '../../src/providers/constants.dart';
@@ -22,6 +18,11 @@ class ChangePassword extends StatefulWidget {
 }
 
 class _ChangePasswordState extends State<ChangePassword> {
+  @override
+  void initState() {
+    super.initState();
+    isObscured = true;
+  }
   //=========================== ALL VARIABBLES ====================================\\
 
   //=========================== KEYS ====================================\\
@@ -30,97 +31,34 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   //=========================== CONTROLLERS ====================================\\
 
-  final TextEditingController _userPasswordEC = TextEditingController();
-  TextEditingController confirmPasswordEC = TextEditingController();
-  final TextEditingController _userOldPasswordEC = TextEditingController();
+  final userPasswordEC = TextEditingController();
+  final confirmPasswordEC = TextEditingController();
+  final userOldPasswordEC = TextEditingController();
 
   //=========================== FOCUS NODES ====================================\\
-  final FocusNode _userPasswordFN = FocusNode();
-  FocusNode confirmPasswordFN = FocusNode();
-  final FocusNode _userOldPasswordFN = FocusNode();
+  final userPasswordFN = FocusNode();
+  final confirmPasswordFN = FocusNode();
+  final userOldPasswordFN = FocusNode();
 
   //=========================== BOOL VALUES====================================\\
-  bool _isLoading = false;
-  final bool _validAuthCredentials = false;
+  bool? isFirst;
+  bool isLoading = false;
+  bool validAuthCredentials = false;
   bool isPWSuccess = false;
-  var _isObscured;
+  late bool isObscured;
 
   //=========================== FUNCTIONS ====================================\\
-  Future<void> loadData() async {
+  Future<void> updateData() async {
     setState(() {
-      _isLoading = true;
+      isLoading = true;
     });
-    final url = Uri.parse('${Api.baseUrl}/auth/changeNewPassword/');
-
-    Map body = {
-      'new_password': _userPasswordEC.text,
-      'confirm_password': confirmPasswordEC.text,
-      'old_password': _userOldPasswordEC.text,
-    };
-    if (kDebugMode) {
-      print(body);
-    }
-    // final response = await http.post(
-    //   url,
-    //   body: body,
-    //   headers: await authHeader(),
-    // );
-    // if (kDebugMode) {
-    //   print(response.body);
-    // }
-    // try {
-    //   Map data = jsonDecode(response.body);
-    //   if (data['message'] == "Password Changed is successful." &&
-    //       response.statusCode == 200) {
-    //     setState(() {
-    //       _validAuthCredentials = true;
-    //     });
-
-    //Display snackBar
-    myFixedSnackBar(
-      context,
-      "Password changed successfully",
-      kSuccessColor,
-      const Duration(
-        seconds: 2,
-      ),
-    );
-
-    // Navigate to the new page
-    Get.back();
-    // } else {
-    //   myFixedSnackBar(
-    //     context,
-    //     "Your old password does not match",
-    //     kAccentColor,
-    //     const Duration(
-    //       seconds: 2,
-    //     ),
-    //   );
-    // }
-    // } catch (e) {
-    //   myFixedSnackBar(
-    //     context,
-    //     "Error occured contact admin",
-    //     kAccentColor,
-    //     const Duration(
-    //       seconds: 2,
-    //     ),
-    //   );
-    // }
 
     setState(() {
-      _isLoading = false;
+      isLoading = false;
     });
   }
 
   //=========================== STATES ====================================\\
-
-  @override
-  void initState() {
-    super.initState();
-    _isObscured = true;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +98,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                 children: [
                   Expanded(
                     child: () {
-                      if (_validAuthCredentials) {
+                      if (validAuthCredentials) {
                         return ReusableAuthenticationFirstHalf(
                           title: "Change password",
                           subtitle:
@@ -242,20 +180,20 @@ class _ChangePasswordState extends State<ChangePassword> {
                           ),
                           kHalfSizedBox,
                           PasswordTextFormField(
-                            controller: _userOldPasswordEC,
-                            passwordFocusNode: _userOldPasswordFN,
+                            controller: userOldPasswordEC,
+                            passwordFocusNode: userOldPasswordFN,
                             keyboardType: TextInputType.visiblePassword,
-                            obscureText: _isObscured,
+                            obscureText: isObscured,
                             textInputAction: TextInputAction.next,
                             validator: (value) {
                               if (value == null || value!.isEmpty) {
-                                _userOldPasswordFN.requestFocus();
+                                userOldPasswordFN.requestFocus();
                                 return "Enter your current password";
                               }
                               return null;
                             },
                             onSaved: (value) {
-                              _userOldPasswordEC.text = value;
+                              userOldPasswordEC.text = value;
                             },
                             suffixIcon: const IconButton(
                               onPressed: null,
@@ -277,26 +215,26 @@ class _ChangePasswordState extends State<ChangePassword> {
                           ),
                           kHalfSizedBox,
                           PasswordTextFormField(
-                            controller: _userPasswordEC,
-                            passwordFocusNode: _userPasswordFN,
+                            controller: userPasswordEC,
+                            passwordFocusNode: userPasswordFN,
                             keyboardType: TextInputType.visiblePassword,
-                            obscureText: _isObscured,
+                            obscureText: isObscured,
                             textInputAction: TextInputAction.next,
                             validator: (value) {
                               RegExp passwordPattern = RegExp(
                                 r'^.{8,}$',
                               );
                               if (value == null || value!.isEmpty) {
-                                _userPasswordFN.requestFocus();
+                                userPasswordFN.requestFocus();
                                 return "Enter your password";
                               } else if (!passwordPattern.hasMatch(value)) {
-                                _userPasswordFN.requestFocus();
+                                userPasswordFN.requestFocus();
                                 return "Password must be at least 8 characters";
                               }
                               return null;
                             },
                             onSaved: (value) {
-                              _userPasswordEC.text = value;
+                              userPasswordEC.text = value;
                             },
                             suffixIcon: const IconButton(
                               onPressed: null,
@@ -309,7 +247,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                             uppercaseCharCount: 1,
                             lowercaseCharCount: 1,
                             numericCharCount: 1,
-                            controller: _userPasswordEC,
+                            controller: userPasswordEC,
                             width: 400,
                             height: 150,
                             minLength: 8,
@@ -317,14 +255,6 @@ class _ChangePasswordState extends State<ChangePassword> {
                               setState(() {
                                 isPWSuccess = true;
                               });
-                              myFixedSnackBar(
-                                context,
-                                "Password matches requirement",
-                                kSuccessColor,
-                                const Duration(
-                                  seconds: 1,
-                                ),
-                              );
                             },
                             onFail: () {
                               setState(() {
@@ -349,7 +279,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                             controller: confirmPasswordEC,
                             passwordFocusNode: confirmPasswordFN,
                             keyboardType: TextInputType.visiblePassword,
-                            obscureText: _isObscured,
+                            obscureText: isObscured,
                             textInputAction: TextInputAction.done,
                             validator: (value) {
                               RegExp passwordPattern = RegExp(
@@ -359,7 +289,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                                 confirmPasswordFN.requestFocus();
                                 return "Confirm your password";
                               }
-                              if (value != _userPasswordEC.text) {
+                              if (value != userPasswordEC.text) {
                                 return "Password does not match";
                               } else if (!passwordPattern.hasMatch(value)) {
                                 return "Password must be at least 8 characters";
@@ -378,16 +308,15 @@ class _ChangePasswordState extends State<ChangePassword> {
                       ),
                     ),
                     kSizedBox,
-                    _isLoading
+                    isLoading
                         ? Center(
-                            child: CircularProgressIndicator(
-                              color: kAccentColor,
-                            ),
+                            child:
+                                CircularProgressIndicator(color: kAccentColor),
                           )
                         : ElevatedButton(
                             onPressed: (() async {
                               if (_formKey.currentState!.validate()) {
-                                loadData();
+                                updateData();
                               }
                             }),
                             style: ElevatedButton.styleFrom(

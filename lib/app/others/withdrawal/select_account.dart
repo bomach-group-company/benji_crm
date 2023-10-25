@@ -25,8 +25,7 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
   void initState() {
     super.initState();
     _loadingScreen = true;
-    _scrollController.addListener(_scrollListener);
-
+    scrollController.addListener(_scrollListener);
     _timer = Timer(const Duration(milliseconds: 1000), () {
       setState(() => _loadingScreen = false);
     });
@@ -35,14 +34,13 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
   @override
   void dispose() {
     _handleRefresh().ignore();
-    _scrollController.dispose();
-
+    scrollController.dispose();
     _timer.cancel();
     super.dispose();
   }
 
 //=============================================== ALL CONTROLLERS ======================================================\\
-  final _scrollController = ScrollController();
+  final scrollController = ScrollController();
 
 //=============================================== ALL VARIABLES ======================================================\\
   late Timer _timer;
@@ -55,7 +53,7 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
 
   //===================== Scroll to Top ==========================\\
   Future<void> _scrollToTop() async {
-    await _scrollController.animateTo(
+    await scrollController.animateTo(
       0.0,
       duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
@@ -66,13 +64,13 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
   }
 
   Future<void> _scrollListener() async {
-    if (_scrollController.position.pixels >= 100 &&
+    if (scrollController.position.pixels >= 100 &&
         _isScrollToTopBtnVisible != true) {
       setState(() {
         _isScrollToTopBtnVisible = true;
       });
     }
-    if (_scrollController.position.pixels < 100 &&
+    if (scrollController.position.pixels < 100 &&
         _isScrollToTopBtnVisible == true) {
       setState(() {
         _isScrollToTopBtnVisible = false;
@@ -83,15 +81,11 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
 //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
-    setState(() {
-      _loadingScreen = true;
-    });
+    _loadingScreen = true;
+    _timer = Timer(const Duration(milliseconds: 1000), () {
+      scrollController.addListener(_scrollListener);
 
-    await Future.delayed(const Duration(milliseconds: 1000));
-
-    setState(() {
-      _scrollController.addListener(_scrollListener);
-      _loadingScreen = false;
+      setState(() => _loadingScreen = false);
     });
   }
 
@@ -167,11 +161,12 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
                 )
               : ListView(
                   padding: const EdgeInsets.all(10),
+                  controller: scrollController,
+                  physics: const BouncingScrollPhysics(),
                   children: [
                     Scrollbar(
-                      controller: _scrollController,
+                      controller: scrollController,
                       child: ListView.builder(
-                        controller: _scrollController,
                         physics: const BouncingScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: 10,

@@ -50,14 +50,9 @@ class _ProfileState extends State<Profile> {
 //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
-    // setState(() {
-    //   _loadingScreen = true;
-    // });
+    setState(() => _loadingScreen = true);
     _timer = Timer(const Duration(milliseconds: 1000), () {
-      setState(() => _loadingScreen = true);
-    });
-    setState(() {
-      _loadingScreen = false;
+      setState(() => _loadingScreen = false);
     });
   }
 

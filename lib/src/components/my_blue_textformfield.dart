@@ -1,5 +1,6 @@
 // ignore_for_file: file_names,
 
+import 'package:benji_aggregator/src/responsive/responsive_constant.dart';
 import 'package:flutter/material.dart';
 
 import '../../theme/colors.dart';
@@ -14,6 +15,7 @@ class MyBlueTextFormField extends StatelessWidget {
   final FocusNode focusNode;
   final bool? isEnabled;
   final VoidCallback? click;
+  final Widget? suffixIcon;
 
   const MyBlueTextFormField({
     super.key,
@@ -26,10 +28,12 @@ class MyBlueTextFormField extends StatelessWidget {
     required this.textInputType,
     this.isEnabled,
     this.click,
+    this.suffixIcon,
   });
 
   @override
   Widget build(BuildContext context) {
+    var media = MediaQuery.of(context).size;
     return TextFormField(
       focusNode: focusNode,
       controller: controller,
@@ -51,7 +55,12 @@ class MyBlueTextFormField extends StatelessWidget {
       ),
       decoration: InputDecoration(
         hintText: hintText,
-        errorStyle: const TextStyle(color: Colors.red),
+        errorStyle: TextStyle(color: kAccentColor),
+        suffixIcon: Container(
+            alignment: Alignment.centerRight,
+            padding: const EdgeInsets.all(10),
+            width: deviceType(media.width) >= 2 ? 50 : 30,
+            child: suffixIcon ?? const Icon(null)),
         filled: true,
         fillColor: Colors.blue.shade50,
         focusColor: Colors.blue.shade50,
