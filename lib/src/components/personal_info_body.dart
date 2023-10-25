@@ -39,7 +39,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
   @override
   void initState() {
     userCode = UserController.instance.user.value.code;
-    usernameEC.text = UserController.instance.user.value.username;
+    userNameEC.text = UserController.instance.user.value.username;
     super.initState();
 
     _loadingScreen = true;
@@ -56,7 +56,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
     super.dispose();
     _timer.cancel();
     selectedLocation.dispose();
-    _scrollController.dispose();
+    scrollController.dispose();
   }
 
 //==========================================================================================\\
@@ -80,14 +80,18 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
   final _formKey = GlobalKey<FormState>();
 
   //=========================== CONTROLLERS ====================================\\
-  final _scrollController = ScrollController();
-  final usernameEC = TextEditingController();
+  final scrollController = ScrollController();
+  final userNameEC = TextEditingController();
+  final firstNameEC = TextEditingController();
+  final lastNameEC = TextEditingController();
   final mapsLocationEC = TextEditingController();
   final LatLngDetailController latLngDetailController =
       Get.put(LatLngDetailController());
 
   //=========================== FOCUS NODES ====================================\\
-  final usernameFN = FocusNode();
+  final userNameFN = FocusNode();
+  final firstNameFN = FocusNode();
+  final lastNameFN = FocusNode();
   final mapsLocationFN = FocusNode();
 
   //=========================== IMAGE PICKER ====================================\\
@@ -298,7 +302,9 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
     });
 
     await UserController.instance.updateProfile(
-      userName: usernameEC.text,
+      userName: userNameEC.text,
+      firstName: firstNameEC.text,
+      lastName: lastNameEC.text,
       address: mapsLocationEC.text,
       isCurrent: true,
     );
@@ -354,11 +360,11 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
     return SafeArea(
       maintainBottomViewPadding: true,
       child: Scrollbar(
-        controller: _scrollController,
+        controller: scrollController,
         child: _loadingScreen
             ? Center(child: CircularProgressIndicator(color: kAccentColor))
             : ListView(
-                controller: _scrollController,
+                controller: scrollController,
                 padding: const EdgeInsets.all(10),
                 physics: const BouncingScrollPhysics(),
                 children: [
@@ -583,26 +589,86 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                               ),
                               kHalfSizedBox,
                               NameTextFormField(
-                                controller: usernameEC,
+                                controller: userNameEC,
                                 hintText: "Enter a username",
                                 validator: (value) {
                                   RegExp userNamePattern = RegExp(
                                     r'^.{3,}$', //Min. of 3 characters
                                   );
                                   if (value == null || value!.isEmpty) {
-                                    usernameFN.requestFocus();
+                                    userNameFN.requestFocus();
                                     return "Enter a username";
                                   } else if (!userNamePattern.hasMatch(value)) {
-                                    usernameFN.requestFocus();
+                                    userNameFN.requestFocus();
                                     return "Username must be at least 3 characters";
                                   }
                                   return null;
                                 },
                                 onSaved: (value) {
-                                  usernameEC.text = value;
+                                  userNameEC.text = value;
                                 },
                                 textInputAction: TextInputAction.next,
-                                nameFocusNode: usernameFN,
+                                nameFocusNode: userNameFN,
+                              ),
+                              kSizedBox,
+                              Text(
+                                "First Name".toUpperCase(),
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              kHalfSizedBox,
+                              NameTextFormField(
+                                controller: firstNameEC,
+                                hintText: "Enter your first name",
+                                nameFocusNode: firstNameFN,
+                                textInputAction: TextInputAction.next,
+                                validator: (value) {
+                                  RegExp namePattern =
+                                      RegExp(r'^.{3,}$'); //Min. of 3 characters
+                                  if (value == null || value!.isEmpty) {
+                                    firstNameFN.requestFocus();
+                                    return "Enter your first name";
+                                  } else if (!namePattern.hasMatch(value)) {
+                                    firstNameFN.requestFocus();
+                                    return "Name must be at least 3 characters";
+                                  }
+                                  return null;
+                                },
+                                onSaved: (value) {
+                                  firstNameEC.text = value;
+                                },
+                              ),
+                              kSizedBox,
+                              Text(
+                                "Last Name".toUpperCase(),
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              kHalfSizedBox,
+                              NameTextFormField(
+                                controller: lastNameEC,
+                                hintText: "Enter your last name",
+                                nameFocusNode: lastNameFN,
+                                textInputAction: TextInputAction.next,
+                                validator: (value) {
+                                  RegExp namePattern =
+                                      RegExp(r'^.{3,}$'); //Min. of 3 characters
+                                  if (value == null || value!.isEmpty) {
+                                    lastNameFN.requestFocus();
+                                    return "Enter your last name";
+                                  } else if (!namePattern.hasMatch(value)) {
+                                    lastNameFN.requestFocus();
+                                    return "Name must be at least 3 characters";
+                                  }
+                                  return null;
+                                },
+                                onSaved: (value) {
+                                  lastNameEC.text = value;
+                                },
                               ),
                               kSizedBox,
                               Text(
@@ -707,7 +773,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                                       }
                                     }(),
                                     child: Scrollbar(
-                                      controller: _scrollController,
+                                      controller: scrollController,
                                       child: ListView.builder(
                                         physics: const BouncingScrollPhysics(),
                                         shrinkWrap: true,

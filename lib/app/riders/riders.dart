@@ -54,9 +54,9 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
 
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 300));
-    _scrollController.addListener(_scrollListener);
-    _scrollController.addListener(() {
-      if (_scrollController.position.userScrollDirection ==
+    scrollController.addListener(_scrollListener);
+    scrollController.addListener(() {
+      if (scrollController.position.userScrollDirection ==
           ScrollDirection.forward) {
         widget.showNavigation();
       } else {
@@ -75,7 +75,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
   @override
   void dispose() {
     _animationController.dispose();
-    _scrollController.dispose();
+    scrollController.dispose();
     super.dispose();
   }
 
@@ -103,7 +103,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
   final int _numberOfOfflineRiders = 10;
 
   //============================================== CONTROLLERS =================================================\\
-  final ScrollController _scrollController = ScrollController();
+  final ScrollController scrollController = ScrollController();
   late AnimationController _animationController;
 
   //================================= FUNCTIONS ==========================================\\
@@ -123,7 +123,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
 //============================= Scroll to Top ======================================//
   void _scrollToTop() {
     _animationController.reverse();
-    _scrollController.animateTo(
+    scrollController.animateTo(
       0,
       duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
@@ -132,12 +132,12 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
 
   void _scrollListener() {
     //========= Show action button ========//
-    if (_scrollController.position.pixels >= 200) {
+    if (scrollController.position.pixels >= 200) {
       _animationController.forward();
       setState(() => _isScrollToTopBtnVisible = true);
     }
     //========= Hide action button ========//
-    else if (_scrollController.position.pixels < 200) {
+    else if (scrollController.position.pixels < 200) {
       _animationController.reverse();
       setState(() => _isScrollToTopBtnVisible = true);
     }
@@ -272,11 +272,11 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                 return controller.isLoad.value
                     ? const AllRidersPageSkeleton()
                     : Scrollbar(
-                        controller: _scrollController,
+                        controller: scrollController,
                         radius: const Radius.circular(10),
                         scrollbarOrientation: ScrollbarOrientation.right,
                         child: ListView(
-                          controller: _scrollController,
+                          controller: scrollController,
                           scrollDirection: Axis.vertical,
                           physics: const BouncingScrollPhysics(),
                           padding: const EdgeInsets.only(

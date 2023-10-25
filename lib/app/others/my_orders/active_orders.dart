@@ -39,7 +39,7 @@ class _ActiveOrdersState extends State<ActiveOrders> {
   }
 
   //=================================== CONTROLLERS ====================================\\
-  final ScrollController _scrollController = ScrollController();
+  final ScrollController scrollController = ScrollController();
 
 //========================================================= ALL VARIABLES =======================================================\\
   late bool _loadingScreen;
@@ -108,7 +108,7 @@ class _ActiveOrdersState extends State<ActiveOrders> {
                       child: OrdersListSkeleton(),
                     )
                   : Scrollbar(
-                      controller: _scrollController,
+                      controller: scrollController,
                       radius: const Radius.circular(10),
                       scrollbarOrientation: ScrollbarOrientation.right,
                       child: ListView(

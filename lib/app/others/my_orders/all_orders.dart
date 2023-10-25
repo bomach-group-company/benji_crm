@@ -55,7 +55,7 @@ class _AllCompletedOrdersState extends State<AllCompletedOrders>
 
   //=================================== CONTROLLERS ====================================\\
 
-  final ScrollController _scrollController = ScrollController();
+  final ScrollController scrollController = ScrollController();
 
   //=============================================== FUNCTIONS ====================================================\\
   double calculateSubtotal() {
@@ -97,13 +97,13 @@ class _AllCompletedOrdersState extends State<AllCompletedOrders>
               return _loadingScreen
                   ? SpinKitDoubleBounce(color: kAccentColor)
                   : Scrollbar(
-                      controller: _scrollController,
+                      controller: scrollController,
                       radius: const Radius.circular(10),
                       scrollbarOrientation: ScrollbarOrientation.right,
                       child: ListView(
                         physics: const BouncingScrollPhysics(),
                         padding: const EdgeInsets.all(kDefaultPadding),
-                        // controller: _scrollController,
+                        // controller: scrollController,
                         children: [
                           kSizedBox,
                           SizedBox(

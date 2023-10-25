@@ -38,7 +38,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   late bool _loadingScreen;
 
   //======================================= CONTROLLERS ==========================================\\
-  final ScrollController _scrollController = ScrollController();
+  final ScrollController scrollController = ScrollController();
 
   //======================================= FUNCTIONS ==========================================\\
   @override
@@ -115,7 +115,7 @@ class _ProductDetailsState extends State<ProductDetails> {
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: Scrollbar(
-            controller: _scrollController,
+            controller: scrollController,
             radius: const Radius.circular(10),
             scrollbarOrientation: ScrollbarOrientation.right,
             child: FutureBuilder(

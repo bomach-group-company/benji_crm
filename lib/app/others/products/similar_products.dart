@@ -29,7 +29,7 @@ class _SimilarProductsPageState extends State<SimilarProductsPage>
   late bool _loadingScreen;
 
   //=================================== CONTROLLERS ====================================\\
-  final ScrollController _scrollController = ScrollController();
+  final ScrollController scrollController = ScrollController();
 
 //===================== KEYS =======================\\
   // final _formKey = GlobalKey<FormState>();
@@ -160,7 +160,7 @@ class _SimilarProductsPageState extends State<SimilarProductsPage>
                 return _loadingScreen
                     ? Center(child: SpinKitDoubleBounce(color: kAccentColor))
                     : Scrollbar(
-                        controller: _scrollController,
+                        controller: scrollController,
                         radius: const Radius.circular(10),
                         scrollbarOrientation: ScrollbarOrientation.right,
                         child: GridView.builder(

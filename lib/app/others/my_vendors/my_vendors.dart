@@ -22,7 +22,7 @@ class _MyVendorsState extends State<MyVendors> {
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_scrollListener);
+    scrollController.addListener(_scrollListener);
     _loadingScreen = true;
     Future.delayed(
       const Duration(milliseconds: 500),
@@ -34,7 +34,7 @@ class _MyVendorsState extends State<MyVendors> {
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    scrollController.dispose();
 
     super.dispose();
   }
@@ -56,7 +56,7 @@ class _MyVendorsState extends State<MyVendors> {
   late bool _loadingScreen;
 
   //=================================== CONTROLLERS ====================================\\
-  final ScrollController _scrollController = ScrollController();
+  final ScrollController scrollController = ScrollController();
 
   //============================================= FUNCTIONS ===============================================\\
 
@@ -75,17 +75,17 @@ class _MyVendorsState extends State<MyVendors> {
 
   //============================= Scroll to Top ======================================//
   void _scrollToTop() {
-    _scrollController.animateTo(0,
+    scrollController.animateTo(0,
         duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn);
   }
 
   void _scrollListener() {
     //========= Show action button ========//
-    if (_scrollController.position.pixels >= 100) {
+    if (scrollController.position.pixels >= 100) {
       setState(() => _isScrollToTopBtnVisible = true);
     }
     //========= Hide action button ========//
-    else if (_scrollController.position.pixels < 100) {
+    else if (scrollController.position.pixels < 100) {
       setState(() => _isScrollToTopBtnVisible = false);
     }
   }
@@ -165,7 +165,7 @@ class _MyVendorsState extends State<MyVendors> {
                       radius: const Radius.circular(10),
                       scrollbarOrientation: ScrollbarOrientation.right,
                       child: ListView(
-                        controller: _scrollController,
+                        controller: scrollController,
                         physics: const BouncingScrollPhysics(),
                         padding: const EdgeInsets.all(kDefaultPadding),
                         children: [

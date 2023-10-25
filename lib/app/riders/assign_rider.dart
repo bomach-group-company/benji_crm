@@ -57,7 +57,7 @@ class _AssignRiderState extends State<AssignRider> {
   int noOfTrips = 238;
 
   //============================================== CONTROLLERS =================================================\\
-  final ScrollController _scrollController = ScrollController();
+  final ScrollController scrollController = ScrollController();
 
 //============================= FUNCTIONS ===============================\\
 
@@ -166,7 +166,7 @@ class _AssignRiderState extends State<AssignRider> {
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: Scrollbar(
-            controller: _scrollController,
+            controller: scrollController,
             radius: const Radius.circular(10),
             scrollbarOrientation: ScrollbarOrientation.right,
             child: ListView(

@@ -68,7 +68,7 @@ class _RidersDetailState extends State<RidersDetail> {
   Color get messageColor => _deliveryStatus ? kSuccessColor : kLoadingColor;
 
   //============================================== CONTROLLERS =================================================\\
-  final ScrollController _scrollController = ScrollController();
+  final ScrollController scrollController = ScrollController();
 
   //============================ FUNCTIONS =============================\\
 
@@ -273,7 +273,7 @@ class _RidersDetailState extends State<RidersDetail> {
                                         .contains("completed".toLowerCase()))
                                     .toList();
                             return Scrollbar(
-                              controller: _scrollController,
+                              controller: scrollController,
                               radius: const Radius.circular(10),
                               child: ListView(
                                   physics: const BouncingScrollPhysics(),

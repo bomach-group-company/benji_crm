@@ -33,7 +33,7 @@ class _SettingsBodyState extends State<SettingsBody> {
   late bool _loadingScreen;
 
 //=============================================== FUNCTIONS ======================================================\\
-  final _scrollController = ScrollController();
+  final scrollController = ScrollController();
 
   //==================================================== Navigation ===========================================================\\
 
@@ -78,11 +78,11 @@ class _SettingsBodyState extends State<SettingsBody> {
     return SafeArea(
       maintainBottomViewPadding: true,
       child: Scrollbar(
-        controller: _scrollController,
+        controller: scrollController,
         child: _loadingScreen
             ? Center(child: CircularProgressIndicator(color: kAccentColor))
             : ListView(
-                controller: _scrollController,
+                controller: scrollController,
                 padding: const EdgeInsets.all(10),
                 physics: const BouncingScrollPhysics(),
                 children: [
