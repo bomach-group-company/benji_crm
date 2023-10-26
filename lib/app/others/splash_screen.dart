@@ -4,11 +4,13 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 
 import '../../controller/login_controller.dart';
+import '../../controller/user_controller.dart';
 import '../../src/providers/constants.dart';
 
 class SplashScreen extends StatelessWidget {
   SplashScreen({super.key});
   final val = Get.put(LoginController());
+  final usr = Get.put(UserController());
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;

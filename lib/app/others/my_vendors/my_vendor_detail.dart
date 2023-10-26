@@ -78,9 +78,6 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
   late bool _loadingScreen;
   bool _loadingTabBarContent = false;
 
-  //=================================== Vendor Details =======================================\\
-  final String _vendorImage = "ntachi-osa-logo.png";
-
   //=================================== Orders =======================================\\
   final int _incrementOrderID = 2 + 2;
   late int _orderID;
