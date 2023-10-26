@@ -107,10 +107,7 @@ class _ProfileState extends State<Profile> {
     return MyLiquidRefresh(
       onRefresh: _handleRefresh,
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: kAccentColor,
-          elevation: 0.0,
-        ),
+        appBar: AppBar(backgroundColor: kAccentColor, elevation: 0.0),
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: GetBuilder<UserController>(

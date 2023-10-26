@@ -22,7 +22,6 @@ class ProfileController extends GetxController {
   ProfileController({this.isFirst});
 
   var user = UserModel.fromJson(null).obs;
-  int uuid = ProfileController.instance.user.value.id;
 
 //===================== Update Personal Profile ==================\\
 
@@ -35,6 +34,8 @@ class ProfileController extends GetxController {
       bool isCurrent = true}) async {
     late String token;
     token = UserController.instance.user.value.token;
+    Get.put(ProfileController());
+    int uuid = ProfileController.instance.user.value.id;
 
     var url = "${Api.baseUrl}/api/v1/agents/changeAgent/{$uuid}";
     consoleLog(url);
@@ -53,7 +54,7 @@ class ProfileController extends GetxController {
         headers: {
           HttpHeaders.contentTypeHeader: header,
           HttpHeaders.authorizationHeader: "Bearer $token",
-          "Content-Type": header,
+          "Content-Type": content,
         },
         body: body,
       );
@@ -85,8 +86,7 @@ class ProfileController extends GetxController {
 //===================== Change Password ==================\\
 
   Future<void> changePassword(
-      {String? userName,
-      oldPassword,
+      {String? oldPassword,
       newPassword,
       confirmPassword,
       bool isCurrent = true}) async {
