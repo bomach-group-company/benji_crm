@@ -5,7 +5,6 @@ import 'dart:convert';
 import 'package:benji_aggregator/controller/error_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/services/api_url.dart';
-import 'package:benji_aggregator/services/pref.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -34,9 +33,7 @@ class OrderController extends GetxController {
     String id = UserController.instance.user.value.id.toString();
     update();
     var url = "${Api.baseUrl}${Api.orderList}$id/?start=1&end=${end ?? 100}";
-    await KeyStore.getToken().then((element) {
-      token = element!;
-    });
+    token = UserController.instance.getUserSync().token;
     consoleLog(token);
     try {
       http.Response? response = await HandleData.getApi(url, token);

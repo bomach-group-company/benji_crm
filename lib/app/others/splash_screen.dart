@@ -15,7 +15,7 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return GetBuilder<LoginController>(
-        init: LoginController(isFirst: true),
+        init: LoginController(),
         builder: (controller) {
           return Scaffold(
             body: ListView(

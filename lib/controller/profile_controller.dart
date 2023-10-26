@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:benji_aggregator/controller/error_controller.dart';
+import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/model/user_model.dart';
 import 'package:benji_aggregator/services/api_url.dart';
 import 'package:flutter/material.dart';
@@ -35,9 +36,8 @@ class ProfileController extends GetxController {
       address,
       bool isCurrent = true}) async {
     late String token;
-    await KeyStore.getToken().then((element) {
-      token = element!;
-    });
+    token = UserController.instance.getUserSync().token;
+
     var url = "${Api.baseUrl}/api/v1/agents/changeAgent/{$uuid}";
     consoleLog(url);
 
@@ -96,9 +96,7 @@ class ProfileController extends GetxController {
 
     var url = "${Api.baseUrl}${Api.changePassword}";
     consoleLog(url);
-    await KeyStore.getToken().then((element) {
-      token = element!;
-    });
+    token = UserController.instance.getUserSync().token;
     consoleLog(token);
 
     Map body = {

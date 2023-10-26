@@ -6,7 +6,6 @@ import 'package:benji_aggregator/controller/error_controller.dart';
 import 'package:benji_aggregator/model/vendor_list_model.dart';
 import 'package:benji_aggregator/model/vendor_model.dart';
 import 'package:benji_aggregator/services/api_url.dart';
-import 'package:benji_aggregator/services/pref.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -45,9 +44,7 @@ class VendorController extends GetxController {
     String id = UserController.instance.user.value.id.toString();
     //update();
     var url = "${Api.baseUrl}${Api.vendorList}?agent_id=$id";
-    await KeyStore.getToken().then((element) {
-      token = element!;
-    });
+    token = UserController.instance.getUserSync().token;
     consoleLog(token);
     try {
       http.Response? response = await HandleData.getApi(url, token);
@@ -66,9 +63,7 @@ class VendorController extends GetxController {
     isLoad.value = true;
     update();
     var url = Api.baseUrl + Api.getSpecificVendor + id.toString();
-    await KeyStore.getToken().then((element) {
-      token = element!;
-    });
+    token = UserController.instance.getUserSync().token;
     try {
       http.Response? response = await HandleData.getApi(url, token);
       var responseData = await ApiProcessorController.errorState(response);
@@ -86,9 +81,7 @@ class VendorController extends GetxController {
     update();
     var url =
         "${Api.baseUrl}${Api.getVendorProducts}$id?start=1&end=${end ?? 1}";
-    await KeyStore.getToken().then((element) {
-      token = element!;
-    });
+    token = UserController.instance.getUserSync().token;
 
     try {
       http.Response? response = await HandleData.getApi(url, token);
@@ -117,9 +110,7 @@ class VendorController extends GetxController {
       update();
       var url =
           "${Api.baseUrl}${Api.listVendorOrders}$id?start=1&end=${end ?? 1}";
-      await KeyStore.getToken().then((element) {
-        token = element!;
-      });
+      token = UserController.instance.getUserSync().token;
 
       try {
         http.Response? response = await HandleData.getApi(url, token);
@@ -146,9 +137,7 @@ class VendorController extends GetxController {
       late String token;
 
       var url = Api.baseUrl + Api.businessType;
-      await KeyStore.getToken().then((element) {
-        token = element!;
-      });
+      token = UserController.instance.getUserSync().token;
 
       try {
         http.Response? response = await HandleData.getApi(url, token);
@@ -175,9 +164,7 @@ class VendorController extends GetxController {
       String id = UserController.instance.user.value.id.toString();
       update();
       var url = Api.baseUrl + Api.createVendor + id;
-      await KeyStore.getToken().then((element) {
-        token = element!;
-      });
+      token = UserController.instance.getUserSync().token;
 
       try {
         http.StreamedResponse? response =

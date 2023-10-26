@@ -256,7 +256,7 @@ class _LoginState extends State<Login> {
                                       password: passwordController.text,
                                       username: emailController.text);
 
-                                  await controller.runLoginTask(data);
+                                  await controller.login(data);
                                 }
                               }),
                               style: ElevatedButton.styleFrom(
