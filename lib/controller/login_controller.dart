@@ -95,6 +95,7 @@ class LoginController extends GetxController {
         ApiProcessorController.successSnack("Login Successful");
         var save = LoginModel.fromJson(jsonDecode(responseData));
         await KeyStore.storeString(KeyStore.tokenKey, save.token);
+        // username and password to be removed
         await KeyStore.storeString(KeyStore.usernameKey, data.username);
         await KeyStore.storeString(KeyStore.passwordKey, data.password);
         await KeyStore.storeBool(KeyStore.isLoggedInKey, true);

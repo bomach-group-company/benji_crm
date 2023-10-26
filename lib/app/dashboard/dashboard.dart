@@ -5,6 +5,7 @@ import 'package:benji_aggregator/controller/order_controller.dart';
 import 'package:benji_aggregator/controller/rider_controller.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:benji_aggregator/src/components/dashboard_all_orders_container.dart';
+import 'package:benji_aggregator/src/components/dashboard_app_bar.dart';
 import 'package:benji_aggregator/src/skeletons/dashboard_page_skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -13,7 +14,6 @@ import 'package:get/get.dart';
 
 import '../../controller/user_controller.dart';
 import '../../model/order_list_model.dart';
-import '../../src/components/dashboard_appbar.dart';
 import '../../src/components/dashboard_orders_container.dart';
 import '../../src/components/dashboard_rider_vendor_container.dart';
 import '../../src/providers/constants.dart';
