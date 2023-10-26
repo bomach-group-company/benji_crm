@@ -21,7 +21,6 @@ class ProfileController extends GetxController {
   bool? isFirst;
   ProfileController({this.isFirst});
 
-  var isLoading = false.obs;
   var user = UserModel.fromJson(null).obs;
   int uuid = ProfileController.instance.user.value.id;
 
