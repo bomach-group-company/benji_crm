@@ -33,7 +33,7 @@ class OrderController extends GetxController {
     String id = UserController.instance.user.value.id.toString();
     update();
     var url = "${Api.baseUrl}${Api.orderList}$id/?start=1&end=${end ?? 100}";
-    token = UserController.instance.getUserSync().token;
+    token = UserController.instance.user.value.token;
     consoleLog(token);
     try {
       http.Response? response = await HandleData.getApi(url, token);

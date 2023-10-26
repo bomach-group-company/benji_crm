@@ -39,7 +39,7 @@ class RiderController extends GetxController {
     isLoad.value = true;
     //update();
     var url = "${Api.baseUrl}${Api.riderList}?start=0&end=${end ?? 100}";
-    token = UserController.instance.getUserSync().token;
+    token = UserController.instance.user.value.token;
     try {
       http.Response? response = await HandleData.getApi(url, token);
       var responseData =
@@ -67,7 +67,7 @@ class RiderController extends GetxController {
     var url =
         "${Api.baseUrl}${Api.riderHistory}?rider_id=$id&start=0&end=${end ?? 100}";
 
-    token = UserController.instance.getUserSync().token;
+    token = UserController.instance.user.value.token;
     try {
       http.Response? response = await HandleData.getApi(url, token);
       var responseData = await ApiProcessorController.errorState(response);
@@ -89,7 +89,7 @@ class RiderController extends GetxController {
     isLoad.value = true;
     update();
     var url = Api.baseUrl + Api.getSpecificRider + id.toString();
-    token = UserController.instance.getUserSync().token;
+    token = UserController.instance.user.value.token;
     try {
       http.Response? response = await HandleData.getApi(url, token);
       var responseData = await ApiProcessorController.errorState(response);
@@ -112,7 +112,7 @@ class RiderController extends GetxController {
     };
     consoleLog(order.toString());
     var data = order;
-    token = UserController.instance.getUserSync().token;
+    token = UserController.instance.user.value.token;
     try {
       http.Response? response = await HandleData.postApi(url, token, data);
       var responseData = await ApiProcessorController.errorState(response);

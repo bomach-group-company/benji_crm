@@ -12,7 +12,6 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 import '../app/auth_screens/login.dart';
-import '../services/pref.dart';
 
 class ProfileController extends GetxController {
   static ProfileController get instance {
@@ -36,7 +35,7 @@ class ProfileController extends GetxController {
       address,
       bool isCurrent = true}) async {
     late String token;
-    token = UserController.instance.getUserSync().token;
+    token = UserController.instance.user.value.token;
 
     var url = "${Api.baseUrl}/api/v1/agents/changeAgent/{$uuid}";
     consoleLog(url);
@@ -96,7 +95,7 @@ class ProfileController extends GetxController {
 
     var url = "${Api.baseUrl}${Api.changePassword}";
     consoleLog(url);
-    token = UserController.instance.getUserSync().token;
+    token = UserController.instance.user.value.token;
     consoleLog(token);
 
     Map body = {

@@ -44,7 +44,7 @@ class VendorController extends GetxController {
     String id = UserController.instance.user.value.id.toString();
     //update();
     var url = "${Api.baseUrl}${Api.vendorList}?agent_id=$id";
-    token = UserController.instance.getUserSync().token;
+    token = UserController.instance.user.value.token;
     consoleLog(token);
     try {
       http.Response? response = await HandleData.getApi(url, token);
@@ -63,7 +63,7 @@ class VendorController extends GetxController {
     isLoad.value = true;
     update();
     var url = Api.baseUrl + Api.getSpecificVendor + id.toString();
-    token = UserController.instance.getUserSync().token;
+    token = UserController.instance.user.value.token;
     try {
       http.Response? response = await HandleData.getApi(url, token);
       var responseData = await ApiProcessorController.errorState(response);
@@ -81,7 +81,7 @@ class VendorController extends GetxController {
     update();
     var url =
         "${Api.baseUrl}${Api.getVendorProducts}$id?start=1&end=${end ?? 1}";
-    token = UserController.instance.getUserSync().token;
+    token = UserController.instance.user.value.token;
 
     try {
       http.Response? response = await HandleData.getApi(url, token);
@@ -110,7 +110,7 @@ class VendorController extends GetxController {
       update();
       var url =
           "${Api.baseUrl}${Api.listVendorOrders}$id?start=1&end=${end ?? 1}";
-      token = UserController.instance.getUserSync().token;
+      token = UserController.instance.user.value.token;
 
       try {
         http.Response? response = await HandleData.getApi(url, token);
@@ -137,7 +137,7 @@ class VendorController extends GetxController {
       late String token;
 
       var url = Api.baseUrl + Api.businessType;
-      token = UserController.instance.getUserSync().token;
+      token = UserController.instance.user.value.token;
 
       try {
         http.Response? response = await HandleData.getApi(url, token);
@@ -164,7 +164,7 @@ class VendorController extends GetxController {
       String id = UserController.instance.user.value.id.toString();
       update();
       var url = Api.baseUrl + Api.createVendor + id;
-      token = UserController.instance.getUserSync().token;
+      token = UserController.instance.user.value.token;
 
       try {
         http.StreamedResponse? response =

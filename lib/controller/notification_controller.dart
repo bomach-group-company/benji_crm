@@ -23,7 +23,7 @@ class NotificationController extends GetxController {
         Api.notification +
         UserController.instance.user.value.id.toString();
 
-    token = UserController.instance.getUserSync().token;
+    token = UserController.instance.user.value.token;
 
     try {
       http.Response? response = await HandleData.getApi(url, token);

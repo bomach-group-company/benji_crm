@@ -1,21 +1,22 @@
+import 'package:benji_aggregator/controller/auth_controller.dart';
+import 'package:benji_aggregator/controller/login_controller.dart';
+import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 
-import '../../controller/login_controller.dart';
-import '../../controller/user_controller.dart';
 import '../../src/providers/constants.dart';
 
 class SplashScreen extends StatelessWidget {
   SplashScreen({super.key});
-  final val = Get.put(LoginController());
-  final usr = Get.put(UserController());
+  final user = Get.put(UserController());
+  final login = Get.put(LoginController());
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return GetBuilder<LoginController>(
-        init: LoginController(),
+    return GetBuilder<AuthController>(
+        init: AuthController(),
         builder: (controller) {
           return Scaffold(
             body: ListView(

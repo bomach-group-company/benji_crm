@@ -19,31 +19,10 @@ class UserController extends GetxController {
   var isLoading = false.obs;
   var user = UserModel.fromJson(null).obs;
 
-  Future<void> saveUser(String user, String token) async {
-    Map data = jsonDecode(user);
-    data['token'] = token;
-    await prefs.setString('user', jsonEncode(data));
-  }
-
-  Future<UserModel> getUser() async {
-    String? user = prefs.getString('user');
-    if (user == null) {
-      return UserModel.fromJson(null);
-    }
-    return userModelFromJson(user);
-  }
-
-  UserModel getUserSync() {
-    String? user = prefs.getString('user');
-    if (user == null) {
-      return UserModel.fromJson(null);
-    }
-    return userModelFromJson(user);
-  }
-
-  Future<bool> deleteUser() async {
-    prefs.remove('userData');
-    return prefs.remove('user');
+  @override
+  void onInit() {
+    getUserSync();
+    super.onInit();
   }
 
   Future checkAuth() async {
@@ -53,12 +32,31 @@ class UserController extends GetxController {
         fullscreenDialog: true,
         curve: Curves.easeIn,
         routeName: "OverView",
-        predicate: (route) => false,
+        predicate: (route) => true,
         popGesture: true,
         transition: Transition.cupertinoDialog,
       );
     } else {
       Get.offAll(() => const Login());
     }
+  }
+
+  Future<void> saveUser(String user, String token) async {
+    Map data = jsonDecode(user);
+    data['token'] = token;
+    await prefs.setString('user', jsonEncode(data));
+  }
+
+  void getUserSync() {
+    String? userData = prefs.getString('user');
+    if (userData == null) {
+      user.value = UserModel.fromJson(null);
+    } else {
+      user.value = userModelFromJson(userData);
+    }
+  }
+
+  Future<bool> deleteUser() async {
+    return await prefs.remove('user');
   }
 }

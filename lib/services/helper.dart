@@ -13,7 +13,7 @@ Future<bool> isAuthorized() async {
 
 Map<String, String> authHeader([String? authToken, String? contentType]) {
   if (authToken == null) {
-    UserModel user = UserController.instance.getUserSync();
+    UserModel user = UserController.instance.user.value;
     authToken = user.token;
   }
 
