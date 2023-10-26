@@ -6,18 +6,15 @@ import 'package:http/http.dart' as http;
 Future<bool> isAuthorized() async {
   final response = await http.get(
     Uri.parse('$baseURL/auth/'),
-    headers: await authHeader(),
+    headers: authHeader(),
   );
   return response.statusCode == 200;
 }
 
-Future<Map<String, String>> authHeader(
-    [String? authToken, String? contentType]) async {
+Map<String, String> authHeader([String? authToken, String? contentType]) {
   if (authToken == null) {
-    UserModel? user = await UserController().getUser();
-    if (user != null) {
-      authToken = user.token;
-    }
+    UserModel user = UserController.instance.getUserSync();
+    authToken = user.token;
   }
 
   Map<String, String> res = {
