@@ -2,117 +2,73 @@
 
 import 'dart:convert';
 
+import 'package:benji_aggregator/app/overview/overview.dart';
 import 'package:benji_aggregator/controller/error_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/model/login_model.dart';
 import 'package:benji_aggregator/services/api_url.dart';
-import 'package:benji_aggregator/services/pref.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../app/auth_screens/login.dart';
 
 class LoginController extends GetxController {
   static LoginController get instance {
     return Get.find<LoginController>();
   }
 
-  bool? isFirst;
-  LoginController({this.isFirst});
-
-  var tokenExist = false.obs;
-  @override
-  void onInit() {
-    checkToken();
-
-    super.onInit();
-  }
-
   var isLoad = false.obs;
 
-  Future checkToken() async {
-    tokenExist.value = await KeyStore.checkToken();
-    // update();
-
-    if (tokenExist.value) {
-      SharedPreferences pref = await KeyStore.initPref();
-      SendLogin data = SendLogin(
-          password: pref.getString(KeyStore.passwordKey)!,
-          username: pref.getString(KeyStore.usernameKey)!);
-      await runLoginTask(data);
-    } else {
-      Get.offAll(() => const Login());
-    }
-    update();
-  }
-
-  Future runLoginTask(SendLogin data) async {
+  Future<void> login(SendLogin data) async {
+    Get.put(UserController());
     isLoad.value = true;
-    // update();
-    var url = Api.baseUrl + Api.login;
+    update();
     Map finalData = {
       "username": data.username,
       "password": data.password,
     };
 
-    try {
-      http.Response? response = await HandleData.postApi(url, null, finalData);
+    http.Response? response =
+        await HandleData.postApi(Api.baseUrl + Api.login, null, finalData);
 
-      var responseData =
-          await ApiProcessorController.errorState(response, isFirst);
-      if (responseData == null) {
-        Get.offAll(
-          () => const Login(),
-          fullscreenDialog: true,
-          curve: Curves.easeIn,
-          routeName: "Login",
-          predicate: (route) => false,
-          popGesture: true,
-          transition: Transition.cupertinoDialog,
-        );
-        return;
-      }
-      var jsonData = jsonDecode(response!.body);
+    if (response == null || response.statusCode != 200) {
+      ApiProcessorController.errorSnack("Invalid email or password. Try again");
+      isLoad.value = false;
+      update();
+      return;
+    }
 
-      if (jsonData["token"] == false) {
+    var jsonData = jsonDecode(response.body);
+
+    if (jsonData["token"] == false) {
+      ApiProcessorController.errorSnack("Invalid email or password. Try again");
+      isLoad.value = false;
+      update();
+    } else {
+      http.Response? responseUser =
+          await HandleData.getApi(Api.baseUrl + Api.user, jsonData["token"]);
+      if (responseUser == null || response.statusCode != 200) {
         ApiProcessorController.errorSnack(
             "Invalid email or password. Try again");
         isLoad.value = false;
-        if (KeyStore.checkToken == true) {
-          KeyStore.storeBool(KeyStore.isLoggedInKey, false);
-          KeyStore.remove(
-            KeyStore.tokenKey,
-          );
-          checkToken();
-        }
-        tokenExist.value = false;
-
-        //  update();
+        update();
         return;
-      } else {
-        ApiProcessorController.successSnack("Login Successful");
-        var save = LoginModel.fromJson(jsonDecode(responseData));
-        await KeyStore.storeString(KeyStore.tokenKey, save.token);
-        await KeyStore.storeString(KeyStore.usernameKey, data.username);
-        await KeyStore.storeString(KeyStore.passwordKey, data.password);
-        await KeyStore.storeBool(KeyStore.isLoggedInKey, true);
-        Get.put(UserController());
-        await UserController.instance.runUserTask(save.token);
-        consoleLog("Here is your token ${save.token}");
-        tokenExist.value = true;
       }
-    } catch (e) {
-      consoleLog(e.toString());
+      UserController.instance.saveUser(responseUser.body, jsonData["token"]);
+      ApiProcessorController.successSnack("Login Successful");
+      consoleLog("Here is your token oo ${jsonData["token"]}");
+      Get.offAll(
+        () => OverView(),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "OverView",
+        predicate: (route) => true,
+        popGesture: true,
+        transition: Transition.cupertinoDialog,
+      );
+      return;
     }
 
     isLoad.value = false;
-    update();
-  }
-
-  Future resetTokenValue(bool isVal) async {
-    tokenExist.value = isVal;
     update();
   }
 }

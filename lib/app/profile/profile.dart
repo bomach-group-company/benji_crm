@@ -87,16 +87,19 @@ class _ProfileState extends State<Profile> {
         popGesture: false,
         transition: Transition.rightToLeft,
       );
-  void _logOut() => Get.offAll(
-        () => const Login(),
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "Login",
-        predicate: (routes) => false,
-        popGesture: false,
-        transition: Transition.rightToLeft,
-      );
+  void _logOut() async {
+    await UserController.instance.deleteUser();
+    Get.offAll(
+      () => const Login(),
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      routeName: "Login",
+      predicate: (routes) => false,
+      popGesture: false,
+      transition: Transition.rightToLeft,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

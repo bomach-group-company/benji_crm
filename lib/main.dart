@@ -20,6 +20,7 @@ void main() async {
   );
 
   // Get.put(UserController());
+  // Get.put(LoginController());
   // Get.put(VendorController());
   // Get.put(NotificationController());
   // Get.put(RiderController());

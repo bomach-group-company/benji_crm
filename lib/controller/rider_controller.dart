@@ -5,6 +5,7 @@ import 'dart:developer';
 
 import 'package:benji_aggregator/controller/error_controller.dart';
 import 'package:benji_aggregator/controller/order_controller.dart';
+import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/services/api_url.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -12,7 +13,6 @@ import 'package:http/http.dart' as http;
 import '../model/driver_history_model.dart';
 import '../model/rider_list_model.dart';
 import '../model/rider_model.dart';
-import '../services/pref.dart';
 
 class RiderController extends GetxController {
   static RiderController get instance {
@@ -39,9 +39,7 @@ class RiderController extends GetxController {
     isLoad.value = true;
     //update();
     var url = "${Api.baseUrl}${Api.riderList}?start=0&end=${end ?? 100}";
-    await KeyStore.getToken().then((element) {
-      token = element!;
-    });
+    token = UserController.instance.user.value.token;
     try {
       http.Response? response = await HandleData.getApi(url, token);
       var responseData =
@@ -69,9 +67,7 @@ class RiderController extends GetxController {
     var url =
         "${Api.baseUrl}${Api.riderHistory}?rider_id=$id&start=0&end=${end ?? 100}";
 
-    await KeyStore.getToken().then((element) {
-      token = element!;
-    });
+    token = UserController.instance.user.value.token;
     try {
       http.Response? response = await HandleData.getApi(url, token);
       var responseData = await ApiProcessorController.errorState(response);
@@ -93,9 +89,7 @@ class RiderController extends GetxController {
     isLoad.value = true;
     update();
     var url = Api.baseUrl + Api.getSpecificRider + id.toString();
-    await KeyStore.getToken().then((element) {
-      token = element!;
-    });
+    token = UserController.instance.user.value.token;
     try {
       http.Response? response = await HandleData.getApi(url, token);
       var responseData = await ApiProcessorController.errorState(response);
@@ -118,9 +112,7 @@ class RiderController extends GetxController {
     };
     consoleLog(order.toString());
     var data = order;
-    await KeyStore.getToken().then((element) {
-      token = element!;
-    });
+    token = UserController.instance.user.value.token;
     try {
       http.Response? response = await HandleData.postApi(url, token, data);
       var responseData = await ApiProcessorController.errorState(response);

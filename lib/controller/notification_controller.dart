@@ -7,8 +7,6 @@ import 'package:benji_aggregator/services/api_url.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-import '../services/pref.dart';
-
 class NotificationController extends GetxController {
   static NotificationController get instance {
     return Get.find<NotificationController>();
@@ -25,9 +23,8 @@ class NotificationController extends GetxController {
         Api.notification +
         UserController.instance.user.value.id.toString();
 
-    await KeyStore.getToken().then((element) {
-      token = element!;
-    });
+    token = UserController.instance.user.value.token;
+
     try {
       http.Response? response = await HandleData.getApi(url, token);
       var responseData = await ApiProcessorController.errorState(response);
