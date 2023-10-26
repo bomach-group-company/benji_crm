@@ -51,13 +51,10 @@ class RiderListModel {
 class RiderItem {
   int id;
   String email;
-  String password;
   String phone;
-  bool isActiveCustomUserverified;
   String username;
   String code;
   String? image;
-  bool isOnline;
   DateTime? created;
   String firstName;
   String lastName;
@@ -71,12 +68,9 @@ class RiderItem {
   RiderItem({
     required this.id,
     required this.email,
-    required this.password,
     required this.phone,
-    required this.isActiveCustomUserverified,
     required this.username,
     required this.code,
-    required this.isOnline,
     this.created,
     required this.firstName,
     required this.lastName,
@@ -94,12 +88,9 @@ class RiderItem {
     return RiderItem(
       id: json["id"] ?? 0,
       email: json["email"] ?? notAvailable,
-      password: json["password"] ?? notAvailable,
       phone: json["phone"] ?? notAvailable,
-      isActiveCustomUserverified: json["is_activeCustomUserverified"] ?? false,
       username: json["username"] ?? notAvailable,
       code: json["code"] ?? notAvailable,
-      isOnline: json["is_online"] ?? false,
       created: json["created"] == null ? null : DateTime.parse(json["created"]),
       firstName: json["first_name"] ?? notAvailable,
       lastName: json["last_name"] ?? notAvailable,
@@ -116,12 +107,9 @@ class RiderItem {
   Map<String, dynamic> toJson() => {
         "id": id,
         "email": email,
-        "password": password,
         "phone": phone,
-        "is_activeCustomUserverified": isActiveCustomUserverified,
         "username": username,
         "code": code,
-        "is_online": isOnline,
         "created": created,
         "first_name": firstName,
         "last_name": lastName,
