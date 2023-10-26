@@ -14,6 +14,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../app/google_maps/get_location_on_map.dart';
 import '../../controller/latlng_detail_controller.dart';
+import '../../controller/profile_controller.dart';
 import '../../services/keys.dart';
 import '../../theme/colors.dart';
 import '../googleMaps/autocomplete_prediction.dart';
@@ -301,7 +302,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
       _isLoading = true;
     });
 
-    await UserController.instance.updateProfile(
+    await ProfileController.instance.updateProfile(
       userName: userNameEC.text,
       firstName: firstNameEC.text,
       lastName: lastNameEC.text,

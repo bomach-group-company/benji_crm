@@ -11,7 +11,7 @@ import '../../app/profile/profile.dart';
 import '../../theme/colors.dart';
 import '../providers/constants.dart';
 import '../providers/custom_show_search.dart';
-import 'dashboard_appBar_aggregator.dart';
+import 'dashboard_app_bar_aggregator.dart';
 
 class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
   final int numberOfNotifications;
@@ -85,8 +85,7 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 AppBarAggregator(
                   title: "Welcome,",
-                  aggregatorName:
-                      controller.user.value.username ?? "Loading...",
+                  aggregatorName: controller.user.value.username,
                 ),
               ],
             );

@@ -47,7 +47,6 @@ class _WithdrawPageState extends State<WithdrawPage> {
 
   @override
   Widget build(BuildContext context) {
-    final media = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(

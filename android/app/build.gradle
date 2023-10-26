@@ -52,8 +52,9 @@ android {
         targetSdk 34
         versionCode 1
         versionName 'v.0.0.1'
-        applicationIdSuffix '.benji_aggregator'
+        applicationIdSuffix '.benji_crm'
         multiDexEnabled true
+        versionNameSuffix 'test'
     }
 
     buildTypes {
