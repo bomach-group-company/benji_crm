@@ -8,37 +8,37 @@ import 'package:http/http.dart' as http;
 import '../model/create_vendor_model.dart';
 
 // API URLS AND HTTP CALL FUNCTIONS
+const baseURL = "https://resource.bgbot.app/api/v1";
 
 class Api {
-  // static const baseUrl = "https://benji-app.onrender.com";
-  static const baseUrl = "https://resource.bgbot.app";
-  static const login = "/api/v1/auth/token";
-  static const user = "/api/v1/auth/";
-  static const notification = "/api/v1/agents/getAgentNotifications/";
-  static const changePassword = "/api/v1/auth/changeNewPassword/";
+  static const baseUrl = "https://resource.bgbot.app/api/v1";
+  static const login = "/auth/token";
+  static const user = "/auth/";
+  static const notification = "/agents/getAgentNotifications/";
+  static const changePassword = "/auth/changeNewPassword/";
 
 //Vendor
-  static const vendorList = "/api/v1/agents/listAllMyVendors";
-  static const agentCreateVendor = "/api/v1/agents/agentCreateVendor";
-  static const getSpecificVendor = "/api/v1/agents/getVendor/";
-  static const getVendorProducts = "/api/v1/agents/listVendorProducts/";
+  static const vendorList = "/agents/listAllMyVendors";
+  static const agentCreateVendor = "/agents/agentCreateVendor";
+  static const getSpecificVendor = "/agents/getVendor/";
+  static const getVendorProducts = "/agents/listVendorProducts/";
   static const filterVendorProduct =
-      "/api/v1/agents/filterVendorProductsBySubCategory";
-  static const listVendorOrders = "/api/v1/agents/listVendorOrders/";
-  static const getVendorRatings = "/api/v1/agents/getVendorAverageRating/";
-  static const createVendor = "/api/v1/agents/agentCreateVendor/";
+      "/agents/filterVendorProductsBySubCategory";
+  static const listVendorOrders = "/agents/listVendorOrders/";
+  static const getVendorRatings = "/agents/getVendorAverageRating/";
+  static const createVendor = "/agents/agentCreateVendor/";
 
   //order
-  static const orderList = "/api/v1/agents/getAllMyVendorsOrders/";
+  static const orderList = "/agents/getAllMyVendorsOrders/";
 
   //Rider
-  static const riderList = "/api/v1/agents/listAllRiders";
-  static const getSpecificRider = "/api/v1/agents/getRider/";
-  static const assignRiderTask = "/api/v1/agents/assignOrdersToRider";
-  static const riderHistory = "/api/v1/agents/ridersHistories/";
+  static const riderList = "/agents/listAllRiders";
+  static const getSpecificRider = "/agents/getRider/";
+  static const assignRiderTask = "/agents/assignOrdersToRider";
+  static const riderHistory = "/agents/ridersHistories/";
 
   //BusinessTypes
-  static const businessType = "/api/v1/categories/list";
+  static const businessType = "/categories/list";
 }
 
 String header = "application/json";
@@ -76,7 +76,6 @@ class HandleData {
             )
             .timeout(const Duration(seconds: 20));
       }
-
       consoleLog(response.body);
     } catch (e) {
       response = null;
