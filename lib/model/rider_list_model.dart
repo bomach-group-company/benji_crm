@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:benji_aggregator/src/providers/constants.dart';
+
 RiderListModel riderListModelFromJson(String str) =>
     RiderListModel.fromJson(json.decode(str));
 
@@ -47,63 +49,67 @@ class RiderListModel {
 }
 
 class RiderItem {
-  int? id;
-  String? email;
-  String? password;
-  String? phone;
-  bool? isActiveCustomUserverified;
-  String? username;
-  String? code;
-  dynamic image;
-  bool? isOnline;
+  int id;
+  String email;
+  String password;
+  String phone;
+  bool isActiveCustomUserverified;
+  String username;
+  String code;
+  String? image;
+  bool isOnline;
   DateTime? created;
-  String? firstName;
-  String? lastName;
-  String? gender;
-  String? address;
-  dynamic plateNumber;
-  dynamic chassisNumber;
-  dynamic balance;
+  String firstName;
+  String lastName;
+  String gender;
+  String address;
+  String plateNumber;
+  String chassisNumber;
+  double balance;
+  int tripCount;
 
   RiderItem({
-    this.id,
-    this.email,
-    this.password,
-    this.phone,
-    this.isActiveCustomUserverified,
-    this.username,
-    this.code,
-    this.isOnline,
+    required this.id,
+    required this.email,
+    required this.password,
+    required this.phone,
+    required this.isActiveCustomUserverified,
+    required this.username,
+    required this.code,
+    required this.isOnline,
     this.created,
-    this.firstName,
-    this.lastName,
-    this.gender,
-    this.address,
-    this.plateNumber,
-    this.chassisNumber,
-    this.balance,
+    required this.firstName,
+    required this.lastName,
+    required this.gender,
+    required this.address,
+    required this.plateNumber,
+    required this.chassisNumber,
+    required this.balance,
     this.image,
+    required this.tripCount,
   });
 
   factory RiderItem.fromJson(Map<String, dynamic> json) => RiderItem(
-        id: json["id"],
-        email: json["email"],
-        password: json["password"],
-        phone: json["phone"],
-        isActiveCustomUserverified: json["is_activeCustomUserverified"],
-        username: json["username"],
-        code: json["code"],
-        isOnline: json["is_online"],
+        id: json["id"] ?? 0,
+        email: json["email"] ?? notAvailable,
+        password: json["password"] ?? notAvailable,
+        phone: json["phone"] ?? notAvailable,
+        isActiveCustomUserverified:
+            json["is_activeCustomUserverified"] ?? false,
+        username: json["username"] ?? notAvailable,
+        code: json["code"] ?? notAvailable,
+        isOnline: json["is_online"] ?? false,
         created:
             json["created"] == null ? null : DateTime.parse(json["created"]),
-        firstName: json["first_name"],
-        lastName: json["last_name"],
-        gender: json["gender"],
-        address: json["address"],
-        plateNumber: json["plate_number"],
-        chassisNumber: json["chassis_number"],
-        balance: json["balance"],
+        firstName: json["first_name"] ?? notAvailable,
+        lastName: json["last_name"] ?? notAvailable,
+        gender: json["gender"] ?? notAvailable,
+        address: json["address"] ?? notAvailable,
+        plateNumber: json["plate_number"] ?? notAvailable,
+        chassisNumber: json["chassis_number"] ?? notAvailable,
+        balance: json["balance"] ?? 0.0,
         image: json["image"],
+        tripCount: json['tripCount'] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {
@@ -115,8 +121,7 @@ class RiderItem {
         "username": username,
         "code": code,
         "is_online": isOnline,
-        "created":
-            "${created!.year.toString().padLeft(4, '0')}-${created!.month.toString().padLeft(2, '0')}-${created!.day.toString().padLeft(2, '0')}",
+        "created": created,
         "first_name": firstName,
         "last_name": lastName,
         "gender": gender,
@@ -124,6 +129,6 @@ class RiderItem {
         "plate_number": plateNumber,
         "chassis_number": chassisNumber,
         "balance": balance,
-         "image": image,
+        "image": image,
       };
 }

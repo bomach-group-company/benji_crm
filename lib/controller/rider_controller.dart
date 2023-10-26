@@ -37,11 +37,12 @@ class RiderController extends GetxController {
   Future runTask([String? end]) async {
     late String token;
     isLoad.value = true;
-    //update();
+    update();
     var url = "${Api.baseUrl}${Api.riderList}?start=0&end=${end ?? 100}";
     token = UserController.instance.user.value.token;
     try {
       http.Response? response = await HandleData.getApi(url, token);
+
       var responseData =
           await ApiProcessorController.errorState(response, isFirst ?? true);
       log(responseData);
@@ -50,7 +51,6 @@ class RiderController extends GetxController {
       }
       var save = RiderListModel.fromJson(jsonDecode(responseData));
       riderList.value = save.items!;
-      log("${riderList.length}" "${riderList.first.firstName!.toString()}");
       update();
     } catch (e) {
       consoleLog("$e");
