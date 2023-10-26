@@ -247,7 +247,7 @@ class _RidersDetailState extends State<RidersDetail> {
                     }
                     return GetBuilder<RiderController>(builder: (rider) {
                       rider.riderHistory(widget.rider.id);
-                      List<HistoryItem> history = [HistoryItem.fromJson(null)];
+                      List<HistoryItem> history = [];
                       print(history);
                       // List<HistoryItem> history = _deliveryStatus
                       //     ? rider.historyList
@@ -343,7 +343,7 @@ class _RidersDetailState extends State<RidersDetail> {
                                           SizedBox(
                                             width: mediaWidth - 250,
                                             child: Text(
-                                              "${widget.rider.lastName} ${widget.rider.firstName}",
+                                              "${widget.rider.firstName} ${widget.rider.lastName}",
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 1,
                                               style: const TextStyle(

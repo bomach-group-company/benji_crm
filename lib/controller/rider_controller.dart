@@ -60,6 +60,7 @@ class RiderController extends GetxController {
   }
 
   Future riderHistory(id, [String? end]) async {
+    print('holaa d sbjddfdf dfdfdfndfn ndnmnmd');
     isLoad.value = true;
     late String token;
     update();
@@ -68,9 +69,12 @@ class RiderController extends GetxController {
         "${Api.baseUrl}${Api.riderHistory}?rider_id=$id&start=0&end=${end ?? 100}";
 
     token = UserController.instance.user.value.token;
+    print('i am amama kkk ');
     try {
       http.Response? response = await HandleData.getApi(url, token);
+
       var responseData = await ApiProcessorController.errorState(response);
+      print('sbrjr $responseData responseData');
       try {
         var save = DriverHistoryModel.fromJson(jsonDecode(responseData));
         historyList.value = save.items!;
@@ -80,7 +84,9 @@ class RiderController extends GetxController {
       }
       // notification.value = save;
       update();
-    } catch (e) {}
+    } catch (e) {
+      print('$e  errorrrr ');
+    }
     isLoad.value = false;
     update();
   }
