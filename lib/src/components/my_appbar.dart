@@ -35,6 +35,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: backgroundColor,
       actions: actions,
       title: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           InkWell(
             borderRadius: BorderRadius.circular(24),

@@ -313,10 +313,10 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                                     radius: 30,
                                                     backgroundColor:
                                                         Colors.transparent,
-                                                    //   backgroundImage:
-                                                    //     AssetImage(
-                                                    //   "assets/images/$_onlineRidersImage",
-                                                    // ),
+                                                    backgroundImage:
+                                                        const AssetImage(
+                                                      "assets/images/customer/juliet_gomes.png",
+                                                    ),
                                                     child: ClipOval(
                                                       child: CachedNetworkImage(
                                                         imageUrl: "",

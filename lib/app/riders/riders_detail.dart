@@ -44,7 +44,7 @@ class _RidersDetailState extends State<RidersDetail> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      RiderController.instance.riderHistory(widget.rider!.id!);
+      RiderController.instance.riderHistory(widget.rider!.id);
     });
     super.initState();
 
@@ -309,6 +309,10 @@ class _RidersDetailState extends State<RidersDetail> {
                                               CircleAvatar(
                                                 radius: 60,
                                                 backgroundColor: Colors.white54,
+                                                backgroundImage:
+                                                    const AssetImage(
+                                                  "assets/images/customer/juliet_gomes.png",
+                                                ),
                                                 child: ClipOval(
                                                   child: CachedNetworkImage(
                                                     imageUrl:
@@ -331,9 +335,6 @@ class _RidersDetailState extends State<RidersDetail> {
                                                     ),
                                                   ),
                                                 ),
-                                                // backgroundImage: AssetImage(
-                                                //   "assets/images/${widget.ridersImage}",
-                                                // ),
                                               ),
                                               Positioned(
                                                 right: 15,
@@ -347,11 +348,13 @@ class _RidersDetailState extends State<RidersDetail> {
                                                 horizontal:
                                                     kDefaultPadding / 2),
                                             child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 SizedBox(
                                                   width: mediaWidth - 250,
                                                   child: Text(
-                                                    "${widget.rider!.lastName ?? ""} ${widget.rider!.firstName ?? ""}",
+                                                    "${widget.rider!.lastName} ${widget.rider!.firstName}",
                                                     overflow:
                                                         TextOverflow.ellipsis,
                                                     maxLines: 1,
@@ -378,8 +381,7 @@ class _RidersDetailState extends State<RidersDetail> {
                                                     SizedBox(
                                                       width: mediaWidth - 250,
                                                       child: Text(
-                                                        widget.rider!.phone ??
-                                                            "",
+                                                        widget.rider!.phone,
                                                         overflow: TextOverflow
                                                             .ellipsis,
                                                         maxLines: 1,
@@ -409,7 +411,7 @@ class _RidersDetailState extends State<RidersDetail> {
                                                     SizedBox(
                                                       width: mediaWidth - 250,
                                                       child: Text(
-                                                        "0 Trips Completed",
+                                                        "${widget.rider!.tripCount} Trips Completed",
                                                         style: TextStyle(
                                                           fontSize: 14,
                                                           color: kTextGreyColor,
@@ -425,7 +427,7 @@ class _RidersDetailState extends State<RidersDetail> {
                                                   onPressed: () =>
                                                       UrlLaunchController
                                                           .makePhoneCall(widget
-                                                              .rider!.phone!),
+                                                              .rider!.phone),
                                                   circularBorderRadius: 16,
                                                   minimumSizeWidth: 100,
                                                   minimumSizeHeight: 30,
