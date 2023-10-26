@@ -89,28 +89,29 @@ class RiderItem {
     required this.tripCount,
   });
 
-  factory RiderItem.fromJson(Map<String, dynamic> json) => RiderItem(
-        id: json["id"] ?? 0,
-        email: json["email"] ?? notAvailable,
-        password: json["password"] ?? notAvailable,
-        phone: json["phone"] ?? notAvailable,
-        isActiveCustomUserverified:
-            json["is_activeCustomUserverified"] ?? false,
-        username: json["username"] ?? notAvailable,
-        code: json["code"] ?? notAvailable,
-        isOnline: json["is_online"] ?? false,
-        created:
-            json["created"] == null ? null : DateTime.parse(json["created"]),
-        firstName: json["first_name"] ?? notAvailable,
-        lastName: json["last_name"] ?? notAvailable,
-        gender: json["gender"] ?? notAvailable,
-        address: json["address"] ?? notAvailable,
-        plateNumber: json["plate_number"] ?? notAvailable,
-        chassisNumber: json["chassis_number"] ?? notAvailable,
-        balance: json["balance"] ?? 0.0,
-        image: json["image"],
-        tripCount: json['tripCount'] ?? 0,
-      );
+  factory RiderItem.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
+    return RiderItem(
+      id: json["id"] ?? 0,
+      email: json["email"] ?? notAvailable,
+      password: json["password"] ?? notAvailable,
+      phone: json["phone"] ?? notAvailable,
+      isActiveCustomUserverified: json["is_activeCustomUserverified"] ?? false,
+      username: json["username"] ?? notAvailable,
+      code: json["code"] ?? notAvailable,
+      isOnline: json["is_online"] ?? false,
+      created: json["created"] == null ? null : DateTime.parse(json["created"]),
+      firstName: json["first_name"] ?? notAvailable,
+      lastName: json["last_name"] ?? notAvailable,
+      gender: json["gender"] ?? notAvailable,
+      address: json["address"] ?? notAvailable,
+      plateNumber: json["plate_number"] ?? notAvailable,
+      chassisNumber: json["chassis_number"] ?? notAvailable,
+      balance: json["balance"] ?? 0.0,
+      image: json["image"],
+      tripCount: json['tripCount'] ?? 0,
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "id": id,

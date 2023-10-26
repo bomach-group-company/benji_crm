@@ -4,127 +4,146 @@
 
 import 'dart:convert';
 
-DriverHistoryModel driverHistoryModelFromJson(String str) => DriverHistoryModel.fromJson(json.decode(str));
+import 'package:benji_aggregator/src/providers/constants.dart';
 
-String driverHistoryModelToJson(DriverHistoryModel data) => json.encode(data.toJson());
+DriverHistoryModel driverHistoryModelFromJson(String str) =>
+    DriverHistoryModel.fromJson(json.decode(str));
+
+String driverHistoryModelToJson(DriverHistoryModel data) =>
+    json.encode(data.toJson());
 
 class DriverHistoryModel {
-    List<HistoryItem>? items;
-    int? total;
-    int? perPage;
-    int? start;
-    int? end;
+  List<HistoryItem>? items;
+  int? total;
+  int? perPage;
+  int? start;
+  int? end;
 
-    DriverHistoryModel({
-        this.items,
-        this.total,
-        this.perPage,
-        this.start,
-        this.end,
-    });
+  DriverHistoryModel({
+    this.items,
+    this.total,
+    this.perPage,
+    this.start,
+    this.end,
+  });
 
-    factory DriverHistoryModel.fromJson(Map<String, dynamic> json) => DriverHistoryModel(
-        items: json["items"] == null ? [] : List<HistoryItem>.from(json["items"]!.map((x) => HistoryItem.fromJson(x))),
+  factory DriverHistoryModel.fromJson(Map<String, dynamic> json) =>
+      DriverHistoryModel(
+        items: json["items"] == null
+            ? []
+            : List<HistoryItem>.from(
+                json["items"]!.map((x) => HistoryItem.fromJson(x))),
         total: json["total"],
         perPage: json["per_page"],
         start: json["start"],
         end: json["end"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
-        "items": items == null ? [] : List<dynamic>.from(items!.map((x) => x.toJson())),
+  Map<String, dynamic> toJson() => {
+        "items": items == null
+            ? []
+            : List<dynamic>.from(items!.map((x) => x.toJson())),
         "total": total,
         "per_page": perPage,
         "start": start,
         "end": end,
-    };
+      };
 }
 
 class HistoryItem {
-    String? id;
-    List<Order>? orders;
-    Driver? driver;
-    String? acceptanceStatus;
-    String? deliveryStatus;
-    DateTime? createdDate;
-    String? deliveredDate;
+  String id;
+  Order orders;
+  Driver driver;
+  String acceptanceStatus;
+  String deliveryStatus;
+  DateTime? createdDate;
+  DateTime? deliveredDate;
 
-    HistoryItem({
-        this.id,
-        this.orders,
-        this.driver,
-        this.acceptanceStatus,
-        this.deliveryStatus,
-        this.createdDate,
-        this.deliveredDate,
-    });
+  HistoryItem({
+    required this.id,
+    required this.orders,
+    required this.driver,
+    required this.acceptanceStatus,
+    required this.deliveryStatus,
+    this.createdDate,
+    this.deliveredDate,
+  });
 
-    factory HistoryItem.fromJson(Map<String, dynamic> json) => HistoryItem(
-        id: json["id"],
-        orders: json["orders"] == null ? [] : List<Order>.from(json["orders"]!.map((x) => Order.fromJson(x))),
-        driver: json["driver"] == null ? null : Driver.fromJson(json["driver"]),
-        acceptanceStatus: json["acceptance_status"],
-        deliveryStatus: json["delivery_status"],
-        createdDate: json["created_date"] == null ? null : DateTime.parse(json["created_date"]),
-        deliveredDate: json["delivered_date"],
+  factory HistoryItem.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
+    return HistoryItem(
+      id: json["id"] ?? notAvailable,
+      orders: Order.fromJson(json["orders"]),
+      driver: Driver.fromJson(json["driver"]),
+      acceptanceStatus: json["acceptance_status"] ?? "PEND",
+      deliveryStatus: json["delivery_status"] ?? "pending",
+      createdDate: json["created_date"] == null
+          ? null
+          : DateTime.parse(json["created_date"]),
+      deliveredDate: json["delivered_date"] == null
+          ? null
+          : DateTime.parse(json["delivered_date"]),
     );
-
-    Map<String, dynamic> toJson() => {
+  }
+  Map<String, dynamic> toJson() => {
         "id": id,
-        "orders": orders == null ? [] : List<dynamic>.from(orders!.map((x) => x.toJson())),
-        "driver": driver?.toJson(),
+        "orders": orders,
+        "driver": driver.toJson(),
         "acceptance_status": acceptanceStatus,
         "delivery_status": deliveryStatus,
-        "created_date": "${createdDate!.year.toString().padLeft(4, '0')}-${createdDate!.month.toString().padLeft(2, '0')}-${createdDate!.day.toString().padLeft(2, '0')}",
+        "created_date": createdDate,
         "delivered_date": deliveredDate,
-    };
+      };
 }
 
 class Driver {
-    int? id;
-    String? code;
-    String? email;
-    String? username;
-    String? phone;
-    String? firstName;
-    String? lastName;
-    String? gender;
-    dynamic image;
-    String? address;
-    String? plateNumber;
-    String? chassisNumber;
+  int id;
+  String code;
+  String email;
+  String username;
+  String phone;
+  String firstName;
+  String lastName;
+  String gender;
+  String? image;
+  String address;
+  String plateNumber;
+  String chassisNumber;
 
-    Driver({
-        this.id,
-        this.code,
-        this.email,
-        this.username,
-        this.phone,
-        this.firstName,
-        this.lastName,
-        this.gender,
-        this.image,
-        this.address,
-        this.plateNumber,
-        this.chassisNumber,
-    });
+  Driver({
+    required this.id,
+    required this.code,
+    required this.email,
+    required this.username,
+    required this.phone,
+    required this.firstName,
+    required this.lastName,
+    required this.gender,
+    this.image,
+    required this.address,
+    required this.plateNumber,
+    required this.chassisNumber,
+  });
 
-    factory Driver.fromJson(Map<String, dynamic> json) => Driver(
-        id: json["id"],
-        code: json["code"],
-        email: json["email"],
-        username: json["username"],
-        phone: json["phone"],
-        firstName: json["first_name"],
-        lastName: json["last_name"],
-        gender: json["gender"],
-        image: json["image"],
-        address: json["address"],
-        plateNumber: json["plate_number"],
-        chassisNumber: json["chassis_number"],
+  factory Driver.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
+    return Driver(
+      id: json["id"] ?? 0,
+      code: json["code"] ?? notAvailable,
+      email: json["email"] ?? notAvailable,
+      username: json["username"] ?? notAvailable,
+      phone: json["phone"] ?? notAvailable,
+      firstName: json["first_name"] ?? notAvailable,
+      lastName: json["last_name"] ?? notAvailable,
+      gender: json["gender"] ?? notAvailable,
+      image: json["image"],
+      address: json["address"] ?? notAvailable,
+      plateNumber: json["plate_number"] ?? notAvailable,
+      chassisNumber: json["chassis_number"] ?? notAvailable,
     );
+  }
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "code": code,
         "email": email,
@@ -137,94 +156,86 @@ class Driver {
         "address": address,
         "plate_number": plateNumber,
         "chassis_number": chassisNumber,
-    };
+      };
 }
 
 class Order {
-    String? id;
-    dynamic code;
-    dynamic totalPrice;
-    dynamic deliveryFee;
-    String? assignedStatus;
-    String? deliveryStatus;
-    Client? client;
-    DeliveryAddress? deliveryAddress;
-    List<Orderitem>? orderitems;
-    DateTime? created;
+  String id;
+  String code;
+  double totalPrice;
+  double deliveryFee;
+  String assignedStatus;
+  String deliveryStatus;
+  Client client;
 
-    Order({
-        this.id,
-        this.code,
-        this.totalPrice,
-        this.deliveryFee,
-        this.assignedStatus,
-        this.deliveryStatus,
-        this.client,
-        this.deliveryAddress,
-        this.orderitems,
-        this.created,
-    });
+  Order({
+    required this.id,
+    required this.code,
+    required this.totalPrice,
+    required this.deliveryFee,
+    required this.assignedStatus,
+    required this.deliveryStatus,
+    required this.client,
+  });
 
-    factory Order.fromJson(Map<String, dynamic> json) => Order(
-        id: json["id"],
-        code: json["code"],
-        totalPrice: json["total_price"],
-        deliveryFee: json["delivery_fee"],
-        assignedStatus: json["assigned_status"],
-        deliveryStatus: json["delivery_status"],
-        client: json["client"] == null ? null : Client.fromJson(json["client"]),
-        deliveryAddress: json["delivery_address"] == null ? null : DeliveryAddress.fromJson(json["delivery_address"]),
-        orderitems: json["orderitems"] == null ? [] : List<Orderitem>.from(json["orderitems"]!.map((x) => Orderitem.fromJson(x))),
-        created: json["created"] == null ? null : DateTime.parse(json["created"]),
+  factory Order.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
+    return Order(
+      id: json["id"] ?? notAvailable,
+      code: json["code"] ?? notAvailable,
+      totalPrice: json["total_price"] ?? 0.0,
+      deliveryFee: json["delivery_fee"] ?? 0.0,
+      assignedStatus: json["assigned_status"] ?? "PEND",
+      deliveryStatus: json["delivery_status"] ?? "PEND",
+      client: Client.fromJson(json["client"]),
     );
-
-    Map<String, dynamic> toJson() => {
+  }
+  Map<String, dynamic> toJson() => {
         "id": id,
         "code": code,
         "total_price": totalPrice,
         "delivery_fee": deliveryFee,
         "assigned_status": assignedStatus,
         "delivery_status": deliveryStatus,
-        "client": client?.toJson(),
-        "delivery_address": deliveryAddress?.toJson(),
-        "orderitems": orderitems == null ? [] : List<dynamic>.from(orderitems!.map((x) => x.toJson())),
-        "created": created?.toIso8601String(),
-    };
+        "client": client.toJson(),
+      };
 }
 
 class Client {
-    int? id;
-    String? email;
-    String? username;
-    String? phone;
-    String? firstName;
-    String? lastName;
-    dynamic image;
-    String? code;
+  int id;
+  String email;
+  String username;
+  String phone;
+  String firstName;
+  String lastName;
+  String? image;
+  String code;
 
-    Client({
-        this.id,
-        this.email,
-        this.username,
-        this.phone,
-        this.firstName,
-        this.lastName,
-        this.image,
-        this.code,
-    });
+  Client({
+    required this.id,
+    required this.email,
+    required this.username,
+    required this.phone,
+    required this.firstName,
+    required this.lastName,
+    this.image,
+    required this.code,
+  });
 
-    factory Client.fromJson(Map<String, dynamic> json) => Client(
-        id: json["id"],
-        email: json["email"],
-        username: json["username"],
-        phone: json["phone"],
-        firstName: json["first_name"],
-        lastName: json["last_name"],
-        image: json["image"],
-        code: json["code"],
+  factory Client.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
+    return Client(
+      id: json["id"] ?? 0,
+      email: json["email"] ?? notAvailable,
+      username: json["username"] ?? notAvailable,
+      phone: json["phone"] ?? notAvailable,
+      firstName: json["first_name"] ?? notAvailable,
+      lastName: json["last_name"] ?? notAvailable,
+      image: json["image"],
+      code: json["code"] ?? notAvailable,
     );
-
-    Map<String, dynamic> toJson() => {
+  }
+  Map<String, dynamic> toJson() => {
         "id": id,
         "email": email,
         "username": username,
@@ -233,85 +244,74 @@ class Client {
         "last_name": lastName,
         "image": image,
         "code": code,
-    };
+      };
 }
 
 class DeliveryAddress {
-    String? id;
-    String? streetAddress;
-   dynamic user;
-    String? title;
-    String? details;
-    String? recipientName;
-    String? phone;
-    String? country;
-    String? state;
-    String? city;
-    bool? isCurrent;
+  String id;
+  String title;
+  String details;
+  String phone;
+  String latitude;
+  String longitude;
+  bool isCurrent;
 
-    DeliveryAddress({
-        this.id,
-        this.streetAddress,
-        this.user,
-        this.title,
-        this.details,
-        this.recipientName,
-        this.phone,
-        this.country,
-        this.state,
-        this.city,
-        this.isCurrent,
-    });
+  DeliveryAddress({
+    required this.id,
+    required this.title,
+    required this.details,
+    required this.phone,
+    required this.isCurrent,
+    required this.latitude,
+    required this.longitude,
+  });
 
-    factory DeliveryAddress.fromJson(Map<String, dynamic> json) => DeliveryAddress(
-        id: json["id"],
-        streetAddress: json["street_address"],
-        user: json["user"],
-        title: json["title"],
-        details: json["details"],
-        recipientName: json["recipient_name"],
-        phone: json["phone"],
-        country: json["country"],
-        state: json["state"],
-        city: json["city"],
-        isCurrent: json["is_current"],
+  factory DeliveryAddress.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
+    return DeliveryAddress(
+      id: json["id"],
+      title: json["title"],
+      details: json["details"],
+      phone: json["phone"],
+      latitude: json["latitude"],
+      longitude: json["longitude"],
+      isCurrent: json["is_current"],
     );
-
-    Map<String, dynamic> toJson() => {
+  }
+  Map<String, dynamic> toJson() => {
         "id": id,
-        "street_address": streetAddress,
-        "user": user,
         "title": title,
         "details": details,
-        "recipient_name": recipientName,
         "phone": phone,
-        "country": country,
-        "state": state,
-        "city": city,
+        "latitude": latitude,
+        "longitude": longitude,
         "is_current": isCurrent,
-    };
+      };
 }
 
 class Orderitem {
-    String? id;
-    String? product;
-    int? quantity;
+  String id;
+  dynamic product;
+  int quantity;
 
-    Orderitem({
-        this.id,
-        this.product,
-        this.quantity,
-    });
+  Orderitem({
+    required this.id,
+    required this.product,
+    required this.quantity,
+  });
 
-    factory Orderitem.fromJson(Map<String, dynamic> json) => Orderitem(
-        id: json["id"],
-        product: json["product"],
-        quantity: json["quantity"],
+  factory Orderitem.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
+    return Orderitem(
+      id: json["id"] ?? notAvailable,
+      product: json["product"] ?? notAvailable,
+      quantity: json["quantity"] ?? 0,
     );
+  }
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "product": product,
         "quantity": quantity,
-    };
+      };
 }

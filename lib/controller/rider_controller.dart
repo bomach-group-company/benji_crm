@@ -74,6 +74,7 @@ class RiderController extends GetxController {
       try {
         var save = DriverHistoryModel.fromJson(jsonDecode(responseData));
         historyList.value = save.items!;
+        print('as least in here ${save.items}');
       } catch (e) {
         consoleLog("$e");
       }

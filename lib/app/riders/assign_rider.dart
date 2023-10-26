@@ -76,20 +76,7 @@ class _AssignRiderState extends State<AssignRider> {
   }
 
   void toRidersDetailPage() => Get.to(
-        () => RidersDetail(
-            ridersImage: ridersImage,
-            ridersName: ridersName,
-            ridersPhoneNumber: ridersPhoneNumber,
-            noOfTrips: noOfTrips,
-            onlineIndicator: Container(
-              height: 20,
-              width: 20,
-              decoration: const ShapeDecoration(
-                color: kSuccessColor,
-                shape: OvalBorder(),
-              ),
-            ),
-            rider: null),
+        () => RidersDetail(rider: RiderItem.fromJson(null)),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,

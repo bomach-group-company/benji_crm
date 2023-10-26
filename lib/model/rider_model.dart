@@ -24,7 +24,6 @@ class RiderModel {
 
   factory RiderModel.fromJson(Map<String, dynamic>? json) {
     json ??= {};
-    print('this is json $json');
     return RiderModel(
       id: json["id"] ?? 0,
       username: json["username"] ?? notAvailable,

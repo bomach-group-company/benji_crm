@@ -174,23 +174,6 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
 
   void toRidersDetailPage(RiderItem rider) => Get.to(
         () => RidersDetail(
-          ridersImage: _riderStatus ? _onlineRidersImage : _offlineRidersImage,
-          ridersName: _riderStatus ? _onlineRidersName : _offlineRidersName,
-          ridersPhoneNumber: _riderStatus
-              ? _onlineRidersPhoneNumber
-              : _offlineRidersPhoneNumber,
-          noOfTrips:
-              _riderStatus ? _onlineRidersNoOfTrips : _offlineRiderNoOfTrips,
-          onlineIndicator: _riderStatus
-              ? Container(
-                  height: 20,
-                  width: 20,
-                  decoration: const ShapeDecoration(
-                    color: kSuccessColor,
-                    shape: OvalBorder(),
-                  ),
-                )
-              : Container(),
           rider: rider,
         ),
         duration: const Duration(milliseconds: 300),
@@ -360,7 +343,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    '${controller.riderList[index].username} ${controller.riderList[index].username}',
+                                                    '${controller.riderList[index].firstName} ${controller.riderList[index].lastName}',
                                                     overflow:
                                                         TextOverflow.ellipsis,
                                                     maxLines: 1,
