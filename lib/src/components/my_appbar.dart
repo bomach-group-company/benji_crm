@@ -12,6 +12,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double elevation;
   final Color backgroundColor;
   final List<Widget> actions;
+  final bool leading;
 
   @override
   Size get preferredSize => const Size.fromHeight(55);
@@ -21,6 +22,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.elevation,
     required this.actions,
     required this.backgroundColor,
+    this.leading = false,
   });
 //========================================= FUNCTIONS ============================================\\
 
@@ -35,6 +37,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: backgroundColor,
       actions: actions,
       title: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           InkWell(
             borderRadius: BorderRadius.circular(24),
