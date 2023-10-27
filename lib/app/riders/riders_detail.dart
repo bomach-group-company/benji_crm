@@ -210,6 +210,7 @@ class _RidersDetailState extends State<RidersDetail> {
                       right: kDefaultPadding,
                     ),
                     children: [
+                      kSizedBox,
                       Container(
                         padding: const EdgeInsets.all(kDefaultPadding),
                         decoration: ShapeDecoration(

@@ -26,35 +26,23 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     super.initState();
-    _loadingScreen = true;
-    _timer = Timer(const Duration(milliseconds: 1000), () {
-      setState(() => _loadingScreen = false);
-    });
   }
 
   @override
   void dispose() {
     _handleRefresh().ignore();
-    _timer.cancel();
     super.dispose();
   }
 
 //=============================================== ALL VARIABLES ======================================================\\
-  late Timer _timer;
 
 //=============================================== ALL BOOL VALUES ======================================================\\
-  late bool _loadingScreen;
 
 //=============================================== FUNCTIONS ======================================================\\
 
 //===================== Handle refresh ==========================\\
 
-  Future<void> _handleRefresh() async {
-    setState(() => _loadingScreen = true);
-    _timer = Timer(const Duration(milliseconds: 1000), () {
-      setState(() => _loadingScreen = false);
-    });
-  }
+  Future<void> _handleRefresh() async {}
 
 //=============================================== Navigation ======================================================\\
   void _toPersonalInfo() => Get.to(
@@ -112,204 +100,200 @@ class _ProfileState extends State<Profile> {
           maintainBottomViewPadding: true,
           child: GetBuilder<UserController>(
             builder: (controller) {
-              return _loadingScreen
-                  ? Center(
-                      child: CircularProgressIndicator(color: kAccentColor),
-                    )
-                  : ListView(
-                      scrollDirection: Axis.vertical,
-                      children: [
-                        ProfileFirstHalf(
-                            availableBalance: doubleFormattedText(1000000)),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            top: kDefaultPadding,
-                            left: kDefaultPadding,
-                            right: kDefaultPadding,
-                            bottom: kDefaultPadding / 1.5,
+              return ListView(
+                scrollDirection: Axis.vertical,
+                children: [
+                  ProfileFirstHalf(
+                      availableBalance: doubleFormattedText(1000000)),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: kDefaultPadding,
+                      left: kDefaultPadding,
+                      right: kDefaultPadding,
+                      bottom: kDefaultPadding / 1.5,
+                    ),
+                    child: Container(
+                      width: media.width,
+                      padding: const EdgeInsets.all(kDefaultPadding / 2),
+                      decoration: ShapeDecoration(
+                        color: kPrimaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        shadows: const [
+                          BoxShadow(
+                            color: Color(0x0F000000),
+                            blurRadius: 24,
+                            offset: Offset(0, 4),
+                            spreadRadius: 0,
                           ),
-                          child: Container(
-                            width: media.width,
-                            padding: const EdgeInsets.all(kDefaultPadding / 2),
-                            decoration: ShapeDecoration(
-                              color: kPrimaryColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          ListTile(
+                            onTap: _toPersonalInfo,
+                            enableFeedback: true,
+                            mouseCursor: SystemMouseCursors.click,
+                            leading: FaIcon(
+                              FontAwesomeIcons.solidUser,
+                              color: kAccentColor,
+                            ),
+                            title: const Text(
+                              'Personal Info',
+                              style: TextStyle(
+                                color: kTextBlackColor,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
                               ),
-                              shadows: const [
-                                BoxShadow(
-                                  color: Color(0x0F000000),
-                                  blurRadius: 24,
-                                  offset: Offset(0, 4),
-                                  spreadRadius: 0,
-                                ),
-                              ],
                             ),
-                            child: Column(
-                              children: [
-                                ListTile(
-                                  onTap: _toPersonalInfo,
-                                  enableFeedback: true,
-                                  mouseCursor: SystemMouseCursors.click,
-                                  leading: FaIcon(
-                                    FontAwesomeIcons.solidUser,
-                                    color: kAccentColor,
-                                  ),
-                                  title: const Text(
-                                    'Personal Info',
-                                    style: TextStyle(
-                                      color: kTextBlackColor,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  trailing: const FaIcon(
-                                    FontAwesomeIcons.chevronRight,
-                                  ),
-                                ),
-                                ListTile(
-                                  onTap: _toSettings,
-                                  enableFeedback: true,
-                                  mouseCursor: SystemMouseCursors.click,
-                                  leading: FaIcon(
-                                    FontAwesomeIcons.gear,
-                                    color: kAccentColor,
-                                  ),
-                                  title: const Text(
-                                    'Settings',
-                                    style: TextStyle(
-                                      color: kTextBlackColor,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  trailing: const FaIcon(
-                                    FontAwesomeIcons.chevronRight,
-                                  ),
-                                ),
-                              ],
+                            trailing: const FaIcon(
+                              FontAwesomeIcons.chevronRight,
                             ),
+                          ),
+                          ListTile(
+                            onTap: _toSettings,
+                            enableFeedback: true,
+                            mouseCursor: SystemMouseCursors.click,
+                            leading: FaIcon(
+                              FontAwesomeIcons.gear,
+                              color: kAccentColor,
+                            ),
+                            title: const Text(
+                              'Settings',
+                              style: TextStyle(
+                                color: kTextBlackColor,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            trailing: const FaIcon(
+                              FontAwesomeIcons.chevronRight,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: kDefaultPadding,
+                      right: kDefaultPadding,
+                      bottom: kDefaultPadding / 1.5,
+                    ),
+                    child: Container(
+                      width: 327,
+                      height: 141,
+                      padding: const EdgeInsets.all(kDefaultPadding / 2),
+                      decoration: ShapeDecoration(
+                        color: kPrimaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        shadows: const [
+                          BoxShadow(
+                            color: Color(0x0F000000),
+                            blurRadius: 24,
+                            offset: Offset(0, 4),
+                            spreadRadius: 0,
+                          )
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          ListTile(
+                            onTap: _toWithdrawalHistory,
+                            enableFeedback: true,
+                            mouseCursor: SystemMouseCursors.click,
+                            leading: FaIcon(
+                              FontAwesomeIcons.solidCreditCard,
+                              color: kAccentColor,
+                            ),
+                            title: const Text(
+                              'Withdrawal History',
+                              style: TextStyle(
+                                color: kTextBlackColor,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            trailing: const FaIcon(
+                              FontAwesomeIcons.chevronRight,
+                            ),
+                          ),
+                          ListTile(
+                            enableFeedback: true,
+                            mouseCursor: SystemMouseCursors.click,
+                            leading: FaIcon(
+                              FontAwesomeIcons.receipt,
+                              color: kAccentColor,
+                            ),
+                            title: const Text(
+                              'Number of Orders',
+                              style: TextStyle(
+                                color: kTextBlackColor,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            trailing: const Text(
+                              '29K',
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                color: Color(0xFF9B9BA5),
+                                fontSize: 17,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: kDefaultPadding,
+                      right: kDefaultPadding,
+                      bottom: kDefaultPadding / 1.5,
+                    ),
+                    child: Container(
+                      width: media.width,
+                      padding: const EdgeInsets.all(kDefaultPadding / 2),
+                      decoration: ShapeDecoration(
+                        color: kPrimaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        shadows: const [
+                          BoxShadow(
+                            color: Color(0x0F000000),
+                            blurRadius: 24,
+                            offset: Offset(0, 4),
+                            spreadRadius: 0,
+                          )
+                        ],
+                      ),
+                      child: ListTile(
+                        mouseCursor: SystemMouseCursors.click,
+                        onTap: _logOut,
+                        enableFeedback: true,
+                        leading: FaIcon(
+                          FontAwesomeIcons.rightFromBracket,
+                          color: kAccentColor,
+                        ),
+                        title: const Text(
+                          'Log Out',
+                          style: TextStyle(
+                            color: kTextBlackColor,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            left: kDefaultPadding,
-                            right: kDefaultPadding,
-                            bottom: kDefaultPadding / 1.5,
-                          ),
-                          child: Container(
-                            width: 327,
-                            height: 141,
-                            padding: const EdgeInsets.all(kDefaultPadding / 2),
-                            decoration: ShapeDecoration(
-                              color: kPrimaryColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              shadows: const [
-                                BoxShadow(
-                                  color: Color(0x0F000000),
-                                  blurRadius: 24,
-                                  offset: Offset(0, 4),
-                                  spreadRadius: 0,
-                                )
-                              ],
-                            ),
-                            child: Column(
-                              children: [
-                                ListTile(
-                                  onTap: _toWithdrawalHistory,
-                                  enableFeedback: true,
-                                  mouseCursor: SystemMouseCursors.click,
-                                  leading: FaIcon(
-                                    FontAwesomeIcons.solidCreditCard,
-                                    color: kAccentColor,
-                                  ),
-                                  title: const Text(
-                                    'Withdrawal History',
-                                    style: TextStyle(
-                                      color: kTextBlackColor,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  trailing: const FaIcon(
-                                    FontAwesomeIcons.chevronRight,
-                                  ),
-                                ),
-                                ListTile(
-                                  enableFeedback: true,
-                                  mouseCursor: SystemMouseCursors.click,
-                                  leading: FaIcon(
-                                    FontAwesomeIcons.receipt,
-                                    color: kAccentColor,
-                                  ),
-                                  title: const Text(
-                                    'Number of Orders',
-                                    style: TextStyle(
-                                      color: kTextBlackColor,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  trailing: const Text(
-                                    '29K',
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(
-                                      color: Color(0xFF9B9BA5),
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            left: kDefaultPadding,
-                            right: kDefaultPadding,
-                            bottom: kDefaultPadding / 1.5,
-                          ),
-                          child: Container(
-                            width: media.width,
-                            padding: const EdgeInsets.all(kDefaultPadding / 2),
-                            decoration: ShapeDecoration(
-                              color: kPrimaryColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              shadows: const [
-                                BoxShadow(
-                                  color: Color(0x0F000000),
-                                  blurRadius: 24,
-                                  offset: Offset(0, 4),
-                                  spreadRadius: 0,
-                                )
-                              ],
-                            ),
-                            child: ListTile(
-                              mouseCursor: SystemMouseCursors.click,
-                              onTap: _logOut,
-                              enableFeedback: true,
-                              leading: FaIcon(
-                                FontAwesomeIcons.rightFromBracket,
-                                color: kAccentColor,
-                              ),
-                              title: const Text(
-                                'Log Out',
-                                style: TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
+                      ),
+                    ),
+                  ),
+                ],
+              );
             },
           ),
         ),
