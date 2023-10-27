@@ -43,9 +43,6 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-    //   RiderController.instance.runTask();
-    // });
 
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 300));
@@ -58,9 +55,6 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
         widget.hideNavigation();
       }
     });
-    Future.delayed(
-      const Duration(milliseconds: 1000),
-    );
   }
 
   @override
@@ -82,7 +76,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
   //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
-    setState(() {});
+    await RiderController.instance.getRiders();
   }
 
 //============================= Scroll to Top ======================================//
@@ -108,23 +102,6 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
     }
   }
 
-  //===================== Handle riderStatus ==========================\\
-  void clickOnlineRiders() async {
-    setState(() {});
-
-    await Future.delayed(const Duration(milliseconds: 500));
-
-    setState(() {});
-  }
-
-  void clickOfflineRiders() async {
-    setState(() {});
-
-    await Future.delayed(const Duration(milliseconds: 500));
-
-    setState(() {});
-  }
-
 //=============================== See more ========================================\\
   void _seeMoreRiders() {}
 
@@ -133,7 +110,6 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
   toRidersDetailPage(RiderItem rider) {
     final riderHistory = Get.put(RiderHistoryController());
     riderHistory.setClickedRider(rider);
-    print('set oo');
     return Get.to(
       () => RidersDetail(
         rider: rider,
@@ -216,7 +192,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                 ),
                 children: [
                   kSizedBox,
-                  controller.isLoad.value
+                  controller.isLoad.value && controller.riderList.isEmpty
                       ? const RidersListSkeleton()
                       : ListView.separated(
                           separatorBuilder: (context, index) => kSizedBox,

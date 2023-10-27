@@ -43,7 +43,6 @@ class RiderHistoryController extends GetxController {
     http.Response? response = await HandleData.getApi(url, token);
 
     var responseData = await ApiProcessorController.errorState(response);
-    print('sbrjr oo $responseData responseData kk');
     // try {
     historyList.value = (jsonDecode(responseData)['items'] as List)
         .map((e) => HistoryItem.fromJson(e))
