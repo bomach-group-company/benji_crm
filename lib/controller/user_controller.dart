@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:benji_aggregator/app/auth_screens/login.dart';
 import 'package:benji_aggregator/main.dart';
 import 'package:benji_aggregator/model/user_model.dart';
+import 'package:benji_aggregator/services/api_url.dart';
 import 'package:benji_aggregator/services/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -48,6 +49,10 @@ class UserController extends GetxController {
     data['username'] = otherData['username'];
     data['email'] = otherData['email'];
     data['code'] = otherData['code'];
+
+    
+    consoleLog(data.toString());
+
     await prefs.setString('user', jsonEncode(data));
   }
 

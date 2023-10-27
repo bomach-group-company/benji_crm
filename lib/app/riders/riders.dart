@@ -91,14 +91,14 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
 
   void _scrollListener() {
     //========= Show action button ========//
-    if (scrollController.position.pixels >= 200) {
+    if (scrollController.position.pixels >= 100) {
       _animationController.forward();
       setState(() => _isScrollToTopBtnVisible = true);
     }
     //========= Hide action button ========//
-    else if (scrollController.position.pixels < 200) {
+    else if (scrollController.position.pixels < 100) {
       _animationController.reverse();
-      setState(() => _isScrollToTopBtnVisible = true);
+      setState(() => _isScrollToTopBtnVisible = false);
     }
   }
 
@@ -111,9 +111,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
     final riderHistory = Get.put(RiderHistoryController());
     riderHistory.setClickedRider(rider);
     return Get.to(
-      () => RidersDetail(
-        rider: rider,
-      ),
+      () => RidersDetail(rider: rider),
       duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,
       curve: Curves.easeIn,
@@ -126,8 +124,6 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.of(context).size;
-
     void showSearchField() =>
         showSearch(context: context, delegate: CustomSearchDelegate());
 
@@ -213,26 +209,25 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                   children: [
                                     CircleAvatar(
                                       radius: 30,
-                                      backgroundColor: Colors.transparent,
-                                      // backgroundImage: const AssetImage(
-                                      //   "assets/images/customer/juliet_gomes.png",
-                                      // ),
+                                      backgroundColor: kTransparentColor,
+                                      backgroundImage: const AssetImage(
+                                        "assets/images/profile/avatar-image.jpg",
+                                      ),
                                       child: ClipOval(
                                         child: CachedNetworkImage(
-                                          imageUrl:
-                                              "assets/images/customer/juliet_gomes.png",
+                                          imageUrl: "",
                                           fit: BoxFit.cover,
                                           progressIndicatorBuilder: (context,
                                                   url, downloadProgress) =>
-                                              const Center(
+                                              Center(
                                                   child:
                                                       CupertinoActivityIndicator(
-                                            color: kRedColor,
+                                            color: kAccentColor,
                                           )),
                                           errorWidget: (context, url, error) =>
-                                              const Icon(
-                                            Icons.error,
-                                            color: kRedColor,
+                                              FaIcon(
+                                            FontAwesomeIcons.circleExclamation,
+                                            color: kAccentColor,
                                           ),
                                         ),
                                       ),
