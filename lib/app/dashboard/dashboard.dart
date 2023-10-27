@@ -45,18 +45,19 @@ class _DashboardState extends State<Dashboard>
   void initState() {
     super.initState();
 
-    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-    //   OrderController.instance.runTask();
-    //   VendorController.instance.runTask();
-    //   RiderController.instance.runTask();
-    // });
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      OrderController.instance.runTask();
+      VendorController.instance.runTask();
+      RiderController.instance.getRiders();
+    });
 
     _animationController =
         AnimationController(vsync: this, duration: const Duration(seconds: 1));
     scrollController.addListener(_scrollListener);
     scrollController.addListener(() {
       if (scrollController.position.userScrollDirection ==
-          ScrollDirection.forward) {
+              ScrollDirection.forward ||
+          scrollController.position.pixels < 100) {
         widget.showNavigation();
       } else {
         widget.hideNavigation();
@@ -119,13 +120,16 @@ class _DashboardState extends State<Dashboard>
     setState(() {
       _loadingScreen = true;
     });
+    await Future.delayed(const Duration(milliseconds: 1000));
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       NotificationController.instance.runTask();
       OrderController.instance.runTask();
       VendorController.instance.runTask();
       RiderController.instance.getRiders();
     });
-    _loadingScreen = false;
+    setState(() {
+      _loadingScreen = false;
+    });
   }
 
 //============================= Scroll to Top ======================================//

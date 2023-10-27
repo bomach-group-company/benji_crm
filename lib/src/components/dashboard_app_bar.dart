@@ -63,11 +63,11 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
           builder: (controller) {
             return Row(
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: kDefaultPadding / 2),
-                  child: InkWell(
-                    onTap: toProfilePage,
+                InkWell(
+                  onTap: toProfilePage,
+                  borderRadius: BorderRadius.circular(100),
+                  child: Padding(
+                    padding: const EdgeInsets.all(kDefaultPadding),
                     child: Container(
                       width: 45,
                       height: 45,
