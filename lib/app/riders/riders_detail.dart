@@ -1,19 +1,17 @@
 // ignore_for_file: file_names, unused_local_variable, unused_field
 
-import 'package:benji_aggregator/controller/operation.dart';
+import 'package:benji_aggregator/controller/rider_history_controller.dart';
+import 'package:benji_aggregator/src/components/empty.dart';
 import 'package:benji_aggregator/src/components/my_appbar.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
-import '../../controller/rider_controller.dart';
 import '../../controller/url_launch_controller.dart';
-import '../../model/driver_history_model.dart';
-import '../../model/rider_list_model.dart';
+import '../../model/rider_model.dart';
 import '../../src/components/my_outlined_elevatedButton.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/custom_show_search.dart';
@@ -31,18 +29,10 @@ class _RidersDetailState extends State<RidersDetail> {
   //===================== Initial State ==========================\\
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      RiderController.instance.riderHistory(widget.rider.id);
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   RiderController.instance.riderHistory(widget.rider.id);
+    // });
     super.initState();
-
-    _loadingScreen = true;
-    Future.delayed(
-      const Duration(milliseconds: 1000),
-      () => setState(
-        () => _loadingScreen = false,
-      ),
-    );
   }
 
   //============================ ALL VARIABLES =============================\\
@@ -74,20 +64,6 @@ class _RidersDetailState extends State<RidersDetail> {
 //==========================================================================================\\
 
 //=========================================== Navigation ===============================================\\
-  // void _callRider() => Get.to(
-  //       () => CallPage(
-  //         userName: widget.ridersName,
-  //         userImage: widget.ridersImage,
-  //         userPhoneNumber: widget.ridersPhoneNumber,
-  //       ),
-  //       duration: const Duration(milliseconds: 300),
-  //       fullscreenDialog: true,
-  //       curve: Curves.easeIn,
-  //       routeName: "Call rider",
-  //       preventDuplicates: true,
-  //       popGesture: true,
-  //       transition: Transition.rightToLeft,
-  //     );
 
   void _seeMoreDeliveredOrders() {}
   void _seeMorePendingOrders() {}
@@ -116,11 +92,6 @@ class _RidersDetailState extends State<RidersDetail> {
       _loadingDeliveryStatus = false;
       _deliveryStatus = false;
     });
-
-    //  await Future.delayed(const Duration(seconds: 3));
-    // setState(() {
-    //   _loadingDeliveryStatus = false;
-    // });
   }
 
   //=================================== Show Popup Menu =====================================\\
@@ -224,539 +195,485 @@ class _RidersDetailState extends State<RidersDetail> {
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,
-          child: _loadingScreen
-              ? SpinKitDoubleBounce(color: kAccentColor)
-              : FutureBuilder(
-                  future: null,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      SpinKitDoubleBounce(color: kAccentColor);
-                    }
-                    if (snapshot.connectionState == ConnectionState.none) {
-                      const Center(
-                        child: Text("Please connect to the internet"),
-                      );
-                    }
-                    // if (snapshot.connectionState == snapshot.requireData) {
-                    //   SpinKitDoubleBounce(color: kAccentColor);
-                    // }
-                    if (snapshot.connectionState == snapshot.error) {
-                      const Center(
-                        child: Text("Error, Please try again later"),
-                      );
-                    }
-                    return GetBuilder<RiderController>(builder: (rider) {
-                      rider.riderHistory(widget.rider.id);
-                      List<HistoryItem> history = [];
-                      print(history);
-                      // List<HistoryItem> history = _deliveryStatus
-                      //     ? rider.historyList
-                      //         .where((p0) => p0.deliveryStatus!
-                      //             .toLowerCase()
-                      //             .contains("completed".toLowerCase()))
-                      //         .toList()
-                      //     : rider.historyList
-                      //         .where((p0) => !p0.deliveryStatus!
-                      //             .toLowerCase()
-                      //             .contains("completed".toLowerCase()))
-                      //         .toList();
-                      return Scrollbar(
-                        controller: scrollController,
-                        radius: const Radius.circular(10),
-                        child: ListView(
-                            physics: const BouncingScrollPhysics(),
-                            padding: const EdgeInsets.only(
-                              top: kDefaultPadding / 4,
-                              bottom: kDefaultPadding,
-                              left: kDefaultPadding,
-                              right: kDefaultPadding,
+          child: GetBuilder<RiderHistoryController>(initState: (state) async {
+            await RiderHistoryController.instance.riderHistory();
+          }, builder: (riderController) {
+            return Scrollbar(
+                controller: scrollController,
+                radius: const Radius.circular(10),
+                child: ListView(
+                    physics: const BouncingScrollPhysics(),
+                    padding: const EdgeInsets.only(
+                      top: kDefaultPadding / 4,
+                      bottom: kDefaultPadding,
+                      left: kDefaultPadding,
+                      right: kDefaultPadding,
+                    ),
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(kDefaultPadding),
+                        decoration: ShapeDecoration(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          shadows: const [
+                            BoxShadow(
+                              color: Color(0x0F000000),
+                              blurRadius: 24,
+                              offset: Offset(0, 4),
+                              spreadRadius: 0,
                             ),
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.all(kDefaultPadding),
-                                decoration: ShapeDecoration(
-                                  color: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  shadows: const [
-                                    BoxShadow(
-                                      color: Color(0x0F000000),
-                                      blurRadius: 24,
-                                      offset: Offset(0, 4),
-                                      spreadRadius: 0,
-                                    ),
-                                  ],
-                                ),
-                                child: Row(
-                                  children: [
-                                    Stack(
-                                      children: [
-                                        CircleAvatar(
-                                          radius: 60,
-                                          backgroundColor: Colors.white54,
-                                          backgroundImage: const AssetImage(
-                                            "assets/images/customer/juliet_gomes.png",
-                                          ),
-                                          child: ClipOval(
-                                            child: CachedNetworkImage(
-                                              imageUrl:
-                                                  widget.rider.image ?? "",
-                                              fit: BoxFit.cover,
-                                              progressIndicatorBuilder: (context,
-                                                      url, downloadProgress) =>
-                                                  const Center(
-                                                      child:
-                                                          CupertinoActivityIndicator(
-                                                color: kRedColor,
-                                              )),
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      const Icon(
-                                                Icons.error,
-                                                color: kRedColor,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Positioned(
-                                          right: 15,
-                                          bottom: 0,
-                                          child: Container(
-                                            height: 20,
-                                            width: 20,
-                                            decoration: const ShapeDecoration(
-                                              color: kSuccessColor,
-                                              shape: OvalBorder(),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: kDefaultPadding / 2),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          SizedBox(
-                                            width: mediaWidth - 250,
-                                            child: Text(
-                                              "${widget.rider.firstName} ${widget.rider.lastName}",
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 1,
-                                              style: const TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w700,
-                                              ),
-                                            ),
-                                          ),
-                                          kHalfSizedBox,
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Icon(
-                                                Icons.phone,
-                                                color: kAccentColor,
-                                                size: 18,
-                                              ),
-                                              kHalfWidthSizedBox,
-                                              SizedBox(
-                                                width: mediaWidth - 250,
-                                                child: Text(
-                                                  widget.rider.phone,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  maxLines: 1,
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: kTextGreyColor,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          kHalfSizedBox,
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Icon(
-                                                Icons.route,
-                                                color: kAccentColor,
-                                                size: 18,
-                                              ),
-                                              kHalfWidthSizedBox,
-                                              SizedBox(
-                                                width: mediaWidth - 250,
-                                                child: Text(
-                                                  "${widget.rider.tripCount} Trips Completed",
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: kTextGreyColor,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          kHalfSizedBox,
-                                          MyOutlinedElevatedButton(
-                                            onPressed: () => UrlLaunchController
-                                                .makePhoneCall(
-                                                    widget.rider.phone),
-                                            circularBorderRadius: 16,
-                                            minimumSizeWidth: 100,
-                                            minimumSizeHeight: 30,
-                                            maximumSizeWidth: 100,
-                                            maximumSizeHeight: 30,
-                                            buttonTitle: "Call",
-                                            titleFontSize: 14,
-                                            elevation: 10.0,
-                                          )
-                                        ],
+                          ],
+                        ),
+                        child: Row(
+                          children: [
+                            Stack(
+                              children: [
+                                CircleAvatar(
+                                  radius: 60,
+                                  backgroundColor: Colors.white54,
+                                  // backgroundImage: const AssetImage(
+                                  //   "assets/images/profile/avatar-image.jpg",
+                                  // ),
+                                  child: ClipOval(
+                                    child: CachedNetworkImage(
+                                      imageUrl: widget.rider.image ??
+                                          "assets/images/customer/juliet_gomes.png",
+                                      fit: BoxFit.cover,
+                                      progressIndicatorBuilder: (context, url,
+                                              downloadProgress) =>
+                                          const Center(
+                                              child: CupertinoActivityIndicator(
+                                        color: kRedColor,
+                                      )),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(
+                                        Icons.error,
+                                        color: kRedColor,
                                       ),
                                     ),
-                                  ],
+                                  ),
                                 ),
+                                // Positioned(
+                                //   right: 15,
+                                //   bottom: 0,
+                                //   child: Container(
+                                //     height: 20,
+                                //     width: 20,
+                                //     decoration: const ShapeDecoration(
+                                //       color: kSuccessColor,
+                                //       shape: OvalBorder(),
+                                //     ),
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: kDefaultPadding / 2),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: mediaWidth - 250,
+                                    child: Text(
+                                      "${widget.rider.firstName} ${widget.rider.lastName}",
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ),
+                                  kHalfSizedBox,
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.phone,
+                                        color: kAccentColor,
+                                        size: 18,
+                                      ),
+                                      kHalfWidthSizedBox,
+                                      SizedBox(
+                                        width: mediaWidth - 250,
+                                        child: Text(
+                                          widget.rider.phone,
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: kTextGreyColor,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  kHalfSizedBox,
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.route,
+                                        color: kAccentColor,
+                                        size: 18,
+                                      ),
+                                      kHalfWidthSizedBox,
+                                      SizedBox(
+                                        width: mediaWidth - 250,
+                                        child: Text(
+                                          "${widget.rider.tripCount} Trips Completed",
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: kTextGreyColor,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  kHalfSizedBox,
+                                  MyOutlinedElevatedButton(
+                                    onPressed: () =>
+                                        UrlLaunchController.makePhoneCall(
+                                            widget.rider.phone),
+                                    circularBorderRadius: 16,
+                                    minimumSizeWidth: 100,
+                                    minimumSizeHeight: 30,
+                                    maximumSizeWidth: 100,
+                                    maximumSizeHeight: 30,
+                                    buttonTitle: "Call",
+                                    titleFontSize: 14,
+                                    elevation: 10.0,
+                                  )
+                                ],
                               ),
-                              const SizedBox(height: kDefaultPadding),
-                              const Text(
-                                "Shipping History",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: kDefaultPadding),
+                      const Text(
+                        "Shipping History",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      kHalfSizedBox,
+                      riderController.isLoad.value == true
+                          ? Center(
+                              child: CircularProgressIndicator(
+                                color: kAccentColor,
                               ),
-                              kHalfSizedBox,
-                              ListView.builder(
-                                  itemCount: history.length,
+                            )
+                          : riderController.historyList.isEmpty
+                              ? const EmptyCard()
+                              : ListView.separated(
+                                  separatorBuilder: (context, index) =>
+                                      kSizedBox,
+                                  itemCount: riderController.historyList.length,
                                   shrinkWrap: true,
                                   physics: const BouncingScrollPhysics(),
-                                  itemBuilder: (context, index) => Container(
-                                      margin: const EdgeInsets.only(
-                                          bottom: kDefaultPadding / 2),
-                                      decoration: ShapeDecoration(
-                                        color: Colors.white,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                        ),
-                                        shadows: const [
-                                          BoxShadow(
-                                            color: Color(0x0F000000),
-                                            blurRadius: 24,
-                                            offset: Offset(0, 4),
-                                            spreadRadius: 0,
-                                          ),
-                                        ],
-                                      ),
-                                      child: Row(children: [
-                                        Container(
-                                          height: 120,
-                                          width: 120,
-                                          decoration: BoxDecoration(
-                                            color: kAccentColor,
+                                  itemBuilder: (context, index) => Column(
+                                    children: [
+                                      Container(
+                                        decoration: ShapeDecoration(
+                                          color: kPrimaryColor,
+                                          shape: RoundedRectangleBorder(
                                             borderRadius:
-                                                const BorderRadius.only(
-                                              topLeft: Radius.circular(16),
-                                              bottomLeft: Radius.circular(16),
-                                            ),
-                                            // image: const DecorationImage(
-                                            //   image: AssetImage(
-                                            //       "assets/images/products/new-food.png"),
-                                            //   fit: BoxFit.cover,
-                                            // ),
+                                                BorderRadius.circular(10),
                                           ),
-                                          child: CachedNetworkImage(
-                                            imageUrl: '',
-                                            fit: BoxFit.cover,
-                                            progressIndicatorBuilder: (context,
-                                                    url, downloadProgress) =>
-                                                const Center(
-                                                    child:
-                                                        CupertinoActivityIndicator(
-                                              color: kRedColor,
-                                            )),
-                                            errorWidget:
-                                                (context, url, error) =>
-                                                    const Icon(
-                                              Icons.error,
-                                              color: Colors.white,
-                                            ),
-                                          ),
+                                          shadows: const [
+                                            BoxShadow(
+                                              color: Color(0x0F000000),
+                                              blurRadius: 24,
+                                              offset: Offset(0, 4),
+                                              spreadRadius: 0,
+                                            )
+                                          ],
                                         ),
-                                        Container(
-                                          padding: const EdgeInsets.all(
-                                              kDefaultPadding / 2),
-                                          // color: kAccentColor,
-                                          width: mediaWidth - 175,
-                                          height: 120,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  SizedBox(
-                                                    width: 80,
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        SizedBox(
-                                                          width: 100,
-                                                          child: Text(
-                                                            "ID ${history[index].orders.code}",
-                                                            maxLines: 1,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            style:
-                                                                const TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w700,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 120,
-                                                          child: Text(
-                                                            "Items",
-                                                            maxLines: 1,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            style: TextStyle(
-                                                              fontSize: 12,
-                                                              color:
-                                                                  kTextGreyColor,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                              flex: 1,
+                                              child: Container(
+                                                // width: 110,
+                                                height: 119,
+                                                decoration:
+                                                    const ShapeDecoration(
+                                                  image: DecorationImage(
+                                                    image: AssetImage(
+                                                        "assets/images/profile/avatar-image.jpg"),
+                                                    fit: BoxFit.cover,
                                                   ),
-                                                  InkWell(
-                                                    onTap: seeDeliveredMessage,
-                                                    enableFeedback: true,
-                                                    splashColor: kSuccessColor,
+                                                  shape: RoundedRectangleBorder(
                                                     borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    child: Container(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              kDefaultPadding /
-                                                                  3),
-                                                      decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                          color:
-                                                              kLightGreyColor,
-                                                          strokeAlign: BorderSide
-                                                              .strokeAlignInside,
-                                                        ),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
-                                                      ),
-                                                      child: Text(
-                                                        _deliveryStatus
-                                                            ? "Delivered"
-                                                            : "Pending",
-                                                        style: const TextStyle(
-                                                          fontSize: 10,
-                                                          color: kSuccessColor,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                        ),
-                                                      ),
+                                                        BorderRadius.only(
+                                                      topLeft:
+                                                          Radius.circular(10),
+                                                      bottomLeft:
+                                                          Radius.circular(10),
                                                     ),
                                                   ),
-                                                  kHalfSizedBox,
-                                                  Column(
-                                                    children: [
-                                                      Row(
-                                                        children: [
-                                                          Icon(
-                                                            Icons.my_location,
-                                                            color: kAccentColor,
-                                                            size: 18,
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              flex: 2,
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                  vertical: 7,
+                                                  horizontal: 12,
+                                                ),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        const Text(
+                                                          'ID 213081',
+                                                          style: TextStyle(
+                                                            color: Color(
+                                                                0xFF454545),
+                                                            fontSize: 12,
+                                                            fontFamily: 'Sen',
+                                                            fontWeight:
+                                                                FontWeight.w700,
                                                           ),
-                                                          kHalfWidthSizedBox,
-                                                          SizedBox(
-                                                            width: mediaWidth -
-                                                                230,
-                                                            child: const Text(
-                                                              "21 Bartus Street, Abuja Nigeria",
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              maxLines: 1,
+                                                        ),
+                                                        Container(
+                                                          // width: 68,
+                                                          // height: 24,
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .symmetric(
+                                                                  horizontal: 7,
+                                                                  vertical: 5),
+                                                          decoration:
+                                                              ShapeDecoration(
+                                                            shape:
+                                                                RoundedRectangleBorder(
+                                                              side:
+                                                                  const BorderSide(
+                                                                width: 0.50,
+                                                                color: Color(
+                                                                    0xFFC8C8C8),
+                                                              ),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          5),
+                                                            ),
+                                                          ),
+                                                          child: SizedBox(
+                                                            width: 54,
+                                                            height: 10,
+                                                            child: Text(
+                                                              riderController
+                                                                  .historyList[
+                                                                      index]
+                                                                  .deliveryStatus,
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
                                                               style: TextStyle(
+                                                                color:
+                                                                    kAccentColor,
                                                                 fontSize: 10,
+                                                                fontFamily:
+                                                                    'Overpass',
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w400,
                                                               ),
                                                             ),
                                                           ),
-                                                        ],
+                                                        )
+                                                      ],
+                                                    ),
+                                                    Text(
+                                                      'Food',
+                                                      style: TextStyle(
+                                                        color: kTextGreyColor,
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.w400,
                                                       ),
-                                                      kHalfSizedBox,
-                                                      Column(
-                                                        children: [
-                                                          Row(
-                                                            children: [
-                                                              Icon(
-                                                                Icons
-                                                                    .my_location,
-                                                                color:
-                                                                    kAccentColor,
-                                                                size: 18,
-                                                              ),
-                                                              kHalfWidthSizedBox,
-                                                              SizedBox(
-                                                                width:
-                                                                    mediaWidth -
-                                                                        230,
-                                                                child: Text(
-                                                                  history[index]
-                                                                      .orders
-                                                                      .client
-                                                                      .username,
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  maxLines: 1,
-                                                                  style:
-                                                                      const TextStyle(
-                                                                    fontSize:
-                                                                        10,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400,
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Container(
+                                                              height: 12,
+                                                              width: 12,
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(2),
+                                                              decoration:
+                                                                  ShapeDecoration(
+                                                                shape:
+                                                                    OvalBorder(
+                                                                  side:
+                                                                      BorderSide(
+                                                                    width: 1,
+                                                                    color:
+                                                                        kAccentColor,
                                                                   ),
                                                                 ),
                                                               ),
-                                                            ],
-                                                          ),
-                                                          const SizedBox(
-                                                              height: 5),
-                                                          Row(
-                                                            children: [
-                                                              Icon(
-                                                                Icons
-                                                                    .location_on,
-                                                                color:
-                                                                    kAccentColor,
-                                                                size: 18,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          InkWell(
-                                                            onTap:
-                                                                seeDeliveredMessage,
-                                                            enableFeedback:
-                                                                true,
-                                                            splashColor:
-                                                                kSuccessColor,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
-                                                            child: Container(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(
-                                                                      kDefaultPadding /
-                                                                          3),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                border:
-                                                                    Border.all(
+                                                              child: Container(
+                                                                decoration:
+                                                                    BoxDecoration(
                                                                   color:
-                                                                      kLightGreyColor,
-                                                                  strokeAlign:
-                                                                      BorderSide
-                                                                          .strokeAlignInside,
+                                                                      kAccentColor,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              8),
                                                                 ),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10),
                                                               ),
                                                             ),
+                                                            Container(
+                                                              color:
+                                                                  kAccentColor,
+                                                              height: 10,
+                                                              width: 1.5,
+                                                            ),
+                                                            Icon(
+                                                              Icons
+                                                                  .location_on_sharp,
+                                                              size: 12,
+                                                              color:
+                                                                  kAccentColor,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 10,
+                                                        ),
+                                                        const Expanded(
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .start,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                '21 Bartus Street, Abuja Nigeria',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Color(
+                                                                      0xFF454545),
+                                                                  fontSize: 10,
+                                                                  height: 2,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                ),
+                                                              ),
+                                                              Text(
+                                                                '3 Edwins Close, Wuse, Abuja',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Color(
+                                                                      0xFF454545),
+                                                                  fontSize: 10,
+                                                                  height: 2,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                ),
+                                                              ),
+                                                            ],
                                                           ),
-                                                          const SizedBox(
-                                                              height: 5),
-                                                          Text(
-                                                            history[index]
-                                                                        .createdDate ==
-                                                                    null
-                                                                ? formattedDateAndTime
-                                                                : Operation.convertDate(
-                                                                    history[index]
-                                                                        .createdDate!),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 22,
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Expanded(
+                                                          child: Text(
+                                                            riderController
+                                                                .historyList[
+                                                                    index]
+                                                                .createdDate,
                                                             style:
                                                                 const TextStyle(
+                                                              color: Color(
+                                                                  0xFF929292),
                                                               fontSize: 10,
+                                                              fontFamily:
+                                                                  'Overpass',
+                                                              height: 1.5,
                                                               fontWeight:
                                                                   FontWeight
-                                                                      .w700,
+                                                                      .w600,
                                                             ),
                                                           ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
+                                                        ),
+                                                        const SizedBox(
+                                                          child: Text(
+                                                            '\u20A6 65,000',
+                                                            style: TextStyle(
+                                                              color: Color(
+                                                                  0xFF454545),
+                                                              fontSize: 10,
+                                                              fontFamily: 'sen',
+                                                              height: 1.5,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                            ],
-                                          ),
+                                            )
+                                          ],
                                         ),
-                                        kSizedBox,
-                                        _deliveryStatus
-                                            ? TextButton(
-                                                onPressed:
-                                                    _seeMoreDeliveredOrders,
-                                                child: Text(
-                                                  "See more",
-                                                  style: TextStyle(
-                                                      color: kAccentColor),
-                                                ),
-                                              )
-                                            : TextButton(
-                                                onPressed:
-                                                    _seeMorePendingOrders,
-                                                child: Text(
-                                                  "See more",
-                                                  style: TextStyle(
-                                                      color: kAccentColor),
-                                                ),
-                                              ),
-                                      ]))),
-                            ]),
-                      );
-                    });
-                  },
-                ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                    ]));
+          }),
         ),
       ),
     );

@@ -13,7 +13,6 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../app/google_maps/get_location_on_map.dart';
-import '../../controller/agent_controller.dart';
 import '../../controller/latlng_detail_controller.dart';
 import '../../controller/profile_controller.dart';
 import '../../services/keys.dart';
@@ -43,9 +42,9 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
     super.initState();
     userCode = UserController.instance.user.value.code;
     userNameEC.text = UserController.instance.user.value.username;
-    firstNameEC.text = AgentController.instance.agent.value.firstName;
-    lastNameEC.text = AgentController.instance.agent.value.lastName;
-    mapsLocationEC.text = AgentController.instance.agent.value.address;
+    firstNameEC.text = UserController.instance.user.value.firstName;
+    lastNameEC.text = UserController.instance.user.value.lastName;
+    mapsLocationEC.text = UserController.instance.user.value.address;
   }
 
   @override
@@ -62,7 +61,6 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
   String? userCode;
   String? latitude;
   String? longitude;
-  final agentController = Get.put(AgentController());
   List<AutocompletePrediction> placePredictions = [];
   final selectedLocation = ValueNotifier<String?>(null);
 
@@ -302,7 +300,6 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
       address: mapsLocationEC.text,
       isCurrent: true,
     );
-    AgentController.instance.getAgentDetails();
 
     setState(() {
       _isLoading = false;

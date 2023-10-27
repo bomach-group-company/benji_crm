@@ -1,39 +1,75 @@
-// To parse this JSON data, do
-//
-//     final riderModel = riderModelFromJson(jsonString);
-
-import 'dart:convert';
-
 import 'package:benji_aggregator/src/providers/constants.dart';
 
-RiderModel riderModelFromJson(String str) =>
-    RiderModel.fromJson(json.decode(str));
+class RiderItem {
+  int id;
+  String email;
+  String phone;
+  String username;
+  String code;
+  String? image;
+  DateTime? created;
+  String firstName;
+  String lastName;
+  String gender;
+  String address;
+  String plateNumber;
+  String chassisNumber;
+  double balance;
+  int tripCount;
 
-String riderModelToJson(RiderModel data) => json.encode(data.toJson());
-
-class RiderModel {
-  int? id;
-  String? username;
-  String? email;
-
-  RiderModel({
-    this.id,
-    this.username,
-    this.email,
+  RiderItem({
+    required this.id,
+    required this.email,
+    required this.phone,
+    required this.username,
+    required this.code,
+    this.created,
+    required this.firstName,
+    required this.lastName,
+    required this.gender,
+    required this.address,
+    required this.plateNumber,
+    required this.chassisNumber,
+    required this.balance,
+    this.image,
+    required this.tripCount,
   });
 
-  factory RiderModel.fromJson(Map<String, dynamic>? json) {
+  factory RiderItem.fromJson(Map<String, dynamic>? json) {
     json ??= {};
-    return RiderModel(
+    return RiderItem(
       id: json["id"] ?? 0,
-      username: json["username"] ?? notAvailable,
       email: json["email"] ?? notAvailable,
+      phone: json["phone"] ?? notAvailable,
+      username: json["username"] ?? notAvailable,
+      code: json["code"] ?? notAvailable,
+      created: json["created"] == null ? null : DateTime.parse(json["created"]),
+      firstName: json["first_name"] ?? notAvailable,
+      lastName: json["last_name"] ?? notAvailable,
+      gender: json["gender"] ?? notAvailable,
+      address: json["address"] ?? notAvailable,
+      plateNumber: json["plate_number"] ?? notAvailable,
+      chassisNumber: json["chassis_number"] ?? notAvailable,
+      balance: json["balance"] ?? 0.0,
+      image: json["image"],
+      tripCount: json['tripCount'] ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "username": username,
         "email": email,
+        "phone": phone,
+        "username": username,
+        "code": code,
+        "created": created,
+        "first_name": firstName,
+        "last_name": lastName,
+        "gender": gender,
+        "address": address,
+        "plate_number": plateNumber,
+        "chassis_number": chassisNumber,
+        "balance": balance,
+        "image": image,
       };
 }
