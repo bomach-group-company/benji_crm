@@ -21,17 +21,21 @@ class RiderController extends GetxController {
   bool? isFirst;
   RiderController({this.isFirst});
 
+  var moreNum = 10.obs;
+  var loadedAll = false.obs;
   var isLoad = false.obs;
+  var isLoadMore = false.obs;
   var isLoadAssign = false.obs;
   var riderList = <RiderItem>[].obs;
   var rider = RiderItem.fromJson(null).obs;
   var historyList = <HistoryItem>[].obs;
+  var total = 0.obs;
 
-  Future getRiders([String? end]) async {
+  Future getRiders() async {
     late String token;
     isLoad.value = true;
     update();
-    var url = "${Api.baseUrl}${Api.riderList}?start=0&end=${end ?? 100}";
+    var url = "${Api.baseUrl}${Api.riderList}?start=0&end=$moreNum";
     token = UserController.instance.user.value.token;
     try {
       http.Response? response = await HandleData.getApi(url, token);
@@ -42,6 +46,8 @@ class RiderController extends GetxController {
       if (responseData == null) {
         return;
       }
+
+      total.value = jsonDecode(responseData)['total'];
       riderList.value = (jsonDecode(responseData)['items'] as List)
           .map((e) => RiderItem.fromJson(e))
           .toList();
@@ -50,6 +56,44 @@ class RiderController extends GetxController {
       consoleLog("$e");
     }
     isLoad.value = false;
+    moreNum.value = 10;
+    loadedAll.value = false;
+    update();
+  }
+
+  Future loadMore() async {
+    late String token;
+    isLoadMore.value = true;
+    update();
+    var url =
+        "${Api.baseUrl}${Api.riderList}?start=$moreNum&end=${moreNum + 10}";
+    token = UserController.instance.user.value.token;
+    moreNum.value = moreNum.value + 10;
+    update();
+    try {
+      http.Response? response = await HandleData.getApi(url, token);
+
+      var responseData =
+          await ApiProcessorController.errorState(response, isFirst ?? true);
+      log(responseData);
+      if (responseData == null) {
+        return;
+      }
+      List<RiderItem> val = (jsonDecode(responseData)['items'] as List)
+          .map((e) => RiderItem.fromJson(e))
+          .toList();
+      riderList.value += val;
+      loadedAll.value = val.isEmpty;
+      update();
+    } catch (e) {
+      consoleLog("$e");
+    }
+    isLoadMore.value = false;
+    update();
+  }
+
+  emptyRiderList() {
+    riderList.value = [];
     update();
   }
 
