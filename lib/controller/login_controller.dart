@@ -19,56 +19,78 @@ class LoginController extends GetxController {
   var isLoad = false.obs;
 
   Future<void> login(SendLogin data) async {
-    Get.put(UserController());
-    isLoad.value = true;
-    update();
-    Map finalData = {
-      "username": data.username,
-      "password": data.password,
-    };
-
-    http.Response? response =
-        await HandleData.postApi(Api.baseUrl + Api.login, null, finalData);
-
-    if (response == null || response.statusCode != 200) {
-      ApiProcessorController.errorSnack("Invalid email or password. Try again");
-      isLoad.value = false;
+    try {
+      Get.put(UserController());
+      isLoad.value = true;
       update();
-      return;
-    }
+      Map finalData = {
+        "username": data.username,
+        "password": data.password,
+      };
 
-    var jsonData = jsonDecode(response.body);
+      http.Response? response =
+          await HandleData.postApi(Api.baseUrl + Api.login, null, finalData);
 
-    if (jsonData["token"] == false) {
-      ApiProcessorController.errorSnack("Invalid email or password. Try again");
-      isLoad.value = false;
-      update();
-    } else {
-      http.Response? responseUser =
-          await HandleData.getApi(Api.baseUrl + Api.user, jsonData["token"]);
-      if (responseUser == null || response.statusCode != 200) {
+      if (response == null || response.statusCode != 200) {
         ApiProcessorController.errorSnack(
             "Invalid email or password. Try again");
         isLoad.value = false;
         update();
         return;
       }
-      UserController.instance.saveUser(responseUser.body, jsonData["token"]);
-      ApiProcessorController.successSnack("Login Successful");
-      // consoleLog("Here is your token oo ${jsonData["token"]}");
-      Get.offAll(
-        () => OverView(),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "OverView",
-        predicate: (route) => false,
-        popGesture: true,
-        transition: Transition.cupertinoDialog,
-      );
-      return;
-    }
 
-    isLoad.value = false;
-    update();
+      var jsonData = jsonDecode(response.body);
+
+      if (jsonData["token"] == false) {
+        ApiProcessorController.errorSnack(
+            "Invalid email or password. Try again");
+        isLoad.value = false;
+        update();
+      } else {
+        http.Response? responseUser =
+            await HandleData.getApi(Api.baseUrl + Api.user, jsonData["token"]);
+        if (responseUser == null || responseUser.statusCode != 200) {
+          ApiProcessorController.errorSnack(
+              "Invalid email or password. Try again");
+          isLoad.value = false;
+          update();
+          return;
+        }
+
+        http.Response? responseUserData = await HandleData.getApi(
+            Api.baseUrl +
+                Api.getAgent +
+                jsonDecode(responseUser.body)['id'].toString(),
+            jsonData["token"]);
+        if (responseUserData == null || responseUserData.statusCode != 200) {
+          ApiProcessorController.errorSnack(
+              "Invalid email or password. Try again");
+          isLoad.value = false;
+          update();
+          return;
+        }
+
+        UserController.instance.saveUser(
+            responseUserData.body, jsonData["token"], responseUser.body);
+        ApiProcessorController.successSnack("Login Successful");
+        Get.offAll(
+          () => OverView(),
+          fullscreenDialog: true,
+          curve: Curves.easeIn,
+          routeName: "OverView",
+          predicate: (route) => false,
+          popGesture: true,
+          transition: Transition.cupertinoDialog,
+        );
+        return;
+      }
+
+      isLoad.value = false;
+      update();
+    } catch (e) {
+      ApiProcessorController.errorSnack("Invalid email or password. Try again");
+      isLoad.value = false;
+      update();
+    }
   }
 }

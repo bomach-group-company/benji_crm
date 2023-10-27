@@ -26,12 +26,6 @@ class RiderController extends GetxController {
   var riderList = <RiderItem>[].obs;
   var rider = RiderItem.fromJson(null).obs;
   var historyList = <HistoryItem>[].obs;
-  @override
-  void onInit() {
-    // runTask();
-
-    super.onInit();
-  }
 
   Future getRiders([String? end]) async {
     late String token;

@@ -13,6 +13,7 @@ const baseURL = "https://resource.bgbot.app/api/v1";
 class Api {
   static const baseUrl = "https://resource.bgbot.app/api/v1";
   static const login = "/auth/token";
+  static const getAgent = "/agents/getAgent/";
   static const user = "/auth/";
   static const notification = "/agents/getAgentNotifications/";
   static const changePassword = "/auth/changeNewPassword/";

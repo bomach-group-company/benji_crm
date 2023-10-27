@@ -41,9 +41,14 @@ class UserController extends GetxController {
     }
   }
 
-  Future<void> saveUser(String user, String token) async {
+  Future<void> saveUser(String user, String token, String otherUserData) async {
     Map data = jsonDecode(user);
+    Map otherData = jsonDecode(otherUserData);
     data['token'] = token;
+    data['username'] = otherData['username'];
+    data['email'] = otherData['email'];
+    data['code'] = otherData['code'];
+    print(data);
     await prefs.setString('user', jsonEncode(data));
   }
 
