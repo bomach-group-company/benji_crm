@@ -201,6 +201,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                 children: [
                   kSizedBox,
                   controller.isLoad.value && controller.riderList.isEmpty
+                      // controller.isLoad.value
                       ? const RidersListSkeleton()
                       : ListView.separated(
                           separatorBuilder: (context, index) => kSizedBox,

@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:benji_aggregator/src/responsive/responsive_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -31,8 +32,8 @@ class RiderVendorContainer extends StatelessWidget {
           left: kDefaultPadding,
           right: kDefaultPadding / 1.5,
         ),
-        width: MediaQuery.of(context).size.width,
-        height: 140,
+        width: media.width,
+        height: deviceType(media.width) >= 2 ? 200 : 140,
         decoration: ShapeDecoration(
           color: kPrimaryColor,
           shape: RoundedRectangleBorder(

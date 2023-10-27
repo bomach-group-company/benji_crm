@@ -516,7 +516,6 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                                 ),
                               ],
                             ),
-                            Text("${controller.user.value.id}"),
                           ],
                         ),
                       ),

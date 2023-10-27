@@ -1,6 +1,8 @@
+import 'package:benji_aggregator/services/api_url.dart';
 import 'package:benji_aggregator/src/components/my_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 
 import '../../../src/components/my_blue_textformfield.dart';
@@ -19,9 +21,24 @@ class AddBankAccountPage extends StatefulWidget {
 }
 
 class _AddBankAccountPageState extends State<AddBankAccountPage> {
+//===================================== INITIAL STATE =========================================\\
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    scrollController.dispose();
+  }
+
 //===================================== ALL VARIABLES =========================================\\
 
+//===================================== BOOL VALUES =========================================\\
+
 //================= Controllers ==================\\
+  final scrollController = ScrollController();
   final bankNameEC = TextEditingController();
   final accountNumberEC = TextEditingController();
 
@@ -43,8 +60,8 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
   }
 
   //=================================== Navigation ============================\\
-  _selectBank() async {
-    Get.to(
+  selectBank() async {
+    final selectedBank = await Get.to(
       () => const SelectBank(),
       routeName: 'SelectBank',
       duration: const Duration(milliseconds: 300),
@@ -54,9 +71,15 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
       popGesture: true,
       transition: Transition.rightToLeft,
     );
+    if (selectedBank != null) {
+      consoleLog("Selected Bank: $selectedBank");
+      setState(() {
+        bankNameEC.text = selectedBank;
+      });
+    }
   }
 
-  void _saveAccount() {
+  void saveAccount() {
     Get.back();
   }
 
@@ -68,9 +91,28 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
         backgroundColor: kPrimaryColor,
         appBar: MyAppBar(
           title: "Add bank account",
-          elevation: 0.0,
+          elevation: 0,
           actions: const [],
           backgroundColor: kPrimaryColor,
+        ),
+        bottomNavigationBar: Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(boxShadow: [
+            BoxShadow(
+              color: kAccentColor.withOpacity(0.08),
+              offset: const Offset(3, 0),
+              blurRadius: 32,
+            ),
+          ]),
+          child: MyElevatedButton(
+            title: "Save Account",
+            onPressed: () async {
+              if (formKey.currentState!.validate()) {
+                saveAccount();
+              }
+            },
+            // isLoading: controller.isLoad.value,
+          ),
         ),
         body: SafeArea(
           child: SingleChildScrollView(
@@ -83,18 +125,18 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Center(
-                      child: Text(
-                        'Bank Details',
-                        style: TextStyle(
-                          color: kTextBlackColor,
-                          fontSize: 22,
-                          fontWeight: FontWeight.w600,
-                          height: 1.45,
-                        ),
-                      ),
-                    ),
-                    kSizedBox,
+                    // const Center(
+                    //   child: Text(
+                    //     'Bank Details',
+                    //     style: TextStyle(
+                    //       color: kTextBlackColor,
+                    //       fontSize: 22,
+                    //       fontWeight: FontWeight.w600,
+                    //       height: 1.45,
+                    //     ),
+                    //   ),
+                    // ),
+                    // kSizedBox,
                     Text(
                       'Bank Name',
                       style: TextStyle(
@@ -105,7 +147,7 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
                     ),
                     kHalfSizedBox,
                     InkWell(
-                      onTap: _selectBank,
+                      onTap: selectBank,
                       child: MyBlueTextFormField(
                         controller: bankNameEC,
                         isEnabled: false,
@@ -119,9 +161,14 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
                         ),
                         textInputType: TextInputType.name,
                         validator: (value) {
+                          if (value == null || value!.isEmpty) {
+                            return "Select a bank";
+                          }
                           return null;
                         },
-                        onSaved: (value) {},
+                        onSaved: (value) {
+                          bankNameEC.text = value!;
+                        },
                       ),
                     ),
                     kSizedBox,
@@ -152,21 +199,17 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
                       },
                     ),
                     kSizedBox,
-                    Text(
-                      'Blessing Mesoma',
-                      style: TextStyle(
-                        color: kAccentColor,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
+                    Visibility(
+                      visible: false,
+                      child: Text(
+                        'Blessing Mesoma',
+                        style: TextStyle(
+                          color: kAccentColor,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
-                    const SizedBox(
-                      height: kDefaultPadding * 4,
-                    ),
-                    MyElevatedButton(
-                      onPressed: _saveAccount,
-                      title: "Save Account",
-                    )
                   ],
                 ),
               ),
