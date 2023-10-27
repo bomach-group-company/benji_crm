@@ -16,7 +16,10 @@ class RiderHistoryController extends GetxController {
     return Get.find<RiderHistoryController>();
   }
 
+  var moreNum = 4.obs;
+  var loadedAll = false.obs;
   var isLoad = false.obs;
+  var isLoadMore = false.obs;
   var historyList = <HistoryItem>[].obs;
   var clickedRider = RiderItem.fromJson(null).obs;
 
@@ -25,7 +28,7 @@ class RiderHistoryController extends GetxController {
     update();
   }
 
-  Future riderHistory([String? end]) async {
+  Future riderHistory() async {
     isLoad.value = true;
     late String token;
     update();
@@ -36,8 +39,45 @@ class RiderHistoryController extends GetxController {
       return;
     }
     var url =
-        "${Api.baseUrl}${Api.riderHistory}?rider_id=${clickedRider.value.id}&start=0&end=${end ?? 100}";
+        "${Api.baseUrl}${Api.riderHistory}?rider_id=${clickedRider.value.id}&start=0&end=${moreNum.value}";
 
+    token = UserController.instance.user.value.token;
+    // try {
+    http.Response? response = await HandleData.getApi(url, token);
+
+    var responseData = await ApiProcessorController.errorState(response);
+    // try {
+    List<HistoryItem> val = (jsonDecode(responseData)['items'] as List)
+        .map((e) => HistoryItem.fromJson(e))
+        .toList();
+    historyList.value = val;
+    loadedAll.value = val.isEmpty;
+    // } catch (e) {
+    //   consoleLog("$e");
+    // }
+    // notification.value = save;
+    isLoad.value = false;
+    update();
+    // } catch (e) {
+    //   print('$e  errorrrr ');
+    // }
+    isLoad.value = false;
+    update();
+  }
+
+  Future loadMore([String? end]) async {
+    isLoadMore.value = true;
+    late String token;
+    update();
+    if (clickedRider.value.id == 0) {
+      historyList.value = [];
+      isLoadMore.value = false;
+      update();
+      return;
+    }
+    var url =
+        "${Api.baseUrl}${Api.riderHistory}?rider_id=${clickedRider.value.id}&start=0&end=${end ?? 100}";
+    moreNum.value = moreNum.value + 10;
     token = UserController.instance.user.value.token;
     // try {
     http.Response? response = await HandleData.getApi(url, token);
@@ -51,12 +91,10 @@ class RiderHistoryController extends GetxController {
     //   consoleLog("$e");
     // }
     // notification.value = save;
-    isLoad.value = false;
-    update();
     // } catch (e) {
     //   print('$e  errorrrr ');
     // }
-    isLoad.value = false;
+    isLoadMore.value = false;
     update();
   }
 }

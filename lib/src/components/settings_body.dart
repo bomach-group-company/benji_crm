@@ -20,18 +20,9 @@ class _SettingsBodyState extends State<SettingsBody> {
   @override
   void initState() {
     super.initState();
-
-    _loadingScreen = true;
-    Future.delayed(
-      const Duration(milliseconds: 1000),
-      () => setState(
-        () => _loadingScreen = false,
-      ),
-    );
   }
 
 //=============================================== ALL VARIABLES ======================================================\\
-  late bool _loadingScreen;
 
 //=============================================== FUNCTIONS ======================================================\\
   final scrollController = ScrollController();
@@ -80,139 +71,137 @@ class _SettingsBodyState extends State<SettingsBody> {
       maintainBottomViewPadding: true,
       child: Scrollbar(
         controller: scrollController,
-        child: _loadingScreen
-            ? Center(child: CircularProgressIndicator(color: kAccentColor))
-            : ListView(
-                controller: scrollController,
-                padding: const EdgeInsets.all(10),
-                physics: const BouncingScrollPhysics(),
-                children: [
-                  InkWell(
-                    onTap: toChangePhoneNumber,
-                    child: Container(
-                      width: media.width,
-                      decoration: ShapeDecoration(
-                        color: kPrimaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        shadows: const [
-                          BoxShadow(
-                            color: Color(0x0F000000),
-                            blurRadius: 24,
-                            offset: Offset(0, 4),
-                            spreadRadius: 0,
-                          ),
-                        ],
-                      ),
-                      child: ListTile(
-                        enableFeedback: true,
-                        leading: FaIcon(
-                          FontAwesomeIcons.phone,
-                          color: kAccentColor,
-                        ),
-                        title: const Text(
-                          "Change phone number",
-                          style: TextStyle(
-                            color: kTextBlackColor,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        trailing: const Icon(
-                          FontAwesomeIcons.chevronRight,
-                          size: 16,
-                          color: kTextBlackColor,
-                        ),
-                      ),
-                    ),
-                  ),
-                  kHalfSizedBox,
-                  InkWell(
-                    onTap: _toChangePassword,
+        child: ListView(
+          controller: scrollController,
+          padding: const EdgeInsets.all(10),
+          physics: const BouncingScrollPhysics(),
+          children: [
+            InkWell(
+              onTap: toChangePhoneNumber,
+              child: Container(
+                width: media.width,
+                decoration: ShapeDecoration(
+                  color: kPrimaryColor,
+                  shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
-                    child: Container(
-                      width: media.width,
-                      decoration: ShapeDecoration(
-                        color: kPrimaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        shadows: const [
-                          BoxShadow(
-                            color: Color(0x0F000000),
-                            blurRadius: 24,
-                            offset: Offset(0, 4),
-                            spreadRadius: 0,
-                          ),
-                        ],
-                      ),
-                      child: ListTile(
-                        enableFeedback: true,
-                        leading: FaIcon(
-                          FontAwesomeIcons.solidPenToSquare,
-                          color: kAccentColor,
-                        ),
-                        title: const Text(
-                          'Change Password',
-                          style: TextStyle(
-                            color: kTextBlackColor,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        trailing: const FaIcon(
-                          FontAwesomeIcons.chevronRight,
-                          size: 16,
-                          color: kTextBlackColor,
-                        ),
-                      ),
+                  ),
+                  shadows: const [
+                    BoxShadow(
+                      color: Color(0x0F000000),
+                      blurRadius: 24,
+                      offset: Offset(0, 4),
+                      spreadRadius: 0,
+                    ),
+                  ],
+                ),
+                child: ListTile(
+                  enableFeedback: true,
+                  leading: FaIcon(
+                    FontAwesomeIcons.phone,
+                    color: kAccentColor,
+                  ),
+                  title: const Text(
+                    "Change phone number",
+                    style: TextStyle(
+                      color: kTextBlackColor,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
-                  kHalfSizedBox,
-                  InkWell(
-                    onTap: _toAboutApp,
-                    child: Container(
-                      width: media.width,
-                      decoration: ShapeDecoration(
-                        color: kPrimaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        shadows: const [
-                          BoxShadow(
-                            color: Color(0x0F000000),
-                            blurRadius: 24,
-                            offset: Offset(0, 4),
-                            spreadRadius: 0,
-                          ),
-                        ],
-                      ),
-                      child: ListTile(
-                        enableFeedback: true,
-                        leading: FaIcon(
-                          FontAwesomeIcons.circleInfo,
-                          color: kAccentColor,
-                        ),
-                        title: const Text(
-                          "About the app",
-                          style: TextStyle(
-                            color: kTextBlackColor,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        trailing: const Icon(
-                          FontAwesomeIcons.chevronRight,
-                          size: 16,
-                          color: kTextBlackColor,
-                        ),
-                      ),
-                    ),
+                  trailing: const Icon(
+                    FontAwesomeIcons.chevronRight,
+                    size: 16,
+                    color: kTextBlackColor,
                   ),
-                  kHalfSizedBox,
-                ],
+                ),
               ),
+            ),
+            kHalfSizedBox,
+            InkWell(
+              onTap: _toChangePassword,
+              borderRadius: BorderRadius.circular(12),
+              child: Container(
+                width: media.width,
+                decoration: ShapeDecoration(
+                  color: kPrimaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  shadows: const [
+                    BoxShadow(
+                      color: Color(0x0F000000),
+                      blurRadius: 24,
+                      offset: Offset(0, 4),
+                      spreadRadius: 0,
+                    ),
+                  ],
+                ),
+                child: ListTile(
+                  enableFeedback: true,
+                  leading: FaIcon(
+                    FontAwesomeIcons.solidPenToSquare,
+                    color: kAccentColor,
+                  ),
+                  title: const Text(
+                    'Change Password',
+                    style: TextStyle(
+                      color: kTextBlackColor,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  trailing: const FaIcon(
+                    FontAwesomeIcons.chevronRight,
+                    size: 16,
+                    color: kTextBlackColor,
+                  ),
+                ),
+              ),
+            ),
+            kHalfSizedBox,
+            InkWell(
+              onTap: _toAboutApp,
+              child: Container(
+                width: media.width,
+                decoration: ShapeDecoration(
+                  color: kPrimaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  shadows: const [
+                    BoxShadow(
+                      color: Color(0x0F000000),
+                      blurRadius: 24,
+                      offset: Offset(0, 4),
+                      spreadRadius: 0,
+                    ),
+                  ],
+                ),
+                child: ListTile(
+                  enableFeedback: true,
+                  leading: FaIcon(
+                    FontAwesomeIcons.circleInfo,
+                    color: kAccentColor,
+                  ),
+                  title: const Text(
+                    "About the app",
+                    style: TextStyle(
+                      color: kTextBlackColor,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  trailing: const Icon(
+                    FontAwesomeIcons.chevronRight,
+                    size: 16,
+                    color: kTextBlackColor,
+                  ),
+                ),
+              ),
+            ),
+            kHalfSizedBox,
+          ],
+        ),
       ),
     );
   }

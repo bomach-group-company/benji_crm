@@ -338,11 +338,9 @@ class _DashboardState extends State<Dashboard>
                       GetBuilder<RiderController>(initState: (state) async {
                         await RiderController.instance.getRiders();
                       }, builder: (rider) {
-                        final allRider = rider.riderList.toList();
-
                         return RiderVendorContainer(
                           onTap: _toSeeAllRiders,
-                          number: "${allRider.length}",
+                          number: rider.total.value.toString(),
                           typeOf: "Riders",
                         );
                       }),
