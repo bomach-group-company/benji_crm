@@ -11,7 +11,7 @@ import 'package:get/get.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../controller/url_launch_controller.dart';
-import '../../model/rider_list_model.dart';
+import '../../model/rider_model.dart';
 import '../../src/components/my_outlined_elevatedButton.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/custom_show_search.dart';

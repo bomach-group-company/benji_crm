@@ -14,7 +14,7 @@ import 'package:get/get.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../model/order_list_model.dart';
-import '../../model/rider_list_model.dart';
+import '../../model/rider_model.dart';
 import '../../src/providers/constants.dart';
 import '../../src/skeletons/assign_rider_page_skeleton.dart';
 import 'riders_detail.dart';
@@ -31,9 +31,9 @@ class _AssignRiderState extends State<AssignRider> {
   //===================== Initial State ==========================\\
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      RiderController.instance.runTask();
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   RiderController.instance.getRiders();
+    // });
     super.initState();
 
     _loadingScreen = true;

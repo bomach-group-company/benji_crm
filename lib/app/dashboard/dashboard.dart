@@ -119,11 +119,11 @@ class _DashboardState extends State<Dashboard>
     setState(() {
       _loadingScreen = true;
     });
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      OrderController.instance.runTask();
-      VendorController.instance.runTask();
-      RiderController.instance.runTask();
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   OrderController.instance.runTask();
+    //   VendorController.instance.runTask();
+    //   RiderController.instance.getRiders();
+    // });
     await Future.delayed(const Duration(seconds: 1));
 
     setState(() {
@@ -340,20 +340,18 @@ class _DashboardState extends State<Dashboard>
                             );
                           }),
                       kSizedBox,
-                      GetBuilder<RiderController>(
-                          init: RiderController(),
-                          builder: (rider) {
-                            final allRider = rider.riderList.toList();
-                            // final allOnlineVendor = vendor.vendorList
-                            //     .where((p0) => p0.isOnline == true)
-                            //     .toList();
-                            return RiderVendorContainer(
-                              onTap: _toSeeAllRiders,
-                              number: "${allRider.length}",
-                              typeOf: "Riders",
-                              onlineStatus: "32 Online",
-                            );
-                          }),
+                      GetBuilder<RiderController>(initState: (state) async {
+                        await RiderController.instance.getRiders();
+                      }, builder: (rider) {
+                        final allRider = rider.riderList.toList();
+
+                        return RiderVendorContainer(
+                          onTap: _toSeeAllRiders,
+                          number: "${allRider.length}",
+                          typeOf: "Riders",
+                          onlineStatus: "32 Online",
+                        );
+                      }),
                       const SizedBox(height: kDefaultPadding * 2),
                       kSizedBox,
                     ],

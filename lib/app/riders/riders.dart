@@ -2,6 +2,7 @@
 
 import 'package:benji_aggregator/controller/rider_history_controller.dart';
 import 'package:benji_aggregator/src/components/my_liquid_refresh.dart';
+import 'package:benji_aggregator/src/skeletons/riders_list_skeleton.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../../controller/rider_controller.dart';
-import '../../model/rider_list_model.dart';
+import '../../model/rider_model.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/custom_show_search.dart';
 import '../../theme/colors.dart';
@@ -197,133 +198,132 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
             : const SizedBox(),
         body: SafeArea(
           maintainBottomViewPadding: true,
-          child: GetBuilder<RiderController>(
-              init: RiderController(),
-              builder: (controller) {
-                return Scrollbar(
-                  controller: scrollController,
-                  radius: const Radius.circular(10),
-                  scrollbarOrientation: ScrollbarOrientation.right,
-                  child: ListView(
-                    controller: scrollController,
-                    scrollDirection: Axis.vertical,
-                    physics: const BouncingScrollPhysics(),
-                    padding: const EdgeInsets.only(
-                      bottom: kDefaultPadding,
-                      right: kDefaultPadding,
-                      left: kDefaultPadding,
-                    ),
-                    children: [
-                      kSizedBox,
-                      // controller.isLoad.value
-                      //     ? const RidersListSkeleton()
-                      //     :
-                      ListView.separated(
-                        separatorBuilder: (context, index) => kSizedBox,
-                        itemCount: controller.riderList.length,
-                        addAutomaticKeepAlives: true,
-                        physics: const BouncingScrollPhysics(),
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) => ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Container(
-                            color: Colors.white,
-                            child: ListTile(
-                              contentPadding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 16),
-                              onTap: () => toRidersDetailPage(
-                                  controller.riderList[index]),
-                              leading: Stack(
-                                children: [
-                                  CircleAvatar(
-                                    radius: 30,
-                                    backgroundColor: Colors.transparent,
-                                    // backgroundImage: const AssetImage(
-                                    //   "assets/images/customer/juliet_gomes.png",
-                                    // ),
-                                    child: ClipOval(
-                                      child: CachedNetworkImage(
-                                        imageUrl:
-                                            "assets/images/customer/juliet_gomes.png",
-                                        fit: BoxFit.cover,
-                                        progressIndicatorBuilder: (context, url,
-                                                downloadProgress) =>
-                                            const Center(
-                                                child:
-                                                    CupertinoActivityIndicator(
-                                          color: kRedColor,
-                                        )),
-                                        errorWidget: (context, url, error) =>
-                                            const Icon(
-                                          Icons.error,
-                                          color: kRedColor,
+          child: GetBuilder<RiderController>(initState: (state) async {
+            await RiderController.instance.getRiders();
+          }, builder: (controller) {
+            return Scrollbar(
+              controller: scrollController,
+              radius: const Radius.circular(10),
+              scrollbarOrientation: ScrollbarOrientation.right,
+              child: ListView(
+                controller: scrollController,
+                scrollDirection: Axis.vertical,
+                physics: const BouncingScrollPhysics(),
+                padding: const EdgeInsets.only(
+                  bottom: kDefaultPadding,
+                  right: kDefaultPadding,
+                  left: kDefaultPadding,
+                ),
+                children: [
+                  kSizedBox,
+                  controller.isLoad.value
+                      ? const RidersListSkeleton()
+                      : ListView.separated(
+                          separatorBuilder: (context, index) => kSizedBox,
+                          itemCount: controller.riderList.length,
+                          addAutomaticKeepAlives: true,
+                          physics: const BouncingScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) => ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Container(
+                              color: Colors.white,
+                              child: ListTile(
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 16),
+                                onTap: () => toRidersDetailPage(
+                                    controller.riderList[index]),
+                                leading: Stack(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 30,
+                                      backgroundColor: Colors.transparent,
+                                      // backgroundImage: const AssetImage(
+                                      //   "assets/images/customer/juliet_gomes.png",
+                                      // ),
+                                      child: ClipOval(
+                                        child: CachedNetworkImage(
+                                          imageUrl:
+                                              "assets/images/customer/juliet_gomes.png",
+                                          fit: BoxFit.cover,
+                                          progressIndicatorBuilder: (context,
+                                                  url, downloadProgress) =>
+                                              const Center(
+                                                  child:
+                                                      CupertinoActivityIndicator(
+                                            color: kRedColor,
+                                          )),
+                                          errorWidget: (context, url, error) =>
+                                              const Icon(
+                                            Icons.error,
+                                            color: kRedColor,
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  // Positioned(
-                                  //   right: 10,
-                                  //   bottom: 0,
-                                  //   child: Container(
-                                  //     height: 10,
-                                  //     width: 10,
-                                  //     decoration: const ShapeDecoration(
-                                  //       color: kSuccessColor,
-                                  //       shape: OvalBorder(),
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                ],
-                              ),
-                              title: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '${controller.riderList[index].firstName} ${controller.riderList[index].lastName}',
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w700,
+                                    // Positioned(
+                                    //   right: 10,
+                                    //   bottom: 0,
+                                    //   child: Container(
+                                    //     height: 10,
+                                    //     width: 10,
+                                    //     decoration: const ShapeDecoration(
+                                    //       color: kSuccessColor,
+                                    //       shape: OvalBorder(),
+                                    //     ),
+                                    //   ),
+                                    // ),
+                                  ],
+                                ),
+                                title: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '${controller.riderList[index].firstName} ${controller.riderList[index].lastName}',
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w700,
+                                      ),
                                     ),
-                                  ),
-                                  kHalfSizedBox,
-                                  Text(
-                                    controller.riderList[index].username,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w700,
+                                    kHalfSizedBox,
+                                    Text(
+                                      controller.riderList[index].username,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w700,
+                                      ),
                                     ),
+                                  ],
+                                ),
+                                trailing: Text(
+                                  "${controller.riderList[index].tripCount} Trips Completed",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: kTextGreyColor,
+                                    fontWeight: FontWeight.w400,
                                   ),
-                                ],
-                              ),
-                              trailing: Text(
-                                "${controller.riderList[index].tripCount} Trips Completed",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: kTextGreyColor,
-                                  fontWeight: FontWeight.w400,
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      kSizedBox,
-                      TextButton(
-                        onPressed: _seeMoreRiders,
-                        child: Text(
-                          "See more",
-                          style: TextStyle(color: kAccentColor),
-                        ),
-                      )
-                    ],
-                  ),
-                );
-              }),
+                  kSizedBox,
+                  TextButton(
+                    onPressed: _seeMoreRiders,
+                    child: Text(
+                      "See more",
+                      style: TextStyle(color: kAccentColor),
+                    ),
+                  )
+                ],
+              ),
+            );
+          }),
         ),
       ),
     );

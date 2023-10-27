@@ -11,7 +11,6 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 import '../model/driver_history_model.dart';
-import '../model/rider_list_model.dart';
 import '../model/rider_model.dart';
 
 class RiderController extends GetxController {
@@ -25,20 +24,19 @@ class RiderController extends GetxController {
   var isLoad = false.obs;
   var isLoadAssign = false.obs;
   var riderList = <RiderItem>[].obs;
-  var rider = RiderModel().obs;
+  var rider = RiderItem.fromJson(null).obs;
   var historyList = <HistoryItem>[].obs;
   @override
   void onInit() {
-    runTask();
+    // runTask();
 
     super.onInit();
   }
 
-  Future runTask([String? end]) async {
+  Future getRiders([String? end]) async {
     late String token;
     isLoad.value = true;
     update();
-    print('as of at 1 ${isLoad.value}');
     var url = "${Api.baseUrl}${Api.riderList}?start=0&end=${end ?? 100}";
     token = UserController.instance.user.value.token;
     try {
@@ -50,48 +48,16 @@ class RiderController extends GetxController {
       if (responseData == null) {
         return;
       }
-      var save = RiderListModel.fromJson(jsonDecode(responseData));
-      riderList.value = save.items!;
+      riderList.value = (jsonDecode(responseData)['items'] as List)
+          .map((e) => RiderItem.fromJson(e))
+          .toList();
       update();
     } catch (e) {
       consoleLog("$e");
     }
     isLoad.value = false;
     update();
-    print('as of at 2 ${isLoad.value}');
   }
-
-  // Future riderHistory(id, [String? end]) async {
-  //   print('holaa d sbjddfdf dfdfdfndfn ndnmnmd');
-  //   isLoad.value = true;
-  //   late String token;
-  //   update();
-
-  //   var url =
-  //       "${Api.baseUrl}${Api.riderHistory}?rider_id=$id&start=0&end=${end ?? 100}";
-
-  //   token = UserController.instance.user.value.token;
-  //   print('i am amama kkk ');
-  //   try {
-  //     http.Response? response = await HandleData.getApi(url, token);
-
-  //     var responseData = await ApiProcessorController.errorState(response);
-  //     print('sbrjr $responseData responseData');
-  //     try {
-  //       var save = DriverHistoryModel.fromJson(jsonDecode(responseData));
-  //       historyList.value = save.items!;
-  //       print('as least in here ${save.items}');
-  //     } catch (e) {
-  //       consoleLog("$e");
-  //     }
-  //     // notification.value = save;
-  //     update();
-  //   } catch (e) {
-  //     print('$e  errorrrr ');
-  //   }
-  //   isLoad.value = false;
-  //   update();
-  // }
 
   Future getSpecificRider(id) async {
     late String token;
@@ -102,7 +68,7 @@ class RiderController extends GetxController {
     try {
       http.Response? response = await HandleData.getApi(url, token);
       var responseData = await ApiProcessorController.errorState(response);
-      var save = RiderModel.fromJson(responseData);
+      var save = RiderItem.fromJson(responseData);
       rider.value = save;
       update();
     } catch (e) {}
