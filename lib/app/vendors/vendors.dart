@@ -1,5 +1,7 @@
 // ignore_for_file: unused_local_variable, unused_field
 
+import 'dart:async';
+
 import 'package:benji_aggregator/app/others/add_vendor/add_vendor.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +57,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
       }
     });
     _loadingScreen = true;
-    Future.delayed(
+    _timer = Timer(
       const Duration(milliseconds: 1000),
       () => setState(
         () => _loadingScreen = false,
@@ -68,7 +70,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
     super.dispose();
     // _animationController.dispose();
     scrollController.dispose();
-
+    _timer.cancel();
     scrollController.removeListener(() {
       if (scrollController.position.userScrollDirection ==
           ScrollDirection.forward) {
@@ -84,6 +86,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
   bool _vendorStatus = true;
   bool _isLoadingVendorStatus = false;
   // bool _isScrollToTopBtnVisible = false;
+  late Timer _timer;
 
   //Online Vendors
   final String _onlineVendorsName = "Ntachi Osa";

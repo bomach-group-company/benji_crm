@@ -1,7 +1,7 @@
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
 
-import '../../model/business_trype_model.dart';
+import '../../model/business_type_model.dart';
 
 Future shopTypeModal(BuildContext context, List<BusinessType> type) async {
   var media = MediaQuery.of(context).size;
