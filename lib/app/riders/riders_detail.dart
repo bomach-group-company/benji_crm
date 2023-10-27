@@ -7,11 +7,12 @@ import 'package:benji_aggregator/theme/colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../controller/url_launch_controller.dart';
 import '../../model/rider_model.dart';
+import '../../src/components/my_liquid_refresh.dart';
 import '../../src/components/my_outlined_elevatedButton.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/custom_show_search.dart';
@@ -64,9 +65,6 @@ class _RidersDetailState extends State<RidersDetail> {
 //==========================================================================================\\
 
 //=========================================== Navigation ===============================================\\
-
-  void _seeMoreDeliveredOrders() {}
-  void _seeMorePendingOrders() {}
 
   void _toSuspendRider() => Get.to(
         () => const SuspendRider(),
@@ -133,7 +131,7 @@ class _RidersDetailState extends State<RidersDetail> {
       showSearch(context: context, delegate: CustomSearchDelegate());
     }
 
-    void seeDeliveredMessage() => showModalBottomSheet(
+    void seeDeliveryMessage() => showModalBottomSheet(
           context: context,
           isScrollControlled: true,
           elevation: 20,
@@ -162,31 +160,25 @@ class _RidersDetailState extends State<RidersDetail> {
         );
 
     //====================================================================\\
-    return LiquidPullToRefresh(
+    return MyLiquidRefresh(
       onRefresh: _handleRefresh,
-      color: kAccentColor,
-      borderWidth: 5.0,
-      backgroundColor: kPrimaryColor,
-      height: 150,
-      animSpeedFactor: 2,
-      showChildOpacityTransition: false,
       child: Scaffold(
         appBar: MyAppBar(
           title: "Riders Details",
-          elevation: 10.0,
+          elevation: 0,
           actions: [
             IconButton(
               onPressed: showSearchField,
               tooltip: "Search",
-              icon: Icon(
-                Icons.search_rounded,
+              icon: FaIcon(
+                FontAwesomeIcons.magnifyingGlass,
                 color: kAccentColor,
               ),
             ),
             IconButton(
               onPressed: () => showPopupMenu(context),
-              icon: Icon(
-                Icons.more_vert,
+              icon: FaIcon(
+                FontAwesomeIcons.ellipsisVertical,
                 color: kAccentColor,
               ),
             ),
@@ -234,13 +226,12 @@ class _RidersDetailState extends State<RidersDetail> {
                                 CircleAvatar(
                                   radius: 60,
                                   backgroundColor: Colors.white54,
-                                  // backgroundImage: const AssetImage(
-                                  //   "assets/images/profile/avatar-image.jpg",
-                                  // ),
+                                  backgroundImage: const AssetImage(
+                                    "assets/images/profile/avatar-image.jpg",
+                                  ),
                                   child: ClipOval(
                                     child: CachedNetworkImage(
-                                      imageUrl: widget.rider.image ??
-                                          "assets/images/customer/juliet_gomes.png",
+                                      imageUrl: widget.rider.image ?? "",
                                       fit: BoxFit.cover,
                                       progressIndicatorBuilder: (context, url,
                                               downloadProgress) =>
@@ -256,18 +247,6 @@ class _RidersDetailState extends State<RidersDetail> {
                                     ),
                                   ),
                                 ),
-                                // Positioned(
-                                //   right: 15,
-                                //   bottom: 0,
-                                //   child: Container(
-                                //     height: 20,
-                                //     width: 20,
-                                //     decoration: const ShapeDecoration(
-                                //       color: kSuccessColor,
-                                //       shape: OvalBorder(),
-                                //     ),
-                                //   ),
-                                // ),
                               ],
                             ),
                             Padding(
@@ -485,26 +464,31 @@ class _RidersDetailState extends State<RidersDetail> {
                                                                           5),
                                                             ),
                                                           ),
-                                                          child: SizedBox(
-                                                            width: 54,
-                                                            height: 10,
-                                                            child: Text(
-                                                              riderController
-                                                                  .historyList[
-                                                                      index]
-                                                                  .deliveryStatus,
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                              style: TextStyle(
-                                                                color:
-                                                                    kAccentColor,
-                                                                fontSize: 10,
-                                                                fontFamily:
-                                                                    'Overpass',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
+                                                          child: InkWell(
+                                                            onTap:
+                                                                seeDeliveryMessage,
+                                                            child: SizedBox(
+                                                              width: 54,
+                                                              height: 10,
+                                                              child: Text(
+                                                                riderController
+                                                                    .historyList[
+                                                                        index]
+                                                                    .deliveryStatus,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                style:
+                                                                    TextStyle(
+                                                                  color:
+                                                                      kAccentColor,
+                                                                  fontSize: 10,
+                                                                  fontFamily:
+                                                                      'Overpass',
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                ),
                                                               ),
                                                             ),
                                                           ),
