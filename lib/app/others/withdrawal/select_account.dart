@@ -200,8 +200,10 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
                                     children: [
                                       Row(
                                         children: [
-                                          Image.asset(
-                                              'assets/icons/accessbank.png'),
+                                          FaIcon(
+                                            FontAwesomeIcons.buildingColumns,
+                                            color: kAccentColor,
+                                          ),
                                           kHalfWidthSizedBox,
                                           Text(
                                             'Access Bank',

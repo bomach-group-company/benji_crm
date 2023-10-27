@@ -14,7 +14,6 @@ import '../../../src/components/my_appbar.dart';
 import '../../../src/components/my_elevatedButton.dart';
 import '../../../src/providers/constants.dart';
 import '../../../theme/colors.dart';
-import '../call_page.dart';
 
 class ActiveOrderDetails extends StatefulWidget {
   final int orderID;
@@ -70,20 +69,6 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
 //============================== FUNCTIONS ================================\\
 
 //============================== Navigation ================================\\
-  void _callCustomer() => Get.to(
-        () => CallPage(
-          userImage: widget.customerImage,
-          userName: widget.customerName,
-          userPhoneNumber: widget.customerPhoneNumber,
-        ),
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "Call customer",
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
 
   void _trackOrder() => Get.to(
         () => const TrackOrder(),

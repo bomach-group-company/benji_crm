@@ -1,13 +1,14 @@
 // ignore_for_file: file_names, unused_local_variable, unused_element
 
-import 'package:benji_aggregator/app/others/call_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
+import '../../../controller/url_launch_controller.dart';
 import '../../../model/order_list_model.dart';
 import '../../../src/components/my_appbar.dart';
 import '../../../src/components/my_elevatedButton.dart';
@@ -82,20 +83,6 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
         fullscreenDialog: true,
         curve: Curves.easeIn,
         routeName: "Assign rider",
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
-  //CALL CUSTOMER
-  void _callCustomer() => Get.to(
-        () => CallPage(
-            userName: widget.customerName,
-            userImage: widget.customerImage,
-            userPhoneNumber: widget.customerPhoneNumber),
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "Call customer",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.rightToLeft,
@@ -199,7 +186,7 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
                         width: mediaWidth,
                         padding: const EdgeInsets.all(kDefaultPadding / 2),
                         decoration: ShapeDecoration(
-                          color: Colors.white,
+                          color: kPrimaryColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(14.30),
                           ),
@@ -317,7 +304,7 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
                         width: mediaWidth,
                         padding: const EdgeInsets.all(kDefaultPadding / 2),
                         decoration: ShapeDecoration(
-                          color: Colors.white,
+                          color: kPrimaryColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(14.30),
                           ),
@@ -565,9 +552,11 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
                                           ),
                                         ),
                                         child: IconButton(
-                                          onPressed: _callCustomer,
-                                          icon: Icon(
-                                            Icons.phone,
+                                          onPressed: () =>
+                                              UrlLaunchController.makePhoneCall(
+                                                  "+237039502751"),
+                                          icon: FaIcon(
+                                            FontAwesomeIcons.phone,
                                             color: kAccentColor,
                                           ),
                                         ),
@@ -588,9 +577,9 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
                                         child: IconButton(
                                           onPressed: null,
                                           disabledColor: kLightGreyColor,
-                                          icon: Icon(
-                                            Icons.phone,
-                                            color: kPrimaryColor,
+                                          icon: FaIcon(
+                                            FontAwesomeIcons.phone,
+                                            color: kAccentColor,
                                           ),
                                         ),
                                       ),
@@ -604,7 +593,7 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
                         width: mediaWidth,
                         padding: const EdgeInsets.all(kDefaultPadding / 2),
                         decoration: ShapeDecoration(
-                          color: Colors.white,
+                          color: kPrimaryColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(14.30),
                           ),
@@ -792,7 +781,7 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
                               ),
                               child: Row(
                                 children: [
-                                  Icon(
+                                  FaIcon(
                                     color: kAccentColor,
                                     Icons.info_outline_rounded,
                                     size: 30,

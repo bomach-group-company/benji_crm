@@ -341,11 +341,11 @@ class _DashboardState extends State<Dashboard>
                         await RiderController.instance.getRiders();
                       }, builder: (rider) {
                         final allRider = rider.riderList.toList();
-
                         return RiderVendorContainer(
                           onTap: _toSeeAllRiders,
                           number: "${allRider.length}",
                           typeOf: "Riders",
+                          onlineStatus: "Online",
                         );
                       }),
                       const SizedBox(height: kDefaultPadding * 2),
