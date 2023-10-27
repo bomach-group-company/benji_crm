@@ -22,7 +22,7 @@ class UserController extends GetxController {
 
   @override
   void onInit() {
-    getUserSync();
+    setUserSync();
     super.onInit();
   }
 
@@ -49,11 +49,14 @@ class UserController extends GetxController {
     data['username'] = otherData['username'];
     data['email'] = otherData['email'];
     data['code'] = otherData['code'];
+
+    
     consoleLog(data.toString());
+
     await prefs.setString('user', jsonEncode(data));
   }
 
-  void getUserSync() {
+  void setUserSync() {
     String? userData = prefs.getString('user');
     if (userData == null) {
       user.value = UserModel.fromJson(null);

@@ -10,13 +10,13 @@ class RiderVendorContainer extends StatelessWidget {
   final Function() onTap;
   final String number;
   final String typeOf;
-  final String onlineStatus;
+  final String? onlineStatus;
   const RiderVendorContainer({
     super.key,
     required this.onTap,
     required this.number,
     required this.typeOf,
-    required this.onlineStatus,
+    this.onlineStatus,
   });
 
   @override
@@ -87,18 +87,20 @@ class RiderVendorContainer extends StatelessWidget {
                     ),
                   ),
                 ),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: Text(
-                    onlineStatus,
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      color: kAccentColor,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
+                onlineStatus == null
+                    ? const SizedBox()
+                    : Align(
+                        alignment: Alignment.bottomRight,
+                        child: Text(
+                          onlineStatus!,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            color: kAccentColor,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
               ],
             ),
           ],

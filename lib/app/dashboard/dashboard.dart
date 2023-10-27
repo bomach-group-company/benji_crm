@@ -12,7 +12,6 @@ import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-import '../../controller/user_controller.dart';
 import '../../model/order_list_model.dart';
 import '../../src/components/dashboard_orders_container.dart';
 import '../../src/components/dashboard_rider_vendor_container.dart';
@@ -27,12 +26,8 @@ import '../vendors/vendors.dart';
 class Dashboard extends StatefulWidget {
   final VoidCallback showNavigation;
   final VoidCallback hideNavigation;
-  Dashboard(
-      {Key? key, required this.showNavigation, required this.hideNavigation})
-      : super(key: key);
-  final user = Get.put(UserController());
-  final vendor = Get.put(VendorController());
-  final ride = Get.put(RiderController());
+  const Dashboard(
+      {super.key, required this.showNavigation, required this.hideNavigation});
 
   @override
   State<Dashboard> createState() => _DashboardState();
@@ -349,7 +344,6 @@ class _DashboardState extends State<Dashboard>
                           onTap: _toSeeAllRiders,
                           number: "${allRider.length}",
                           typeOf: "Riders",
-                          onlineStatus: "32 Online",
                         );
                       }),
                       const SizedBox(height: kDefaultPadding * 2),
