@@ -34,8 +34,7 @@ class ProfileController extends GetxController {
       bool isCurrent = true}) async {
     late String token;
     token = UserController.instance.user.value.token;
-    Get.put(ProfileController());
-    int uuid = ProfileController.instance.user.value.id;
+    int uuid = UserController.instance.user.value.id;
 
     var url = "${Api.baseUrl}/api/v1/agents/changeAgent/{$uuid}";
     consoleLog(url);

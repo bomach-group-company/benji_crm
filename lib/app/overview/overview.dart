@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
+import '../../controller/agent_controller.dart';
 import '../../controller/notification_controller.dart';
 import '../../controller/order_controller.dart';
 import '../../controller/profile_controller.dart';
@@ -17,6 +18,7 @@ import '../vendors/vendors.dart';
 class OverView extends StatefulWidget {
   final user = Get.put(UserController());
   final userProfile = Get.put(ProfileController());
+  final agentProfile = Get.put(AgentController());
   final vendor = Get.put(VendorController());
   final notiication = Get.put(NotificationController());
   final ride = Get.put(RiderController());

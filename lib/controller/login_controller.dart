@@ -55,13 +55,13 @@ class LoginController extends GetxController {
       }
       UserController.instance.saveUser(responseUser.body, jsonData["token"]);
       ApiProcessorController.successSnack("Login Successful");
-      consoleLog("Here is your token oo ${jsonData["token"]}");
+      // consoleLog("Here is your token oo ${jsonData["token"]}");
       Get.offAll(
         () => OverView(),
         fullscreenDialog: true,
         curve: Curves.easeIn,
         routeName: "OverView",
-        predicate: (route) => true,
+        predicate: (route) => false,
         popGesture: true,
         transition: Transition.cupertinoDialog,
       );
