@@ -10,7 +10,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-import '../model/business_trype_model.dart';
+import '../model/business_type_model.dart';
 import '../model/create_vendor_model.dart';
 import '../model/vendor_orders_model.dart';
 import '../model/vendor_product_model.dart';

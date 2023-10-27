@@ -13,6 +13,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../app/google_maps/get_location_on_map.dart';
+import '../../controller/agent_controller.dart';
 import '../../controller/latlng_detail_controller.dart';
 import '../../controller/profile_controller.dart';
 import '../../services/keys.dart';
@@ -39,23 +40,17 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
   //==========================================================================================\\
   @override
   void initState() {
+    super.initState();
     userCode = UserController.instance.user.value.code;
     userNameEC.text = UserController.instance.user.value.username;
-    super.initState();
-
-    _loadingScreen = true;
-    _timer = Timer(
-      const Duration(milliseconds: 1000),
-      () => setState(
-        () => _loadingScreen = false,
-      ),
-    );
+    firstNameEC.text = AgentController.instance.agent.value.firstName;
+    lastNameEC.text = AgentController.instance.agent.value.lastName;
+    mapsLocationEC.text = AgentController.instance.agent.value.address;
   }
 
   @override
   void dispose() {
     super.dispose();
-    _timer.cancel();
     selectedLocation.dispose();
     scrollController.dispose();
   }
@@ -63,17 +58,16 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
 //==========================================================================================\\
 
 //======================================== ALL VARIABLES ==============================================\\
-  late Timer _timer;
   final String countryDialCode = '234';
   String? userCode;
   String? latitude;
   String? longitude;
-
+  final agentController = Get.put(AgentController());
   List<AutocompletePrediction> placePredictions = [];
   final selectedLocation = ValueNotifier<String?>(null);
 
   //=========================== BOOL VALUES ====================================\\
-  late bool _loadingScreen;
+
   bool _isLoading = false;
   bool _typing = false;
 
@@ -301,7 +295,6 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
     setState(() {
       _isLoading = true;
     });
-
     await ProfileController.instance.updateProfile(
       userName: userNameEC.text,
       firstName: firstNameEC.text,
@@ -309,6 +302,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
       address: mapsLocationEC.text,
       isCurrent: true,
     );
+    AgentController.instance.getAgentDetails();
 
     setState(() {
       _isLoading = false;
@@ -341,456 +335,448 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
       maintainBottomViewPadding: true,
       child: Scrollbar(
         controller: scrollController,
-        child: _loadingScreen
-            ? Center(child: CircularProgressIndicator(color: kAccentColor))
-            : ListView(
-                controller: scrollController,
-                padding: const EdgeInsets.all(10),
-                physics: const BouncingScrollPhysics(),
-                children: [
-                  GetBuilder<UserController>(
-                    builder: (controller) {
-                      return Container(
-                        width: media.width,
-                        padding: const EdgeInsets.all(10),
-                        decoration: ShapeDecoration(
-                          color: kPrimaryColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          shadows: const [
-                            BoxShadow(
-                              color: Color(0x0F000000),
-                              blurRadius: 24,
-                              offset: Offset(0, 4),
-                              spreadRadius: 0,
-                            ),
-                          ],
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Stack(
-                                  children: [
-                                    selectedImage == null
-                                        ? Container(
-                                            height: deviceType(media.width) == 1
-                                                ? 100
-                                                : 150,
-                                            width: deviceType(media.width) == 1
-                                                ? 100
-                                                : 150,
-                                            decoration: ShapeDecoration(
-                                              color: kPageSkeletonColor,
-                                              image: const DecorationImage(
-                                                image: AssetImage(
-                                                  "assets/images/profile/avatar-image.jpg",
-                                                ),
-                                                fit: BoxFit.contain,
-                                              ),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(100),
-                                              ),
-                                            ),
-                                          )
-                                        : Container(
-                                            height: deviceType(media.width) == 1
-                                                ? 100
-                                                : 150,
-                                            width: deviceType(media.width) == 1
-                                                ? 100
-                                                : 150,
-                                            decoration: ShapeDecoration(
-                                              color: kPageSkeletonColor,
-                                              image: DecorationImage(
-                                                image:
-                                                    FileImage(selectedImage!),
-                                                fit: BoxFit.cover,
-                                              ),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(100),
-                                              ),
-                                            ),
+        child: ListView(
+          controller: scrollController,
+          padding: const EdgeInsets.all(10),
+          physics: const BouncingScrollPhysics(),
+          children: [
+            GetBuilder<UserController>(
+              builder: (controller) {
+                return Container(
+                  width: media.width,
+                  padding: const EdgeInsets.all(10),
+                  decoration: ShapeDecoration(
+                    color: kPrimaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    shadows: const [
+                      BoxShadow(
+                        color: Color(0x0F000000),
+                        blurRadius: 24,
+                        offset: Offset(0, 4),
+                        spreadRadius: 0,
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Stack(
+                            children: [
+                              selectedImage == null
+                                  ? Container(
+                                      height: deviceType(media.width) == 1
+                                          ? 100
+                                          : 150,
+                                      width: deviceType(media.width) == 1
+                                          ? 100
+                                          : 150,
+                                      decoration: ShapeDecoration(
+                                        color: kPageSkeletonColor,
+                                        image: const DecorationImage(
+                                          image: AssetImage(
+                                            "assets/images/profile/avatar-image.jpg",
                                           ),
-                                    Positioned(
-                                      bottom: 0,
-                                      right: 5,
-                                      child: InkWell(
-                                        onTap: () {
-                                          showModalBottomSheet(
-                                            context: context,
-                                            elevation: 20,
-                                            barrierColor:
-                                                kBlackColor.withOpacity(0.8),
-                                            showDragHandle: true,
-                                            useSafeArea: true,
-                                            isDismissible: true,
-                                            isScrollControlled: true,
-                                            shape: const RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.vertical(
-                                                top: Radius.circular(
-                                                  kDefaultPadding,
-                                                ),
-                                              ),
-                                            ),
-                                            enableDrag: true,
-                                            builder: (builder) =>
-                                                _profilePicBottomSheet(),
-                                          );
-                                        },
-                                        borderRadius:
-                                            BorderRadius.circular(100),
-                                        child: Container(
-                                          height: deviceType(media.width) == 1
-                                              ? 35
-                                              : 50,
-                                          width: deviceType(media.width) == 1
-                                              ? 35
-                                              : 50,
-                                          decoration: ShapeDecoration(
-                                            color: kAccentColor,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(100),
-                                            ),
-                                          ),
-                                          child: Center(
-                                            child: FaIcon(
-                                              FontAwesomeIcons.pencil,
-                                              size: 18,
-                                              color: kPrimaryColor,
-                                            ),
-                                          ),
+                                          fit: BoxFit.contain,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(100),
+                                        ),
+                                      ),
+                                    )
+                                  : Container(
+                                      height: deviceType(media.width) == 1
+                                          ? 100
+                                          : 150,
+                                      width: deviceType(media.width) == 1
+                                          ? 100
+                                          : 150,
+                                      decoration: ShapeDecoration(
+                                        color: kPageSkeletonColor,
+                                        image: DecorationImage(
+                                          image: FileImage(selectedImage!),
+                                          fit: BoxFit.cover,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(100),
                                         ),
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            kWidthSizedBox,
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    controller.user.value.username,
-                                    softWrap: true,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    textAlign: TextAlign.start,
-                                    style: const TextStyle(
-                                      color: kTextBlackColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w700,
+                              Positioned(
+                                bottom: 0,
+                                right: 5,
+                                child: InkWell(
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      elevation: 20,
+                                      barrierColor:
+                                          kBlackColor.withOpacity(0.8),
+                                      showDragHandle: true,
+                                      useSafeArea: true,
+                                      isDismissible: true,
+                                      isScrollControlled: true,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.vertical(
+                                          top: Radius.circular(
+                                            kDefaultPadding,
+                                          ),
+                                        ),
+                                      ),
+                                      enableDrag: true,
+                                      builder: (builder) =>
+                                          _profilePicBottomSheet(),
+                                    );
+                                  },
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: Container(
+                                    height:
+                                        deviceType(media.width) == 1 ? 35 : 50,
+                                    width:
+                                        deviceType(media.width) == 1 ? 35 : 50,
+                                    decoration: ShapeDecoration(
+                                      color: kAccentColor,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: FaIcon(
+                                        FontAwesomeIcons.pencil,
+                                        size: 18,
+                                        color: kPrimaryColor,
+                                      ),
                                     ),
                                   ),
-                                  Text(
-                                    controller.user.value.email,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      kWidthSizedBox,
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              controller.user.value.username,
+                              softWrap: true,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              textAlign: TextAlign.start,
+                              style: const TextStyle(
+                                color: kTextBlackColor,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            Text(
+                              controller.user.value.email,
+                              softWrap: true,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                color: kTextBlackColor,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            Wrap(
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.only(top: 11),
+                                  child: Text(
+                                    userCode!,
                                     softWrap: true,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    textAlign: TextAlign.center,
                                     style: const TextStyle(
                                       color: kTextBlackColor,
-                                      fontSize: 12,
+                                      fontSize: 14,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
-                                  Wrap(
-                                    children: [
-                                      Container(
-                                        margin: const EdgeInsets.only(top: 11),
-                                        child: Text(
-                                          userCode!,
-                                          softWrap: true,
-                                          style: const TextStyle(
-                                            color: kTextBlackColor,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ),
-                                      IconButton(
-                                        onPressed: () {
-                                          _copyToClipboard(context, userCode!);
-                                        },
-                                        tooltip: "Copy ID",
-                                        mouseCursor: SystemMouseCursors.click,
-                                        icon: FaIcon(
-                                          FontAwesomeIcons.copy,
-                                          size: 14,
-                                          color: kAccentColor,
-                                        ),
-                                      ),
-                                    ],
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    _copyToClipboard(context, userCode!);
+                                  },
+                                  tooltip: "Copy ID",
+                                  mouseCursor: SystemMouseCursors.click,
+                                  icon: FaIcon(
+                                    FontAwesomeIcons.copy,
+                                    size: 14,
+                                    color: kAccentColor,
                                   ),
-                                ],
+                                ),
+                              ],
+                            ),
+                            Text("${controller.user.value.id}"),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+            kSizedBox,
+            Text(
+              "Edit your profile".toUpperCase(),
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: kTextBlackColor,
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            kSizedBox,
+            Form(
+              key: _formKey,
+              child: ValueListenableBuilder(
+                  valueListenable: selectedLocation,
+                  builder: (context, selectedLocationValue, index) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Username".toUpperCase(),
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        kHalfSizedBox,
+                        NameTextFormField(
+                          controller: userNameEC,
+                          hintText: "Enter a username",
+                          validator: (value) {
+                            //Min. of 3 characters
+                            RegExp userNamePattern = RegExp(r'^.{3,}$');
+
+                            if (value == null || value!.isEmpty) {
+                              userNameFN.requestFocus();
+                              return "Enter a username";
+                            } else if (!userNamePattern.hasMatch(value)) {
+                              userNameFN.requestFocus();
+                              return "Username must be at least 3 characters";
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            userNameEC.text = value;
+                          },
+                          textInputAction: TextInputAction.next,
+                          nameFocusNode: userNameFN,
+                        ),
+                        kSizedBox,
+                        Text(
+                          "First Name".toUpperCase(),
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        kHalfSizedBox,
+                        NameTextFormField(
+                          controller: firstNameEC,
+                          hintText: "Enter your first name",
+                          nameFocusNode: firstNameFN,
+                          textInputAction: TextInputAction.next,
+                          validator: (value) {
+                            RegExp namePattern =
+                                RegExp(r'^.{3,}$'); //Min. of 3 characters
+                            if (value == null || value!.isEmpty) {
+                              firstNameFN.requestFocus();
+                              return "Enter your first name";
+                            } else if (!namePattern.hasMatch(value)) {
+                              firstNameFN.requestFocus();
+                              return "Name must be at least 3 characters";
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            firstNameEC.text = value;
+                          },
+                        ),
+                        kSizedBox,
+                        Text(
+                          "Last Name".toUpperCase(),
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        kHalfSizedBox,
+                        NameTextFormField(
+                          controller: lastNameEC,
+                          hintText: "Enter your last name",
+                          nameFocusNode: lastNameFN,
+                          textInputAction: TextInputAction.next,
+                          validator: (value) {
+                            RegExp namePattern =
+                                RegExp(r'^.{3,}$'); //Min. of 3 characters
+                            if (value == null || value!.isEmpty) {
+                              lastNameFN.requestFocus();
+                              return "Enter your last name";
+                            } else if (!namePattern.hasMatch(value)) {
+                              lastNameFN.requestFocus();
+                              return "Name must be at least 3 characters";
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            lastNameEC.text = value;
+                          },
+                        ),
+                        kSizedBox,
+                        Text(
+                          "Address".toUpperCase(),
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        kHalfSizedBox,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Location on Google maps',
+                              style: TextStyle(
+                                color: kTextBlackColor,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            kHalfSizedBox,
+                            MyMapsTextFormField(
+                              controller: mapsLocationEC,
+                              validator: (value) {
+                                if (value == null) {
+                                  mapsLocationFN.requestFocus();
+                                  "Enter a location";
+                                }
+                                return null;
+                              },
+                              onChanged: (value) {
+                                placeAutoComplete(value);
+                                setState(() {
+                                  selectedLocation.value = value;
+                                  _typing = true;
+                                });
+                                if (kDebugMode) {
+                                  print(
+                                      "ONCHANGED VALUE: ${selectedLocation.value}");
+                                }
+                              },
+                              textInputAction: TextInputAction.done,
+                              focusNode: mapsLocationFN,
+                              hintText: "Search a location",
+                              textInputType: TextInputType.text,
+                              prefixIcon: Padding(
+                                padding: const EdgeInsets.all(kDefaultPadding),
+                                child: FaIcon(
+                                  FontAwesomeIcons.locationDot,
+                                  color: kAccentColor,
+                                  size: 18,
+                                ),
+                              ),
+                            ),
+                            kSizedBox,
+                            Divider(
+                              height: 10,
+                              thickness: 2,
+                              color: kLightGreyColor,
+                            ),
+                            ElevatedButton.icon(
+                              onPressed: _toGetLocationOnMap,
+                              icon: FaIcon(
+                                FontAwesomeIcons.locationArrow,
+                                color: kAccentColor,
+                                size: 18,
+                              ),
+                              label: const Text("Locate on map"),
+                              style: ElevatedButton.styleFrom(
+                                elevation: 0,
+                                backgroundColor: kLightGreyColor,
+                                foregroundColor: kTextBlackColor,
+                                fixedSize: Size(media.width, 40),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                            Divider(
+                              height: 10,
+                              thickness: 2,
+                              color: kLightGreyColor,
+                            ),
+                            const Text(
+                              "Suggestions:",
+                              style: TextStyle(
+                                color: kTextBlackColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            kHalfSizedBox,
+                            SizedBox(
+                              height: () {
+                                if (_typing == false) {
+                                  return 0.0;
+                                }
+                                if (_typing == true) {
+                                  return 150.0;
+                                }
+                              }(),
+                              child: Scrollbar(
+                                controller: scrollController,
+                                child: ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: placePredictions.length,
+                                  itemBuilder: (context, index) =>
+                                      LocationListTile(
+                                    onTap: () => _setLocation(index),
+                                    location:
+                                        placePredictions[index].description!,
+                                  ),
+                                ),
                               ),
                             ),
                           ],
                         ),
-                      );
-                    },
-                  ),
-                  kSizedBox,
-                  Text(
-                    "Edit your profile".toUpperCase(),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: kTextBlackColor,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
+                        kSizedBox,
+                      ],
+                    );
+                  }),
+            ),
+            _isLoading
+                ? Center(
+                    child: CircularProgressIndicator(color: kAccentColor),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.all(kDefaultPadding),
+                    child: MyElevatedButton(
+                      onPressed: (() async {
+                        if (_formKey.currentState!.validate()) {
+                          updateData();
+                        }
+                      }),
+                      title: "Save",
                     ),
                   ),
-                  kSizedBox,
-                  Form(
-                    key: _formKey,
-                    child: ValueListenableBuilder(
-                        valueListenable: selectedLocation,
-                        builder: (context, selectedLocationValue, index) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Username".toUpperCase(),
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              kHalfSizedBox,
-                              NameTextFormField(
-                                controller: userNameEC,
-                                hintText: "Enter a username",
-                                validator: (value) {
-                                  //Min. of 3 characters
-                                  RegExp userNamePattern = RegExp(r'^.{3,}$');
-
-                                  if (value == null || value!.isEmpty) {
-                                    userNameFN.requestFocus();
-                                    return "Enter a username";
-                                  } else if (!userNamePattern.hasMatch(value)) {
-                                    userNameFN.requestFocus();
-                                    return "Username must be at least 3 characters";
-                                  }
-                                  return null;
-                                },
-                                onSaved: (value) {
-                                  userNameEC.text = value;
-                                },
-                                textInputAction: TextInputAction.next,
-                                nameFocusNode: userNameFN,
-                              ),
-                              kSizedBox,
-                              Text(
-                                "First Name".toUpperCase(),
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              kHalfSizedBox,
-                              NameTextFormField(
-                                controller: firstNameEC,
-                                hintText: "Enter your first name",
-                                nameFocusNode: firstNameFN,
-                                textInputAction: TextInputAction.next,
-                                validator: (value) {
-                                  RegExp namePattern =
-                                      RegExp(r'^.{3,}$'); //Min. of 3 characters
-                                  if (value == null || value!.isEmpty) {
-                                    firstNameFN.requestFocus();
-                                    return "Enter your first name";
-                                  } else if (!namePattern.hasMatch(value)) {
-                                    firstNameFN.requestFocus();
-                                    return "Name must be at least 3 characters";
-                                  }
-                                  return null;
-                                },
-                                onSaved: (value) {
-                                  firstNameEC.text = value;
-                                },
-                              ),
-                              kSizedBox,
-                              Text(
-                                "Last Name".toUpperCase(),
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              kHalfSizedBox,
-                              NameTextFormField(
-                                controller: lastNameEC,
-                                hintText: "Enter your last name",
-                                nameFocusNode: lastNameFN,
-                                textInputAction: TextInputAction.next,
-                                validator: (value) {
-                                  RegExp namePattern =
-                                      RegExp(r'^.{3,}$'); //Min. of 3 characters
-                                  if (value == null || value!.isEmpty) {
-                                    lastNameFN.requestFocus();
-                                    return "Enter your last name";
-                                  } else if (!namePattern.hasMatch(value)) {
-                                    lastNameFN.requestFocus();
-                                    return "Name must be at least 3 characters";
-                                  }
-                                  return null;
-                                },
-                                onSaved: (value) {
-                                  lastNameEC.text = value;
-                                },
-                              ),
-                              kSizedBox,
-                              Text(
-                                "Address".toUpperCase(),
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              kHalfSizedBox,
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    'Location on Google maps',
-                                    style: TextStyle(
-                                      color: kTextBlackColor,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  kHalfSizedBox,
-                                  MyMapsTextFormField(
-                                    controller: mapsLocationEC,
-                                    validator: (value) {
-                                      if (value == null) {
-                                        mapsLocationFN.requestFocus();
-                                        "Enter a location";
-                                      }
-                                      return null;
-                                    },
-                                    onChanged: (value) {
-                                      placeAutoComplete(value);
-                                      setState(() {
-                                        selectedLocation.value = value;
-                                        _typing = true;
-                                      });
-                                      if (kDebugMode) {
-                                        print(
-                                            "ONCHANGED VALUE: ${selectedLocation.value}");
-                                      }
-                                    },
-                                    textInputAction: TextInputAction.done,
-                                    focusNode: mapsLocationFN,
-                                    hintText: "Search a location",
-                                    textInputType: TextInputType.text,
-                                    prefixIcon: Padding(
-                                      padding:
-                                          const EdgeInsets.all(kDefaultPadding),
-                                      child: FaIcon(
-                                        FontAwesomeIcons.locationDot,
-                                        color: kAccentColor,
-                                        size: 18,
-                                      ),
-                                    ),
-                                  ),
-                                  kSizedBox,
-                                  Divider(
-                                    height: 10,
-                                    thickness: 2,
-                                    color: kLightGreyColor,
-                                  ),
-                                  ElevatedButton.icon(
-                                    onPressed: _toGetLocationOnMap,
-                                    icon: FaIcon(
-                                      FontAwesomeIcons.locationArrow,
-                                      color: kAccentColor,
-                                      size: 18,
-                                    ),
-                                    label: const Text("Locate on map"),
-                                    style: ElevatedButton.styleFrom(
-                                      elevation: 0,
-                                      backgroundColor: kLightGreyColor,
-                                      foregroundColor: kTextBlackColor,
-                                      fixedSize: Size(media.width, 40),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                  ),
-                                  Divider(
-                                    height: 10,
-                                    thickness: 2,
-                                    color: kLightGreyColor,
-                                  ),
-                                  const Text(
-                                    "Suggestions:",
-                                    style: TextStyle(
-                                      color: kTextBlackColor,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  kHalfSizedBox,
-                                  SizedBox(
-                                    height: () {
-                                      if (_typing == false) {
-                                        return 0.0;
-                                      }
-                                      if (_typing == true) {
-                                        return 150.0;
-                                      }
-                                    }(),
-                                    child: Scrollbar(
-                                      controller: scrollController,
-                                      child: ListView.builder(
-                                        physics: const BouncingScrollPhysics(),
-                                        shrinkWrap: true,
-                                        itemCount: placePredictions.length,
-                                        itemBuilder: (context, index) =>
-                                            LocationListTile(
-                                          onTap: () => _setLocation(index),
-                                          location: placePredictions[index]
-                                              .description!,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              kSizedBox,
-                            ],
-                          );
-                        }),
-                  ),
-                  _isLoading
-                      ? Center(
-                          child: CircularProgressIndicator(color: kAccentColor),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.all(kDefaultPadding),
-                          child: MyElevatedButton(
-                            onPressed: (() async {
-                              if (_formKey.currentState!.validate()) {
-                                updateData();
-                              }
-                            }),
-                            title: "Save",
-                          ),
-                        ),
-                ],
-              ),
+          ],
+        ),
       ),
     );
   }
