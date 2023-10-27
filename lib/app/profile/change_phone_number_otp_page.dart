@@ -88,13 +88,13 @@ class _OTPChangePhoneNumberState extends State<OTPChangePhoneNumber> {
   void resendOTP() async {
     // Implement your resend OTP logic here
     // For example, you could restart the timer and reset the `_timerComplete` state.
-    String? userEmail = prefs.getString('email');
+    String? userPhoneNumber = prefs.getString('userPhoneNumber');
 
-    if (userEmail == null) {
+    if (userPhoneNumber == null) {
       myFixedSnackBar(
         context,
         "Something went wrong".toUpperCase(),
-        kSuccessColor,
+        kAccentColor,
         const Duration(
           seconds: 2,
         ),

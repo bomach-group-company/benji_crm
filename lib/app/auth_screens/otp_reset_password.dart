@@ -87,15 +87,13 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
 
   //================= Resend OTP ======================\\
   void _resendOTP() async {
-    // Implement your resend OTP logic here
-    // For example, you could restart the timer and reset the `_timerComplete` state.
     String? userEmail = prefs.getString('email');
 
     if (userEmail == null) {
       myFixedSnackBar(
         context,
         "Something went wrong".toUpperCase(),
-        kSuccessColor,
+        kAccentColor,
         const Duration(
           seconds: 2,
         ),

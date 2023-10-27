@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
+import '../../main.dart';
 import '../../src/components/my_intl_phonefield.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
@@ -38,16 +39,20 @@ class _ChangePhoneNumberBodyState extends State<ChangePhoneNumberBody> {
   final userPhoneNumberFN = FocusNode();
 
 //================== FUNCTIONS ===============\\
-  toOTPPage() => Get.to(
-        () => const OTPResetPassword(),
-        routeName: 'OTPResetPassword',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+  toOTPPage() async {
+    await prefs.setString('userPhoneNumber', userPhoneNumberEC.text);
+
+    Get.to(
+      () => const OTPResetPassword(),
+      routeName: 'OTPResetPassword',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
