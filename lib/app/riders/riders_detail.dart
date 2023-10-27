@@ -239,7 +239,7 @@ class _RidersDetailState extends State<RidersDetail> {
                                       radius: 60,
                                       backgroundColor: Colors.white54,
                                       backgroundImage: const AssetImage(
-                                        "assets/images/customer/juliet_gomes.png",
+                                        "assets/images/profile/avatar-image.jpg",
                                       ),
                                       child: ClipOval(
                                         child: CachedNetworkImage(
@@ -376,17 +376,18 @@ class _RidersDetailState extends State<RidersDetail> {
                             ),
                           ),
                           kHalfSizedBox,
-                          ListView.builder(
-                              itemCount: riderController.historyList.length,
-                              shrinkWrap: true,
-                              physics: const BouncingScrollPhysics(),
-                              itemBuilder: (context, index) => Container(
-                                  margin: const EdgeInsets.only(
-                                      bottom: kDefaultPadding / 2),
+                          ListView.separated(
+                            separatorBuilder: (context, index) => kSizedBox,
+                            itemCount: riderController.historyList.length,
+                            shrinkWrap: true,
+                            physics: const BouncingScrollPhysics(),
+                            itemBuilder: (context, index) => Column(
+                              children: [
+                                Container(
                                   decoration: ShapeDecoration(
-                                    color: Colors.white,
+                                    color: kPrimaryColor,
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16),
+                                      borderRadius: BorderRadius.circular(10),
                                     ),
                                     shadows: const [
                                       BoxShadow(
@@ -394,269 +395,265 @@ class _RidersDetailState extends State<RidersDetail> {
                                         blurRadius: 24,
                                         offset: Offset(0, 4),
                                         spreadRadius: 0,
-                                      ),
+                                      )
                                     ],
                                   ),
-                                  child: Row(children: [
-                                    Container(
-                                      height: 120,
-                                      width: 120,
-                                      decoration: BoxDecoration(
-                                        color: kAccentColor,
-                                        borderRadius: const BorderRadius.only(
-                                          topLeft: Radius.circular(16),
-                                          bottomLeft: Radius.circular(16),
-                                        ),
-                                        // image: const DecorationImage(
-                                        //   image: AssetImage(
-                                        //       "assets/images/products/new-food.png"),
-                                        //   fit: BoxFit.cover,
-                                        // ),
-                                      ),
-                                      child: CachedNetworkImage(
-                                        imageUrl: '',
-                                        fit: BoxFit.cover,
-                                        progressIndicatorBuilder: (context, url,
-                                                downloadProgress) =>
-                                            const Center(
-                                                child:
-                                                    CupertinoActivityIndicator(
-                                          color: kRedColor,
-                                        )),
-                                        errorWidget: (context, url, error) =>
-                                            const Icon(
-                                          Icons.error,
-                                          color: Colors.white,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: Container(
+                                          // width: 110,
+                                          height: 119,
+                                          decoration: const ShapeDecoration(
+                                            image: DecorationImage(
+                                              image: AssetImage(
+                                                  "assets/images/profile/avatar-image.jpg"),
+                                              fit: BoxFit.cover,
+                                            ),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(10),
+                                                bottomLeft: Radius.circular(10),
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.all(
-                                          kDefaultPadding / 2),
-                                      // color: kAccentColor,
-                                      width: mediaWidth - 175,
-                                      height: 120,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Row(
+                                      Expanded(
+                                        flex: 2,
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 7,
+                                            horizontal: 12,
+                                          ),
+                                          child: Column(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              SizedBox(
-                                                width: 80,
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    SizedBox(
-                                                      width: 100,
-                                                      child: Text(
-                                                        "ID ${riderController.historyList[index].id}",
-                                                        maxLines: 1,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        style: const TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      width: 120,
-                                                      child: Text(
-                                                        "Items",
-                                                        maxLines: 1,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        style: TextStyle(
-                                                          fontSize: 12,
-                                                          color: kTextGreyColor,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              InkWell(
-                                                onTap: seeDeliveredMessage,
-                                                enableFeedback: true,
-                                                splashColor: kSuccessColor,
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                child: Container(
-                                                  padding: const EdgeInsets.all(
-                                                      kDefaultPadding / 3),
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                      color: kLightGreyColor,
-                                                      strokeAlign: BorderSide
-                                                          .strokeAlignInside,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                  ),
-                                                  child: Text(
-                                                    _deliveryStatus
-                                                        ? "Delivered"
-                                                        : "Pending",
-                                                    style: const TextStyle(
-                                                      fontSize: 10,
-                                                      color: kSuccessColor,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              kHalfSizedBox,
-                                              Column(
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
-                                                  Row(
-                                                    children: [
-                                                      Icon(
-                                                        Icons.my_location,
-                                                        color: kAccentColor,
-                                                        size: 18,
+                                                  const Text(
+                                                    'ID 213081',
+                                                    style: TextStyle(
+                                                      color: true
+                                                          ? Color(0xFF454545)
+                                                          : Color(0xFF979797),
+                                                      fontSize: 12,
+                                                      fontFamily: 'Sen',
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    // width: 68,
+                                                    // height: 24,
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 7,
+                                                        vertical: 5),
+                                                    decoration: ShapeDecoration(
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        side: const BorderSide(
+                                                          width: 0.50,
+                                                          color:
+                                                              Color(0xFFC8C8C8),
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5),
                                                       ),
-                                                      kHalfWidthSizedBox,
-                                                      SizedBox(
-                                                        width: mediaWidth - 230,
-                                                        child: const Text(
-                                                          "21 Bartus Street, Abuja Nigeria",
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          maxLines: 1,
+                                                    ),
+                                                    child: SizedBox(
+                                                      width: 54,
+                                                      height: 10,
+                                                      child: Text(
+                                                        true
+                                                            ? 'Delivered'
+                                                            : true
+                                                                ? 'Pending'
+                                                                : 'Cancelled',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                          color: true
+                                                              ? kAccentColor
+                                                              : true
+                                                                  ? kLoadingColor
+                                                                  : const Color(
+                                                                      0xFF979797),
+                                                          fontSize: 10,
+                                                          fontFamily:
+                                                              'Overpass',
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              Text(
+                                                'Food',
+                                                style: TextStyle(
+                                                  color: kTextGreyColor,
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Container(
+                                                        height: 12,
+                                                        width: 12,
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(2),
+                                                        decoration:
+                                                            ShapeDecoration(
+                                                          shape: OvalBorder(
+                                                            side: BorderSide(
+                                                              width: 1,
+                                                              color:
+                                                                  kAccentColor,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        child: Container(
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: kAccentColor,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        color: kAccentColor,
+                                                        height: 10,
+                                                        width: 1.5,
+                                                      ),
+                                                      Icon(
+                                                        Icons.location_on_sharp,
+                                                        size: 12,
+                                                        color: kAccentColor,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  const Expanded(
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          '21 Bartus Street, Abuja Nigeria',
                                                           style: TextStyle(
+                                                            color: true
+                                                                ? Color(
+                                                                    0xFF454545)
+                                                                : Color(
+                                                                    0xFF979797),
                                                             fontSize: 10,
+                                                            height: 2,
                                                             fontWeight:
                                                                 FontWeight.w400,
                                                           ),
                                                         ),
-                                                      ),
-                                                    ],
+                                                        Text(
+                                                          '3 Edwins Close, Wuse, Abuja',
+                                                          style: TextStyle(
+                                                            color: true
+                                                                ? Color(
+                                                                    0xFF454545)
+                                                                : Color(
+                                                                    0xFF979797),
+                                                            fontSize: 10,
+                                                            height: 2,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
-                                                  kHalfSizedBox,
-                                                  Column(
-                                                    children: [
-                                                      Row(
-                                                        children: [
-                                                          Icon(
-                                                            Icons.my_location,
-                                                            color: kAccentColor,
-                                                            size: 18,
-                                                          ),
-                                                          kHalfWidthSizedBox,
-                                                          SizedBox(
-                                                            width: mediaWidth -
-                                                                230,
-                                                            child: Text(
-                                                              riderController
-                                                                  .historyList[
-                                                                      index]
-                                                                  .driver
-                                                                  .username,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              maxLines: 1,
-                                                              style:
-                                                                  const TextStyle(
-                                                                fontSize: 10,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                width: 22,
+                                              ),
+                                              const Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Expanded(
+                                                    child: Text(
+                                                      '24-02 2022 12:00PM',
+                                                      style: TextStyle(
+                                                        color:
+                                                            Color(0xFF929292),
+                                                        fontSize: 10,
+                                                        fontFamily: 'Overpass',
+                                                        height: 1.5,
+                                                        fontWeight:
+                                                            FontWeight.w600,
                                                       ),
-                                                      const SizedBox(height: 5),
-                                                      Row(
-                                                        children: [
-                                                          Icon(
-                                                            Icons.location_on,
-                                                            color: kAccentColor,
-                                                            size: 18,
-                                                          ),
-                                                        ],
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    child: Text(
+                                                      '\u20A6 65,000',
+                                                      style: TextStyle(
+                                                        color: true
+                                                            ? Color(0xFF454545)
+                                                            : Color(0xFF979797),
+                                                        fontSize: 10,
+                                                        fontFamily: 'sen',
+                                                        height: 1.5,
+                                                        fontWeight:
+                                                            FontWeight.w600,
                                                       ),
-                                                      InkWell(
-                                                        onTap:
-                                                            seeDeliveredMessage,
-                                                        enableFeedback: true,
-                                                        splashColor:
-                                                            kSuccessColor,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
-                                                        child: Container(
-                                                          padding: const EdgeInsets
-                                                              .all(
-                                                              kDefaultPadding /
-                                                                  3),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            border: Border.all(
-                                                              color:
-                                                                  kLightGreyColor,
-                                                              strokeAlign:
-                                                                  BorderSide
-                                                                      .strokeAlignInside,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      const SizedBox(height: 5),
-                                                      Text(
-                                                        riderController
-                                                            .historyList[index]
-                                                            .createdDate,
-                                                        style: const TextStyle(
-                                                          fontSize: 10,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                        ),
-                                                      ),
-                                                    ],
+                                                    ),
                                                   ),
                                                 ],
                                               ),
                                             ],
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                    kSizedBox,
-                                    _deliveryStatus
-                                        ? TextButton(
-                                            onPressed: _seeMoreDeliveredOrders,
-                                            child: Text(
-                                              "See more",
-                                              style: TextStyle(
-                                                  color: kAccentColor),
-                                            ),
-                                          )
-                                        : TextButton(
-                                            onPressed: _seeMorePendingOrders,
-                                            child: Text(
-                                              "See more",
-                                              style: TextStyle(
-                                                  color: kAccentColor),
-                                            ),
-                                          ),
-                                  ]))),
-                        ]),
-                  );
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ]));
           }),
         ),
       ),
