@@ -59,12 +59,8 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
         widget.hideNavigation();
       }
     });
-    _loadingScreen = true;
     Future.delayed(
       const Duration(milliseconds: 1000),
-      () => setState(
-        () => _loadingScreen = false,
-      ),
     );
   }
 
@@ -76,27 +72,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
   }
 
   //================================= ALL VARIABLES ==========================================\\
-  late bool _loadingScreen;
-  bool _riderStatus = true;
-  bool _loadingRiderStatus = false;
   bool _isScrollToTopBtnVisible = false;
-
-//Online Riders
-  final String _onlineRidersImage = "rider/jerry_emmanuel.png";
-  final String _onlineRidersName = "Jerry Emmanuel";
-  final String _onlineRidersLocation = "Achara Layout";
-  final int _onlineRidersNoOfTrips = 238;
-  final String _onlineRidersPhoneNumber = "08032300044";
-  final int _numberOfOnlineRiders = 10;
-
-//Offline Riders
-  final String _offlineRidersName = "Martins Okafor";
-  final String _offlineRidersImage = "rider/martins_okafor.png";
-  final String _offlineRidersPhoneNumber = "08032300253";
-  final int _lastSeenCount = 20;
-  final String _lastSeenMessage = "minutes ago";
-  final int _offlineRiderNoOfTrips = 221;
-  final int _numberOfOfflineRiders = 10;
 
   //============================================== CONTROLLERS =================================================\\
   final ScrollController scrollController = ScrollController();
@@ -107,13 +83,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
   //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
-    setState(() {
-      _loadingScreen = true;
-    });
-    await Future.delayed(const Duration(milliseconds: 500));
-    setState(() {
-      _loadingScreen = false;
-    });
+    setState(() {});
   }
 
 //============================= Scroll to Top ======================================//
@@ -141,34 +111,23 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
 
   //===================== Handle riderStatus ==========================\\
   void clickOnlineRiders() async {
-    setState(() {
-      _loadingRiderStatus = true;
-      _riderStatus = true;
-    });
+    setState(() {});
 
     await Future.delayed(const Duration(milliseconds: 500));
 
-    setState(() {
-      _loadingRiderStatus = false;
-    });
+    setState(() {});
   }
 
   void clickOfflineRiders() async {
-    setState(() {
-      _loadingRiderStatus = true;
-      _riderStatus = false;
-    });
+    setState(() {});
 
     await Future.delayed(const Duration(milliseconds: 500));
 
-    setState(() {
-      _loadingRiderStatus = false;
-    });
+    setState(() {});
   }
 
 //=============================== See more ========================================\\
-  void _seeMoreOnlineRiders() {}
-  void _seeMoreOfflineRiders() {}
+  void _seeMoreRiders() {}
 
   //===================== Navigation ==========================\\
 
@@ -372,21 +331,13 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                       );
                                     }),
                             kSizedBox,
-                            _riderStatus
-                                ? TextButton(
-                                    onPressed: _seeMoreOnlineRiders,
-                                    child: Text(
-                                      "See more",
-                                      style: TextStyle(color: kAccentColor),
-                                    ),
-                                  )
-                                : TextButton(
-                                    onPressed: _seeMoreOfflineRiders,
-                                    child: Text(
-                                      "See more",
-                                      style: TextStyle(color: kAccentColor),
-                                    ),
-                                  ),
+                            TextButton(
+                              onPressed: _seeMoreRiders,
+                              child: Text(
+                                "See more",
+                                style: TextStyle(color: kAccentColor),
+                              ),
+                            )
                           ],
                         ),
                       );
