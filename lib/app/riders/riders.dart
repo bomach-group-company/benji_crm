@@ -76,6 +76,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
   //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
+    await RiderController.instance.emptyRiderList();
     await RiderController.instance.getRiders();
   }
 

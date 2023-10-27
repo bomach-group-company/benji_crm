@@ -92,6 +92,11 @@ class RiderController extends GetxController {
     update();
   }
 
+  emptyRiderList() {
+    riderList.value = [];
+    update();
+  }
+
   Future getSpecificRider(id) async {
     late String token;
     isLoad.value = true;
