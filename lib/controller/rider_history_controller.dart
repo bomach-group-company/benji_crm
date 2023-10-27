@@ -51,7 +51,7 @@ class RiderHistoryController extends GetxController {
         .map((e) => HistoryItem.fromJson(e))
         .toList();
     historyList.value = val;
-    loadedAll.value = val.isEmpty;
+    loadedAll.value = false;
     // } catch (e) {
     //   consoleLog("$e");
     // }
@@ -76,7 +76,7 @@ class RiderHistoryController extends GetxController {
       return;
     }
     var url =
-        "${Api.baseUrl}${Api.riderHistory}?rider_id=${clickedRider.value.id}&start=0&end=${end ?? 100}";
+        "${Api.baseUrl}${Api.riderHistory}?rider_id=${clickedRider.value.id}&start=${moreNum.value}&end=${moreNum.value + 4}";
     moreNum.value = moreNum.value + 10;
     token = UserController.instance.user.value.token;
     // try {
@@ -84,9 +84,11 @@ class RiderHistoryController extends GetxController {
 
     var responseData = await ApiProcessorController.errorState(response);
     // try {
-    historyList.value = (jsonDecode(responseData)['items'] as List)
+    List<HistoryItem> val = (jsonDecode(responseData)['items'] as List)
         .map((e) => HistoryItem.fromJson(e))
         .toList();
+    historyList.value += val;
+    loadedAll.value = val.isEmpty;
     // } catch (e) {
     //   consoleLog("$e");
     // }
@@ -95,6 +97,13 @@ class RiderHistoryController extends GetxController {
     //   print('$e  errorrrr ');
     // }
     isLoadMore.value = false;
+    update();
+  }
+
+  emptyRiderHistoryList() {
+    historyList.value = [];
+    loadedAll.value = false;
+    moreNum.value = 4;
     update();
   }
 }

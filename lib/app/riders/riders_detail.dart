@@ -90,13 +90,8 @@ class _RidersDetailState extends State<RidersDetail> {
 //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
-    setState(() {
-      _loadingScreen = true;
-    });
-    await Future.delayed(const Duration(milliseconds: 1000));
-    setState(() {
-      _loadingScreen = false;
-    });
+    RiderHistoryController.instance.historyList();
+    await RiderHistoryController.instance.riderHistory();
   }
 //==========================================================================================\\
 
@@ -684,28 +679,24 @@ class _RidersDetailState extends State<RidersDetail> {
                                 ],
                               ),
                             ),
-                  Column(
-                    children: [
-                      RiderHistoryController.instance.loadedAll.value
-                          ? Container(
-                              margin:
-                                  const EdgeInsets.only(top: 20, bottom: 20),
-                              height: 10,
-                              width: 10,
-                              decoration: ShapeDecoration(
-                                  shape: const CircleBorder(),
-                                  color: kPageSkeletonColor),
-                            )
-                          : const SizedBox(),
-                      RiderHistoryController.instance.isLoadMore.value
-                          ? Center(
-                              child: CircularProgressIndicator(
-                                color: kAccentColor,
-                              ),
-                            )
-                          : const SizedBox()
-                    ],
-                  ),
+                  kSizedBox,
+                  RiderHistoryController.instance.loadedAll.value
+                      ? Container(
+                          margin: const EdgeInsets.only(top: 20, bottom: 20),
+                          height: 10,
+                          width: 10,
+                          decoration: ShapeDecoration(
+                              shape: const CircleBorder(),
+                              color: kPageSkeletonColor),
+                        )
+                      : const SizedBox(),
+                  RiderHistoryController.instance.isLoadMore.value
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            color: kAccentColor,
+                          ),
+                        )
+                      : const SizedBox()
                 ],
               ),
             );
