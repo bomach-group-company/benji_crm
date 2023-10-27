@@ -25,12 +25,20 @@ class AuthController extends GetxController {
         fullscreenDialog: true,
         curve: Curves.easeIn,
         routeName: "OverView",
-        predicate: (route) => true,
-        popGesture: true,
+        predicate: (route) => false,
+        popGesture: false,
         transition: Transition.cupertinoDialog,
       );
     } else {
-      Get.offAll(() => const Login());
+      Get.offAll(
+        () => const Login(),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "Login",
+        predicate: (route) => false,
+        popGesture: false,
+        transition: Transition.cupertinoDialog,
+      );
     }
   }
 }

@@ -241,29 +241,19 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
             ),
           ],
         ),
-        floatingActionButton: Stack(
-          children: <Widget>[
-            if (_isScrollToTopBtnVisible) ...[
-              ScaleTransition(
-                scale: CurvedAnimation(
-                  parent: _animationController,
-                  curve: Curves.easeInOut,
-                ),
-                child: FloatingActionButton(
-                  onPressed: _scrollToTop,
-                  mini: true,
-                  backgroundColor: kAccentColor,
-                  enableFeedback: true,
-                  mouseCursor: SystemMouseCursors.click,
-                  tooltip: "Scroll to top",
-                  hoverColor: kAccentColor,
-                  hoverElevation: 50.0,
-                  child: const FaIcon(FontAwesomeIcons.chevronUp, size: 18),
-                ),
-              ),
-            ]
-          ],
-        ),
+        floatingActionButton: _isScrollToTopBtnVisible
+            ? FloatingActionButton(
+                onPressed: _scrollToTop,
+                mini: true,
+                backgroundColor: kAccentColor,
+                enableFeedback: true,
+                mouseCursor: SystemMouseCursors.click,
+                tooltip: "Scroll to top",
+                hoverColor: kAccentColor,
+                hoverElevation: 50.0,
+                child: const FaIcon(FontAwesomeIcons.chevronUp, size: 18),
+              )
+            : const SizedBox(),
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: GetBuilder<RiderController>(
@@ -370,7 +360,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                               padding: const EdgeInsets.all(
                                                   kDefaultPadding / 2),
                                               decoration: ShapeDecoration(
-                                                color: Colors.white,
+                                                color: kPrimaryColor,
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(16),
@@ -390,7 +380,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                                     CircleAvatar(
                                                       radius: 30,
                                                       backgroundColor:
-                                                          Colors.transparent,
+                                                          kTransparentColor,
                                                       //   backgroundImage:
                                                       //     AssetImage(
                                                       //   "assets/images/$_onlineRidersImage",

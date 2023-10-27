@@ -15,7 +15,7 @@ import '../../src/components/reusable_authentication_firsthalf.dart';
 import '../../src/providers/constants.dart';
 import '../../src/responsive/responsive_constant.dart';
 import '../../theme/colors.dart';
-import 'otp.dart';
+import 'otp_reset_password.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});

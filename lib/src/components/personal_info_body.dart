@@ -310,27 +310,6 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
       isCurrent: true,
     );
 
-    // if (res) {
-    //   //Display snackBar
-    //   mySnackBar(
-    //     context,
-    //     kSuccessColor,
-    //     "Success!",
-    //     "Your changes have been saved successfully".toUpperCase(),
-    //     const Duration(seconds: 2),
-    //   );
-
-    //   // Get.back();
-    // } else {
-    //   mySnackBar(
-    //     context,
-    //     kAccentColor,
-    //     "Failed!",
-    //     "Something unexpected happened, please try again later".toUpperCase(),
-    //     const Duration(seconds: 2),
-    //   );
-    // }
-
     setState(() {
       _isLoading = false;
     });
@@ -593,9 +572,9 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                                 controller: userNameEC,
                                 hintText: "Enter a username",
                                 validator: (value) {
-                                  RegExp userNamePattern = RegExp(
-                                    r'^.{3,}$', //Min. of 3 characters
-                                  );
+                                  //Min. of 3 characters
+                                  RegExp userNamePattern = RegExp(r'^.{3,}$');
+
                                   if (value == null || value!.isEmpty) {
                                     userNameFN.requestFocus();
                                     return "Enter a username";

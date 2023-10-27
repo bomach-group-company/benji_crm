@@ -18,16 +18,15 @@ import '../../src/components/reusable_authentication_firsthalf.dart';
 import '../../src/providers/constants.dart';
 import '../../src/responsive/responsive_constant.dart';
 import '../../theme/colors.dart';
-import 'reset_password.dart';
 
-class OTPResetPassword extends StatefulWidget {
-  const OTPResetPassword({super.key});
+class OTPChangePhoneNumber extends StatefulWidget {
+  const OTPChangePhoneNumber({super.key});
 
   @override
-  State<OTPResetPassword> createState() => _OTPResetPasswordState();
+  State<OTPChangePhoneNumber> createState() => _OTPChangePhoneNumberState();
 }
 
-class _OTPResetPasswordState extends State<OTPResetPassword> {
+class _OTPChangePhoneNumberState extends State<OTPChangePhoneNumber> {
   //=========================== INITIAL STATE ====================================\\
   @override
   void initState() {
@@ -86,16 +85,16 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
   }
 
   //================= Resend OTP ======================\\
-  void _resendOTP() async {
+  void resendOTP() async {
     // Implement your resend OTP logic here
     // For example, you could restart the timer and reset the `_timerComplete` state.
-    String? userEmail = prefs.getString('email');
+    String? userPhoneNumber = prefs.getString('userPhoneNumber');
 
-    if (userEmail == null) {
+    if (userPhoneNumber == null) {
       myFixedSnackBar(
         context,
         "Something went wrong".toUpperCase(),
-        kSuccessColor,
+        kAccentColor,
         const Duration(
           seconds: 2,
         ),
@@ -115,11 +114,11 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
       // );
     }
 
-    final url =
-        Uri.parse('${Api.baseUrl}/auth/requestForgotPassword/$userEmail');
+    // final url =
+    //     Uri.parse('${Api.baseUrl}/auth/requestForgotPassword/$userEmail');
 
-    final body = {};
-    await http.post(url, body: body);
+    // final body = {};
+    // await http.post(url, body: body);
 
     setState(() {
       _secondsRemaining = 60;
@@ -174,16 +173,16 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
       );
 
       // Navigate to the new page
-      Get.to(
-        () => const ResetPassword(),
-        routeName: 'ResetPassword',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+      // Get.to(
+      //   () => const ResetPassword(),
+      //   routeName: 'ResetPassword',
+      //   duration: const Duration(milliseconds: 300),
+      //   fullscreenDialog: true,
+      //   curve: Curves.easeIn,
+      //   preventDuplicates: true,
+      //   popGesture: true,
+      //   transition: Transition.rightToLeft,
+      // );
     } else {
       myFixedSnackBar(
         context,
@@ -320,7 +319,7 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
                           Row(
                             children: [
                               TextButton(
-                                onPressed: _timerComplete ? _resendOTP : null,
+                                onPressed: _timerComplete ? resendOTP : null,
                                 child: AnimatedDefaultTextStyle(
                                   style: TextStyle(
                                     fontSize: 15,

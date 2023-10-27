@@ -32,8 +32,8 @@ class UserController extends GetxController {
         fullscreenDialog: true,
         curve: Curves.easeIn,
         routeName: "OverView",
-        predicate: (route) => true,
-        popGesture: true,
+        predicate: (route) => false,
+        popGesture: false,
         transition: Transition.cupertinoDialog,
       );
     } else {

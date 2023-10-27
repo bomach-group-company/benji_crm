@@ -18,7 +18,7 @@ class MyElevatedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double mediaWidth = MediaQuery.of(context).size.width;
+    var media = MediaQuery.of(context).size;
     return ElevatedButton(
       onPressed: isLoading ? null : onPressed,
       style: ElevatedButton.styleFrom(
@@ -29,12 +29,10 @@ class MyElevatedButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
         ),
         shadowColor: kBlackColor.withOpacity(0.4),
-        minimumSize: Size(mediaWidth, 60),
+        minimumSize: Size(media.width, 60),
       ),
       child: isLoading
-          ? const CircularProgressIndicator(
-              color: Colors.white,
-            )
+          ? CircularProgressIndicator(color: kPrimaryColor)
           : Text(
               title.toUpperCase(),
               textAlign: TextAlign.center,
