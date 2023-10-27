@@ -38,6 +38,7 @@ class RiderController extends GetxController {
     late String token;
     isLoad.value = true;
     update();
+    print('as of at 1 ${isLoad.value}');
     var url = "${Api.baseUrl}${Api.riderList}?start=0&end=${end ?? 100}";
     token = UserController.instance.user.value.token;
     try {
@@ -57,6 +58,7 @@ class RiderController extends GetxController {
     }
     isLoad.value = false;
     update();
+    print('as of at 2 ${isLoad.value}');
   }
 
   Future riderHistory(id, [String? end]) async {
