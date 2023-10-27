@@ -89,16 +89,27 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
     );
   }
 
-  void _scrollListener() {
-    //========= Show action button ========//
-    if (scrollController.position.pixels >= 100) {
-      _animationController.forward();
-      setState(() => _isScrollToTopBtnVisible = true);
+  Future<void> _scrollListener() async {
+    if (scrollController.position.pixels >= 200 &&
+        _isScrollToTopBtnVisible != true) {
+      setState(() {
+        _isScrollToTopBtnVisible = true;
+      });
     }
-    //========= Hide action button ========//
-    else if (scrollController.position.pixels < 100) {
-      _animationController.reverse();
-      setState(() => _isScrollToTopBtnVisible = false);
+    if (scrollController.position.pixels < 200 &&
+        _isScrollToTopBtnVisible == true) {
+      setState(() {
+        _isScrollToTopBtnVisible = false;
+      });
+    }
+
+    if (RiderController.instance.loadedAll.value) {
+      return;
+    }
+
+    if (scrollController.offset >= scrollController.position.maxScrollExtent &&
+        !scrollController.position.outOfRange) {
+      await RiderController.instance.loadMore();
     }
   }
 
@@ -286,9 +297,27 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                   kSizedBox,
                   TextButton(
                     onPressed: _seeMoreRiders,
-                    child: Text(
-                      "See more",
-                      style: TextStyle(color: kAccentColor),
+                    child: Column(
+                      children: [
+                        RiderController.instance.loadedAll.value
+                            ? Container(
+                                margin:
+                                    const EdgeInsets.only(top: 20, bottom: 20),
+                                height: 10,
+                                width: 10,
+                                decoration: ShapeDecoration(
+                                    shape: const CircleBorder(),
+                                    color: kPageSkeletonColor),
+                              )
+                            : const SizedBox(),
+                        RiderController.instance.isLoadMore.value
+                            ? Center(
+                                child: CircularProgressIndicator(
+                                  color: kAccentColor,
+                                ),
+                              )
+                            : const SizedBox()
+                      ],
                     ),
                   )
                 ],
