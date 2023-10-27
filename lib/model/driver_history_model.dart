@@ -52,42 +52,37 @@ class DriverHistoryModel {
 
 class HistoryItem {
   String id;
-  Order orders;
+  // Order orders;
   Driver driver;
   String acceptanceStatus;
   String deliveryStatus;
-  DateTime? createdDate;
-  DateTime? deliveredDate;
+  String createdDate;
+  String deliveredDate;
 
   HistoryItem({
     required this.id,
-    required this.orders,
+    // required this.orders,
     required this.driver,
     required this.acceptanceStatus,
     required this.deliveryStatus,
-    this.createdDate,
-    this.deliveredDate,
+    required this.createdDate,
+    required this.deliveredDate,
   });
 
   factory HistoryItem.fromJson(Map<String, dynamic>? json) {
     json ??= {};
     return HistoryItem(
-      id: json["id"] ?? notAvailable,
-      orders: Order.fromJson(json["orders"]),
-      driver: Driver.fromJson(json["driver"]),
-      acceptanceStatus: json["acceptance_status"] ?? "PEND",
-      deliveryStatus: json["delivery_status"] ?? "pending",
-      createdDate: json["created_date"] == null
-          ? null
-          : DateTime.parse(json["created_date"]),
-      deliveredDate: json["delivered_date"] == null
-          ? null
-          : DateTime.parse(json["delivered_date"]),
-    );
+        id: json["id"] ?? notAvailable,
+        // orders: Order.fromJson(json["orders"]),
+        driver: Driver.fromJson(json["driver"]),
+        acceptanceStatus: json["acceptance_status"] ?? "PEND",
+        deliveryStatus: json["delivery_status"] ?? "pending",
+        createdDate: json["created_date"] ?? '',
+        deliveredDate: json["delivered_date"] ?? '');
   }
   Map<String, dynamic> toJson() => {
         "id": id,
-        "orders": orders,
+        // "orders": orders,
         "driver": driver.toJson(),
         "acceptance_status": acceptanceStatus,
         "delivery_status": deliveryStatus,

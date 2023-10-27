@@ -61,37 +61,37 @@ class RiderController extends GetxController {
     print('as of at 2 ${isLoad.value}');
   }
 
-  Future riderHistory(id, [String? end]) async {
-    print('holaa d sbjddfdf dfdfdfndfn ndnmnmd');
-    isLoad.value = true;
-    late String token;
-    update();
+  // Future riderHistory(id, [String? end]) async {
+  //   print('holaa d sbjddfdf dfdfdfndfn ndnmnmd');
+  //   isLoad.value = true;
+  //   late String token;
+  //   update();
 
-    var url =
-        "${Api.baseUrl}${Api.riderHistory}?rider_id=$id&start=0&end=${end ?? 100}";
+  //   var url =
+  //       "${Api.baseUrl}${Api.riderHistory}?rider_id=$id&start=0&end=${end ?? 100}";
 
-    token = UserController.instance.user.value.token;
-    print('i am amama kkk ');
-    try {
-      http.Response? response = await HandleData.getApi(url, token);
+  //   token = UserController.instance.user.value.token;
+  //   print('i am amama kkk ');
+  //   try {
+  //     http.Response? response = await HandleData.getApi(url, token);
 
-      var responseData = await ApiProcessorController.errorState(response);
-      print('sbrjr $responseData responseData');
-      try {
-        var save = DriverHistoryModel.fromJson(jsonDecode(responseData));
-        historyList.value = save.items!;
-        print('as least in here ${save.items}');
-      } catch (e) {
-        consoleLog("$e");
-      }
-      // notification.value = save;
-      update();
-    } catch (e) {
-      print('$e  errorrrr ');
-    }
-    isLoad.value = false;
-    update();
-  }
+  //     var responseData = await ApiProcessorController.errorState(response);
+  //     print('sbrjr $responseData responseData');
+  //     try {
+  //       var save = DriverHistoryModel.fromJson(jsonDecode(responseData));
+  //       historyList.value = save.items!;
+  //       print('as least in here ${save.items}');
+  //     } catch (e) {
+  //       consoleLog("$e");
+  //     }
+  //     // notification.value = save;
+  //     update();
+  //   } catch (e) {
+  //     print('$e  errorrrr ');
+  //   }
+  //   isLoad.value = false;
+  //   update();
+  // }
 
   Future getSpecificRider(id) async {
     late String token;

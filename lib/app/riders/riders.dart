@@ -1,13 +1,13 @@
 // ignorFontWeight_for_file: unused_local_variable,
 
+import 'package:benji_aggregator/controller/rider_history_controller.dart';
 import 'package:benji_aggregator/src/components/my_liquid_refresh.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 
 import '../../controller/rider_controller.dart';
 import '../../model/rider_list_model.dart';
@@ -42,9 +42,9 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      RiderController.instance.runTask();
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   RiderController.instance.runTask();
+    // });
 
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 300));
@@ -129,18 +129,23 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
 
   //===================== Navigation ==========================\\
 
-  void toRidersDetailPage(RiderItem rider) => Get.to(
-        () => RidersDetail(
-          rider: rider,
-        ),
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "Rider Details",
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.downToUp,
-      );
+  toRidersDetailPage(RiderItem rider) {
+    final riderHistory = Get.put(RiderHistoryController());
+    riderHistory.setClickedRider(rider);
+    print('set oo');
+    return Get.to(
+      () => RidersDetail(
+        rider: rider,
+      ),
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      routeName: "Rider Details",
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.downToUp,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
