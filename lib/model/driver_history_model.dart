@@ -77,8 +77,8 @@ class HistoryItem {
         driver: Driver.fromJson(json["driver"]),
         acceptanceStatus: json["acceptance_status"] ?? "PEND",
         deliveryStatus: json["delivery_status"] ?? "pending",
-        createdDate: json["created_date"] ?? '',
-        deliveredDate: json["delivered_date"] ?? '');
+        createdDate: json["created_date"] ?? notAvailable,
+        deliveredDate: json["delivered_date"] ?? notAvailable);
   }
   Map<String, dynamic> toJson() => {
         "id": id,
