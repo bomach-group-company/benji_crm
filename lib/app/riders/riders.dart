@@ -238,12 +238,13 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                   CircleAvatar(
                                     radius: 30,
                                     backgroundColor: Colors.transparent,
-                                    backgroundImage: const AssetImage(
-                                      "assets/images/customer/juliet_gomes.png",
-                                    ),
+                                    // backgroundImage: const AssetImage(
+                                    //   "assets/images/customer/juliet_gomes.png",
+                                    // ),
                                     child: ClipOval(
                                       child: CachedNetworkImage(
-                                        imageUrl: "",
+                                        imageUrl:
+                                            "assets/images/customer/juliet_gomes.png",
                                         fit: BoxFit.cover,
                                         progressIndicatorBuilder: (context, url,
                                                 downloadProgress) =>
@@ -260,18 +261,18 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                       ),
                                     ),
                                   ),
-                                  Positioned(
-                                    right: 10,
-                                    bottom: 0,
-                                    child: Container(
-                                      height: 10,
-                                      width: 10,
-                                      decoration: const ShapeDecoration(
-                                        color: kSuccessColor,
-                                        shape: OvalBorder(),
-                                      ),
-                                    ),
-                                  ),
+                                  // Positioned(
+                                  //   right: 10,
+                                  //   bottom: 0,
+                                  //   child: Container(
+                                  //     height: 10,
+                                  //     width: 10,
+                                  //     decoration: const ShapeDecoration(
+                                  //       color: kSuccessColor,
+                                  //       shape: OvalBorder(),
+                                  //     ),
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                               title: Column(

@@ -233,12 +233,13 @@ class _RidersDetailState extends State<RidersDetail> {
                                 CircleAvatar(
                                   radius: 60,
                                   backgroundColor: Colors.white54,
-                                  backgroundImage: const AssetImage(
-                                    "assets/images/profile/avatar-image.jpg",
-                                  ),
+                                  // backgroundImage: const AssetImage(
+                                  //   "assets/images/profile/avatar-image.jpg",
+                                  // ),
                                   child: ClipOval(
                                     child: CachedNetworkImage(
-                                      imageUrl: widget.rider.image ?? "",
+                                      imageUrl: widget.rider.image ??
+                                          "assets/images/customer/juliet_gomes.png",
                                       fit: BoxFit.cover,
                                       progressIndicatorBuilder: (context, url,
                                               downloadProgress) =>
@@ -254,18 +255,18 @@ class _RidersDetailState extends State<RidersDetail> {
                                     ),
                                   ),
                                 ),
-                                Positioned(
-                                  right: 15,
-                                  bottom: 0,
-                                  child: Container(
-                                    height: 20,
-                                    width: 20,
-                                    decoration: const ShapeDecoration(
-                                      color: kSuccessColor,
-                                      shape: OvalBorder(),
-                                    ),
-                                  ),
-                                ),
+                                // Positioned(
+                                //   right: 15,
+                                //   bottom: 0,
+                                //   child: Container(
+                                //     height: 20,
+                                //     width: 20,
+                                //     decoration: const ShapeDecoration(
+                                //       color: kSuccessColor,
+                                //       shape: OvalBorder(),
+                                //     ),
+                                //   ),
+                                // ),
                               ],
                             ),
                             Padding(
