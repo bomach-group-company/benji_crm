@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../../controller/notification_controller.dart';
 import '../../controller/order_controller.dart';
+import '../../controller/profile_controller.dart';
 import '../../controller/rider_controller.dart';
 import '../../controller/user_controller.dart';
 import '../../controller/vendor_controller.dart';
@@ -15,6 +16,7 @@ import '../vendors/vendors.dart';
 
 class OverView extends StatefulWidget {
   final user = Get.put(UserController());
+  final userProfile = Get.put(ProfileController());
   final vendor = Get.put(VendorController());
   final notiication = Get.put(NotificationController());
   final ride = Get.put(RiderController());
@@ -110,7 +112,7 @@ class _OverViewState extends State<OverView> {
               ),
               items: [
                 const BottomNavigationBarItem(
-                  icon: Icon(Icons.grid_view),
+                  icon: FaIcon(Icons.grid_view),
                   label: "Dashboard",
                   tooltip: "Dashboard",
                   activeIcon: FaIcon(Icons.grid_view_rounded),
@@ -134,10 +136,10 @@ class _OverViewState extends State<OverView> {
                   ),
                 ),
                 const BottomNavigationBarItem(
-                  icon: Icon(Icons.person_2_outlined),
+                  icon: FaIcon(FontAwesomeIcons.user, size: 18),
                   label: "Profile",
                   tooltip: "Profile",
-                  activeIcon: Icon(Icons.person_2_rounded),
+                  activeIcon: FaIcon(FontAwesomeIcons.solidUser, size: 18),
                 ),
               ],
             ),

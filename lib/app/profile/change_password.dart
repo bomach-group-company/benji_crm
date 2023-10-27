@@ -1,3 +1,4 @@
+import 'package:benji_aggregator/controller/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
@@ -31,13 +32,13 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   //=========================== CONTROLLERS ====================================\\
 
-  final userPasswordEC = TextEditingController();
-  final confirmPasswordEC = TextEditingController();
+  final userNewPasswordEC = TextEditingController();
+  final confirmNewPasswordEC = TextEditingController();
   final userOldPasswordEC = TextEditingController();
 
   //=========================== FOCUS NODES ====================================\\
-  final userPasswordFN = FocusNode();
-  final confirmPasswordFN = FocusNode();
+  final userNewPasswordFN = FocusNode();
+  final confirmNewPasswordFN = FocusNode();
   final userOldPasswordFN = FocusNode();
 
   //=========================== BOOL VALUES====================================\\
@@ -52,7 +53,11 @@ class _ChangePasswordState extends State<ChangePassword> {
     setState(() {
       isLoading = true;
     });
-
+    await ProfileController.instance.changePassword(
+      oldPassword: userOldPasswordEC.text,
+      newPassword: userNewPasswordEC.text,
+      confirmPassword: confirmNewPasswordEC.text,
+    );
     setState(() {
       isLoading = false;
     });
@@ -215,8 +220,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                           ),
                           kHalfSizedBox,
                           PasswordTextFormField(
-                            controller: userPasswordEC,
-                            passwordFocusNode: userPasswordFN,
+                            controller: userNewPasswordEC,
+                            passwordFocusNode: userNewPasswordFN,
                             keyboardType: TextInputType.visiblePassword,
                             obscureText: isObscured,
                             textInputAction: TextInputAction.next,
@@ -225,16 +230,16 @@ class _ChangePasswordState extends State<ChangePassword> {
                                 r'^.{8,}$',
                               );
                               if (value == null || value!.isEmpty) {
-                                userPasswordFN.requestFocus();
+                                userNewPasswordFN.requestFocus();
                                 return "Enter your password";
                               } else if (!passwordPattern.hasMatch(value)) {
-                                userPasswordFN.requestFocus();
+                                userNewPasswordFN.requestFocus();
                                 return "Password must be at least 8 characters";
                               }
                               return null;
                             },
                             onSaved: (value) {
-                              userPasswordEC.text = value;
+                              userNewPasswordEC.text = value;
                             },
                             suffixIcon: const IconButton(
                               onPressed: null,
@@ -247,7 +252,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                             uppercaseCharCount: 1,
                             lowercaseCharCount: 1,
                             numericCharCount: 1,
-                            controller: userPasswordEC,
+                            controller: userNewPasswordEC,
                             width: 400,
                             height: 150,
                             minLength: 8,
@@ -276,8 +281,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                           ),
                           kHalfSizedBox,
                           PasswordTextFormField(
-                            controller: confirmPasswordEC,
-                            passwordFocusNode: confirmPasswordFN,
+                            controller: confirmNewPasswordEC,
+                            passwordFocusNode: confirmNewPasswordFN,
                             keyboardType: TextInputType.visiblePassword,
                             obscureText: isObscured,
                             textInputAction: TextInputAction.done,
@@ -286,10 +291,10 @@ class _ChangePasswordState extends State<ChangePassword> {
                                 r'^.{8,}$',
                               );
                               if (value == null || value!.isEmpty) {
-                                confirmPasswordFN.requestFocus();
+                                confirmNewPasswordFN.requestFocus();
                                 return "Confirm your password";
                               }
-                              if (value != userPasswordEC.text) {
+                              if (value != userNewPasswordEC.text) {
                                 return "Password does not match";
                               } else if (!passwordPattern.hasMatch(value)) {
                                 return "Password must be at least 8 characters";
@@ -297,7 +302,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                               return null;
                             },
                             onSaved: (value) {
-                              confirmPasswordEC.text = value;
+                              confirmNewPasswordEC.text = value;
                             },
                             suffixIcon: const IconButton(
                               onPressed: null,
