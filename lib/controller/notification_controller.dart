@@ -1,5 +1,7 @@
 // ignore_for_file: empty_catches
 
+import 'dart:io';
+
 import 'package:benji_aggregator/controller/error_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/model/notificatin_model.dart';
@@ -31,8 +33,14 @@ class NotificationController extends GetxController {
       var save = notificationModelFromJson(responseData);
       notification.value = save;
       update();
-    } catch (e) {}
+    } on SocketException {
+      ApiProcessorController.errorSnack("Please connect to the internet");
+    } catch (e) {
+      ApiProcessorController.errorSnack(
+          "Could not load notifications. ERROR: $e");
+    }
     isLoad.value = false;
+
     update();
   }
 }

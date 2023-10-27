@@ -1,6 +1,9 @@
 // ignore_for_file:  unused_local_variable
 
+import 'dart:async';
+
 import 'package:benji_aggregator/app/others/my_orders/all_orders.dart';
+import 'package:benji_aggregator/controller/notification_controller.dart';
 import 'package:benji_aggregator/controller/order_controller.dart';
 import 'package:benji_aggregator/controller/rider_controller.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
@@ -60,7 +63,7 @@ class _DashboardState extends State<Dashboard>
       }
     });
     _loadingScreen = true;
-    Future.delayed(
+    timer = Timer(
       const Duration(milliseconds: 1000),
       () => setState(
         () => _loadingScreen = false,
@@ -86,7 +89,9 @@ class _DashboardState extends State<Dashboard>
 //==========================================================================================\\
 
 //=================================== ALL VARIABLES =====================================\\
+  final notifications = NotificationController.instance.notification.length;
   late bool _loadingScreen;
+  late Timer timer;
   bool _isScrollToTopBtnVisible = false;
   int incrementOrderID = 2 + 2;
   late int orderID;
@@ -114,16 +119,13 @@ class _DashboardState extends State<Dashboard>
     setState(() {
       _loadingScreen = true;
     });
-    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-    //   OrderController.instance.runTask();
-    //   VendorController.instance.runTask();
-    //   RiderController.instance.getRiders();
-    // });
-    await Future.delayed(const Duration(seconds: 1));
-
-    setState(() {
-      _loadingScreen = false;
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      NotificationController.instance.runTask();
+      OrderController.instance.runTask();
+      VendorController.instance.runTask();
+      RiderController.instance.getRiders();
     });
+    _loadingScreen = false;
   }
 
 //============================= Scroll to Top ======================================//
@@ -230,7 +232,7 @@ class _DashboardState extends State<Dashboard>
 //====================================================================================\\
 
     return Scaffold(
-      appBar: const DashboardAppBar(numberOfNotifications: 4),
+      appBar: DashboardAppBar(numberOfNotifications: notifications),
       floatingActionButton: _isScrollToTopBtnVisible
           ? FloatingActionButton(
               onPressed: _scrollToTop,
