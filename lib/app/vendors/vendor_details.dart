@@ -40,9 +40,9 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      VendorController.instance.getVendorProduct(widget.vendor.id);
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   VendorController.instance.getVendorProduct(widget.vendor.id);
+    // });
 
     _tabBarController = TabController(length: 2, vsync: this);
     _loadingScreen = true;

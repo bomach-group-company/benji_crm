@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:benji_aggregator/app/add_vendor/add_vendor.dart';
 import 'package:benji_aggregator/app/my_vendors/my_vendor_detail.dart';
-import 'package:benji_aggregator/app/vendors/vendor_details.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:benji_aggregator/model/vendor_model.dart';
 import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
@@ -30,12 +29,6 @@ class _MyVendorsState extends State<MyVendors> {
   void initState() {
     super.initState();
     _loadingScreen = true;
-    _timer = Timer(
-      const Duration(milliseconds: 1000),
-      () => setState(
-        () => _loadingScreen = false,
-      ),
-    );
   }
 
   @override
@@ -43,7 +36,6 @@ class _MyVendorsState extends State<MyVendors> {
     super.dispose();
     // _animationController.dispose();
     scrollController.dispose();
-    _timer.cancel();
   }
 
 //============================================== ALL VARIABLES =================================================\\
@@ -51,7 +43,6 @@ class _MyVendorsState extends State<MyVendors> {
   bool _vendorStatus = true;
   bool _isLoadingVendorStatus = false;
   // bool _isScrollToTopBtnVisible = false;
-  late Timer _timer;
 
   //Online Vendors
   final String _onlineVendorsName = "Ntachi Osa";

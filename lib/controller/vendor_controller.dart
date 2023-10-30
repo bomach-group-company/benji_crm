@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:benji_aggregator/controller/error_controller.dart';
+import 'package:benji_aggregator/model/order.dart';
 import 'package:benji_aggregator/model/product_model.dart';
 import 'package:benji_aggregator/model/vendor_model.dart';
 import 'package:benji_aggregator/services/api_url.dart';
@@ -13,7 +14,6 @@ import 'package:http/http.dart' as http;
 
 import '../model/business_type_model.dart';
 import '../model/create_vendor_model.dart';
-import '../model/vendor_orders_model.dart';
 import 'user_controller.dart';
 
 class VendorController extends GetxController {
@@ -29,7 +29,7 @@ class VendorController extends GetxController {
   var vendorMyList = <VendorModel>[].obs;
   var businessType = <BusinessType>[].obs;
   var vendorProductList = <Product>[].obs;
-  var vendorOrderList = <DataItem>[].obs;
+  var vendorOrderList = <Order>[].obs;
 
   Future getVendors() async {
     isLoad.value = true;
@@ -108,8 +108,8 @@ class VendorController extends GetxController {
           return;
         }
         try {
-          var save = VendorOrderModel.fromJson(jsonDecode(responseData));
-          vendorOrderList.value = save.items!;
+          var save = (jsonDecode(responseData)['items'] as List)
+              .map((e) => Order.fromJson(e));
         } catch (e) {
           if (kDebugMode) {
             print(e);
