@@ -428,7 +428,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                     ),
                                     kHalfSizedBox,
                                     Text(
-                                      widget.order.client.phone ?? "",
+                                      widget.order.client.phone,
                                       style: TextStyle(
                                         color: kTextGreyColor,
                                         fontSize: 11.62,

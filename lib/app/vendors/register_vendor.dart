@@ -850,14 +850,20 @@ class _RegisterVendorState extends State<RegisterVendor> {
                                           controller: vendorBusinessTypeEC,
                                           isEnabled: false,
                                           validator: (value) {
+                                            if (value.isEmpty ||
+                                                value == null) {
+                                              "Field cannot be empty";
+                                            }
                                             return null;
                                           },
-                                          onSaved: (value) {},
+                                          onSaved: (value) {
+                                            vendorBusinessTypeEC.text = value!;
+                                          },
                                           textInputAction: TextInputAction.next,
                                           focusNode: vendorBusinessTypeFN,
                                           hintText: shopTypeHint ??
                                               "E.g Restaurant, Auto Dealer, etc",
-                                          textInputType: TextInputType.name,
+                                          textInputType: TextInputType.text,
                                         ),
                                       );
                                     }),

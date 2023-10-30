@@ -115,9 +115,6 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
     }
   }
 
-//=============================== See more ========================================\\
-  void _seeMoreRiders() {}
-
   //===================== Navigation ==========================\\
 
   toRidersDetailPage(RiderItem rider) {

@@ -501,7 +501,7 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
                                     ),
                                     kHalfSizedBox,
                                     Text(
-                                      widget.order.client.phone ?? "",
+                                      widget.order.client.phone,
                                       style: TextStyle(
                                         color: kTextGreyColor,
                                         fontSize: 11.62,
