@@ -44,14 +44,13 @@ class VendorController extends GetxController {
     //update();
     var url = "${Api.baseUrl}${Api.vendorList}?agent_id=$id";
     token = UserController.instance.user.value.token;
-    consoleLog(token);
     try {
       http.Response? response = await HandleData.getApi(url, token);
       var responseData =
           await ApiProcessorController.errorState(response, isFirst ?? true);
-      print(responseData);
       var save = vendorModelFromJson(responseData);
       vendorList.value = save;
+      print(save);
       update();
     } catch (e) {}
     isLoad.value = false;

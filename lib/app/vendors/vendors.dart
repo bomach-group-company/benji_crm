@@ -356,12 +356,9 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
                               : StreamBuilder(
                                   stream: null,
                                   builder: (context, snapshot) {
-                                    List<VendorModel> vendor = controller
-                                        .vendorList
-                                        .where((p0) =>
-                                            p0.shopType.isActive ==
-                                            _vendorStatus)
-                                        .toList();
+                                    List<VendorModel> vendor =
+                                        controller.vendorList;
+
                                     return ListView.separated(
                                         separatorBuilder: (context, index) =>
                                             const SizedBox(
@@ -393,6 +390,8 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
                                                     ),
                                                   ],
                                                 ),
+                                                child: Text(
+                                                    vendor[index].firstName),
                                               ),
                                             ));
                                   }),
