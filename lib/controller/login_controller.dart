@@ -70,8 +70,9 @@ class LoginController extends GetxController {
           return;
         }
 
-        UserController.instance.saveUser(
-            responseUserData.body, jsonData["token"], responseUser.body);
+        UserController.instance
+            .saveUser(responseUserData.body, jsonData["token"]);
+
         ApiProcessorController.successSnack("Login Successful");
         Get.offAll(
           () => OverView(),

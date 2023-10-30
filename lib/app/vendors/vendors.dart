@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:benji_aggregator/app/others/add_vendor/add_vendor.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:benji_aggregator/model/vendor_model.dart';
+import 'package:benji_aggregator/src/components/vendors_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -13,7 +14,6 @@ import 'package:get/get.dart';
 import '../../src/components/my_outlined_elevatedButton.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/custom_show_search.dart';
-import '../../src/skeletons/all_vendors_page_skeleton.dart';
 import '../../src/skeletons/vendors_list_skeleton.dart';
 import '../../theme/colors.dart';
 import '../others/my_vendors/my_vendors.dart';
@@ -287,134 +287,72 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
           child: GetBuilder<VendorController>(
             init: VendorController(),
             builder: (controller) {
-              return controller.isLoad.value
-                  ? const AllVendorsPageSkeleton()
-                  : Scrollbar(
-                      controller: scrollController,
-                      child: ListView(
-                        controller: scrollController,
-                        physics: const BouncingScrollPhysics(),
-                        padding: const EdgeInsets.fromLTRB(
-                          kDefaultPadding,
-                          0,
-                          kDefaultPadding,
-                          kDefaultPadding,
-                        ),
-                        children: [
-                          Row(
-                            children: [
-                              ElevatedButton(
-                                onPressed: _clickOnlineVendors,
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: _vendorStatus
-                                      ? kAccentColor
-                                      : kDefaultCategoryBackgroundColor,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
+              return Scrollbar(
+                controller: scrollController,
+                child: ListView(
+                  controller: scrollController,
+                  physics: const BouncingScrollPhysics(),
+                  padding: const EdgeInsets.fromLTRB(
+                    kDefaultPadding,
+                    0,
+                    kDefaultPadding,
+                    kDefaultPadding,
+                  ),
+                  children: [
+                    kSizedBox,
+                    controller.isLoad.value
+                        ? const VendorsListSkeleton()
+                        : ListView.separated(
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(height: kDefaultPadding / 2),
+                            itemCount: controller.vendorList.length,
+                            addAutomaticKeepAlives: true,
+                            physics: const BouncingScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) => InkWell(
+                              onTap: () => _toVendorDetailsPage(
+                                  controller.vendorList[index]),
+                              borderRadius: BorderRadius.circular(16),
+                              child: Container(
+                                  decoration: ShapeDecoration(
+                                    color: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                    shadows: const [
+                                      BoxShadow(
+                                        color: Color(0x0F000000),
+                                        blurRadius: 24,
+                                        offset: Offset(0, 4),
+                                        spreadRadius: 0,
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                child: Text(
-                                  "Online Vendors",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    overflow: TextOverflow.ellipsis,
-                                    fontSize: 14,
-                                    color: _vendorStatus
-                                        ? kTextWhiteColor
-                                        : kTextGreyColor,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ),
-                              kWidthSizedBox,
-                              ElevatedButton(
-                                onPressed: _clickOfflineVendors,
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: _vendorStatus
-                                      ? kDefaultCategoryBackgroundColor
-                                      : kAccentColor,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                ),
-                                child: Text(
-                                  "Offline Vendors",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    overflow: TextOverflow.ellipsis,
-                                    fontSize: 14,
-                                    color: _vendorStatus
-                                        ? kTextGreyColor
-                                        : kTextWhiteColor,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ),
-                            ],
+                                  child: VendorContainer(
+                                    onTap: () {},
+                                    vendor: controller.vendorList[index],
+                                  )),
+                            ),
                           ),
-                          controller.isLoad.value
-                              ? const VendorsListSkeleton()
-                              : StreamBuilder(
-                                  stream: null,
-                                  builder: (context, snapshot) {
-                                    List<VendorModel> vendor =
-                                        controller.vendorList;
-
-                                    return ListView.separated(
-                                        separatorBuilder: (context, index) =>
-                                            const SizedBox(
-                                                height: kDefaultPadding / 2),
-                                        itemCount: vendor.length,
-                                        addAutomaticKeepAlives: true,
-                                        physics: const BouncingScrollPhysics(),
-                                        shrinkWrap: true,
-                                        itemBuilder: (context, index) =>
-                                            InkWell(
-                                              onTap: () => _toVendorDetailsPage(
-                                                  vendor[index]),
-                                              borderRadius:
-                                                  BorderRadius.circular(16),
-                                              child: Container(
-                                                decoration: ShapeDecoration(
-                                                  color: Colors.white,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            16),
-                                                  ),
-                                                  shadows: const [
-                                                    BoxShadow(
-                                                      color: Color(0x0F000000),
-                                                      blurRadius: 24,
-                                                      offset: Offset(0, 4),
-                                                      spreadRadius: 0,
-                                                    ),
-                                                  ],
-                                                ),
-                                                child: Text(
-                                                    vendor[index].firstName),
-                                              ),
-                                            ));
-                                  }),
-                          kSizedBox,
-                          _vendorStatus
-                              ? TextButton(
-                                  onPressed: _seeMoreOnlineVendors,
-                                  child: Text(
-                                    "See more",
-                                    style: TextStyle(color: kAccentColor),
-                                  ),
-                                )
-                              : TextButton(
-                                  onPressed: _seeMoreOfflineVendors,
-                                  child: Text(
-                                    "See more",
-                                    style: TextStyle(color: kAccentColor),
-                                  ),
-                                ),
-                        ],
-                      ),
-                    );
+                    kSizedBox,
+                    _vendorStatus
+                        ? TextButton(
+                            onPressed: _seeMoreOnlineVendors,
+                            child: Text(
+                              "See more",
+                              style: TextStyle(color: kAccentColor),
+                            ),
+                          )
+                        : TextButton(
+                            onPressed: _seeMoreOfflineVendors,
+                            child: Text(
+                              "See more",
+                              style: TextStyle(color: kAccentColor),
+                            ),
+                          ),
+                  ],
+                ),
+              );
             },
           ),
         ),
