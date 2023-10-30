@@ -61,7 +61,9 @@ Future shopTypeModal(BuildContext context, List<BusinessType> type) async {
                         ),
                         const SizedBox(height: 20),
                         MyElevatedButton(
-                            title: "Get Business Types", onPressed: () {})
+                          title: "Get Business Types",
+                          onPressed: () {},
+                        ),
                       ],
                     ),
                   ],
