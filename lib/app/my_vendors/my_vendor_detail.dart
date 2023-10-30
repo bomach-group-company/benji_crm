@@ -10,15 +10,12 @@ import 'package:get/get.dart';
 
 import '../../controller/vendor_controller.dart';
 import '../../src/components/appbar/my_appbar.dart';
-import '../../src/components/button/category_button_section.dart';
 import '../../src/components/container/vendors_order_container.dart';
 import '../../src/components/container/vendors_product_container.dart';
 import '../../src/components/section/my_liquid_refresh.dart';
 import '../../src/components/tab/vendor_orders_tab.dart';
 import '../../src/components/tab/vendor_products_tab.dart';
 import '../../src/responsive/responsive_constant.dart';
-import '../../src/skeletons/vendors_tabbar_orders_content_skeleton.dart';
-import '../../src/skeletons/vendors_tabbar_products_content_skeleton.dart';
 import '../../theme/colors.dart';
 import '../my_products/add_product.dart';
 import '../my_products/my_product_details.dart';
@@ -348,10 +345,10 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                           : media.height * 0.28,
                                   decoration: BoxDecoration(
                                     color: kPageSkeletonColor,
-                                    image: DecorationImage(
+                                    image: const DecorationImage(
                                       fit: BoxFit.fill,
                                       image: AssetImage(
-                                        "assets/images/vendors/${widget.vendor.profileLogo}.png",
+                                        "assets/images/vendors/ntachi-osa.png",
                                       ),
                                     ),
                                   ),
@@ -596,46 +593,55 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                             ),
                             child: Column(
                               children: [
-                                _loadingTabBarContent
-                                    ? const VendorsTabBarProductsContentSkeleton()
-                                    : VendorsProductsTab(
+                                tabBar == 0
+                                    ?
+                                    //  const VendorsTabBarProductsContentSkeleton()
+                                    VendorsProductsTab(
                                         list: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: [
-                                            CategoryButtonSection(
-                                              onPressed: _changeProductCategory,
-                                              category: _categoryButtonText,
-                                              categorybgColor:
-                                                  _categoryButtonBgColor,
-                                              categoryFontColor:
-                                                  _categoryButtonFontColor,
-                                            ),
+                                            // CategoryButtonSection(
+                                            //   onPressed: _changeProductCategory,
+                                            //   category: _categoryButtonText,
+                                            //   categorybgColor:
+                                            //       _categoryButtonBgColor,
+                                            //   categoryFontColor:
+                                            //       _categoryButtonFontColor,
+                                            // ),
                                             GetBuilder<VendorController>(
-                                              init: VendorController(),
+                                              initState: (state) async {
+                                                await VendorController.instance
+                                                    .getVendorProduct(
+                                                        widget.vendor.id);
+                                                print(
+                                                    'initState getVendorProduct');
+                                              },
                                               builder: (controller) {
-                                                return Column(
-                                                  children: [
-                                                    ...controller
-                                                        .vendorProductList
-                                                        .map(
-                                                      (element) =>
-                                                          VendorsProductContainer(
-                                                        onTap:
-                                                            toProductDetailScreen,
-                                                        // ignore: invalid_use_of_protected_member
-                                                        product: element,
-                                                      ),
-                                                    )
-                                                  ],
+                                                return ListView.separated(
+                                                  shrinkWrap: true,
+                                                  separatorBuilder:
+                                                      (context, index) =>
+                                                          kSizedBox,
+                                                  itemCount: controller
+                                                      .vendorProductList.length,
+                                                  itemBuilder:
+                                                      (BuildContext context,
+                                                          int index) {
+                                                    return VendorsProductContainer(
+                                                      onTap: () {},
+                                                      product: controller
+                                                              .vendorProductList[
+                                                          index],
+                                                    );
+                                                  },
                                                 );
                                               },
                                             )
                                           ],
                                         ),
-                                      ),
-                                _loadingTabBarContent
-                                    ? const VendorsTabBarOrdersContentSkeleton()
+                                      )
+                                    //  const VendorsTabBarOrdersContentSkeleton()
                                     : VendorsOrdersTab(
                                         list: Column(
                                           children: [

@@ -58,6 +58,7 @@ class VendorController extends GetxController {
       var responseData =
           await ApiProcessorController.errorState(response, isFirst ?? true);
       vendorMyList.value = vendorModelFromJson(responseData);
+      print('vendorMyList.value in my vendor ${vendorMyList.value}');
     } catch (e) {}
     isLoad.value = false;
     update();
