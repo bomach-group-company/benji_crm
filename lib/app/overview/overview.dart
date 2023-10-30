@@ -1,4 +1,5 @@
 import 'package:benji_aggregator/controller/category_controller.dart';
+import 'package:benji_aggregator/controller/latlng_detail_controller.dart';
 import 'package:benji_aggregator/controller/order_controller.dart';
 import 'package:benji_aggregator/controller/rider_history_controller.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
@@ -25,6 +26,7 @@ class OverView extends StatefulWidget {
   final order = Get.put(OrderController());
   final category = Get.put(CategoryController());
   final riderHistory = Get.put(RiderHistoryController());
+  final location = Get.put(LatLngDetailController());
 
   OverView({super.key});
 

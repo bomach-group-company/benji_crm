@@ -1,6 +1,7 @@
 // ignore_for_file: unused_element, unused_local_variable, empty_catches
 
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:benji_aggregator/controller/error_controller.dart';
 import 'package:benji_aggregator/model/product_model.dart';
@@ -119,39 +120,81 @@ class VendorController extends GetxController {
       isLoad.value = false;
       update();
     }
+  }
 
-    Future createVendor(SendCreateModel data, bool classify) async {
-      isLoadCreate.value = true;
-      late String token;
-      String id = UserController.instance.user.value.id.toString();
-      update();
-      var url = Api.baseUrl + Api.createVendor + id;
-      token = UserController.instance.user.value.token;
+  Future createVendor(SendCreateModel data, bool classify) async {
+    isLoadCreate.value = true;
+    late String token;
+    String id = UserController.instance.user.value.id.toString();
+    update();
+    var url = Api.baseUrl + Api.createVendor + id;
+    token = UserController.instance.user.value.token;
 
-      try {
-        http.StreamedResponse? response =
-            await HandleData.streamAddVCendor(url, token, data, classify);
-        if (response == null) {
-          isLoadCreate.value = false;
-        } else if (response.statusCode == 200) {
-          final res = await http.Response.fromStream(response);
-          var jsonData = jsonDecode(res.body);
-          ApiProcessorController.successSnack(jsonData);
-          consoleLog(jsonData);
-          isLoadCreate.value = false;
-          Get.close(1);
-        } else {
-          final res = await http.Response.fromStream(response);
-          var jsonData = jsonDecode(res.body);
-          consoleLog(res.body.toString());
-          isLoadCreate.value = false;
-        }
+    try {
+      http.StreamedResponse? response =
+          await HandleData.streamAddVCendor(url, token, data, classify);
+      if (response == null) {
         isLoadCreate.value = false;
-
-        update();
-      } catch (e) {}
+      } else if (response.statusCode == 200) {
+        final res = await http.Response.fromStream(response);
+        var jsonData = jsonDecode(res.body);
+        ApiProcessorController.successSnack(jsonData);
+        consoleLog(jsonData);
+        isLoadCreate.value = false;
+        Get.close(1);
+      } else {
+        final res = await http.Response.fromStream(response);
+        var jsonData = jsonDecode(res.body);
+        consoleLog(res.body.toString());
+        isLoadCreate.value = false;
+      }
       isLoadCreate.value = false;
+
       update();
+    } on SocketException {
+      ApiProcessorController.errorSnack("Please connect to the internet");
+    } catch (e) {
+      ApiProcessorController.errorSnack("An error occurred. ERROR: $e");
     }
+    isLoadCreate.value = false;
+    update();
+  }
+
+  Future createThirdPartyVendor(SendCreateModel data, bool classify) async {
+    isLoadCreate.value = true;
+    late String token;
+    String id = UserController.instance.user.value.id.toString();
+    update();
+    var url = Api.baseUrl + Api.createVendor + id;
+    token = UserController.instance.user.value.token;
+
+    try {
+      http.StreamedResponse? response =
+          await HandleData.streamAddVCendor(url, token, data, classify);
+      if (response == null) {
+        isLoadCreate.value = false;
+      } else if (response.statusCode == 200) {
+        final res = await http.Response.fromStream(response);
+        var jsonData = jsonDecode(res.body);
+        ApiProcessorController.successSnack(jsonData);
+        consoleLog(jsonData);
+        isLoadCreate.value = false;
+        Get.close(1);
+      } else {
+        final res = await http.Response.fromStream(response);
+        var jsonData = jsonDecode(res.body);
+        consoleLog(res.body.toString());
+        isLoadCreate.value = false;
+      }
+      isLoadCreate.value = false;
+
+      update();
+    } on SocketException {
+      ApiProcessorController.errorSnack("Please connect to the internet");
+    } catch (e) {
+      ApiProcessorController.errorSnack("An error occurred. ERROR: $e");
+    }
+    isLoadCreate.value = false;
+    update();
   }
 }

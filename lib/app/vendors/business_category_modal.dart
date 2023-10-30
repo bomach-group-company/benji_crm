@@ -1,4 +1,3 @@
-import 'package:benji_aggregator/src/components/button/my_elevatedButton.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,63 +9,73 @@ Future shopTypeModal(BuildContext context, List<BusinessType> type) async {
   final scrollController = ScrollController();
   var media = MediaQuery.of(context).size;
   return showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      anchorPoint: const Offset(0, 10),
-      barrierColor: kBlackColor.withOpacity(0.8),
-      backgroundColor: kPrimaryColor,
-      showDragHandle: true,
-      isDismissible: true,
-      elevation: 20,
-      enableDrag: true,
-      constraints: BoxConstraints(maxHeight: media.height),
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-      builder: (context) => Scrollbar(
-            controller: scrollController,
-            child: SingleChildScrollView(
+    context: context,
+    isScrollControlled: true,
+    anchorPoint: const Offset(0, 10),
+    barrierColor: kBlackColor.withOpacity(0.8),
+    backgroundColor: kPrimaryColor,
+    showDragHandle: true,
+    isDismissible: true,
+    elevation: 20,
+    enableDrag: true,
+    constraints: BoxConstraints(maxHeight: media.height),
+    shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+    builder: (context) => SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Text(
+              "Business Types".toUpperCase(),
+              textAlign: TextAlign.left,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+            ),
+          ),
+          Scrollbar(
+            child: ListView.separated(
+              itemCount: type.length,
+              shrinkWrap: true,
               controller: scrollController,
               physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.all(kDefaultPadding),
-              child: SizedBox(
-                width: media.width,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Business Types",
-                      textAlign: TextAlign.left,
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+              separatorBuilder: (BuildContext context, int index) =>
+                  kHalfSizedBox,
+              itemBuilder: (BuildContext context, int index) {
+                int adjustedIndex = index + 1;
+                return InkWell(
+                  onTap: () async {
+                    Get.back(result: type[index]);
+                  },
+                  mouseCursor: SystemMouseCursors.click,
+                  enableFeedback: true,
+                  borderRadius: BorderRadius.circular(10),
+                  child: Container(
+                    width: media.width,
+                    height: 40,
+                    padding: const EdgeInsets.all(10),
+                    child: Text(
+                      "($adjustedIndex) ${type[index].name}",
+                      style: TextStyle(
+                        color: kTextGreyColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                    Column(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: type
-                              .map(
-                                (e) => InkWell(
-                                  onTap: () async {
-                                    Get.back(result: e);
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
-                                    child: Text(e.name),
-                                  ),
-                                ),
-                              )
-                              .toList(),
-                        ),
-                        const SizedBox(height: 20),
-                        MyElevatedButton(
-                            title: "Get Business Types", onPressed: () {})
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+                  ),
+                );
+              },
             ),
-          ));
+          ),
+          // MyElevatedButton(
+          //   title: "Get Categories",
+          //   onPressed: () => CategoryController.instance.getCategory(),
+          // ),
+        ],
+      ),
+    ),
+  );
 }

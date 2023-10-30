@@ -35,7 +35,7 @@ class ApiProcessorController extends GetxController {
       title: "ERROR",
       message: "$msg",
       backgroundColor: kAccentColor,
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 2),
     ));
   }
 
@@ -44,7 +44,7 @@ class ApiProcessorController extends GetxController {
       title: "Successful",
       message: "$msg",
       backgroundColor: kSuccessColor,
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 2),
     ));
   }
 }
