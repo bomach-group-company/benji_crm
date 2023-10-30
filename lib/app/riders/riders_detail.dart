@@ -499,29 +499,23 @@ class _RidersDetailState extends State<RidersDetail> {
                                                                   .circular(5),
                                                         ),
                                                       ),
-                                                      child: InkWell(
-                                                        onTap:
-                                                            seeDeliveryMessage,
-                                                        child: SizedBox(
-                                                          width: 54,
-                                                          height: 10,
-                                                          child: Text(
-                                                            riderController
-                                                                .historyList[
-                                                                    index]
-                                                                .deliveryStatus,
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            style: TextStyle(
-                                                              color:
-                                                                  kAccentColor,
-                                                              fontSize: 10,
-                                                              fontFamily:
-                                                                  'Overpass',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                            ),
+                                                      child: SizedBox(
+                                                        width: 54,
+                                                        height: 10,
+                                                        child: Text(
+                                                          riderController
+                                                              .historyList[
+                                                                  index]
+                                                              .deliveryStatus,
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                            color: kAccentColor,
+                                                            fontSize: 10,
+                                                            fontFamily:
+                                                                'Overpass',
+                                                            fontWeight:
+                                                                FontWeight.w400,
                                                           ),
                                                         ),
                                                       ),

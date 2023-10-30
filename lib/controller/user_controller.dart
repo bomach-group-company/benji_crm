@@ -58,7 +58,6 @@ class UserController extends GetxController {
 
   void setUserSync() {
     String? userData = prefs.getString('user');
-    print('the data userData $userData');
     if (userData == null) {
       user.value = UserModel.fromJson(null);
     } else {
