@@ -1,7 +1,7 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:benji_aggregator/model/order.dart';
-import 'package:benji_aggregator/src/components/my_liquid_refresh.dart';
+import 'package:benji_aggregator/src/components/section/my_liquid_refresh.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
 import 'package:benji_aggregator/src/skeletons/dashboard_orders_list_skeleton.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -9,8 +9,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
-import '../../../src/components/my_appbar.dart';
-import '../../../src/components/my_future_builder.dart';
+import '../../../src/components/appbar/my_appbar.dart';
+import '../../../src/components/others/my_future_builder.dart';
 import '../../../theme/colors.dart';
 import 'active_order_details.dart';
 

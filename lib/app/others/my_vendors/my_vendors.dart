@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
-import '../../../src/components/my_appbar.dart';
-import '../../../src/components/my_liquid_refresh.dart';
+import '../../../src/components/appbar/my_appbar.dart';
+import '../../../src/components/section/my_liquid_refresh.dart';
 import '../../../src/responsive/responsive_constant.dart';
 import '../../../theme/colors.dart';
 import 'my_vendor_detail.dart';

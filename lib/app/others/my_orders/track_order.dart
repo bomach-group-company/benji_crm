@@ -1,6 +1,6 @@
 // ignore_for_file: unused_field
 
-import 'package:benji_aggregator/src/components/my_appbar.dart';
+import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -8,7 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../controller/url_launch_controller.dart';
-import '../../../src/components/my_elevatedButton.dart';
+import '../../../src/components/button/my_elevatedButton.dart';
 import '../../../src/providers/constants.dart';
 
 class TrackOrder extends StatefulWidget {

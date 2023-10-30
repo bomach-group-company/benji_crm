@@ -5,13 +5,13 @@ import 'dart:async';
 import 'package:benji_aggregator/app/others/add_vendor/add_vendor.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:benji_aggregator/model/vendor_model.dart';
-import 'package:benji_aggregator/src/components/vendors_container.dart';
+import 'package:benji_aggregator/src/components/container/vendors_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-import '../../src/components/my_outlined_elevatedButton.dart';
+import '../../src/components/button/my_outlined_elevatedButton.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/custom_show_search.dart';
 import '../../src/skeletons/vendors_list_skeleton.dart';

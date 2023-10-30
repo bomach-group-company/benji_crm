@@ -1,7 +1,7 @@
-import 'package:benji_aggregator/src/components/my_appbar.dart';
+import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
 import 'package:flutter/material.dart';
 
-import '../../src/components/change_phone_number_body.dart';
+import '../../src/components/body/change_phone_number_body.dart';
 
 class ChangePhoneNumber extends StatelessWidget {
   const ChangePhoneNumber({Key? key}) : super(key: key);

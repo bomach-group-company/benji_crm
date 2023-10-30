@@ -6,8 +6,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../../controller/user_controller.dart';
-import '../../src/components/my_liquid_refresh.dart';
-import '../../src/components/profile_first_half.dart';
+import '../../src/components/section/my_liquid_refresh.dart';
+import '../../src/components/section/profile_first_half.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 import '../auth_screens/login.dart';

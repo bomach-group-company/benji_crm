@@ -1,7 +1,6 @@
-import 'package:benji_aggregator/src/components/my_appbar.dart';
+import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
+import 'package:benji_aggregator/src/components/body/select_bank_body.dart';
 import 'package:flutter/material.dart';
-
-import '../../../src/components/select_bank_body.dart';
 
 class SelectBank extends StatelessWidget {
   const SelectBank({Key? key}) : super(key: key);

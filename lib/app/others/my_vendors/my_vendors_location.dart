@@ -12,7 +12,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../services/keys.dart';
-import '../../../src/components/my_appbar.dart';
+import '../../../src/components/appbar/my_appbar.dart';
 import '../../../src/providers/constants.dart';
 import '../../../theme/colors.dart';
 

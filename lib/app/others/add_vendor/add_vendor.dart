@@ -1,5 +1,5 @@
 import 'package:benji_aggregator/app/others/my_vendors/add_third_party_vendor.dart';
-import 'package:benji_aggregator/src/components/my_appbar.dart';
+import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';

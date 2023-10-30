@@ -1,12 +1,12 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:benji_aggregator/src/components/message_textformfield.dart';
-import 'package:benji_aggregator/src/components/my_appbar.dart';
+import 'package:benji_aggregator/src/components/input/message_textformfield.dart';
+import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
 
-import '../../src/components/my_elevatedButton.dart';
-import '../../src/components/my_fixed_snackBar.dart';
+import '../../src/components/button/my_elevatedButton.dart';
+import '../../src/components/snackbar/my_fixed_snackBar.dart';
 import '../../src/providers/constants.dart';
 
 class ReportRider extends StatefulWidget {

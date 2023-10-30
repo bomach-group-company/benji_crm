@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 
-import '../../../src/components/my_appbar.dart';
-import '../../../src/components/my_elevatedButton.dart';
-import '../../../src/components/my_textformfield2.dart';
-import '../../../src/components/showModalBottomSheetTitleWithIcon.dart';
+import '../../../src/components/appbar/my_appbar.dart';
+import '../../../src/components/button/my_elevatedButton.dart';
+import '../../../src/components/input/my_textformfield2.dart';
+import '../../../src/components/sheet/showModalBottomSheetTitleWithIcon.dart';
 import '../../../src/providers/constants.dart';
 import '../../../theme/colors.dart';
 import '../../others/successful_screen.dart';

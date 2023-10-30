@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../src/components/icon_textformfield.dart';
-import '../../../src/components/my_appbar.dart';
-import '../../../src/components/my_disabled_outlined_elevatedButton.dart';
-import '../../../src/components/my_elevatedButton.dart';
-import '../../../src/components/my_outlined_elevatedButton.dart';
-import '../../../src/components/my_textformfield.dart';
+import '../../../src/components/input/icon_textformfield.dart';
+import '../../../src/components/appbar/my_appbar.dart';
+import '../../../src/components/button/my_disabled_outlined_elevatedButton.dart';
+import '../../../src/components/button/my_elevatedButton.dart';
+import '../../../src/components/button/my_outlined_elevatedButton.dart';
+import '../../../src/components/input/my_textformfield.dart';
 import '../../../src/providers/constants.dart';
 import '../../../theme/colors.dart';
 import 'select category.dart';

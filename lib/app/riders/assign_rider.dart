@@ -3,8 +3,8 @@
 import 'package:benji_aggregator/controller/rider_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/model/order.dart';
-import 'package:benji_aggregator/src/components/my_appbar.dart';
-import 'package:benji_aggregator/src/components/my_outlined_elevatedButton.dart';
+import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
+import 'package:benji_aggregator/src/components/button/my_outlined_elevatedButton.dart';
 import 'package:benji_aggregator/src/providers/custom_show_search.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';

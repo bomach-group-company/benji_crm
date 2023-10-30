@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:benji_aggregator/src/components/my_appbar.dart';
-import 'package:benji_aggregator/src/components/my_elevatedButton.dart';
+import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
+import 'package:benji_aggregator/src/components/button/my_elevatedButton.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';

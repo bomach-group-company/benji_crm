@@ -8,9 +8,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
-import '../../../src/components/my_appbar.dart';
-import '../../../src/components/my_future_builder.dart';
-import '../../../src/components/my_liquid_refresh.dart';
+import '../../../src/components/appbar/my_appbar.dart';
+import '../../../src/components/others/my_future_builder.dart';
+import '../../../src/components/section/my_liquid_refresh.dart';
 import '../../../theme/colors.dart';
 import 'pending_order_details.dart';
 

@@ -1,6 +1,6 @@
 // ignore_for_file: file_names, prefer_typing_uninitialized_variables, use_build_context_synchronously, unused_field
 
-import 'package:benji_aggregator/src/components/my_elevatedButton.dart';
+import 'package:benji_aggregator/src/components/button/my_elevatedButton.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -9,9 +9,9 @@ import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:readmore/readmore.dart';
 
-import '../../../src/components/my_appbar.dart';
-import '../../../src/components/my_textformfield2.dart';
-import '../../../src/components/showModalBottomSheetTitleWithIcon.dart';
+import '../../../src/components/appbar/my_appbar.dart';
+import '../../../src/components/input/my_textformfield2.dart';
+import '../../../src/components/sheet/showModalBottomSheetTitleWithIcon.dart';
 import '../../../src/providers/constants.dart';
 import '../../../src/skeletons/product_details_page_skeleton.dart';
 import '../../../theme/colors.dart';

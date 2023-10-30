@@ -1,12 +1,12 @@
 import 'package:benji_aggregator/model/order.dart';
-import 'package:benji_aggregator/src/components/my_appbar.dart';
-import 'package:benji_aggregator/src/components/my_future_builder.dart';
-import 'package:benji_aggregator/src/components/my_liquid_refresh.dart';
+import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
+import 'package:benji_aggregator/src/components/others/my_future_builder.dart';
+import 'package:benji_aggregator/src/components/section/my_liquid_refresh.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import '../../../src/components/all_orders_container.dart';
+import '../../../src/components/container/all_orders_container.dart';
 import '../../../src/providers/constants.dart';
 
 class AllCompletedOrders extends StatefulWidget {

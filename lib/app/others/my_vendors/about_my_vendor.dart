@@ -1,10 +1,10 @@
-import 'package:benji_aggregator/src/components/my_appbar.dart';
+import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import '../../../src/components/customer_review_card.dart';
-import '../../../src/components/my_liquid_refresh.dart';
-import '../../../src/components/star_row.dart';
+import '../../../src/components/card/customer_review_card.dart';
+import '../../../src/components/section/my_liquid_refresh.dart';
+import '../../../src/components/section/star_row.dart';
 import '../../../src/providers/constants.dart';
 import '../../../theme/colors.dart';
 
