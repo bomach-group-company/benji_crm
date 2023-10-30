@@ -1,6 +1,6 @@
 // ignore_for_file: unused_local_variable
 
-import 'package:benji_aggregator/app/others/products/product_details.dart';
+import 'package:benji_aggregator/app/products/product_details.dart';
 import 'package:benji_aggregator/model/vendor_model.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
 import 'package:benji_aggregator/src/providers/custom_show_search.dart';

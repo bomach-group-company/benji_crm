@@ -1,6 +1,6 @@
 // ignore_for_file: file_names, prefer_typing_uninitialized_variables
 
-import 'package:benji_aggregator/app/others/withdrawal/select_account.dart';
+import 'package:benji_aggregator/app/withdrawal/select_account.dart';
 import 'package:benji_aggregator/services/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

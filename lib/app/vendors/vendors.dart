@@ -2,7 +2,7 @@
 
 import 'dart:async';
 
-import 'package:benji_aggregator/app/others/add_vendor/add_vendor.dart';
+import 'package:benji_aggregator/app/add_vendor/add_vendor.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:benji_aggregator/model/vendor_model.dart';
 import 'package:benji_aggregator/src/components/container/vendors_container.dart';
@@ -16,7 +16,7 @@ import '../../src/providers/constants.dart';
 import '../../src/providers/custom_show_search.dart';
 import '../../src/skeletons/vendors_list_skeleton.dart';
 import '../../theme/colors.dart';
-import '../others/my_vendors/my_vendors.dart';
+import '../my_vendors/my_vendors.dart';
 import 'vendor_details.dart';
 
 class Vendors extends StatefulWidget {

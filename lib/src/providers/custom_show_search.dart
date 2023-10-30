@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../theme/colors.dart';
-import '../components/others/my_future_builder.dart';
+import '../components/my_future_builder.dart';
 import '../responsive/responsive_constant.dart';
 import 'constants.dart';
 

@@ -2,7 +2,7 @@
 
 import 'dart:async';
 
-import 'package:benji_aggregator/app/others/my_orders/all_orders.dart';
+import 'package:benji_aggregator/app/my_orders/all_orders.dart';
 import 'package:benji_aggregator/controller/notification_controller.dart';
 import 'package:benji_aggregator/controller/order_controller.dart';
 import 'package:benji_aggregator/controller/rider_controller.dart';
@@ -21,8 +21,8 @@ import '../../src/components/container/dashboard_rider_vendor_container.dart';
 import '../../src/providers/constants.dart';
 import '../../src/responsive/responsive_constant.dart';
 import '../../theme/colors.dart';
-import '../others/my_orders/active_orders.dart';
-import '../others/my_orders/pending_orders.dart';
+import '../my_orders/active_orders.dart';
+import '../my_orders/pending_orders.dart';
 import '../riders/riders.dart';
 import '../vendors/vendors.dart';
 
