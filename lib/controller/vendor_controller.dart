@@ -67,7 +67,6 @@ class VendorController extends GetxController {
     print('at least in the getVendorProduct');
     isLoad.value = true;
     late String token;
-    update();
     var url =
         "${Api.baseUrl}${Api.getVendorProducts}$id?start=1&end=${end ?? 1}";
     token = UserController.instance.user.value.token;
