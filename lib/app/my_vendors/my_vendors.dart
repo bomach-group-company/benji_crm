@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:benji_aggregator/app/add_vendor/add_vendor.dart';
+import 'package:benji_aggregator/app/my_vendors/my_vendor_detail.dart';
 import 'package:benji_aggregator/app/vendors/vendor_details.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:benji_aggregator/model/vendor_model.dart';
@@ -144,15 +145,7 @@ class _MyVendorsState extends State<MyVendors> {
 //===================== Navigation ==========================\\
 
   void _toVendorDetailsPage(VendorModel data) => Get.to(
-        () => VendorDetailsPage(
-          vendorCoverImage:
-              _vendorStatus ? _onlineVendorsImage : _offlineVendorsImage,
-          vendorName: _vendorStatus ? _onlineVendorsName : _offlineVendorsName,
-          vendorRating:
-              _vendorStatus ? _onlineVendorsRating : _offlineVendorsRating,
-          vendorActiveStatus: _vendorStatus ? _vendorActive : _vendorInactive,
-          vendorActiveStatusColor:
-              _vendorStatus ? _vendorActiveColor : _vendorInactiveColor,
+        () => MyVendorDetailsPage(
           vendor: data,
         ),
         duration: const Duration(milliseconds: 300),
@@ -240,8 +233,6 @@ class _MyVendorsState extends State<MyVendors> {
                             physics: const BouncingScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (context, index) => InkWell(
-                              onTap: () => _toVendorDetailsPage(
-                                  controller.vendorMyList[index]),
                               borderRadius: BorderRadius.circular(16),
                               child: Container(
                                   decoration: ShapeDecoration(
@@ -259,7 +250,8 @@ class _MyVendorsState extends State<MyVendors> {
                                     ],
                                   ),
                                   child: VendorContainer(
-                                    onTap: () {},
+                                    onTap: () => _toVendorDetailsPage(
+                                        controller.vendorMyList[index]),
                                     vendor: controller.vendorMyList[index],
                                   )),
                             ),

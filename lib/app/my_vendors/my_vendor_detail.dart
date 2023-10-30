@@ -1,5 +1,6 @@
 // ignore_for_file: unused_local_variable, unused_element
 
+import 'package:benji_aggregator/model/vendor_model.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
 import 'package:benji_aggregator/src/providers/custom_show_search.dart';
 import 'package:flutter/gestures.dart';
@@ -8,13 +9,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../../controller/vendor_controller.dart';
-import '../../src/components/button/category_button_section.dart';
 import '../../src/components/appbar/my_appbar.dart';
+import '../../src/components/button/category_button_section.dart';
+import '../../src/components/container/vendors_order_container.dart';
+import '../../src/components/container/vendors_product_container.dart';
 import '../../src/components/section/my_liquid_refresh.dart';
 import '../../src/components/tab/vendor_orders_tab.dart';
 import '../../src/components/tab/vendor_products_tab.dart';
-import '../../src/components/container/vendors_order_container.dart';
-import '../../src/components/container/vendors_product_container.dart';
 import '../../src/responsive/responsive_constant.dart';
 import '../../src/skeletons/vendors_tabbar_orders_content_skeleton.dart';
 import '../../src/skeletons/vendors_tabbar_products_content_skeleton.dart';
@@ -27,20 +28,10 @@ import 'my_vendors_location.dart';
 import 'suspend_my_vendor.dart';
 
 class MyVendorDetailsPage extends StatefulWidget {
-  final String vendorCoverImage;
-  final String vendorName;
-  final String vendorRating;
-  final String vendorAddress;
-  final String vendorActiveStatus;
-  final Color vendorActiveStatusColor;
+  final VendorModel vendor;
   const MyVendorDetailsPage({
     super.key,
-    required this.vendorCoverImage,
-    required this.vendorName,
-    required this.vendorRating,
-    required this.vendorActiveStatus,
-    required this.vendorActiveStatusColor,
-    required this.vendorAddress,
+    required this.vendor,
   });
 
   @override
@@ -76,7 +67,8 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
 //===================== BOOL VALUES =======================\\
   // bool isLoading = false;
   late bool _loadingScreen;
-  bool _loadingTabBarContent = false;
+  final bool _loadingTabBarContent = false;
+  int tabBar = 0;
 
   //=================================== Orders =======================================\\
   final int _incrementOrderID = 2 + 2;
@@ -150,15 +142,9 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
     });
   }
 
-  void _clickOnTabBarOption() async {
+  void _clickOnTabBarOption(value) async {
     setState(() {
-      _loadingTabBarContent = true;
-    });
-
-    await Future.delayed(const Duration(seconds: 3));
-
-    setState(() {
-      _loadingTabBarContent = false;
+      tabBar = value;
     });
   }
 
@@ -194,7 +180,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
           case 'about':
             Get.to(
               () => AboutMyVendor(
-                vendorName: widget.vendorName,
+                vendorName: widget.vendor.shopName,
                 vendorHeadLine:
                     "Cruiselings whale shark diving pan Pacific romance at sea rusty dancemoves endless horizon home is where the anchor drops back packers Endless summer cruise insider paradise island languid afternoons the love boat cruise life.",
                 monToFriOpeningHours: "8 AM",
@@ -273,9 +259,9 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
 
   void _toVendorLocation() => Get.to(
         () => MyVendorLocation(
-          vendorName: widget.vendorName,
-          vendorAddress: widget.vendorAddress,
-          vendorRating: widget.vendorRating,
+          vendorName: widget.vendor.shopName,
+          vendorAddress: widget.vendor.address,
+          vendorRating: widget.vendor.averageRating.toString(),
         ),
         routeName: 'MyVendorLocation',
         duration: const Duration(milliseconds: 300),
@@ -365,7 +351,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                     image: DecorationImage(
                                       fit: BoxFit.fill,
                                       image: AssetImage(
-                                        "assets/images/vendors/${widget.vendorCoverImage}.png",
+                                        "assets/images/vendors/${widget.vendor.profileLogo}.png",
                                       ),
                                     ),
                                   ),
@@ -411,7 +397,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                         SizedBox(
                                           width: media.width - 200,
                                           child: Text(
-                                            widget.vendorName,
+                                            widget.vendor.shopName,
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 1,
                                             textAlign: TextAlign.center,
@@ -505,7 +491,8 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                                   ),
                                                   const SizedBox(width: 5),
                                                   Text(
-                                                    widget.vendorRating,
+                                                    widget.vendor.averageRating
+                                                        .toString(),
                                                     style: const TextStyle(
                                                       color: kBlackColor,
                                                       fontSize: 14,
@@ -636,16 +623,6 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                                           VendorsProductContainer(
                                                         onTap:
                                                             toProductDetailScreen,
-                                                        productImage:
-                                                            _productImage,
-                                                        productName:
-                                                            _productName,
-                                                        productDescription:
-                                                            _productDescription,
-                                                        productPrice:
-                                                            _productPrice,
-                                                        productQuantity:
-                                                            _productQuantity,
                                                         // ignore: invalid_use_of_protected_member
                                                         product: element,
                                                       ),

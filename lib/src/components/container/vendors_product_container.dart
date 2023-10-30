@@ -1,31 +1,19 @@
 // ignore_for_file: file_names, unused_local_variable
 
+import 'package:benji_aggregator/model/product_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../../model/vendor_product_model.dart';
 import '../../../theme/colors.dart';
 import '../../providers/constants.dart';
 
 class VendorsProductContainer extends StatefulWidget {
   final Function() onTap;
-  final String productImage;
-  final String productName;
-  final String productDescription;
-  final double productPrice;
-  final String productQuantity;
-  final Item? product;
+  final Product product;
 
   const VendorsProductContainer(
-      {super.key,
-      required this.onTap,
-      required this.productImage,
-      required this.productName,
-      required this.productDescription,
-      required this.productPrice,
-      required this.productQuantity,
-      required this.product});
+      {super.key, required this.onTap, required this.product});
 
   @override
   State<VendorsProductContainer> createState() =>
@@ -82,7 +70,7 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
                 // ),
               ),
               child: CachedNetworkImage(
-                imageUrl: widget.product!.productImage ?? "",
+                imageUrl: widget.product.productImage ?? '',
                 fit: BoxFit.cover,
                 progressIndicatorBuilder: (context, url, downloadProgress) =>
                     const Center(
@@ -101,7 +89,7 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.product!.name ?? "",
+                  widget.product.name,
                   style: const TextStyle(
                     color: kTextBlackColor,
                     fontSize: 18,
@@ -111,7 +99,7 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
                 SizedBox(
                   width: mediaWidth / 2,
                   child: Text(
-                    widget.product!.description ?? "",
+                    widget.product.description,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                     style: TextStyle(
@@ -128,7 +116,7 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
                     SizedBox(
                       width: mediaWidth / 4,
                       child: Text(
-                        '₦${convertToCurrency(widget.product!.price.toString())}',
+                        '₦${convertToCurrency(widget.product.price.toString())}',
                         style: const TextStyle(
                           color: Color(0xFF333333),
                           fontSize: 14,
@@ -141,7 +129,7 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
                       width: mediaWidth / 4,
                       height: 17,
                       child: Text(
-                        'Qty: ${widget.product!.quantityAvailable}',
+                        'Qty: ${widget.product.quantityAvailable}',
                         textAlign: TextAlign.right,
                         style: TextStyle(
                           color: kTextGreyColor,

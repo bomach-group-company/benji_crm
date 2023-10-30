@@ -160,14 +160,6 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
 
   void _toVendorDetailsPage(VendorModel data) => Get.to(
         () => VendorDetailsPage(
-          vendorCoverImage:
-              vendorStatus ? _onlineVendorsImage : _offlineVendorsImage,
-          vendorName: vendorStatus ? _onlineVendorsName : _offlineVendorsName,
-          vendorRating:
-              vendorStatus ? _onlineVendorsRating : _offlineVendorsRating,
-          vendorActiveStatus: vendorStatus ? _vendorActive : _vendorInactive,
-          vendorActiveStatusColor:
-              vendorStatus ? _vendorActiveColor : _vendorInactiveColor,
           vendor: data,
         ),
         duration: const Duration(milliseconds: 300),
@@ -268,8 +260,6 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
                             physics: const BouncingScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (context, index) => InkWell(
-                              onTap: () => _toVendorDetailsPage(
-                                  controller.vendorList[index]),
                               borderRadius: BorderRadius.circular(16),
                               child: Container(
                                   decoration: ShapeDecoration(
@@ -287,7 +277,8 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
                                     ],
                                   ),
                                   child: VendorContainer(
-                                    onTap: () {},
+                                    onTap: () => _toVendorDetailsPage(
+                                        controller.vendorList[index]),
                                     vendor: controller.vendorList[index],
                                   )),
                             ),
