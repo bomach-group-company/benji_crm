@@ -9,14 +9,14 @@ import '../../src/components/my_elevatedButton.dart';
 import '../../src/components/my_fixed_snackBar.dart';
 import '../../src/providers/constants.dart';
 
-class SuspendRider extends StatefulWidget {
-  const SuspendRider({super.key});
+class ReportRider extends StatefulWidget {
+  const ReportRider({super.key});
 
   @override
-  State<SuspendRider> createState() => _SuspendRiderState();
+  State<ReportRider> createState() => _ReportRiderState();
 }
 
-class _SuspendRiderState extends State<SuspendRider> {
+class _ReportRiderState extends State<ReportRider> {
   //============================================ ALL VARIABLES ===========================================\\
   bool _submittingRequest = false;
 
@@ -63,8 +63,8 @@ class _SuspendRiderState extends State<SuspendRider> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: MyAppBar(
-        title: "Suspend Rider",
-        elevation: 0,
+        title: "Report Rider",
+        elevation: 10.0,
         actions: const [],
         backgroundColor: kPrimaryColor,
       ),

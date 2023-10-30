@@ -4,12 +4,12 @@ import 'dart:async';
 
 import 'package:benji_aggregator/app/others/add_vendor/add_vendor.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
+import 'package:benji_aggregator/model/vendor_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-import '../../model/vendor_list_model.dart';
 import '../../src/components/my_outlined_elevatedButton.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/custom_show_search.dart';
@@ -202,7 +202,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
         transition: Transition.downToUp,
       );
 
-  void _toVendorDetailsPage(VendorListModel data) => Get.to(
+  void _toVendorDetailsPage(VendorModel data) => Get.to(
         () => VendorDetailsPage(
           vendorCoverImage:
               _vendorStatus ? _onlineVendorsImage : _offlineVendorsImage,
@@ -357,12 +357,9 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
                               : StreamBuilder(
                                   stream: null,
                                   builder: (context, snapshot) {
-                                    List<VendorListModel> vendor = controller
-                                        .vendorList
-                                        .where((p0) =>
-                                            p0.shopType!.isActive ==
-                                            _vendorStatus)
-                                        .toList();
+                                    List<VendorModel> vendor =
+                                        controller.vendorList;
+
                                     return ListView.separated(
                                         separatorBuilder: (context, index) =>
                                             const SizedBox(
@@ -394,6 +391,8 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
                                                     ),
                                                   ],
                                                 ),
+                                                child: Text(
+                                                    vendor[index].firstName),
                                               ),
                                             ));
                                   }),

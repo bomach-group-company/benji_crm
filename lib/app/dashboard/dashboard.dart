@@ -7,6 +7,7 @@ import 'package:benji_aggregator/controller/notification_controller.dart';
 import 'package:benji_aggregator/controller/order_controller.dart';
 import 'package:benji_aggregator/controller/rider_controller.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
+import 'package:benji_aggregator/model/order.dart';
 import 'package:benji_aggregator/src/components/dashboard_all_orders_container.dart';
 import 'package:benji_aggregator/src/components/dashboard_app_bar.dart';
 import 'package:benji_aggregator/src/skeletons/dashboard_page_skeleton.dart';
@@ -15,7 +16,6 @@ import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-import '../../model/order_list_model.dart';
 import '../../src/components/dashboard_orders_container.dart';
 import '../../src/components/dashboard_rider_vendor_container.dart';
 import '../../src/providers/constants.dart';
@@ -96,7 +96,7 @@ class _DashboardState extends State<Dashboard>
   bool _isScrollToTopBtnVisible = false;
   int incrementOrderID = 2 + 2;
   late int orderID;
-  String orderItem = "Jollof Rice and Chicken";
+  String orderOrder = "Jollof Rice and Chicken";
   String customerAddress = "21 Odogwu Street, New Haven";
   int itemQuantity = 2;
   double price = 2500;
@@ -120,16 +120,7 @@ class _DashboardState extends State<Dashboard>
     setState(() {
       _loadingScreen = true;
     });
-    await Future.delayed(const Duration(milliseconds: 1000));
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      NotificationController.instance.runTask();
-      OrderController.instance.runTask();
-      VendorController.instance.runTask();
-      RiderController.instance.getRiders();
-    });
-    setState(() {
-      _loadingScreen = false;
-    });
+    _loadingScreen = false;
   }
 
 //============================= Scroll to Top ======================================//
@@ -188,7 +179,7 @@ class _DashboardState extends State<Dashboard>
         transition: Transition.downToUp,
       );
 
-  void _toSeeAllCompletedOrders(List<OrderItem> completed) => Get.to(
+  void _toSeeAllCompletedOrders(List<Order> completed) => Get.to(
         () => AllCompletedOrders(completed: completed),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -199,7 +190,7 @@ class _DashboardState extends State<Dashboard>
         transition: Transition.downToUp,
       );
 
-  void _toSeeAllPendingOrders(List<OrderItem> orderList) => Get.to(
+  void _toSeeAllPendingOrders(List<Order> orderList) => Get.to(
         () => PendingOrders(
           orderList: orderList,
         ),
@@ -212,7 +203,7 @@ class _DashboardState extends State<Dashboard>
         transition: Transition.downToUp,
       );
 
-  void _toSeeAllActiveOrders(List<OrderItem> orderList) => Get.to(
+  void _toSeeAllActiveOrders(List<Order> orderList) => Get.to(
         () => ActiveOrders(
           orderList: orderList,
         ),
@@ -269,19 +260,19 @@ class _DashboardState extends State<Dashboard>
                           builder: (order) {
                             final active = order.orderList
                                 .where((p0) =>
-                                    !p0.deliveryStatus!
+                                    !p0.deliveryStatus
                                         .toLowerCase()
                                         .contains("COMP".toLowerCase()) &&
-                                    p0.assignedStatus!
+                                    p0.assignedStatus
                                         .toLowerCase()
                                         .contains("ASSG".toLowerCase()))
                                 .toList();
                             final pending = order.orderList
                                 .where((p0) =>
-                                    !p0.deliveryStatus!
+                                    !p0.deliveryStatus
                                         .toLowerCase()
                                         .contains("COMP".toLowerCase()) &&
-                                    p0.assignedStatus!
+                                    p0.assignedStatus
                                         .toLowerCase()
                                         .contains("PEND".toLowerCase()))
                                 .toList();
@@ -345,7 +336,6 @@ class _DashboardState extends State<Dashboard>
                         await RiderController.instance.getRiders();
                       }, builder: (rider) {
                         final allRider = rider.riderList.toList();
-
                         return RiderVendorContainer(
                           onTap: _toSeeAllRiders,
                           number: rider.total.value.toString(),

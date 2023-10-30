@@ -1,12 +1,11 @@
 // ignore_for_file: unused_field
 
-import 'package:benji_aggregator/controller/operation.dart';
+import 'package:benji_aggregator/model/order.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../model/order_list_model.dart';
 import '../../theme/colors.dart';
 import '../providers/constants.dart';
 
@@ -43,18 +42,12 @@ class AllCompletedOrdersContainer extends StatelessWidget {
   final double _itemPrice;
   final String _customerName;
   final String _customerAddress;
-  final OrderItem order;
+  final Order order;
 
   @override
   Widget build(BuildContext context) {
     int qty = 0;
-    if (order.orderitems != null) {
-      if (order.orderitems!.isNotEmpty) {
-        for (var element in order.orderitems!) {
-          qty += int.tryParse(element.quantity!.toString())!;
-        }
-      }
-    }
+
     return Container(
       margin: const EdgeInsets.symmetric(
         vertical: kDefaultPadding / 2,
@@ -97,7 +90,7 @@ class AllCompletedOrdersContainer extends StatelessWidget {
                   // ),
                 ),
                 child: CachedNetworkImage(
-                  imageUrl: order.client!.image ?? "",
+                  imageUrl: order.client.image ?? "",
                   fit: BoxFit.cover,
                   progressIndicatorBuilder: (context, url, downloadProgress) =>
                       const Center(
@@ -139,10 +132,10 @@ class AllCompletedOrdersContainer extends StatelessWidget {
               SizedBox(
                 width: mediaWidth / 1.55,
                 // color: kAccentColor,
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const SizedBox(
+                    SizedBox(
                       child: Text(
                         "",
                         maxLines: 2,
@@ -155,9 +148,9 @@ class AllCompletedOrdersContainer extends StatelessWidget {
                     ),
                     SizedBox(
                       child: Text(
-                        Operation.convertDate(order.created!),
+                        'date here',
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
                         ),
@@ -218,7 +211,7 @@ class AllCompletedOrdersContainer extends StatelessWidget {
               SizedBox(
                 width: mediaWidth / 1.8,
                 child: Text(
-                  "${order.client!.lastName} ${order.client!.firstName}",
+                  "${order.client.lastName} ${order.client.firstName}",
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: const TextStyle(
@@ -229,11 +222,11 @@ class AllCompletedOrdersContainer extends StatelessWidget {
               ),
               SizedBox(
                 width: mediaWidth / 1.8,
-                child: Text(
-                  order.deliveryAddress!.streetAddress ?? "",
+                child: const Text(
+                  "address here",
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w400,
                   ),

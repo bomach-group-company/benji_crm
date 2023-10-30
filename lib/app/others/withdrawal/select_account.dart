@@ -278,10 +278,12 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
                   mouseCursor: SystemMouseCursors.click,
                   borderRadius: BorderRadius.circular(12),
                   child: Container(
+                    alignment: Alignment.center,
                     padding: const EdgeInsets.all(5),
                     width: media.width - 200,
                     height: 50,
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         FaIcon(
                           FontAwesomeIcons.solidTrashCan,

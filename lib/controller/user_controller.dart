@@ -50,10 +50,10 @@ class UserController extends GetxController {
     data['email'] = otherData['email'];
     data['code'] = otherData['code'];
 
-    
     consoleLog(data.toString());
 
     await prefs.setString('user', jsonEncode(data));
+    setUserSync();
   }
 
   void setUserSync() {
@@ -63,6 +63,7 @@ class UserController extends GetxController {
     } else {
       user.value = userModelFromJson(userData);
     }
+    update();
   }
 
   Future<bool> deleteUser() async {

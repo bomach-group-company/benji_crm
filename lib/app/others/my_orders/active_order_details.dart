@@ -1,6 +1,7 @@
 // ignore_for_file: file_names, unused_local_variable, unused_element
 
 import 'package:benji_aggregator/app/others/my_orders/track_order.dart';
+import 'package:benji_aggregator/model/order.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,6 @@ import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../../controller/url_launch_controller.dart';
-import '../../../model/order_list_model.dart';
 import '../../../src/components/my_appbar.dart';
 import '../../../src/components/my_elevatedButton.dart';
 import '../../../src/providers/constants.dart';
@@ -26,7 +26,7 @@ class ActiveOrderDetails extends StatefulWidget {
   final int itemQuantity;
   final double subtotalPrice;
   final String orderImage;
-  final OrderItem order;
+  final Order order;
   const ActiveOrderDetails(
       {super.key,
       required this.orderID,
@@ -206,7 +206,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                     ),
                                   ),
                                   Text(
-                                    !widget.order.assignedStatus!
+                                    !widget.order.assignedStatus
                                             .toLowerCase()
                                             .contains("ASSG".toLowerCase())
                                         ? "Pending"
@@ -315,10 +315,9 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                             fontWeight: FontWeight.w700,
                                           ),
                                         ),
-                                        TextSpan(
-                                          text:
-                                              "x ${widget.order.orderitems!.first.quantity}",
-                                          style: const TextStyle(
+                                        const TextSpan(
+                                          text: "x 1",
+                                          style: TextStyle(
                                             color: kTextBlackColor,
                                             fontSize: 12.52,
                                             fontWeight: FontWeight.w700,
@@ -399,8 +398,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                   ),
                                   child: ClipOval(
                                     child: CachedNetworkImage(
-                                      imageUrl:
-                                          widget.order.client!.image ?? "",
+                                      imageUrl: widget.order.client.image ?? "",
                                       fit: BoxFit.cover,
                                       progressIndicatorBuilder: (context, url,
                                               downloadProgress) =>
@@ -420,7 +418,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "${widget.order.client!.lastName} ${widget.order.client!.firstName} ",
+                                      "${widget.order.client.lastName} ${widget.order.client.firstName} ",
                                       overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(
                                         color: kTextBlackColor,
@@ -430,7 +428,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                     ),
                                     kHalfSizedBox,
                                     Text(
-                                      widget.order.client!.phone ?? "",
+                                      widget.order.client.phone ?? "",
                                       style: TextStyle(
                                         color: kTextGreyColor,
                                         fontSize: 11.62,
@@ -450,7 +448,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                     SizedBox(
                                       width: 155,
                                       child: Text(
-                                        "${widget.order.deliveryAddress!.streetAddress}",
+                                        widget.order.toString(),
                                         maxLines: 3,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
@@ -478,12 +476,10 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                   child: IconButton(
                                     splashRadius: 30,
                                     onPressed: () {
-                                      if (widget.order.client!.phone != null) {
-                                        if (widget
-                                            .order.client!.phone!.isNotEmpty) {
-                                          UrlLaunchController.makePhoneCall(
-                                              widget.order.client!.phone!);
-                                        }
+                                      if (widget
+                                          .order.client.phone.isNotEmpty) {
+                                        UrlLaunchController.makePhoneCall(
+                                            widget.order.client.phone);
                                       }
                                     },
                                     icon: Icon(

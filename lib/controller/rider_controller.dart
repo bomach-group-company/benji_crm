@@ -94,6 +94,8 @@ class RiderController extends GetxController {
 
   emptyRiderList() {
     riderList.value = [];
+    loadedAll.value = false;
+    moreNum.value = 10;
     update();
   }
 

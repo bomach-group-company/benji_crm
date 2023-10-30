@@ -3,7 +3,6 @@
 import 'dart:convert';
 
 import 'package:benji_aggregator/controller/error_controller.dart';
-import 'package:benji_aggregator/model/vendor_list_model.dart';
 import 'package:benji_aggregator/model/vendor_model.dart';
 import 'package:benji_aggregator/services/api_url.dart';
 import 'package:flutter/foundation.dart';
@@ -25,11 +24,11 @@ class VendorController extends GetxController {
   VendorController({this.isFirst});
   var isLoad = false.obs;
   var isLoadCreate = false.obs;
-  var vendorList = <VendorListModel>[].obs;
+  var vendorList = <VendorModel>[].obs;
   var businessType = <BusinessType>[].obs;
   var vendorProductList = <Item>[].obs;
   var vendorOrderList = <DataItem>[].obs;
-  var vendor = VendorModel().obs;
+  var vendor = VendorModel.fromJson(null).obs;
 
   @override
   void onInit() {
@@ -45,13 +44,13 @@ class VendorController extends GetxController {
     //update();
     var url = "${Api.baseUrl}${Api.vendorList}?agent_id=$id";
     token = UserController.instance.user.value.token;
-    consoleLog(token);
     try {
       http.Response? response = await HandleData.getApi(url, token);
       var responseData =
           await ApiProcessorController.errorState(response, isFirst ?? true);
-      var save = vendorListModelFromJson(responseData);
+      var save = vendorModelFromJson(responseData);
       vendorList.value = save;
+      print(save);
       update();
     } catch (e) {}
     isLoad.value = false;
