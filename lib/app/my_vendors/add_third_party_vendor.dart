@@ -757,8 +757,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
                                   MyBlueTextFormField(
                                     controller: vendorNameEC,
                                     validator: (value) {
-                                      if (value == null ||
-                                          vendorNameEC.text.isEmpty) {
+                                      if (value == null || value!.isEmpty) {
                                         return "Field cannot be empty";
                                       } else {
                                         return null;
@@ -829,8 +828,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
                                   MyBlueTextFormField(
                                     controller: vendorEmailEC,
                                     validator: (value) {
-                                      if (value == null ||
-                                          vendorEmailEC.text.isEmpty) {
+                                      if (value == null || value!.isEmpty) {
                                         return "Field cannot be empty";
                                       } else {
                                         return null;
@@ -866,8 +864,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
                                     textInputAction: TextInputAction.next,
                                     focusNode: vendorPhoneNumberFN,
                                     validator: (value) {
-                                      if (value == null ||
-                                          vendorPhoneNumberEC.text.isEmpty) {
+                                      if (value == null || value!.isEmpty) {
                                         return "Field cannot be empty";
                                       } else {
                                         return null;
@@ -900,7 +897,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
                                       MyMapsTextFormField(
                                         controller: mapsLocationEC,
                                         validator: (value) {
-                                          if (value == null) {
+                                          if (value == null || value!.isEmpty) {
                                             mapsLocationFN.requestFocus();
                                             "Enter a location";
                                           }

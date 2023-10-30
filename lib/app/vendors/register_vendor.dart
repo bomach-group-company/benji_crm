@@ -857,7 +857,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                           MyBlueTextFormField(
                             controller: vendorEmailEC,
                             validator: (value) {
-                              if (value == null || vendorEmailEC.text.isEmpty) {
+                              if (value == null || value!.isEmpty) {
                                 return "Field cannot be empty";
                               } else {
                                 return null;
@@ -892,8 +892,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                             textInputAction: TextInputAction.next,
                             focusNode: vendorPhoneNumberFN,
                             validator: (value) {
-                              if (value == null ||
-                                  vendorPhoneNumberEC.text.isEmpty) {
+                              if (value == null || value!.isEmpty) {
                                 return "Field cannot be empty";
                               } else {
                                 return null;
@@ -925,7 +924,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                               MyMapsTextFormField(
                                 controller: mapsLocationEC,
                                 validator: (value) {
-                                  if (value == null) {
+                                  if (value == null || value!.isEmpty) {
                                     mapsLocationFN.requestFocus();
                                     "Enter a location";
                                   }
