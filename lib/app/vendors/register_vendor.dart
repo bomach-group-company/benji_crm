@@ -208,7 +208,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
   }
 
   //========================== Save data ==================================\\
-  Future<void> _saveChanges() async {
+  Future<void> saveChanges() async {
     if (country == null) {
       myFixedSnackBar(
         context,
@@ -266,26 +266,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
       coverImage: selectedCoverImage,
       profileImage: selectedLogoImage,
     );
-    // VendorController.instance.createVendor(data, true);
-
-    // Simulating a delay of 3 seconds
-
-    //Display snackBar
-    // myFixedSnackBar(
-    //   context,
-    //   "Your changes have been saved successfully".toUpperCase(),
-    //   kAccentColor,
-    //   const Duration(seconds: 1),
-    // );
-
-    // Future.delayed(const Duration(seconds: 1), () {
-    //   // Navigate to the new page
-    //   Navigator.of(context).pop(context);
-
-    //   setState(() {
-    //     _savingChanges = false;
-    //   });
-    // });
+    VendorController.instance.createVendor(data, true);
   }
 
   //=========================== WIDGETS ====================================\\
@@ -513,28 +494,20 @@ class _RegisterVendorState extends State<RegisterVendor> {
           backgroundColor: kPrimaryColor,
         ),
         bottomNavigationBar: GetBuilder<VendorController>(builder: (sending) {
-          return sending.isLoadCreate.value
-              ? Center(
-                  child: CircularProgressIndicator(color: kAccentColor),
-                )
-              : Container(
-                  color: kPrimaryColor,
-                  padding: const EdgeInsets.only(
-                    top: kDefaultPadding,
-                    left: kDefaultPadding,
-                    right: kDefaultPadding,
-                    bottom: kDefaultPadding,
-                  ),
-                  child: MyElevatedButton(
-                    onPressed: (() async {
-                      if (_formKey.currentState!.validate()) {
-                        _formKey.currentState!.save();
-                        _saveChanges();
-                      }
-                    }),
-                    title: "Save",
-                  ),
-                );
+          return Container(
+            color: kPrimaryColor,
+            padding: const EdgeInsets.all(kDefaultPadding),
+            child: MyElevatedButton(
+              onPressed: (() async {
+                if (_formKey.currentState!.validate()) {
+                  _formKey.currentState!.save();
+                  saveChanges();
+                }
+              }),
+              isLoading: sending.isLoadCreate.value,
+              title: "Save",
+            ),
+          );
         }),
         floatingActionButton: _isScrollToTopBtnVisible
             ? FloatingActionButton(
@@ -1089,8 +1062,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                           MyBlueTextFormField(
                             controller: vendorMonToFriOpeningHoursEC,
                             validator: (value) {
-                              if (value == null ||
-                                  vendorMonToFriOpeningHoursEC.text.isEmpty) {
+                              if (value == null || value!.isEmpty) {
                                 return "Field cannot be empty";
                               } else {
                                 return null;
@@ -1114,8 +1086,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                           MyBlueTextFormField(
                             controller: vendorMonToFriClosingHoursEC,
                             validator: (value) {
-                              if (value == null ||
-                                  vendorMonToFriClosingHoursEC.text.isEmpty) {
+                              if (value == null || value!.isEmpty) {
                                 return "Field cannot be empty";
                               } else {
                                 return null;
@@ -1149,8 +1120,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                           MyBlueTextFormField(
                             controller: vendorSatOpeningHoursEC,
                             validator: (value) {
-                              if (value == null ||
-                                  vendorSatOpeningHoursEC.text.isEmpty) {
+                              if (value == null || value!.isEmpty) {
                                 return "Field cannot be empty";
                               } else {
                                 return null;
@@ -1174,8 +1144,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                           MyBlueTextFormField(
                             controller: vendorSatClosingHoursEC,
                             validator: (value) {
-                              if (value == null ||
-                                  vendorSatClosingHoursEC.text.isEmpty) {
+                              if (value == null || value!.isEmpty) {
                                 return "Field cannot be empty";
                               } else {
                                 return null;
@@ -1209,8 +1178,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                           MyBlueTextFormField(
                             controller: vendorSunOpeningHoursEC,
                             validator: (value) {
-                              if (value == null ||
-                                  vendorSunOpeningHoursEC.text.isEmpty) {
+                              if (value == null || value!.isEmpty) {
                                 return "Field cannot be empty";
                               } else {
                                 return null;
@@ -1234,8 +1202,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                           MyBlueTextFormField(
                             controller: vendorSunClosingHoursEC,
                             validator: (value) {
-                              if (value == null ||
-                                  vendorSunClosingHoursEC.text.isEmpty) {
+                              if (value == null || value!.isEmpty) {
                                 return "Field cannot be empty";
                               } else {
                                 return null;
@@ -1265,8 +1232,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                             keyboardType: TextInputType.multiline,
                             maxLength: 6000,
                             validator: (value) {
-                              if (value == null ||
-                                  vendorBusinessBioEC.text.isEmpty) {
+                              if (value == null || value!.isEmpty) {
                                 return "Field cannot be empty";
                               } else {
                                 return null;
