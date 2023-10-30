@@ -50,7 +50,8 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
     // scrollController.addListener(_scrollListener);
     scrollController.addListener(() {
       if (scrollController.position.userScrollDirection ==
-          ScrollDirection.forward) {
+              ScrollDirection.forward ||
+          scrollController.position.pixels < 100) {
         widget.showNavigation();
       } else {
         widget.hideNavigation();
