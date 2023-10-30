@@ -30,14 +30,7 @@ class VendorController extends GetxController {
   var vendorOrderList = <DataItem>[].obs;
   var vendor = VendorModel.fromJson(null).obs;
 
-  @override
-  void onInit() {
-    runTask();
-
-    super.onInit();
-  }
-
-  Future runTask() async {
+  Future getVendors() async {
     isLoad.value = true;
     late String token;
     String id = UserController.instance.user.value.id.toString();

@@ -43,11 +43,6 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    VendorController.instance.runTask();
-
-    // _animationController =
-    //     AnimationController(vsync: this, duration: const Duration(seconds: 1));
-    // scrollController.addListener(_scrollListener);
     scrollController.addListener(() {
       if (scrollController.position.userScrollDirection ==
               ScrollDirection.forward ||
@@ -120,7 +115,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
     setState(() {
       _loadingScreen = true;
     });
-    VendorController.instance.runTask();
+
     await Future.delayed(const Duration(milliseconds: 1000));
     setState(() {
       _loadingScreen = false;
@@ -285,7 +280,9 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: GetBuilder<VendorController>(
-            init: VendorController(),
+            initState: (state) async {
+              await VendorController.instance.getVendors();
+            },
             builder: (controller) {
               return Scrollbar(
                 controller: scrollController,

@@ -310,21 +310,21 @@ class _DashboardState extends State<Dashboard>
                             );
                           }),
                       kSizedBox,
-                      GetBuilder<VendorController>(
-                          init: VendorController(),
-                          builder: (vendor) {
-                            final allVendor = vendor.vendorList.toList();
-                            final allOnlineVendor = vendor.vendorList
-                                .where((p0) => p0.isOnline == true)
-                                .toList();
-                            return RiderVendorContainer(
-                              onTap: _toSeeAllVendors,
-                              number: intFormattedText(allVendor.length),
-                              typeOf: "Vendors",
-                              onlineStatus:
-                                  "${intFormattedText(allOnlineVendor.length)} Online",
-                            );
-                          }),
+                      GetBuilder<VendorController>(initState: (state) async {
+                        await VendorController.instance.getVendors();
+                      }, builder: (vendor) {
+                        final allVendor = vendor.vendorList.toList();
+                        final allOnlineVendor = vendor.vendorList
+                            .where((p0) => p0.isOnline == true)
+                            .toList();
+                        return RiderVendorContainer(
+                          onTap: _toSeeAllVendors,
+                          number: intFormattedText(allVendor.length),
+                          typeOf: "Vendors",
+                          onlineStatus:
+                              "${intFormattedText(allOnlineVendor.length)} Online",
+                        );
+                      }),
                       kSizedBox,
                       GetBuilder<RiderController>(initState: (state) async {
                         await RiderController.instance.getRiders();
