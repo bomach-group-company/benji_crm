@@ -4,11 +4,10 @@ import 'dart:convert';
 
 import 'package:benji_aggregator/controller/error_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
+import 'package:benji_aggregator/model/order.dart';
 import 'package:benji_aggregator/services/api_url.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-
-import '../model/order_list_model.dart';
 
 class OrderController extends GetxController {
   static OrderController get instance {
@@ -18,7 +17,7 @@ class OrderController extends GetxController {
   bool? isFirst;
   OrderController({this.isFirst});
   var isLoad = false.obs;
-  var orderList = <OrderItem>[].obs;
+  var orderList = <Order>[].obs;
 
   @override
   void onInit() {
@@ -44,8 +43,9 @@ class OrderController extends GetxController {
       }
 
       try {
-        var save = OrderListModel.fromJson(jsonDecode(responseData));
-        orderList.value = save.items!;
+        orderList.value = (jsonDecode(responseData)['items'] as List)
+            .map((e) => Order.fromJson(e))
+            .toList();
         consoleLog(responseData);
       } catch (e) {
         consoleLog(e.toString());

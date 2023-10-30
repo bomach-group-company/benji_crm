@@ -14,6 +14,7 @@ class UserModel {
   int id;
   String code;
   String email;
+  String phone;
   String username;
   String firstName;
   String lastName;
@@ -31,10 +32,12 @@ class UserModel {
   String phoneNumberOfSpouse;
   String license;
   String token;
+  String? image;
 
   UserModel({
     required this.id,
     required this.email,
+    required this.phone,
     required this.code,
     required this.username,
     required this.firstName,
@@ -53,12 +56,14 @@ class UserModel {
     required this.phoneNumberOfSpouse,
     required this.license,
     required this.token,
+    this.image,
   });
   factory UserModel.fromJson(Map<String, dynamic>? json) {
     json ??= {};
     return UserModel(
       id: json['id'] ?? 0,
       email: json['email'] ?? notAvailable,
+      phone: json['phone'] ?? notAvailable,
       code: json['code'] ?? notAvailable,
       username: json['username'] ?? notAvailable,
       firstName: json['first_name'] ?? notAvailable,
@@ -77,12 +82,14 @@ class UserModel {
       phoneNumberOfSpouse: json['phoneNumberOfSpouse'] ?? notAvailable,
       license: json['license'] ?? notAvailable,
       token: json['token'] ?? '',
+      image: json['image'],
     );
   }
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "email": email,
+        "phone": phone,
         "code": code,
         "username": username,
         "first_name": firstName,
@@ -101,5 +108,6 @@ class UserModel {
         "phoneNumberOfSpouse": phoneNumberOfSpouse,
         "license": license,
         "token": token,
+        "image": image,
       };
 }

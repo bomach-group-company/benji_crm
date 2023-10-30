@@ -1,5 +1,6 @@
 // ignore_for_file: file_names, unused_local_variable, unused_element
 
+import 'package:benji_aggregator/model/order.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,6 @@ import 'package:get/route_manager.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../../controller/url_launch_controller.dart';
-import '../../../model/order_list_model.dart';
 import '../../../src/components/my_appbar.dart';
 import '../../../src/components/my_elevatedButton.dart';
 import '../../../src/components/my_outlined_elevatedButton.dart';
@@ -29,7 +29,7 @@ class PendingOrderDetails extends StatefulWidget {
   final int itemQuantity;
   final double subtotalPrice;
   final String orderImage;
-  final OrderItem order;
+  final Order order;
   const PendingOrderDetails(
       {super.key,
       required this.orderID,
@@ -243,7 +243,7 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
                                       letterSpacing: -0.32,
                                     ),
                                   ),
-                                  widget.order.assignedStatus!
+                                  widget.order.assignedStatus
                                           .toLowerCase()
                                           .contains("CANC".toLowerCase())
                                       ? Text(
@@ -256,7 +256,7 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
                                             letterSpacing: -0.32,
                                           ),
                                         )
-                                      : widget.order.assignedStatus!
+                                      : widget.order.assignedStatus
                                               .toLowerCase()
                                               .contains("ACCE".toLowerCase())
                                           ? const Text(
@@ -269,7 +269,7 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
                                                 letterSpacing: -0.32,
                                               ),
                                             )
-                                          : widget.order.assignedStatus!
+                                          : widget.order.assignedStatus
                                                   .toLowerCase()
                                                   .contains(
                                                       "ASSG".toLowerCase())
@@ -364,7 +364,7 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 182.38,
                                   child: Text.rich(
                                     maxLines: 3,
@@ -372,7 +372,7 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
                                     overflow: TextOverflow.ellipsis,
                                     TextSpan(
                                       children: [
-                                        const TextSpan(
+                                        TextSpan(
                                           text: "order",
                                           style: TextStyle(
                                             color: Colors.black,
@@ -381,7 +381,7 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
                                             fontWeight: FontWeight.w700,
                                           ),
                                         ),
-                                        const TextSpan(
+                                        TextSpan(
                                           text: " ",
                                           style: TextStyle(
                                             color: Colors.black,
@@ -390,9 +390,8 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
                                           ),
                                         ),
                                         TextSpan(
-                                          text:
-                                              "x ${widget.order.orderitems!.first.quantity}",
-                                          style: const TextStyle(
+                                          text: "x 1",
+                                          style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 12.52,
                                             fontWeight: FontWeight.w700,
@@ -473,7 +472,7 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
                                     shape: const OvalBorder(),
                                   ),
                                   child: CachedNetworkImage(
-                                    imageUrl: widget.order.client!.image ?? "",
+                                    imageUrl: widget.order.client.image ?? "",
                                     fit: BoxFit.cover,
                                     progressIndicatorBuilder: (context, url,
                                             downloadProgress) =>
@@ -492,7 +491,7 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "${widget.order.client!.lastName} ${widget.order.client!.firstName}",
+                                      "${widget.order.client.lastName} ${widget.order.client.firstName}",
                                       overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(
                                         color: Colors.black,
@@ -502,7 +501,7 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
                                     ),
                                     kHalfSizedBox,
                                     Text(
-                                      widget.order.client!.phone ?? "",
+                                      widget.order.client.phone ?? "",
                                       style: TextStyle(
                                         color: kTextGreyColor,
                                         fontSize: 11.62,
@@ -522,9 +521,7 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
                                     SizedBox(
                                       width: 155,
                                       child: Text(
-                                        widget.order.deliveryAddress!
-                                                .streetAddress ??
-                                            "",
+                                        "",
                                         maxLines: 3,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(

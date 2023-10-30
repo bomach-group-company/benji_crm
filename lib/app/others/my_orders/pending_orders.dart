@@ -1,6 +1,6 @@
 // ignore_for_file: unused_local_variable
 
-import 'package:benji_aggregator/controller/operation.dart';
+import 'package:benji_aggregator/model/order.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
 import 'package:benji_aggregator/src/skeletons/dashboard_orders_list_skeleton.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -8,7 +8,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
-import '../../../model/order_list_model.dart';
 import '../../../src/components/my_appbar.dart';
 import '../../../src/components/my_future_builder.dart';
 import '../../../src/components/my_liquid_refresh.dart';
@@ -16,7 +15,7 @@ import '../../../theme/colors.dart';
 import 'pending_order_details.dart';
 
 class PendingOrders extends StatefulWidget {
-  final List<OrderItem> orderList;
+  final List<Order> orderList;
   const PendingOrders({super.key, required this.orderList});
 
   @override
@@ -119,7 +118,7 @@ class _PendingOrdersState extends State<PendingOrders> {
                           Column(
                             children:
                                 List.generate(widget.orderList.length, (index) {
-                              OrderItem order = widget.orderList[index];
+                              Order order = widget.orderList[index];
                               return PendingOrderView(
                                 order: order,
                               );
@@ -145,7 +144,7 @@ class _PendingOrdersState extends State<PendingOrders> {
 }
 
 class PendingOrderView extends StatelessWidget {
-  final OrderItem order;
+  final Order order;
   const PendingOrderView({super.key, required this.order});
 
   void toOrderDetailsPage() => Get.to(
@@ -174,13 +173,7 @@ class PendingOrderView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int qty = 0;
-    if (order.orderitems != null) {
-      if (order.orderitems!.isNotEmpty) {
-        for (var element in order.orderitems!) {
-          qty += int.tryParse(element.quantity!.toString())!;
-        }
-      }
-    }
+
     double mediaWidth = MediaQuery.of(context).size.width;
     double mediaHeight = MediaQuery.of(context).size.height;
     return InkWell(
@@ -228,7 +221,7 @@ class PendingOrderView extends StatelessWidget {
                     // ),
                   ),
                   child: CachedNetworkImage(
-                    imageUrl: order.client!.image ?? "",
+                    imageUrl: order.client.image ?? "",
                     fit: BoxFit.cover,
                     progressIndicatorBuilder:
                         (context, url, downloadProgress) => const Center(
@@ -262,10 +255,10 @@ class PendingOrderView extends StatelessWidget {
                 SizedBox(
                   width: mediaWidth / 1.55,
                   // color: kAccentColor,
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const SizedBox(
+                      SizedBox(
                         child: Text(
                           "Hot Kitchen",
                           maxLines: 2,
@@ -281,9 +274,9 @@ class PendingOrderView extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
-                              Operation.convertDate(order.created!),
+                              'date here',
                               overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -346,7 +339,7 @@ class PendingOrderView extends StatelessWidget {
                 SizedBox(
                   width: mediaWidth / 1.8,
                   child: Text(
-                    "${order.client!.lastName} ${order.client!.firstName}",
+                    "${order.client.lastName} ${order.client.firstName}",
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: const TextStyle(
@@ -357,11 +350,11 @@ class PendingOrderView extends StatelessWidget {
                 ),
                 SizedBox(
                   width: mediaWidth / 1.8,
-                  child: Text(
-                    order.deliveryAddress!.streetAddress ?? "",
+                  child: const Text(
+                    "address here",
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
                     ),

@@ -1,6 +1,7 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:benji_aggregator/app/others/products/product_details.dart';
+import 'package:benji_aggregator/model/vendor_model.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
 import 'package:benji_aggregator/src/providers/custom_show_search.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -14,7 +15,6 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../controller/vendor_controller.dart';
-import '../../model/vendor_list_model.dart';
 import '../../model/vendor_product_model.dart';
 import '../../src/components/category_button_section.dart';
 import '../../src/components/my_appbar.dart';
@@ -34,7 +34,7 @@ class VendorDetailsPage extends StatefulWidget {
   final double vendorRating;
   final String vendorActiveStatus;
   final Color vendorActiveStatusColor;
-  final VendorListModel vendor;
+  final VendorModel vendor;
   const VendorDetailsPage(
       {super.key,
       required this.vendorCoverImage,

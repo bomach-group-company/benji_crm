@@ -2,6 +2,7 @@
 
 import 'package:benji_aggregator/controller/rider_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
+import 'package:benji_aggregator/model/order.dart';
 import 'package:benji_aggregator/src/components/my_appbar.dart';
 import 'package:benji_aggregator/src/components/my_outlined_elevatedButton.dart';
 import 'package:benji_aggregator/src/providers/custom_show_search.dart';
@@ -14,14 +15,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
-import '../../model/order_list_model.dart';
 import '../../model/rider_model.dart';
 import '../../src/providers/constants.dart';
 import '../../src/skeletons/assign_rider_page_skeleton.dart';
 import 'riders_detail.dart';
 
 class AssignRider extends StatefulWidget {
-  final OrderItem? item;
+  final Order? item;
   const AssignRider({super.key, required this.item});
 
   @override
@@ -90,7 +90,7 @@ class _AssignRiderState extends State<AssignRider> {
   //Rider Assigned
   void _processAssignRider(riderId) {
     RiderController.instance.assignRiderTask(
-        UserController.instance.user.value.id, riderId, widget.item!.id!);
+        UserController.instance.user.value.id, riderId, widget.item!.id);
     // setState(() {
     //   _assigningRider = true;
     // });

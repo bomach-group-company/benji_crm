@@ -1,6 +1,6 @@
 // ignore_for_file: unused_local_variable
 
-import 'package:benji_aggregator/controller/operation.dart';
+import 'package:benji_aggregator/model/order.dart';
 import 'package:benji_aggregator/src/components/my_liquid_refresh.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
 import 'package:benji_aggregator/src/skeletons/dashboard_orders_list_skeleton.dart';
@@ -9,14 +9,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
-import '../../../model/order_list_model.dart';
 import '../../../src/components/my_appbar.dart';
 import '../../../src/components/my_future_builder.dart';
 import '../../../theme/colors.dart';
 import 'active_order_details.dart';
 
 class ActiveOrders extends StatefulWidget {
-  final List<OrderItem>? orderList;
+  final List<Order>? orderList;
   const ActiveOrders({super.key, required this.orderList});
 
   @override
@@ -118,7 +117,7 @@ class _ActiveOrdersState extends State<ActiveOrders> {
                           Column(
                             children: List.generate(widget.orderList!.length,
                                 (index) {
-                              final OrderItem order = widget.orderList![index];
+                              final Order order = widget.orderList![index];
 
                               return OrderDetail(order: order);
                             }),
@@ -143,7 +142,7 @@ class _ActiveOrdersState extends State<ActiveOrders> {
 }
 
 class OrderDetail extends StatelessWidget {
-  final OrderItem order;
+  final Order order;
   const OrderDetail({super.key, required this.order});
   void _toActiveOrderDetailsPage() => Get.to(
         () => ActiveOrderDetails(
@@ -171,13 +170,7 @@ class OrderDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int qty = 0;
-    if (order.orderitems != null) {
-      if (order.orderitems!.isNotEmpty) {
-        for (var element in order.orderitems!) {
-          qty += int.tryParse(element.quantity!.toString())!;
-        }
-      }
-    }
+
     //  String formattedDateAndTime = formatDateAndTime(now);
     double mediaWidth = MediaQuery.of(context).size.width;
     double mediaHeight = MediaQuery.of(context).size.height;
@@ -227,7 +220,7 @@ class OrderDetail extends StatelessWidget {
                     // ),
                   ),
                   child: CachedNetworkImage(
-                    imageUrl: order.client!.image ?? "",
+                    imageUrl: order.client.image ?? "",
                     fit: BoxFit.cover,
                     progressIndicatorBuilder:
                         (context, url, downloadProgress) => const Center(
@@ -261,10 +254,10 @@ class OrderDetail extends StatelessWidget {
                 SizedBox(
                   width: mediaWidth / 1.55,
                   // color: kAccentColor,
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const SizedBox(
+                      SizedBox(
                         child: Text(
                           "",
                           maxLines: 2,
@@ -277,9 +270,9 @@ class OrderDetail extends StatelessWidget {
                       ),
                       SizedBox(
                         child: Text(
-                          Operation.convertDate(order.created!),
+                          'date here',
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
                           ),
@@ -340,7 +333,7 @@ class OrderDetail extends StatelessWidget {
                 SizedBox(
                   width: mediaWidth / 1.8,
                   child: Text(
-                    "${order.client!.lastName!} ${order.client!.firstName}",
+                    "${order.client.lastName} ${order.client.firstName}",
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: const TextStyle(
@@ -351,11 +344,11 @@ class OrderDetail extends StatelessWidget {
                 ),
                 SizedBox(
                   width: mediaWidth / 1.8,
-                  child: Text(
-                    order.deliveryAddress!.streetAddress ?? "",
+                  child: const Text(
+                    "address here",
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
                     ),

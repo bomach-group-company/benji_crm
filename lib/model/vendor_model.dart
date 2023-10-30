@@ -1,75 +1,93 @@
 // To parse this JSON data, do
 //
 //     final vendorModel = vendorModelFromJson(jsonString);
+
 import 'dart:convert';
 
-VendorModel vendorModelFromJson(String str) => VendorModel.fromJson(json.decode(str));
-String vendorModelToJson(VendorModel data) => json.encode(data.toJson());
+import 'package:benji_aggregator/model/business_type_model.dart';
+import 'package:benji_aggregator/src/providers/constants.dart';
+
+List<VendorModel> vendorModelFromJson(String str) => List<VendorModel>.from(
+    json.decode(str).map((x) => VendorModel.fromJson(x)));
+
+String vendorModelToJson(List<VendorModel> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class VendorModel {
-    int? id;
-    String? email;
-    String? password;
-    String? phone;
-    bool? isActiveCustomUserverified;
-    String? username;
-    bool? isOnline;
-    DateTime? created;
-    String? firstName;
-    String? lastName;
-    String? gender;
-    String? address;
-    String? shopName;
-    dynamic balance;
+  int id;
+  String email;
+  String phone;
+  String username;
+  String code;
+  String firstName;
+  String lastName;
+  String gender;
+  String address;
+  bool isOnline;
+  double averageRating;
+  int numberOfClientsReactions;
+  String shopName;
+  String? shopImage;
+  String? profileLogo;
+  BusinessType shopType;
 
-    VendorModel({
-        this.id,
-        this.email,
-        this.password,
-        this.phone,
-        this.isActiveCustomUserverified,
-        this.username,
-        this.isOnline,
-        this.created,
-        this.firstName,
-        this.lastName,
-        this.gender,
-        this.address,
-        this.shopName,
-        this.balance,
-    });
+  VendorModel({
+    required this.id,
+    required this.email,
+    required this.phone,
+    required this.username,
+    required this.code,
+    required this.firstName,
+    required this.lastName,
+    required this.gender,
+    required this.address,
+    required this.isOnline,
+    required this.averageRating,
+    required this.numberOfClientsReactions,
+    required this.shopName,
+    this.shopImage,
+    this.profileLogo,
+    required this.shopType,
+  });
 
-    factory VendorModel.fromJson(Map<String, dynamic> json) => VendorModel(
-        id: json["id"],
-        email: json["email"],
-        password: json["password"],
-        phone: json["phone"],
-        isActiveCustomUserverified: json["is_activeCustomUserverified"],
-        username: json["username"],
-        isOnline: json["is_online"],
-        created: json["created"] == null ? null : DateTime.parse(json["created"]),
-        firstName: json["first_name"],
-        lastName: json["last_name"],
-        gender: json["gender"],
-        address: json["address"],
-        shopName: json["shop_name"],
-        balance: json["balance"],
+  factory VendorModel.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
+    return VendorModel(
+      id: json["id"] ?? notAvailable,
+      email: json["email"] ?? notAvailable,
+      phone: json["phone"] ?? notAvailable,
+      username: json["username"] ?? notAvailable,
+      code: json["code"] ?? notAvailable,
+      firstName: json["first_name"] ?? notAvailable,
+      lastName: json["last_name"] ?? notAvailable,
+      gender: json["gender"] ?? notAvailable,
+      address: json["address"] ?? notAvailable,
+      isOnline: json["is_online"] ?? false,
+      averageRating: json["average_rating"] ?? 0.0,
+      numberOfClientsReactions: json["number_of_clients_reactions"] ?? 0,
+      shopName: json["shop_name"] ?? notAvailable,
+      shopImage: json["shop_image"],
+      profileLogo: json["profileLogo"],
+      shopType: BusinessType.fromJson(json["shop_type"]),
     );
+  }
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "email": email,
-        "password": password,
         "phone": phone,
-        "is_activeCustomUserverified": isActiveCustomUserverified,
         "username": username,
-        "is_online": isOnline,
-        "created": "${created!.year.toString().padLeft(4, '0')}-${created!.month.toString().padLeft(2, '0')}-${created!.day.toString().padLeft(2, '0')}",
+        "code": code,
         "first_name": firstName,
         "last_name": lastName,
         "gender": gender,
         "address": address,
+        "is_online": isOnline,
+        "average_rating": averageRating,
+        "number_of_clients_reactions": numberOfClientsReactions,
         "shop_name": shopName,
-        "balance": balance,
-    };
+        "shop_image": shopImage,
+        "profileLogo": profileLogo,
+        "shop_type": shopType.toJson(),
+      };
 }
