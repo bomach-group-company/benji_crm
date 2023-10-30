@@ -62,7 +62,8 @@ class VendorController extends GetxController {
     update();
   }
 
-  Future listVendorProduct(id, [int? end]) async {
+  Future getVendorProduct(id, [int? end]) async {
+    print('at least in the getVendorProduct');
     isLoad.value = true;
     late String token;
     update();
@@ -70,26 +71,22 @@ class VendorController extends GetxController {
         "${Api.baseUrl}${Api.getVendorProducts}$id?start=1&end=${end ?? 1}";
     token = UserController.instance.user.value.token;
 
-    try {
-      http.Response? response = await HandleData.getApi(url, token);
-      var responseData = await ApiProcessorController.errorState(response);
-      if (responseData == null) {
-        vendorProductList.value = [];
-        update();
-        return;
-      }
-      try {
-        vendorProductList.value = (jsonDecode(responseData)['items'] as List)
-            .map((e) => Product.fromJson(e))
-            .toList();
-        print('products ${vendorProductList.value}');
-      } catch (e) {
-        if (kDebugMode) {
-          print(e);
-        }
-      }
+    http.Response? response = await HandleData.getApi(url, token);
+    var responseData = await ApiProcessorController.errorState(response);
+    print('getVendorProduct responseData $responseData');
+    if (responseData == null) {
+      vendorProductList.value = [];
       update();
-    } catch (e) {}
+      return;
+    }
+    try {
+      vendorProductList.value = (jsonDecode(response!.body)['items'] as List)
+          .map((e) => Product.fromJson(e))
+          .toList();
+      print('products ${vendorProductList.value}');
+    } catch (e) {
+      debugPrint(e.toString());
+    }
     isLoad.value = false;
     update();
   }

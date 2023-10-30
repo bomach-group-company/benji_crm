@@ -10,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/route_manager.dart';
 import 'package:intl/intl.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
@@ -17,13 +18,10 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../controller/vendor_controller.dart';
 import '../../src/components/appbar/my_appbar.dart';
-import '../../src/components/button/category_button_section.dart';
 import '../../src/components/container/vendors_order_container.dart';
 import '../../src/components/container/vendors_product_container.dart';
 import '../../src/components/tab/vendor_orders_tab.dart';
 import '../../src/components/tab/vendor_products_tab.dart';
-import '../../src/skeletons/vendors_tabbar_orders_content_skeleton.dart';
-import '../../src/skeletons/vendors_tabbar_products_content_skeleton.dart';
 import '../../theme/colors.dart';
 import 'about_vendor.dart';
 import 'suspend_vendor.dart';
@@ -42,11 +40,8 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      VendorController.instance.listVendorProduct(widget.vendor.id);
-    });
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      VendorController.instance.listVendorOrder(widget.vendor.id);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      VendorController.instance.getVendorProduct(widget.vendor.id);
     });
 
     _tabBarController = TabController(length: 2, vsync: this);
@@ -71,7 +66,8 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
 //===================== BOOL VALUES =======================\\
   // bool isLoading = false;
   late bool _loadingScreen;
-  bool _loadingTabBarContent = false;
+  final bool _loadingTabBarContent = false;
+  int tabBar = 0;
 
   //=================================== Orders =======================================\\
   final int _incrementOrderID = 2 + 2;
@@ -124,7 +120,6 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
   ];
 
 //===================== VENDORS LIST VIEW INDEX =======================\\
-  List<int> foodListView = [0, 1, 3, 4, 5, 6];
 
 //===================== FUNCTIONS =======================\\
   double calculateSubtotal() {
@@ -151,15 +146,9 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
     });
   }
 
-  void _clickOnTabBarOption() async {
+  void _clickOnTabBarOption(value) async {
     setState(() {
-      _loadingTabBarContent = true;
-    });
-
-    await Future.delayed(const Duration(milliseconds: 1000));
-
-    setState(() {
-      _loadingTabBarContent = false;
+      tabBar = value;
     });
   }
 
@@ -591,7 +580,8 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                   left: MediaQuery.of(context).size.width / 2.7,
                                   child: ClipOval(
                                     child: CachedNetworkImage(
-                                      imageUrl: widget.vendor.shopImage ?? "",
+                                      imageUrl: widget.vendor.shopImage ??
+                                          "assets/images/vendors/ntachi-osa.png",
                                       fit: BoxFit.cover,
                                       progressIndicatorBuilder: (context, url,
                                               downloadProgress) =>
@@ -631,7 +621,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                     padding: const EdgeInsets.all(5.0),
                                     child: TabBar(
                                       controller: _tabBarController,
-                                      onTap: (value) => _clickOnTabBarOption(),
+                                      onTap: _clickOnTabBarOption,
                                       enableFeedback: true,
                                       mouseCursor: SystemMouseCursors.click,
                                       automaticIndicatorColorAdjustment: true,
@@ -667,80 +657,83 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                             ),
                             child: Column(
                               children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: TabBarView(
-                                    controller: _tabBarController,
-                                    physics: const BouncingScrollPhysics(),
-                                    dragStartBehavior: DragStartBehavior.down,
-                                    children: [
-                                      _loadingTabBarContent
-                                          ? const VendorsTabBarProductsContentSkeleton()
-                                          : VendorsProductsTab(
-                                              list: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  CategoryButtonSection(
-                                                    onPressed:
-                                                        _changeProductCategory,
-                                                    category:
-                                                        _categoryButtonText,
-                                                    categorybgColor:
-                                                        _categoryButtonBgColor,
-                                                    categoryFontColor:
-                                                        _categoryButtonFontColor,
-                                                  ),
-                                                  for (int i = 0;
-                                                      i < foodListView.length;
-                                                      i++)
-                                                    VendorsProductContainer(
+                                tabBar == 0
+                                    ?
+                                    // const VendorsTabBarProductsContentSkeleton()
+                                    VendorsProductsTab(
+                                        list: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            // CategoryButtonSection(
+                                            //   onPressed:
+                                            //       _changeProductCategory,
+                                            //   category:
+                                            //       _categoryButtonText,
+                                            //   categorybgColor:
+                                            //       _categoryButtonBgColor,
+                                            //   categoryFontColor:
+                                            //       _categoryButtonFontColor,
+                                            // ),
+
+                                            GetBuilder<VendorController>(
+                                              initState: (state) async {
+                                                await VendorController.instance
+                                                    .getVendorProduct(
+                                                        widget.vendor.id);
+                                                print(
+                                                    'initState getVendorProduct');
+                                              },
+                                              builder: (controller) {
+                                                print(
+                                                    'in vend prod ${controller.vendorProductList}');
+                                                return ListView.separated(
+                                                  shrinkWrap: true,
+                                                  separatorBuilder:
+                                                      (context, index) =>
+                                                          kSizedBox,
+                                                  itemCount: controller
+                                                      .vendorProductList.length,
+                                                  itemBuilder:
+                                                      (BuildContext context,
+                                                          int index) {
+                                                    return VendorsProductContainer(
                                                       onTap: () {},
-                                                      product: null,
-                                                      productImage:
-                                                          _productImage,
-                                                      productName: _productName,
-                                                      productDescription:
-                                                          _productDescription,
-                                                      productPrice:
-                                                          _productPrice,
-                                                      productQuantity:
-                                                          _productQuantity,
-                                                    ),
-                                                ],
+                                                      product: controller
+                                                              .vendorProductList[
+                                                          index],
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    // const VendorsTabBarOrdersContentSkeleton()
+                                    : VendorsOrdersTab(
+                                        list: Column(
+                                          children: [
+                                            for (_orderID = 1;
+                                                _orderID < 30;
+                                                _orderID += _incrementOrderID)
+                                              VendorsOrderContainer(
+                                                mediaWidth: mediaWidth,
+                                                order: null,
+                                                orderImage: _orderImage,
+                                                orderID: _orderID,
+                                                formattedDateAndTime:
+                                                    formattedDateAndTime,
+                                                orderItem: _orderItem,
+                                                itemQuantity: _itemQuantity,
+                                                itemPrice: _itemPrice,
+                                                customerName: _customerName,
+                                                customerAddress:
+                                                    _customerAddress,
                                               ),
-                                            ),
-                                      _loadingTabBarContent
-                                          ? const VendorsTabBarOrdersContentSkeleton()
-                                          : VendorsOrdersTab(
-                                              list: Column(
-                                                children: [
-                                                  for (_orderID = 1;
-                                                      _orderID < 30;
-                                                      _orderID +=
-                                                          _incrementOrderID)
-                                                    VendorsOrderContainer(
-                                                      mediaWidth: mediaWidth,
-                                                      order: null,
-                                                      orderImage: _orderImage,
-                                                      orderID: _orderID,
-                                                      formattedDateAndTime:
-                                                          formattedDateAndTime,
-                                                      orderItem: _orderItem,
-                                                      itemQuantity:
-                                                          _itemQuantity,
-                                                      itemPrice: _itemPrice,
-                                                      customerName:
-                                                          _customerName,
-                                                      customerAddress:
-                                                          _customerAddress,
-                                                    ),
-                                                ],
-                                              ),
-                                            ),
-                                    ],
-                                  ),
-                                ),
+                                          ],
+                                        ),
+                                      ),
                               ],
                             ),
                           ),

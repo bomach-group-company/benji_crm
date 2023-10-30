@@ -1,13 +1,14 @@
 import 'package:benji_aggregator/model/sub_category.dart';
 import 'package:benji_aggregator/model/vendor_model.dart';
+import 'package:benji_aggregator/src/providers/constants.dart';
 
 class Product {
   String id;
   String name;
   String description;
-  dynamic price;
-  dynamic quantityAvailable;
-  String productImage;
+  double price;
+  int quantityAvailable;
+  String? productImage;
   bool isAvailable;
   bool isTrending;
   bool isRecommended;
@@ -28,20 +29,22 @@ class Product {
     required this.subCategory,
   });
 
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
-        id: json["id"],
-        name: json["name"],
-        description: json["description"],
-        price: json["price"],
-        quantityAvailable: json["quantity_available"],
-        productImage: json["product_image"],
-        isAvailable: json["is_available"],
-        isTrending: json["is_trending"],
-        isRecommended: json["is_recommended"],
-        vendor: VendorModel.fromJson(json["vendor"]),
-        subCategory: SubCategory.fromJson(json["sub_category"]),
-      );
-
+  factory Product.fromJson(Map<String, dynamic>? json) {
+    json ??= {};
+    return Product(
+      id: json["id"] ?? notAvailable,
+      name: json["name"] ?? notAvailable,
+      description: json["description"] ?? notAvailable,
+      price: json["price"] ?? 0.0,
+      quantityAvailable: json["quantity_available"] ?? 0,
+      productImage: json["product_image"],
+      isAvailable: json["is_available"] ?? false,
+      isTrending: json["is_trending"] ?? false,
+      isRecommended: json["is_recommended"] ?? false,
+      vendor: VendorModel.fromJson(json["vendor"]),
+      subCategory: SubCategory.fromJson(json["sub_category"]),
+    );
+  }
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
