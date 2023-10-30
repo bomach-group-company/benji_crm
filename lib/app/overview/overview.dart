@@ -1,13 +1,13 @@
+import 'package:benji_aggregator/controller/order_controller.dart';
+import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../../controller/notification_controller.dart';
-import '../../controller/order_controller.dart';
 import '../../controller/profile_controller.dart';
 import '../../controller/rider_controller.dart';
 import '../../controller/user_controller.dart';
-import '../../controller/vendor_controller.dart';
 import '../../theme/colors.dart';
 import '../dashboard/dashboard.dart';
 import '../profile/profile.dart';

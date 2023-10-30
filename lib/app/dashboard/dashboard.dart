@@ -119,12 +119,6 @@ class _DashboardState extends State<Dashboard>
     setState(() {
       _loadingScreen = true;
     });
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      NotificationController.instance.runTask();
-      OrderController.instance.runTask();
-      VendorController.instance.runTask();
-      RiderController.instance.getRiders();
-    });
     _loadingScreen = false;
   }
 
@@ -341,7 +335,6 @@ class _DashboardState extends State<Dashboard>
                         await RiderController.instance.getRiders();
                       }, builder: (rider) {
                         final allRider = rider.riderList.toList();
-
                         return RiderVendorContainer(
                           onTap: _toSeeAllRiders,
                           number: rider.total.value.toString(),

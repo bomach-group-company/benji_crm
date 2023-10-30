@@ -53,7 +53,7 @@ class VendorModel {
   factory VendorModel.fromJson(Map<String, dynamic>? json) {
     json ??= {};
     return VendorModel(
-      id: json["id"] ?? notAvailable,
+      id: json["id"] ?? 0,
       email: json["email"] ?? notAvailable,
       phone: json["phone"] ?? notAvailable,
       username: json["username"] ?? notAvailable,
