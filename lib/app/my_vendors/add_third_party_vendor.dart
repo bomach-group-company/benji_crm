@@ -16,16 +16,18 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
+import '../../controller/category_controller.dart';
 import '../../controller/latlng_detail_controller.dart';
 import '../../model/create_vendor_model.dart';
+import '../../services/api_url.dart';
 import '../../services/keys.dart';
-import '../../src/components/section/location_list_tile.dart';
+import '../../src/components/button/my_elevatedButton.dart';
 import '../../src/components/input/message_textformfield.dart';
 import '../../src/components/input/my_blue_textformfield.dart';
-import '../../src/components/button/my_elevatedButton.dart';
-import '../../src/components/snackbar/my_fixed_snackBar.dart';
 import '../../src/components/input/my_intl_phonefield.dart';
 import '../../src/components/input/my_maps_textformfield.dart';
+import '../../src/components/section/location_list_tile.dart';
+import '../../src/components/snackbar/my_fixed_snackBar.dart';
 import '../../src/googleMaps/autocomplete_prediction.dart';
 import '../../src/googleMaps/places_autocomplete_response.dart';
 import '../../src/providers/constants.dart';
@@ -755,8 +757,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
                                   MyBlueTextFormField(
                                     controller: vendorNameEC,
                                     validator: (value) {
-                                      if (value == null ||
-                                          vendorNameEC.text.isEmpty) {
+                                      if (value == null || value!.isEmpty) {
                                         return "Field cannot be empty";
                                       } else {
                                         return null;
@@ -776,26 +777,37 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
                                     ),
                                   ),
                                   kSizedBox,
-                                  GetBuilder<VendorController>(builder: (type) {
+                                  GetBuilder<CategoryController>(
+                                      builder: (type) {
                                     return InkWell(
                                       onTap: () async {
                                         var data = await shopTypeModal(
-                                            context, type.businessType);
+                                            context, type.category);
+                                        consoleLog(
+                                            "This is the data: ${data.name}");
                                         if (data != null) {
                                           setState(() {
-                                            shopType = data.id.toString();
-                                            shopTypeHint = data.name.toString();
+                                            shopType = data.id;
+                                            shopTypeHint = data.name;
+                                            vendorBusinessTypeEC.text =
+                                                data.name;
                                           });
-                                          //  consoleLog(data.name.toString());
                                         }
+                                        consoleLog(
+                                            "This is the shopType: $shopType");
                                       },
                                       child: MyBlueTextFormField(
                                         controller: vendorBusinessTypeEC,
                                         isEnabled: false,
                                         validator: (value) {
+                                          if (value.isEmpty || value == null) {
+                                            "Field cannot be empty";
+                                          }
                                           return null;
                                         },
-                                        onSaved: (value) {},
+                                        onSaved: (value) {
+                                          vendorBusinessTypeEC.text = value!;
+                                        },
                                         textInputAction: TextInputAction.next,
                                         focusNode: vendorBusinessTypeFN,
                                         hintText: shopTypeHint ??
@@ -816,8 +828,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
                                   MyBlueTextFormField(
                                     controller: vendorEmailEC,
                                     validator: (value) {
-                                      if (value == null ||
-                                          vendorEmailEC.text.isEmpty) {
+                                      if (value == null || value!.isEmpty) {
                                         return "Field cannot be empty";
                                       } else {
                                         return null;
@@ -853,8 +864,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
                                     textInputAction: TextInputAction.next,
                                     focusNode: vendorPhoneNumberFN,
                                     validator: (value) {
-                                      if (value == null ||
-                                          vendorPhoneNumberEC.text.isEmpty) {
+                                      if (value == null || value!.isEmpty) {
                                         return "Field cannot be empty";
                                       } else {
                                         return null;
@@ -887,7 +897,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
                                       MyMapsTextFormField(
                                         controller: mapsLocationEC,
                                         validator: (value) {
-                                          if (value == null) {
+                                          if (value == null || value!.isEmpty) {
                                             mapsLocationFN.requestFocus();
                                             "Enter a location";
                                           }

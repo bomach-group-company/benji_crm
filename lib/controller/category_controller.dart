@@ -1,6 +1,7 @@
 // ignore_for_file: unused_element, unused_local_variable, empty_catches
 
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:benji_aggregator/controller/error_controller.dart';
 import 'package:benji_aggregator/services/api_url.dart';
@@ -26,12 +27,16 @@ class CategoryController extends GetxController {
     token = UserController.instance.user.value.token;
     try {
       http.Response? response = await HandleData.getApi(url, token);
-      var responseData = await ApiProcessorController.errorState(response);
+      var responseData = ApiProcessorController.errorState(response);
       category.value = (jsonDecode(response!.body)['items'] as List)
           .map((e) => BusinessType.fromJson(e))
           .toList();
+      consoleLog(response.body);
       update();
+    } on SocketException {
+      ApiProcessorController.errorSnack("Please connect to the internet");
     } catch (e) {
+      ApiProcessorController.errorSnack("An error occurred ERROR: $e");
       debugPrint(e.toString());
     }
     isLoad.value = false;
