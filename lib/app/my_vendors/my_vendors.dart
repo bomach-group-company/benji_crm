@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:benji_aggregator/app/add_vendor/add_vendor.dart';
-import 'package:benji_aggregator/app/vendors/vendor_details.dart';
+import 'package:benji_aggregator/app/my_vendors/my_vendor_detail.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:benji_aggregator/model/vendor_model.dart';
 import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
@@ -51,21 +51,6 @@ class _MyVendorsState extends State<MyVendors> {
   // bool _isScrollToTopBtnVisible = false;
   late Timer _timer;
 
-  //Online Vendors
-  final String _onlineVendorsName = "Ntachi Osa";
-  final String _onlineVendorsImage = "ntachi-osa";
-  final double _onlineVendorsRating = 4.6;
-
-  final String _vendorActive = "Online";
-  final String _vendorInactive = "Offline";
-  final Color _vendorActiveColor = kSuccessColor;
-  final Color _vendorInactiveColor = kAccentColor;
-
-  //Offline Vendors
-  final String _offlineVendorsName = "Best Choice Restaurant";
-  final String _offlineVendorsImage = "best-choice-restaurant";
-  final double _offlineVendorsRating = 4.0;
-
 //============================================== CONTROLLERS =================================================\\
   final scrollController = ScrollController();
   // late AnimationController _animationController;
@@ -112,15 +97,7 @@ class _MyVendorsState extends State<MyVendors> {
 //===================== Navigation ==========================\\
 
   void _toVendorDetailsPage(VendorModel data) => Get.to(
-        () => VendorDetailsPage(
-          vendorCoverImage:
-              vendorStatus ? _onlineVendorsImage : _offlineVendorsImage,
-          vendorName: vendorStatus ? _onlineVendorsName : _offlineVendorsName,
-          vendorRating:
-              vendorStatus ? _onlineVendorsRating : _offlineVendorsRating,
-          vendorActiveStatus: vendorStatus ? _vendorActive : _vendorInactive,
-          vendorActiveStatusColor:
-              vendorStatus ? _vendorActiveColor : _vendorInactiveColor,
+        () => MyVendorDetailsPage(
           vendor: data,
         ),
         duration: const Duration(milliseconds: 300),
@@ -207,8 +184,6 @@ class _MyVendorsState extends State<MyVendors> {
                             physics: const BouncingScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (context, index) => InkWell(
-                              onTap: () => _toVendorDetailsPage(
-                                  controller.vendorMyList[index]),
                               borderRadius: BorderRadius.circular(16),
                               child: Container(
                                   decoration: ShapeDecoration(
@@ -226,7 +201,8 @@ class _MyVendorsState extends State<MyVendors> {
                                     ],
                                   ),
                                   child: VendorContainer(
-                                    onTap: () {},
+                                    onTap: () => _toVendorDetailsPage(
+                                        controller.vendorMyList[index]),
                                     vendor: controller.vendorMyList[index],
                                   )),
                             ),

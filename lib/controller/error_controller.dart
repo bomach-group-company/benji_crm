@@ -1,6 +1,5 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:get/get_state_manager/get_state_manager.dart';
@@ -8,17 +7,15 @@ import 'package:get/route_manager.dart';
 
 import '../theme/colors.dart';
 
-void ConsoleLog(data) => log(data.toString());
-
 class ApiProcessorController extends GetxController {
-  static Future<dynamic> errorState(data, [bool isUser = true]) async {
+  static Future<dynamic> errorState(data, [bool dontShowError = true]) async {
     try {
       if (data == null) {
         return;
       } else if (data.statusCode == 200) {
         return data.body;
       } else {
-        if (isUser != true) {
+        if (dontShowError != true) {
           errorSnack("Something went wrong");
         }
 

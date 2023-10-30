@@ -4,7 +4,6 @@ import 'dart:convert';
 
 import 'package:benji_aggregator/controller/error_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
-import 'package:benji_aggregator/model/rider_model.dart';
 import 'package:benji_aggregator/services/api_url.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -21,25 +20,19 @@ class RiderHistoryController extends GetxController {
   var isLoad = false.obs;
   var isLoadMore = false.obs;
   var historyList = <HistoryItem>[].obs;
-  var clickedRider = RiderItem.fromJson(null).obs;
 
-  setClickedRider(RiderItem value) {
-    clickedRider.value = value;
-    update();
-  }
-
-  Future riderHistory() async {
+  Future riderHistory(id) async {
     isLoad.value = true;
     late String token;
     update();
-    if (clickedRider.value.id == 0) {
+    if (id == 0) {
       historyList.value = [];
       isLoad.value = false;
       update();
       return;
     }
     var url =
-        "${Api.baseUrl}${Api.riderHistory}?rider_id=${clickedRider.value.id}&start=0&end=${moreNum.value}";
+        "${Api.baseUrl}${Api.riderHistory}?rider_id=$id&start=0&end=${moreNum.value}";
 
     token = UserController.instance.user.value.token;
     // try {
@@ -65,18 +58,18 @@ class RiderHistoryController extends GetxController {
     update();
   }
 
-  Future loadMore([String? end]) async {
+  Future loadMore(id, [String? end]) async {
     isLoadMore.value = true;
     late String token;
     update();
-    if (clickedRider.value.id == 0) {
+    if (id == 0) {
       historyList.value = [];
       isLoadMore.value = false;
       update();
       return;
     }
     var url =
-        "${Api.baseUrl}${Api.riderHistory}?rider_id=${clickedRider.value.id}&start=${moreNum.value}&end=${moreNum.value + 10}";
+        "${Api.baseUrl}${Api.riderHistory}?rider_id=$id&start=${moreNum.value}&end=${moreNum.value + 10}";
     moreNum.value = moreNum.value + 10;
     token = UserController.instance.user.value.token;
     // try {

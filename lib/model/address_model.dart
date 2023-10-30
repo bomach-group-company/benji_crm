@@ -1,3 +1,5 @@
+import 'package:benji_aggregator/src/providers/constants.dart';
+
 class DeliveryAddress {
   String id;
   String title;
@@ -20,13 +22,13 @@ class DeliveryAddress {
   factory DeliveryAddress.fromJson(Map<String, dynamic>? json) {
     json ??= {};
     return DeliveryAddress(
-      id: json["id"],
-      title: json["title"],
-      details: json["details"],
-      phone: json["phone"],
-      latitude: json["latitude"],
-      longitude: json["longitude"],
-      isCurrent: json["is_current"],
+      id: json["id"] ?? notAvailable,
+      title: json["title"] ?? notAvailable,
+      details: json["details"] ?? notAvailable,
+      phone: json["phone"] ?? notAvailable,
+      latitude: json["latitude"] ?? notAvailable,
+      longitude: json["longitude"] ?? notAvailable,
+      isCurrent: json["is_current"] ?? false,
     );
   }
   Map<String, dynamic> toJson() => {
