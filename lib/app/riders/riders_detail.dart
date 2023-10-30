@@ -162,33 +162,33 @@ class _RidersDetailState extends State<RidersDetail> {
       showSearch(context: context, delegate: CustomSearchDelegate());
     }
 
-    void seeDeliveryMessage() => showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          elevation: 20,
-          barrierColor: kBlackColor.withOpacity(0.6),
-          showDragHandle: true,
-          useSafeArea: true,
-          isDismissible: true,
-          shape: const RoundedRectangleBorder(
-            borderRadius:
-                BorderRadius.vertical(top: Radius.circular(kDefaultPadding)),
-          ),
-          enableDrag: true,
-          builder: (context) => SizedBox(
-            height: 80,
-            child: Center(
-              child: Text(
-                message,
-                style: TextStyle(
-                  fontSize: 20,
-                  color: messageColor,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-          ),
-        );
+    // void seeDeliveryMessage() => showModalBottomSheet(
+    //       context: context,
+    //       isScrollControlled: true,
+    //       elevation: 20,
+    //       barrierColor: kBlackColor.withOpacity(0.6),
+    //       showDragHandle: true,
+    //       useSafeArea: true,
+    //       isDismissible: true,
+    //       shape: const RoundedRectangleBorder(
+    //         borderRadius:
+    //             BorderRadius.vertical(top: Radius.circular(kDefaultPadding)),
+    //       ),
+    //       enableDrag: true,
+    //       builder: (context) => SizedBox(
+    //         height: 80,
+    //         child: Center(
+    //           child: Text(
+    //             message,
+    //             style: TextStyle(
+    //               fontSize: 20,
+    //               color: messageColor,
+    //               fontWeight: FontWeight.w500,
+    //             ),
+    //           ),
+    //         ),
+    //       ),
+    //     );
 
     //====================================================================\\
     return MyLiquidRefresh(
