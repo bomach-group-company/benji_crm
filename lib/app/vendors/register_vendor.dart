@@ -4,7 +4,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:benji_aggregator/controller/vendor_controller.dart';
-import 'package:benji_aggregator/src/components/my_appbar.dart';
+import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -20,13 +20,13 @@ import '../../../src/providers/constants.dart';
 import '../../controller/latlng_detail_controller.dart';
 import '../../model/create_vendor_model.dart';
 import '../../services/keys.dart';
-import '../../src/components/location_list_tile.dart';
-import '../../src/components/message_textformfield.dart';
-import '../../src/components/my_blue_textformfield.dart';
-import '../../src/components/my_elevatedButton.dart';
-import '../../src/components/my_fixed_snackBar.dart';
-import '../../src/components/my_intl_phonefield.dart';
-import '../../src/components/my_maps_textformfield.dart';
+import '../../src/components/section/location_list_tile.dart';
+import '../../src/components/input/message_textformfield.dart';
+import '../../src/components/input/my_blue_textformfield.dart';
+import '../../src/components/button/my_elevatedButton.dart';
+import '../../src/components/snackbar/my_fixed_snackBar.dart';
+import '../../src/components/input/my_intl_phonefield.dart';
+import '../../src/components/input/my_maps_textformfield.dart';
 import '../../src/googleMaps/autocomplete_prediction.dart';
 import '../../src/googleMaps/places_autocomplete_response.dart';
 import '../../src/responsive/responsive_constant.dart';
@@ -105,7 +105,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
   final vendorSunClosingHoursEC = TextEditingController();
   final mapsLocationEC = TextEditingController();
   final LatLngDetailController latLngDetailController =
-      Get.put(LatLngDetailController());
+      LatLngDetailController.instance;
 
   //=================================== FOCUS NODES ====================================\\
   final vendorPersonalIdFN = FocusNode();

@@ -25,33 +25,39 @@ class VendorController extends GetxController {
   var isLoad = false.obs;
   var isLoadCreate = false.obs;
   var vendorList = <VendorModel>[].obs;
+  var vendorMyList = <VendorModel>[].obs;
   var businessType = <BusinessType>[].obs;
   var vendorProductList = <Item>[].obs;
   var vendorOrderList = <DataItem>[].obs;
   var vendor = VendorModel.fromJson(null).obs;
 
-  @override
-  void onInit() {
-    runTask();
-
-    super.onInit();
-  }
-
-  Future runTask() async {
+  Future getVendors() async {
     isLoad.value = true;
     late String token;
     String id = UserController.instance.user.value.id.toString();
-    //update();
     var url = "${Api.baseUrl}${Api.vendorList}?agent_id=$id";
     token = UserController.instance.user.value.token;
     try {
       http.Response? response = await HandleData.getApi(url, token);
       var responseData =
           await ApiProcessorController.errorState(response, isFirst ?? true);
-      var save = vendorModelFromJson(responseData);
-      vendorList.value = save;
-      debugPrint(save.toString());
-      update();
+      vendorList.value = vendorModelFromJson(responseData);
+    } catch (e) {}
+    isLoad.value = false;
+    update();
+  }
+
+  Future getMyVendors() async {
+    isLoad.value = true;
+    late String token;
+    String id = UserController.instance.user.value.id.toString();
+    var url = "${Api.baseUrl}${Api.vendorMyList}?agent_id=$id";
+    token = UserController.instance.user.value.token;
+    try {
+      http.Response? response = await HandleData.getApi(url, token);
+      var responseData =
+          await ApiProcessorController.errorState(response, isFirst ?? true);
+      vendorMyList.value = vendorModelFromJson(responseData);
     } catch (e) {}
     isLoad.value = false;
     update();
@@ -124,32 +130,6 @@ class VendorController extends GetxController {
           if (kDebugMode) {
             print(e);
           }
-        }
-        update();
-      } catch (e) {}
-      isLoad.value = false;
-      update();
-    }
-
-    Future getBusinessTypes() async {
-      isLoad.value = true;
-      late String token;
-
-      var url = Api.baseUrl + Api.businessType;
-      token = UserController.instance.user.value.token;
-
-      try {
-        http.Response? response = await HandleData.getApi(url, token);
-        try {
-          var responseData = await ApiProcessorController.errorState(
-              response, isFirst ?? true);
-          if (responseData == null) {
-            return;
-          }
-          var save = businessTypeFromJson(responseData);
-          businessType.value = save;
-        } catch (e) {
-          consoleLog('from $e');
         }
         update();
       } catch (e) {}

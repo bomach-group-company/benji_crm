@@ -1,4 +1,4 @@
-import 'package:benji_aggregator/src/components/my_elevatedButton.dart';
+import 'package:benji_aggregator/src/components/button/my_elevatedButton.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

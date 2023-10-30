@@ -1,8 +1,8 @@
 // ignore_for_file: file_names, unused_local_variable, unused_field
 
 import 'package:benji_aggregator/controller/rider_history_controller.dart';
-import 'package:benji_aggregator/src/components/empty.dart';
-import 'package:benji_aggregator/src/components/my_appbar.dart';
+import 'package:benji_aggregator/src/components/card/empty.dart';
+import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,8 +12,8 @@ import 'package:get/get.dart';
 
 import '../../controller/url_launch_controller.dart';
 import '../../model/rider_model.dart';
-import '../../src/components/my_liquid_refresh.dart';
-import '../../src/components/my_outlined_elevatedButton.dart';
+import '../../src/components/section/my_liquid_refresh.dart';
+import '../../src/components/button/my_outlined_elevatedButton.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/custom_show_search.dart';
 import 'report_rider.dart';

@@ -4,9 +4,9 @@ import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../src/components/my_appbar.dart';
-import '../../src/components/password_textformfield.dart';
-import '../../src/components/reusable_authentication_firsthalf.dart';
+import '../../src/components/appbar/my_appbar.dart';
+import '../../src/components/input/password_textformfield.dart';
+import '../../src/components/section/reusable_authentication_firsthalf.dart';
 import '../../src/providers/constants.dart';
 import '../../src/responsive/responsive_constant.dart';
 import '../../theme/colors.dart';

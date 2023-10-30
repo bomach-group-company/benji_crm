@@ -2,27 +2,27 @@
 
 import 'dart:async';
 
-import 'package:benji_aggregator/app/others/my_orders/all_orders.dart';
+import 'package:benji_aggregator/app/my_orders/all_orders.dart';
 import 'package:benji_aggregator/controller/notification_controller.dart';
 import 'package:benji_aggregator/controller/order_controller.dart';
 import 'package:benji_aggregator/controller/rider_controller.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:benji_aggregator/model/order.dart';
-import 'package:benji_aggregator/src/components/dashboard_all_orders_container.dart';
-import 'package:benji_aggregator/src/components/dashboard_app_bar.dart';
+import 'package:benji_aggregator/src/components/container/dashboard_all_orders_container.dart';
+import 'package:benji_aggregator/src/components/appbar/dashboard_app_bar.dart';
 import 'package:benji_aggregator/src/skeletons/dashboard_page_skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-import '../../src/components/dashboard_orders_container.dart';
-import '../../src/components/dashboard_rider_vendor_container.dart';
+import '../../src/components/container/dashboard_orders_container.dart';
+import '../../src/components/container/dashboard_rider_vendor_container.dart';
 import '../../src/providers/constants.dart';
 import '../../src/responsive/responsive_constant.dart';
 import '../../theme/colors.dart';
-import '../others/my_orders/active_orders.dart';
-import '../others/my_orders/pending_orders.dart';
+import '../my_orders/active_orders.dart';
+import '../my_orders/pending_orders.dart';
 import '../riders/riders.dart';
 import '../vendors/vendors.dart';
 
@@ -44,12 +44,6 @@ class _DashboardState extends State<Dashboard>
   @override
   void initState() {
     super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      OrderController.instance.runTask();
-      VendorController.instance.runTask();
-      RiderController.instance.getRiders();
-    });
 
     _animationController =
         AnimationController(vsync: this, duration: const Duration(seconds: 1));
@@ -316,21 +310,21 @@ class _DashboardState extends State<Dashboard>
                             );
                           }),
                       kSizedBox,
-                      GetBuilder<VendorController>(
-                          init: VendorController(),
-                          builder: (vendor) {
-                            final allVendor = vendor.vendorList.toList();
-                            final allOnlineVendor = vendor.vendorList
-                                .where((p0) => p0.isOnline == true)
-                                .toList();
-                            return RiderVendorContainer(
-                              onTap: _toSeeAllVendors,
-                              number: intFormattedText(allVendor.length),
-                              typeOf: "Vendors",
-                              onlineStatus:
-                                  "${intFormattedText(allOnlineVendor.length)} Online",
-                            );
-                          }),
+                      GetBuilder<VendorController>(initState: (state) async {
+                        await VendorController.instance.getVendors();
+                      }, builder: (vendor) {
+                        final allVendor = vendor.vendorList.toList();
+                        final allOnlineVendor = vendor.vendorList
+                            .where((p0) => p0.isOnline == true)
+                            .toList();
+                        return RiderVendorContainer(
+                          onTap: _toSeeAllVendors,
+                          number: intFormattedText(allVendor.length),
+                          typeOf: "Vendors",
+                          onlineStatus:
+                              "${intFormattedText(allOnlineVendor.length)} Online",
+                        );
+                      }),
                       kSizedBox,
                       GetBuilder<RiderController>(initState: (state) async {
                         await RiderController.instance.getRiders();

@@ -13,9 +13,9 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../controller/latlng_detail_controller.dart';
-import '../../src/components/my_appbar.dart';
-import '../../src/components/my_elevatedButton.dart';
-import '../../src/components/my_textformfield.dart';
+import '../../src/components/appbar/my_appbar.dart';
+import '../../src/components/button/my_elevatedButton.dart';
+import '../../src/components/input/my_textformfield.dart';
 import '../../src/googleMaps/location_service.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
@@ -46,7 +46,7 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
 
   //============================================================= ALL VARIABLES ======================================================================\\
   String? pinnedLocation;
-  final latLngDetailController = Get.put(LatLngDetailController());
+  final latLngDetailController = LatLngDetailController.instance;
   //============================================================= BOOL VALUES ======================================================================\\
   bool locationPinIsVisible = true;
 

@@ -1,15 +1,15 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, use_build_context_synchronously
 
 import 'package:benji_aggregator/controller/login_controller.dart';
-import 'package:benji_aggregator/src/components/my_elevatedButton.dart';
+import 'package:benji_aggregator/src/components/button/my_elevatedButton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:get/get.dart';
 
 import '../../model/login_model.dart';
-import '../../src/components/email_textformfield.dart';
-import '../../src/components/password_textformfield.dart';
-import '../../src/components/reusable_authentication_firsthalf.dart';
+import '../../src/components/input/email_textformfield.dart';
+import '../../src/components/input/password_textformfield.dart';
+import '../../src/components/section/reusable_authentication_firsthalf.dart';
 import '../../src/providers/constants.dart';
 import '../../src/responsive/responsive_constant.dart';
 import '../../theme/colors.dart';
@@ -23,7 +23,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  var login = Get.put(LoginController());
   //=========================== INITIAL STATE ====================================\\
   @override
   void initState() {

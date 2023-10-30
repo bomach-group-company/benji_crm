@@ -20,6 +20,7 @@ class Api {
 
 //Vendor
   static const vendorList = "/agents/listAllMyVendors";
+  static const vendorMyList = "/agents/listThirdPartyMyVendor";
   static const agentCreateVendor = "/agents/agentCreateVendor";
   static const getSpecificVendor = "/agents/getVendor/";
   static const getVendorProducts = "/agents/listVendorProducts/";
@@ -37,6 +38,7 @@ class Api {
   static const getSpecificRider = "/agents/getRider/";
   static const assignRiderTask = "/agents/assignOrdersToRider";
   static const riderHistory = "/agents/ridersHistories/";
+  static const category = "/categories/list";
 
   //BusinessTypes
   static const businessType = "/categories/list";

@@ -17,12 +17,6 @@ void main() async {
   prefs = await SharedPreferences.getInstance();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  // Get.put(UserController());
-  // Get.put(LoginController());
-  // Get.put(VendorController());
-  // Get.put(NotificationController());
-  // Get.put(RiderController());
-  // Get.put(OrderController());
   runApp(const MyApp());
 }
 

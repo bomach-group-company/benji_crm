@@ -2,14 +2,14 @@
 
 import 'package:benji_aggregator/controller/notification_controller.dart';
 import 'package:benji_aggregator/controller/operation.dart';
-import 'package:benji_aggregator/src/components/empty.dart';
+import 'package:benji_aggregator/src/components/card/empty.dart';
 import 'package:benji_aggregator/src/skeletons/notifications_page_skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../model/notificatin_model.dart';
-import '../../src/components/my_appbar.dart';
-import '../../src/components/my_liquid_refresh.dart';
+import '../../src/components/appbar/my_appbar.dart';
+import '../../src/components/section/my_liquid_refresh.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 

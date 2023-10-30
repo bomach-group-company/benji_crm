@@ -1,7 +1,7 @@
 // ignorFontWeight_for_file: unused_local_variable,
 
 import 'package:benji_aggregator/controller/rider_history_controller.dart';
-import 'package:benji_aggregator/src/components/my_liquid_refresh.dart';
+import 'package:benji_aggregator/src/components/section/my_liquid_refresh.dart';
 import 'package:benji_aggregator/src/skeletons/riders_list_skeleton.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -118,8 +118,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
   //===================== Navigation ==========================\\
 
   toRidersDetailPage(RiderItem rider) {
-    final riderHistory = Get.put(RiderHistoryController());
-    riderHistory.setClickedRider(rider);
+    RiderHistoryController.instance.setClickedRider(rider);
     return Get.to(
       () => RidersDetail(rider: rider),
       duration: const Duration(milliseconds: 300),

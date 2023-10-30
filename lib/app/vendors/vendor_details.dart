@@ -1,6 +1,6 @@
 // ignore_for_file: unused_local_variable
 
-import 'package:benji_aggregator/app/others/products/product_details.dart';
+import 'package:benji_aggregator/app/products/product_details.dart';
 import 'package:benji_aggregator/model/vendor_model.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
 import 'package:benji_aggregator/src/providers/custom_show_search.dart';
@@ -16,12 +16,12 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../controller/vendor_controller.dart';
 import '../../model/vendor_product_model.dart';
-import '../../src/components/category_button_section.dart';
-import '../../src/components/my_appbar.dart';
-import '../../src/components/vendor_orders_tab.dart';
-import '../../src/components/vendor_products_tab.dart';
-import '../../src/components/vendors_order_container.dart';
-import '../../src/components/vendors_product_container.dart';
+import '../../src/components/button/category_button_section.dart';
+import '../../src/components/appbar/my_appbar.dart';
+import '../../src/components/tab/vendor_orders_tab.dart';
+import '../../src/components/tab/vendor_products_tab.dart';
+import '../../src/components/container/vendors_order_container.dart';
+import '../../src/components/container/vendors_product_container.dart';
 import '../../src/skeletons/vendors_tabbar_orders_content_skeleton.dart';
 import '../../src/skeletons/vendors_tabbar_products_content_skeleton.dart';
 import '../../theme/colors.dart';
