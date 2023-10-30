@@ -25,8 +25,8 @@ class DashboardPageSkeleton extends StatelessWidget {
               highlightColor: kBlackColor.withOpacity(0.9),
               baseColor: kBlackColor.withOpacity(0.6),
               direction: ShimmerDirection.ltr,
-              child: const PageSkeleton(
-                width: 160,
+              child: PageSkeleton(
+                width: media.width * 0.4,
                 height: 140,
               ),
             ),

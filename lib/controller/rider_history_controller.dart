@@ -16,7 +16,7 @@ class RiderHistoryController extends GetxController {
     return Get.find<RiderHistoryController>();
   }
 
-  var moreNum = 4.obs;
+  var moreNum = 10.obs;
   var loadedAll = false.obs;
   var isLoad = false.obs;
   var isLoadMore = false.obs;
@@ -76,7 +76,7 @@ class RiderHistoryController extends GetxController {
       return;
     }
     var url =
-        "${Api.baseUrl}${Api.riderHistory}?rider_id=${clickedRider.value.id}&start=${moreNum.value}&end=${moreNum.value + 4}";
+        "${Api.baseUrl}${Api.riderHistory}?rider_id=${clickedRider.value.id}&start=${moreNum.value}&end=${moreNum.value + 10}";
     moreNum.value = moreNum.value + 10;
     token = UserController.instance.user.value.token;
     // try {
@@ -103,7 +103,7 @@ class RiderHistoryController extends GetxController {
   emptyRiderHistoryList() {
     historyList.value = [];
     loadedAll.value = false;
-    moreNum.value = 4;
+    moreNum.value = 10;
     update();
   }
 }

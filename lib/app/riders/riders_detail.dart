@@ -16,7 +16,7 @@ import '../../src/components/my_liquid_refresh.dart';
 import '../../src/components/my_outlined_elevatedButton.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/custom_show_search.dart';
-import 'suspend_rider.dart';
+import 'report_rider.dart';
 
 class RidersDetail extends StatefulWidget {
   final RiderItem rider;
@@ -90,7 +90,7 @@ class _RidersDetailState extends State<RidersDetail> {
 //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
-    RiderHistoryController.instance.historyList();
+    RiderHistoryController.instance.emptyRiderHistoryList();
     await RiderHistoryController.instance.riderHistory();
   }
 //==========================================================================================\\
@@ -98,11 +98,11 @@ class _RidersDetailState extends State<RidersDetail> {
 //=========================================== Navigation ===============================================\\
 
   void _toSuspendRider() => Get.to(
-        () => const SuspendRider(),
+        () => const ReportRider(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "Suspend rider",
+        routeName: "ReportRider",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.rightToLeft,
@@ -136,15 +136,15 @@ class _RidersDetailState extends State<RidersDetail> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       items: [
         const PopupMenuItem<String>(
-          value: 'suspend',
-          child: Text("Suspend rider"),
+          value: 'report',
+          child: Text("Report rider"),
         ),
       ],
     ).then((value) {
       // Handle the selected value from the popup menu
       if (value != null) {
         switch (value) {
-          case 'suspend':
+          case 'report':
             _toSuspendRider();
             break;
         }
