@@ -12,7 +12,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../../src/providers/constants.dart';
-import '../../src/providers/custom_show_search.dart';
 import '../../src/skeletons/vendors_list_skeleton.dart';
 import '../../theme/colors.dart';
 
@@ -28,11 +27,11 @@ class _MyVendorsState extends State<MyVendors> {
   @override
   void initState() {
     super.initState();
-    _loadingScreen = true;
+    loadingScreen = true;
     _timer = Timer(
       const Duration(milliseconds: 1000),
       () => setState(
-        () => _loadingScreen = false,
+        () => loadingScreen = false,
       ),
     );
   }
@@ -46,9 +45,9 @@ class _MyVendorsState extends State<MyVendors> {
   }
 
 //============================================== ALL VARIABLES =================================================\\
-  late bool _loadingScreen;
-  bool _vendorStatus = true;
-  bool _isLoadingVendorStatus = false;
+  late bool loadingScreen;
+  bool vendorStatus = true;
+
   // bool _isScrollToTopBtnVisible = false;
   late Timer _timer;
 
@@ -56,7 +55,6 @@ class _MyVendorsState extends State<MyVendors> {
   final String _onlineVendorsName = "Ntachi Osa";
   final String _onlineVendorsImage = "ntachi-osa";
   final double _onlineVendorsRating = 4.6;
-  final int _numberOfOnlineVendors = 15;
 
   final String _vendorActive = "Online";
   final String _vendorInactive = "Offline";
@@ -67,9 +65,6 @@ class _MyVendorsState extends State<MyVendors> {
   final String _offlineVendorsName = "Best Choice Restaurant";
   final String _offlineVendorsImage = "best-choice-restaurant";
   final double _offlineVendorsRating = 4.0;
-  final int _lastSeenCount = 20;
-  final String _lastSeenMessage = "minutes ago";
-  final int _noOfOfflineVendors = 15;
 
 //============================================== CONTROLLERS =================================================\\
   final scrollController = ScrollController();
@@ -81,12 +76,12 @@ class _MyVendorsState extends State<MyVendors> {
 
   Future<void> _handleRefresh() async {
     setState(() {
-      _loadingScreen = true;
+      loadingScreen = true;
     });
 
     await Future.delayed(const Duration(milliseconds: 1000));
     setState(() {
-      _loadingScreen = false;
+      loadingScreen = false;
     });
   }
 
@@ -110,33 +105,6 @@ class _MyVendorsState extends State<MyVendors> {
 //     }
 //   }
 
-//===================== Handle Vendor Status ==========================\\
-  void _clickOnlineVendors() async {
-    setState(() {
-      _isLoadingVendorStatus = true;
-      _vendorStatus = true;
-    });
-
-    await Future.delayed(const Duration(seconds: 2));
-
-    setState(() {
-      _isLoadingVendorStatus = false;
-    });
-  }
-
-  void _clickOfflineVendors() async {
-    setState(() {
-      _isLoadingVendorStatus = true;
-      _vendorStatus = false;
-    });
-
-    await Future.delayed(const Duration(seconds: 2));
-
-    setState(() {
-      _isLoadingVendorStatus = false;
-    });
-  }
-
 //=============================== See more ========================================\\
   void _seeMoreOnlineVendors() {}
   void _seeMoreOfflineVendors() {}
@@ -146,13 +114,13 @@ class _MyVendorsState extends State<MyVendors> {
   void _toVendorDetailsPage(VendorModel data) => Get.to(
         () => VendorDetailsPage(
           vendorCoverImage:
-              _vendorStatus ? _onlineVendorsImage : _offlineVendorsImage,
-          vendorName: _vendorStatus ? _onlineVendorsName : _offlineVendorsName,
+              vendorStatus ? _onlineVendorsImage : _offlineVendorsImage,
+          vendorName: vendorStatus ? _onlineVendorsName : _offlineVendorsName,
           vendorRating:
-              _vendorStatus ? _onlineVendorsRating : _offlineVendorsRating,
-          vendorActiveStatus: _vendorStatus ? _vendorActive : _vendorInactive,
+              vendorStatus ? _onlineVendorsRating : _offlineVendorsRating,
+          vendorActiveStatus: vendorStatus ? _vendorActive : _vendorInactive,
           vendorActiveStatusColor:
-              _vendorStatus ? _vendorActiveColor : _vendorInactiveColor,
+              vendorStatus ? _vendorActiveColor : _vendorInactiveColor,
           vendor: data,
         ),
         duration: const Duration(milliseconds: 300),
@@ -175,23 +143,22 @@ class _MyVendorsState extends State<MyVendors> {
         transition: Transition.downToUp,
       );
 
-  void _toMyVendorsPage() => Get.to(
-        () => const MyVendors(),
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "MyVendors",
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.downToUp,
-      );
+  // void toMyVendorsPage() => Get.to(
+  //       () => const MyVendors(),
+  //       duration: const Duration(milliseconds: 300),
+  //       fullscreenDialog: true,
+  //       curve: Curves.easeIn,
+  //       routeName: "MyVendors",
+  //       preventDuplicates: true,
+  //       popGesture: true,
+  //       transition: Transition.downToUp,
+  //     );
 
-  void _showSearchField() =>
-      showSearch(context: context, delegate: CustomSearchDelegate());
+  // void showSearchField() =>
+  //     showSearch(context: context, delegate: CustomSearchDelegate());
 
   @override
   Widget build(BuildContext context) {
-    final media = MediaQuery.of(context).size;
     return MyLiquidRefresh(
       onRefresh: _handleRefresh,
       child: Scaffold(
@@ -265,7 +232,7 @@ class _MyVendorsState extends State<MyVendors> {
                             ),
                           ),
                     kSizedBox,
-                    _vendorStatus
+                    vendorStatus
                         ? TextButton(
                             onPressed: _seeMoreOnlineVendors,
                             child: Text(
