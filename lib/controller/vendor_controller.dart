@@ -50,7 +50,7 @@ class VendorController extends GetxController {
           await ApiProcessorController.errorState(response, isFirst ?? true);
       var save = vendorModelFromJson(responseData);
       vendorList.value = save;
-      print(save);
+      debugPrint(save.toString());
       update();
     } catch (e) {}
     isLoad.value = false;
