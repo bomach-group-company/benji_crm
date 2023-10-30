@@ -28,7 +28,7 @@ class RiderController extends GetxController {
   var isLoadAssign = false.obs;
   var riderList = <RiderItem>[].obs;
   var rider = RiderItem.fromJson(null).obs;
-  var historyList = <HistoryItem>[].obs;
+  var historyList = <RiderHistory>[].obs;
   var total = 0.obs;
 
   Future getRiders() async {

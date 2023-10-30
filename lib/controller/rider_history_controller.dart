@@ -19,7 +19,7 @@ class RiderHistoryController extends GetxController {
   var loadedAll = false.obs;
   var isLoad = false.obs;
   var isLoadMore = false.obs;
-  var historyList = <HistoryItem>[].obs;
+  var historyList = <RiderHistory>[].obs;
 
   Future riderHistory(id) async {
     isLoad.value = true;
@@ -40,8 +40,8 @@ class RiderHistoryController extends GetxController {
 
     var responseData = await ApiProcessorController.errorState(response);
     // try {
-    List<HistoryItem> val = (jsonDecode(responseData)['items'] as List)
-        .map((e) => HistoryItem.fromJson(e))
+    List<RiderHistory> val = (jsonDecode(responseData)['items'] as List)
+        .map((e) => RiderHistory.fromJson(e))
         .toList();
     historyList.value = val;
     loadedAll.value = false;
@@ -77,8 +77,8 @@ class RiderHistoryController extends GetxController {
 
     var responseData = await ApiProcessorController.errorState(response);
     // try {
-    List<HistoryItem> val = (jsonDecode(responseData)['items'] as List)
-        .map((e) => HistoryItem.fromJson(e))
+    List<RiderHistory> val = (jsonDecode(responseData)['items'] as List)
+        .map((e) => RiderHistory.fromJson(e))
         .toList();
     historyList.value += val;
     loadedAll.value = val.isEmpty;

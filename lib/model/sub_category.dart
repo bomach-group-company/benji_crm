@@ -1,4 +1,5 @@
 import 'package:benji_aggregator/model/category.dart';
+import 'package:benji_aggregator/src/providers/constants.dart';
 
 class SubCategory {
   String id;
@@ -18,10 +19,10 @@ class SubCategory {
   factory SubCategory.fromJson(Map<String, dynamic>? json) {
     json ??= {};
     return SubCategory(
-      id: json["id"],
-      name: json["name"],
-      description: json["description"],
-      isActive: json["is_active"],
+      id: json["id"] ?? notAvailable,
+      name: json["name"] ?? notAvailable,
+      description: json["description"] ?? notAvailable,
+      isActive: json["is_active"] ?? false,
       category: Category.fromJson(json["category"]),
     );
   }

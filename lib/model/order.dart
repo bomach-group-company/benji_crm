@@ -1,5 +1,5 @@
+import 'package:benji_aggregator/model/client_model.dart';
 import 'package:benji_aggregator/model/product_model.dart';
-import 'package:benji_aggregator/model/user_model.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
 
 class Order {
@@ -9,7 +9,7 @@ class Order {
   double deliveryFee;
   String assignedStatus;
   String deliveryStatus;
-  UserModel client;
+  Client client;
 
   Order({
     required this.id,
@@ -30,7 +30,7 @@ class Order {
       deliveryFee: json["delivery_fee"] ?? 0.0,
       assignedStatus: json["assigned_status"] ?? "PEND",
       deliveryStatus: json["delivery_status"] ?? "PEND",
-      client: UserModel.fromJson(json["client"]),
+      client: Client.fromJson(json["client"]),
     );
   }
   Map<String, dynamic> toJson() => {

@@ -40,18 +40,11 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      VendorController.instance.getVendorProduct(widget.vendor.id);
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   VendorController.instance.getVendorProduct(widget.vendor.id);
+    // });
 
     _tabBarController = TabController(length: 2, vsync: this);
-    _loadingScreen = true;
-    Future.delayed(
-      const Duration(milliseconds: 500),
-      () => setState(
-        () => _loadingScreen = false,
-      ),
-    );
   }
 
   @override
@@ -66,6 +59,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
 //===================== BOOL VALUES =======================\\
   // bool isLoading = false;
   late bool _loadingScreen;
+  final bool _loadingTabBarContent = false;
   int tabBar = 0;
 
   //=================================== Orders =======================================\\
@@ -109,15 +103,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
 
 //===================== Handle refresh ==========================\\
 
-  Future<void> _handleRefresh() async {
-    setState(() {
-      _loadingScreen = true;
-    });
-    await Future.delayed(const Duration(milliseconds: 500));
-    setState(() {
-      _loadingScreen = false;
-    });
-  }
+  Future<void> _handleRefresh() async {}
 
   void _clickOnTabBarOption(value) async {
     setState(() {
@@ -255,412 +241,463 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,
-          child: Scrollbar(
-            controller: scrollController,
-            radius: const Radius.circular(10),
-            scrollbarOrientation: ScrollbarOrientation.right,
-            child: ListView(
-              physics: const BouncingScrollPhysics(),
-              dragStartBehavior: DragStartBehavior.down,
-              children: [
-                SizedBox(
-                  height: 340,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        child: Container(
-                          height: MediaQuery.of(context).size.height * 0.3,
-                          decoration: BoxDecoration(
-                            color: kPageSkeletonColor,
-                            image: const DecorationImage(
-                              fit: BoxFit.cover,
-                              image: AssetImage(
-                                  "assets/images/vendors/ntachi-osa.png"),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        top: MediaQuery.of(context).size.height * 0.13,
-                        left: kDefaultPadding,
-                        right: kDefaultPadding,
-                        child: Container(
-                          width: 200,
-                          padding: const EdgeInsets.all(kDefaultPadding / 2),
-                          decoration: ShapeDecoration(
-                            shadows: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                blurRadius: 5,
-                                spreadRadius: 2,
-                                blurStyle: BlurStyle.normal,
-                              ),
-                            ],
-                            color: const Color(0xFFFEF8F8),
-                            shape: RoundedRectangleBorder(
-                              side: const BorderSide(
-                                width: 0.50,
-                                color: Color(0xFFFDEDED),
-                              ),
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: kDefaultPadding * 2.6),
-                            child: Column(
+          child: FutureBuilder(
+            future: null,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                Center(child: SpinKitDoubleBounce(color: kAccentColor));
+              }
+              if (snapshot.connectionState == ConnectionState.none) {
+                const Center(
+                  child: Text("Please connect to the internet"),
+                );
+              }
+              // if (snapshot.connectionState == snapshot.requireData) {
+              //   SpinKitDoubleBounce(color: kAccentColor);
+              // }
+              if (snapshot.connectionState == snapshot.error) {
+                const Center(
+                  child: Text("Error, Please try again later"),
+                );
+              }
+              return _loadingScreen
+                  ? Center(child: SpinKitDoubleBounce(color: kAccentColor))
+                  : Scrollbar(
+                      controller: scrollController,
+                      radius: const Radius.circular(10),
+                      scrollbarOrientation: ScrollbarOrientation.right,
+                      child: ListView(
+                        physics: const BouncingScrollPhysics(),
+                        dragStartBehavior: DragStartBehavior.down,
+                        children: [
+                          SizedBox(
+                            height: 340,
+                            child: Stack(
                               children: [
-                                Text(
-                                  widget.vendor.shopName,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    color: kTextBlackColor,
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                kHalfSizedBox,
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.location_pin,
-                                      color: kAccentColor,
-                                      size: 15,
-                                    ),
-                                    kHalfWidthSizedBox,
-                                    SizedBox(
-                                      width: mediaWidth - 100,
-                                      child: const Text(
-                                        "Old Abakaliki Rd, Thinkers Corner 400103, Enugu",
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                kHalfSizedBox,
-                                InkWell(
-                                  onTap: (() async {
-                                    final websiteurl = Uri.parse(
-                                      "https://goo.gl/maps/8pKoBVCsew5oqjU49",
-                                    );
-                                    if (await canLaunchUrl(
-                                      websiteurl,
-                                    )) {
-                                      launchUrl(
-                                        websiteurl,
-                                        mode: LaunchMode.externalApplication,
-                                      );
-                                    } else {
-                                      throw "An unexpected error occured and $websiteurl cannot be loaded";
-                                    }
-                                  }),
-                                  borderRadius: BorderRadius.circular(10),
+                                Positioned(
+                                  top: 0,
+                                  left: 0,
+                                  right: 0,
                                   child: Container(
-                                    width: mediaWidth / 4,
-                                    padding: const EdgeInsets.all(
-                                        kDefaultPadding / 4),
+                                    height: MediaQuery.of(context).size.height *
+                                        0.3,
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(
-                                        color: kAccentColor,
-                                        width: 1,
-                                      ),
-                                    ),
-                                    child: const Text(
-                                      "Show on map",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w400,
+                                      color: kPageSkeletonColor,
+                                      image: const DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: AssetImage(
+                                            "assets/images/vendors/ntachi-osa.png"),
                                       ),
                                     ),
                                   ),
                                 ),
-                                kHalfSizedBox,
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Container(
-                                      width: mediaWidth * 0.25,
-                                      height: 56.67,
-                                      decoration: ShapeDecoration(
-                                        color: kPrimaryColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                            19,
-                                          ),
+                                Positioned(
+                                  top:
+                                      MediaQuery.of(context).size.height * 0.13,
+                                  left: kDefaultPadding,
+                                  right: kDefaultPadding,
+                                  child: Container(
+                                    width: 200,
+                                    padding: const EdgeInsets.all(
+                                        kDefaultPadding / 2),
+                                    decoration: ShapeDecoration(
+                                      shadows: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.1),
+                                          blurRadius: 5,
+                                          spreadRadius: 2,
+                                          blurStyle: BlurStyle.normal,
                                         ),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.access_time_outlined,
-                                            color: kAccentColor,
-                                          ),
-                                          const SizedBox(
-                                            width: 5,
-                                          ),
-                                          const Text(
-                                            "30 mins",
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w400,
-                                              letterSpacing: -0.28,
-                                            ),
-                                          ),
-                                        ],
+                                      ],
+                                      color: const Color(0xFFFEF8F8),
+                                      shape: RoundedRectangleBorder(
+                                        side: const BorderSide(
+                                          width: 0.50,
+                                          color: Color(0xFFFDEDED),
+                                        ),
+                                        borderRadius: BorderRadius.circular(25),
                                       ),
                                     ),
-                                    Container(
-                                      width: mediaWidth * 0.23,
-                                      height: 56.67,
-                                      decoration: ShapeDecoration(
-                                        color: kPrimaryColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                            19,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.star_rounded,
-                                            color: kStarColor,
-                                          ),
-                                          const SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
-                                            "${widget.vendor.averageRating}",
-                                            style: const TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w400,
-                                              letterSpacing: -0.28,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      width: mediaWidth * 0.25,
-                                      height: 56.67,
-                                      decoration: ShapeDecoration(
-                                        color: kPrimaryColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(19),
-                                        ),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: kDefaultPadding * 2.6),
+                                      child: Column(
                                         children: [
                                           Text(
-                                            widget.vendor.isOnline == true
-                                                ? 'Online'
-                                                : 'Offline',
+                                            widget.vendor.shopName,
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              color:
-                                                  widget.vendor.isOnline == true
-                                                      ? kSuccessColor
-                                                      : kAccentColor,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w400,
-                                              letterSpacing: -0.36,
+                                            style: const TextStyle(
+                                              color: kTextBlackColor,
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.w700,
                                             ),
                                           ),
-                                          const SizedBox(
-                                            width: 5,
+                                          kHalfSizedBox,
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                Icons.location_pin,
+                                                color: kAccentColor,
+                                                size: 15,
+                                              ),
+                                              kHalfWidthSizedBox,
+                                              SizedBox(
+                                                width: mediaWidth - 100,
+                                                child: const Text(
+                                                  "Old Abakaliki Rd, Thinkers Corner 400103, Enugu",
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
+                                          kHalfSizedBox,
                                           InkWell(
-                                            onTap: _toAboutVendor,
-                                            child: Icon(
-                                              Icons.info_outline,
-                                              color: kAccentColor,
+                                            onTap: (() async {
+                                              final websiteurl = Uri.parse(
+                                                "https://goo.gl/maps/8pKoBVCsew5oqjU49",
+                                              );
+                                              if (await canLaunchUrl(
+                                                websiteurl,
+                                              )) {
+                                                launchUrl(
+                                                  websiteurl,
+                                                  mode: LaunchMode
+                                                      .externalApplication,
+                                                );
+                                              } else {
+                                                throw "An unexpected error occured and $websiteurl cannot be loaded";
+                                              }
+                                            }),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            child: Container(
+                                              width: mediaWidth / 4,
+                                              padding: const EdgeInsets.all(
+                                                  kDefaultPadding / 4),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                border: Border.all(
+                                                  color: kAccentColor,
+                                                  width: 1,
+                                                ),
+                                              ),
+                                              child: const Text(
+                                                "Show on map",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ),
                                             ),
                                           ),
+                                          kHalfSizedBox,
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Container(
+                                                width: mediaWidth * 0.25,
+                                                height: 56.67,
+                                                decoration: ShapeDecoration(
+                                                  color: kPrimaryColor,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                      19,
+                                                    ),
+                                                  ),
+                                                ),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(
+                                                      Icons
+                                                          .access_time_outlined,
+                                                      color: kAccentColor,
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    const Text(
+                                                      "30 mins",
+                                                      style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        letterSpacing: -0.28,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Container(
+                                                width: mediaWidth * 0.23,
+                                                height: 56.67,
+                                                decoration: ShapeDecoration(
+                                                  color: kPrimaryColor,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                      19,
+                                                    ),
+                                                  ),
+                                                ),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(
+                                                      Icons.star_rounded,
+                                                      color: kStarColor,
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Text(
+                                                      "${widget.vendor.averageRating}",
+                                                      style: const TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        letterSpacing: -0.28,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Container(
+                                                width: mediaWidth * 0.25,
+                                                height: 56.67,
+                                                decoration: ShapeDecoration(
+                                                  color: kPrimaryColor,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            19),
+                                                  ),
+                                                ),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      widget.vendor.isOnline ==
+                                                              true
+                                                          ? 'Online'
+                                                          : 'Offline',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                        color: widget.vendor
+                                                                    .isOnline ==
+                                                                true
+                                                            ? kSuccessColor
+                                                            : kAccentColor,
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        letterSpacing: -0.36,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    InkWell(
+                                                      onTap: _toAboutVendor,
+                                                      child: Icon(
+                                                        Icons.info_outline,
+                                                        color: kAccentColor,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          )
                                         ],
                                       ),
                                     ),
-                                  ],
-                                )
+                                  ),
+                                ),
+                                Positioned(
+                                  top:
+                                      MediaQuery.of(context).size.height * 0.07,
+                                  left: MediaQuery.of(context).size.width / 2.7,
+                                  child: ClipOval(
+                                    child: CachedNetworkImage(
+                                      imageUrl: widget.vendor.shopImage ??
+                                          "assets/images/vendors/ntachi-osa.png",
+                                      fit: BoxFit.cover,
+                                      progressIndicatorBuilder: (context, url,
+                                              downloadProgress) =>
+                                          const Center(
+                                              child: CupertinoActivityIndicator(
+                                        color: kRedColor,
+                                      )),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(
+                                        Icons.error,
+                                        color: kRedColor,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
-                        ),
-                      ),
-                      Positioned(
-                        top: MediaQuery.of(context).size.height * 0.07,
-                        left: MediaQuery.of(context).size.width / 2.7,
-                        child: ClipOval(
-                          child: CachedNetworkImage(
-                            imageUrl: widget.vendor.shopImage ??
-                                "assets/images/vendors/ntachi-osa.png",
-                            fit: BoxFit.cover,
-                            progressIndicatorBuilder:
-                                (context, url, downloadProgress) =>
-                                    const Center(
-                                        child: CupertinoActivityIndicator(
-                              color: kRedColor,
-                            )),
-                            errorWidget: (context, url, error) => const FaIcon(
-                              FontAwesomeIcons.circleExclamation,
-                              color: kRedColor,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: kDefaultPadding,
                             ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: kDefaultPadding,
-                  ),
-                  child: Container(
-                    width: mediaWidth,
-                    decoration: BoxDecoration(
-                      color: kDefaultCategoryBackgroundColor,
-                      borderRadius: BorderRadius.circular(50),
-                      border: Border.all(
-                        color: kLightGreyColor,
-                        style: BorderStyle.solid,
-                        strokeAlign: BorderSide.strokeAlignOutside,
-                      ),
-                    ),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: TabBar(
-                            controller: _tabBarController,
-                            onTap: _clickOnTabBarOption,
-                            enableFeedback: true,
-                            mouseCursor: SystemMouseCursors.click,
-                            automaticIndicatorColorAdjustment: true,
-                            overlayColor:
-                                MaterialStatePropertyAll(kAccentColor),
-                            labelColor: kPrimaryColor,
-                            unselectedLabelColor: kTextGreyColor,
-                            indicatorColor: kAccentColor,
-                            indicatorWeight: 2,
-                            splashBorderRadius: BorderRadius.circular(50),
-                            indicator: BoxDecoration(
-                              color: kAccentColor,
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                            tabs: const [
-                              Tab(text: "Products"),
-                              Tab(text: "Orders"),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                kSizedBox,
-                Container(
-                  height: mediaHeight,
-                  width: mediaWidth,
-                  padding: const EdgeInsets.only(
-                    left: kDefaultPadding / 2,
-                    right: kDefaultPadding / 2,
-                  ),
-                  child: Column(
-                    children: [
-                      tabBar == 0
-                          ?
-                          // const VendorsTabBarProductsContentSkeleton()
-                          VendorsProductsTab(
-                              list: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  // CategoryButtonSection(
-                                  //   onPressed:
-                                  //       _changeProductCategory,
-                                  //   category:
-                                  //       _categoryButtonText,
-                                  //   categorybgColor:
-                                  //       _categoryButtonBgColor,
-                                  //   categoryFontColor:
-                                  //       _categoryButtonFontColor,
-                                  // ),
-
-                                  GetBuilder<VendorController>(
-                                    initState: (state) async {
-                                      await VendorController.instance
-                                          .getVendorProduct(widget.vendor.id);
-                                      print('initState getVendorProduct');
-                                    },
-                                    builder: (controller) {
-                                      print(
-                                          'in vend prod ${controller.vendorProductList}');
-                                      return ListView.separated(
-                                        shrinkWrap: true,
-                                        separatorBuilder: (context, index) =>
-                                            kSizedBox,
-                                        itemCount:
-                                            controller.vendorProductList.length,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          return VendorsProductContainer(
-                                            onTap: () {},
-                                            product: controller
-                                                .vendorProductList[index],
-                                          );
-                                        },
-                                      );
-                                    },
-                                  )
-                                ],
+                            child: Container(
+                              width: mediaWidth,
+                              decoration: BoxDecoration(
+                                color: kDefaultCategoryBackgroundColor,
+                                borderRadius: BorderRadius.circular(50),
+                                border: Border.all(
+                                  color: kLightGreyColor,
+                                  style: BorderStyle.solid,
+                                  strokeAlign: BorderSide.strokeAlignOutside,
+                                ),
                               ),
-                            )
-                          // const VendorsTabBarOrdersContentSkeleton()
-                          : VendorsOrdersTab(
-                              list: Column(
+                              child: Column(
                                 children: [
-                                  for (_orderID = 1;
-                                      _orderID < 30;
-                                      _orderID += _incrementOrderID)
-                                    VendorsOrderContainer(
-                                      mediaWidth: mediaWidth,
-                                      order: null,
-                                      orderImage: _orderImage,
-                                      orderID: _orderID,
-                                      formattedDateAndTime:
-                                          formattedDateAndTime,
-                                      orderItem: _orderItem,
-                                      itemQuantity: _itemQuantity,
-                                      itemPrice: _itemPrice,
-                                      customerName: _customerName,
-                                      customerAddress: _customerAddress,
+                                  Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: TabBar(
+                                      controller: _tabBarController,
+                                      onTap: _clickOnTabBarOption,
+                                      enableFeedback: true,
+                                      mouseCursor: SystemMouseCursors.click,
+                                      automaticIndicatorColorAdjustment: true,
+                                      overlayColor: MaterialStatePropertyAll(
+                                          kAccentColor),
+                                      labelColor: kPrimaryColor,
+                                      unselectedLabelColor: kTextGreyColor,
+                                      indicatorColor: kAccentColor,
+                                      indicatorWeight: 2,
+                                      splashBorderRadius:
+                                          BorderRadius.circular(50),
+                                      indicator: BoxDecoration(
+                                        color: kAccentColor,
+                                        borderRadius: BorderRadius.circular(50),
+                                      ),
+                                      tabs: const [
+                                        Tab(text: "Products"),
+                                        Tab(text: "Orders"),
+                                      ],
                                     ),
+                                  ),
                                 ],
                               ),
                             ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+                          ),
+                          kSizedBox,
+                          Container(
+                            height: mediaHeight,
+                            width: mediaWidth,
+                            padding: const EdgeInsets.only(
+                              left: kDefaultPadding / 2,
+                              right: kDefaultPadding / 2,
+                            ),
+                            child: Column(
+                              children: [
+                                tabBar == 0
+                                    ?
+                                    // const VendorsTabBarProductsContentSkeleton()
+                                    VendorsProductsTab(
+                                        list: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            // CategoryButtonSection(
+                                            //   onPressed:
+                                            //       _changeProductCategory,
+                                            //   category:
+                                            //       _categoryButtonText,
+                                            //   categorybgColor:
+                                            //       _categoryButtonBgColor,
+                                            //   categoryFontColor:
+                                            //       _categoryButtonFontColor,
+                                            // ),
+
+                                            GetBuilder<VendorController>(
+                                              initState: (state) async {
+                                                await VendorController.instance
+                                                    .getVendorProduct(
+                                                        widget.vendor.id);
+                                                print(
+                                                    'initState getVendorProduct');
+                                              },
+                                              builder: (controller) {
+                                                print(
+                                                    'in vend prod ${controller.vendorProductList}');
+                                                return ListView.separated(
+                                                  shrinkWrap: true,
+                                                  separatorBuilder:
+                                                      (context, index) =>
+                                                          kSizedBox,
+                                                  itemCount: controller
+                                                      .vendorProductList.length,
+                                                  itemBuilder:
+                                                      (BuildContext context,
+                                                          int index) {
+                                                    return VendorsProductContainer(
+                                                      onTap: () {},
+                                                      product: controller
+                                                              .vendorProductList[
+                                                          index],
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    // const VendorsTabBarOrdersContentSkeleton()
+                                    : VendorsOrdersTab(
+                                        list: Column(
+                                          children: [
+                                            for (_orderID = 1;
+                                                _orderID < 30;
+                                                _orderID += _incrementOrderID)
+                                              VendorsOrderContainer(
+                                                mediaWidth: mediaWidth,
+                                                order: null,
+                                                orderImage: _orderImage,
+                                                orderID: _orderID,
+                                                formattedDateAndTime:
+                                                    formattedDateAndTime,
+                                                orderItem: _orderItem,
+                                                itemQuantity: _itemQuantity,
+                                                itemPrice: _itemPrice,
+                                                customerName: _customerName,
+                                                customerAddress:
+                                                    _customerAddress,
+                                              ),
+                                          ],
+                                        ),
+                                      ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+            },
           ),
         ),
       ),

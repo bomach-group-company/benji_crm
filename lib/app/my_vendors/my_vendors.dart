@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:benji_aggregator/app/add_vendor/add_vendor.dart';
 import 'package:benji_aggregator/app/my_vendors/my_vendor_detail.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
-import 'package:benji_aggregator/model/vendor_model.dart';
+import 'package:benji_aggregator/model/my_vendor.dart';
 import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
-import 'package:benji_aggregator/src/components/container/vendors_container.dart';
+import 'package:benji_aggregator/src/components/container/myvendor_container.dart';
 import 'package:benji_aggregator/src/components/section/my_liquid_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -27,13 +27,6 @@ class _MyVendorsState extends State<MyVendors> {
   @override
   void initState() {
     super.initState();
-    loadingScreen = true;
-    _timer = Timer(
-      const Duration(milliseconds: 1000),
-      () => setState(
-        () => loadingScreen = false,
-      ),
-    );
   }
 
   @override
@@ -41,7 +34,6 @@ class _MyVendorsState extends State<MyVendors> {
     super.dispose();
     // _animationController.dispose();
     scrollController.dispose();
-    _timer.cancel();
   }
 
 //============================================== ALL VARIABLES =================================================\\
@@ -49,7 +41,6 @@ class _MyVendorsState extends State<MyVendors> {
   bool vendorStatus = true;
 
   // bool _isScrollToTopBtnVisible = false;
-  late Timer _timer;
 
 //============================================== CONTROLLERS =================================================\\
   final scrollController = ScrollController();
@@ -96,7 +87,7 @@ class _MyVendorsState extends State<MyVendors> {
 
 //===================== Navigation ==========================\\
 
-  void _toVendorDetailsPage(VendorModel data) => Get.to(
+  void _toVendorDetailsPage(myVendorModel data) => Get.to(
         () => MyVendorDetailsPage(
           vendor: data,
         ),
@@ -200,7 +191,7 @@ class _MyVendorsState extends State<MyVendors> {
                                       ),
                                     ],
                                   ),
-                                  child: VendorContainer(
+                                  child: MyVendorContainer(
                                     onTap: () => _toVendorDetailsPage(
                                         controller.vendorMyList[index]),
                                     vendor: controller.vendorMyList[index],
