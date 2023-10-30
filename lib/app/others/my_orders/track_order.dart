@@ -1,13 +1,13 @@
 // ignore_for_file: unused_field
 
-import 'package:benji_aggregator/app/others/call_page.dart';
 import 'package:benji_aggregator/src/components/my_appbar.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:get/route_manager.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../../../controller/url_launch_controller.dart';
 import '../../../src/components/my_elevatedButton.dart';
 import '../../../src/providers/constants.dart';
 
@@ -176,9 +176,10 @@ class _TrackOrderState extends State<TrackOrder> {
                   ),
                   child: IconButton(
                     splashRadius: 30,
-                    onPressed: _callRider,
-                    icon: Icon(
-                      Icons.phone,
+                    onPressed: () =>
+                        UrlLaunchController.makePhoneCall("+237039502751"),
+                    icon: FaIcon(
+                      FontAwesomeIcons.phone,
                       color: kAccentColor,
                     ),
                   ),
@@ -192,20 +193,6 @@ class _TrackOrderState extends State<TrackOrder> {
   }
 
 //=============================================== Navigation ===================================================\\
-  void _callRider() => Get.to(
-        () => CallPage(
-          userImage: riderImage,
-          userName: riderName,
-          userPhoneNumber: riderPhoneNumber,
-        ),
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "Call screen",
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
 
   @override
   Widget build(BuildContext context) {

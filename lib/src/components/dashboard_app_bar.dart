@@ -57,7 +57,7 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
       automaticallyImplyLeading: false,
       titleSpacing:
           deviceType(media.width) > 2 ? kDefaultPadding : kDefaultPadding / 2,
-      elevation: 10.0,
+      elevation: 0,
       title: GetBuilder<UserController>(
           init: UserController(),
           builder: (controller) {

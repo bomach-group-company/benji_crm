@@ -89,7 +89,6 @@ class _RegisterVendorState extends State<RegisterVendor> {
 
   //============================================== CONTROLLERS =================================================\\
   final scrollController = ScrollController();
-
   final personalIdEC = TextEditingController();
   final vendorBusinessIdEC = TextEditingController();
   final vendorNameEC = TextEditingController();

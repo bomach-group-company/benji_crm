@@ -10,6 +10,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
@@ -300,15 +301,16 @@ class _AssignRiderState extends State<AssignRider> {
                                                         CrossAxisAlignment
                                                             .center,
                                                     children: [
-                                                      Icon(
-                                                        Icons.location_on,
+                                                      FaIcon(
+                                                        FontAwesomeIcons
+                                                            .locationDot,
                                                         color: kAccentColor,
                                                         size: 18,
                                                       ),
                                                       SizedBox(
                                                         width: 100,
                                                         child: Text(
-                                                          rider.address ?? "",
+                                                          rider.address,
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                           maxLines: 1,

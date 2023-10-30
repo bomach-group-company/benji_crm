@@ -2,9 +2,9 @@
 
 import 'package:benji_aggregator/controller/notification_controller.dart';
 import 'package:benji_aggregator/controller/operation.dart';
+import 'package:benji_aggregator/src/components/empty.dart';
 import 'package:benji_aggregator/src/skeletons/notifications_page_skeleton.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 
 import '../../model/notificatin_model.dart';
@@ -24,18 +24,13 @@ class _NotificationsState extends State<Notifications> {
   //===================== Initial State ==========================\\
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      NotificationController.instance.runTask();
-    });
     super.initState();
 
     _loadingScreen = true;
-    Future.delayed(
-      const Duration(milliseconds: 1000),
-      () => setState(
-        () => _loadingScreen = false,
-      ),
-    );
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      NotificationController.instance.runTask();
+    });
+    _loadingScreen = false;
   }
 
   //=================================== ALL VARIABLES =====================================\\
@@ -52,64 +47,17 @@ class _NotificationsState extends State<Notifications> {
     setState(() {
       _loadingScreen = true;
     });
-    await Future.delayed(const Duration(milliseconds: 1000));
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      NotificationController.instance.runTask();
+    });
     setState(() {
       _loadingScreen = false;
     });
   }
 
-//=================================== LISTS =====================================\\
-  final List<String> _notificationTitle = [
-    "Tanbir Ahmed",
-    "Salim Smith",
-    "Royal Bengol",
-    "Pabel Vuiya",
-    "Pabel Vuiya",
-    "Pabel Vuiya",
-    "Pabel Vuiya",
-    "Pabel Vuiya",
-    "Pabel Vuiya",
-    "Pabel Vuiya",
-    "Pabel Vuiya",
-    "Pabel Vuiya",
-    "Pabel Vuiya",
-    "Pabel Vuiya",
-  ];
-  final List<String> _notificationSubject = [
-    "Placed a new order",
-    "left a 5 star review",
-    "agreed to cancel",
-    "Placed a new order",
-    "Placed a new order",
-    "Placed a new order",
-    "Placed a new order",
-    "Placed a new order",
-    "Placed a new order",
-    "Placed a new order",
-    "Placed a new order",
-    "Placed a new order",
-    "Placed a new order",
-    "Placed a new order",
-  ];
-  final List<String> _notificationTime = [
-    "2 mins ago",
-    "8 mins ago",
-    "15 mins ago",
-    "24 mins ago",
-    "24 mins ago",
-    "24 mins ago",
-    "24 mins ago",
-    "24 mins ago",
-    "24 mins ago",
-    "24 mins ago",
-    "24 mins ago",
-    "24 mins ago",
-    "24 mins ago",
-    "24 mins ago",
-  ];
-
   @override
   Widget build(BuildContext context) {
+    // var media = MediaQuery.of(context).size;
     return MyLiquidRefresh(
       onRefresh: _handleRefresh,
       child: Scaffold(
@@ -122,102 +70,86 @@ class _NotificationsState extends State<Notifications> {
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,
-          child: FutureBuilder(
-            future: null,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                SpinKitDoubleBounce(color: kAccentColor);
-              }
-              if (snapshot.connectionState == ConnectionState.none) {
-                const Center(
-                  child: Text("Please connect to the internet"),
-                );
-              }
-              // if (snapshot.connectionState == snapshot.requireData) {
-              //   SpinKitDoubleBounce(color: kAccentColor);
-              // }
-              if (snapshot.connectionState == snapshot.error) {
-                const Center(
-                  child: Text("Error, Please try again later"),
-                );
-              }
-              return GetBuilder<NotificationController>(
-                  builder: (notifications) {
-                return notifications.isLoad.value
-                    ? const NotificationsPageSkeleton()
-                    : Scrollbar(
-                        controller: scrollController,
-                        radius: const Radius.circular(10),
-                        child: ListView(
-                          physics: const BouncingScrollPhysics(),
-                          scrollDirection: Axis.vertical,
-                          children: [
-                            ListView.separated(
-                              itemCount: notifications.notification.length,
-                              physics: const BouncingScrollPhysics(),
-                              scrollDirection: Axis.vertical,
-                              shrinkWrap: true,
-                              separatorBuilder: (context, index) => Container(
-                                width: 327,
-                                height: 1,
-                                decoration: const BoxDecoration(
-                                    color: Color(0xFFF0F4F9)),
+          child: GetBuilder<NotificationController>(
+            builder: (notifications) {
+              return notifications.isLoad.value
+                  ? const NotificationsPageSkeleton()
+                  : notifications.notification.isEmpty
+                      ? const EmptyCard()
+                      : Scrollbar(
+                          radius: const Radius.circular(10),
+                          child: ListView(
+                            controller: scrollController,
+                            physics: const BouncingScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            children: [
+                              ListView.separated(
+                                itemCount: notifications.notification.length,
+                                physics: const BouncingScrollPhysics(),
+                                scrollDirection: Axis.vertical,
+                                shrinkWrap: true,
+                                separatorBuilder: (context, index) => kSizedBox,
+                                // Container(
+                                //   width: media.width - 350,
+                                //   height: 1,
+                                //   decoration: const BoxDecoration(
+                                //       color: Color(0xFFF0F4F9)),
+                                // ),
+                                itemBuilder: (context, index) {
+                                  final NotificationModel notify =
+                                      notifications.notification[index];
+                                  return ListTile(
+                                    minVerticalPadding: kDefaultPadding / 2,
+                                    enableFeedback: true,
+                                    leading: Container(
+                                      width: 45,
+                                      height: 45,
+                                      decoration: ShapeDecoration(
+                                        color: kPageSkeletonColor,
+                                        shape: const OvalBorder(),
+                                      ),
+                                    ),
+                                    title: Text.rich(
+                                      TextSpan(
+                                        children: [
+                                          TextSpan(
+                                            text: notify.agent!.username ??
+                                                "loading...",
+                                            style: const TextStyle(
+                                              color: Color(0xFF32343E),
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                          TextSpan(
+                                            text:
+                                                notify.message ?? "loading...",
+                                            style: const TextStyle(
+                                              color: Color(0xFF9B9BA5),
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    subtitle: Text(
+                                      notify.created == null
+                                          ? "loading..."
+                                          : Operation.convertDate(
+                                              notify.created!),
+                                      style: const TextStyle(
+                                        color: Color(0xFF9B9BA5),
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
-                              itemBuilder: (context, index) {
-                                final NotificationModel notify =
-                                    notifications.notification[index];
-                                return ListTile(
-                                  minVerticalPadding: kDefaultPadding / 2,
-                                  enableFeedback: true,
-                                  leading: Container(
-                                    width: 45,
-                                    height: 45,
-                                    decoration: ShapeDecoration(
-                                      color: kPageSkeletonColor,
-                                      shape: const OvalBorder(),
-                                    ),
-                                  ),
-                                  title: Text.rich(
-                                    TextSpan(
-                                      children: [
-                                        TextSpan(
-                                          text:
-                                              "${notify.agent!.username ?? ""} \n",
-                                          style: const TextStyle(
-                                            color: Color(0xFF32343E),
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text: notify.message ?? "",
-                                          style: const TextStyle(
-                                            color: Color(0xFF9B9BA5),
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  subtitle: Text(
-                                    notify.created == null
-                                        ? ""
-                                        : Operation.convertDate(
-                                            notify.created!),
-                                    style: const TextStyle(
-                                      color: Color(0xFF9B9BA5),
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      );
-              });
+                            ],
+                          ),
+                        );
             },
           ),
         ),
