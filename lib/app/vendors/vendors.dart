@@ -52,13 +52,6 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
         widget.hideNavigation();
       }
     });
-    _loadingScreen = true;
-    _timer = Timer(
-      const Duration(milliseconds: 1000),
-      () => setState(
-        () => _loadingScreen = false,
-      ),
-    );
   }
 
   @override
@@ -78,9 +71,8 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
   }
 
 //============================================== ALL VARIABLES =================================================\\
-  late bool _loadingScreen;
-  bool _vendorStatus = true;
-  bool _isLoadingVendorStatus = false;
+  late bool loadingScreen;
+  bool vendorStatus = true;
   // bool _isScrollToTopBtnVisible = false;
   late Timer _timer;
 
@@ -113,12 +105,12 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
 
   Future<void> _handleRefresh() async {
     setState(() {
-      _loadingScreen = true;
+      loadingScreen = true;
     });
-
-    await Future.delayed(const Duration(milliseconds: 1000));
+    // await Future.delayed(const Duration(milliseconds: 1000));
+    await VendorController.instance.getVendors();
     setState(() {
-      _loadingScreen = false;
+      loadingScreen = false;
     });
   }
 
@@ -141,37 +133,6 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
 //       setState(() => _isScrollToTopBtnVisible = true);
 //     }
 //   }
-
-//===================== Handle Vendor Status ==========================\\
-  void _clickOnlineVendors() async {
-    setState(() {
-      _isLoadingVendorStatus = true;
-      _vendorStatus = true;
-    });
-
-    await Future.delayed(const Duration(seconds: 2));
-
-    setState(() {
-      _isLoadingVendorStatus = false;
-    });
-  }
-
-  void _clickOfflineVendors() async {
-    setState(() {
-      _isLoadingVendorStatus = true;
-      _vendorStatus = false;
-    });
-
-    await Future.delayed(const Duration(seconds: 2));
-
-    setState(() {
-      _isLoadingVendorStatus = false;
-    });
-  }
-
-//=============================== See more ========================================\\
-  void _seeMoreOnlineVendors() {}
-  void _seeMoreOfflineVendors() {}
 
 //===================== Navigation ==========================\\
 
@@ -200,13 +161,13 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
   void _toVendorDetailsPage(VendorModel data) => Get.to(
         () => VendorDetailsPage(
           vendorCoverImage:
-              _vendorStatus ? _onlineVendorsImage : _offlineVendorsImage,
-          vendorName: _vendorStatus ? _onlineVendorsName : _offlineVendorsName,
+              vendorStatus ? _onlineVendorsImage : _offlineVendorsImage,
+          vendorName: vendorStatus ? _onlineVendorsName : _offlineVendorsName,
           vendorRating:
-              _vendorStatus ? _onlineVendorsRating : _offlineVendorsRating,
-          vendorActiveStatus: _vendorStatus ? _vendorActive : _vendorInactive,
+              vendorStatus ? _onlineVendorsRating : _offlineVendorsRating,
+          vendorActiveStatus: vendorStatus ? _vendorActive : _vendorInactive,
           vendorActiveStatusColor:
-              _vendorStatus ? _vendorActiveColor : _vendorInactiveColor,
+              vendorStatus ? _vendorActiveColor : _vendorInactiveColor,
           vendor: data,
         ),
         duration: const Duration(milliseconds: 300),
@@ -332,21 +293,6 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
                             ),
                           ),
                     kSizedBox,
-                    _vendorStatus
-                        ? TextButton(
-                            onPressed: _seeMoreOnlineVendors,
-                            child: Text(
-                              "See more",
-                              style: TextStyle(color: kAccentColor),
-                            ),
-                          )
-                        : TextButton(
-                            onPressed: _seeMoreOfflineVendors,
-                            child: Text(
-                              "See more",
-                              style: TextStyle(color: kAccentColor),
-                            ),
-                          ),
                   ],
                 ),
               );

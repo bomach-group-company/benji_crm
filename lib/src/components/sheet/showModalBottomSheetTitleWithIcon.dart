@@ -24,7 +24,7 @@ class ShowModalBottomSheetTitleWithIcon extends StatelessWidget {
         Text(
           title,
           style: const TextStyle(
-            color: Colors.black,
+            color: kTextBlackColor,
             fontSize: 24,
             fontWeight: FontWeight.w700,
             letterSpacing: -0.48,
