@@ -19,12 +19,6 @@ void main() async {
     [DeviceOrientation.portraitUp],
   );
 
-  // Get.put(UserController());
-  // Get.put(LoginController());
-  // Get.put(VendorController());
-  // Get.put(NotificationController());
-  // Get.put(RiderController());
-  // Get.put(OrderController());
   runApp(const MyApp());
 }
 

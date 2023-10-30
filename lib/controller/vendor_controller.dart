@@ -41,17 +41,13 @@ class VendorController extends GetxController {
     isLoad.value = true;
     late String token;
     String id = UserController.instance.user.value.id.toString();
-    //update();
     var url = "${Api.baseUrl}${Api.vendorList}?agent_id=$id";
     token = UserController.instance.user.value.token;
     try {
       http.Response? response = await HandleData.getApi(url, token);
       var responseData =
           await ApiProcessorController.errorState(response, isFirst ?? true);
-      var save = vendorModelFromJson(responseData);
-      vendorList.value = save;
-      print(save);
-      update();
+      vendorList.value = vendorModelFromJson(responseData);
     } catch (e) {}
     isLoad.value = false;
     update();
@@ -124,32 +120,6 @@ class VendorController extends GetxController {
           if (kDebugMode) {
             print(e);
           }
-        }
-        update();
-      } catch (e) {}
-      isLoad.value = false;
-      update();
-    }
-
-    Future getBusinessTypes() async {
-      isLoad.value = true;
-      late String token;
-
-      var url = Api.baseUrl + Api.businessType;
-      token = UserController.instance.user.value.token;
-
-      try {
-        http.Response? response = await HandleData.getApi(url, token);
-        try {
-          var responseData = await ApiProcessorController.errorState(
-              response, isFirst ?? true);
-          if (responseData == null) {
-            return;
-          }
-          var save = businessTypeFromJson(responseData);
-          businessType.value = save;
-        } catch (e) {
-          consoleLog('from $e');
         }
         update();
       } catch (e) {}

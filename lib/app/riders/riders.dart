@@ -121,8 +121,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
   //===================== Navigation ==========================\\
 
   toRidersDetailPage(RiderItem rider) {
-    final riderHistory = Get.put(RiderHistoryController());
-    riderHistory.setClickedRider(rider);
+    RiderHistoryController.instance.setClickedRider(rider);
     return Get.to(
       () => RidersDetail(rider: rider),
       duration: const Duration(milliseconds: 300),

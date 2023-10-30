@@ -103,7 +103,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
   final vendorSunClosingHoursEC = TextEditingController();
   final mapsLocationEC = TextEditingController();
   final LatLngDetailController latLngDetailController =
-      Get.put(LatLngDetailController());
+      LatLngDetailController.instance;
 
   //=================================== FOCUS NODES ====================================\\
 

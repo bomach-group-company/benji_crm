@@ -1,3 +1,4 @@
+import 'package:benji_aggregator/controller/category_controller.dart';
 import 'package:benji_aggregator/controller/order_controller.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ class OverView extends StatefulWidget {
   final notiication = Get.put(NotificationController());
   final ride = Get.put(RiderController());
   final order = Get.put(OrderController());
+  final category = Get.put(CategoryController());
 
   OverView({super.key});
 

@@ -105,7 +105,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
   final vendorSunClosingHoursEC = TextEditingController();
   final mapsLocationEC = TextEditingController();
   final LatLngDetailController latLngDetailController =
-      Get.put(LatLngDetailController());
+      LatLngDetailController.instance;
 
   //=================================== FOCUS NODES ====================================\\
   final vendorPersonalIdFN = FocusNode();

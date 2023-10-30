@@ -46,7 +46,7 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
 
   //============================================================= ALL VARIABLES ======================================================================\\
   String? pinnedLocation;
-  final latLngDetailController = Get.put(LatLngDetailController());
+  final latLngDetailController = LatLngDetailController.instance;
   //============================================================= BOOL VALUES ======================================================================\\
   bool locationPinIsVisible = true;
 

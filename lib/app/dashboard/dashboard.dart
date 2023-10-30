@@ -45,12 +45,6 @@ class _DashboardState extends State<Dashboard>
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      OrderController.instance.runTask();
-      VendorController.instance.runTask();
-      RiderController.instance.getRiders();
-    });
-
     _animationController =
         AnimationController(vsync: this, duration: const Duration(seconds: 1));
     scrollController.addListener(_scrollListener);

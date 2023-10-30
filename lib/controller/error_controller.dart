@@ -11,7 +11,7 @@ import '../theme/colors.dart';
 void ConsoleLog(data) => log(data.toString());
 
 class ApiProcessorController extends GetxController {
-  static Future<dynamic> errorState(data, [bool? isUser]) async {
+  static Future<dynamic> errorState(data, [bool isUser = true]) async {
     try {
       if (data == null) {
         return;

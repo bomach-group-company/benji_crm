@@ -26,6 +26,7 @@ class BusinessType {
   });
 
   factory BusinessType.fromJson(Map<String, dynamic>? json) {
+    print('what got $json');
     json ??= {};
     return BusinessType(
       id: json["id"] ?? notAvailable,

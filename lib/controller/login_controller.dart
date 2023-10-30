@@ -20,7 +20,7 @@ class LoginController extends GetxController {
 
   Future<void> login(SendLogin data) async {
     try {
-      Get.put(UserController());
+      UserController.instance;
       isLoad.value = true;
       update();
       Map finalData = {

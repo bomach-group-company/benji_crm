@@ -79,7 +79,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
   final lastNameEC = TextEditingController();
   final mapsLocationEC = TextEditingController();
   final LatLngDetailController latLngDetailController =
-      Get.put(LatLngDetailController());
+      LatLngDetailController.instance;
 
   //=========================== FOCUS NODES ====================================\\
   final userNameFN = FocusNode();

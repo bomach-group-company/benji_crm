@@ -23,7 +23,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  var login = Get.put(LoginController());
   //=========================== INITIAL STATE ====================================\\
   @override
   void initState() {
