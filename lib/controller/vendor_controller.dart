@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:benji_aggregator/controller/error_controller.dart';
+import 'package:benji_aggregator/model/my_vendor.dart';
 import 'package:benji_aggregator/model/order.dart';
 import 'package:benji_aggregator/model/product_model.dart';
 import 'package:benji_aggregator/model/vendor_model.dart';
@@ -26,7 +27,7 @@ class VendorController extends GetxController {
   var isLoad = false.obs;
   var isLoadCreate = false.obs;
   var vendorList = <VendorModel>[].obs;
-  var vendorMyList = <VendorModel>[].obs;
+  var vendorMyList = <myVendorModel>[].obs;
   var businessType = <BusinessType>[].obs;
   var vendorProductList = <Product>[].obs;
   var vendorOrderList = <Order>[].obs;
@@ -57,7 +58,7 @@ class VendorController extends GetxController {
       http.Response? response = await HandleData.getApi(url, token);
       var responseData =
           await ApiProcessorController.errorState(response, isFirst ?? true);
-      vendorMyList.value = vendorModelFromJson(responseData);
+      vendorMyList.value = myVendorModelFromJson(responseData);
       print('vendorMyList.value in my vendor ${vendorMyList.value}');
     } catch (e) {}
     isLoad.value = false;

@@ -1,15 +1,15 @@
 // ignore_for_file: file_names
 
-import 'package:benji_aggregator/model/vendor_model.dart';
+import 'package:benji_aggregator/model/my_vendor.dart';
 import 'package:flutter/material.dart';
 
 import '../../../theme/colors.dart';
 import '../../providers/constants.dart';
 
-class VendorContainer extends StatelessWidget {
+class MyVendorContainer extends StatelessWidget {
   final Function() onTap;
-  final VendorModel vendor;
-  const VendorContainer({
+  final myVendorModel vendor;
+  const MyVendorContainer({
     super.key,
     required this.onTap,
     required this.vendor,

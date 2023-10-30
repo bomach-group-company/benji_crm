@@ -1,6 +1,6 @@
 // ignore_for_file: unused_local_variable, unused_element
 
-import 'package:benji_aggregator/model/vendor_model.dart';
+import 'package:benji_aggregator/model/my_vendor.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
 import 'package:benji_aggregator/src/providers/custom_show_search.dart';
 import 'package:flutter/gestures.dart';
@@ -25,7 +25,7 @@ import 'my_vendors_location.dart';
 import 'suspend_my_vendor.dart';
 
 class MyVendorDetailsPage extends StatefulWidget {
-  final VendorModel vendor;
+  final myVendorModel vendor;
   const MyVendorDetailsPage({
     super.key,
     required this.vendor,
