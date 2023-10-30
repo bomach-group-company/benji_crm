@@ -1,18 +1,19 @@
+import 'package:benji_aggregator/model/order.dart';
 import 'package:benji_aggregator/model/rider_model.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
 
-class HistoryItem {
+class RiderHistory {
   String id;
-  // Order orders;
+  Order orders;
   RiderItem driver;
   String acceptanceStatus;
   String deliveryStatus;
   String createdDate;
   String deliveredDate;
 
-  HistoryItem({
+  RiderHistory({
     required this.id,
-    // required this.orders,
+    required this.orders,
     required this.driver,
     required this.acceptanceStatus,
     required this.deliveryStatus,
@@ -20,11 +21,11 @@ class HistoryItem {
     required this.deliveredDate,
   });
 
-  factory HistoryItem.fromJson(Map<String, dynamic>? json) {
+  factory RiderHistory.fromJson(Map<String, dynamic>? json) {
     json ??= {};
-    return HistoryItem(
+    return RiderHistory(
         id: json["id"] ?? notAvailable,
-        // orders: Order.fromJson(json["orders"]),
+        orders: Order.fromJson(json["orders"]),
         driver: RiderItem.fromJson(json["driver"]),
         acceptanceStatus: json["acceptance_status"] ?? "PEND",
         deliveryStatus: json["delivery_status"] ?? "pending",

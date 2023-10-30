@@ -59,7 +59,6 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
     super.dispose();
     // _animationController.dispose();
     scrollController.dispose();
-    _timer.cancel();
     scrollController.removeListener(() {
       if (scrollController.position.userScrollDirection ==
           ScrollDirection.forward) {
@@ -74,7 +73,6 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
   late bool loadingScreen;
   bool vendorStatus = true;
   // bool _isScrollToTopBtnVisible = false;
-  late Timer _timer;
 
   //Online Vendors
   final String _onlineVendorsName = "Ntachi Osa";
