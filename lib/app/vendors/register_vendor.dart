@@ -20,7 +20,6 @@ import '../../../src/providers/constants.dart';
 import '../../controller/category_controller.dart';
 import '../../controller/latlng_detail_controller.dart';
 import '../../model/create_vendor_model.dart';
-import '../../services/api_url.dart';
 import '../../services/keys.dart';
 import '../../src/components/button/my_elevatedButton.dart';
 import '../../src/components/input/message_textformfield.dart';
@@ -49,6 +48,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       CategoryController.instance.category;
+      CategoryController.instance.getCategory();
     });
     super.initState();
     scrollController.addListener(_scrollListener);
@@ -788,7 +788,6 @@ class _RegisterVendorState extends State<RegisterVendor> {
                               onTap: () async {
                                 var data =
                                     await shopTypeModal(context, type.category);
-                                consoleLog("This is the data: ${data.name}");
                                 if (data != null) {
                                   setState(() {
                                     shopType = data.id;
@@ -796,7 +795,6 @@ class _RegisterVendorState extends State<RegisterVendor> {
                                     vendorBusinessTypeEC.text = data.name;
                                   });
                                 }
-                                consoleLog("This is the shopType: $shopType");
                               },
                               child: MyBlueTextFormField(
                                 controller: vendorBusinessTypeEC,

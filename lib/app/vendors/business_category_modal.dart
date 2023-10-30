@@ -2,7 +2,9 @@ import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../controller/category_controller.dart';
 import '../../model/business_type_model.dart';
+import '../../src/components/button/my_elevatedButton.dart';
 import '../../src/providers/constants.dart';
 
 Future shopTypeModal(BuildContext context, List<BusinessType> type) async {
@@ -70,10 +72,10 @@ Future shopTypeModal(BuildContext context, List<BusinessType> type) async {
               },
             ),
           ),
-          // MyElevatedButton(
-          //   title: "Get Categories",
-          //   onPressed: () => CategoryController.instance.getCategory(),
-          // ),
+          MyElevatedButton(
+            title: "Get Categories",
+            onPressed: () => CategoryController.instance.getCategory(),
+          ),
         ],
       ),
     ),
