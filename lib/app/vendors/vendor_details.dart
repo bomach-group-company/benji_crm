@@ -1,6 +1,7 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:benji_aggregator/app/products/product_details.dart';
+import 'package:benji_aggregator/model/product_model.dart';
 import 'package:benji_aggregator/model/vendor_model.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
 import 'package:benji_aggregator/src/providers/custom_show_search.dart';
@@ -15,13 +16,12 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../controller/vendor_controller.dart';
-import '../../model/vendor_product_model.dart';
-import '../../src/components/button/category_button_section.dart';
 import '../../src/components/appbar/my_appbar.dart';
-import '../../src/components/tab/vendor_orders_tab.dart';
-import '../../src/components/tab/vendor_products_tab.dart';
+import '../../src/components/button/category_button_section.dart';
 import '../../src/components/container/vendors_order_container.dart';
 import '../../src/components/container/vendors_product_container.dart';
+import '../../src/components/tab/vendor_orders_tab.dart';
+import '../../src/components/tab/vendor_products_tab.dart';
 import '../../src/skeletons/vendors_tabbar_orders_content_skeleton.dart';
 import '../../src/skeletons/vendors_tabbar_products_content_skeleton.dart';
 import '../../theme/colors.dart';
@@ -29,20 +29,8 @@ import 'about_vendor.dart';
 import 'suspend_vendor.dart';
 
 class VendorDetailsPage extends StatefulWidget {
-  final String vendorCoverImage;
-  final String vendorName;
-  final double vendorRating;
-  final String vendorActiveStatus;
-  final Color vendorActiveStatusColor;
   final VendorModel vendor;
-  const VendorDetailsPage(
-      {super.key,
-      required this.vendorCoverImage,
-      required this.vendorName,
-      required this.vendorRating,
-      required this.vendorActiveStatus,
-      required this.vendorActiveStatusColor,
-      required this.vendor});
+  const VendorDetailsPage({super.key, required this.vendor});
 
   @override
   State<VendorDetailsPage> createState() => _VendorDetailsPageState();
@@ -212,7 +200,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
   }
 
   //===================== Navigation ==========================\\
-  void toProductDetailScreen(Item data) => Get.to(
+  void toProductDetailScreen(Product data) => Get.to(
         () => ProductDetails(
           productImage: _productImage,
           productName: _productName,
@@ -231,7 +219,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
 
   void _toAboutVendor() => Get.to(
         () => AboutVendor(
-          vendorName: widget.vendorName,
+          vendorName: widget.vendor.shopName,
           vendorHeadLine:
               "Cruiselings whale shark diving pan Pacific romance at sea rusty dancemoves endless horizon home is where the anchor drops back packers Endless summer cruise insider paradise island languid afternoons the love boat cruise life.",
           monToFriOpeningHours: "8 AM",
@@ -349,10 +337,10 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                         0.3,
                                     decoration: BoxDecoration(
                                       color: kPageSkeletonColor,
-                                      image: DecorationImage(
+                                      image: const DecorationImage(
                                         fit: BoxFit.cover,
                                         image: AssetImage(
-                                            "assets/images/vendors/${widget.vendorCoverImage}.png"),
+                                            "assets/images/vendors/ntachi-osa.png"),
                                       ),
                                     ),
                                   ),
@@ -390,7 +378,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                       child: Column(
                                         children: [
                                           Text(
-                                            widget.vendorName,
+                                            widget.vendor.shopName,
                                             textAlign: TextAlign.center,
                                             style: const TextStyle(
                                               color: kTextBlackColor,
@@ -531,7 +519,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                                       width: 5,
                                                     ),
                                                     Text(
-                                                      "${widget.vendorRating}",
+                                                      "${widget.vendor.averageRating}",
                                                       style: const TextStyle(
                                                         color: Colors.black,
                                                         fontSize: 14,
@@ -559,12 +547,18 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                                       MainAxisAlignment.center,
                                                   children: [
                                                     Text(
-                                                      widget.vendorActiveStatus,
+                                                      widget.vendor.isOnline ==
+                                                              true
+                                                          ? 'Online'
+                                                          : 'Offline',
                                                       textAlign:
                                                           TextAlign.center,
                                                       style: TextStyle(
-                                                        color: widget
-                                                            .vendorActiveStatusColor,
+                                                        color: widget.vendor
+                                                                    .isOnline ==
+                                                                true
+                                                            ? kSuccessColor
+                                                            : kAccentColor,
                                                         fontSize: 14,
                                                         fontWeight:
                                                             FontWeight.w400,

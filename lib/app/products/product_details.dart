@@ -1,5 +1,6 @@
 // ignore_for_file: file_names, prefer_typing_uninitialized_variables, use_build_context_synchronously, unused_field
 
+import 'package:benji_aggregator/model/product_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -8,7 +9,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:readmore/readmore.dart';
 
-import '../../model/vendor_product_model.dart';
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/providers/constants.dart';
 import '../../src/skeletons/product_details_page_skeleton.dart';
@@ -19,7 +19,7 @@ class ProductDetails extends StatefulWidget {
   final String productName;
   final String productDescription;
   final double productPrice;
-  final Item? product;
+  final Product product;
 
   const ProductDetails(
       {super.key,

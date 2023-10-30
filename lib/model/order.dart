@@ -1,3 +1,4 @@
+import 'package:benji_aggregator/model/product_model.dart';
 import 'package:benji_aggregator/model/user_model.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
 
@@ -45,7 +46,7 @@ class Order {
 
 class Orderitem {
   String id;
-  dynamic product;
+  Product product;
   int quantity;
 
   Orderitem({
@@ -58,7 +59,7 @@ class Orderitem {
     json ??= {};
     return Orderitem(
       id: json["id"] ?? notAvailable,
-      product: json["product"] ?? notAvailable,
+      product: json["product"],
       quantity: json["quantity"] ?? 0,
     );
   }

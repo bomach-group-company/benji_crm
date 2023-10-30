@@ -145,14 +145,6 @@ class _MyVendorsState extends State<MyVendors> {
 
   void _toVendorDetailsPage(VendorModel data) => Get.to(
         () => VendorDetailsPage(
-          vendorCoverImage:
-              _vendorStatus ? _onlineVendorsImage : _offlineVendorsImage,
-          vendorName: _vendorStatus ? _onlineVendorsName : _offlineVendorsName,
-          vendorRating:
-              _vendorStatus ? _onlineVendorsRating : _offlineVendorsRating,
-          vendorActiveStatus: _vendorStatus ? _vendorActive : _vendorInactive,
-          vendorActiveStatusColor:
-              _vendorStatus ? _vendorActiveColor : _vendorInactiveColor,
           vendor: data,
         ),
         duration: const Duration(milliseconds: 300),

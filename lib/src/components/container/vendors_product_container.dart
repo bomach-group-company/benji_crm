@@ -1,10 +1,10 @@
 // ignore_for_file: file_names, unused_local_variable
 
+import 'package:benji_aggregator/model/product_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../../model/vendor_product_model.dart';
 import '../../../theme/colors.dart';
 import '../../providers/constants.dart';
 
@@ -15,7 +15,7 @@ class VendorsProductContainer extends StatefulWidget {
   final String productDescription;
   final double productPrice;
   final String productQuantity;
-  final Item? product;
+  final Product? product;
 
   const VendorsProductContainer(
       {super.key,

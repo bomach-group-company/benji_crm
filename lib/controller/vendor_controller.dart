@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:benji_aggregator/controller/error_controller.dart';
+import 'package:benji_aggregator/model/product_model.dart';
 import 'package:benji_aggregator/model/vendor_model.dart';
 import 'package:benji_aggregator/services/api_url.dart';
 import 'package:flutter/foundation.dart';
@@ -12,7 +13,6 @@ import 'package:http/http.dart' as http;
 import '../model/business_type_model.dart';
 import '../model/create_vendor_model.dart';
 import '../model/vendor_orders_model.dart';
-import '../model/vendor_product_model.dart';
 import 'user_controller.dart';
 
 class VendorController extends GetxController {
@@ -27,9 +27,8 @@ class VendorController extends GetxController {
   var vendorList = <VendorModel>[].obs;
   var vendorMyList = <VendorModel>[].obs;
   var businessType = <BusinessType>[].obs;
-  var vendorProductList = <Item>[].obs;
+  var vendorProductList = <Product>[].obs;
   var vendorOrderList = <DataItem>[].obs;
-  var vendor = VendorModel.fromJson(null).obs;
 
   Future getVendors() async {
     isLoad.value = true;
@@ -63,23 +62,6 @@ class VendorController extends GetxController {
     update();
   }
 
-  Future getSpecificVendor(id) async {
-    late String token;
-    isLoad.value = true;
-    update();
-    var url = Api.baseUrl + Api.getSpecificVendor + id.toString();
-    token = UserController.instance.user.value.token;
-    try {
-      http.Response? response = await HandleData.getApi(url, token);
-      var responseData = await ApiProcessorController.errorState(response);
-      var save = VendorModel.fromJson(responseData);
-      vendor.value = save;
-      update();
-    } catch (e) {}
-    isLoad.value = false;
-    update();
-  }
-
   Future listVendorProduct(id, [int? end]) async {
     isLoad.value = true;
     late String token;
@@ -92,11 +74,15 @@ class VendorController extends GetxController {
       http.Response? response = await HandleData.getApi(url, token);
       var responseData = await ApiProcessorController.errorState(response);
       if (responseData == null) {
+        vendorProductList.value = [];
+        update();
         return;
       }
       try {
-        var save = VendorProductListModel.fromJson(jsonDecode(responseData));
-        vendorProductList.value = save.items!;
+        vendorProductList.value = (jsonDecode(responseData)['items'] as List)
+            .map((e) => Product.fromJson(e))
+            .toList();
+        print('products ${vendorProductList.value}');
       } catch (e) {
         if (kDebugMode) {
           print(e);
