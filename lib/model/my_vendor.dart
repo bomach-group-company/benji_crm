@@ -6,6 +6,7 @@ import 'dart:convert';
 
 import 'package:benji_aggregator/model/business_type_model.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
+import 'package:get/get.dart';
 
 List<MyVendorModel> myVendorModelFromJson(String str) =>
     List<MyVendorModel>.from(
@@ -64,7 +65,8 @@ class MyVendorModel {
       gender: json['vendor']["gender"] ?? notAvailable,
       address: json['vendor']["address"] ?? notAvailable,
       isOnline: json['vendor']["is_online"] ?? false,
-      averageRating: json['vendor']["average_rating"] ?? 0.0,
+      averageRating:
+          ((json['vendor']["average_rating"] ?? 0.0) as double).toPrecision(1),
       numberOfClientsReactions:
           json['vendor']["number_of_clients_reactions"] ?? 0,
       shopName: json['vendor']["shop_name"] ?? notAvailable,

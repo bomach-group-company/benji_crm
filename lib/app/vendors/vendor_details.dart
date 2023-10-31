@@ -6,16 +6,13 @@ import 'package:benji_aggregator/model/product_model.dart';
 import 'package:benji_aggregator/model/vendor_model.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
 import 'package:benji_aggregator/src/providers/custom_show_search.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:benji_aggregator/src/responsive/responsive_constant.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../controller/vendor_controller.dart';
 import '../../src/components/appbar/my_appbar.dart';
@@ -248,7 +245,12 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
               dragStartBehavior: DragStartBehavior.down,
               children: [
                 SizedBox(
-                  height: 340,
+                  height:
+                      deviceType(mediaWidth) > 2 && deviceType(mediaWidth) < 4
+                          ? 540
+                          : deviceType(mediaWidth) > 2
+                              ? 470
+                              : 370,
                   child: Stack(
                     children: [
                       Positioned(
@@ -256,19 +258,27 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                         left: 0,
                         right: 0,
                         child: Container(
-                          height: MediaQuery.of(context).size.height * 0.3,
+                          height: deviceType(mediaWidth) > 3 &&
+                                  deviceType(mediaWidth) < 5
+                              ? mediaHeight * 0.4
+                              : deviceType(mediaWidth) > 2
+                                  ? mediaHeight * 0.415
+                                  : mediaHeight * 0.28,
                           decoration: BoxDecoration(
                             color: kPageSkeletonColor,
                             image: const DecorationImage(
-                              fit: BoxFit.cover,
+                              fit: BoxFit.fill,
                               image: AssetImage(
-                                  "assets/images/vendors/ntachi-osa.png"),
+                                "assets/images/vendors/ntachi-osa.png",
+                              ),
                             ),
                           ),
                         ),
                       ),
                       Positioned(
-                        top: MediaQuery.of(context).size.height * 0.13,
+                        top: deviceType(mediaWidth) > 2
+                            ? mediaHeight * 0.25
+                            : mediaHeight * 0.13,
                         left: kDefaultPadding,
                         right: kDefaultPadding,
                         child: Container(
@@ -277,7 +287,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                           decoration: ShapeDecoration(
                             shadows: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
+                                color: kBlackColor.withOpacity(0.1),
                                 blurRadius: 5,
                                 spreadRadius: 2,
                                 blurStyle: BlurStyle.normal,
@@ -296,59 +306,55 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                             padding: const EdgeInsets.only(
                                 top: kDefaultPadding * 2.6),
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(
-                                  widget.vendor.shopName,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    color: kTextBlackColor,
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.w700,
+                                SizedBox(
+                                  width: mediaWidth - 200,
+                                  child: Text(
+                                    widget.vendor.shopName ?? 'Not Available',
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      color: kTextBlackColor,
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.w700,
+                                    ),
                                   ),
                                 ),
                                 kHalfSizedBox,
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.location_pin,
-                                      color: kAccentColor,
-                                      size: 15,
-                                    ),
-                                    kHalfWidthSizedBox,
-                                    SizedBox(
-                                      width: mediaWidth - 100,
-                                      child: const Text(
-                                        "Old Abakaliki Rd, Thinkers Corner 400103, Enugu",
+                                Container(
+                                  width: mediaWidth - 90,
+                                  alignment: Alignment.center,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      FaIcon(
+                                        FontAwesomeIcons.locationDot,
+                                        color: kAccentColor,
+                                        size: 15,
+                                      ),
+                                      kHalfWidthSizedBox,
+                                      Text(
+                                        widget.vendor.address ??
+                                            'Not Available',
                                         overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                                 kHalfSizedBox,
                                 InkWell(
-                                  onTap: (() async {
-                                    final websiteurl = Uri.parse(
-                                      "https://goo.gl/maps/8pKoBVCsew5oqjU49",
-                                    );
-                                    if (await canLaunchUrl(
-                                      websiteurl,
-                                    )) {
-                                      launchUrl(
-                                        websiteurl,
-                                        mode: LaunchMode.externalApplication,
-                                      );
-                                    } else {
-                                      throw "An unexpected error occured and $websiteurl cannot be loaded";
-                                    }
-                                  }),
+                                  onTap: () {},
                                   borderRadius: BorderRadius.circular(10),
                                   child: Container(
-                                    width: mediaWidth / 4,
                                     padding: const EdgeInsets.all(
                                         kDefaultPadding / 4),
                                     decoration: BoxDecoration(
@@ -358,10 +364,12 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                         width: 1,
                                       ),
                                     ),
-                                    child: const Text(
-                                      "Show on map",
+                                    child: Text(
+                                      widget.vendor.address == null
+                                          ? "Not Available"
+                                          : "Show on map",
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w400,
                                       ),
@@ -374,65 +382,29 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Container(
-                                      width: mediaWidth * 0.25,
-                                      height: 56.67,
-                                      decoration: ShapeDecoration(
-                                        color: kPrimaryColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                            19,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.access_time_outlined,
-                                            color: kAccentColor,
-                                          ),
-                                          const SizedBox(
-                                            width: 5,
-                                          ),
-                                          const Text(
-                                            "30 mins",
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w400,
-                                              letterSpacing: -0.28,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
                                       width: mediaWidth * 0.23,
-                                      height: 56.67,
+                                      height: 57,
                                       decoration: ShapeDecoration(
                                         color: kPrimaryColor,
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                            19,
-                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(19),
                                         ),
                                       ),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                          Icon(
-                                            Icons.star_rounded,
+                                          FaIcon(
+                                            FontAwesomeIcons.solidStar,
                                             color: kStarColor,
+                                            size: 17,
                                           ),
-                                          const SizedBox(
-                                            width: 5,
-                                          ),
+                                          const SizedBox(width: 5),
                                           Text(
-                                            "${widget.vendor.averageRating}",
+                                            '${widget.vendor.averageRating}',
                                             style: const TextStyle(
-                                              color: Colors.black,
+                                              color: kBlackColor,
                                               fontSize: 14,
                                               fontWeight: FontWeight.w400,
                                               letterSpacing: -0.28,
@@ -443,7 +415,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                     ),
                                     Container(
                                       width: mediaWidth * 0.25,
-                                      height: 56.67,
+                                      height: 57,
                                       decoration: ShapeDecoration(
                                         color: kPrimaryColor,
                                         shape: RoundedRectangleBorder(
@@ -456,29 +428,24 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            widget.vendor.isOnline == true
-                                                ? 'Online'
+                                            widget.vendor.isOnline ?? false
+                                                ? "Online"
                                                 : 'Offline',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                              color:
-                                                  widget.vendor.isOnline == true
-                                                      ? kSuccessColor
-                                                      : kAccentColor,
+                                              color: widget.vendor.isOnline ??
+                                                      false
+                                                  ? kSuccessColor
+                                                  : kAccentColor,
                                               fontSize: 14,
                                               fontWeight: FontWeight.w400,
                                               letterSpacing: -0.36,
                                             ),
                                           ),
-                                          const SizedBox(
-                                            width: 5,
-                                          ),
-                                          InkWell(
-                                            onTap: _toAboutVendor,
-                                            child: Icon(
-                                              Icons.info_outline,
-                                              color: kAccentColor,
-                                            ),
+                                          const SizedBox(width: 5),
+                                          FaIcon(
+                                            Icons.info,
+                                            color: kAccentColor,
                                           ),
                                         ],
                                       ),
@@ -491,23 +458,27 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                         ),
                       ),
                       Positioned(
-                        top: MediaQuery.of(context).size.height * 0.07,
-                        left: MediaQuery.of(context).size.width / 2.7,
-                        child: ClipOval(
-                          child: CachedNetworkImage(
-                            imageUrl: widget.vendor.shopImage ??
-                                "assets/images/vendors/ntachi-osa.png",
-                            fit: BoxFit.cover,
-                            progressIndicatorBuilder:
-                                (context, url, downloadProgress) =>
-                                    const Center(
-                                        child: CupertinoActivityIndicator(
-                              color: kRedColor,
-                            )),
-                            errorWidget: (context, url, error) => const Icon(
-                              Icons.error,
-                              color: kRedColor,
+                        top: deviceType(mediaWidth) > 3 &&
+                                deviceType(mediaWidth) < 5
+                            ? mediaHeight * 0.15
+                            : deviceType(mediaWidth) > 2
+                                ? mediaHeight * 0.15
+                                : mediaHeight * 0.08,
+                        left: deviceType(mediaWidth) > 2
+                            ? (mediaWidth / 2) - (126 / 2)
+                            : (mediaWidth / 2) - (100 / 2),
+                        child: Container(
+                          width: deviceType(mediaWidth) > 2 ? 126 : 100,
+                          height: deviceType(mediaWidth) > 2 ? 126 : 100,
+                          decoration: ShapeDecoration(
+                            color: kPageSkeletonColor,
+                            image: const DecorationImage(
+                              image: AssetImage(
+                                "assets/images/vendors/ntachi-osa-logo.png",
+                              ),
+                              fit: BoxFit.cover,
                             ),
+                            shape: const OvalBorder(),
                           ),
                         ),
                       ),
