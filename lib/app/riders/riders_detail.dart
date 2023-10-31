@@ -98,7 +98,7 @@ class _RidersDetailState extends State<RidersDetail> {
 //=========================================== Navigation ===============================================\\
 
   void _toSuspendRider() => Get.to(
-        () => const ReportRider(),
+        () => ReportRider(rider: widget.rider),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,

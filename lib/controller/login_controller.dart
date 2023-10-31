@@ -22,7 +22,7 @@ class LoginController extends GetxController {
     try {
       UserController.instance;
       isLoad.value = true;
-      update();
+
       Map finalData = {
         "username": data.username,
         "password": data.password,

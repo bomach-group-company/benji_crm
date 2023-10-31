@@ -1,16 +1,20 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:benji_aggregator/src/components/input/message_textformfield.dart';
+import 'package:benji_aggregator/controller/form_controller.dart';
+import 'package:benji_aggregator/model/rider_model.dart';
+import 'package:benji_aggregator/services/api_url.dart';
 import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
+import 'package:benji_aggregator/src/components/input/message_textformfield.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../src/components/button/my_elevatedButton.dart';
-import '../../src/components/snackbar/my_fixed_snackBar.dart';
 import '../../src/providers/constants.dart';
 
 class ReportRider extends StatefulWidget {
-  const ReportRider({super.key});
+  final RiderItem rider;
+  const ReportRider({super.key, required this.rider});
 
   @override
   State<ReportRider> createState() => _ReportRiderState();
@@ -18,7 +22,7 @@ class ReportRider extends StatefulWidget {
 
 class _ReportRiderState extends State<ReportRider> {
   //============================================ ALL VARIABLES ===========================================\\
-  bool _submittingRequest = false;
+  final bool _submittingRequest = false;
 
   //============================================ CONTROLLERS ===========================================\\
   final TextEditingController _messageEC = TextEditingController();
@@ -32,29 +36,13 @@ class _ReportRiderState extends State<ReportRider> {
   //============================================ FUNCTIONS ===========================================\\
   //========================== Save data ==================================\\
   Future<void> _submitRequest() async {
-    setState(() {
-      _submittingRequest = true;
-    });
+    Map data = {
+      "user_id": widget.rider.id.toString(),
+      "message": _messageEC.text,
+    };
 
-    // Simulating a delay of 3 seconds
-    await Future.delayed(const Duration(seconds: 1));
-
-    //Display snackBar
-    myFixedSnackBar(
-      context,
-      "Your request has been submitted successfully".toUpperCase(),
-      kAccentColor,
-      const Duration(seconds: 3),
-    );
-
-    Future.delayed(const Duration(seconds: 1), () {
-      // Navigate to the new page
-      Navigator.of(context).pop(context);
-
-      setState(() {
-        _submittingRequest = false;
-      });
-    });
+    await FormController.instance
+        .postAuth(Api.baseUrl + Api.report, data, 'report_rider');
   }
 
   @override
@@ -73,13 +61,17 @@ class _ReportRiderState extends State<ReportRider> {
           : Container(
               color: kPrimaryColor,
               padding: const EdgeInsets.all(kDefaultPadding),
-              child: MyElevatedButton(
-                onPressed: (() async {
-                  if (_formKey.currentState!.validate()) {
-                    _submitRequest();
-                  }
-                }),
-                title: "Submit",
+              child: GetBuilder<FormController>(
+                id: 'report_rider',
+                builder: (controller) => MyElevatedButton(
+                  isLoading: controller.isLoad.value,
+                  onPressed: (() async {
+                    if (_formKey.currentState!.validate()) {
+                      _submitRequest();
+                    }
+                  }),
+                  title: "Submit",
+                ),
               ),
             ),
       body: SafeArea(
