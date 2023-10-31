@@ -32,6 +32,34 @@ class VendorController extends GetxController {
   var vendorProductList = <Product>[].obs;
   var vendorOrderList = <Order>[].obs;
 
+  // vendor pagination
+  // var loadNumVendor = 10.obs;
+  // var loadedAllVendor = false.obs;
+  // var isLoadMoreVendor = false.obs;
+
+  // my vendor pagination
+  // var loadNumMyVendor = 10.obs;
+  // var loadedAllMyVendor = false.obs;
+  // var isLoadMoreMyVendor = false.obs;
+
+  // product pagination
+  var loadedAllProduct = false.obs;
+  var isLoadMoreProduct = true.obs;
+  var loadNumProduct = 10.obs;
+
+  Future<void> scrollListener(scrollController, vendorId) async {
+    if (VendorController.instance.loadedAllProduct.value) {
+      return;
+    }
+
+    if (scrollController.offset >= scrollController.position.maxScrollExtent &&
+        !scrollController.position.outOfRange) {
+      VendorController.instance.isLoadMoreProduct.value = true;
+      update();
+      await VendorController.instance.getVendorProduct(vendorId);
+    }
+  }
+
   Future getVendors() async {
     isLoad.value = true;
     late String token;
@@ -64,28 +92,46 @@ class VendorController extends GetxController {
     update();
   }
 
-  Future getVendorProduct(id, [int? end]) async {
+  Future getVendorProduct(
+    id, {
+    bool first = true,
+  }) async {
+    if (first) {
+      loadNumProduct.value = 10;
+    }
+    if (!first) {
+      isLoadMoreProduct.value = true;
+    }
     isLoad.value = true;
-    late String token;
-    var url =
-        "${Api.baseUrl}${Api.getVendorProducts}$id?start=1&end=${end ?? 1}";
-    token = UserController.instance.user.value.token;
 
+    var url =
+        "${Api.baseUrl}${Api.getVendorProducts}$id?start=${loadNumProduct.value - 10}&end=${loadNumProduct.value}";
+    String token = UserController.instance.user.value.token;
     http.Response? response = await HandleData.getApi(url, token);
+    loadNumProduct.value += 10;
     var responseData = await ApiProcessorController.errorState(response);
     if (responseData == null) {
-      vendorProductList.value = [];
+      isLoad.value = false;
+      if (!first) {
+        isLoadMoreProduct.value = false;
+      }
+
       update();
       return;
     }
+    List<Product> data = [];
     try {
-      vendorProductList.value = (jsonDecode(response!.body)['items'] as List)
+      data = (jsonDecode(response!.body)['items'] as List)
           .map((e) => Product.fromJson(e))
           .toList();
+      vendorProductList.value += data;
     } catch (e) {
       debugPrint(e.toString());
     }
+    loadedAllProduct.value = data.isEmpty;
     isLoad.value = false;
+    isLoadMoreProduct.value = false;
+
     update();
   }
 

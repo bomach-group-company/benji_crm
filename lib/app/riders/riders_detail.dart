@@ -98,7 +98,7 @@ class _RidersDetailState extends State<RidersDetail> {
 //=========================================== Navigation ===============================================\\
 
   void _toSuspendRider() => Get.to(
-        () => const ReportRider(),
+        () => ReportRider(rider: widget.rider),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -466,9 +466,9 @@ class _RidersDetailState extends State<RidersDetail> {
                                                       MainAxisAlignment
                                                           .spaceBetween,
                                                   children: [
-                                                    const Text(
-                                                      'ID 213081',
-                                                      style: TextStyle(
+                                                    Text(
+                                                      'ID ${riderController.historyList[index].order.code}',
+                                                      style: const TextStyle(
                                                         color:
                                                             Color(0xFF454545),
                                                         fontSize: 12,

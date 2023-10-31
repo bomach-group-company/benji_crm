@@ -39,6 +39,7 @@ class Api {
   static const assignRiderTask = "/agents/assignOrdersToRider";
   static const riderHistory = "/agents/ridersHistories/";
   static const category = "/categories/list";
+  static const report = "/report/CreateReport";
 
   //BusinessTypes
   static const businessType = "/categories/list";

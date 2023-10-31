@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:benji_aggregator/controller/form_controller.dart';
-import 'package:benji_aggregator/model/rider_model.dart';
+import 'package:benji_aggregator/model/my_vendor.dart';
 import 'package:benji_aggregator/services/api_url.dart';
 import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
 import 'package:benji_aggregator/src/components/input/message_textformfield.dart';
@@ -12,15 +12,15 @@ import 'package:get/get.dart';
 import '../../src/components/button/my_elevatedButton.dart';
 import '../../src/providers/constants.dart';
 
-class ReportRider extends StatefulWidget {
-  final RiderItem rider;
-  const ReportRider({super.key, required this.rider});
+class ReportMyVendor extends StatefulWidget {
+  final MyVendorModel vendor;
+  const ReportMyVendor({super.key, required this.vendor});
 
   @override
-  State<ReportRider> createState() => _ReportRiderState();
+  State<ReportMyVendor> createState() => _ReportMyVendorState();
 }
 
-class _ReportRiderState extends State<ReportRider> {
+class _ReportMyVendorState extends State<ReportMyVendor> {
   //============================================ ALL VARIABLES ===========================================\\
   final bool _submittingRequest = false;
 
@@ -37,12 +37,12 @@ class _ReportRiderState extends State<ReportRider> {
   //========================== Save data ==================================\\
   Future<void> _submitRequest() async {
     Map data = {
-      "user_id": widget.rider.id.toString(),
+      "user_id": widget.vendor.id.toString(),
       "message": _messageEC.text,
     };
 
     await FormController.instance
-        .postAuth(Api.baseUrl + Api.report, data, 'report_rider');
+        .postAuth(Api.baseUrl + Api.report, data, 'report_vendor');
   }
 
   @override
@@ -51,7 +51,7 @@ class _ReportRiderState extends State<ReportRider> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: MyAppBar(
-        title: "Report Rider",
+        title: "Report Vendor",
         elevation: 10.0,
         actions: const [],
         backgroundColor: kPrimaryColor,
@@ -62,7 +62,7 @@ class _ReportRiderState extends State<ReportRider> {
               color: kPrimaryColor,
               padding: const EdgeInsets.all(kDefaultPadding),
               child: GetBuilder<FormController>(
-                id: 'report_rider',
+                id: 'report_vendor',
                 builder: (controller) => MyElevatedButton(
                   isLoading: controller.isLoad.value,
                   onPressed: (() async {
@@ -95,7 +95,7 @@ class _ReportRiderState extends State<ReportRider> {
             SizedBox(
               width: media.width - 250,
               child: Text(
-                'Tell us why you want this rider suspended',
+                'Tell us why you want this vendor suspended',
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: kTextGreyColor,
