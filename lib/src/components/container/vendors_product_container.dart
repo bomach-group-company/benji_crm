@@ -63,11 +63,10 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
                     bottomLeft: Radius.circular(12),
                   ),
                 ),
-                // image: DecorationImage(
-                //   image: AssetImage(
-                //       "assets/images/products/${widget.productImage}.png"),
-                //   fit: BoxFit.fill,
-                // ),
+                image: const DecorationImage(
+                  image: AssetImage("assets/images/products/burgers.png"),
+                  fit: BoxFit.fill,
+                ),
               ),
               child: CachedNetworkImage(
                 imageUrl: widget.product.productImage ?? '',

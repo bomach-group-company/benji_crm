@@ -8,9 +8,8 @@ import 'package:benji_aggregator/controller/order_controller.dart';
 import 'package:benji_aggregator/controller/rider_controller.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:benji_aggregator/model/order.dart';
-import 'package:benji_aggregator/src/components/container/dashboard_all_orders_container.dart';
 import 'package:benji_aggregator/src/components/appbar/dashboard_app_bar.dart';
-import 'package:benji_aggregator/src/skeletons/dashboard_page_skeleton.dart';
+import 'package:benji_aggregator/src/components/container/dashboard_all_orders_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -57,13 +56,6 @@ class _DashboardState extends State<Dashboard>
         widget.hideNavigation();
       }
     });
-    _loadingScreen = true;
-    timer = Timer(
-      const Duration(milliseconds: 1000),
-      () => setState(
-        () => _loadingScreen = false,
-      ),
-    );
   }
 
   @override
@@ -85,7 +77,6 @@ class _DashboardState extends State<Dashboard>
 
 //=================================== ALL VARIABLES =====================================\\
   final notifications = NotificationController.instance.notification.length;
-  late bool _loadingScreen;
   late Timer timer;
   bool _isScrollToTopBtnVisible = false;
   int incrementOrderID = 2 + 2;
@@ -110,12 +101,7 @@ class _DashboardState extends State<Dashboard>
 
 //===================== Handle refresh ==========================\\
 
-  Future<void> _handleRefresh() async {
-    setState(() {
-      _loadingScreen = true;
-    });
-    _loadingScreen = false;
-  }
+  Future<void> _handleRefresh() async {}
 
 //============================= Scroll to Top ======================================//
   void _scrollToTop() {
@@ -240,108 +226,101 @@ class _DashboardState extends State<Dashboard>
         child: RefreshIndicator(
           onRefresh: _handleRefresh,
           color: kAccentColor,
-          child: _loadingScreen
-              ? const DashboardPageSkeleton()
-              : Scrollbar(
-                  controller: scrollController,
-                  child: ListView(
-                    controller: scrollController,
-                    physics: const BouncingScrollPhysics(),
-                    padding: const EdgeInsets.all(kDefaultPadding),
+          child: Scrollbar(
+            controller: scrollController,
+            child: ListView(
+              controller: scrollController,
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.all(kDefaultPadding),
+              children: [
+                GetBuilder<OrderController>(initState: (state) async {
+                  await OrderController.instance.getOrders();
+                }, builder: (order) {
+                  final active = order.orderList
+                      .where((p0) =>
+                          !p0.deliveryStatus
+                              .toLowerCase()
+                              .contains("COMP".toLowerCase()) &&
+                          p0.assignedStatus
+                              .toLowerCase()
+                              .contains("ASSG".toLowerCase()))
+                      .toList();
+                  final pending = order.orderList
+                      .where((p0) =>
+                          !p0.deliveryStatus
+                              .toLowerCase()
+                              .contains("COMP".toLowerCase()) &&
+                          p0.assignedStatus
+                              .toLowerCase()
+                              .contains("PEND".toLowerCase()))
+                      .toList();
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      GetBuilder<OrderController>(
-                          init: OrderController(),
-                          builder: (order) {
-                            final active = order.orderList
-                                .where((p0) =>
-                                    !p0.deliveryStatus
-                                        .toLowerCase()
-                                        .contains("COMP".toLowerCase()) &&
-                                    p0.assignedStatus
-                                        .toLowerCase()
-                                        .contains("ASSG".toLowerCase()))
-                                .toList();
-                            final pending = order.orderList
-                                .where((p0) =>
-                                    !p0.deliveryStatus
-                                        .toLowerCase()
-                                        .contains("COMP".toLowerCase()) &&
-                                    p0.assignedStatus
-                                        .toLowerCase()
-                                        .contains("PEND".toLowerCase()))
-                                .toList();
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                OrdersContainer(
-                                  containerColor: kPrimaryColor,
-                                  typeOfOrderColor: kTextGreyColor,
-                                  iconColor: kLightGreyColor,
-                                  numberOfOrders:
-                                      intFormattedText(active.length),
-                                  typeOfOrders: "Active",
-                                  onTap: () => _toSeeAllActiveOrders(active),
-                                ),
-                                OrdersContainer(
-                                  containerColor:
-                                      // Colors.red.shade200,
-                                      kAccentColor.withOpacity(0.4),
-                                  typeOfOrderColor: kAccentColor,
-                                  iconColor: kAccentColor,
-                                  numberOfOrders:
-                                      intFormattedText(pending.length),
-                                  typeOfOrders: "Pending",
-                                  onTap: () => _toSeeAllPendingOrders(pending),
-                                ),
-                              ],
-                            );
-                          }),
-                      kSizedBox,
-                      GetBuilder<OrderController>(
-                          init: OrderController(),
-                          builder: (order) {
-                            final allCompletedOrders = order.orderList.toList();
-
-                            return DasboardAllCompletedOrdersContainer(
-                              onTap: () =>
-                                  _toSeeAllCompletedOrders(allCompletedOrders),
-                              number: allCompletedOrders.length,
-                              typeOf: "All completed orders",
-                            );
-                          }),
-                      kSizedBox,
-                      GetBuilder<VendorController>(initState: (state) async {
-                        await VendorController.instance.getVendors();
-                      }, builder: (vendor) {
-                        final allVendor = vendor.vendorList.toList();
-                        final allOnlineVendor = vendor.vendorList
-                            .where((p0) => p0.isOnline == true)
-                            .toList();
-                        return RiderVendorContainer(
-                          onTap: _toSeeAllVendors,
-                          number: intFormattedText(allVendor.length),
-                          typeOf: "Vendors",
-                          onlineStatus:
-                              "${intFormattedText(allOnlineVendor.length)} Online",
-                        );
-                      }),
-                      kSizedBox,
-                      GetBuilder<RiderController>(initState: (state) async {
-                        await RiderController.instance.getRiders();
-                      }, builder: (rider) {
-                        final allRider = rider.riderList.toList();
-                        return RiderVendorContainer(
-                          onTap: _toSeeAllRiders,
-                          number: rider.total.value.toString(),
-                          typeOf: "Riders",
-                          onlineStatus: "Online",
-                        );
-                      }),
-                      const SizedBox(height: kDefaultPadding * 2),
-                      kSizedBox,
+                      OrdersContainer(
+                        containerColor: kPrimaryColor,
+                        typeOfOrderColor: kTextGreyColor,
+                        iconColor: kLightGreyColor,
+                        numberOfOrders: intFormattedText(active.length),
+                        typeOfOrders: "Active",
+                        onTap: () => _toSeeAllActiveOrders(active),
+                      ),
+                      OrdersContainer(
+                        containerColor:
+                            // Colors.red.shade200,
+                            kAccentColor.withOpacity(0.4),
+                        typeOfOrderColor: kAccentColor,
+                        iconColor: kAccentColor,
+                        numberOfOrders: intFormattedText(pending.length),
+                        typeOfOrders: "Pending",
+                        onTap: () => _toSeeAllPendingOrders(pending),
+                      ),
                     ],
-                  ),
-                ),
+                  );
+                }),
+                kSizedBox,
+                GetBuilder<OrderController>(builder: (order) {
+                  final orders = order.orderList.toList();
+
+                  return DasboardAllCompletedOrdersContainer(
+                    onTap: () => _toSeeAllCompletedOrders(orders),
+                    number: orders.length,
+                    typeOf: "Orders",
+                  );
+                }),
+                kSizedBox,
+                GetBuilder<VendorController>(initState: (state) async {
+                  await VendorController.instance.getVendors();
+                }, builder: (vendor) {
+                  final allVendor = vendor.vendorList.toList();
+                  final allOnlineVendor = vendor.vendorList
+                      .where((p0) => p0.isOnline == true)
+                      .toList();
+                  return RiderVendorContainer(
+                    onTap: _toSeeAllVendors,
+                    number: intFormattedText(allVendor.length),
+                    typeOf: "Vendors",
+                    onlineStatus:
+                        "${intFormattedText(allOnlineVendor.length)} Online",
+                  );
+                }),
+                kSizedBox,
+                GetBuilder<RiderController>(initState: (state) async {
+                  await RiderController.instance.getRiders();
+                }, builder: (rider) {
+                  final allRider = rider.riderList.toList();
+                  return RiderVendorContainer(
+                    onTap: _toSeeAllRiders,
+                    number: rider.total.value.toString(),
+                    typeOf: "Riders",
+                    onlineStatus: "Online",
+                  );
+                }),
+                const SizedBox(height: kDefaultPadding * 2),
+                kSizedBox,
+              ],
+            ),
+          ),
         ),
       ),
     );

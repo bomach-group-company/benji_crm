@@ -134,7 +134,7 @@ class RiderController extends GetxController {
       if (responseData == null) {
         isLoadAssign.value = false;
       } else {
-        OrderController.instance.runTask();
+        OrderController.instance.getOrders();
         isLoadAssign.value = false;
         Get.close(3);
       }

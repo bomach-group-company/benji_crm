@@ -8,7 +8,7 @@ import '../../providers/constants.dart';
 
 class MyVendorContainer extends StatelessWidget {
   final Function() onTap;
-  final myVendorModel vendor;
+  final MyVendorModel vendor;
   const MyVendorContainer({
     super.key,
     required this.onTap,

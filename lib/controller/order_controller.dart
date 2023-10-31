@@ -19,40 +19,28 @@ class OrderController extends GetxController {
   var isLoad = false.obs;
   var orderList = <Order>[].obs;
 
-  @override
-  void onInit() {
-    runTask();
-
-    super.onInit();
-  }
-
-  Future runTask([String? end]) async {
+  Future getOrders([String? end]) async {
+    print('in getOrders getOrders oo');
     isLoad.value = true;
     late String token;
     String id = UserController.instance.user.value.id.toString();
-    update();
     var url = "${Api.baseUrl}${Api.orderList}$id/?start=1&end=${end ?? 100}";
     token = UserController.instance.user.value.token;
-    consoleLog(token);
+    http.Response? response = await HandleData.getApi(url, token);
+    var responseData =
+        await ApiProcessorController.errorState(response, isFirst ?? true);
+    if (responseData == null) {
+      return;
+    }
+
     try {
-      http.Response? response = await HandleData.getApi(url, token);
-      var responseData =
-          await ApiProcessorController.errorState(response, isFirst ?? true);
-      if (responseData == null) {
-        return;
-      }
+      orderList.value = (jsonDecode(responseData)['items'] as List)
+          .map((e) => Order.fromJson(e))
+          .toList();
+    } catch (e) {
+      consoleLog(e.toString());
+    }
 
-      try {
-        orderList.value = (jsonDecode(responseData)['items'] as List)
-            .map((e) => Order.fromJson(e))
-            .toList();
-        consoleLog(responseData);
-      } catch (e) {
-        consoleLog(e.toString());
-      }
-
-      update();
-    } catch (e) {}
     isLoad.value = false;
     update();
   }

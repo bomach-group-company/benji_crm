@@ -27,7 +27,7 @@ class VendorController extends GetxController {
   var isLoad = false.obs;
   var isLoadCreate = false.obs;
   var vendorList = <VendorModel>[].obs;
-  var vendorMyList = <myVendorModel>[].obs;
+  var vendorMyList = <MyVendorModel>[].obs;
   var businessType = <BusinessType>[].obs;
   var vendorProductList = <Product>[].obs;
   var vendorOrderList = <Order>[].obs;
@@ -59,14 +59,12 @@ class VendorController extends GetxController {
       var responseData =
           await ApiProcessorController.errorState(response, isFirst ?? true);
       vendorMyList.value = myVendorModelFromJson(responseData);
-      print('vendorMyList.value in my vendor ${vendorMyList.value}');
     } catch (e) {}
     isLoad.value = false;
     update();
   }
 
   Future getVendorProduct(id, [int? end]) async {
-    print('at least in the getVendorProduct');
     isLoad.value = true;
     late String token;
     var url =
@@ -75,7 +73,6 @@ class VendorController extends GetxController {
 
     http.Response? response = await HandleData.getApi(url, token);
     var responseData = await ApiProcessorController.errorState(response);
-    print('getVendorProduct responseData $responseData');
     if (responseData == null) {
       vendorProductList.value = [];
       update();
@@ -85,7 +82,6 @@ class VendorController extends GetxController {
       vendorProductList.value = (jsonDecode(response!.body)['items'] as List)
           .map((e) => Product.fromJson(e))
           .toList();
-      print('products ${vendorProductList.value}');
     } catch (e) {
       debugPrint(e.toString());
     }
@@ -140,13 +136,11 @@ class VendorController extends GetxController {
         final res = await http.Response.fromStream(response);
         var jsonData = jsonDecode(res.body);
         ApiProcessorController.successSnack(jsonData);
-        consoleLog(jsonData);
         isLoadCreate.value = false;
         Get.close(1);
       } else {
         final res = await http.Response.fromStream(response);
         var jsonData = jsonDecode(res.body);
-        consoleLog(res.body.toString());
         isLoadCreate.value = false;
       }
       isLoadCreate.value = false;
@@ -178,13 +172,11 @@ class VendorController extends GetxController {
         final res = await http.Response.fromStream(response);
         var jsonData = jsonDecode(res.body);
         ApiProcessorController.successSnack(jsonData);
-        consoleLog(jsonData);
         isLoadCreate.value = false;
         Get.close(1);
       } else {
         final res = await http.Response.fromStream(response);
         var jsonData = jsonDecode(res.body);
-        consoleLog(res.body.toString());
         isLoadCreate.value = false;
       }
       isLoadCreate.value = false;

@@ -37,7 +37,6 @@ class ProfileController extends GetxController {
     int uuid = UserController.instance.user.value.id;
 
     var url = "${Api.baseUrl}/api/v1/agents/changeAgent/{$uuid}";
-    consoleLog(url);
 
     Map body = {
       "username": userName ?? "",
@@ -46,7 +45,6 @@ class ProfileController extends GetxController {
       "last_name": lastName ?? "",
       "address": address ?? "",
     };
-    consoleLog("body: ${body.toString()}");
     try {
       var response = await http.put(
         Uri.parse(url),
@@ -60,21 +58,18 @@ class ProfileController extends GetxController {
 
       //Print the response in the console:
       var jsonData = jsonDecode(response.body);
-      consoleLog("jsonData: $jsonData");
 
       if (response.statusCode == 200) {
         ApiProcessorController.successSnack(
             "Your changes have been saved successfully.");
         Get.back();
       } else {
-        consoleLog(response.body);
         ApiProcessorController.errorSnack(
             "Something went wrong, please try again.");
       }
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet.");
     } catch (e) {
-      consoleLog(e.toString());
       ApiProcessorController.errorSnack(
           "An unexpected error occurred. \nERROR: $e \nPlease contact admin.");
     }
@@ -92,16 +87,13 @@ class ProfileController extends GetxController {
     late String token;
 
     var url = "${Api.baseUrl}${Api.changePassword}";
-    consoleLog(url);
     token = UserController.instance.user.value.token;
-    consoleLog(token);
 
     Map body = {
       'old_password': oldPassword,
       'new_password': newPassword,
       'confirm_password': confirmPassword,
     };
-    consoleLog("body: ${body.toString()}");
 
     try {
       var response = await http.post(
@@ -114,9 +106,7 @@ class ProfileController extends GetxController {
         body: body,
       );
 
-      //Print the response in the console:
       var jsonData = jsonDecode(response.body);
-      consoleLog("jsonData: $jsonData");
 
       if (response.statusCode == 200) {
         ApiProcessorController.successSnack("Password Changed Successfully");
@@ -131,7 +121,6 @@ class ProfileController extends GetxController {
         );
         return;
       } else {
-        consoleLog(response.body);
         ApiProcessorController.errorSnack("Invalid, please try again.");
       }
     } on SocketException {
