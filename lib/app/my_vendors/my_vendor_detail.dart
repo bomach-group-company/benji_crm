@@ -21,7 +21,7 @@ import '../my_products/my_product_details.dart';
 import 'about_my_vendor.dart';
 import 'delete_my_vendor.dart';
 import 'my_vendors_location.dart';
-import 'suspend_my_vendor.dart';
+import 'report_my_vendor.dart';
 
 class MyVendorDetailsPage extends StatefulWidget {
   final MyVendorModel vendor;
@@ -178,7 +178,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
             break;
           case 'suspend':
             Get.to(
-              () => const SuspendMyVendor(),
+              () => ReportMyVendor(vendor: widget.vendor),
               duration: const Duration(milliseconds: 300),
               fullscreenDialog: true,
               curve: Curves.easeIn,

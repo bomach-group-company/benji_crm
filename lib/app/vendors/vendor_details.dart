@@ -20,7 +20,7 @@ import '../../src/components/container/vendors_order_container.dart';
 import '../../src/components/container/vendors_product_container.dart';
 import '../../theme/colors.dart';
 import 'about_vendor.dart';
-import 'suspend_vendor.dart';
+import 'report_vendor.dart';
 
 class VendorDetailsPage extends StatefulWidget {
   final VendorModel vendor;
@@ -182,7 +182,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
       );
 
   void _toSuspendVendor() => Get.to(
-        () => const SuspendVendor(),
+        () => ReportVendor(vendor: widget.vendor),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
