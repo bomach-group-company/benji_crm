@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:benji_aggregator/app/add_vendor/add_vendor.dart';
 import 'package:benji_aggregator/app/my_vendors/my_vendor_detail.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:benji_aggregator/model/my_vendor.dart';
@@ -14,6 +13,7 @@ import 'package:get/get.dart';
 
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
+import '../add_vendor/add_third_party_vendor.dart';
 
 class MyVendors extends StatefulWidget {
   const MyVendors({super.key});
@@ -38,8 +38,6 @@ class _MyVendorsState extends State<MyVendors> {
 
 //============================================== ALL VARIABLES =================================================\\
   late bool loadingScreen;
-  bool vendorStatus = true;
-
   // bool _isScrollToTopBtnVisible = false;
 
 //============================================== CONTROLLERS =================================================\\
@@ -74,10 +72,6 @@ class _MyVendorsState extends State<MyVendors> {
 //     }
 //   }
 
-//=============================== See more ========================================\\
-  void _seeMoreOnlineVendors() {}
-  void _seeMoreOfflineVendors() {}
-
 //===================== Navigation ==========================\\
 
   void _toVendorDetailsPage(MyVendorModel data) => Get.to(
@@ -92,16 +86,15 @@ class _MyVendorsState extends State<MyVendors> {
         popGesture: true,
         transition: Transition.downToUp,
       );
-
-  void _toAddVendor() => Get.to(
-        () => const AddVendor(),
+  void addThirdPartyVendor() => Get.to(
+        () => const AddThirdPartyVendor(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "AddVendor",
+        routeName: "AddThirdPartyVendor",
         preventDuplicates: true,
         popGesture: true,
-        transition: Transition.downToUp,
+        transition: Transition.rightToLeft,
       );
 
   // void toMyVendorsPage() => Get.to(
@@ -124,7 +117,7 @@ class _MyVendorsState extends State<MyVendors> {
       onRefresh: _handleRefresh,
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
-          onPressed: _toAddVendor,
+          onPressed: addThirdPartyVendor,
           elevation: 20.0,
           mouseCursor: SystemMouseCursors.click,
           tooltip: "Add a vendor",
@@ -189,21 +182,6 @@ class _MyVendorsState extends State<MyVendors> {
                             ),
                           ),
                     kSizedBox,
-                    vendorStatus
-                        ? TextButton(
-                            onPressed: _seeMoreOnlineVendors,
-                            child: Text(
-                              "See more",
-                              style: TextStyle(color: kAccentColor),
-                            ),
-                          )
-                        : TextButton(
-                            onPressed: _seeMoreOfflineVendors,
-                            child: Text(
-                              "See more",
-                              style: TextStyle(color: kAccentColor),
-                            ),
-                          ),
                   ],
                 ),
               );
