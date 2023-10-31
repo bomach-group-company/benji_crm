@@ -44,10 +44,10 @@ class VendorController extends GetxController {
 
   // product pagination
   var loadedAllProduct = false.obs;
-  var isLoadMoreProduct = true.obs;
+  var isLoadMoreProduct = false.obs;
   var loadNumProduct = 10.obs;
 
-  Future<void> scrollListenerVendor(scrollController, vendorId) async {
+  Future<void> scrollListenerVendor(scrollController) async {
     if (VendorController.instance.loadedAllVendor.value) {
       return;
     }
@@ -60,7 +60,7 @@ class VendorController extends GetxController {
     }
   }
 
-  Future<void> scrollListenerMyVendor(scrollController, vendorId) async {
+  Future<void> scrollListenerMyVendor(scrollController) async {
     if (VendorController.instance.loadedAllMyVendor.value) {
       return;
     }
@@ -106,6 +106,7 @@ class VendorController extends GetxController {
       vendorList.value += data;
     } catch (e) {}
     isLoad.value = false;
+    isLoadMoreVendor.value = false;
     loadedAllVendor.value = data.isEmpty;
 
     update();
@@ -132,6 +133,7 @@ class VendorController extends GetxController {
       vendorMyList.value += data;
     } catch (e) {}
     loadedAllMyVendor.value = data.isEmpty;
+    isLoadMoreMyVendor.value = false;
 
     isLoad.value = false;
     update();
@@ -144,6 +146,9 @@ class VendorController extends GetxController {
     if (first) {
       loadNumProduct.value = 10;
     }
+    if (loadedAllProduct.value) {
+      return;
+    }
     if (!first) {
       isLoadMoreProduct.value = true;
     }
@@ -151,9 +156,9 @@ class VendorController extends GetxController {
 
     var url =
         "${Api.baseUrl}${Api.getVendorProducts}$id?start=${loadNumProduct.value - 10}&end=${loadNumProduct.value}";
+    loadNumProduct.value += 10;
     String token = UserController.instance.user.value.token;
     http.Response? response = await HandleData.getApi(url, token);
-    loadNumProduct.value += 10;
     var responseData = await ApiProcessorController.errorState(response);
     if (responseData == null) {
       isLoad.value = false;

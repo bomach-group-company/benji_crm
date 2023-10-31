@@ -33,7 +33,7 @@ class RiderController extends GetxController {
     late String token;
     isLoad.value = true;
     update();
-    var url = "${Api.baseUrl}${Api.riderList}?start=0&end=$moreNum";
+    var url = "${Api.baseUrl}${Api.riderList}?start=0&end=10";
     token = UserController.instance.user.value.token;
     try {
       http.Response? response = await HandleData.getApi(url, token);
@@ -64,7 +64,7 @@ class RiderController extends GetxController {
     isLoadMore.value = true;
     update();
     var url =
-        "${Api.baseUrl}${Api.riderList}?start=$moreNum&end=${moreNum + 10}";
+        "${Api.baseUrl}${Api.riderList}?start=${moreNum - 10}&end=$moreNum";
     token = UserController.instance.user.value.token;
     moreNum.value = moreNum.value + 10;
     update();

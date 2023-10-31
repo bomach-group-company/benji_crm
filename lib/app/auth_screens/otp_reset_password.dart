@@ -12,9 +12,9 @@ import 'package:http/http.dart' as http;
 import '../../main.dart';
 import '../../services/api_url.dart';
 import '../../src/components/appbar/my_appbar.dart';
-import '../../src/components/snackbar/my_fixed_snackBar.dart';
 import '../../src/components/input/otp_textFormField.dart';
 import '../../src/components/section/reusable_authentication_firsthalf.dart';
+import '../../src/components/snackbar/my_fixed_snackBar.dart';
 import '../../src/providers/constants.dart';
 import '../../src/responsive/responsive_constant.dart';
 import '../../theme/colors.dart';
@@ -141,8 +141,7 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
     final response = await http.get(url);
     try {
       Map resp = jsonDecode(response.body);
-      bool res =
-          response.statusCode == 200 && resp['message'].toString() == 'true';
+      bool res = response.statusCode == 200;
       await prefs.setString('token', resp['otp']);
       return res;
     } catch (e) {

@@ -20,7 +20,7 @@ class OrderController extends GetxController {
   var orderList = <Order>[].obs;
 
   var loadedAll = false.obs;
-  var isLoadMore = true.obs;
+  var isLoadMore = false.obs;
   var loadNum = 10.obs;
 
   Future<void> scrollListener(scrollController) async {
@@ -42,10 +42,16 @@ class OrderController extends GetxController {
     if (first) {
       loadNum.value = 10;
     }
+    if (loadedAll.value) {
+      return;
+    }
     if (!first) {
       isLoadMore.value = true;
     }
     isLoad.value = true;
+    if (loadedAll.value) {
+      return;
+    }
     late String token;
     String id = UserController.instance.user.value.id.toString();
     var url =

@@ -1,5 +1,7 @@
 // ignore_for_file: empty_catches
 
+import 'dart:convert';
+
 import 'package:benji_aggregator/controller/error_controller.dart';
 import 'package:benji_aggregator/services/helper.dart';
 import 'package:get/get.dart';
@@ -11,6 +13,8 @@ class FormController extends GetxController {
   }
 
   var isLoad = false.obs;
+  var status = 0.obs;
+  var responseObject = {}.obs;
 
   Future postAuth(String url, Map data, String tag,
       [String errorMsg = "Error occurred",
@@ -22,6 +26,7 @@ class FormController extends GetxController {
       headers: authHeader(),
       body: data,
     );
+    status.value = response.statusCode;
     if (response.statusCode != 200) {
       ApiProcessorController.errorSnack(errorMsg);
       isLoad.value = false;
@@ -31,6 +36,7 @@ class FormController extends GetxController {
 
     ApiProcessorController.successSnack(successMsg);
     isLoad.value = false;
+    responseObject.value = jsonDecode(response.body) as Map;
     update([tag]);
   }
 
@@ -43,6 +49,7 @@ class FormController extends GetxController {
       Uri.parse(url),
       body: data,
     );
+    status.value = response.statusCode;
     if (response.statusCode != 200) {
       ApiProcessorController.errorSnack(errorMsg);
       isLoad.value = false;
@@ -52,6 +59,7 @@ class FormController extends GetxController {
 
     ApiProcessorController.successSnack(successMsg);
     isLoad.value = false;
+    responseObject.value = jsonDecode(response.body) as Map;
     update([tag]);
   }
 }
