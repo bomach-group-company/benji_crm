@@ -43,6 +43,8 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    VendorController.instance.getMyVendors();
+
     scrollController.addListener(() {
       if (scrollController.position.userScrollDirection ==
               ScrollDirection.forward ||
@@ -70,7 +72,6 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
   }
 
 //============================================== ALL VARIABLES =================================================\\
-  late bool loadingScreen;
   bool vendorStatus = true;
   // bool _isScrollToTopBtnVisible = false;
 
@@ -102,14 +103,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
 //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
-    setState(() {
-      loadingScreen = true;
-    });
-    // await Future.delayed(const Duration(milliseconds: 1000));
     await VendorController.instance.getVendors();
-    setState(() {
-      loadingScreen = false;
-    });
   }
 
 // //============================= Scroll to Top ======================================//
@@ -231,9 +225,6 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: GetBuilder<VendorController>(
-            initState: (state) async {
-              await VendorController.instance.getVendors();
-            },
             builder: (controller) {
               return Scrollbar(
                 controller: scrollController,
@@ -248,7 +239,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
                   ),
                   children: [
                     kSizedBox,
-                    controller.isLoad.value
+                    controller.isLoad.value && controller.vendorList.isEmpty
                         ? const VendorsListSkeleton()
                         : ListView.separated(
                             separatorBuilder: (context, index) =>

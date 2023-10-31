@@ -766,8 +766,6 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
                                                 data.name;
                                           });
                                         }
-                                        consoleLog(
-                                            "This is the shopType: $shopType");
                                       },
                                       child: MyBlueTextFormField(
                                         controller: vendorBusinessTypeEC,

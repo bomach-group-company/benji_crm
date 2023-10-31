@@ -79,7 +79,6 @@ class HandleData {
             )
             .timeout(const Duration(seconds: 20));
       }
-      consoleLog(response.body);
     } catch (e) {
       response = null;
       consoleLog(e.toString());
@@ -100,8 +99,6 @@ class HandleData {
           HttpHeaders.authorizationHeader: "Bearer $token",
         },
       );
-
-      //  consoleLog(response.body);
     } catch (e) {
       response = null;
       consoleLog(e.toString());

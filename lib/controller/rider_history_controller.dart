@@ -28,6 +28,7 @@ class RiderHistoryController extends GetxController {
     if (id == 0) {
       historyList.value = [];
       isLoad.value = false;
+      loadedAll.value = false;
       update();
       return;
     }
@@ -35,25 +36,19 @@ class RiderHistoryController extends GetxController {
         "${Api.baseUrl}${Api.riderHistory}?rider_id=$id&start=0&end=${moreNum.value}";
 
     token = UserController.instance.user.value.token;
-    // try {
     http.Response? response = await HandleData.getApi(url, token);
 
     var responseData = await ApiProcessorController.errorState(response);
-    // try {
-    List<RiderHistory> val = (jsonDecode(responseData)['items'] as List)
-        .map((e) => RiderHistory.fromJson(e))
-        .toList();
-    historyList.value = val;
+    try {
+      List<RiderHistory> val = (jsonDecode(responseData)['items'] as List)
+          .map((e) => RiderHistory.fromJson(e))
+          .toList();
+      historyList.value = val;
+    } catch (e) {
+      consoleLog("$e");
+    }
+
     loadedAll.value = false;
-    // } catch (e) {
-    //   consoleLog("$e");
-    // }
-    // notification.value = save;
-    isLoad.value = false;
-    update();
-    // } catch (e) {
-    //   print('$e  errorrrr ');
-    // }
     isLoad.value = false;
     update();
   }
@@ -65,6 +60,8 @@ class RiderHistoryController extends GetxController {
     if (id == 0) {
       historyList.value = [];
       isLoadMore.value = false;
+      loadedAll.value = false;
+
       update();
       return;
     }
@@ -72,23 +69,19 @@ class RiderHistoryController extends GetxController {
         "${Api.baseUrl}${Api.riderHistory}?rider_id=$id&start=${moreNum.value}&end=${moreNum.value + 10}";
     moreNum.value = moreNum.value + 10;
     token = UserController.instance.user.value.token;
-    // try {
     http.Response? response = await HandleData.getApi(url, token);
 
     var responseData = await ApiProcessorController.errorState(response);
-    // try {
-    List<RiderHistory> val = (jsonDecode(responseData)['items'] as List)
-        .map((e) => RiderHistory.fromJson(e))
-        .toList();
-    historyList.value += val;
-    loadedAll.value = val.isEmpty;
-    // } catch (e) {
-    //   consoleLog("$e");
-    // }
-    // notification.value = save;
-    // } catch (e) {
-    //   print('$e  errorrrr ');
-    // }
+    try {
+      List<RiderHistory> val = (jsonDecode(responseData)['items'] as List)
+          .map((e) => RiderHistory.fromJson(e))
+          .toList();
+      historyList.value += val;
+      loadedAll.value = val.isEmpty;
+    } catch (e) {
+      consoleLog("$e");
+    }
+
     isLoadMore.value = false;
     update();
   }

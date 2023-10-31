@@ -648,11 +648,8 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                           await VendorController.instance
                                               .getVendorProduct(
                                                   widget.vendor.id);
-                                          print('initState getVendorProduct');
                                         },
                                         builder: (controller) {
-                                          print(
-                                              'in vend prod ${controller.vendorProductList}');
                                           return ListView.separated(
                                             shrinkWrap: true,
                                             separatorBuilder:

@@ -46,8 +46,6 @@ class UserController extends GetxController {
     Map data = jsonDecode(user);
     data['token'] = token;
 
-    consoleLog(data.toString());
-
     await prefs.setString('user', jsonEncode(data));
     setUserSync();
   }

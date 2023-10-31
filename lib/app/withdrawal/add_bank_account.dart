@@ -72,7 +72,6 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
       transition: Transition.rightToLeft,
     );
     if (selectedBank != null) {
-      consoleLog("Selected Bank: $selectedBank");
       setState(() {
         bankNameEC.text = selectedBank;
       });

@@ -7,12 +7,12 @@ import 'package:benji_aggregator/model/my_vendor.dart';
 import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
 import 'package:benji_aggregator/src/components/container/myvendor_container.dart';
 import 'package:benji_aggregator/src/components/section/my_liquid_refresh.dart';
+import 'package:benji_aggregator/src/skeletons/vendors_list_skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../../src/providers/constants.dart';
-import '../../src/skeletons/vendors_list_skeleton.dart';
 import '../../theme/colors.dart';
 
 class MyVendors extends StatefulWidget {
@@ -51,14 +51,7 @@ class _MyVendorsState extends State<MyVendors> {
 //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
-    setState(() {
-      loadingScreen = true;
-    });
-
-    await Future.delayed(const Duration(milliseconds: 1000));
-    setState(() {
-      loadingScreen = false;
-    });
+    await VendorController.instance.getMyVendors();
   }
 
 // //============================= Scroll to Top ======================================//
@@ -148,9 +141,6 @@ class _MyVendorsState extends State<MyVendors> {
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: GetBuilder<VendorController>(
-            initState: (state) async {
-              await VendorController.instance.getMyVendors();
-            },
             builder: (controller) {
               return Scrollbar(
                 controller: scrollController,
@@ -165,7 +155,7 @@ class _MyVendorsState extends State<MyVendors> {
                   ),
                   children: [
                     kSizedBox,
-                    controller.isLoad.value
+                    controller.isLoad.value && controller.vendorMyList.isEmpty
                         ? const VendorsListSkeleton()
                         : ListView.separated(
                             separatorBuilder: (context, index) =>
