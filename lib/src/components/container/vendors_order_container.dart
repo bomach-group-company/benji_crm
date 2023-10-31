@@ -9,40 +9,13 @@ import '../../../theme/colors.dart';
 import '../../providers/constants.dart';
 
 class VendorsOrderContainer extends StatelessWidget {
-  const VendorsOrderContainer(
-      {super.key,
-      required this.mediaWidth,
-      required String orderImage,
-      required int orderID,
-      required this.formattedDateAndTime,
-      required String orderItem,
-      required int itemQuantity,
-      required double itemPrice,
-      required String customerName,
-      required String customerAddress,
-      required this.order})
-      : _orderImage = orderImage,
-        _orderID = orderID,
-        _orderItem = orderItem,
-        _itemQuantity = itemQuantity,
-        _itemPrice = itemPrice,
-        _customerName = customerName,
-        _customerAddress = customerAddress;
+  final Order order;
+  const VendorsOrderContainer({super.key, required this.order});
 
-  final double mediaWidth;
-  final String _orderImage;
-  final int _orderID;
-  final String formattedDateAndTime;
-  final String _orderItem;
-  final int _itemQuantity;
-  final double _itemPrice;
-  final String _customerName;
-  final String _customerAddress;
-  final Order? order;
   @override
   Widget build(BuildContext context) {
     int qty = 0;
-
+    final media = MediaQuery.of(context).size;
     return Container(
       margin: const EdgeInsets.symmetric(
         vertical: kDefaultPadding / 2,
@@ -53,7 +26,7 @@ class VendorsOrderContainer extends StatelessWidget {
         left: kDefaultPadding / 2,
         right: kDefaultPadding / 2,
       ),
-      width: mediaWidth / 1.1,
+      width: media.width / 1.1,
       // height: 150,
       decoration: ShapeDecoration(
         color: kPrimaryColor,
@@ -79,14 +52,15 @@ class VendorsOrderContainer extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: kPageSkeletonColor,
                   borderRadius: BorderRadius.circular(16),
-                  // image: DecorationImage(
-                  //   image: AssetImage(
-                  //     "assets/images/products/$_orderImage.png",
-                  //   ),
-                  // ),
+                  image: const DecorationImage(
+                    image: AssetImage(
+                      "assets/images/vendors/ntachi-osa.png",
+                    ),
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 child: CachedNetworkImage(
-                  imageUrl: order!.client.image ?? "",
+                  imageUrl: order.client.image ?? "",
                   fit: BoxFit.cover,
                   progressIndicatorBuilder: (context, url, downloadProgress) =>
                       const Center(
@@ -103,7 +77,7 @@ class VendorsOrderContainer extends StatelessWidget {
               SizedBox(
                 width: 60,
                 child: Text(
-                  "#00${order!.id ?? ""}",
+                  "#${order.code}",
                   style: TextStyle(
                     color: kTextGreyColor,
                     fontSize: 13,
@@ -118,7 +92,7 @@ class VendorsOrderContainer extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                width: mediaWidth * 0.6 - 2,
+                width: media.width * 0.6 - 2,
                 // color: kAccentColor,
                 child: const Wrap(
                   alignment: WrapAlignment.spaceBetween,
@@ -154,11 +128,11 @@ class VendorsOrderContainer extends StatelessWidget {
               Container(
                 color: kTransparentColor,
                 width: 150,
-                child: Text(
-                  _orderItem,
+                child: const Text(
+                  'order id or name etc.',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
                   ),
@@ -181,7 +155,7 @@ class VendorsOrderContainer extends StatelessWidget {
                       const TextSpan(text: "  "),
                       TextSpan(
                         text:
-                            "₦ ${convertToCurrency(order == null ? "0.0" : order!.totalPrice.toString())}",
+                            "₦ ${convertToCurrency(order == null ? "0.0" : order.totalPrice.toString())}",
                         style: const TextStyle(
                           fontSize: 15,
                           fontFamily: 'sen',
@@ -196,13 +170,13 @@ class VendorsOrderContainer extends StatelessWidget {
               Container(
                 color: kLightGreyColor,
                 height: 1,
-                width: mediaWidth * 0.5,
+                width: media.width * 0.5,
               ),
               kHalfSizedBox,
               SizedBox(
-                width: mediaWidth * 0.5,
+                width: media.width * 0.5,
                 child: Text(
-                  "${order!.client.lastName} ${order!.client.firstName}",
+                  "${order.client.lastName} ${order.client.firstName}",
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: const TextStyle(
@@ -212,7 +186,7 @@ class VendorsOrderContainer extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                width: mediaWidth * 0.5,
+                width: media.width * 0.5,
                 child: const Text(
                   'address',
                   overflow: TextOverflow.ellipsis,
