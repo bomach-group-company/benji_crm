@@ -36,11 +36,10 @@ class ProfileController extends GetxController {
     token = UserController.instance.user.value.token;
     int uuid = UserController.instance.user.value.id;
 
-    var url = "${Api.baseUrl}/api/v1/agents/changeAgent/{$uuid}";
+    var url = "${Api.baseUrl}/agents/changeAgent/$uuid";
 
     Map body = {
       "username": userName ?? "",
-      "phone": phoneNumber ?? "",
       "first_name": firstName ?? "",
       "last_name": lastName ?? "",
       "address": address ?? "",
@@ -53,11 +52,13 @@ class ProfileController extends GetxController {
           HttpHeaders.authorizationHeader: "Bearer $token",
           "Content-Type": content,
         },
-        body: body,
+        body: jsonEncode(body),
       );
 
       //Print the response in the console:
       var jsonData = jsonDecode(response.body);
+      // will do this when the endpoint stops returning null (save the new data)
+      // UserController.instance.saveUser(response.body, UserController.instance.user.value.token)
 
       if (response.statusCode == 200) {
         ApiProcessorController.successSnack(
