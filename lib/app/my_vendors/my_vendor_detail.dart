@@ -81,30 +81,6 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
 //===================== KEYS =======================\\
   // final _formKey = GlobalKey<FormState>();
 
-  //===================== CATEGORY BUTTONS =======================\\
-  final List _categoryButtonText = [
-    "Pasta",
-    "Burgers",
-    "Rice Dishes",
-    "Chicken",
-    "Snacks"
-  ];
-
-  final List<Color> _categoryButtonBgColor = [
-    kAccentColor,
-    kDefaultCategoryBackgroundColor,
-    kDefaultCategoryBackgroundColor,
-    kDefaultCategoryBackgroundColor,
-    kDefaultCategoryBackgroundColor
-  ];
-  final List<Color> _categoryButtonFontColor = [
-    kPrimaryColor,
-    kTextGreyColor,
-    kTextGreyColor,
-    kTextGreyColor,
-    kTextGreyColor
-  ];
-
 //===================== VENDORS LIST VIEW INDEX =======================\\
   List<int> foodListView = [0, 1, 3, 4, 5, 6];
 
@@ -112,8 +88,6 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
   double calculateSubtotal() {
     return _itemPrice * _orderQuantity;
   }
-
-  void _changeProductCategory() {}
 
 //===================== Handle refresh ==========================\\
 
