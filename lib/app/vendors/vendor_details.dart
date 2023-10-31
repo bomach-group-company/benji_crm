@@ -37,10 +37,9 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
   void initState() {
     super.initState();
     scrollController.addListener(() => VendorController.instance
-        .scrollListener(scrollController, widget.vendor.id));
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   VendorController.instance.getVendorProduct(widget.vendor.id);
-    // });
+        .scrollListenerProduct(scrollController, widget.vendor.id));
+    scrollController.addListener(
+        () => OrderController.instance.scrollListener(scrollController));
 
     _tabBarController = TabController(length: 2, vsync: this);
   }
@@ -315,7 +314,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                 SizedBox(
                                   width: mediaWidth - 200,
                                   child: Text(
-                                    widget.vendor.shopName ?? 'Not Available',
+                                    widget.vendor.shopName,
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     textAlign: TextAlign.center,
@@ -342,8 +341,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                       ),
                                       kHalfWidthSizedBox,
                                       Text(
-                                        widget.vendor.address ??
-                                            'Not Available',
+                                        widget.vendor.address,
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
                                           fontSize: 14,
@@ -368,7 +366,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                       ),
                                     ),
                                     child: Text(
-                                      widget.vendor.address == null
+                                      widget.vendor.address == notAvailable
                                           ? "Not Available"
                                           : "Show on map",
                                       textAlign: TextAlign.center,
@@ -431,13 +429,12 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            widget.vendor.isOnline ?? false
+                                            widget.vendor.isOnline
                                                 ? "Online"
                                                 : 'Offline',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                              color: widget.vendor.isOnline ??
-                                                      false
+                                              color: widget.vendor.isOnline
                                                   ? kSuccessColor
                                                   : kAccentColor,
                                               fontSize: 14,
@@ -563,8 +560,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                 GetBuilder<VendorController>(
                                   initState: (state) async {
                                     await VendorController.instance
-                                        .getVendorProduct(widget.vendor.id,
-                                            first: true);
+                                        .getVendorProduct(widget.vendor.id);
                                   },
                                   builder: (controller) {
                                     return ListView.builder(
@@ -609,20 +605,48 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                               ],
                             )
                           // const VendorsTabBarOrdersContentSkeleton()
-                          : GetBuilder<OrderController>(
-                              initState: (state) async {
-                                await OrderController.instance.getOrders();
-                              },
-                              builder: (controller) => ListView.separated(
-                                shrinkWrap: true,
-                                itemCount: controller.orderList.length,
-                                separatorBuilder: (context, index) => kSizedBox,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return VendorsOrderContainer(
-                                    order: controller.orderList[index],
-                                  );
-                                },
-                              ),
+                          : Column(
+                              children: [
+                                GetBuilder<OrderController>(
+                                  initState: (state) async {
+                                    await OrderController.instance.getOrders();
+                                  },
+                                  builder: (controller) => ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: controller.orderList.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return VendorsOrderContainer(
+                                        order: controller.orderList[index],
+                                      );
+                                    },
+                                  ),
+                                ),
+                                GetBuilder<OrderController>(
+                                  builder: (controller) => Column(
+                                    children: [
+                                      controller.isLoadMore.value
+                                          ? Center(
+                                              child: CircularProgressIndicator(
+                                                color: kAccentColor,
+                                              ),
+                                            )
+                                          : const SizedBox(),
+                                      controller.loadedAll.value
+                                          ? Container(
+                                              margin: const EdgeInsets.only(
+                                                  top: 20, bottom: 20),
+                                              height: 10,
+                                              width: 10,
+                                              decoration: ShapeDecoration(
+                                                  shape: const CircleBorder(),
+                                                  color: kPageSkeletonColor),
+                                            )
+                                          : const SizedBox(),
+                                    ],
+                                  ),
+                                )
+                              ],
                             ),
                       // const VendorsTabBarOrdersContentSkeleton()
                     ],

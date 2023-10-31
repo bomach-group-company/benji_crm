@@ -33,21 +33,47 @@ class VendorController extends GetxController {
   var vendorOrderList = <Order>[].obs;
 
   // vendor pagination
-  // var loadNumVendor = 10.obs;
-  // var loadedAllVendor = false.obs;
-  // var isLoadMoreVendor = false.obs;
+  var loadNumVendor = 10.obs;
+  var loadedAllVendor = false.obs;
+  var isLoadMoreVendor = false.obs;
 
   // my vendor pagination
-  // var loadNumMyVendor = 10.obs;
-  // var loadedAllMyVendor = false.obs;
-  // var isLoadMoreMyVendor = false.obs;
+  var loadNumMyVendor = 10.obs;
+  var loadedAllMyVendor = false.obs;
+  var isLoadMoreMyVendor = false.obs;
 
   // product pagination
   var loadedAllProduct = false.obs;
   var isLoadMoreProduct = true.obs;
   var loadNumProduct = 10.obs;
 
-  Future<void> scrollListener(scrollController, vendorId) async {
+  Future<void> scrollListenerVendor(scrollController, vendorId) async {
+    if (VendorController.instance.loadedAllVendor.value) {
+      return;
+    }
+
+    if (scrollController.offset >= scrollController.position.maxScrollExtent &&
+        !scrollController.position.outOfRange) {
+      VendorController.instance.isLoadMoreVendor.value = true;
+      update();
+      await VendorController.instance.getVendors();
+    }
+  }
+
+  Future<void> scrollListenerMyVendor(scrollController, vendorId) async {
+    if (VendorController.instance.loadedAllMyVendor.value) {
+      return;
+    }
+
+    if (scrollController.offset >= scrollController.position.maxScrollExtent &&
+        !scrollController.position.outOfRange) {
+      VendorController.instance.isLoadMoreMyVendor.value = true;
+      update();
+      await VendorController.instance.getMyVendors();
+    }
+  }
+
+  Future<void> scrollListenerProduct(scrollController, vendorId) async {
     if (VendorController.instance.loadedAllProduct.value) {
       return;
     }
@@ -64,15 +90,24 @@ class VendorController extends GetxController {
     isLoad.value = true;
     late String token;
     String id = UserController.instance.user.value.id.toString();
-    var url = "${Api.baseUrl}${Api.vendorList}?agent_id=$id";
+    var url =
+        "${Api.baseUrl}${Api.vendorList}?agent_id=$id&start=${loadNumVendor.value - 10}&end=${loadNumVendor.value}";
+    loadNumVendor.value += 10;
+
     token = UserController.instance.user.value.token;
+    List<VendorModel> data = [];
     try {
       http.Response? response = await HandleData.getApi(url, token);
       var responseData =
           await ApiProcessorController.errorState(response, isFirst ?? true);
-      vendorList.value = vendorModelFromJson(responseData);
+      data = (jsonDecode(response!.body)['items'] as List)
+          .map((e) => VendorModel.fromJson(e))
+          .toList();
+      vendorList.value += data;
     } catch (e) {}
     isLoad.value = false;
+    loadedAllVendor.value = data.isEmpty;
+
     update();
   }
 
@@ -80,21 +115,31 @@ class VendorController extends GetxController {
     isLoad.value = true;
     late String token;
     String id = UserController.instance.user.value.id.toString();
-    var url = "${Api.baseUrl}${Api.vendorMyList}?agent_id=$id";
+    var url =
+        "${Api.baseUrl}${Api.vendorMyList}?agent_id=$id&start=${loadNumMyVendor.value - 10}&end=${loadNumMyVendor.value}";
+    loadNumMyVendor.value += 10;
+
     token = UserController.instance.user.value.token;
+    List<MyVendorModel> data = [];
+
     try {
       http.Response? response = await HandleData.getApi(url, token);
       var responseData =
           await ApiProcessorController.errorState(response, isFirst ?? true);
-      vendorMyList.value = myVendorModelFromJson(responseData);
+      data = (jsonDecode(response!.body)['items'] as List)
+          .map((e) => MyVendorModel.fromJson(e))
+          .toList();
+      vendorMyList.value += data;
     } catch (e) {}
+    loadedAllMyVendor.value = data.isEmpty;
+
     isLoad.value = false;
     update();
   }
 
   Future getVendorProduct(
     id, {
-    bool first = true,
+    bool first = false,
   }) async {
     if (first) {
       loadNumProduct.value = 10;
