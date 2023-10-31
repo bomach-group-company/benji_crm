@@ -56,14 +56,12 @@ class ProfileController extends GetxController {
       );
 
       //Print the response in the console:
-      var jsonData = jsonDecode(response.body);
       // will do this when the endpoint stops returning null (save the new data)
       // UserController.instance.saveUser(response.body, UserController.instance.user.value.token)
 
       if (response.statusCode == 200) {
         ApiProcessorController.successSnack(
             "Your changes have been saved successfully.");
-        Get.back();
       } else {
         ApiProcessorController.errorSnack(
             "Something went wrong, please try again.");
