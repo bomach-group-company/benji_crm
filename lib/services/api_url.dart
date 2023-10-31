@@ -31,6 +31,8 @@ class Api {
   static const createVendor = "/agents/agentCreateVendor/";
   static const createVendorOtherBusiness =
       "/vendors/createVendorOtherBusiness/";
+  static const createThirdPartyVendor =
+      "/api/v1/agents/agentCreateThirdPartyVendor/";
 
   //order
   static const orderList = "/agents/getAllMyVendorsOrders/";
@@ -152,6 +154,55 @@ class HandleData {
     request.fields["state"] = data.state!.toString();
     request.fields["country"] = data.country!.toString();
     request.fields["vendorClassifier"] = vendorClassifier.toString();
+    //  request.files.add(file);
+    try {
+      response = await request.send();
+    } catch (e) {
+      log(e.toString());
+      response = null;
+    }
+    return response;
+  }
+
+  static Future<http.StreamedResponse?> streamAddThirdPartyVendor(
+      url, token, SendCreateModel data) async {
+    http.StreamedResponse? response;
+
+    //  final filePhotoName = basename(data.image!.path);
+
+    var request = http.MultipartRequest("POST", Uri.parse(url));
+    Map<String, String> headers = {
+      'Accept': 'application/json',
+      "Content-Type": content,
+      'authorization': 'Bearer $token',
+    };
+
+    // var file = await http.MultipartFile.fromPath('image', data.image!.path,
+    //     filename: filePhotoName);
+
+    request.headers.addAll(headers);
+
+    request.fields["email"] = data.businessEmail!.toString();
+    request.fields["phone"] = data.businessPhone!.toString();
+    request.fields["address"] = data.bussinessAddress!.toString();
+    request.fields["shop_name"] = data.businessName!.toString();
+
+    request.fields["shop_type"] = data.businessType!.toString();
+    request.fields["weekOpeningHours"] = data.openHours!.toString();
+    request.fields["weekClosingHours"] = data.closeHours!.toString();
+    request.fields["satOpeningHours"] = data.satOpenHours!.toString();
+    request.fields["satClosingHours"] = data.satCloseHours!.toString();
+    request.fields["sunWeekOpeningHours"] = data.sunOpenHours!.toString();
+
+    request.fields["sunWeekClosingHours"] = data.sunCloseHours!.toString();
+
+    request.fields["personalId"] = data.personaId!.toString();
+    request.fields["businessId"] = data.businessId!.toString();
+    request.fields["businessBio"] = data.businessBio!.toString();
+    request.fields["city"] = data.city!.toString();
+
+    request.fields["state"] = data.state!.toString();
+    request.fields["country"] = data.country!.toString();
     //  request.files.add(file);
     try {
       response = await request.send();

@@ -2,6 +2,7 @@ import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/main.dart';
 import 'package:benji_aggregator/model/user_model.dart';
 import 'package:benji_aggregator/services/api_url.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 const String userBalance = "userBalance";
@@ -38,4 +39,15 @@ Map<String, String> authHeader([String? authToken, String? contentType]) {
     res['Content-Type'] = contentType;
   }
   return res;
+}
+
+class UppercaseTextInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    return TextEditingValue(
+      text: newValue.text.toUpperCase(),
+      selection: newValue.selection,
+    );
+  }
 }
