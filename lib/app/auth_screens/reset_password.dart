@@ -12,9 +12,9 @@ import 'package:http/http.dart' as http;
 import '../../main.dart';
 import '../../services/api_url.dart';
 import '../../src/components/appbar/my_appbar.dart';
-import '../../src/components/snackbar/my_fixed_snackBar.dart';
 import '../../src/components/input/password_textformfield.dart';
 import '../../src/components/section/reusable_authentication_firsthalf.dart';
+import '../../src/components/snackbar/my_fixed_snackBar.dart';
 import '../../src/providers/constants.dart';
 import '../../src/responsive/responsive_constant.dart';
 import '../../theme/colors.dart';
@@ -64,8 +64,7 @@ class _ResetPasswordState extends State<ResetPassword> {
     final response = await http.post(url, body: body);
     try {
       Map res = jsonDecode(response.body);
-      return response.statusCode == 200 &&
-          res["message"] == "Password successfully changed.";
+      return response.statusCode == 200;
     } catch (e) {
       return false;
     }
