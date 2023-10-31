@@ -20,7 +20,6 @@ class OrderController extends GetxController {
   var orderList = <Order>[].obs;
 
   Future getOrders([String? end]) async {
-    print('in getOrders getOrders oo');
     isLoad.value = true;
     late String token;
     String id = UserController.instance.user.value.id.toString();
