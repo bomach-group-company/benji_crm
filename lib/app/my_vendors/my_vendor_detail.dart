@@ -1,5 +1,6 @@
 // ignore_for_file: unused_local_variable, unused_element
 
+import 'package:benji_aggregator/controller/order_controller.dart';
 import 'package:benji_aggregator/model/my_vendor.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
 import 'package:benji_aggregator/src/providers/custom_show_search.dart';
@@ -13,8 +14,6 @@ import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/container/vendors_order_container.dart';
 import '../../src/components/container/vendors_product_container.dart';
 import '../../src/components/section/my_liquid_refresh.dart';
-import '../../src/components/tab/vendor_orders_tab.dart';
-import '../../src/components/tab/vendor_products_tab.dart';
 import '../../src/responsive/responsive_constant.dart';
 import '../../theme/colors.dart';
 import '../my_products/add_product.dart';
@@ -47,6 +46,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
   @override
   void dispose() {
     _tabBarController.dispose();
+    scrollController.dispose();
     super.dispose();
   }
 
@@ -291,9 +291,9 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                           child: Container(
                             height: deviceType(media.width) > 3 &&
                                     deviceType(media.width) < 5
-                                ? media.height * 0.325
+                                ? media.height * 0.4
                                 : deviceType(media.width) > 2
-                                    ? media.height * 0.305
+                                    ? media.height * 0.415
                                     : media.height * 0.28,
                             decoration: BoxDecoration(
                               color: kPageSkeletonColor,
@@ -308,7 +308,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                         ),
                         Positioned(
                           top: deviceType(media.width) > 2
-                              ? media.height * 0.21
+                              ? media.height * 0.25
                               : media.height * 0.13,
                           left: kDefaultPadding,
                           right: kDefaultPadding,
@@ -343,7 +343,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                   SizedBox(
                                     width: media.width - 200,
                                     child: Text(
-                                      widget.vendor.shopName,
+                                      widget.vendor.shopName ?? 'Not Available',
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
                                       textAlign: TextAlign.center,
@@ -370,15 +370,13 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                           size: 15,
                                         ),
                                         kHalfWidthSizedBox,
-                                        SizedBox(
-                                          width: media.width - 120,
-                                          child: const Text(
-                                            "Old Abakaliki Rd, Thinkers Corner 400103, Enugu",
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w400,
-                                            ),
+                                        Text(
+                                          widget.vendor.address ??
+                                              'Not Available',
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400,
                                           ),
                                         ),
                                       ],
@@ -386,7 +384,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                   ),
                                   kHalfSizedBox,
                                   InkWell(
-                                    onTap: _toVendorLocation,
+                                    onTap: () {},
                                     borderRadius: BorderRadius.circular(10),
                                     child: Container(
                                       padding: const EdgeInsets.all(
@@ -398,10 +396,12 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                           width: 1,
                                         ),
                                       ),
-                                      child: const Text(
-                                        "Show on map",
+                                      child: Text(
+                                        widget.vendor.address == null
+                                            ? "Not Available"
+                                            : "Show on map",
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 13,
                                           fontWeight: FontWeight.w400,
                                         ),
@@ -434,8 +434,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                             ),
                                             const SizedBox(width: 5),
                                             Text(
-                                              widget.vendor.averageRating
-                                                  .toString(),
+                                              '${widget.vendor.averageRating}',
                                               style: const TextStyle(
                                                 color: kBlackColor,
                                                 fontSize: 14,
@@ -460,11 +459,16 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            const Text(
-                                              "Online",
+                                            Text(
+                                              widget.vendor.isOnline ?? false
+                                                  ? "Online"
+                                                  : 'Offline',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
-                                                color: kSuccessColor,
+                                                color: widget.vendor.isOnline ??
+                                                        false
+                                                    ? kSuccessColor
+                                                    : kAccentColor,
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w400,
                                                 letterSpacing: -0.36,
@@ -488,19 +492,16 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                         Positioned(
                           top: deviceType(media.width) > 3 &&
                                   deviceType(media.width) < 5
-                              ? media.height * 0.12
+                              ? media.height * 0.15
                               : deviceType(media.width) > 2
-                                  ? media.height * 0.14
+                                  ? media.height * 0.15
                                   : media.height * 0.08,
-                          left: deviceType(media.width) > 3 &&
-                                  deviceType(media.width) < 5
-                              ? media.width / 2.24
-                              : deviceType(media.width) > 2
-                                  ? media.width / 2.36
-                                  : media.width / 2.7,
+                          left: deviceType(media.width) > 2
+                              ? (media.width / 2) - (126 / 2)
+                              : (media.width / 2) - (100 / 2),
                           child: Container(
-                            width: deviceType(media.width) > 2 ? 150 : 100,
-                            height: deviceType(media.width) > 2 ? 150 : 100,
+                            width: deviceType(media.width) > 2 ? 126 : 100,
+                            height: deviceType(media.width) > 2 ? 126 : 100,
                             decoration: ShapeDecoration(
                               color: kPageSkeletonColor,
                               image: const DecorationImage(
@@ -509,9 +510,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                 ),
                                 fit: BoxFit.cover,
                               ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(100),
-                              ),
+                              shape: const OvalBorder(),
                             ),
                           ),
                         ),
@@ -530,65 +529,58 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                         tabBar == 0
                             ?
                             //  const VendorsTabBarProductsContentSkeleton()
-                            VendorsProductsTab(
-                                list: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    // CategoryButtonSection(
-                                    //   onPressed: _changeProductCategory,
-                                    //   category: _categoryButtonText,
-                                    //   categorybgColor:
-                                    //       _categoryButtonBgColor,
-                                    //   categoryFontColor:
-                                    //       _categoryButtonFontColor,
-                                    // ),
-                                    GetBuilder<VendorController>(
-                                      initState: (state) async {
-                                        await VendorController.instance
-                                            .getVendorProduct(widget.vendor.id);
-                                      },
-                                      builder: (controller) {
-                                        return ListView.separated(
-                                          shrinkWrap: true,
-                                          separatorBuilder: (context, index) =>
-                                              kSizedBox,
-                                          itemCount: controller
-                                              .vendorProductList.length,
-                                          itemBuilder: (BuildContext context,
-                                              int index) {
-                                            return VendorsProductContainer(
-                                              onTap: () {},
-                                              product: controller
-                                                  .vendorProductList[index],
-                                            );
-                                          },
-                                        );
-                                      },
-                                    )
-                                  ],
-                                ),
+                            Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  // CategoryButtonSection(
+                                  //   onPressed: _changeProductCategory,
+                                  //   category: _categoryButtonText,
+                                  //   categorybgColor:
+                                  //       _categoryButtonBgColor,
+                                  //   categoryFontColor:
+                                  //       _categoryButtonFontColor,
+                                  // ),
+                                  GetBuilder<VendorController>(
+                                    initState: (state) async {
+                                      await VendorController.instance
+                                          .getVendorProduct(widget.vendor.id);
+                                    },
+                                    builder: (controller) {
+                                      return ListView.separated(
+                                        shrinkWrap: true,
+                                        separatorBuilder: (context, index) =>
+                                            kSizedBox,
+                                        itemCount:
+                                            controller.vendorProductList.length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return VendorsProductContainer(
+                                            onTap: () {},
+                                            product: controller
+                                                .vendorProductList[index],
+                                          );
+                                        },
+                                      );
+                                    },
+                                  )
+                                ],
                               )
                             //  const VendorsTabBarOrdersContentSkeleton()
-                            : VendorsOrdersTab(
-                                list: Column(
-                                  children: [
-                                    for (_orderID = 1;
-                                        _orderID < 30;
-                                        _orderID += _incrementOrderID)
-                                      VendorsOrderContainer(
-                                        mediaWidth: media.width,
-                                        orderImage: _orderImage,
-                                        orderID: _orderID,
-                                        formattedDateAndTime:
-                                            formattedDateAndTime,
-                                        orderItem: _orderItem,
-                                        itemQuantity: _orderQuantity,
-                                        itemPrice: _itemPrice,
-                                        customerName: _customerName,
-                                        customerAddress: _customerAddress,
-                                        order: null,
-                                      ),
-                                  ],
+                            : GetBuilder<OrderController>(
+                                initState: (state) async {
+                                  await OrderController.instance.getOrders();
+                                },
+                                builder: (controller) => ListView.separated(
+                                  shrinkWrap: true,
+                                  itemCount: controller.orderList.length,
+                                  separatorBuilder: (context, index) =>
+                                      kSizedBox,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return VendorsOrderContainer(
+                                      order: controller.orderList[index],
+                                    );
+                                  },
                                 ),
                               ),
                       ],
