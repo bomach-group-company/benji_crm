@@ -251,28 +251,53 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
                             itemBuilder: (context, index) => InkWell(
                               borderRadius: BorderRadius.circular(16),
                               child: Container(
-                                  decoration: ShapeDecoration(
-                                    color: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16),
-                                    ),
-                                    shadows: const [
-                                      BoxShadow(
-                                        color: Color(0x0F000000),
-                                        blurRadius: 24,
-                                        offset: Offset(0, 4),
-                                        spreadRadius: 0,
-                                      ),
-                                    ],
+                                decoration: ShapeDecoration(
+                                  color: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
                                   ),
-                                  child: VendorContainer(
-                                    onTap: () => _toVendorDetailsPage(
-                                        controller.vendorList[index]),
-                                    vendor: controller.vendorList[index],
-                                  )),
+                                  shadows: const [
+                                    BoxShadow(
+                                      color: Color(0x0F000000),
+                                      blurRadius: 24,
+                                      offset: Offset(0, 4),
+                                      spreadRadius: 0,
+                                    ),
+                                  ],
+                                ),
+                                child: VendorContainer(
+                                  onTap: () => _toVendorDetailsPage(
+                                      controller.vendorList[index]),
+                                  vendor: controller.vendorList[index],
+                                ),
+                              ),
                             ),
                           ),
                     kSizedBox,
+                    GetBuilder<VendorController>(
+                      builder: (controller) => Column(
+                        children: [
+                          controller.isLoadMoreVendor.value
+                              ? Center(
+                                  child: CircularProgressIndicator(
+                                    color: kAccentColor,
+                                  ),
+                                )
+                              : const SizedBox(),
+                          controller.loadedAllVendor.value
+                              ? Container(
+                                  margin: const EdgeInsets.only(
+                                      top: 20, bottom: 20),
+                                  height: 10,
+                                  width: 10,
+                                  decoration: ShapeDecoration(
+                                      shape: const CircleBorder(),
+                                      color: kPageSkeletonColor),
+                                )
+                              : const SizedBox(),
+                        ],
+                      ),
+                    )
                   ],
                 ),
               );
