@@ -10,7 +10,6 @@ import 'package:benji_aggregator/services/api_url.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-import '../model/driver_history_model.dart';
 import '../model/rider_model.dart';
 
 class RiderController extends GetxController {
@@ -28,7 +27,6 @@ class RiderController extends GetxController {
   var isLoadAssign = false.obs;
   var riderList = <RiderItem>[].obs;
   var rider = RiderItem.fromJson(null).obs;
-  var historyList = <RiderHistory>[].obs;
   var total = 0.obs;
 
   Future getRiders() async {

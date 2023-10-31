@@ -36,6 +36,8 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
   @override
   void initState() {
     super.initState();
+    scrollController.addListener(() => VendorController.instance
+        .scrollListener(scrollController, widget.vendor.id));
     // WidgetsBinding.instance.addPostFrameCallback((_) {
     //   VendorController.instance.getVendorProduct(widget.vendor.id);
     // });
@@ -241,6 +243,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
             radius: const Radius.circular(10),
             scrollbarOrientation: ScrollbarOrientation.right,
             child: ListView(
+              controller: scrollController,
               physics: const BouncingScrollPhysics(),
               dragStartBehavior: DragStartBehavior.down,
               children: [
@@ -560,13 +563,12 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                 GetBuilder<VendorController>(
                                   initState: (state) async {
                                     await VendorController.instance
-                                        .getVendorProduct(widget.vendor.id);
+                                        .getVendorProduct(widget.vendor.id,
+                                            first: true);
                                   },
                                   builder: (controller) {
-                                    return ListView.separated(
+                                    return ListView.builder(
                                       shrinkWrap: true,
-                                      separatorBuilder: (context, index) =>
-                                          kSizedBox,
                                       itemCount:
                                           controller.vendorProductList.length,
                                       itemBuilder:
@@ -579,6 +581,30 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                       },
                                     );
                                   },
+                                ),
+                                GetBuilder<VendorController>(
+                                  builder: (controller) => Column(
+                                    children: [
+                                      controller.isLoadMoreProduct.value
+                                          ? Center(
+                                              child: CircularProgressIndicator(
+                                                color: kAccentColor,
+                                              ),
+                                            )
+                                          : const SizedBox(),
+                                      controller.loadedAllProduct.value
+                                          ? Container(
+                                              margin: const EdgeInsets.only(
+                                                  top: 20, bottom: 20),
+                                              height: 10,
+                                              width: 10,
+                                              decoration: ShapeDecoration(
+                                                  shape: const CircleBorder(),
+                                                  color: kPageSkeletonColor),
+                                            )
+                                          : const SizedBox(),
+                                    ],
+                                  ),
                                 )
                               ],
                             )

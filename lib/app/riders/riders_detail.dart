@@ -466,9 +466,9 @@ class _RidersDetailState extends State<RidersDetail> {
                                                       MainAxisAlignment
                                                           .spaceBetween,
                                                   children: [
-                                                    const Text(
-                                                      'ID 213081',
-                                                      style: TextStyle(
+                                                    Text(
+                                                      'ID ${riderController.historyList[index].order.code}',
+                                                      style: const TextStyle(
                                                         color:
                                                             Color(0xFF454545),
                                                         fontSize: 12,

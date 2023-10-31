@@ -4,7 +4,7 @@ import 'package:benji_aggregator/src/providers/constants.dart';
 
 class RiderHistory {
   String id;
-  Order orders;
+  Order order;
   RiderItem driver;
   String acceptanceStatus;
   String deliveryStatus;
@@ -13,7 +13,7 @@ class RiderHistory {
 
   RiderHistory({
     required this.id,
-    required this.orders,
+    required this.order,
     required this.driver,
     required this.acceptanceStatus,
     required this.deliveryStatus,
@@ -25,7 +25,7 @@ class RiderHistory {
     json ??= {};
     return RiderHistory(
         id: json["id"] ?? notAvailable,
-        orders: Order.fromJson(json["orders"]),
+        order: Order.fromJson(json["order"]),
         driver: RiderItem.fromJson(json["driver"]),
         acceptanceStatus: json["acceptance_status"] ?? "PEND",
         deliveryStatus: json["delivery_status"] ?? "pending",
@@ -34,7 +34,7 @@ class RiderHistory {
   }
   Map<String, dynamic> toJson() => {
         "id": id,
-        // "orders": orders,
+        "order": order.toJson(),
         "driver": driver.toJson(),
         "acceptance_status": acceptanceStatus,
         "delivery_status": deliveryStatus,
