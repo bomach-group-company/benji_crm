@@ -43,6 +43,8 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    scrollController.addListener(
+        () => VendorController.instance.scrollListenerVendor(scrollController));
     VendorController.instance.getMyVendors();
 
     scrollController.addListener(() {

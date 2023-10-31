@@ -47,7 +47,7 @@ class VendorController extends GetxController {
   var isLoadMoreProduct = true.obs;
   var loadNumProduct = 10.obs;
 
-  Future<void> scrollListenerVendor(scrollController, vendorId) async {
+  Future<void> scrollListenerVendor(scrollController) async {
     if (VendorController.instance.loadedAllVendor.value) {
       return;
     }
@@ -60,7 +60,7 @@ class VendorController extends GetxController {
     }
   }
 
-  Future<void> scrollListenerMyVendor(scrollController, vendorId) async {
+  Future<void> scrollListenerMyVendor(scrollController) async {
     if (VendorController.instance.loadedAllMyVendor.value) {
       return;
     }
@@ -106,6 +106,7 @@ class VendorController extends GetxController {
       vendorList.value += data;
     } catch (e) {}
     isLoad.value = false;
+    isLoadMoreVendor.value = false;
     loadedAllVendor.value = data.isEmpty;
 
     update();
@@ -132,6 +133,7 @@ class VendorController extends GetxController {
       vendorMyList.value += data;
     } catch (e) {}
     loadedAllMyVendor.value = data.isEmpty;
+    isLoadMoreMyVendor.value = false;
 
     isLoad.value = false;
     update();
