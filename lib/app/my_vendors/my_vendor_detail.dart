@@ -544,84 +544,80 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: kDefaultPadding,
+                  Container(
+                    height: media.height,
+                    width: media.width,
+                    padding: const EdgeInsets.only(
+                      left: kDefaultPadding / 2,
+                      right: kDefaultPadding / 2,
                     ),
-                    child: Container(
-                      width: media.width,
-                      decoration: const BoxDecoration(
-                        color: kDefaultCategoryBackgroundColor,
-                      ),
-                      child: Column(
-                        children: [
-                          tabBar == 0
-                              ?
-                              //  const VendorsTabBarProductsContentSkeleton()
-                              VendorsProductsTab(
-                                  list: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      // CategoryButtonSection(
-                                      //   onPressed: _changeProductCategory,
-                                      //   category: _categoryButtonText,
-                                      //   categorybgColor:
-                                      //       _categoryButtonBgColor,
-                                      //   categoryFontColor:
-                                      //       _categoryButtonFontColor,
-                                      // ),
-                                      GetBuilder<VendorController>(
-                                        initState: (state) async {
-                                          await VendorController.instance
-                                              .getVendorProduct(
-                                                  widget.vendor.id);
-                                        },
-                                        builder: (controller) {
-                                          return ListView.separated(
-                                            shrinkWrap: true,
-                                            separatorBuilder:
-                                                (context, index) => kSizedBox,
-                                            itemCount: controller
-                                                .vendorProductList.length,
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              return VendorsProductContainer(
-                                                onTap: () {},
-                                                product: controller
-                                                    .vendorProductList[index],
-                                              );
-                                            },
-                                          );
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                )
-                              //  const VendorsTabBarOrdersContentSkeleton()
-                              : VendorsOrdersTab(
-                                  list: Column(
-                                    children: [
-                                      for (_orderID = 1;
-                                          _orderID < 30;
-                                          _orderID += _incrementOrderID)
-                                        VendorsOrderContainer(
-                                          mediaWidth: media.width,
-                                          orderImage: _orderImage,
-                                          orderID: _orderID,
-                                          formattedDateAndTime:
-                                              formattedDateAndTime,
-                                          orderItem: _orderItem,
-                                          itemQuantity: _orderQuantity,
-                                          itemPrice: _itemPrice,
-                                          customerName: _customerName,
-                                          customerAddress: _customerAddress,
-                                          order: null,
-                                        ),
-                                    ],
-                                  ),
+                    child: Column(
+                      children: [
+                        tabBar == 0
+                            ?
+                            //  const VendorsTabBarProductsContentSkeleton()
+                            VendorsProductsTab(
+                                list: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    // CategoryButtonSection(
+                                    //   onPressed: _changeProductCategory,
+                                    //   category: _categoryButtonText,
+                                    //   categorybgColor:
+                                    //       _categoryButtonBgColor,
+                                    //   categoryFontColor:
+                                    //       _categoryButtonFontColor,
+                                    // ),
+                                    GetBuilder<VendorController>(
+                                      initState: (state) async {
+                                        await VendorController.instance
+                                            .getVendorProduct(widget.vendor.id);
+                                      },
+                                      builder: (controller) {
+                                        return ListView.separated(
+                                          shrinkWrap: true,
+                                          separatorBuilder: (context, index) =>
+                                              kSizedBox,
+                                          itemCount: controller
+                                              .vendorProductList.length,
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            return VendorsProductContainer(
+                                              onTap: () {},
+                                              product: controller
+                                                  .vendorProductList[index],
+                                            );
+                                          },
+                                        );
+                                      },
+                                    )
+                                  ],
                                 ),
-                        ],
-                      ),
+                              )
+                            //  const VendorsTabBarOrdersContentSkeleton()
+                            : VendorsOrdersTab(
+                                list: Column(
+                                  children: [
+                                    for (_orderID = 1;
+                                        _orderID < 30;
+                                        _orderID += _incrementOrderID)
+                                      VendorsOrderContainer(
+                                        mediaWidth: media.width,
+                                        orderImage: _orderImage,
+                                        orderID: _orderID,
+                                        formattedDateAndTime:
+                                            formattedDateAndTime,
+                                        orderItem: _orderItem,
+                                        itemQuantity: _orderQuantity,
+                                        itemPrice: _itemPrice,
+                                        customerName: _customerName,
+                                        customerAddress: _customerAddress,
+                                        order: null,
+                                      ),
+                                  ],
+                                ),
+                              ),
+                      ],
                     ),
                   ),
                   kSizedBox,
