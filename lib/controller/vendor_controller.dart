@@ -175,7 +175,7 @@ class VendorController extends GetxController {
 
     try {
       http.StreamedResponse? response =
-          await HandleData.streamAddVCendor(url, token, data, classify);
+          await HandleData.streamAddVendor(url, token, data, classify);
       if (response == null) {
         isLoadCreate.value = false;
       } else if (response.statusCode == 200) {
@@ -211,7 +211,7 @@ class VendorController extends GetxController {
 
     try {
       http.StreamedResponse? response =
-          await HandleData.streamAddVCendor(url, token, data, classify);
+          await HandleData.streamAddVendor(url, token, data, classify);
       if (response == null) {
         isLoadCreate.value = false;
       } else if (response.statusCode == 200) {
@@ -232,6 +232,44 @@ class VendorController extends GetxController {
       ApiProcessorController.errorSnack("Please connect to the internet");
     } catch (e) {
       ApiProcessorController.errorSnack("An error occurred. ERROR: $e");
+    }
+    isLoadCreate.value = false;
+    update();
+  }
+
+  Future addToAVendor(SendCreateModel data, int vendorId) async {
+    isLoadCreate.value = true;
+    late String token;
+    update();
+    var url = "${Api.baseUrl}${Api.createVendorOtherBusiness}$vendorId";
+    token = UserController.instance.user.value.token;
+    consoleLog(url);
+
+    try {
+      http.StreamedResponse? response =
+          await HandleData.streamAddToVendor(url, token, data);
+      if (response == null) {
+        isLoadCreate.value = false;
+      } else if (response.statusCode == 200) {
+        final res = await http.Response.fromStream(response);
+        var jsonData = jsonDecode(res.body);
+        ApiProcessorController.successSnack(jsonData);
+        isLoadCreate.value = false;
+        Get.close(1);
+      } else {
+        final res = await http.Response.fromStream(response);
+        var jsonData = jsonDecode(res.body);
+        isLoadCreate.value = false;
+        consoleLog("res: $res");
+      }
+      isLoadCreate.value = false;
+
+      update();
+    } on SocketException {
+      ApiProcessorController.errorSnack("Please connect to the internet");
+    } catch (e) {
+      ApiProcessorController.errorSnack("An error occurred. ERROR: $e");
+      consoleLog("An error occured. ERROR: $e");
     }
     isLoadCreate.value = false;
     update();

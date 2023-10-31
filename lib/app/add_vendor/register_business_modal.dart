@@ -2,10 +2,11 @@ import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../model/business_type_model.dart';
+import '../../model/vendor_model.dart';
 import '../../src/providers/constants.dart';
 
-Future shopTypeModal(BuildContext context, List<BusinessType> type) async {
+Future registeredBusinessesModal(
+    BuildContext context, List<VendorModel> type) async {
   final scrollController = ScrollController();
   var media = MediaQuery.of(context).size;
   return showModalBottomSheet(
@@ -30,7 +31,7 @@ Future shopTypeModal(BuildContext context, List<BusinessType> type) async {
           Padding(
             padding: const EdgeInsets.all(10),
             child: Text(
-              "Business Types".toUpperCase(),
+              "Registered businesses".toUpperCase(),
               textAlign: TextAlign.left,
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
             ),
@@ -46,27 +47,29 @@ Future shopTypeModal(BuildContext context, List<BusinessType> type) async {
                   kHalfSizedBox,
               itemBuilder: (BuildContext context, int index) {
                 int adjustedIndex = index + 1;
-                return InkWell(
-                  onTap: () async {
-                    Get.back(result: type[index]);
-                  },
-                  mouseCursor: SystemMouseCursors.click,
-                  enableFeedback: true,
-                  borderRadius: BorderRadius.circular(10),
-                  child: Container(
-                    width: media.width,
-                    height: 40,
-                    padding: const EdgeInsets.all(10),
-                    child: Text(
-                      "($adjustedIndex) ${type[index].name}",
-                      style: TextStyle(
-                        color: kTextGreyColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                );
+                return type[index].isBlank == true
+                    ? CircularProgressIndicator(color: kAccentColor)
+                    : InkWell(
+                        onTap: () async {
+                          Get.back(result: type[index]);
+                        },
+                        mouseCursor: SystemMouseCursors.click,
+                        enableFeedback: true,
+                        borderRadius: BorderRadius.circular(10),
+                        child: Container(
+                          width: media.width,
+                          height: 40,
+                          padding: const EdgeInsets.all(10),
+                          child: Text(
+                            "($adjustedIndex) ${type[index].shopName}",
+                            style: TextStyle(
+                              color: kTextGreyColor,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      );
               },
             ),
           ),

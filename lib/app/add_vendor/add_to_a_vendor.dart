@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:benji_aggregator/controller/vendor_controller.dart';
+import 'package:benji_aggregator/services/api_url.dart';
 import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:csc_picker/csc_picker.dart';
@@ -34,15 +35,16 @@ import '../../src/responsive/responsive_constant.dart';
 import '../../src/utils/network_utils.dart';
 import '../add_vendor/business_category_modal.dart';
 import '../google_maps/get_location_on_map.dart';
+import 'register_business_modal.dart';
 
-class RegisterVendor extends StatefulWidget {
-  const RegisterVendor({super.key});
+class AddToAVendor extends StatefulWidget {
+  const AddToAVendor({super.key});
 
   @override
-  State<RegisterVendor> createState() => _RegisterVendorState();
+  State<AddToAVendor> createState() => _AddToAVendorState();
 }
 
-class _RegisterVendorState extends State<RegisterVendor> {
+class _AddToAVendorState extends State<AddToAVendor> {
   //==========================================================================================\\
   @override
   void initState() {
@@ -83,8 +85,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
 
   //============================================== CONTROLLERS =================================================\\
   final scrollController = ScrollController();
-  final personalIdEC = TextEditingController();
-  final vendorBusinessIdEC = TextEditingController();
+  final registeredVendorEC = TextEditingController();
   final vendorNameEC = TextEditingController();
   final vendorEmailEC = TextEditingController();
   final vendorPhoneNumberEC = TextEditingController();
@@ -102,8 +103,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
       LatLngDetailController.instance;
 
   //=================================== FOCUS NODES ====================================\\
-  final vendorPersonalIdFN = FocusNode();
-  final vendorBusinessIdFN = FocusNode();
+  final registeredVendorFN = FocusNode();
   final vendorNameFN = FocusNode();
   final vendorEmailFN = FocusNode();
   final vendorPhoneNumberFN = FocusNode();
@@ -184,6 +184,8 @@ class _RegisterVendorState extends State<RegisterVendor> {
   String? city;
   String? shopType;
   String? shopTypeHint;
+  String? registeredVendor;
+  int? vendorId;
   //================================== function ====================================\\
   pickCoverImage(ImageSource source) async {
     final XFile? image = await _picker.pickImage(
@@ -246,8 +248,8 @@ class _RegisterVendorState extends State<RegisterVendor> {
       return;
     }
     SendCreateModel data = SendCreateModel(
-      personaId: personalIdEC.text,
-      businessId: vendorBusinessIdEC.text,
+      personaId: "",
+      businessId: "",
       businessName: vendorNameEC.text,
       businessType: shopType,
       businessPhone: vendorPhoneNumberEC.text,
@@ -266,7 +268,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
       coverImage: selectedCoverImage,
       profileImage: selectedLogoImage,
     );
-    VendorController.instance.createVendor(data, true);
+    VendorController.instance.addToAVendor(data, vendorId!);
   }
 
   //=========================== WIDGETS ====================================\\
@@ -488,7 +490,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
         extendBody: true,
         extendBodyBehindAppBar: true,
         appBar: MyAppBar(
-          title: "Register a vendor",
+          title: "Add to a vendor",
           elevation: 0,
           actions: const [],
           backgroundColor: kPrimaryColor,
@@ -705,52 +707,47 @@ class _RegisterVendorState extends State<RegisterVendor> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            "Personal Identification",
+                            "Select a registered business",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
                           kSizedBox,
-                          MyBlueTextFormField(
-                            controller: personalIdEC,
-                            validator: (value) {
-                              if (value == null || value!.isEmpty) {
-                                vendorPersonalIdFN.requestFocus();
-                                return "Field cannot be empty";
-                              } else {
-                                return null;
-                              }
-                            },
-                            textInputAction: TextInputAction.next,
-                            focusNode: vendorPersonalIdFN,
-                            hintText: "NIN, Driver's License, etc",
-                            textInputType: TextInputType.text,
-                          ),
-                          kSizedBox,
-                          const Text(
-                            "Business Identification",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          kSizedBox,
-                          MyBlueTextFormField(
-                            controller: vendorBusinessIdEC,
-                            validator: (value) {
-                              if (value == null || value!.isEmpty) {
-                                return "Field cannot be empty";
-                              } else {
-                                return null;
-                              }
-                            },
-                            textInputAction: TextInputAction.next,
-                            focusNode: vendorBusinessIdFN,
-                            hintText:
-                                "Enter the business ID (if provided by the vendor)",
-                            textInputType: TextInputType.text,
-                          ),
+                          GetBuilder<VendorController>(builder: (type) {
+                            return InkWell(
+                              onTap: () async {
+                                var data = await registeredBusinessesModal(
+                                    context, type.vendorList);
+                                if (data != null) {
+                                  setState(() {
+                                    vendorId = data.id;
+                                    registeredVendor = data.shopName;
+                                    registeredVendorEC.text = data.shopName;
+                                  });
+                                  consoleLog("This is the vendor: $vendorId");
+                                }
+                              },
+                              child: MyBlueTextFormField(
+                                controller: registeredVendorEC,
+                                isEnabled: false,
+                                validator: (value) {
+                                  if (value.isEmpty || value == null) {
+                                    "Field cannot be empty";
+                                  }
+                                  return null;
+                                },
+                                onSaved: (value) {
+                                  registeredVendorEC.text = value!;
+                                },
+                                textInputAction: TextInputAction.next,
+                                focusNode: registeredVendorFN,
+                                hintText: registeredVendor ??
+                                    "Select an already registered business",
+                                textInputType: TextInputType.text,
+                              ),
+                            );
+                          }),
                           kSizedBox,
                           const Text(
                             "Business Name",
@@ -794,6 +791,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                                     shopTypeHint = data.name;
                                     vendorBusinessTypeEC.text = data.name;
                                   });
+                                  consoleLog("$shopType");
                                 }
                               },
                               child: MyBlueTextFormField(
@@ -810,7 +808,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                                 },
                                 textInputAction: TextInputAction.next,
                                 focusNode: vendorBusinessTypeFN,
-                                hintText: shopTypeHint ??
+                                hintText: registeredVendor ??
                                     "E.g Restaurant, Auto Dealer, etc",
                                 textInputType: TextInputType.text,
                               ),
