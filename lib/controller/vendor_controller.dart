@@ -27,7 +27,7 @@ class VendorController extends GetxController {
   var isLoad = false.obs;
   var isLoadCreate = false.obs;
   var vendorList = <VendorModel>[].obs;
-  var vendorMyList = <myVendorModel>[].obs;
+  var vendorMyList = <MyVendorModel>[].obs;
   var businessType = <BusinessType>[].obs;
   var vendorProductList = <Product>[].obs;
   var vendorOrderList = <Order>[].obs;

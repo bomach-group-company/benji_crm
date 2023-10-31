@@ -7,14 +7,14 @@ import 'dart:convert';
 import 'package:benji_aggregator/model/business_type_model.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
 
-List<myVendorModel> myVendorModelFromJson(String str) =>
-    List<myVendorModel>.from(
-        json.decode(str).map((x) => myVendorModel.fromJson(x)));
+List<MyVendorModel> myVendorModelFromJson(String str) =>
+    List<MyVendorModel>.from(
+        json.decode(str).map((x) => MyVendorModel.fromJson(x)));
 
-String myVendorModelToJson(List<myVendorModel> data) =>
+String myVendorModelToJson(List<MyVendorModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class myVendorModel {
+class MyVendorModel {
   int id;
   String email;
   String phone;
@@ -32,7 +32,7 @@ class myVendorModel {
   String? profileLogo;
   BusinessType shopType;
 
-  myVendorModel({
+  MyVendorModel({
     required this.id,
     required this.email,
     required this.phone,
@@ -51,9 +51,9 @@ class myVendorModel {
     required this.shopType,
   });
 
-  factory myVendorModel.fromJson(Map<String, dynamic>? json) {
+  factory MyVendorModel.fromJson(Map<String, dynamic>? json) {
     json ??= {};
-    return myVendorModel(
+    return MyVendorModel(
       id: json['vendor']["id"] ?? 0,
       email: json['vendor']["email"] ?? notAvailable,
       phone: json['vendor']["phone"] ?? notAvailable,

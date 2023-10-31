@@ -87,7 +87,7 @@ class _MyVendorsState extends State<MyVendors> {
 
 //===================== Navigation ==========================\\
 
-  void _toVendorDetailsPage(myVendorModel data) => Get.to(
+  void _toVendorDetailsPage(MyVendorModel data) => Get.to(
         () => MyVendorDetailsPage(
           vendor: data,
         ),

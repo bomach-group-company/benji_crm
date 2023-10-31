@@ -25,7 +25,7 @@ import 'my_vendors_location.dart';
 import 'suspend_my_vendor.dart';
 
 class MyVendorDetailsPage extends StatefulWidget {
-  final myVendorModel vendor;
+  final MyVendorModel vendor;
   const MyVendorDetailsPage({
     super.key,
     required this.vendor,
