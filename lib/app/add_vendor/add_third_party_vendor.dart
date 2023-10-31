@@ -19,7 +19,6 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import '../../controller/category_controller.dart';
 import '../../controller/latlng_detail_controller.dart';
 import '../../model/create_vendor_model.dart';
-import '../../services/api_url.dart';
 import '../../services/keys.dart';
 import '../../src/components/button/my_elevatedButton.dart';
 import '../../src/components/input/message_textformfield.dart';
@@ -34,7 +33,7 @@ import '../../src/providers/constants.dart';
 import '../../src/responsive/responsive_constant.dart';
 import '../../src/utils/network_utils.dart';
 import '../google_maps/get_location_on_map.dart';
-import '../vendors/business_category_modal.dart';
+import 'business_category_modal.dart';
 
 class AddThirdPartyVendor extends StatefulWidget {
   const AddThirdPartyVendor({super.key});
@@ -756,8 +755,6 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
                                       onTap: () async {
                                         var data = await shopTypeModal(
                                             context, type.category);
-                                        consoleLog(
-                                            "This is the data: ${data.name}");
                                         if (data != null) {
                                           setState(() {
                                             shopType = data.id;
