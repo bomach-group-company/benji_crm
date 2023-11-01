@@ -3,7 +3,6 @@
 import 'dart:io';
 
 import 'package:benji_aggregator/controller/form_controller.dart';
-import 'package:benji_aggregator/model/my_vendor.dart';
 import 'package:benji_aggregator/model/product_type_model.dart';
 import 'package:benji_aggregator/model/sub_category.dart';
 import 'package:benji_aggregator/services/api_url.dart';
@@ -11,6 +10,7 @@ import 'package:benji_aggregator/src/components/input/my_item_drop.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../model/my_vendor_model.dart';
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/button/my_elevatedButton.dart';
 import '../../src/components/input/my_textformfield.dart';
@@ -101,7 +101,7 @@ class _AddProductState extends State<AddProduct> {
       'is_recommended': true,
       'is_trending': true,
     };
-    print(data);
+    debugPrint("$data");
     await FormController.instance.postAuthstream(
         Api.baseUrl + Api.agentAddProductToVendor,
         data,
@@ -228,8 +228,8 @@ class _AddProductState extends State<AddProduct> {
 
   @override
   Widget build(BuildContext context) {
-    final mediaWidth = MediaQuery.of(context).size.width;
-    final mediaHeight = MediaQuery.of(context).size.height;
+    var media = MediaQuery.of(context).size;
+
     return GestureDetector(
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
@@ -339,7 +339,7 @@ class _AddProductState extends State<AddProduct> {
                       kHalfSizedBox,
                       ItemDropDownMenu(
                         itemEC: productTypeEC,
-                        mediaWidth: mediaWidth - 40,
+                        mediaWidth: media.width - 40,
                         hintText: "Choose product type",
                         dropdownMenuEntries: _productType == null
                             ? [
@@ -364,7 +364,7 @@ class _AddProductState extends State<AddProduct> {
                       kHalfSizedBox,
                       ItemDropDownMenu(
                         itemEC: productSubCategoryEC,
-                        mediaWidth: mediaWidth - 40,
+                        mediaWidth: media.width - 40,
                         hintText: "Choose a Sub Category",
                         dropdownMenuEntries: _subCategory == null
                             ? [

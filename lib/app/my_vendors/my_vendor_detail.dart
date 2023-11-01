@@ -1,11 +1,8 @@
 // ignore_for_file: unused_local_variable, unused_element
 
 import 'package:benji_aggregator/controller/order_controller.dart';
-
 import 'package:benji_aggregator/model/my_vendor_model.dart';
-
 import 'package:benji_aggregator/src/components/image/my_image.dart';
-
 import 'package:benji_aggregator/src/providers/constants.dart';
 import 'package:benji_aggregator/src/providers/custom_show_search.dart';
 import 'package:flutter/gestures.dart';
@@ -25,7 +22,6 @@ import '../my_products/my_product_details.dart';
 import 'about_my_vendor.dart';
 import 'delete_my_vendor.dart';
 import 'my_vendors_location.dart';
-import 'report_my_vendor.dart';
 
 class MyVendorDetailsPage extends StatefulWidget {
   final MyVendorModel vendor;
@@ -114,10 +110,6 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
           child: Text("About vendor"),
         ),
         const PopupMenuItem<String>(
-          value: 'report',
-          child: Text("Report vendor"),
-        ),
-        const PopupMenuItem<String>(
           value: 'delete',
           child: Text("Delete vendor"),
         ),
@@ -135,18 +127,6 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
               fullscreenDialog: true,
               curve: Curves.easeIn,
               routeName: "About my vendor",
-              preventDuplicates: true,
-              popGesture: true,
-              transition: Transition.rightToLeft,
-            );
-            break;
-          case 'report':
-            Get.to(
-              () => ReportMyVendor(vendor: widget.vendor),
-              duration: const Duration(milliseconds: 300),
-              fullscreenDialog: true,
-              curve: Curves.easeIn,
-              routeName: "Report my vendor",
               preventDuplicates: true,
               popGesture: true,
               transition: Transition.rightToLeft,
@@ -447,12 +427,10 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                           children: [
                                             Text(
                                               widget.vendor.isOnline == false
-
                                                   ? "Online"
                                                   : 'Offline',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
-
                                                 color: widget.vendor.isOnline ==
                                                         false
                                                     ? kSuccessColor

@@ -158,9 +158,8 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
   void _toAboutVendor(VendorModel data) => Get.to(
         () => AboutVendor(
           vendor: data,
-         
-          vendor: widget.vendor,
 
+          // vendor: widget.vendor,
         ),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
