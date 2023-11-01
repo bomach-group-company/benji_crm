@@ -1,32 +1,20 @@
 import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../model/vendor_model.dart';
 import '../../src/components/card/customer_review_card.dart';
+import '../../src/components/section/my_liquid_refresh.dart';
 import '../../src/components/section/star_row.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 
 class AboutVendor extends StatefulWidget {
-  final String vendorName;
-  final String vendorHeadLine;
-  final String monToFriOpeningHours;
-  final String monToFriClosingHours;
-  final String satOpeningHours;
-  final String satClosingHours;
-  final String sunOpeningHours;
-  final String sunClosingHours;
+  final VendorModel vendor;
+
   const AboutVendor({
     super.key,
-    required this.vendorName,
-    required this.vendorHeadLine,
-    required this.monToFriOpeningHours,
-    required this.monToFriClosingHours,
-    required this.satOpeningHours,
-    required this.satClosingHours,
-    required this.sunOpeningHours,
-    required this.sunClosingHours,
+    required this.vendor,
   });
 
   @override
@@ -38,351 +26,412 @@ class _AboutVendorState extends State<AboutVendor> {
   @override
   void initState() {
     super.initState();
-
-    _loadingScreen = true;
-    Future.delayed(
-      const Duration(milliseconds: 500),
-      () => setState(
-        () => _loadingScreen = false,
-      ),
-    );
+    scrollController.addListener(_scrollListener);
   }
 
   //=================================== CONTROLLERS ====================================\\
   final ScrollController scrollController = ScrollController();
 
 //============================================= ALL VARIABLES  ===================================================\\
-  late bool _loadingScreen;
+  late bool loadingScreen;
+  bool isScrollToTopBtnVisible = false;
 
 //============================================= FUNCTIONS  ===================================================\\
+
+  void scrollToTop() {
+    scrollController.animateTo(
+      0,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  Future<void> _scrollListener() async {
+    if (scrollController.position.pixels >= 100 &&
+        isScrollToTopBtnVisible != true) {
+      setState(() {
+        isScrollToTopBtnVisible = true;
+      });
+    }
+    if (scrollController.position.pixels < 100 &&
+        isScrollToTopBtnVisible == true) {
+      setState(() {
+        isScrollToTopBtnVisible = false;
+      });
+    }
+  }
 
 //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
     setState(() {
-      _loadingScreen = true;
+      loadingScreen = true;
     });
     await Future.delayed(const Duration(milliseconds: 500));
     setState(() {
-      _loadingScreen = false;
+      loadingScreen = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    double mediaWidth = MediaQuery.of(context).size.width;
+    var media = MediaQuery.of(context).size;
 
-    return LiquidPullToRefresh(
+    return MyLiquidRefresh(
       onRefresh: _handleRefresh,
-      color: kAccentColor,
-      borderWidth: 5.0,
-      backgroundColor: kPrimaryColor,
-      height: 150,
-      animSpeedFactor: 2,
-      showChildOpacityTransition: false,
       child: Scaffold(
+        floatingActionButton: isScrollToTopBtnVisible
+            ? FloatingActionButton(
+                onPressed: scrollToTop,
+                mini: true,
+                backgroundColor: kAccentColor,
+                enableFeedback: true,
+                mouseCursor: SystemMouseCursors.click,
+                tooltip: "Scroll to top",
+                hoverColor: kAccentColor,
+                hoverElevation: 50.0,
+                child: const FaIcon(FontAwesomeIcons.chevronUp, size: 18),
+              )
+            : const SizedBox(),
         appBar: MyAppBar(
-          title: widget.vendorName,
+          title: widget.vendor.shopName,
           elevation: 0,
           actions: const [],
           backgroundColor: kPrimaryColor,
         ),
         body: SafeArea(
           maintainBottomViewPadding: true,
-          child: FutureBuilder(
-            future: null,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                Center(child: SpinKitDoubleBounce(color: kAccentColor));
-              }
-              if (snapshot.connectionState == ConnectionState.none) {
-                const Center(
-                  child: Text("Please connect to the internet"),
-                );
-              }
-              // if (snapshot.connectionState == snapshot.requireData) {
-              //   SpinKitDoubleBounce(color: kAccentColor);
-              // }
-              if (snapshot.connectionState == snapshot.error) {
-                const Center(
-                  child: Text("Error, Please try again later"),
-                );
-              }
-              return _loadingScreen
-                  ? Center(child: SpinKitDoubleBounce(color: kAccentColor))
-                  : Scrollbar(
-                      controller: scrollController,
-                      radius: const Radius.circular(10),
-                      scrollbarOrientation: ScrollbarOrientation.right,
-                      child: ListView(
-                        physics: const BouncingScrollPhysics(),
-                        padding: const EdgeInsets.all(kDefaultPadding),
+          child: Scrollbar(
+            controller: scrollController,
+            radius: const Radius.circular(10),
+            scrollbarOrientation: ScrollbarOrientation.right,
+            child: ListView(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.all(kDefaultPadding),
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "About This Business",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    kSizedBox,
+                    Container(
+                      width: media.width,
+                      padding: const EdgeInsets.all(kDefaultPadding),
+                      decoration: ShapeDecoration(
+                        color: const Color(0xFFFEF8F8),
+                        shape: RoundedRectangleBorder(
+                          side: const BorderSide(
+                            width: 0.50,
+                            color: Color(0xFFFDEDED),
+                          ),
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        shadows: const [
+                          BoxShadow(
+                            color: Color(0x0F000000),
+                            blurRadius: 24,
+                            offset: Offset(0, 4),
+                            spreadRadius: 0,
+                          ),
+                        ],
+                      ),
+                      child: const Text(
+                        "Cruiselings whale shark diving pan Pacific romance at sea rusty dancemoves endless horizon home is where the anchor drops back packers Endless summer cruise insider paradise island languid afternoons the love boat cruise life.",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                    kSizedBox,
+                    Container(
+                      width: media.width,
+                      padding: const EdgeInsets.all(kDefaultPadding),
+                      decoration: ShapeDecoration(
+                        color: const Color(0xFFFEF8F8),
+                        shape: RoundedRectangleBorder(
+                          side: const BorderSide(
+                            width: 0.50,
+                            color: Color(0xFFFDEDED),
+                          ),
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        shadows: const [
+                          BoxShadow(
+                            color: Color(0x0F000000),
+                            blurRadius: 24,
+                            offset: Offset(0, 4),
+                            spreadRadius: 0,
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                          Text.rich(
+                            TextSpan(
+                              children: [
+                                const TextSpan(
+                                  text: "Email: ",
+                                  style: TextStyle(
+                                    color: kTextBlackColor,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: widget.vendor.email,
+                                  style: const TextStyle(
+                                    color: kTextBlackColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          kHalfSizedBox,
+                          Text.rich(
+                            TextSpan(
+                              children: [
+                                const TextSpan(
+                                  text: "Phone number: ",
+                                  style: TextStyle(
+                                    color: kTextBlackColor,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: widget.vendor.phone,
+                                  style: const TextStyle(
+                                    color: kTextBlackColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    kSizedBox,
+                    const Text(
+                      "Opening Hours",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    kSizedBox,
+                    Container(
+                      width: media.width,
+                      padding: const EdgeInsets.all(kDefaultPadding),
+                      decoration: ShapeDecoration(
+                        color: const Color(0xFFFEF8F8),
+                        shape: RoundedRectangleBorder(
+                          side: const BorderSide(
+                            width: 0.50,
+                            color: Color(0xFFFDEDED),
+                          ),
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        shadows: const [
+                          BoxShadow(
+                            color: Color(0x0F000000),
+                            blurRadius: 24,
+                            offset: Offset(0, 4),
+                            spreadRadius: 0,
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
-                                "About This Business",
+                              Text(
+                                "Mon. - Fri.",
                                 style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
                                 ),
                               ),
                               kSizedBox,
-                              Container(
-                                width: mediaWidth,
-                                padding: const EdgeInsets.all(kDefaultPadding),
-                                decoration: ShapeDecoration(
-                                  color: const Color(0xFFFEF8F8),
-                                  shape: RoundedRectangleBorder(
-                                    side: const BorderSide(
-                                      width: 0.50,
-                                      color: Color(0xFFFDEDED),
-                                    ),
-                                    borderRadius: BorderRadius.circular(25),
-                                  ),
-                                  shadows: const [
-                                    BoxShadow(
-                                      color: Color(0x0F000000),
-                                      blurRadius: 24,
-                                      offset: Offset(0, 4),
-                                      spreadRadius: 0,
-                                    ),
-                                  ],
-                                ),
-                                child: Text(
-                                  widget.vendorHeadLine,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ),
-                              kSizedBox,
-                              const Text(
-                                "Opening Hours",
+                              Text(
+                                "Sat.",
                                 style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
                                 ),
                               ),
                               kSizedBox,
-                              Container(
-                                width: mediaWidth,
-                                padding: const EdgeInsets.all(kDefaultPadding),
-                                decoration: ShapeDecoration(
-                                  color: const Color(0xFFFEF8F8),
-                                  shape: RoundedRectangleBorder(
-                                    side: const BorderSide(
-                                      width: 0.50,
-                                      color: Color(0xFFFDEDED),
-                                    ),
-                                    borderRadius: BorderRadius.circular(25),
-                                  ),
-                                  shadows: const [
-                                    BoxShadow(
-                                      color: Color(0x0F000000),
-                                      blurRadius: 24,
-                                      offset: Offset(0, 4),
-                                      spreadRadius: 0,
-                                    ),
-                                  ],
-                                ),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Mon. - Fri.",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                        kSizedBox,
-                                        Text(
-                                          "Sat.",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                        kSizedBox,
-                                        Text(
-                                          "Sun.",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(width: kDefaultPadding * 2),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text.rich(
-                                          TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                text: widget
-                                                    .monToFriOpeningHours
-                                                    .toUpperCase(),
-                                                style: const TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w700,
-                                                ),
-                                              ),
-                                              const TextSpan(
-                                                text: " - ",
-                                                style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w700,
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text: widget
-                                                    .monToFriClosingHours
-                                                    .toUpperCase(),
-                                                style: const TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w700,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        kSizedBox,
-                                        Text.rich(
-                                          TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                text: widget.satOpeningHours
-                                                    .toUpperCase(),
-                                                style: const TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w700,
-                                                ),
-                                              ),
-                                              const TextSpan(
-                                                text: " - ",
-                                                style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w700,
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text: widget.satClosingHours
-                                                    .toUpperCase(),
-                                                style: const TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w700,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        kSizedBox,
-                                        Text.rich(
-                                          TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                text: widget.sunOpeningHours
-                                                    .toUpperCase(),
-                                                style: const TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w700,
-                                                ),
-                                              ),
-                                              const TextSpan(
-                                                text: " - ",
-                                                style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w700,
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text: widget.sunClosingHours
-                                                    .toUpperCase(),
-                                                style: const TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w700,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        kSizedBox,
-                                      ],
-                                    ),
-                                  ],
+                              Text(
+                                "Sun.",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
                                 ),
                               ),
-                              kSizedBox,
-                              Container(
-                                width: mediaWidth,
-                                padding: const EdgeInsets.all(kDefaultPadding),
-                                decoration: ShapeDecoration(
-                                  color: const Color(0xFFFEF8F8),
-                                  shape: RoundedRectangleBorder(
-                                    side: const BorderSide(
-                                      width: 0.50,
-                                      color: Color(0xFFFDEDED),
-                                    ),
-                                    borderRadius: BorderRadius.circular(25),
-                                  ),
-                                  shadows: const [
-                                    BoxShadow(
-                                      color: Color(0x0F000000),
-                                      blurRadius: 24,
-                                      offset: Offset(0, 4),
-                                      spreadRadius: 0,
-                                    ),
-                                  ],
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                            ],
+                          ),
+                          const SizedBox(width: kDefaultPadding * 2),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text.rich(
+                                TextSpan(
                                   children: [
-                                    const Text(
-                                      "Reviews View & Ratings",
+                                    TextSpan(
+                                      text: "8 AM".toUpperCase(),
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    const TextSpan(
+                                      text: " - ",
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700,
                                       ),
                                     ),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: kDefaultPadding,
-                                        horizontal: kDefaultPadding * 0.5,
+                                    TextSpan(
+                                      text: "10 PM".toUpperCase(),
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
                                       ),
-                                      child: const StarRow(),
                                     ),
                                   ],
                                 ),
                               ),
                               kSizedBox,
-                              ListView.separated(
-                                physics: const BouncingScrollPhysics(),
-                                separatorBuilder: (context, index) => kSizedBox,
-                                shrinkWrap: true,
-                                itemCount: 5,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return CostumerReviewCard(
-                                    mediaWidth: mediaWidth,
-                                  );
-                                },
+                              Text.rich(
+                                TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: "8 AM".toUpperCase(),
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    const TextSpan(
+                                      text: " - ",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: "10 PM".toUpperCase(),
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
+                              kSizedBox,
+                              Text.rich(
+                                TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: "closed".toUpperCase(),
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    const TextSpan(
+                                      text: " - ",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: "closed".toUpperCase(),
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              kSizedBox,
                             ],
-                          )
+                          ),
                         ],
                       ),
-                    );
-            },
+                    ),
+                    kSizedBox,
+                    Container(
+                      width: media.width,
+                      padding: const EdgeInsets.all(kDefaultPadding),
+                      decoration: ShapeDecoration(
+                        color: const Color(0xFFFEF8F8),
+                        shape: RoundedRectangleBorder(
+                          side: const BorderSide(
+                            width: 0.50,
+                            color: Color(0xFFFDEDED),
+                          ),
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        shadows: const [
+                          BoxShadow(
+                            color: Color(0x0F000000),
+                            blurRadius: 24,
+                            offset: Offset(0, 4),
+                            spreadRadius: 0,
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "Reviews View & Ratings",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: kDefaultPadding,
+                              horizontal: kDefaultPadding * 0.5,
+                            ),
+                            child: const StarRow(),
+                          ),
+                        ],
+                      ),
+                    ),
+                    kSizedBox,
+                    ListView.separated(
+                      physics: const BouncingScrollPhysics(),
+                      separatorBuilder: (context, index) => kSizedBox,
+                      shrinkWrap: true,
+                      itemCount: 10,
+                      itemBuilder: (BuildContext context, int index) {
+                        return CostumerReviewCard(mediaWidth: media.width);
+                      },
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),

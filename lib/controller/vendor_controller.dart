@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:benji_aggregator/controller/error_controller.dart';
-import 'package:benji_aggregator/model/my_vendor.dart';
+import 'package:benji_aggregator/model/my_vendor_model.dart';
 import 'package:benji_aggregator/model/order.dart';
 import 'package:benji_aggregator/model/product_model.dart';
 import 'package:benji_aggregator/model/vendor_model.dart';

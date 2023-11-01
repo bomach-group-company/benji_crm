@@ -153,9 +153,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
       );
 
   void _toVendorDetailsPage(VendorModel data) => Get.to(
-        () => VendorDetailsPage(
-          vendor: data,
-        ),
+        () => VendorDetailsPage(vendor: data),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,

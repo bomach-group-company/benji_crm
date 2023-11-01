@@ -90,6 +90,8 @@ class _DashboardState extends State<Dashboard>
   String orderImage = "chizzy's-food";
   String customerName = "Mercy Luke";
 
+  late bool loadingScreen;
+
 //============================================== CONTROLLERS =================================================\\
   final scrollController = ScrollController();
   late AnimationController _animationController;
@@ -102,7 +104,19 @@ class _DashboardState extends State<Dashboard>
 
 //===================== Handle refresh ==========================\\
 
-  Future<void> _handleRefresh() async {}
+  Future<void> _handleRefresh() async {
+    setState(() {
+      loadingScreen = true;
+    });
+    RiderController.instance.getRiders();
+    OrderController.instance.getOrders();
+    VendorController.instance.getVendors();
+    VendorController.instance.getMyVendors();
+    NotificationController.instance.runTask();
+    setState(() {
+      loadingScreen = false;
+    });
+  }
 
 //============================= Scroll to Top ======================================//
   void _scrollToTop() {
@@ -303,8 +317,9 @@ class _DashboardState extends State<Dashboard>
                     onTap: _toSeeAllVendors,
                     number: intFormattedText(allVendor.length),
                     typeOf: "Vendors",
-                    onlineStatus:
-                        "${intFormattedText(allOnlineVendor.length)} Online",
+                    onlineStatus: vendor.isLoad.value
+                        ? "Loading..."
+                        : "${intFormattedText(allOnlineVendor.length)} Online",
                   );
                 }),
                 kSizedBox,
@@ -312,11 +327,15 @@ class _DashboardState extends State<Dashboard>
                   await RiderController.instance.getRiders();
                 }, builder: (rider) {
                   final allRider = rider.riderList.toList();
+                  // final allOnlineRiders = rider.riderList
+                  //     .where((p0) => p0.isOnline == true)
+                  //     .toList();
                   return RiderVendorContainer(
                     onTap: _toSeeAllRiders,
                     number: rider.total.value.toString(),
                     typeOf: "Riders",
-                    onlineStatus: "Online",
+                    onlineStatus: rider.isLoad.value ? "Loading..." : "Online",
+                    // : "$allOnlineRiders Online",
                   );
                 }),
                 const SizedBox(height: kDefaultPadding * 2),

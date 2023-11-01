@@ -22,7 +22,6 @@ class ReportVendor extends StatefulWidget {
 
 class _ReportVendorState extends State<ReportVendor> {
   //============================================ ALL VARIABLES ===========================================\\
-  final bool _submittingRequest = false;
 
   //============================================ CONTROLLERS ===========================================\\
   final TextEditingController _messageEC = TextEditingController();
@@ -52,28 +51,26 @@ class _ReportVendorState extends State<ReportVendor> {
       resizeToAvoidBottomInset: true,
       appBar: MyAppBar(
         title: "Report Vendor",
-        elevation: 10.0,
+        elevation: 0,
         actions: const [],
         backgroundColor: kPrimaryColor,
       ),
-      bottomNavigationBar: _submittingRequest
-          ? Center(child: CircularProgressIndicator(color: kAccentColor))
-          : Container(
-              color: kPrimaryColor,
-              padding: const EdgeInsets.all(kDefaultPadding),
-              child: GetBuilder<FormController>(
-                id: 'report_vendor',
-                builder: (controller) => MyElevatedButton(
-                  isLoading: controller.isLoad.value,
-                  onPressed: (() async {
-                    if (_formKey.currentState!.validate()) {
-                      _submitRequest();
-                    }
-                  }),
-                  title: "Submit",
-                ),
-              ),
-            ),
+      bottomNavigationBar: Container(
+        color: kPrimaryColor,
+        padding: const EdgeInsets.all(kDefaultPadding),
+        child: GetBuilder<FormController>(
+          id: 'report_vendor',
+          builder: (controller) => MyElevatedButton(
+            isLoading: controller.isLoad.value,
+            onPressed: (() async {
+              if (_formKey.currentState!.validate()) {
+                _submitRequest();
+              }
+            }),
+            title: "Submit",
+          ),
+        ),
+      ),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(kDefaultPadding),

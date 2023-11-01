@@ -1,7 +1,7 @@
 // ignore_for_file: unused_local_variable, unused_element
 
 import 'package:benji_aggregator/controller/order_controller.dart';
-import 'package:benji_aggregator/model/my_vendor.dart';
+import 'package:benji_aggregator/model/my_vendor_model.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
 import 'package:benji_aggregator/src/providers/custom_show_search.dart';
 import 'package:flutter/gestures.dart';
@@ -57,15 +57,9 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
   int tabBar = 0;
 
   //=================================== Orders =======================================\\
-  final int _incrementOrderID = 2 + 2;
-  late int _orderID;
-  final String _orderItem = "Jollof Rice and Chicken";
-  final String _customerAddress = "21 Odogwu Street, New Haven";
   final int _orderQuantity = 2;
   // final double _price = 2500;
   final double _itemPrice = 2500;
-  final String _orderImage = "chizzy's-food";
-  final String _customerName = "Mercy Luke";
 
   //=============================== Products ====================================\\
   final String _productName = "Smokey Jollof Pasta";
@@ -208,7 +202,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
         transition: Transition.downToUp,
       );
 
-  void _toVendorLocation() => Get.to(
+  void toVendorLocation() => Get.to(
         () => MyVendorLocation(
           vendorName: widget.vendor.shopName,
           vendorAddress: widget.vendor.address,
@@ -343,7 +337,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                   SizedBox(
                                     width: media.width - 200,
                                     child: Text(
-                                      widget.vendor.shopName ?? 'Not Available',
+                                      widget.vendor.shopName,
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
                                       textAlign: TextAlign.center,
@@ -371,8 +365,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                         ),
                                         kHalfWidthSizedBox,
                                         Text(
-                                          widget.vendor.address ??
-                                              'Not Available',
+                                          widget.vendor.address,
                                           overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(
                                             fontSize: 14,
@@ -384,7 +377,9 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                   ),
                                   kHalfSizedBox,
                                   InkWell(
-                                    onTap: () {},
+                                    onTap: widget.vendor.address.isEmpty
+                                        ? null
+                                        : toVendorLocation,
                                     borderRadius: BorderRadius.circular(10),
                                     child: Container(
                                       padding: const EdgeInsets.all(
@@ -397,8 +392,8 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                         ),
                                       ),
                                       child: Text(
-                                        widget.vendor.address == null
-                                            ? "Not Available"
+                                        widget.vendor.address.isEmpty
+                                            ? notAvailable
                                             : "Show on map",
                                         textAlign: TextAlign.center,
                                         style: const TextStyle(
@@ -460,12 +455,12 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                               MainAxisAlignment.center,
                                           children: [
                                             Text(
-                                              widget.vendor.isOnline ?? false
+                                              widget.vendor.isOnline == false
                                                   ? "Online"
                                                   : 'Offline',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
-                                                color: widget.vendor.isOnline ??
+                                                color: widget.vendor.isOnline ==
                                                         false
                                                     ? kSuccessColor
                                                     : kAccentColor,
