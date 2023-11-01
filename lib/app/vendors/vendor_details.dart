@@ -4,6 +4,7 @@ import 'package:benji_aggregator/app/products/product_details.dart';
 import 'package:benji_aggregator/controller/order_controller.dart';
 import 'package:benji_aggregator/model/product_model.dart';
 import 'package:benji_aggregator/model/vendor_model.dart';
+import 'package:benji_aggregator/src/components/image/my_image.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
 import 'package:benji_aggregator/src/providers/custom_show_search.dart';
 import 'package:benji_aggregator/src/responsive/responsive_constant.dart';
@@ -268,13 +269,8 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                   : mediaHeight * 0.28,
                           decoration: BoxDecoration(
                             color: kPageSkeletonColor,
-                            image: const DecorationImage(
-                              fit: BoxFit.fill,
-                              image: AssetImage(
-                                "assets/images/vendors/ntachi-osa.png",
-                              ),
-                            ),
                           ),
+                          child: MyImage(url: widget.vendor.shopImage),
                         ),
                       ),
                       Positioned(
@@ -472,14 +468,9 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                           height: deviceType(mediaWidth) > 2 ? 126 : 100,
                           decoration: ShapeDecoration(
                             color: kPageSkeletonColor,
-                            image: const DecorationImage(
-                              image: AssetImage(
-                                "assets/images/vendors/ntachi-osa-logo.png",
-                              ),
-                              fit: BoxFit.cover,
-                            ),
                             shape: const OvalBorder(),
                           ),
+                          child: MyImage(url: widget.vendor.profileLogo),
                         ),
                       ),
                     ],

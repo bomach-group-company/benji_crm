@@ -9,6 +9,7 @@ import '../model/create_vendor_model.dart';
 
 // API URLS AND HTTP CALL FUNCTIONS
 const baseURL = "https://resource.bgbot.app/api/v1";
+const baseImage = "https://resource.bgbot.app";
 
 class Api {
   static const baseUrl = "https://resource.bgbot.app/api/v1";

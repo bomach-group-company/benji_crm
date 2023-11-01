@@ -28,8 +28,8 @@ class VendorModel {
   double averageRating;
   int numberOfClientsReactions;
   String shopName;
-  String? shopImage;
-  String? profileLogo;
+  String shopImage;
+  String profileLogo;
   BusinessType shopType;
 
   VendorModel({
@@ -46,8 +46,8 @@ class VendorModel {
     required this.averageRating,
     required this.numberOfClientsReactions,
     required this.shopName,
-    this.shopImage,
-    this.profileLogo,
+    required this.shopImage,
+    required this.profileLogo,
     required this.shopType,
   });
 
@@ -67,8 +67,8 @@ class VendorModel {
       averageRating: ((json["average_rating"] ?? 0.0) as double).toPrecision(1),
       numberOfClientsReactions: json["number_of_clients_reactions"] ?? 0,
       shopName: json["shop_name"] ?? notAvailable,
-      shopImage: json["shop_image"],
-      profileLogo: json["profileLogo"],
+      shopImage: json["shop_image"] ?? '',
+      profileLogo: json["profileLogo"] ?? '',
       shopType: BusinessType.fromJson(json["shop_type"]),
     );
   }

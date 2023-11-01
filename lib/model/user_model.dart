@@ -32,7 +32,7 @@ class UserModel {
   String phoneNumberOfSpouse;
   String license;
   String token;
-  String? image;
+  String image;
 
   UserModel({
     required this.id,
@@ -56,7 +56,7 @@ class UserModel {
     required this.phoneNumberOfSpouse,
     required this.license,
     required this.token,
-    this.image,
+    required this.image,
   });
   factory UserModel.fromJson(Map<String, dynamic>? json) {
     json ??= {};
@@ -82,7 +82,7 @@ class UserModel {
       phoneNumberOfSpouse: json['phoneNumberOfSpouse'] ?? notAvailable,
       license: json['license'] ?? notAvailable,
       token: json['token'] ?? '',
-      image: json['image'],
+      image: json['image'] ?? '',
     );
   }
 

@@ -2,6 +2,7 @@
 
 import 'package:benji_aggregator/app/others/notifications.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
+import 'package:benji_aggregator/src/components/image/my_image.dart';
 import 'package:benji_aggregator/src/responsive/responsive_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -15,11 +16,13 @@ import 'dashboard_app_bar_aggregator.dart';
 
 class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
   final int numberOfNotifications;
+  final String? image;
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
   const DashboardAppBar({
     super.key,
     required this.numberOfNotifications,
+    this.image,
   });
 //======================================== ALL VARIABLES ==============================================\\
 
@@ -73,13 +76,9 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
                       height: 45,
                       decoration: ShapeDecoration(
                         color: kPageSkeletonColor,
-                        image: const DecorationImage(
-                          image: AssetImage(
-                              "assets/images/profile/avatar-image.jpg"),
-                          fit: BoxFit.cover,
-                        ),
                         shape: const OvalBorder(),
                       ),
+                      child: MyImage(url: image),
                     ),
                   ),
                 ),

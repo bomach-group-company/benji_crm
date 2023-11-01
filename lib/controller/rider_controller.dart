@@ -54,7 +54,7 @@ class RiderController extends GetxController {
       consoleLog("$e");
     }
     isLoad.value = false;
-    moreNum.value = 10;
+    moreNum.value += 10;
     loadedAll.value = false;
     update();
   }
@@ -62,12 +62,11 @@ class RiderController extends GetxController {
   Future loadMore() async {
     late String token;
     isLoadMore.value = true;
-    update();
     var url =
-        "${Api.baseUrl}${Api.riderList}?start=${moreNum - 10}&end=$moreNum";
+        "${Api.baseUrl}${Api.riderList}?start=${moreNum.value - 10}&end=${moreNum.value}";
     token = UserController.instance.user.value.token;
-    moreNum.value = moreNum.value + 10;
-    update();
+    print('$url $moreNum chai');
+    moreNum.value += 10;
     try {
       http.Response? response = await HandleData.getApi(url, token);
 
@@ -75,6 +74,7 @@ class RiderController extends GetxController {
           await ApiProcessorController.errorState(response, isFirst ?? true);
       log(responseData);
       if (responseData == null) {
+        update();
         return;
       }
       List<RiderItem> val = (jsonDecode(responseData)['items'] as List)

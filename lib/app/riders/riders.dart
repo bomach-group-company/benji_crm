@@ -1,9 +1,8 @@
 // ignorFontWeight_for_file: unused_local_variable,
 
+import 'package:benji_aggregator/src/components/image/my_image.dart';
 import 'package:benji_aggregator/src/components/section/my_liquid_refresh.dart';
 import 'package:benji_aggregator/src/skeletons/riders_list_skeleton.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -218,26 +217,10 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                     CircleAvatar(
                                       radius: 30,
                                       backgroundColor: kTransparentColor,
-                                      backgroundImage: const AssetImage(
-                                        "assets/images/profile/avatar-image.jpg",
-                                      ),
                                       child: ClipOval(
-                                        child: CachedNetworkImage(
-                                          imageUrl: "",
-                                          fit: BoxFit.cover,
-                                          progressIndicatorBuilder: (context,
-                                                  url, downloadProgress) =>
-                                              Center(
-                                                  child:
-                                                      CupertinoActivityIndicator(
-                                            color: kAccentColor,
-                                          )),
-                                          errorWidget: (context, url, error) =>
-                                              FaIcon(
-                                            FontAwesomeIcons.circleExclamation,
-                                            color: kAccentColor,
-                                          ),
-                                        ),
+                                        child: MyImage(
+                                            url: controller
+                                                .riderList[index].image),
                                       ),
                                     ),
                                     // Positioned(
