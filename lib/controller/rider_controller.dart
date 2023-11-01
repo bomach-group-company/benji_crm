@@ -65,7 +65,7 @@ class RiderController extends GetxController {
     var url =
         "${Api.baseUrl}${Api.riderList}?start=${moreNum.value - 10}&end=${moreNum.value}";
     token = UserController.instance.user.value.token;
-    print('$url $moreNum chai');
+    consoleLog('$url $moreNum chai');
     moreNum.value += 10;
     try {
       http.Response? response = await HandleData.getApi(url, token);

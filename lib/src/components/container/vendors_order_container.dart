@@ -155,7 +155,7 @@ class VendorsOrderContainer extends StatelessWidget {
                       const TextSpan(text: "  "),
                       TextSpan(
                         text:
-                            "₦ ${convertToCurrency(order == null ? "0.0" : order.totalPrice.toString())}",
+                            "₦ ${convertToCurrency(order.totalPrice.toString())}",
                         style: const TextStyle(
                           fontSize: 15,
                           fontFamily: 'sen',
