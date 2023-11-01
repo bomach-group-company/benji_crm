@@ -223,8 +223,9 @@ class _DashboardState extends State<Dashboard>
 
     return Scaffold(
       appBar: DashboardAppBar(
-          numberOfNotifications: notifications,
-          image: UserController.instance.user.value.image),
+        numberOfNotifications: notifications,
+        image: UserController.instance.user.value.image,
+      ),
       floatingActionButton: _isScrollToTopBtnVisible
           ? FloatingActionButton(
               onPressed: _scrollToTop,

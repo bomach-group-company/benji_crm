@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "912983858748",
+    "project_id": "keen-tokenizer-400311",
+    "storage_bucket": "keen-tokenizer-400311.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:912983858748:android:a7dd5a38ef06ee030bad39",
+        "android_client_info": {
+          "package_name": "com.benji.benji_crm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFliG30yK5Kni1TDp8R0aCSxN-7tDyqg8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:912983858748:android:02e0e68cc91264960bad39",
+        "android_client_info": {
+          "package_name": "com.benji.benjiexpress"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFliG30yK5Kni1TDp8R0aCSxN-7tDyqg8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

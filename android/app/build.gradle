@@ -26,7 +26,7 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    namespace "com.benji.benji_aggregator"
+    namespace "com.benji.benjiCRM"
     compileSdk 34
     ndkVersion '26.0.10792818'
 
@@ -45,14 +45,13 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.benji"
+        applicationId "com.benji.benjiCRM"
         minSdk 21
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         targetSdk 34
         versionCode 1
         versionName 'v.0.0.1'
-        applicationIdSuffix '.benji_crm'
         multiDexEnabled true
         versionNameSuffix 'test'
     }
@@ -62,8 +61,15 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
-            applicationIdSuffix '.benji_aggregator'
+            applicationIdSuffix '.benjiCRM'
             versionNameSuffix 'v0.0.1'
+            multiDexEnabled true
+        }
+        debug {
+            applicationIdSuffix '.benjiCRM'
+            multiDexEnabled true
+        }
+        profile {
             multiDexEnabled true
         }
     }
@@ -75,5 +81,9 @@ flutter {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.20"
+    implementation platform('com.google.firebase:firebase-bom:32.5.0')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.android.material:material:1.10.0'
+    implementation 'com.google.android.play:integrity:1.2.0'
 }
