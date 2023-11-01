@@ -1,6 +1,7 @@
 // ignore_for_file: empty_catches
 
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:benji_aggregator/controller/error_controller.dart';
 import 'package:benji_aggregator/services/helper.dart';
@@ -61,5 +62,44 @@ class FormController extends GetxController {
     isLoad.value = false;
     responseObject.value = jsonDecode(response.body) as Map;
     update([tag]);
+  }
+
+  Future<http.StreamedResponse?> postAuthstream(
+      String url, Map data, Map<String, File?> files, String tag,
+      [String errorMsg = "Error occurred",
+      String successMsg = "Submitted successfully"]) async {
+    http.StreamedResponse? response;
+
+    isLoad.value = true;
+    update([tag]);
+
+    var request = http.MultipartRequest("POST", Uri.parse(url));
+    Map<String, String> headers = authHeader();
+
+    for (String key in files.keys) {
+      if (files[key] == null) {
+        continue;
+      }
+      request.files
+          .add(await http.MultipartFile.fromPath(key, files[key]!.path));
+    }
+
+    request.headers.addAll(headers);
+
+    data.forEach((key, value) {
+      request.fields[key] = value.toString();
+    });
+    print('stream response $response');
+    try {
+      response = await request.send();
+      status.value = response.statusCode;
+      final normalResp = await http.Response.fromStream(response);
+      print('stream response ${normalResp.body}');
+    } catch (e) {
+      response = null;
+    }
+    isLoad.value = false;
+    update([tag]);
+    return response;
   }
 }

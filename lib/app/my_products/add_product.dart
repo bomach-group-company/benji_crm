@@ -2,29 +2,43 @@
 
 import 'dart:io';
 
+import 'package:benji_aggregator/controller/form_controller.dart';
+import 'package:benji_aggregator/model/my_vendor.dart';
+import 'package:benji_aggregator/model/product_type_model.dart';
+import 'package:benji_aggregator/model/sub_category.dart';
+import 'package:benji_aggregator/services/api_url.dart';
+import 'package:benji_aggregator/src/components/input/my_item_drop.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../src/components/input/icon_textformfield.dart';
 import '../../src/components/appbar/my_appbar.dart';
-import '../../src/components/button/my_disabled_outlined_elevatedButton.dart';
 import '../../src/components/button/my_elevatedButton.dart';
-import '../../src/components/button/my_outlined_elevatedButton.dart';
 import '../../src/components/input/my_textformfield.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
-import 'select category.dart';
-import 'set variety.dart';
 
 class AddProduct extends StatefulWidget {
-  const AddProduct({super.key});
+  final MyVendorModel vendor;
+  const AddProduct({super.key, required this.vendor});
 
   @override
   State<AddProduct> createState() => _AddProductState();
 }
 
 class _AddProductState extends State<AddProduct> {
+  @override
+  void initState() {
+    super.initState();
+    isToggled = true;
+    getSubCategories().then((value) {
+      _subCategory = value;
+      setState(() {});
+    });
+    getProductType().then((value) {
+      _productType = value;
+      setState(() {});
+    });
+  }
   //============================= ALL VARIABLES =====================================\\
 
   //===================== GLOBAL KEYS =======================\\
@@ -52,10 +66,13 @@ class _AddProductState extends State<AddProduct> {
   TextEditingController productDescriptionEC = TextEditingController();
   TextEditingController productPriceEC = TextEditingController();
   TextEditingController productQuantityEC = TextEditingController();
-  TextEditingController productCategoryEC = TextEditingController();
-  TextEditingController productDiscountEC = TextEditingController();
+  TextEditingController productSubCategoryEC = TextEditingController();
+  TextEditingController productTypeEC = TextEditingController();
 
   //================================== VALUES ====================================\\
+
+  List<SubCategory>? _subCategory;
+  List<ProductTypeModel>? _productType;
 
   bool isChecked = false;
   bool isChecked2 = false;
@@ -71,6 +88,27 @@ class _AddProductState extends State<AddProduct> {
   File? selectedImage;
 
   //================================== FUNCTIONS ====================================\\
+  _submit() async {
+    Map data = {
+      'name': productNameEC.text,
+      'description': productDescriptionEC.text,
+      'price': productPriceEC.text,
+      'quantity_available': productQuantityEC.text,
+      'sub_category_id': productSubCategoryEC.text,
+      'product_type': productTypeEC.text,
+      'vendor_id': widget.vendor.id,
+      'is_available': true,
+      'is_recommended': true,
+      'is_trending': true,
+    };
+    print(data);
+    await FormController.instance.postAuthstream(
+        Api.baseUrl + Api.agentAddProductToVendor,
+        data,
+        {'product_image': selectedImage},
+        'agentAddProductToVendor');
+  }
+
   pickProductImage(ImageSource source) async {
     final XFile? image = await _picker.pickImage(
       source: source,
@@ -188,15 +226,10 @@ class _AddProductState extends State<AddProduct> {
     );
   }
 
-  //OVERRIDES
-  @override
-  void initState() {
-    super.initState();
-    isToggled = true;
-  }
-
   @override
   Widget build(BuildContext context) {
+    final mediaWidth = MediaQuery.of(context).size.width;
+    final mediaHeight = MediaQuery.of(context).size.height;
     return GestureDetector(
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
@@ -279,15 +312,17 @@ class _AddProductState extends State<AddProduct> {
                                       ),
                                     ],
                                   )
-                                : GridTile(
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: FileImage(selectedImage!),
+                                : selectedImage == null
+                                    ? const SizedBox()
+                                    : GridTile(
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: FileImage(selectedImage!),
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ),
                           ),
                         ),
                       ),
@@ -302,95 +337,44 @@ class _AddProductState extends State<AddProduct> {
                         ),
                       ),
                       kHalfSizedBox,
-                      DropdownButtonFormField<String>(
-                        value: dropDownItemValue,
-                        onChanged: dropDownOnChanged,
-                        enableFeedback: true,
-                        focusNode: productType,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        elevation: 20,
-                        validator: (value) {
-                          if (value == null) {
-                            productType.requestFocus();
-                            return "Pick a Product Type";
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(color: Colors.blue.shade50),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(color: Colors.blue.shade50),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(color: Colors.blue.shade50),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: const BorderSide(
-                              color: kErrorBorderColor,
-                              width: 2.0,
-                            ),
-                          ),
+                      ItemDropDownMenu(
+                        itemEC: productTypeEC,
+                        mediaWidth: mediaWidth - 40,
+                        hintText: "Choose product type",
+                        dropdownMenuEntries: _productType == null
+                            ? [
+                                const DropdownMenuEntry(
+                                    value: 'Loading...', label: 'Loading...')
+                              ]
+                            : _productType!
+                                .map((item) => DropdownMenuEntry(
+                                    value: item.id, label: item.name))
+                                .toList(),
+                      ),
+                      kSizedBox,
+                      Text(
+                        'Sub Category',
+                        style: TextStyle(
+                          color: kTextGreyColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: -0.32,
                         ),
-                        borderRadius: BorderRadius.circular(16),
-                        icon: const Icon(Icons.keyboard_arrow_down_rounded),
-                        iconEnabledColor: kAccentColor,
-                        iconDisabledColor: kGreyColor2,
-                        items: const [
-                          DropdownMenuItem<String>(
-                            value: "Food",
-                            enabled: true,
-                            child: Text(
-                              'Food',
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                          DropdownMenuItem<String>(
-                            value: "Drinks",
-                            enabled: true,
-                            child: Text(
-                              'Drinks',
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                          DropdownMenuItem<String>(
-                            value: "Vegetables",
-                            enabled: true,
-                            child: Text(
-                              "Vegetables",
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                          DropdownMenuItem<String>(
-                            value: "Meat",
-                            enabled: true,
-                            child: Text(
-                              "Meat",
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                        ],
+                      ),
+                      kHalfSizedBox,
+                      ItemDropDownMenu(
+                        itemEC: productSubCategoryEC,
+                        mediaWidth: mediaWidth - 40,
+                        hintText: "Choose a Sub Category",
+                        dropdownMenuEntries: _subCategory == null
+                            ? [
+                                const DropdownMenuEntry(
+                                    value: 'Loading...', label: 'Loading...')
+                              ]
+                            : _subCategory!
+                                .map((item) => DropdownMenuEntry(
+                                    value: item.id, label: item.name))
+                                .toList(),
                       ),
                       kSizedBox,
                       const Text(
@@ -469,9 +453,14 @@ class _AddProductState extends State<AddProduct> {
                         textInputType: TextInputType.number,
                         textCapitalization: TextCapitalization.sentences,
                         validator: (value) {
+                          const pricePattern = r'^\d+(\.\d{2})?$';
                           if (value == null || value!.isEmpty) {
                             productPriceFN.requestFocus();
                             return "Enter the unit price";
+                          }
+
+                          if (!RegExp(pricePattern).hasMatch(value)) {
+                            return "Incorrect format for price eg. 550.50";
                           }
                           return null;
                         },
@@ -498,9 +487,14 @@ class _AddProductState extends State<AddProduct> {
                         textInputType: TextInputType.number,
                         textCapitalization: TextCapitalization.sentences,
                         validator: (value) {
+                          const quantityPattern = r'^[1-9]\d*$';
+
                           if (value == null || value!.isEmpty) {
                             productQuantityFN.requestFocus();
                             return "Enter the quantity";
+                          }
+                          if (!RegExp(quantityPattern).hasMatch(value)) {
+                            return "Most be number";
                           }
                           return null;
                         },
@@ -509,350 +503,13 @@ class _AddProductState extends State<AddProduct> {
                         },
                       ),
                       kSizedBox,
-                      Text(
-                        'Product Category',
-                        style: TextStyle(
-                          color: kTextGreyColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: -0.32,
-                        ),
-                      ),
-                      kHalfSizedBox,
-                      ListTile(
-                        enableFeedback: true,
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const SelectCategory(),
-                            ),
-                          );
-                        },
-                        trailing: Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          color: kAccentColor,
-                        ),
-                        title: const Text(
-                          'Select Category',
-                          style: TextStyle(
-                            color: Color(
-                              0xFF979797,
-                            ),
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
-                      kHalfSizedBox,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Row(
-                            children: [
-                              Text(
-                                'Special Offer',
-                                style: TextStyle(
-                                  color: Color(
-                                    0xFF222222,
-                                  ),
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w700,
-                                  letterSpacing: -0.26,
-                                ),
-                              ),
-                              kHalfWidthSizedBox,
-                              Text(
-                                '(Optional)',
-                                style: TextStyle(
-                                  color: Color(0xFF979797),
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w400,
-                                  letterSpacing: -0.20,
-                                ),
-                              ),
-                            ],
-                          ),
-                          IconButton(
-                            tooltip: isToggled ? "Turn on" : "Turn off",
-                            isSelected: isToggled,
-                            onPressed: () {
-                              setState(() {
-                                isToggled = !isToggled;
-                              });
-                            },
-                            icon: isToggled
-                                ? const Icon(
-                                    Icons.toggle_off,
-                                    color: kGreyColor1,
-                                  )
-                                : Icon(
-                                    Icons.toggle_on,
-                                    color: kAccentColor,
-                                  ),
-                          ),
-                        ],
-                      ),
-                      isToggled
-                          ? Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Checkbox(
-                                  value: false,
-                                  fillColor: const MaterialStatePropertyAll(
-                                      kGreyColor1),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                      5,
-                                    ),
-                                  ),
-                                  onChanged: (newValue) {
-                                    null;
-                                  },
-                                ),
-                                const Text(
-                                  'Disabled',
-                                  style: TextStyle(
-                                    color: Color(
-                                      0xFF222222,
-                                    ),
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w400,
-                                    letterSpacing: -0.26,
-                                  ),
-                                ),
-                              ],
-                            )
-                          : Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Checkbox(
-                                  value: isChecked,
-                                  splashRadius: 50,
-                                  activeColor: kAccentColor,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                      5,
-                                    ),
-                                  ),
-                                  onChanged: (newValue) {
-                                    setState(() {
-                                      isChecked = newValue!;
-                                    });
-                                  },
-                                ),
-                                const Text(
-                                  'Free Delivery',
-                                  style: TextStyle(
-                                    color: Color(
-                                      0xFF222222,
-                                    ),
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w400,
-                                    letterSpacing: -0.26,
-                                  ),
-                                ),
-                              ],
-                            ),
-                      isToggled
-                          ? Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Checkbox(
-                                  value: false,
-                                  fillColor: const MaterialStatePropertyAll(
-                                      kGreyColor1),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                      5,
-                                    ),
-                                  ),
-                                  onChanged: (newValue) {
-                                    null;
-                                  },
-                                ),
-                                const Text(
-                                  'Disabled',
-                                  style: TextStyle(
-                                    color: Color(
-                                      0xFF222222,
-                                    ),
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w400,
-                                    letterSpacing: -0.26,
-                                  ),
-                                ),
-                              ],
-                            )
-                          : Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Checkbox(
-                                  value: isChecked2,
-                                  splashRadius: 50,
-                                  activeColor: kAccentColor,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                      5,
-                                    ),
-                                  ),
-                                  onChanged: (newValue) {
-                                    setState(() {
-                                      isChecked2 = newValue!;
-                                    });
-                                  },
-                                ),
-                                const Text(
-                                  'Percentage Discount',
-                                  style: TextStyle(
-                                    color: Color(
-                                      0xFF222222,
-                                    ),
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w400,
-                                    letterSpacing: -0.26,
-                                  ),
-                                ),
-                              ],
-                            ),
-                      kSizedBox,
-                      const Text(
-                        'Set Custom Discount',
-                        style: TextStyle(
-                          color: Color(
-                            0xFF222222,
-                          ),
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400,
-                          letterSpacing: -0.26,
-                        ),
-                      ),
-                      kHalfSizedBox,
-                      IconTextFormField(
-                        controller: productDiscountEC,
-                        validator: (value) {
-                          return null;
-                        },
-                        textInputAction: TextInputAction.done,
-                        focusNode: productDiscountFN,
-                        hintText: "Enter Discount",
-                        textInputType: TextInputType.number,
-                        textCapitalization: TextCapitalization.characters,
-                        prefixIcon: const FaIcon(
-                          FontAwesomeIcons.percent,
-                          size: 20,
-                          color: kBlackColor,
-                        ),
-                        suffixIcon: const FaIcon(null),
-                      ),
-                      kSizedBox,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Checkbox(
-                            value: isChecked3,
-                            splashRadius: 50,
-                            activeColor: kAccentColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                5,
-                              ),
-                            ),
-                            onChanged: (newValue) {
-                              setState(() {
-                                isChecked3 = newValue!;
-                              });
-                            },
-                          ),
-                          const Text(
-                            'Varieties',
-                            style: TextStyle(
-                              color: Color(
-                                0xFF222222,
-                              ),
-                              fontSize: 13,
-                              fontWeight: FontWeight.w400,
-                              letterSpacing: -0.26,
-                            ),
-                          ),
-                        ],
-                      ),
-                      kSizedBox,
-                      isChecked3
-                          ? ListTile(
-                              enableFeedback: true,
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => const SetVariety(),
-                                  ),
-                                );
-                              },
-                              onLongPress: () {
-                                const Tooltip(
-                                  message: "Select a variety",
-                                );
-                              },
-                              trailing: Icon(
-                                Icons.arrow_forward_ios_rounded,
-                                color: kAccentColor,
-                              ),
-                              title: const Text(
-                                'Select variety',
-                                style: TextStyle(
-                                  color: Color(
-                                    0xFF979797,
-                                  ),
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            )
-                          : const ListTile(
-                              trailing: Icon(
-                                Icons.arrow_forward_ios_rounded,
-                              ),
-                              title: Text(
-                                'Disabled',
-                                style: TextStyle(
-                                  color: Color(
-                                    0xFF979797,
-                                  ),
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ),
-                      kHalfSizedBox,
-                      isChecked3
-                          ? Align(
-                              alignment: Alignment.bottomRight,
-                              child: MyOutlinedElevatedButton(
-                                onPressed: () {},
-                                elevation: 10.0,
-                                buttonTitle: "+ Add a variety",
-                                titleFontSize: 16,
-                                circularBorderRadius: 20,
-                                maximumSizeHeight: 30,
-                                maximumSizeWidth: 150,
-                                minimumSizeHeight: 30,
-                                minimumSizeWidth: 150,
-                              ),
-                            )
-                          : const Align(
-                              alignment: Alignment.bottomRight,
-                              child: MyDisabledOutlinedElevatedButton(
-                                buttonTitle: "Disabled",
-                                titleFontSize: 14,
-                                circularBorderRadius: 20,
-                                maximumSizeHeight: 30,
-                                maximumSizeWidth: 150,
-                                minimumSizeHeight: 30,
-                                minimumSizeWidth: 150,
-                              ),
-                            ),
-                      kSizedBox,
                       MyElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+                            _submit();
+                          }
+                        },
                         title: "Save",
                       ),
                     ],

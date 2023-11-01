@@ -125,8 +125,8 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
           child: Text("About vendor"),
         ),
         const PopupMenuItem<String>(
-          value: 'suspend',
-          child: Text("Suspend vendor"),
+          value: 'report',
+          child: Text("Report vendor"),
         ),
       ],
     ).then((value) {
@@ -136,7 +136,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
           case 'about':
             _toAboutVendor();
             break;
-          case 'suspend':
+          case 'report':
             _toSuspendVendor();
             break;
         }
