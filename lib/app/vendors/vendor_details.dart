@@ -118,8 +118,8 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
           child: Text("About vendor"),
         ),
         const PopupMenuItem<String>(
-          value: 'suspend',
-          child: Text("Suspend vendor"),
+          value: 'report',
+          child: Text("Report vendor"),
         ),
       ],
     ).then((value) {
@@ -129,7 +129,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
           case 'about':
             _toAboutVendor(widget.vendor);
             break;
-          case 'suspend':
+          case 'report':
             _toSuspendVendor();
             break;
         }
@@ -158,15 +158,9 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
   void _toAboutVendor(VendorModel data) => Get.to(
         () => AboutVendor(
           vendor: data,
-          // vendorName: widget.vendor.shopName,
-          // vendorHeadLine:
-          //
-          // monToFriOpeningHours: ,
-          // monToFriClosingHours: ,
-          // satOpeningHours: ,
-          // satClosingHours: ,
-          // sunOpeningHours: "8 AM",
-          // sunClosingHours: "10 PM",
+         
+          vendor: widget.vendor,
+
         ),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -547,6 +541,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                     await VendorController.instance
                                         .getVendorProduct(widget.vendor.id);
                                   },
+                                  init: VendorController(),
                                   builder: (controller) {
                                     return ListView.builder(
                                       shrinkWrap: true,
@@ -596,6 +591,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                   initState: (state) async {
                                     await OrderController.instance.getOrders();
                                   },
+                                  init: OrderController(),
                                   builder: (controller) => ListView.builder(
                                     shrinkWrap: true,
                                     itemCount: controller.orderList.length,
