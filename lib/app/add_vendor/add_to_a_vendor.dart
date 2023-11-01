@@ -1000,7 +1000,6 @@ class _AddToAVendorState extends State<AddToAVendor> {
                           CSCPicker(
                             key: _cscPickerKey,
                             layout: Layout.vertical,
-                            defaultCountry: CscCountry.Nigeria,
                             countryFilter: const [CscCountry.Nigeria],
                             countryDropdownLabel: "Select country",
                             stateDropdownLabel: "Select state",
@@ -1228,7 +1227,7 @@ class _AddToAVendorState extends State<AddToAVendor> {
                             hintText: "About the business...",
                             maxLines: 10,
                             keyboardType: TextInputType.multiline,
-                            maxLength: 6000,
+                            maxLength: 1000,
                             validator: (value) {
                               if (value == null || value!.isEmpty) {
                                 return "Field cannot be empty";

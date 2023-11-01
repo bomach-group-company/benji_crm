@@ -7,8 +7,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
 import '../../src/providers/constants.dart';
-import '../vendors/register_vendor.dart';
 import 'add_to_a_vendor.dart';
+import 'register_vendor.dart';
 
 class AddVendor extends StatefulWidget {
   const AddVendor({super.key});

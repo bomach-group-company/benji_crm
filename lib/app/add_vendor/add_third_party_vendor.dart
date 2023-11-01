@@ -50,7 +50,8 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      VendorController.instance.businessType();
+      CategoryController.instance.category;
+      CategoryController.instance.getCategory();
     });
     super.initState();
     scrollController.addListener(_scrollListener);
@@ -264,7 +265,6 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
       coverImage: selectedCoverImage,
       profileImage: selectedLogoImage,
     );
-
     VendorController.instance.createThirdPartyVendor(data);
   }
 
@@ -954,7 +954,6 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
                             CSCPicker(
                               key: _cscPickerKey,
                               layout: Layout.vertical,
-                              defaultCountry: CscCountry.Nigeria,
                               countryFilter: const [CscCountry.Nigeria],
                               countryDropdownLabel: "Select country",
                               stateDropdownLabel: "Select state",
@@ -1207,7 +1206,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
                               hintText: "About the business...",
                               maxLines: 10,
                               keyboardType: TextInputType.multiline,
-                              maxLength: 6000,
+                              maxLength: 1000,
                               validator: (value) {
                                 if (value == null || value!.isEmpty) {
                                   return "Field cannot be empty";
