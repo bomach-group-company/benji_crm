@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:benji_aggregator/controller/user_controller.dart';
+import 'package:benji_aggregator/src/components/image/my_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,11 +23,11 @@ import '../../googleMaps/places_autocomplete_response.dart';
 import '../../providers/constants.dart';
 import '../../responsive/responsive_constant.dart';
 import '../../utils/network_utils.dart';
-import '../section/location_list_tile.dart';
 import '../button/my_elevatedButton.dart';
-import '../snackbar/my_floating_snackbar.dart';
 import '../input/my_maps_textformfield.dart';
 import '../input/name_textformfield.dart';
+import '../section/location_list_tile.dart';
+import '../snackbar/my_floating_snackbar.dart';
 
 class PersonalInfoBody extends StatefulWidget {
   const PersonalInfoBody({Key? key}) : super(key: key);
@@ -374,17 +375,14 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                                           : 150,
                                       decoration: ShapeDecoration(
                                         color: kPageSkeletonColor,
-                                        image: const DecorationImage(
-                                          image: AssetImage(
-                                            "assets/images/profile/avatar-image.jpg",
-                                          ),
-                                          fit: BoxFit.contain,
-                                        ),
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(100),
                                         ),
                                       ),
+                                      child: MyImage(
+                                          url: UserController
+                                              .instance.user.value.image),
                                     )
                                   : Container(
                                       height: deviceType(media.width) == 1

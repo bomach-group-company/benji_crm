@@ -1,8 +1,7 @@
 // ignore_for_file: file_names, unused_local_variable
 
 import 'package:benji_aggregator/model/product_model.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:benji_aggregator/src/components/image/my_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../theme/colors.dart';
@@ -63,24 +62,8 @@ class _VendorsProductContainerState extends State<VendorsProductContainer> {
                     bottomLeft: Radius.circular(12),
                   ),
                 ),
-                image: const DecorationImage(
-                  image: AssetImage("assets/images/products/burgers.png"),
-                  fit: BoxFit.fill,
-                ),
               ),
-              child: CachedNetworkImage(
-                imageUrl: widget.product.productImage ?? '',
-                fit: BoxFit.cover,
-                progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    const Center(
-                        child: CupertinoActivityIndicator(
-                  color: kRedColor,
-                )),
-                errorWidget: (context, url, error) => const Icon(
-                  Icons.error,
-                  color: kRedColor,
-                ),
-              ),
+              child: MyImage(url: widget.product.productImage),
             ),
             kHalfWidthSizedBox,
             Column(

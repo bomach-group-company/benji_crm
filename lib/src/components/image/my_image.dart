@@ -1,3 +1,4 @@
+import 'package:benji_aggregator/services/api_url.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,7 +11,7 @@ class MyImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-      imageUrl: url ?? '',
+      imageUrl: url == null ? '' : '$baseImage$url',
       fit: BoxFit.cover,
       progressIndicatorBuilder: (context, url, downloadProgress) =>
           const Center(

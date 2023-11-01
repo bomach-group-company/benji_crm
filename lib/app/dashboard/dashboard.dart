@@ -6,6 +6,7 @@ import 'package:benji_aggregator/app/my_orders/all_orders.dart';
 import 'package:benji_aggregator/controller/notification_controller.dart';
 import 'package:benji_aggregator/controller/order_controller.dart';
 import 'package:benji_aggregator/controller/rider_controller.dart';
+import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:benji_aggregator/model/order.dart';
 import 'package:benji_aggregator/src/components/appbar/dashboard_app_bar.dart';
@@ -207,7 +208,9 @@ class _DashboardState extends State<Dashboard>
 //====================================================================================\\
 
     return Scaffold(
-      appBar: DashboardAppBar(numberOfNotifications: notifications),
+      appBar: DashboardAppBar(
+          numberOfNotifications: notifications,
+          image: UserController.instance.user.value.image),
       floatingActionButton: _isScrollToTopBtnVisible
           ? FloatingActionButton(
               onPressed: _scrollToTop,

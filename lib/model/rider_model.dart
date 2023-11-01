@@ -6,7 +6,7 @@ class RiderItem {
   String phone;
   String username;
   String code;
-  String? image;
+  String image;
   DateTime? created;
   String firstName;
   String lastName;
@@ -31,7 +31,7 @@ class RiderItem {
     required this.plateNumber,
     required this.chassisNumber,
     required this.balance,
-    this.image,
+    required this.image,
     required this.tripCount,
   });
 
@@ -51,7 +51,7 @@ class RiderItem {
       plateNumber: json["plate_number"] ?? notAvailable,
       chassisNumber: json["chassis_number"] ?? notAvailable,
       balance: json["balance"] ?? 0.0,
-      image: json["image"],
+      image: json["image"] ?? '',
       tripCount: json['tripCount'] ?? 0,
     );
   }

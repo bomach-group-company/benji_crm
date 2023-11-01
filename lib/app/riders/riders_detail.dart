@@ -3,9 +3,8 @@
 import 'package:benji_aggregator/controller/rider_history_controller.dart';
 import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
 import 'package:benji_aggregator/src/components/card/empty.dart';
+import 'package:benji_aggregator/src/components/image/my_image.dart';
 import 'package:benji_aggregator/theme/colors.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -271,25 +270,8 @@ class _RidersDetailState extends State<RidersDetail> {
                             CircleAvatar(
                               radius: 60,
                               backgroundColor: Colors.white54,
-                              backgroundImage: const AssetImage(
-                                "assets/images/profile/avatar-image.jpg",
-                              ),
                               child: ClipOval(
-                                child: CachedNetworkImage(
-                                  imageUrl: widget.rider.image ?? "",
-                                  fit: BoxFit.cover,
-                                  progressIndicatorBuilder:
-                                      (context, url, downloadProgress) =>
-                                          const Center(
-                                              child: CupertinoActivityIndicator(
-                                    color: kRedColor,
-                                  )),
-                                  errorWidget: (context, url, error) =>
-                                      const Icon(
-                                    Icons.error,
-                                    color: kRedColor,
-                                  ),
-                                ),
+                                child: MyImage(url: widget.rider.image),
                               ),
                             ),
                           ],
@@ -433,11 +415,6 @@ class _RidersDetailState extends State<RidersDetail> {
                                             // width: 110,
                                             height: 119,
                                             decoration: const ShapeDecoration(
-                                              image: DecorationImage(
-                                                image: AssetImage(
-                                                    "assets/images/profile/avatar-image.jpg"),
-                                                fit: BoxFit.cover,
-                                              ),
                                               shape: RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.only(
                                                   topLeft: Radius.circular(10),
@@ -446,6 +423,8 @@ class _RidersDetailState extends State<RidersDetail> {
                                                 ),
                                               ),
                                             ),
+                                            child: MyImage(
+                                                url: widget.rider.image),
                                           ),
                                         ),
                                         Expanded(
