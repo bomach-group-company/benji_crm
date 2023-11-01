@@ -121,6 +121,14 @@ class _NotificationsState extends State<Notifications> {
                                               fontWeight: FontWeight.w400,
                                             ),
                                           ),
+                                          const TextSpan(
+                                            text: " ",
+                                            style: TextStyle(
+                                              color: Color(0xFF9B9BA5),
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
                                           TextSpan(
                                             text:
                                                 notify.message ?? "loading...",

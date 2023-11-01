@@ -10,6 +10,7 @@ import 'package:csc_picker/csc_picker.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
@@ -20,6 +21,7 @@ import '../../../src/providers/constants.dart';
 import '../../controller/category_controller.dart';
 import '../../controller/latlng_detail_controller.dart';
 import '../../model/create_vendor_model.dart';
+import '../../services/helper.dart';
 import '../../services/keys.dart';
 import '../../src/components/button/my_elevatedButton.dart';
 import '../../src/components/input/message_textformfield.dart';
@@ -32,8 +34,8 @@ import '../../src/googleMaps/autocomplete_prediction.dart';
 import '../../src/googleMaps/places_autocomplete_response.dart';
 import '../../src/responsive/responsive_constant.dart';
 import '../../src/utils/network_utils.dart';
-import '../add_vendor/business_category_modal.dart';
 import '../google_maps/get_location_on_map.dart';
+import 'business_category_modal.dart';
 
 class RegisterVendor extends StatefulWidget {
   const RegisterVendor({super.key});
@@ -1002,6 +1004,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                           CSCPicker(
                             key: _cscPickerKey,
                             layout: Layout.vertical,
+                            countryFilter: const [CscCountry.Nigeria],
                             countryDropdownLabel: "Select country",
                             stateDropdownLabel: "Select state",
                             cityDropdownLabel: "Select city",
@@ -1067,6 +1070,10 @@ class _RegisterVendorState extends State<RegisterVendor> {
                               }
                             },
                             onSaved: (value) {},
+                            inputFormatters: [
+                              FilteringTextInputFormatter.singleLineFormatter,
+                              UppercaseTextInputFormatter(), // Custom formatter to make text uppercase
+                            ],
                             textInputAction: TextInputAction.next,
                             focusNode: vendorMonToFriOpeningHoursFN,
                             hintText: "00:00 AM",
@@ -1091,6 +1098,10 @@ class _RegisterVendorState extends State<RegisterVendor> {
                               }
                             },
                             onSaved: (value) {},
+                            inputFormatters: [
+                              FilteringTextInputFormatter.singleLineFormatter,
+                              UppercaseTextInputFormatter(), // Custom formatter to make text uppercase
+                            ],
                             textInputAction: TextInputAction.next,
                             focusNode: vendorMonToFriClosingHoursFN,
                             hintText: "00:00 PM",
@@ -1125,6 +1136,10 @@ class _RegisterVendorState extends State<RegisterVendor> {
                               }
                             },
                             onSaved: (value) {},
+                            inputFormatters: [
+                              FilteringTextInputFormatter.singleLineFormatter,
+                              UppercaseTextInputFormatter(), // Custom formatter to make text uppercase
+                            ],
                             textInputAction: TextInputAction.next,
                             focusNode: vendorSatOpeningHoursFN,
                             hintText: "00:00 AM",
@@ -1149,6 +1164,10 @@ class _RegisterVendorState extends State<RegisterVendor> {
                               }
                             },
                             onSaved: (value) {},
+                            inputFormatters: [
+                              FilteringTextInputFormatter.singleLineFormatter,
+                              UppercaseTextInputFormatter(), // Custom formatter to make text uppercase
+                            ],
                             textInputAction: TextInputAction.next,
                             focusNode: vendorSatClosingHoursFN,
                             hintText: "00:00 PM",
@@ -1183,6 +1202,10 @@ class _RegisterVendorState extends State<RegisterVendor> {
                               }
                             },
                             onSaved: (value) {},
+                            inputFormatters: [
+                              FilteringTextInputFormatter.singleLineFormatter,
+                              UppercaseTextInputFormatter(), // Custom formatter to make text uppercase
+                            ],
                             textInputAction: TextInputAction.next,
                             focusNode: vendorSunOpeningHoursFN,
                             hintText: "00:00 AM",
@@ -1207,6 +1230,10 @@ class _RegisterVendorState extends State<RegisterVendor> {
                               }
                             },
                             onSaved: (value) {},
+                            inputFormatters: [
+                              FilteringTextInputFormatter.singleLineFormatter,
+                              UppercaseTextInputFormatter(), // Custom formatter to make text uppercase
+                            ],
                             textInputAction: TextInputAction.next,
                             focusNode: vendorSunClosingHoursFN,
                             hintText: "00:00 PM",
@@ -1228,7 +1255,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                             hintText: "About the business...",
                             maxLines: 10,
                             keyboardType: TextInputType.multiline,
-                            maxLength: 6000,
+                            maxLength: 1000,
                             validator: (value) {
                               if (value == null || value!.isEmpty) {
                                 return "Field cannot be empty";
