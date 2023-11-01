@@ -3,6 +3,7 @@
 import 'package:benji_aggregator/model/my_vendor.dart';
 import 'package:benji_aggregator/src/components/image/my_image.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../theme/colors.dart';
 import '../../providers/constants.dart';
@@ -18,6 +19,7 @@ class MyVendorContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var media = MediaQuery.of(context).size;
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(16),
@@ -34,6 +36,7 @@ class MyVendorContainer extends StatelessWidget {
               width: 130,
               height: 130,
               decoration: ShapeDecoration(
+                color: kGreyColor1,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
@@ -75,27 +78,17 @@ class MyVendorContainer extends StatelessWidget {
                 ),
                 kSizedBox,
                 Row(
-                  mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    FaIcon(
+                      FontAwesomeIcons.solidStar,
+                      color: kStarColor,
+                      size: 18,
+                    ),
+                    const SizedBox(width: kDefaultPadding / 2),
                     SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: Icon(
-                        Icons.star_rounded,
-                        color: kAccentColor,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: kDefaultPadding / 2,
-                    ),
-                    Container(
-                      width: 81,
-                      height: 19,
-                      padding: const EdgeInsets.only(
-                        top: 4,
-                      ),
+                      width: media.width - 250,
                       child: Text(
                         "${vendor.averageRating} (${vendor.numberOfClientsReactions}+)",
                         style: const TextStyle(

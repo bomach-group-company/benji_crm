@@ -216,7 +216,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                   children: [
                                     CircleAvatar(
                                       radius: 30,
-                                      backgroundColor: kTransparentColor,
+                                      backgroundColor: kGreyColor1,
                                       child: ClipOval(
                                         child: MyImage(
                                             url: controller
