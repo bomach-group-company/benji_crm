@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:benji_aggregator/app/my_vendors/my_vendor_detail.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
-import 'package:benji_aggregator/model/my_vendor.dart';
+import 'package:benji_aggregator/model/my_vendor_model.dart';
 import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
 import 'package:benji_aggregator/src/components/container/myvendor_container.dart';
 import 'package:benji_aggregator/src/components/section/my_liquid_refresh.dart';

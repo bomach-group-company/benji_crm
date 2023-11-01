@@ -59,12 +59,14 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
   @override
   void dispose() {
     _animationController.dispose();
+    RiderController.instance.dispose();
     scrollController.dispose();
     super.dispose();
   }
 
   //================================= ALL VARIABLES ==========================================\\
-  bool _isScrollToTopBtnVisible = false;
+  bool loadingScreen = false;
+  bool isScrollToTopBtnVisible = false;
 
   //============================================== CONTROLLERS =================================================\\
   final ScrollController scrollController = ScrollController();
@@ -75,12 +77,18 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
   //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
+    setState(() {
+      loadingScreen = true;
+    });
     await RiderController.instance.emptyRiderList();
     await RiderController.instance.getRiders();
+    setState(() {
+      loadingScreen = false;
+    });
   }
 
 //============================= Scroll to Top ======================================//
-  void _scrollToTop() {
+  void scrollToTop() {
     _animationController.reverse();
     scrollController.animateTo(
       0,
@@ -91,15 +99,15 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
 
   Future<void> _scrollListener() async {
     if (scrollController.position.pixels >= 100 &&
-        _isScrollToTopBtnVisible != true) {
+        isScrollToTopBtnVisible != true) {
       setState(() {
-        _isScrollToTopBtnVisible = true;
+        isScrollToTopBtnVisible = true;
       });
     }
     if (scrollController.position.pixels < 100 &&
-        _isScrollToTopBtnVisible == true) {
+        isScrollToTopBtnVisible == true) {
       setState(() {
-        _isScrollToTopBtnVisible = false;
+        isScrollToTopBtnVisible = false;
       });
     }
 
@@ -161,9 +169,9 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
             ),
           ],
         ),
-        floatingActionButton: _isScrollToTopBtnVisible
+        floatingActionButton: isScrollToTopBtnVisible
             ? FloatingActionButton(
-                onPressed: _scrollToTop,
+                onPressed: scrollToTop,
                 mini: true,
                 backgroundColor: kAccentColor,
                 enableFeedback: true,
@@ -194,86 +202,90 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                 ),
                 children: [
                   kSizedBox,
-                  controller.isLoad.value && controller.riderList.isEmpty
-                      // controller.isLoad.value
+                  loadingScreen
                       ? const RidersListSkeleton()
-                      : ListView.separated(
-                          separatorBuilder: (context, index) => kSizedBox,
-                          itemCount: controller.riderList.length,
-                          addAutomaticKeepAlives: true,
-                          physics: const BouncingScrollPhysics(),
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) => ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Container(
-                              color: Colors.white,
-                              child: ListTile(
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 16),
-                                onTap: () => toRidersDetailPage(
-                                    controller.riderList[index]),
-                                leading: Stack(
-                                  children: [
-                                    CircleAvatar(
-                                      radius: 30,
-                                      backgroundColor: kGreyColor1,
-                                      child: ClipOval(
-                                        child: MyImage(
-                                            url: controller
-                                                .riderList[index].image),
+                      : controller.isLoad.value && controller.riderList.isEmpty
+                          // controller.isLoad.value
+                          ? const RidersListSkeleton()
+                          : ListView.separated(
+                              separatorBuilder: (context, index) => kSizedBox,
+                              itemCount: controller.riderList.length,
+                              addAutomaticKeepAlives: true,
+                              physics: const BouncingScrollPhysics(),
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) => ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Container(
+                                  color: Colors.white,
+                                  child: ListTile(
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 16),
+                                    onTap: () => toRidersDetailPage(
+                                        controller.riderList[index]),
+                                    leading: Stack(
+                                      children: [
+                                        CircleAvatar(
+                                          radius: 30,
+                                          backgroundColor: kGreyColor1,
+                                          child: ClipOval(
+                                            child: MyImage(
+                                                url: controller
+                                                    .riderList[index].image),
+                                          ),
+                                        ),
+                                        // Positioned(
+                                        //   right: 10,
+                                        //   bottom: 0,
+                                        //   child: Container(
+                                        //     height: 10,
+                                        //     width: 10,
+                                        //     decoration: const ShapeDecoration(
+                                        //       color: kSuccessColor,
+                                        //       shape: OvalBorder(),
+                                        //     ),
+                                        //   ),
+                                        // ),
+                                      ],
+                                    ),
+                                    title: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          '${controller.riderList[index].firstName} ${controller.riderList[index].lastName}',
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                        kHalfSizedBox,
+                                        Text(
+                                          controller.riderList[index].username,
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    trailing: Text(
+                                      "${controller.riderList[index].tripCount} Trips Completed",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: kTextGreyColor,
+                                        fontWeight: FontWeight.w400,
                                       ),
                                     ),
-                                    // Positioned(
-                                    //   right: 10,
-                                    //   bottom: 0,
-                                    //   child: Container(
-                                    //     height: 10,
-                                    //     width: 10,
-                                    //     decoration: const ShapeDecoration(
-                                    //       color: kSuccessColor,
-                                    //       shape: OvalBorder(),
-                                    //     ),
-                                    //   ),
-                                    // ),
-                                  ],
-                                ),
-                                title: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      '${controller.riderList[index].firstName} ${controller.riderList[index].lastName}',
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    kHalfSizedBox,
-                                    Text(
-                                      controller.riderList[index].username,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                trailing: Text(
-                                  "${controller.riderList[index].tripCount} Trips Completed",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: kTextGreyColor,
-                                    fontWeight: FontWeight.w400,
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        ),
                   kSizedBox,
                   RiderController.instance.isLoadMore.value
                       ? Center(
