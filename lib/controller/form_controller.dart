@@ -64,7 +64,7 @@ class FormController extends GetxController {
     update([tag]);
   }
 
-  Future<http.StreamedResponse?> postAuthstream(
+  Future postAuthstream(
       String url, Map data, Map<String, File?> files, String tag,
       [String errorMsg = "Error occurred",
       String successMsg = "Submitted successfully"]) async {
@@ -95,11 +95,19 @@ class FormController extends GetxController {
       status.value = response.statusCode;
       final normalResp = await http.Response.fromStream(response);
       print('stream response ${normalResp.body}');
+      if (response.statusCode != 200) {
+        ApiProcessorController.successSnack(successMsg);
+        isLoad.value = false;
+        update([tag]);
+        return;
+      }
     } catch (e) {
       response = null;
     }
+
+    ApiProcessorController.errorSnack(errorMsg);
     isLoad.value = false;
     update([tag]);
-    return response;
+    return;
   }
 }
