@@ -745,7 +745,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
                                       shopTypeHint = data.name;
                                       vendorBusinessTypeEC.text = data.name;
                                     });
-                                    consoleLog("$shopType");
+                                    consoleLog("Shop Type: $shopType");
                                   }
                                 },
                                 child: MyBlueTextFormField(
