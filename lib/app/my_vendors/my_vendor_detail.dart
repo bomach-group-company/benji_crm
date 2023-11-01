@@ -131,15 +131,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
           case 'about':
             Get.to(
               () => AboutMyVendor(
-                vendorName: widget.vendor.shopName,
-                vendorHeadLine:
-                    "Cruiselings whale shark diving pan Pacific romance at sea rusty dancemoves endless horizon home is where the anchor drops back packers Endless summer cruise insider paradise island languid afternoons the love boat cruise life.",
-                monToFriOpeningHours: "8 AM",
-                monToFriClosingHours: "10 PM",
-                satOpeningHours: "8 AM",
-                satClosingHours: "10 PM",
-                sunClosingHours: "Closed",
-                sunOpeningHours: "Closed",
+                vendor: widget.vendor,
               ),
               duration: const Duration(milliseconds: 300),
               fullscreenDialog: true,

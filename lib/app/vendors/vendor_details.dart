@@ -164,15 +164,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
 
   void _toAboutVendor() => Get.to(
         () => AboutVendor(
-          vendorName: widget.vendor.shopName,
-          vendorHeadLine:
-              "Cruiselings whale shark diving pan Pacific romance at sea rusty dancemoves endless horizon home is where the anchor drops back packers Endless summer cruise insider paradise island languid afternoons the love boat cruise life.",
-          monToFriOpeningHours: "8 AM",
-          monToFriClosingHours: "10 PM",
-          satOpeningHours: "8 AM",
-          satClosingHours: "10 PM",
-          sunOpeningHours: "8 AM",
-          sunClosingHours: "10 PM",
+          vendor: widget.vendor,
         ),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -553,6 +545,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                     await VendorController.instance
                                         .getVendorProduct(widget.vendor.id);
                                   },
+                                  init: VendorController(),
                                   builder: (controller) {
                                     return ListView.builder(
                                       shrinkWrap: true,
@@ -602,6 +595,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                   initState: (state) async {
                                     await OrderController.instance.getOrders();
                                   },
+                                  init: OrderController(),
                                   builder: (controller) => ListView.builder(
                                     shrinkWrap: true,
                                     itemCount: controller.orderList.length,
