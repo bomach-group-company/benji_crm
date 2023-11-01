@@ -34,8 +34,8 @@ import '../../src/googleMaps/autocomplete_prediction.dart';
 import '../../src/googleMaps/places_autocomplete_response.dart';
 import '../../src/responsive/responsive_constant.dart';
 import '../../src/utils/network_utils.dart';
-import '../add_vendor/business_category_modal.dart';
 import '../google_maps/get_location_on_map.dart';
+import 'business_category_modal.dart';
 
 class RegisterVendor extends StatefulWidget {
   const RegisterVendor({super.key});
@@ -1004,7 +1004,6 @@ class _RegisterVendorState extends State<RegisterVendor> {
                           CSCPicker(
                             key: _cscPickerKey,
                             layout: Layout.vertical,
-                            defaultCountry: CscCountry.Nigeria,
                             countryFilter: const [CscCountry.Nigeria],
                             countryDropdownLabel: "Select country",
                             stateDropdownLabel: "Select state",
@@ -1256,7 +1255,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                             hintText: "About the business...",
                             maxLines: 10,
                             keyboardType: TextInputType.multiline,
-                            maxLength: 6000,
+                            maxLength: 1000,
                             validator: (value) {
                               if (value == null || value!.isEmpty) {
                                 return "Field cannot be empty";

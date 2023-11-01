@@ -13,7 +13,6 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-import '../model/business_type_model.dart';
 import '../model/create_vendor_model.dart';
 import 'user_controller.dart';
 
@@ -28,7 +27,7 @@ class VendorController extends GetxController {
   var isLoadCreate = false.obs;
   var vendorList = <VendorModel>[].obs;
   var vendorMyList = <MyVendorModel>[].obs;
-  var businessType = <BusinessType>[].obs;
+  // var businessType = <BusinessType>[].obs;
   var vendorProductList = <Product>[].obs;
   var vendorOrderList = <Order>[].obs;
 
