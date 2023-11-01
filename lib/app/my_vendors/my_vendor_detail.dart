@@ -2,6 +2,7 @@
 
 import 'package:benji_aggregator/controller/order_controller.dart';
 import 'package:benji_aggregator/model/my_vendor.dart';
+import 'package:benji_aggregator/src/components/image/my_image.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
 import 'package:benji_aggregator/src/providers/custom_show_search.dart';
 import 'package:flutter/gestures.dart';
@@ -116,8 +117,8 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
           child: Text("About vendor"),
         ),
         const PopupMenuItem<String>(
-          value: 'suspend',
-          child: Text("Suspend vendor"),
+          value: 'report',
+          child: Text("Report vendor"),
         ),
         const PopupMenuItem<String>(
           value: 'delete',
@@ -131,15 +132,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
           case 'about':
             Get.to(
               () => AboutMyVendor(
-                vendorName: widget.vendor.shopName,
-                vendorHeadLine:
-                    "Cruiselings whale shark diving pan Pacific romance at sea rusty dancemoves endless horizon home is where the anchor drops back packers Endless summer cruise insider paradise island languid afternoons the love boat cruise life.",
-                monToFriOpeningHours: "8 AM",
-                monToFriClosingHours: "10 PM",
-                satOpeningHours: "8 AM",
-                satClosingHours: "10 PM",
-                sunClosingHours: "Closed",
-                sunOpeningHours: "Closed",
+                vendor: widget.vendor,
               ),
               duration: const Duration(milliseconds: 300),
               fullscreenDialog: true,
@@ -150,13 +143,13 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
               transition: Transition.rightToLeft,
             );
             break;
-          case 'suspend':
+          case 'report':
             Get.to(
               () => ReportMyVendor(vendor: widget.vendor),
               duration: const Duration(milliseconds: 300),
               fullscreenDialog: true,
               curve: Curves.easeIn,
-              routeName: "Suspend my vendor",
+              routeName: "Report my vendor",
               preventDuplicates: true,
               popGesture: true,
               transition: Transition.rightToLeft,
@@ -198,7 +191,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
       );
 
   void _toAddProduct() => Get.to(
-        () => const AddProduct(),
+        () => AddProduct(vendor: widget.vendor),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -297,13 +290,8 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                     : media.height * 0.28,
                             decoration: BoxDecoration(
                               color: kPageSkeletonColor,
-                              image: const DecorationImage(
-                                fit: BoxFit.fill,
-                                image: AssetImage(
-                                  "assets/images/vendors/ntachi-osa.png",
-                                ),
-                              ),
                             ),
+                            child: MyImage(url: widget.vendor.profileLogo),
                           ),
                         ),
                         Positioned(
@@ -460,13 +448,12 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                               MainAxisAlignment.center,
                                           children: [
                                             Text(
-                                              widget.vendor.isOnline ?? false
+                                              widget.vendor.isOnline
                                                   ? "Online"
                                                   : 'Offline',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
-                                                color: widget.vendor.isOnline ??
-                                                        false
+                                                color: widget.vendor.isOnline
                                                     ? kSuccessColor
                                                     : kAccentColor,
                                                 fontSize: 14,
@@ -504,14 +491,9 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                             height: deviceType(media.width) > 2 ? 126 : 100,
                             decoration: ShapeDecoration(
                               color: kPageSkeletonColor,
-                              image: const DecorationImage(
-                                image: AssetImage(
-                                  "assets/images/vendors/ntachi-osa-logo.png",
-                                ),
-                                fit: BoxFit.cover,
-                              ),
                               shape: const OvalBorder(),
                             ),
+                            child: MyImage(url: widget.vendor.profileLogo),
                           ),
                         ),
                       ],
@@ -546,10 +528,8 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                           .getVendorProduct(widget.vendor.id);
                                     },
                                     builder: (controller) {
-                                      return ListView.separated(
+                                      return ListView.builder(
                                         shrinkWrap: true,
-                                        separatorBuilder: (context, index) =>
-                                            kSizedBox,
                                         itemCount:
                                             controller.vendorProductList.length,
                                         itemBuilder:
@@ -570,11 +550,9 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                 initState: (state) async {
                                   await OrderController.instance.getOrders();
                                 },
-                                builder: (controller) => ListView.separated(
+                                builder: (controller) => ListView.builder(
                                   shrinkWrap: true,
                                   itemCount: controller.orderList.length,
-                                  separatorBuilder: (context, index) =>
-                                      kSizedBox,
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     return VendorsOrderContainer(
