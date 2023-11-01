@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:benji_aggregator/model/vendor_model.dart';
+import 'package:benji_aggregator/src/components/image/my_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../theme/colors.dart';
@@ -33,16 +34,11 @@ class VendorContainer extends StatelessWidget {
               width: 130,
               height: 130,
               decoration: ShapeDecoration(
-                image: const DecorationImage(
-                  image: AssetImage(
-                    "assets/images/products/pasta.png",
-                  ),
-                  fit: BoxFit.cover,
-                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
               ),
+              child: MyImage(url: vendor.profileLogo),
             ),
             kHalfWidthSizedBox,
             Column(
