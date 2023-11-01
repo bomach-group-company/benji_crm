@@ -2,6 +2,7 @@
 
 import 'package:benji_aggregator/src/responsive/responsive_constant.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../theme/colors.dart';
 
@@ -16,6 +17,7 @@ class MyBlueTextFormField extends StatelessWidget {
   final bool? isEnabled;
   final VoidCallback? click;
   final Widget? suffixIcon;
+  final List<TextInputFormatter>? inputFormatters;
 
   const MyBlueTextFormField({
     super.key,
@@ -29,6 +31,7 @@ class MyBlueTextFormField extends StatelessWidget {
     this.isEnabled,
     this.click,
     this.suffixIcon,
+    this.inputFormatters,
   });
 
   @override
@@ -48,6 +51,7 @@ class MyBlueTextFormField extends StatelessWidget {
       maxLines: 1,
       enabled: isEnabled ?? true,
       onTap: click,
+      inputFormatters: inputFormatters,
       style: TextStyle(
         color: kSecondaryColor,
         fontSize: 14,

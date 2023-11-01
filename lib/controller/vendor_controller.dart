@@ -13,7 +13,6 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-import '../model/business_type_model.dart';
 import '../model/create_vendor_model.dart';
 import 'user_controller.dart';
 
@@ -28,7 +27,7 @@ class VendorController extends GetxController {
   var isLoadCreate = false.obs;
   var vendorList = <VendorModel>[].obs;
   var vendorMyList = <MyVendorModel>[].obs;
-  var businessType = <BusinessType>[].obs;
+  // var businessType = <BusinessType>[].obs;
   var vendorProductList = <Product>[].obs;
   var vendorOrderList = <Order>[].obs;
 
@@ -251,17 +250,19 @@ class VendorController extends GetxController {
     update();
   }
 
-  Future createThirdPartyVendor(SendCreateModel data, bool classify) async {
+  Future createThirdPartyVendor(SendCreateModel data) async {
     isLoadCreate.value = true;
     late String token;
-    String id = UserController.instance.user.value.id.toString();
+    String agentId = UserController.instance.user.value.id.toString();
     update();
-    var url = Api.baseUrl + Api.createVendor + id;
+    var url = Api.baseUrl + Api.createThirdPartyVendor + agentId;
     token = UserController.instance.user.value.token;
+
+    consoleLog(url);
 
     try {
       http.StreamedResponse? response =
-          await HandleData.streamAddVendor(url, token, data, classify);
+          await HandleData.streamAddThirdPartyVendor(url, token, data);
       if (response == null) {
         isLoadCreate.value = false;
       } else if (response.statusCode == 200) {
@@ -276,12 +277,14 @@ class VendorController extends GetxController {
         isLoadCreate.value = false;
       }
       isLoadCreate.value = false;
+      consoleLog("Got here, 2nd response: $response");
 
       update();
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet");
     } catch (e) {
       ApiProcessorController.errorSnack("An error occurred. ERROR: $e");
+      consoleLog("An error occurred. ERROR: $e");
     }
     isLoadCreate.value = false;
     update();
