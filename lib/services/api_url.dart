@@ -211,7 +211,7 @@ class HandleData {
     try {
       response = await request.send();
     } catch (e) {
-      consoleLog(e.toString());
+      log(e.toString());
       response = null;
     }
     return response;

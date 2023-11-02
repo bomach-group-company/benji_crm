@@ -23,6 +23,7 @@ dependencies:
   hexcolor: ^3.0.1
   provider: ^5.0.0
   firebase_core: ^2.15.0
+  firebase_auth: ^4.7.2
   get:
   url_launcher: ^6.1.12
   http:

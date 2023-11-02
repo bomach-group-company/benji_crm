@@ -59,6 +59,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
   @override
   void dispose() {
     _animationController.dispose();
+    RiderController.instance.dispose();
     scrollController.dispose();
     super.dispose();
   }

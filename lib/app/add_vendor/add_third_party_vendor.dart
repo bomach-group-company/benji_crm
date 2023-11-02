@@ -1,10 +1,8 @@
 // ignore_for_file: unused_local_variable, use_build_context_synchronously, unused_field, invalid_use_of_protected_member
 
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
-import 'package:benji_aggregator/controller/error_controller.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:benji_aggregator/services/api_url.dart';
 import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
@@ -17,13 +15,12 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../controller/category_controller.dart';
 import '../../controller/latlng_detail_controller.dart';
-import '../../controller/user_controller.dart';
+import '../../model/create_vendor_model.dart';
 import '../../services/helper.dart';
 import '../../services/keys.dart';
 import '../../src/components/button/my_elevatedButton.dart';
@@ -82,9 +79,9 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
   final _cscPickerKey = GlobalKey<CSCPickerState>();
 
   //===================== BOOL VALUES =======================\\
-  bool isScrollToTopBtnVisible = false;
-  final bool savingChanges = false;
-  bool typing = false;
+  bool _isScrollToTopBtnVisible = false;
+  final bool _savingChanges = false;
+  bool _typing = false;
 
   //============================================== CONTROLLERS =================================================\\
   final scrollController = ScrollController();
@@ -247,80 +244,28 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
       );
       return;
     }
-    // SendCreateModel data = SendCreateModel(
-    //   personaId: "",
-    //   businessId: "",
-    //   businessName: vendorNameEC.text,
-    //   businessType: shopType,
-    //   businessPhone: vendorPhoneNumberEC.text,
-    //   bussinessAddress: vendorAddressEC.text,
-    //   businessEmail: vendorEmailEC.text,
-    //   country: country ?? "NG",
-    //   state: state ?? "",
-    //   city: city ?? "",
-    //   openHours: vendorMonToFriOpeningHoursEC.text,
-    //   closeHours: vendorMonToFriClosingHoursEC.text,
-    //   satOpenHours: vendorSatOpeningHoursEC.text,
-    //   satCloseHours: vendorSatClosingHoursEC.text,
-    //   sunOpenHours: vendorSunOpeningHoursEC.text,
-    //   sunCloseHours: vendorSunClosingHoursEC.text,
-    //   businessBio: vendorBusinessBioEC.text,
-    //   coverImage: selectedCoverImage,
-    //   profileImage: selectedLogoImage,
-    // );
-    String token;
-    String agentId = UserController.instance.user.value.id.toString();
-    var url = Api.baseUrl + Api.createThirdPartyVendor + agentId;
-    token = UserController.instance.user.value.token;
-    consoleLog(url);
-
-    Map data = {
-      "shop_name": vendorNameEC.text,
-      "shop_type": shopType,
-      "phone": vendorPhoneNumberEC.text,
-      "address": vendorAddressEC.text,
-      "email": vendorEmailEC.text,
-      "country": country ?? "NG",
-      "state": state ?? "",
-      "city": city ?? "",
-      "weekOpeningHours": vendorMonToFriOpeningHoursEC.text,
-      "weekClosingHours": vendorMonToFriClosingHoursEC.text,
-      "satOpeningHours": vendorSatOpeningHoursEC.text,
-      "satClosingHours": vendorSatClosingHoursEC.text,
-      "sunWeekOpeningHours": vendorSunOpeningHoursEC.text,
-      "sunWeekClosingHours": vendorSunClosingHoursEC.text,
-      "businessBio": vendorBusinessBioEC.text,
-      // coverImage: selectedCoverImage,
-      // profileImage: selectedLogoImage,
-    };
-
-    try {
-      var response = await http.post(
-        Uri.parse(url),
-        headers: {
-          'Accept': 'application/json',
-          "Content-Type": content,
-          'authorization': 'Bearer $token',
-        },
-        body: jsonEncode(data),
-      );
-      if (response.statusCode == 200) {
-        // final res = await http.Response.fromStream(response);
-        var jsonData = jsonDecode(response.body);
-        ApiProcessorController.successSnack(jsonData);
-
-        Get.close(1);
-      } else {
-        // final res = await http.Response.fromStream(response);
-        var jsonData = jsonDecode(response.body);
-        ApiProcessorController.errorSnack(jsonData);
-      }
-    } on SocketException {
-      ApiProcessorController.errorSnack("Please connect to the internet");
-    } catch (e) {
-      ApiProcessorController.errorSnack("An error occurred. \nERROR: $e");
-    }
-    // VendorController.instance.createThirdPartyVendor(data);
+    SendCreateModel data = SendCreateModel(
+      personaId: "",
+      businessId: "",
+      businessName: vendorNameEC.text,
+      businessType: shopType,
+      businessPhone: vendorPhoneNumberEC.text,
+      bussinessAddress: vendorAddressEC.text,
+      businessEmail: vendorEmailEC.text,
+      country: country ?? "NG",
+      state: state ?? "",
+      city: city ?? "",
+      openHours: vendorMonToFriOpeningHoursEC.text,
+      closeHours: vendorMonToFriClosingHoursEC.text,
+      satOpenHours: vendorSatOpeningHoursEC.text,
+      satCloseHours: vendorSatClosingHoursEC.text,
+      sunOpenHours: vendorSunOpeningHoursEC.text,
+      sunCloseHours: vendorSunClosingHoursEC.text,
+      businessBio: vendorBusinessBioEC.text,
+      coverImage: selectedCoverImage,
+      profileImage: selectedLogoImage,
+    );
+    VendorController.instance.createThirdPartyVendor(data);
   }
 
   //=========================== WIDGETS ====================================\\
@@ -513,21 +458,21 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
       curve: Curves.easeInOut,
     );
     setState(() {
-      isScrollToTopBtnVisible = false;
+      _isScrollToTopBtnVisible = false;
     });
   }
 
   Future<void> _scrollListener() async {
     if (scrollController.position.pixels >= 100 &&
-        isScrollToTopBtnVisible != true) {
+        _isScrollToTopBtnVisible != true) {
       setState(() {
-        isScrollToTopBtnVisible = true;
+        _isScrollToTopBtnVisible = true;
       });
     }
     if (scrollController.position.pixels < 100 &&
-        isScrollToTopBtnVisible == true) {
+        _isScrollToTopBtnVisible == true) {
       setState(() {
-        isScrollToTopBtnVisible = false;
+        _isScrollToTopBtnVisible = false;
       });
     }
   }
@@ -559,11 +504,11 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
                 }
               }),
               title: "Save",
-              isLoading: savingChanges,
+              isLoading: sending.isLoadCreate.value,
             ),
           );
         }),
-        floatingActionButton: isScrollToTopBtnVisible
+        floatingActionButton: _isScrollToTopBtnVisible
             ? FloatingActionButton(
                 onPressed: _scrollToTop,
                 mini: deviceType(media.width) > 2 ? false : true,
@@ -912,7 +857,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
                                     placeAutoComplete(value);
                                     setState(() {
                                       selectedLocation.value = value;
-                                      typing = true;
+                                      _typing = true;
                                     });
                                     if (kDebugMode) {
                                       print(
@@ -973,10 +918,10 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
                                 kHalfSizedBox,
                                 SizedBox(
                                   height: () {
-                                    if (typing == false) {
+                                    if (_typing == false) {
                                       return 0.0;
                                     }
-                                    if (typing == true) {
+                                    if (_typing == true) {
                                       return 150.0;
                                     }
                                   }(),
