@@ -244,7 +244,7 @@ class VendorController extends GetxController {
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet");
     } catch (e) {
-      ApiProcessorController.errorSnack("An error occurred. ERROR: $e");
+      ApiProcessorController.errorSnack("An error occurred. \nERROR: $e");
     }
     isLoadCreate.value = false;
     update();
@@ -321,7 +321,7 @@ class VendorController extends GetxController {
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet");
     } catch (e) {
-      ApiProcessorController.errorSnack("An error occurred. ERROR: $e");
+      ApiProcessorController.errorSnack("An error occurred. \nERROR: $e");
       consoleLog("An error occured. ERROR: $e");
     }
     isLoadCreate.value = false;

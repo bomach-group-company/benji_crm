@@ -260,7 +260,7 @@ class HandleData {
     try {
       response = await request.send();
     } catch (e) {
-      log(e.toString());
+      consoleLog(e.toString());
       response = null;
     }
     return response;
