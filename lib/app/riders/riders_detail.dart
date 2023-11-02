@@ -14,7 +14,6 @@ import '../../model/rider_model.dart';
 import '../../src/components/button/my_outlined_elevatedButton.dart';
 import '../../src/components/section/my_liquid_refresh.dart';
 import '../../src/providers/constants.dart';
-import '../../src/providers/custom_show_search.dart';
 import 'report_rider.dart';
 
 class RidersDetail extends StatefulWidget {
@@ -155,11 +154,7 @@ class _RidersDetailState extends State<RidersDetail> {
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
     String formattedDateAndTime = formatDateAndTime(now);
-    double mediaWidth = MediaQuery.of(context).size.width;
-    double mediaHeight = MediaQuery.of(context).size.height;
-    void showSearchField() {
-      showSearch(context: context, delegate: CustomSearchDelegate());
-    }
+    var media = MediaQuery.of(context).size;
 
     // void seeDeliveryMessage() => showModalBottomSheet(
     //       context: context,
@@ -197,14 +192,6 @@ class _RidersDetailState extends State<RidersDetail> {
           title: "Riders Details",
           elevation: 0,
           actions: [
-            IconButton(
-              onPressed: showSearchField,
-              tooltip: "Search",
-              icon: FaIcon(
-                FontAwesomeIcons.magnifyingGlass,
-                color: kAccentColor,
-              ),
-            ),
             IconButton(
               onPressed: () => showPopupMenu(context),
               icon: FaIcon(
@@ -283,7 +270,7 @@ class _RidersDetailState extends State<RidersDetail> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(
-                                width: mediaWidth - 250,
+                                width: media.width - 250,
                                 child: Text(
                                   "${widget.rider.firstName} ${widget.rider.lastName}",
                                   overflow: TextOverflow.ellipsis,
@@ -306,7 +293,7 @@ class _RidersDetailState extends State<RidersDetail> {
                                   ),
                                   kHalfWidthSizedBox,
                                   SizedBox(
-                                    width: mediaWidth - 250,
+                                    width: media.width - 250,
                                     child: Text(
                                       widget.rider.phone,
                                       overflow: TextOverflow.ellipsis,
@@ -332,7 +319,7 @@ class _RidersDetailState extends State<RidersDetail> {
                                   ),
                                   kHalfWidthSizedBox,
                                   SizedBox(
-                                    width: mediaWidth - 250,
+                                    width: media.width - 250,
                                     child: Text(
                                       "${widget.rider.tripCount} Trips Completed",
                                       style: TextStyle(

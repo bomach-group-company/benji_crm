@@ -52,7 +52,7 @@ class _ReportRiderState extends State<ReportRider> {
       resizeToAvoidBottomInset: true,
       appBar: MyAppBar(
         title: "Report Rider",
-        elevation: 10.0,
+        elevation: 0,
         actions: const [],
         backgroundColor: kPrimaryColor,
       ),

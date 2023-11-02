@@ -61,12 +61,10 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
-            applicationIdSuffix '.benjiCRM'
             versionNameSuffix 'v0.0.1'
             multiDexEnabled true
         }
         debug {
-            applicationIdSuffix '.benjiCRM'
             multiDexEnabled true
         }
         profile {
@@ -81,9 +79,5 @@ flutter {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.20"
-    implementation platform('com.google.firebase:firebase-bom:32.5.0')
-    implementation 'com.google.firebase:firebase-analytics'
-    implementation 'com.google.android.material:material:1.10.0'
-    implementation 'com.google.android.play:integrity:1.2.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.22"
 }
