@@ -293,7 +293,6 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
       // coverImage: selectedCoverImage,
       // profileImage: selectedLogoImage,
     };
-
     try {
       var response = await http.post(
         Uri.parse(url),
@@ -305,13 +304,11 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
         body: jsonEncode(data),
       );
       if (response.statusCode == 200) {
-        // final res = await http.Response.fromStream(response);
         var jsonData = jsonDecode(response.body);
         ApiProcessorController.successSnack(jsonData);
 
         Get.close(1);
       } else {
-        // final res = await http.Response.fromStream(response);
         var jsonData = jsonDecode(response.body);
         ApiProcessorController.errorSnack(jsonData);
       }
