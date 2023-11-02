@@ -14,7 +14,6 @@ import '../../model/rider_model.dart';
 import '../../src/components/button/my_outlined_elevatedButton.dart';
 import '../../src/components/section/my_liquid_refresh.dart';
 import '../../src/providers/constants.dart';
-import '../../src/providers/custom_show_search.dart';
 import 'report_rider.dart';
 
 class RidersDetail extends StatefulWidget {
@@ -157,9 +156,6 @@ class _RidersDetailState extends State<RidersDetail> {
     String formattedDateAndTime = formatDateAndTime(now);
     double mediaWidth = MediaQuery.of(context).size.width;
     double mediaHeight = MediaQuery.of(context).size.height;
-    void showSearchField() {
-      showSearch(context: context, delegate: CustomSearchDelegate());
-    }
 
     // void seeDeliveryMessage() => showModalBottomSheet(
     //       context: context,
@@ -197,14 +193,7 @@ class _RidersDetailState extends State<RidersDetail> {
           title: "Riders Details",
           elevation: 0,
           actions: [
-            IconButton(
-              onPressed: showSearchField,
-              tooltip: "Search",
-              icon: FaIcon(
-                FontAwesomeIcons.magnifyingGlass,
-                color: kAccentColor,
-              ),
-            ),
+          
             IconButton(
               onPressed: () => showPopupMenu(context),
               icon: FaIcon(
