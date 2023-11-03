@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/route_manager.dart';
 
-import '../../src/components/snackbar/my_fixed_snackBar.dart';
 import '../../src/components/input/otp_textFormField.dart';
+import '../../src/components/snackbar/my_fixed_snackBar.dart';
 import '../../src/providers/constants.dart';
 import '../../src/responsive/my_reponsive_width.dart';
 import '../../theme/colors.dart';
-import '../others/successful_screen.dart';
+import '../splash_screens/successful_screen.dart';
 
 class VerifyWithdrawalPage extends StatefulWidget {
   const VerifyWithdrawalPage({Key? key}) : super(key: key);

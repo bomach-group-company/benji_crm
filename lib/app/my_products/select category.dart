@@ -8,7 +8,7 @@ import '../../src/components/input/my_textformfield2.dart';
 import '../../src/components/sheet/showModalBottomSheetTitleWithIcon.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
-import '../others/successful_screen.dart';
+import '../splash_screens/successful_screen.dart';
 
 class SelectCategory extends StatefulWidget {
   const SelectCategory({super.key});
