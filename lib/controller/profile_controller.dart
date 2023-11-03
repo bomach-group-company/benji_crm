@@ -109,6 +109,8 @@ class ProfileController extends GetxController {
 
       if (response.statusCode == 200) {
         ApiProcessorController.successSnack("Password Changed Successfully");
+        await UserController.instance.deleteUser();
+
         Get.offAll(
           () => const Login(),
           fullscreenDialog: true,
