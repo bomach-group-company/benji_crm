@@ -4,7 +4,6 @@ import 'package:benji_aggregator/controller/order_controller.dart';
 import 'package:benji_aggregator/model/my_vendor_model.dart';
 import 'package:benji_aggregator/src/components/image/my_image.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
-import 'package:benji_aggregator/src/providers/custom_show_search.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -95,7 +94,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
 
   //=================================== Show Popup Menu =====================================\\
   //Show popup menu
-  void _showPopupMenu(BuildContext context) {
+  void showPopupMenu(BuildContext context) {
     final RenderBox overlay =
         Overlay.of(context).context.findRenderObject() as RenderBox;
     const position = RelativeRect.fromLTRB(10, 60, 0, 0);
@@ -167,7 +166,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
         transition: Transition.rightToLeft,
       );
 
-  void _toAddProduct() => Get.to(
+  void toAddProduct() => Get.to(
         () => AddProduct(vendor: widget.vendor),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -204,7 +203,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
       onRefresh: _handleRefresh,
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
-          onPressed: _toAddProduct,
+          onPressed: toAddProduct,
           elevation: 20.0,
           mouseCursor: SystemMouseCursors.click,
           tooltip: "Add Product",
@@ -218,16 +217,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
           backgroundColor: kPrimaryColor,
           actions: [
             IconButton(
-              onPressed: () {
-                showSearch(context: context, delegate: CustomSearchDelegate());
-              },
-              icon: FaIcon(
-                FontAwesomeIcons.magnifyingGlass,
-                color: kAccentColor,
-              ),
-            ),
-            IconButton(
-              onPressed: () => _showPopupMenu(context),
+              onPressed: () => showPopupMenu(context),
               icon: FaIcon(
                 FontAwesomeIcons.ellipsisVertical,
                 color: kAccentColor,

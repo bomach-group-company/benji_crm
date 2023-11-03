@@ -90,19 +90,26 @@ class FormController extends GetxController {
     data.forEach((key, value) {
       request.fields[key] = value.toString();
     });
-    consoleLog('stream response $response');
+    // consoleLog('stream response $response');
     try {
       response = await request.send();
       status.value = response.statusCode;
       final normalResp = await http.Response.fromStream(response);
       consoleLog('stream response ${normalResp.body}');
-      if (response.statusCode != 200) {
+      if (response.statusCode == 200) {
         ApiProcessorController.successSnack(successMsg);
         isLoad.value = false;
+        Get.close(1);
         update([tag]);
         return;
+      } else {
+        ApiProcessorController.errorSnack(errorMsg);
       }
+    } on SocketException {
+      ApiProcessorController.errorSnack("Please connect to the internet");
     } catch (e) {
+      ApiProcessorController.errorSnack("An error occured. \nERROR: $e");
+      consoleLog("An error occured. \nERROR: $e");
       response = null;
     }
 

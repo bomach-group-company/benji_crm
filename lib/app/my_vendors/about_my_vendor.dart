@@ -499,9 +499,9 @@ class _AboutMyVendorState extends State<AboutMyVendor> {
                                               },
                                               child: Row(
                                                 children: [
-                                                  const Icon(
-                                                    Icons.star,
-                                                    size: 20,
+                                                  const FaIcon(
+                                                    FontAwesomeIcons.solidStar,
+                                                    size: 16,
                                                   ),
                                                   const SizedBox(
                                                     width:
