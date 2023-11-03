@@ -6,19 +6,18 @@ import 'package:benji_aggregator/model/product_model.dart';
 import 'package:benji_aggregator/model/vendor_model.dart';
 import 'package:benji_aggregator/src/components/image/my_image.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
-import 'package:benji_aggregator/src/providers/custom_show_search.dart';
 import 'package:benji_aggregator/src/responsive/responsive_constant.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../controller/vendor_controller.dart';
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/container/vendors_order_container.dart';
 import '../../src/components/container/vendors_product_container.dart';
+import '../../src/components/section/my_liquid_refresh.dart';
 import '../../theme/colors.dart';
 import 'about_vendor.dart';
 import 'report_vendor.dart';
@@ -93,7 +92,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
 
 //===================== Handle refresh ==========================\\
 
-  Future<void> _handleRefresh() async {}
+  Future<void> handleRefresh() async {}
 
   void _clickOnTabBarOption(value) async {
     setState(() {
@@ -127,10 +126,10 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
       if (value != null) {
         switch (value) {
           case 'about':
-            _toAboutVendor(widget.vendor);
+            toAboutVendor(widget.vendor);
             break;
           case 'report':
-            _toSuspendVendor();
+            toSuspendVendor();
             break;
         }
       }
@@ -155,12 +154,8 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
         transition: Transition.rightToLeft,
       );
 
-  void _toAboutVendor(VendorModel data) => Get.to(
-        () => AboutVendor(
-          vendor: data,
-
-          // vendor: widget.vendor,
-        ),
+  void toAboutVendor(VendorModel data) => Get.to(
+        () => AboutVendor(vendor: data),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -170,7 +165,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
         transition: Transition.rightToLeft,
       );
 
-  void _toSuspendVendor() => Get.to(
+  void toSuspendVendor() => Get.to(
         () => ReportVendor(vendor: widget.vendor),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -191,29 +186,14 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
 
 //====================================================================================\\
 
-    return LiquidPullToRefresh(
-      onRefresh: _handleRefresh,
-      color: kAccentColor,
-      borderWidth: 5.0,
-      backgroundColor: kPrimaryColor,
-      height: 150,
-      animSpeedFactor: 2,
-      showChildOpacityTransition: false,
+    return MyLiquidRefresh(
+      onRefresh: handleRefresh,
       child: Scaffold(
-        extendBody: true,
-        extendBodyBehindAppBar: true,
         appBar: MyAppBar(
           title: "Vendor Details",
           elevation: 0,
           backgroundColor: kPrimaryColor,
           actions: [
-            IconButton(
-              onPressed: () {
-                showSearch(context: context, delegate: CustomSearchDelegate());
-              },
-              icon:
-                  FaIcon(FontAwesomeIcons.magnifyingGlass, color: kAccentColor),
-            ),
             IconButton(
               onPressed: () => showPopupMenu(context),
               icon: FaIcon(
