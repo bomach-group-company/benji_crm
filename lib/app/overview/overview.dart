@@ -29,8 +29,9 @@ class OverView extends StatefulWidget {
   final riderHistory = Get.put(RiderHistoryController());
   final location = Get.put(LatLngDetailController());
   final form = Get.put(FormController());
+  final int currentIndex;
 
-  OverView({super.key});
+  OverView({super.key, this.currentIndex = 0});
 
   @override
   State<OverView> createState() => _OverViewState();
@@ -40,10 +41,12 @@ class _OverViewState extends State<OverView> {
 //===================================== ALL VARAIBLES =================================================\\
 
   bool _bottomNavBarIsVisible = true;
-  int _currentIndex = 0;
+  late int _currentIndex;
 
   @override
   void initState() {
+    _currentIndex = widget.currentIndex;
+
     super.initState();
   }
 
@@ -72,16 +75,10 @@ class _OverViewState extends State<OverView> {
       Vendors(
         showNavigation: showNav,
         hideNavigation: hideNav,
-        appBarBackgroundColor: kPrimaryColor,
-        appTitleColor: kTextBlackColor,
-        appBarSearchIconColor: kAccentColor,
       ),
       Riders(
         showNavigation: showNav,
         hideNavigation: hideNav,
-        appBarBackgroundColor: kPrimaryColor,
-        appTitleColor: kTextBlackColor,
-        appBarSearchIconColor: kAccentColor,
       ),
       const Profile(),
     ];

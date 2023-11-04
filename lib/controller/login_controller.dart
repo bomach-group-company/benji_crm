@@ -22,6 +22,7 @@ class LoginController extends GetxController {
     try {
       UserController.instance;
       isLoad.value = true;
+      update();
 
       Map finalData = {
         "username": data.username,
@@ -74,6 +75,7 @@ class LoginController extends GetxController {
             .saveUser(responseUserData.body, jsonData["token"]);
 
         ApiProcessorController.successSnack("Login Successful");
+
         Get.offAll(
           () => OverView(),
           fullscreenDialog: true,

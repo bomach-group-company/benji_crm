@@ -72,6 +72,7 @@ class FormController extends GetxController {
     http.StreamedResponse? response;
 
     isLoad.value = true;
+    update();
     update([tag]);
 
     var request = http.MultipartRequest("POST", Uri.parse(url));
@@ -99,6 +100,7 @@ class FormController extends GetxController {
       if (response.statusCode == 200) {
         ApiProcessorController.successSnack(successMsg);
         isLoad.value = false;
+        update();
         Get.close(1);
         update([tag]);
         return;

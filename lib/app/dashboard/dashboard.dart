@@ -23,8 +23,8 @@ import '../../src/responsive/responsive_constant.dart';
 import '../../theme/colors.dart';
 import '../my_orders/active_orders.dart';
 import '../my_orders/pending_orders.dart';
+import '../overview/overview.dart';
 import '../riders/riders.dart';
-import '../vendors/vendors.dart';
 
 class Dashboard extends StatefulWidget {
   final VoidCallback showNavigation;
@@ -144,9 +144,6 @@ class _DashboardState extends State<Dashboard>
         () => Riders(
           showNavigation: () {},
           hideNavigation: () {},
-          appBarBackgroundColor: kAccentColor,
-          appTitleColor: kPrimaryColor,
-          appBarSearchIconColor: kPrimaryColor,
         ),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -158,13 +155,7 @@ class _DashboardState extends State<Dashboard>
       );
 
   void _toSeeAllVendors() => Get.to(
-        () => Vendors(
-          showNavigation: () {},
-          hideNavigation: () {},
-          appBarBackgroundColor: kAccentColor,
-          appTitleColor: kPrimaryColor,
-          appBarSearchIconColor: kPrimaryColor,
-        ),
+        () => OverView(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
