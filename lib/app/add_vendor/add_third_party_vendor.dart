@@ -255,6 +255,8 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
       country: country ?? "NG",
       state: state ?? "",
       city: city ?? "",
+      latitude: latitude ?? "",
+      longitude: longitude ?? "",
       openHours: vendorMonToFriOpeningHoursEC.text,
       closeHours: vendorMonToFriClosingHoursEC.text,
       satOpenHours: vendorSatOpeningHoursEC.text,
@@ -923,7 +925,9 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
                                       return 0.0;
                                     }
                                     if (typing == true) {
-                                      return 150.0;
+                                      return deviceType(media.width) >= 2
+                                          ? 300.0
+                                          : 150.0;
                                     }
                                   }(),
                                   child: Scrollbar(

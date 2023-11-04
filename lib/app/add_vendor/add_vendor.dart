@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
 import '../../src/providers/constants.dart';
+import 'add_third_party_vendor.dart';
 import 'add_to_a_vendor.dart';
 import 'register_vendor.dart';
 
@@ -49,16 +50,16 @@ class _AddVendorState extends State<AddVendor> {
         transition: Transition.rightToLeft,
       );
 
-  // void addThirdPartyVendor() => Get.to(
-  //       () => const AddThirdPartyVendor(),
-  //       duration: const Duration(milliseconds: 300),
-  //       fullscreenDialog: true,
-  //       curve: Curves.easeIn,
-  //       routeName: "AddThirdPartyVendor",
-  //       preventDuplicates: true,
-  //       popGesture: true,
-  //       transition: Transition.rightToLeft,
-  //     );
+  void addThirdPartyVendor() => Get.to(
+        () => const AddThirdPartyVendor(),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "AddThirdPartyVendor",
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
   void addToAVendor() => Get.to(
         () => const AddToAVendor(),
         duration: const Duration(milliseconds: 300),
@@ -137,50 +138,50 @@ class _AddVendorState extends State<AddVendor> {
                 ),
               ),
               kSizedBox,
-              // ListTile(
-              //   onTap: addThirdPartyVendor,
-              //   horizontalTitleGap: 10,
-              //   mouseCursor: SystemMouseCursors.click,
-              //   enableFeedback: true,
-              //   tileColor: kLightGreyColor.withOpacity(0.15),
-              //   focusColor: kLightGreyColor.withOpacity(0.15),
-              //   splashColor: kLightGreyColor.withOpacity(0.15),
-              //   minVerticalPadding: kDefaultPadding / 2,
-              //   shape: RoundedRectangleBorder(
-              //     borderRadius: BorderRadius.circular(kDefaultPadding / 2),
-              //   ),
-              //   leading: FaIcon(
-              //     FontAwesomeIcons.store,
-              //     color: kAccentColor,
-              //     size: 30,
-              //   ),
-              //   title: const Text("Add third party vendor"),
-              //   titleTextStyle: const TextStyle(
-              //     color: kTextBlackColor,
-              //     fontSize: 18,
-              //     fontWeight: FontWeight.w600,
-              //   ),
-              //   subtitle: const Text(
-              //     "Create a vendor account on behalf of a vendor (3rd party account)",
-              //   ),
-              //   subtitleTextStyle: TextStyle(color: kTextGreyColor),
-              //   trailing: FaIcon(
-              //     FontAwesomeIcons.chevronRight,
-              //     color: kAccentColor,
-              //     size: 26,
-              //   ),
-              // ),
-              // kSizedBox,
-              // Text(
-              //   "Or",
-              //   textAlign: TextAlign.center,
-              //   style: TextStyle(
-              //     color: kTextGreyColor,
-              //     fontSize: 16,
-              //     fontWeight: FontWeight.w700,
-              //   ),
-              // ),
-              // kSizedBox,
+              ListTile(
+                onTap: addThirdPartyVendor,
+                horizontalTitleGap: 10,
+                mouseCursor: SystemMouseCursors.click,
+                enableFeedback: true,
+                tileColor: kLightGreyColor.withOpacity(0.15),
+                focusColor: kLightGreyColor.withOpacity(0.15),
+                splashColor: kLightGreyColor.withOpacity(0.15),
+                minVerticalPadding: kDefaultPadding / 2,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(kDefaultPadding / 2),
+                ),
+                leading: FaIcon(
+                  FontAwesomeIcons.store,
+                  color: kAccentColor,
+                  size: 30,
+                ),
+                title: const Text("Add third party vendor"),
+                titleTextStyle: const TextStyle(
+                  color: kTextBlackColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+                subtitle: const Text(
+                  "Create a vendor account on behalf of a vendor (3rd party account)",
+                ),
+                subtitleTextStyle: TextStyle(color: kTextGreyColor),
+                trailing: FaIcon(
+                  FontAwesomeIcons.chevronRight,
+                  color: kAccentColor,
+                  size: 26,
+                ),
+              ),
+              kSizedBox,
+              Text(
+                "Or",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: kTextGreyColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              kSizedBox,
               ListTile(
                 onTap: addToAVendor,
                 horizontalTitleGap: 10,

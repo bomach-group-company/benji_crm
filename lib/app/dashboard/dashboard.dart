@@ -24,7 +24,6 @@ import '../../theme/colors.dart';
 import '../my_orders/active_orders.dart';
 import '../my_orders/pending_orders.dart';
 import '../overview/overview.dart';
-import '../riders/riders.dart';
 
 class Dashboard extends StatefulWidget {
   final VoidCallback showNavigation;

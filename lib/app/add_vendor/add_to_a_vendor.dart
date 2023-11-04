@@ -11,6 +11,7 @@ import 'package:csc_picker/csc_picker.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
@@ -21,6 +22,7 @@ import '../../../src/providers/constants.dart';
 import '../../controller/category_controller.dart';
 import '../../controller/latlng_detail_controller.dart';
 import '../../model/create_vendor_model.dart';
+import '../../services/helper.dart';
 import '../../services/keys.dart';
 import '../../src/components/button/my_elevatedButton.dart';
 import '../../src/components/input/message_textformfield.dart';
@@ -258,6 +260,8 @@ class _AddToAVendorState extends State<AddToAVendor> {
       country: country ?? "NG",
       state: state ?? "",
       city: city ?? "",
+      latitude: latitude ?? "",
+      longitude: longitude ?? "",
       openHours: vendorMonToFriOpeningHoursEC.text,
       closeHours: vendorMonToFriClosingHoursEC.text,
       satOpenHours: vendorSatOpeningHoursEC.text,
@@ -808,7 +812,7 @@ class _AddToAVendorState extends State<AddToAVendor> {
                                 },
                                 textInputAction: TextInputAction.next,
                                 focusNode: vendorBusinessTypeFN,
-                                hintText: registeredVendor ??
+                                hintText: shopTypeHint ??
                                     "E.g Restaurant, Auto Dealer, etc",
                                 textInputType: TextInputType.text,
                               ),
@@ -968,7 +972,9 @@ class _AddToAVendorState extends State<AddToAVendor> {
                                     return 0.0;
                                   }
                                   if (_typing == true) {
-                                    return 150.0;
+                                    return deviceType(media.width) >= 2
+                                        ? 300.0
+                                        : 150.0;
                                   }
                                 }(),
                                 child: Scrollbar(
@@ -1066,6 +1072,10 @@ class _AddToAVendorState extends State<AddToAVendor> {
                               }
                             },
                             onSaved: (value) {},
+                            inputFormatters: [
+                              FilteringTextInputFormatter.singleLineFormatter,
+                              UppercaseTextInputFormatter(), // Custom formatter to make text uppercase
+                            ],
                             textInputAction: TextInputAction.next,
                             focusNode: vendorMonToFriOpeningHoursFN,
                             hintText: "00:00 AM",
@@ -1090,6 +1100,10 @@ class _AddToAVendorState extends State<AddToAVendor> {
                               }
                             },
                             onSaved: (value) {},
+                            inputFormatters: [
+                              FilteringTextInputFormatter.singleLineFormatter,
+                              UppercaseTextInputFormatter(), // Custom formatter to make text uppercase
+                            ],
                             textInputAction: TextInputAction.next,
                             focusNode: vendorMonToFriClosingHoursFN,
                             hintText: "00:00 PM",
@@ -1124,6 +1138,10 @@ class _AddToAVendorState extends State<AddToAVendor> {
                               }
                             },
                             onSaved: (value) {},
+                            inputFormatters: [
+                              FilteringTextInputFormatter.singleLineFormatter,
+                              UppercaseTextInputFormatter(), // Custom formatter to make text uppercase
+                            ],
                             textInputAction: TextInputAction.next,
                             focusNode: vendorSatOpeningHoursFN,
                             hintText: "00:00 AM",
@@ -1148,6 +1166,10 @@ class _AddToAVendorState extends State<AddToAVendor> {
                               }
                             },
                             onSaved: (value) {},
+                            inputFormatters: [
+                              FilteringTextInputFormatter.singleLineFormatter,
+                              UppercaseTextInputFormatter(), // Custom formatter to make text uppercase
+                            ],
                             textInputAction: TextInputAction.next,
                             focusNode: vendorSatClosingHoursFN,
                             hintText: "00:00 PM",
@@ -1182,6 +1204,10 @@ class _AddToAVendorState extends State<AddToAVendor> {
                               }
                             },
                             onSaved: (value) {},
+                            inputFormatters: [
+                              FilteringTextInputFormatter.singleLineFormatter,
+                              UppercaseTextInputFormatter(), // Custom formatter to make text uppercase
+                            ],
                             textInputAction: TextInputAction.next,
                             focusNode: vendorSunOpeningHoursFN,
                             hintText: "00:00 AM",
@@ -1206,6 +1232,10 @@ class _AddToAVendorState extends State<AddToAVendor> {
                               }
                             },
                             onSaved: (value) {},
+                            inputFormatters: [
+                              FilteringTextInputFormatter.singleLineFormatter,
+                              UppercaseTextInputFormatter(), // Custom formatter to make text uppercase
+                            ],
                             textInputAction: TextInputAction.next,
                             focusNode: vendorSunClosingHoursFN,
                             hintText: "00:00 PM",
