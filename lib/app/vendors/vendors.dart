@@ -11,13 +11,11 @@ import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-import '../../src/components/button/my_outlined_elevatedButton.dart';
 import '../../src/components/section/my_liquid_refresh.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/custom_show_search.dart';
 import '../../src/skeletons/vendors_list_skeleton.dart';
 import '../../theme/colors.dart';
-import '../my_vendors/my_vendors.dart';
 import 'vendor_details.dart';
 
 class Vendors extends StatefulWidget {
@@ -143,16 +141,16 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
         transition: Transition.downToUp,
       );
 
-  void _toMyVendorsPage() => Get.to(
-        () => const MyVendors(),
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "MyVendors",
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.downToUp,
-      );
+  // void toMyVendorsPage() => Get.to(
+  //       () => const MyVendors(),
+  //       duration: const Duration(milliseconds: 300),
+  //       fullscreenDialog: true,
+  //       curve: Curves.easeIn,
+  //       routeName: "MyVendors",
+  //       preventDuplicates: true,
+  //       popGesture: true,
+  //       transition: Transition.downToUp,
+  //     );
 
   void _toVendorDetailsPage(VendorModel data) => Get.to(
         () => VendorDetailsPage(vendor: data),
@@ -207,20 +205,20 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
                 color: kAccentColor,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(kDefaultPadding / 2),
-              child: MyOutlinedElevatedButton(
-                onPressed: _toMyVendorsPage,
-                circularBorderRadius: 20,
-                minimumSizeWidth: 100,
-                minimumSizeHeight: 30,
-                maximumSizeWidth: 100,
-                maximumSizeHeight: 30,
-                buttonTitle: "My Vendors",
-                titleFontSize: 12,
-                elevation: 0.0,
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(kDefaultPadding / 2),
+            //   child: MyOutlinedElevatedButton(
+            //     onPressed: toMyVendorsPage,
+            //     circularBorderRadius: 20,
+            //     minimumSizeWidth: 100,
+            //     minimumSizeHeight: 30,
+            //     maximumSizeWidth: 100,
+            //     maximumSizeHeight: 30,
+            //     buttonTitle: "My Vendors",
+            //     titleFontSize: 12,
+            //     elevation: 0.0,
+            //   ),
+            // ),
           ],
         ),
         body: SafeArea(

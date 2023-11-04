@@ -3,7 +3,9 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:benji_aggregator/controller/form_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
+import 'package:benji_aggregator/services/api_url.dart';
 import 'package:benji_aggregator/src/components/image/my_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +18,6 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../../app/google_maps/get_location_on_map.dart';
 import '../../../controller/latlng_detail_controller.dart';
-import '../../../controller/profile_controller.dart';
 import '../../../services/keys.dart';
 import '../../../theme/colors.dart';
 import '../../googleMaps/autocomplete_prediction.dart';
@@ -301,15 +302,29 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
     setState(() {
       _isLoading = true;
     });
-    await ProfileController.instance.updateProfile(
-      firstName: firstNameEC.text,
-      lastName: lastNameEC.text,
-      address: mapsLocationEC.text,
-      latitude: latitude,
-      longitude: longitude,
-      phoneNumber: phoneNumberEC.text,
-      isCurrent: true,
-    );
+    // await ProfileController.instance.updateProfile(
+    //   firstName: firstNameEC.text,
+    //   lastName: lastNameEC.text,
+    //   address: mapsLocationEC.text,
+    //   latitude: latitude,
+    //   longitude: longitude,
+    //   phoneNumber: phoneNumberEC.text,
+
+    // );
+    int uuid = UserController.instance.user.value.id;
+
+    var url = "${Api.baseUrl}/agents/changeAgent/$uuid";
+
+    Map data = {
+      "first_name": firstNameEC.text,
+      "last_name": lastNameEC.text,
+      "address": mapsLocationEC.text,
+      "latitude": latitude,
+      "longitude": longitude,
+      "phone": phoneNumberEC.text
+    };
+    await FormController.instance.postAuthstream(
+        url, {'data': data}, {'image': selectedImage}, 'editProfile');
 
     setState(() {
       _isLoading = false;

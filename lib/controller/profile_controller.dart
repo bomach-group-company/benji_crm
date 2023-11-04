@@ -32,7 +32,6 @@ class ProfileController extends GetxController {
     address,
     latitude,
     longitude,
-    bool isCurrent = true,
   }) async {
     late String token;
     token = UserController.instance.user.value.token;
@@ -46,19 +45,19 @@ class ProfileController extends GetxController {
       "address": address ?? "",
       "latitude": latitude ?? "",
       "longitude": longitude ?? "",
-      "phoneNumber": phoneNumber ?? "",
+      "phone": phoneNumber ?? "",
     };
     try {
-      var response = await http.put(
+      var response = await http.post(
         Uri.parse(url),
         headers: {
           HttpHeaders.contentTypeHeader: header,
           HttpHeaders.authorizationHeader: "Bearer $token",
           "Content-Type": content,
         },
-        body: jsonEncode(body),
+        body: {'data': jsonEncode(body)},
       );
-
+      print(response.body);
       //Print the response in the console:
       // will do this when the endpoint stops returning null (save the new data)
       UserController.instance
