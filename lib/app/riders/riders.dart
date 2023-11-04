@@ -19,14 +19,8 @@ class Riders extends StatefulWidget {
   final VoidCallback showNavigation;
   final VoidCallback hideNavigation;
 
-  final Color appBarBackgroundColor;
-  final Color appTitleColor;
-  final Color appBarSearchIconColor;
   const Riders({
     super.key,
-    required this.appBarBackgroundColor,
-    required this.appTitleColor,
-    required this.appBarSearchIconColor,
     required this.showNavigation,
     required this.hideNavigation,
   });
@@ -145,14 +139,14 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: widget.appBarBackgroundColor,
-          title: Padding(
-            padding: const EdgeInsets.only(left: kDefaultPadding),
+          backgroundColor: kPrimaryColor,
+          title: const Padding(
+            padding: EdgeInsets.only(left: kDefaultPadding),
             child: Text(
               "All Riders",
               style: TextStyle(
                 fontSize: 20,
-                color: widget.appTitleColor,
+                color: kTextBlackColor,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -163,7 +157,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
               tooltip: "Search",
               icon: FaIcon(
                 FontAwesomeIcons.magnifyingGlass,
-                color: widget.appBarSearchIconColor,
+                color: kAccentColor,
               ),
             ),
           ],

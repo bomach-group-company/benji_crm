@@ -75,9 +75,9 @@ class _ProfileState extends State<Profile> {
         popGesture: false,
         transition: Transition.rightToLeft,
       );
-  void _logOut() async {
+  void logOut() async {
     await UserController.instance.deleteUser();
-    Get.offAll(
+    await Get.offAll(
       () => const Login(),
       duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,
@@ -275,7 +275,7 @@ class _ProfileState extends State<Profile> {
                       ),
                       child: ListTile(
                         mouseCursor: SystemMouseCursors.click,
-                        onTap: _logOut,
+                        onTap: logOut,
                         enableFeedback: true,
                         leading: FaIcon(
                           FontAwesomeIcons.rightFromBracket,

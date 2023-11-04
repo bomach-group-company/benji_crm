@@ -22,15 +22,9 @@ import 'vendor_details.dart';
 class Vendors extends StatefulWidget {
   final VoidCallback showNavigation;
   final VoidCallback hideNavigation;
-  final Color appBarBackgroundColor;
-  final Color appTitleColor;
-  final Color appBarSearchIconColor;
 
   const Vendors({
     super.key,
-    required this.appBarBackgroundColor,
-    required this.appTitleColor,
-    required this.appBarSearchIconColor,
     required this.showNavigation,
     required this.hideNavigation,
   });
@@ -184,15 +178,15 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
           child: const FaIcon(FontAwesomeIcons.plus),
         ),
         appBar: AppBar(
-          backgroundColor: widget.appBarBackgroundColor,
+          backgroundColor: kPrimaryColor,
           elevation: 0.0,
-          title: Padding(
-            padding: const EdgeInsets.only(left: kDefaultPadding),
+          title: const Padding(
+            padding: EdgeInsets.only(left: kDefaultPadding),
             child: Text(
               "All Vendors",
               style: TextStyle(
                 fontSize: 20,
-                color: widget.appTitleColor,
+                color: kTextBlackColor,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -203,7 +197,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
               tooltip: "Search for a vendor",
               icon: FaIcon(
                 FontAwesomeIcons.magnifyingGlass,
-                color: widget.appBarSearchIconColor,
+                color: kAccentColor,
               ),
             ),
             Padding(
