@@ -18,9 +18,9 @@ class MyImage extends StatelessWidget {
               child: CupertinoActivityIndicator(
         color: kRedColor,
       )),
-      errorWidget: (context, url, error) => const Icon(
+      errorWidget: (context, url, error) => Icon(
         Icons.error,
-        color: kRedColor,
+        color: kAccentColor,
       ),
     );
   }

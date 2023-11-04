@@ -100,7 +100,9 @@ class _SelectBankBodyState extends State<SelectBankBody> {
               controller: scrollController,
               child: GetBuilder<WithdrawController>(builder: (banks) {
                 return banks.listOfBanks.isEmpty && banks.isLoad.value
-                    ? CircularProgressIndicator(color: kAccentColor)
+                    ? Center(
+                        child: CircularProgressIndicator(color: kAccentColor),
+                      )
                     : ListView.separated(
                         shrinkWrap: true,
                         physics: const BouncingScrollPhysics(),
@@ -110,6 +112,7 @@ class _SelectBankBodyState extends State<SelectBankBody> {
                         itemBuilder: (context, index) => BankListTile(
                           onTap: () => selectBank(index),
                           bank: banks.listOfBanks[index].name,
+                          bankImage: banks.listOfBanks[index].logo,
                         ),
                       );
               }),

@@ -344,9 +344,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
       kSuccessColor,
       "Success!",
       "ID copied to clipboard",
-      const Duration(
-        seconds: 2,
-      ),
+      const Duration(seconds: 2),
     );
   }
 
