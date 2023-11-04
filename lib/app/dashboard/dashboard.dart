@@ -141,10 +141,7 @@ class _DashboardState extends State<Dashboard>
 //=================================== Navigation =====================================\\
 
   void _toSeeAllRiders() => Get.to(
-        () => Riders(
-          showNavigation: () {},
-          hideNavigation: () {},
-        ),
+        () => OverView(currentIndex: 2),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -155,7 +152,7 @@ class _DashboardState extends State<Dashboard>
       );
 
   void _toSeeAllVendors() => Get.to(
-        () => OverView(),
+        () => OverView(currentIndex: 1),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -177,9 +174,7 @@ class _DashboardState extends State<Dashboard>
       );
 
   void _toSeeAllPendingOrders(List<Order> orderList) => Get.to(
-        () => PendingOrders(
-          orderList: orderList,
-        ),
+        () => PendingOrders(orderList: orderList),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,

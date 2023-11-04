@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-import '../../../app/profile/profile.dart';
+import '../../../app/overview/overview.dart';
 import '../../../theme/colors.dart';
 import '../../providers/constants.dart';
 import '../../providers/custom_show_search.dart';
@@ -28,7 +28,7 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
 
 //======================================== FUNCTIONS ==============================================\\
   void toProfilePage() => Get.to(
-        () => const Profile(),
+        () => OverView(currentIndex: 3),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
