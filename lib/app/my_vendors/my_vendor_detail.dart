@@ -351,8 +351,10 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                         ),
                                       ),
                                       child: Text(
-                                        widget.vendor.address.isEmpty
-                                            ? notAvailable
+                                        widget.vendor.address.isEmpty ||
+                                                widget.vendor.address ==
+                                                    notAvailable
+                                            ? "Not available"
                                             : "Show on map",
                                         textAlign: TextAlign.center,
                                         style: const TextStyle(
@@ -466,6 +468,53 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                       ],
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: kDefaultPadding,
+                    ),
+                    child: Container(
+                      width: media.width,
+                      decoration: BoxDecoration(
+                        color: kDefaultCategoryBackgroundColor,
+                        borderRadius: BorderRadius.circular(50),
+                        border: Border.all(
+                          color: kLightGreyColor,
+                          style: BorderStyle.solid,
+                          strokeAlign: BorderSide.strokeAlignOutside,
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: TabBar(
+                              controller: _tabBarController,
+                              onTap: _clickOnTabBarOption,
+                              enableFeedback: true,
+                              mouseCursor: SystemMouseCursors.click,
+                              automaticIndicatorColorAdjustment: true,
+                              overlayColor:
+                                  MaterialStatePropertyAll(kAccentColor),
+                              labelColor: kPrimaryColor,
+                              unselectedLabelColor: kTextGreyColor,
+                              indicatorColor: kAccentColor,
+                              indicatorWeight: 2,
+                              splashBorderRadius: BorderRadius.circular(50),
+                              indicator: BoxDecoration(
+                                color: kAccentColor,
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              tabs: const [
+                                Tab(text: "Products"),
+                                Tab(text: "Orders"),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  kSizedBox,
                   Container(
                     height: media.height,
                     width: media.width,
@@ -477,23 +526,27 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                       children: [
                         tabBar == 0
                             ?
-                            //  const VendorsTabBarProductsContentSkeleton()
+                            // const VendorsTabBarProductsContentSkeleton()
                             Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   // CategoryButtonSection(
-                                  //   onPressed: _changeProductCategory,
-                                  //   category: _categoryButtonText,
+                                  //   onPressed:
+                                  //       _changeProductCategory,
+                                  //   category:
+                                  //       _categoryButtonText,
                                   //   categorybgColor:
                                   //       _categoryButtonBgColor,
                                   //   categoryFontColor:
                                   //       _categoryButtonFontColor,
                                   // ),
+
                                   GetBuilder<VendorController>(
                                     initState: (state) async {
                                       await VendorController.instance
                                           .getVendorProduct(widget.vendor.id);
                                     },
+                                    init: VendorController(),
                                     builder: (controller) {
                                       return ListView.builder(
                                         shrinkWrap: true,
@@ -502,32 +555,89 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                         itemBuilder:
                                             (BuildContext context, int index) {
                                           return VendorsProductContainer(
-                                            onTap: toProductDetailScreen,
+                                            onTap: () {},
                                             product: controller
                                                 .vendorProductList[index],
                                           );
                                         },
                                       );
                                     },
+                                  ),
+                                  GetBuilder<VendorController>(
+                                    builder: (controller) => Column(
+                                      children: [
+                                        controller.isLoadMoreProduct.value
+                                            ? Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: kAccentColor,
+                                                ),
+                                              )
+                                            : const SizedBox(),
+                                        controller.loadedAllProduct.value
+                                            ? Container(
+                                                margin: const EdgeInsets.only(
+                                                    top: 20, bottom: 20),
+                                                height: 10,
+                                                width: 10,
+                                                decoration: ShapeDecoration(
+                                                    shape: const CircleBorder(),
+                                                    color: kPageSkeletonColor),
+                                              )
+                                            : const SizedBox(),
+                                      ],
+                                    ),
                                   )
                                 ],
                               )
-                            //  const VendorsTabBarOrdersContentSkeleton()
-                            : GetBuilder<OrderController>(
-                                initState: (state) async {
-                                  await OrderController.instance.getOrders();
-                                },
-                                builder: (controller) => ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: controller.orderList.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return VendorsOrderContainer(
-                                      order: controller.orderList[index],
-                                    );
-                                  },
-                                ),
+                            // const VendorsTabBarOrdersContentSkeleton()
+                            : Column(
+                                children: [
+                                  GetBuilder<OrderController>(
+                                    initState: (state) async {
+                                      await OrderController.instance
+                                          .getOrders();
+                                    },
+                                    init: OrderController(),
+                                    builder: (controller) => ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: controller.orderList.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return VendorsOrderContainer(
+                                          order: controller.orderList[index],
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  GetBuilder<OrderController>(
+                                    builder: (controller) => Column(
+                                      children: [
+                                        controller.isLoadMore.value
+                                            ? Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: kAccentColor,
+                                                ),
+                                              )
+                                            : const SizedBox(),
+                                        controller.loadedAll.value
+                                            ? Container(
+                                                margin: const EdgeInsets.only(
+                                                    top: 20, bottom: 20),
+                                                height: 10,
+                                                width: 10,
+                                                decoration: ShapeDecoration(
+                                                    shape: const CircleBorder(),
+                                                    color: kPageSkeletonColor),
+                                              )
+                                            : const SizedBox(),
+                                      ],
+                                    ),
+                                  )
+                                ],
                               ),
+                        // const VendorsTabBarOrdersContentSkeleton()
                       ],
                     ),
                   ),

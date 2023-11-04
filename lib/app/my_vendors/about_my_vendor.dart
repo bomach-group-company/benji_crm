@@ -209,7 +209,7 @@ class _AboutMyVendorState extends State<AboutMyVendor> {
                           TextSpan(
                             children: [
                               const TextSpan(
-                                text: "Phone number: ",
+                                text: "Business Phone number: ",
                                 style: TextStyle(
                                   color: kTextBlackColor,
                                   fontSize: 16,

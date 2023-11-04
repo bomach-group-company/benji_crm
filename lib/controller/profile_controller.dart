@@ -25,13 +25,15 @@ class ProfileController extends GetxController {
 
 //===================== Update Personal Profile ==================\\
 
-  Future<bool> updateProfile(
-      {String? userName,
-      phoneNumber,
-      firstName,
-      lastName,
-      address,
-      bool isCurrent = true}) async {
+  Future<bool> updateProfile({
+    String? phoneNumber,
+    firstName,
+    lastName,
+    address,
+    latitude,
+    longitude,
+    bool isCurrent = true,
+  }) async {
     late String token;
     token = UserController.instance.user.value.token;
     int uuid = UserController.instance.user.value.id;
@@ -39,10 +41,12 @@ class ProfileController extends GetxController {
     var url = "${Api.baseUrl}/agents/changeAgent/$uuid";
 
     Map body = {
-      "username": userName ?? "",
       "first_name": firstName ?? "",
       "last_name": lastName ?? "",
       "address": address ?? "",
+      "latitude": latitude ?? "",
+      "longitude": longitude ?? "",
+      "phoneNumber": phoneNumber ?? "",
     };
     try {
       var response = await http.put(

@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
+import '../../../controller/withdraw_controller.dart';
+
 class SelectBankBody extends StatefulWidget {
-  const SelectBankBody({
-    super.key,
-  });
+  final banks = Get.put(WithdrawController());
+
+  SelectBankBody({super.key});
 
   @override
   State<SelectBankBody> createState() => _SelectBankBodyState();
@@ -18,6 +20,8 @@ class _SelectBankBodyState extends State<SelectBankBody> {
   @override
   void initState() {
     isTyping = false;
+    WithdrawController.instance.listBanks();
+
     super.initState();
   }
 
@@ -33,33 +37,6 @@ class _SelectBankBodyState extends State<SelectBankBody> {
 
   //================== ALL VARIABLES ==================\\
   final selectedBank = ValueNotifier<String?>(null);
-  final List<String> bankNames = <String>[
-    "9 Payment Service Bank",
-    "Access Bank Plc",
-    "Citibank Nigeria Limited ",
-    "Ecobank Nigeria Plc ",
-    "Fidelity Bank Plc ",
-    "First Bank Nigeria Limited ",
-    "First City Monument Bank Plc ",
-    "Globus Bank Limited ",
-    "Guaranty Trust Bank Plc ",
-    "Heritage Banking Company Ltd. ",
-    "Keystone Bank Limited ",
-    "Parallex Bank Ltd ",
-    "Polaris Bank Plc ",
-    "Premium Trust Bank ",
-    "Providus Bank ",
-    "Stanbic IBTC Bank Plc ",
-    "Standard Chartered Bank Nigeria Ltd. ",
-    "Sterling Bank Plc ",
-    "SunTrust Bank Nigeria Limited ",
-    "Titan Trust Bank Ltd ",
-    "Union Bank of Nigeria Plc ",
-    "United Bank For Africa Plc ",
-    "Unity Bank Plc ",
-    "Wema Bank Plc ",
-    "Zenith Bank Plc",
-  ];
 
   //================== BOOL VALUES ==================\\
   bool? isTyping;
@@ -76,7 +53,7 @@ class _SelectBankBodyState extends State<SelectBankBody> {
   }
 
   selectBank(index) async {
-    final newBank = bankNames[index];
+    final newBank = WithdrawController.instance.listOfBanks[index].name;
     selectedBank.value = newBank;
 
     setState(() {
@@ -121,17 +98,21 @@ class _SelectBankBodyState extends State<SelectBankBody> {
           Expanded(
             child: Scrollbar(
               controller: scrollController,
-              child: ListView.separated(
-                shrinkWrap: true,
-                physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsets.all(10),
-                itemCount: bankNames.length,
-                separatorBuilder: (context, index) => kSizedBox,
-                itemBuilder: (context, index) => BankListTile(
-                  onTap: () => selectBank(index),
-                  bank: bankNames[index],
-                ),
-              ),
+              child: GetBuilder<WithdrawController>(builder: (banks) {
+                return banks.listOfBanks.isEmpty && banks.isLoad.value
+                    ? CircularProgressIndicator(color: kAccentColor)
+                    : ListView.separated(
+                        shrinkWrap: true,
+                        physics: const BouncingScrollPhysics(),
+                        padding: const EdgeInsets.all(10),
+                        itemCount: banks.listOfBanks.length,
+                        separatorBuilder: (context, index) => kSizedBox,
+                        itemBuilder: (context, index) => BankListTile(
+                          onTap: () => selectBank(index),
+                          bank: banks.listOfBanks[index].name,
+                        ),
+                      );
+              }),
             ),
           ),
         ],
