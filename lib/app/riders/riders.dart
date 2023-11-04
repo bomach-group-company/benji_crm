@@ -69,7 +69,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
 
   //===================== Handle refresh ==========================\\
 
-  Future<void> _handleRefresh() async {
+  Future<void> handleRefresh() async {
     setState(() {
       loadingScreen = true;
     });
@@ -135,7 +135,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
         showSearch(context: context, delegate: CustomSearchDelegate());
 
     return MyLiquidRefresh(
-      onRefresh: _handleRefresh,
+      onRefresh: handleRefresh,
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,

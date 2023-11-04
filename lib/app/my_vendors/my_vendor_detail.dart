@@ -119,9 +119,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
         switch (value) {
           case 'about':
             Get.to(
-              () => AboutMyVendor(
-                vendor: widget.vendor,
-              ),
+              () => AboutMyVendor(vendor: widget.vendor),
               duration: const Duration(milliseconds: 300),
               fullscreenDialog: true,
               curve: Curves.easeIn,
@@ -504,7 +502,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                         itemBuilder:
                                             (BuildContext context, int index) {
                                           return VendorsProductContainer(
-                                            onTap: () {},
+                                            onTap: toProductDetailScreen,
                                             product: controller
                                                 .vendorProductList[index],
                                           );

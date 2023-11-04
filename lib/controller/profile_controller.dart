@@ -57,7 +57,8 @@ class ProfileController extends GetxController {
 
       //Print the response in the console:
       // will do this when the endpoint stops returning null (save the new data)
-      // UserController.instance.saveUser(response.body, UserController.instance.user.value.token)
+      UserController.instance
+          .saveUser(response.body, UserController.instance.user.value.token);
 
       if (response.statusCode == 200) {
         ApiProcessorController.successSnack(

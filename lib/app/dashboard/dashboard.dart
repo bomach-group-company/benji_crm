@@ -138,6 +138,16 @@ class _DashboardState extends State<Dashboard>
   }
 
 //=================================== Navigation =====================================\\
+  void _toSeeAllVendors() => Get.to(
+        () => OverView(currentIndex: 1),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "Vendors",
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.downToUp,
+      );
 
   void _toSeeAllRiders() => Get.to(
         () => OverView(currentIndex: 2),
@@ -145,17 +155,6 @@ class _DashboardState extends State<Dashboard>
         fullscreenDialog: true,
         curve: Curves.easeIn,
         routeName: "Riders",
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.downToUp,
-      );
-
-  void _toSeeAllVendors() => Get.to(
-        () => OverView(currentIndex: 1),
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "Vendors",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.downToUp,

@@ -12,6 +12,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../../src/components/button/my_outlined_elevatedButton.dart';
+import '../../src/components/section/my_liquid_refresh.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/custom_show_search.dart';
 import '../../src/skeletons/vendors_list_skeleton.dart';
@@ -70,6 +71,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
 //============================================== ALL VARIABLES =================================================\\
   bool vendorStatus = true;
   // bool _isScrollToTopBtnVisible = false;
+  bool loadingScreen = false;
 
   //Online Vendors
   final String _onlineVendorsName = "Ntachi Osa";
@@ -98,8 +100,14 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
 
 //===================== Handle refresh ==========================\\
 
-  Future<void> _handleRefresh() async {
+  Future<void> handleRefresh() async {
+    setState(() {
+      loadingScreen = true;
+    });
     await VendorController.instance.getVendors();
+    setState(() {
+      loadingScreen = false;
+    });
   }
 
 // //============================= Scroll to Top ======================================//
@@ -124,7 +132,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
 
 //===================== Navigation ==========================\\
 
-  void _toAddVendor() => Get.to(
+  void toAddVendor() => Get.to(
         () => const AddVendor(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -164,12 +172,11 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
     //============================ MediaQuery Size ===============================\\
     var media = MediaQuery.of(context).size;
 
-    return RefreshIndicator(
-      onRefresh: _handleRefresh,
-      color: kAccentColor,
+    return MyLiquidRefresh(
+      onRefresh: handleRefresh,
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
-          onPressed: _toAddVendor,
+          onPressed: toAddVendor,
           elevation: 20.0,
           mouseCursor: SystemMouseCursors.click,
           tooltip: "Add a vendor",
@@ -233,40 +240,43 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
                   ),
                   children: [
                     kSizedBox,
-                    controller.isLoad.value && controller.vendorList.isEmpty
+                    loadingScreen
                         ? const VendorsListSkeleton()
-                        : ListView.separated(
-                            separatorBuilder: (context, index) =>
-                                const SizedBox(height: kDefaultPadding / 2),
-                            itemCount: controller.vendorList.length,
-                            addAutomaticKeepAlives: true,
-                            physics: const BouncingScrollPhysics(),
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) => InkWell(
-                              borderRadius: BorderRadius.circular(16),
-                              child: Container(
-                                decoration: ShapeDecoration(
-                                  color: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  shadows: const [
-                                    BoxShadow(
-                                      color: Color(0x0F000000),
-                                      blurRadius: 24,
-                                      offset: Offset(0, 4),
-                                      spreadRadius: 0,
+                        : controller.isLoad.value &&
+                                controller.vendorList.isEmpty
+                            ? const VendorsListSkeleton()
+                            : ListView.separated(
+                                separatorBuilder: (context, index) =>
+                                    const SizedBox(height: kDefaultPadding / 2),
+                                itemCount: controller.vendorList.length,
+                                addAutomaticKeepAlives: true,
+                                physics: const BouncingScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) => InkWell(
+                                  borderRadius: BorderRadius.circular(16),
+                                  child: Container(
+                                    decoration: ShapeDecoration(
+                                      color: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                      shadows: const [
+                                        BoxShadow(
+                                          color: Color(0x0F000000),
+                                          blurRadius: 24,
+                                          offset: Offset(0, 4),
+                                          spreadRadius: 0,
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                                child: VendorContainer(
-                                  onTap: () => _toVendorDetailsPage(
-                                      controller.vendorList[index]),
-                                  vendor: controller.vendorList[index],
+                                    child: VendorContainer(
+                                      onTap: () => _toVendorDetailsPage(
+                                          controller.vendorList[index]),
+                                      vendor: controller.vendorList[index],
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
                     kSizedBox,
                     GetBuilder<VendorController>(
                       builder: (controller) => Column(
