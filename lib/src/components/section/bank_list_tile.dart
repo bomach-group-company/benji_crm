@@ -1,4 +1,5 @@
-import 'package:benji_aggregator/src/components/image/my_image.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -39,7 +40,17 @@ class BankListTile extends StatelessWidget {
                   child: CircleAvatar(
                     backgroundColor: kLightGreyColor,
                     child: ClipOval(
-                      child: MyImage(url: bankImage),
+                      child: CachedNetworkImage(
+                        imageUrl: bankImage,
+                        fit: BoxFit.fill,
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) => Center(
+                          child:
+                              CupertinoActivityIndicator(color: kAccentColor),
+                        ),
+                        errorWidget: (context, url, error) =>
+                            Icon(Icons.error, color: kAccentColor),
+                      ),
                     ),
                   ),
                 ),

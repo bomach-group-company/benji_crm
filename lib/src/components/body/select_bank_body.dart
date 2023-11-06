@@ -21,7 +21,6 @@ class _SelectBankBodyState extends State<SelectBankBody> {
   void initState() {
     isTyping = false;
     WithdrawController.instance.listBanks();
-
     super.initState();
   }
 

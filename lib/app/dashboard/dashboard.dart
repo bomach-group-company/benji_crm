@@ -286,7 +286,7 @@ class _DashboardState extends State<Dashboard>
 
                   return DasboardAllCompletedOrdersContainer(
                     onTap: () => _toSeeAllCompletedOrders(orders),
-                    number: orders.length,
+                    number: intFormattedText(orders.length),
                     typeOf: "Orders",
                   );
                 }),

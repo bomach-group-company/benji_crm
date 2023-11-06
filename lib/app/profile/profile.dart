@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
+import '../../controller/order_controller.dart';
 import '../../controller/user_controller.dart';
 import '../../src/components/section/my_liquid_refresh.dart';
 import '../../src/components/section/profile_first_half.dart';
@@ -26,6 +27,7 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     super.initState();
+    Get.put(OrderController());
   }
 
   @override
@@ -35,6 +37,7 @@ class _ProfileState extends State<Profile> {
   }
 
 //=============================================== ALL VARIABLES ======================================================\\
+  final totalNumOfOrders = OrderController.instance.orderList.toList();
 
 //=============================================== ALL BOOL VALUES ======================================================\\
 
@@ -236,10 +239,10 @@ class _ProfileState extends State<Profile> {
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
-                            trailing: const Text(
-                              '29K',
+                            trailing: Text(
+                              formatNumber(totalNumOfOrders.length),
                               textAlign: TextAlign.right,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Color(0xFF9B9BA5),
                                 fontSize: 17,
                                 fontWeight: FontWeight.w700,

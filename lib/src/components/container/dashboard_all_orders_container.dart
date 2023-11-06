@@ -9,7 +9,7 @@ import '../../responsive/responsive_constant.dart';
 
 class DasboardAllCompletedOrdersContainer extends StatelessWidget {
   final Function() onTap;
-  final int number;
+  final String number;
   final String typeOf;
 
   const DasboardAllCompletedOrdersContainer({
@@ -76,7 +76,7 @@ class DasboardAllCompletedOrdersContainer extends StatelessWidget {
                   child: SizedBox(
                     width: media.width - 250,
                     child: Text(
-                      intFormattedText(number),
+                      number,
                       textAlign: TextAlign.left,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(

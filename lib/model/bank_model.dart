@@ -1,5 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:benji_aggregator/src/providers/constants.dart';
+import '../src/providers/constants.dart';
 
 class BankModel {
   String name;
@@ -37,6 +36,11 @@ class BankModel {
       'cbn_code': cbnCode,
       'logo': logo,
       'bank_short_name': bankShortName,
+      'ussd_code': ussdCode,
     };
+  }
+
+  static List<BankModel> listFromJson(List<Map<String, dynamic>> jsonList) {
+    return jsonList.map((json) => BankModel.fromJson(json)).toList();
   }
 }
