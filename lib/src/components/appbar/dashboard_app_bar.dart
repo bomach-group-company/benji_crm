@@ -11,7 +11,6 @@ import 'package:get/get.dart';
 import '../../../app/overview/overview.dart';
 import '../../../theme/colors.dart';
 import '../../providers/constants.dart';
-import '../../providers/custom_show_search.dart';
 import 'dashboard_app_bar_aggregator.dart';
 
 class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -48,12 +47,13 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
         popGesture: true,
         transition: Transition.downToUp,
       );
+
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
-    void showSearchField() {
-      showSearch(context: context, delegate: CustomSearchDelegate());
-    }
+    // void showSearchField() {
+    //   showSearch(context: context, delegate: CustomSearchDelegate());
+    // }
 
     return AppBar(
       backgroundColor: kPrimaryColor,
@@ -90,12 +90,13 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
             );
           }),
       actions: [
-        IconButton(
-            onPressed: showSearchField,
-            icon: FaIcon(
-              FontAwesomeIcons.magnifyingGlass,
-              color: kGreyColor,
-            )),
+        // IconButton(
+        //     onPressed: showSearchField,
+        //     icon: FaIcon(
+        //       FontAwesomeIcons.magnifyingGlass,
+        //       color: kGreyColor,
+        //     ),
+        // ),
         Stack(
           children: [
             IconButton(

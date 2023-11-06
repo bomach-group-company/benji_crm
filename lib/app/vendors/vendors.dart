@@ -13,7 +13,6 @@ import 'package:get/get.dart';
 
 import '../../src/components/section/my_liquid_refresh.dart';
 import '../../src/providers/constants.dart';
-import '../../src/providers/custom_show_search.dart';
 import '../../src/skeletons/vendors_list_skeleton.dart';
 import '../../theme/colors.dart';
 import 'vendor_details.dart';
@@ -56,6 +55,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
     super.dispose();
     // _animationController.dispose();
     scrollController.dispose();
+    handleRefresh().ignore();
     scrollController.removeListener(() {
       if (scrollController.position.userScrollDirection ==
           ScrollDirection.forward) {
@@ -163,8 +163,8 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
         transition: Transition.downToUp,
       );
 
-  void _showSearchField() =>
-      showSearch(context: context, delegate: CustomSearchDelegate());
+  // void showSearchField() =>
+  //     showSearch(context: context, delegate: CustomSearchDelegate());
   @override
   Widget build(BuildContext context) {
     //============================ MediaQuery Size ===============================\\
@@ -196,15 +196,15 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
               ),
             ),
           ),
-          actions: [
-            IconButton(
-              onPressed: _showSearchField,
-              tooltip: "Search for a vendor",
-              icon: FaIcon(
-                FontAwesomeIcons.magnifyingGlass,
-                color: kAccentColor,
-              ),
-            ),
+          actions: const [
+            // IconButton(
+            //   onPressed: showSearchField,
+            //   tooltip: "Search for a vendor",
+            //   icon: FaIcon(
+            //     FontAwesomeIcons.magnifyingGlass,
+            //     color: kAccentColor,
+            //   ),
+            // ),
             // Padding(
             //   padding: const EdgeInsets.all(kDefaultPadding / 2),
             //   child: MyOutlinedElevatedButton(

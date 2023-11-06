@@ -11,7 +11,6 @@ import 'package:get/get.dart';
 import '../../controller/rider_controller.dart';
 import '../../model/rider_model.dart';
 import '../../src/providers/constants.dart';
-import '../../src/providers/custom_show_search.dart';
 import '../../theme/colors.dart';
 import 'riders_detail.dart';
 
@@ -53,6 +52,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
   @override
   void dispose() {
     _animationController.dispose();
+    handleRefresh().ignore();
     scrollController.dispose();
     super.dispose();
   }
@@ -131,8 +131,8 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    void showSearchField() =>
-        showSearch(context: context, delegate: CustomSearchDelegate());
+    // void showSearchField() =>
+    //     showSearch(context: context, delegate: CustomSearchDelegate());
 
     return MyLiquidRefresh(
       onRefresh: handleRefresh,
@@ -151,15 +151,15 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
               ),
             ),
           ),
-          actions: [
-            IconButton(
-              onPressed: showSearchField,
-              tooltip: "Search",
-              icon: FaIcon(
-                FontAwesomeIcons.magnifyingGlass,
-                color: kAccentColor,
-              ),
-            ),
+          actions: const [
+            // IconButton(
+            //   onPressed: showSearchField,
+            //   tooltip: "Search",
+            //   icon: FaIcon(
+            //     FontAwesomeIcons.magnifyingGlass,
+            //     color: kAccentColor,
+            //   ),
+            // ),
           ],
         ),
         floatingActionButton: isScrollToTopBtnVisible

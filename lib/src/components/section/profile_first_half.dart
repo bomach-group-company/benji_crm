@@ -30,7 +30,7 @@ class _ProfileFirstHalfState extends State<ProfileFirstHalf> {
 //======================================================= ALL VARIABLES ================================================\\
 
 //======================================================= FUNCTIONS ================================================\\
-  void _toSelectAccount() => Get.to(
+  void toSelectAccount() => Get.to(
         () => const SelectAccountPage(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -75,10 +75,7 @@ class _ProfileFirstHalfState extends State<ProfileFirstHalf> {
                   });
                 },
                 icon: rememberBalance()
-                    ? FaIcon(
-                        FontAwesomeIcons.solidEye,
-                        color: kPrimaryColor,
-                      )
+                    ? FaIcon(FontAwesomeIcons.solidEye, color: kPrimaryColor)
                     : FaIcon(
                         FontAwesomeIcons.solidEyeSlash,
                         color: kPrimaryColor,
@@ -101,7 +98,7 @@ class _ProfileFirstHalfState extends State<ProfileFirstHalf> {
           ),
           kSizedBox,
           InkWell(
-            onTap: _toSelectAccount,
+            onTap: null,
             child: Container(
               width: 100,
               height: 37,

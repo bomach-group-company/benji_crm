@@ -10,13 +10,12 @@ import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:benji_aggregator/model/order.dart';
 import 'package:benji_aggregator/src/components/appbar/dashboard_app_bar.dart';
-import 'package:benji_aggregator/src/components/container/dashboard_all_orders_container.dart';
+import 'package:benji_aggregator/src/components/container/available_balance_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-import '../../src/components/container/dashboard_orders_container.dart';
 import '../../src/components/container/dashboard_rider_vendor_container.dart';
 import '../../src/providers/constants.dart';
 import '../../src/responsive/responsive_constant.dart';
@@ -24,6 +23,7 @@ import '../../theme/colors.dart';
 import '../my_orders/active_orders.dart';
 import '../my_orders/pending_orders.dart';
 import '../overview/overview.dart';
+import '../withdrawal/select_account.dart';
 
 class Dashboard extends StatefulWidget {
   final VoidCallback showNavigation;
@@ -63,6 +63,7 @@ class _DashboardState extends State<Dashboard>
     super.dispose();
     _animationController.dispose();
     scrollController.dispose();
+    handleRefresh().ignore();
     scrollController.removeListener(() {
       if (scrollController.position.userScrollDirection ==
           ScrollDirection.forward) {
@@ -103,7 +104,7 @@ class _DashboardState extends State<Dashboard>
 
 //===================== Handle refresh ==========================\\
 
-  Future<void> _handleRefresh() async {
+  Future<void> handleRefresh() async {
     setState(() {
       loadingScreen = true;
     });
@@ -160,7 +161,7 @@ class _DashboardState extends State<Dashboard>
         transition: Transition.downToUp,
       );
 
-  void _toSeeAllCompletedOrders(List<Order> completed) => Get.to(
+  void toSeeAllCompletedOrders(List<Order> completed) => Get.to(
         () => AllCompletedOrders(completed: completed),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -171,7 +172,7 @@ class _DashboardState extends State<Dashboard>
         transition: Transition.downToUp,
       );
 
-  void _toSeeAllPendingOrders(List<Order> orderList) => Get.to(
+  void toSeeAllPendingOrders(List<Order> orderList) => Get.to(
         () => PendingOrders(orderList: orderList),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -182,7 +183,7 @@ class _DashboardState extends State<Dashboard>
         transition: Transition.downToUp,
       );
 
-  void _toSeeAllActiveOrders(List<Order> orderList) => Get.to(
+  void toSeeAllActiveOrders(List<Order> orderList) => Get.to(
         () => ActiveOrders(
           orderList: orderList,
         ),
@@ -193,6 +194,17 @@ class _DashboardState extends State<Dashboard>
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.downToUp,
+      );
+
+  void toSelectAccount() => Get.to(
+        () => const SelectAccountPage(),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "SelectAccountPage",
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.cupertinoDialog,
       );
 
   @override
@@ -226,7 +238,7 @@ class _DashboardState extends State<Dashboard>
       body: SafeArea(
         maintainBottomViewPadding: true,
         child: RefreshIndicator(
-          onRefresh: _handleRefresh,
+          onRefresh: handleRefresh,
           color: kAccentColor,
           child: Scrollbar(
             controller: scrollController,
@@ -235,62 +247,68 @@ class _DashboardState extends State<Dashboard>
               physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.all(kDefaultPadding),
               children: [
-                GetBuilder<OrderController>(initState: (state) async {
-                  await OrderController.instance.getOrders();
-                }, builder: (order) {
-                  final active = order.orderList
-                      .where((p0) =>
-                          !p0.deliveryStatus
-                              .toLowerCase()
-                              .contains("COMP".toLowerCase()) &&
-                          p0.assignedStatus
-                              .toLowerCase()
-                              .contains("ASSG".toLowerCase()))
-                      .toList();
-                  final pending = order.orderList
-                      .where((p0) =>
-                          !p0.deliveryStatus
-                              .toLowerCase()
-                              .contains("COMP".toLowerCase()) &&
-                          p0.assignedStatus
-                              .toLowerCase()
-                              .contains("PEND".toLowerCase()))
-                      .toList();
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      OrdersContainer(
-                        containerColor: kPrimaryColor,
-                        typeOfOrderColor: kTextGreyColor,
-                        iconColor: kLightGreyColor,
-                        numberOfOrders: intFormattedText(active.length),
-                        typeOfOrders: "Active",
-                        onTap: () => _toSeeAllActiveOrders(active),
-                      ),
-                      OrdersContainer(
-                        containerColor:
-                            // Colors.red.shade200,
-                            kAccentColor.withOpacity(0.4),
-                        typeOfOrderColor: kAccentColor,
-                        iconColor: kAccentColor,
-                        numberOfOrders: intFormattedText(pending.length),
-                        typeOfOrders: "Pending",
-                        onTap: () => _toSeeAllPendingOrders(pending),
-                      ),
-                    ],
-                  );
-                }),
+                AvailableBalanceCard(
+                  onTap: toSelectAccount,
+                  availableBalance: doubleFormattedText(0),
+                ),
                 kSizedBox,
-                GetBuilder<OrderController>(builder: (order) {
-                  final orders = order.orderList.toList();
 
-                  return DasboardAllCompletedOrdersContainer(
-                    onTap: () => _toSeeAllCompletedOrders(orders),
-                    number: intFormattedText(orders.length),
-                    typeOf: "Orders",
-                  );
-                }),
-                kSizedBox,
+                // GetBuilder<OrderController>(initState: (state) async {
+                //   await OrderController.instance.getOrders();
+                // }, builder: (order) {
+                //   final active = order.orderList
+                //       .where((p0) =>
+                //           !p0.deliveryStatus
+                //               .toLowerCase()
+                //               .contains("COMP".toLowerCase()) &&
+                //           p0.assignedStatus
+                //               .toLowerCase()
+                //               .contains("ASSG".toLowerCase()))
+                //       .toList();
+                //   final pending = order.orderList
+                //       .where((p0) =>
+                //           !p0.deliveryStatus
+                //               .toLowerCase()
+                //               .contains("COMP".toLowerCase()) &&
+                //           p0.assignedStatus
+                //               .toLowerCase()
+                //               .contains("PEND".toLowerCase()))
+                //       .toList();
+                //   return Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: [
+                //       OrdersContainer(
+                //         containerColor: kPrimaryColor,
+                //         typeOfOrderColor: kTextGreyColor,
+                //         iconColor: kLightGreyColor,
+                //         numberOfOrders: intFormattedText(active.length),
+                //         typeOfOrders: "Active",
+                //         onTap: () => toSeeAllActiveOrders(active),
+                //       ),
+                //       OrdersContainer(
+                //         containerColor:
+                //             // Colors.red.shade200,
+                //             kAccentColor.withOpacity(0.4),
+                //         typeOfOrderColor: kAccentColor,
+                //         iconColor: kAccentColor,
+                //         numberOfOrders: intFormattedText(pending.length),
+                //         typeOfOrders: "Pending",
+                //         onTap: () => toSeeAllPendingOrders(pending),
+                //       ),
+                //     ],
+                //   );
+                // }),
+                // kSizedBox,
+                // GetBuilder<OrderController>(builder: (order) {
+                //   final orders = order.orderList.toList();
+
+                //   return DasboardAllCompletedOrdersContainer(
+                //     onTap: () => toSeeAllCompletedOrders(orders),
+                //     number: intFormattedText(orders.length),
+                //     typeOf: "Orders",
+                //   );
+                // }),
+                // kSizedBox,
                 GetBuilder<VendorController>(initState: (state) async {
                   await VendorController.instance.getVendors();
                 }, builder: (vendor) {
