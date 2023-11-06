@@ -57,7 +57,7 @@ class ProfileController extends GetxController {
         },
         body: {'data': jsonEncode(body)},
       );
-      print(response.body);
+      consoleLog(response.body);
       //Print the response in the console:
       // will do this when the endpoint stops returning null (save the new data)
       UserController.instance

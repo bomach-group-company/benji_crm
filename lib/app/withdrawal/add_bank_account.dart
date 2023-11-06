@@ -61,7 +61,7 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
   //=================================== Navigation ============================\\
   selectBank() async {
     final selectedBank = await Get.to(
-      () => SelectBank(),
+      () => const SelectBank(),
       routeName: 'SelectBank',
       duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,

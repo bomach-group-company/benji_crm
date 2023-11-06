@@ -19,7 +19,7 @@ class WithdrawController extends GetxController {
   var listOfBanks = <BankModel>[].obs;
 
   listBanks() async {
-    var url = Api.baseUrl + Api.listBanks;
+    var url = "${Api.baseUrl}${Api.listBanks}?start=0&end=30";
     isLoad.value = true;
     update();
     final response = await http.get(Uri.parse(url), headers: authHeader());
