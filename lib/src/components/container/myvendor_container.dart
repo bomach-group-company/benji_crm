@@ -1,6 +1,6 @@
 // ignore_for_file: file_names
 
-import 'package:benji_aggregator/model/my_vendor.dart';
+import 'package:benji_aggregator/model/my_vendor_model.dart';
 import 'package:benji_aggregator/src/components/image/my_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

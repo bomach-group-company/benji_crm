@@ -23,8 +23,7 @@ import '../../src/responsive/responsive_constant.dart';
 import '../../theme/colors.dart';
 import '../my_orders/active_orders.dart';
 import '../my_orders/pending_orders.dart';
-import '../riders/riders.dart';
-import '../vendors/vendors.dart';
+import '../overview/overview.dart';
 
 class Dashboard extends StatefulWidget {
   final VoidCallback showNavigation;
@@ -90,6 +89,8 @@ class _DashboardState extends State<Dashboard>
   String orderImage = "chizzy's-food";
   String customerName = "Mercy Luke";
 
+  late bool loadingScreen;
+
 //============================================== CONTROLLERS =================================================\\
   final scrollController = ScrollController();
   late AnimationController _animationController;
@@ -102,7 +103,19 @@ class _DashboardState extends State<Dashboard>
 
 //===================== Handle refresh ==========================\\
 
-  Future<void> _handleRefresh() async {}
+  Future<void> _handleRefresh() async {
+    setState(() {
+      loadingScreen = true;
+    });
+    RiderController.instance.getRiders();
+    OrderController.instance.getOrders();
+    VendorController.instance.getVendors();
+    VendorController.instance.getMyVendors();
+    NotificationController.instance.runTask();
+    setState(() {
+      loadingScreen = false;
+    });
+  }
 
 //============================= Scroll to Top ======================================//
   void _scrollToTop() {
@@ -125,36 +138,23 @@ class _DashboardState extends State<Dashboard>
   }
 
 //=================================== Navigation =====================================\\
-
-  void _toSeeAllRiders() => Get.to(
-        () => Riders(
-          showNavigation: () {},
-          hideNavigation: () {},
-          appBarBackgroundColor: kAccentColor,
-          appTitleColor: kPrimaryColor,
-          appBarSearchIconColor: kPrimaryColor,
-        ),
+  void _toSeeAllVendors() => Get.to(
+        () => OverView(currentIndex: 1),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "Riders",
+        routeName: "Vendors",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.downToUp,
       );
 
-  void _toSeeAllVendors() => Get.to(
-        () => Vendors(
-          showNavigation: () {},
-          hideNavigation: () {},
-          appBarBackgroundColor: kAccentColor,
-          appTitleColor: kPrimaryColor,
-          appBarSearchIconColor: kPrimaryColor,
-        ),
+  void _toSeeAllRiders() => Get.to(
+        () => OverView(currentIndex: 2),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "Vendors",
+        routeName: "Riders",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.downToUp,
@@ -172,9 +172,7 @@ class _DashboardState extends State<Dashboard>
       );
 
   void _toSeeAllPendingOrders(List<Order> orderList) => Get.to(
-        () => PendingOrders(
-          orderList: orderList,
-        ),
+        () => PendingOrders(orderList: orderList),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -209,8 +207,9 @@ class _DashboardState extends State<Dashboard>
 
     return Scaffold(
       appBar: DashboardAppBar(
-          numberOfNotifications: notifications,
-          image: UserController.instance.user.value.image),
+        numberOfNotifications: notifications,
+        image: UserController.instance.user.value.image,
+      ),
       floatingActionButton: _isScrollToTopBtnVisible
           ? FloatingActionButton(
               onPressed: _scrollToTop,
@@ -287,7 +286,7 @@ class _DashboardState extends State<Dashboard>
 
                   return DasboardAllCompletedOrdersContainer(
                     onTap: () => _toSeeAllCompletedOrders(orders),
-                    number: orders.length,
+                    number: intFormattedText(orders.length),
                     typeOf: "Orders",
                   );
                 }),
@@ -303,8 +302,9 @@ class _DashboardState extends State<Dashboard>
                     onTap: _toSeeAllVendors,
                     number: intFormattedText(allVendor.length),
                     typeOf: "Vendors",
-                    onlineStatus:
-                        "${intFormattedText(allOnlineVendor.length)} Online",
+                    onlineStatus: vendor.isLoad.value
+                        ? "Loading..."
+                        : "${intFormattedText(allOnlineVendor.length)} Online",
                   );
                 }),
                 kSizedBox,
@@ -312,11 +312,15 @@ class _DashboardState extends State<Dashboard>
                   await RiderController.instance.getRiders();
                 }, builder: (rider) {
                   final allRider = rider.riderList.toList();
+                  // final allOnlineRiders = rider.riderList
+                  //     .where((p0) => p0.isOnline == true)
+                  //     .toList();
                   return RiderVendorContainer(
                     onTap: _toSeeAllRiders,
                     number: rider.total.value.toString(),
                     typeOf: "Riders",
-                    onlineStatus: "Online",
+                    onlineStatus: rider.isLoad.value ? "Loading..." : "Online",
+                    // : "$allOnlineRiders Online",
                   );
                 }),
                 const SizedBox(height: kDefaultPadding * 2),

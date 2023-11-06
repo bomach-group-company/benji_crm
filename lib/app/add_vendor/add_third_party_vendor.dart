@@ -79,9 +79,9 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
   final _cscPickerKey = GlobalKey<CSCPickerState>();
 
   //===================== BOOL VALUES =======================\\
-  bool _isScrollToTopBtnVisible = false;
-  final bool _savingChanges = false;
-  bool _typing = false;
+  bool isScrollToTopBtnVisible = false;
+  final bool savingChanges = false;
+  bool typing = false;
 
   //============================================== CONTROLLERS =================================================\\
   final scrollController = ScrollController();
@@ -255,6 +255,8 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
       country: country ?? "NG",
       state: state ?? "",
       city: city ?? "",
+      latitude: latitude ?? "",
+      longitude: longitude ?? "",
       openHours: vendorMonToFriOpeningHoursEC.text,
       closeHours: vendorMonToFriClosingHoursEC.text,
       satOpenHours: vendorSatOpeningHoursEC.text,
@@ -265,6 +267,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
       coverImage: selectedCoverImage,
       profileImage: selectedLogoImage,
     );
+
     VendorController.instance.createThirdPartyVendor(data);
   }
 
@@ -458,21 +461,21 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
       curve: Curves.easeInOut,
     );
     setState(() {
-      _isScrollToTopBtnVisible = false;
+      isScrollToTopBtnVisible = false;
     });
   }
 
   Future<void> _scrollListener() async {
     if (scrollController.position.pixels >= 100 &&
-        _isScrollToTopBtnVisible != true) {
+        isScrollToTopBtnVisible != true) {
       setState(() {
-        _isScrollToTopBtnVisible = true;
+        isScrollToTopBtnVisible = true;
       });
     }
     if (scrollController.position.pixels < 100 &&
-        _isScrollToTopBtnVisible == true) {
+        isScrollToTopBtnVisible == true) {
       setState(() {
-        _isScrollToTopBtnVisible = false;
+        isScrollToTopBtnVisible = false;
       });
     }
   }
@@ -504,11 +507,11 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
                 }
               }),
               title: "Save",
-              isLoading: sending.isLoadCreate.value,
+              isLoading: sending.isLoad.value,
             ),
           );
         }),
-        floatingActionButton: _isScrollToTopBtnVisible
+        floatingActionButton: isScrollToTopBtnVisible
             ? FloatingActionButton(
                 onPressed: _scrollToTop,
                 mini: deviceType(media.width) > 2 ? false : true,
@@ -857,7 +860,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
                                     placeAutoComplete(value);
                                     setState(() {
                                       selectedLocation.value = value;
-                                      _typing = true;
+                                      typing = true;
                                     });
                                     if (kDebugMode) {
                                       print(
@@ -918,11 +921,13 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
                                 kHalfSizedBox,
                                 SizedBox(
                                   height: () {
-                                    if (_typing == false) {
+                                    if (typing == false) {
                                       return 0.0;
                                     }
-                                    if (_typing == true) {
-                                      return 150.0;
+                                    if (typing == true) {
+                                      return deviceType(media.width) >= 2
+                                          ? 300.0
+                                          : 150.0;
                                     }
                                   }(),
                                   child: Scrollbar(

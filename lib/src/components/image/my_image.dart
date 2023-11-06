@@ -6,22 +6,20 @@ import 'package:flutter/material.dart';
 
 class MyImage extends StatelessWidget {
   final String? url;
-  const MyImage({super.key, this.url});
+  final String? defaultUrl;
+
+  const MyImage({super.key, this.url, this.defaultUrl = ""});
 
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-      imageUrl: url == null ? '' : '$baseImage$url',
+      imageUrl: url == null || url!.isEmpty ? defaultUrl! : "$baseImage$url",
       fit: BoxFit.cover,
-      progressIndicatorBuilder: (context, url, downloadProgress) =>
-          const Center(
-              child: CupertinoActivityIndicator(
-        color: kRedColor,
-      )),
-      errorWidget: (context, url, error) => const Icon(
-        Icons.error,
-        color: kRedColor,
+      progressIndicatorBuilder: (context, url, downloadProgress) => Center(
+        child: CupertinoActivityIndicator(color: kAccentColor),
       ),
+      errorWidget: (context, url, error) =>
+          Icon(Icons.error, color: kAccentColor),
     );
   }
 }

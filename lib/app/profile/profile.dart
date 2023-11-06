@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
+import '../../controller/order_controller.dart';
 import '../../controller/user_controller.dart';
 import '../../src/components/section/my_liquid_refresh.dart';
 import '../../src/components/section/profile_first_half.dart';
@@ -26,6 +27,7 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     super.initState();
+    Get.put(OrderController());
   }
 
   @override
@@ -35,6 +37,7 @@ class _ProfileState extends State<Profile> {
   }
 
 //=============================================== ALL VARIABLES ======================================================\\
+  final totalNumOfOrders = OrderController.instance.orderList.toList();
 
 //=============================================== ALL BOOL VALUES ======================================================\\
 
@@ -45,7 +48,7 @@ class _ProfileState extends State<Profile> {
   Future<void> _handleRefresh() async {}
 
 //=============================================== Navigation ======================================================\\
-  void _toPersonalInfo() => Get.to(
+  void toPersonalInfo() => Get.to(
         () => const PersonalInfo(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -55,7 +58,7 @@ class _ProfileState extends State<Profile> {
         popGesture: false,
         transition: Transition.rightToLeft,
       );
-  void _toSettings() => Get.to(
+  void toSettings() => Get.to(
         () => const Settings(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -65,7 +68,7 @@ class _ProfileState extends State<Profile> {
         popGesture: false,
         transition: Transition.rightToLeft,
       );
-  void _toWithdrawalHistory() => Get.to(
+  void toWithdrawalHistory() => Get.to(
         () => const WithdrawalHistoryPage(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -75,9 +78,9 @@ class _ProfileState extends State<Profile> {
         popGesture: false,
         transition: Transition.rightToLeft,
       );
-  void _logOut() async {
+  void logOut() async {
     await UserController.instance.deleteUser();
-    Get.offAll(
+    await Get.offAll(
       () => const Login(),
       duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,
@@ -132,7 +135,7 @@ class _ProfileState extends State<Profile> {
                       child: Column(
                         children: [
                           ListTile(
-                            onTap: _toPersonalInfo,
+                            onTap: toPersonalInfo,
                             enableFeedback: true,
                             mouseCursor: SystemMouseCursors.click,
                             leading: FaIcon(
@@ -152,7 +155,7 @@ class _ProfileState extends State<Profile> {
                             ),
                           ),
                           ListTile(
-                            onTap: _toSettings,
+                            onTap: toSettings,
                             enableFeedback: true,
                             mouseCursor: SystemMouseCursors.click,
                             leading: FaIcon(
@@ -202,7 +205,7 @@ class _ProfileState extends State<Profile> {
                       child: Column(
                         children: [
                           ListTile(
-                            onTap: _toWithdrawalHistory,
+                            onTap: toWithdrawalHistory,
                             enableFeedback: true,
                             mouseCursor: SystemMouseCursors.click,
                             leading: FaIcon(
@@ -236,10 +239,10 @@ class _ProfileState extends State<Profile> {
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
-                            trailing: const Text(
-                              '29K',
+                            trailing: Text(
+                              formatNumber(totalNumOfOrders.length),
                               textAlign: TextAlign.right,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Color(0xFF9B9BA5),
                                 fontSize: 17,
                                 fontWeight: FontWeight.w700,
@@ -275,7 +278,7 @@ class _ProfileState extends State<Profile> {
                       ),
                       child: ListTile(
                         mouseCursor: SystemMouseCursors.click,
-                        onTap: _logOut,
+                        onTap: logOut,
                         enableFeedback: true,
                         leading: FaIcon(
                           FontAwesomeIcons.rightFromBracket,

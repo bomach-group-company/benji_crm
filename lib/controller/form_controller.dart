@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:benji_aggregator/controller/error_controller.dart';
+import 'package:benji_aggregator/services/api_url.dart';
 import 'package:benji_aggregator/services/helper.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -71,6 +72,7 @@ class FormController extends GetxController {
     http.StreamedResponse? response;
 
     isLoad.value = true;
+    update();
     update([tag]);
 
     var request = http.MultipartRequest("POST", Uri.parse(url));
@@ -89,19 +91,27 @@ class FormController extends GetxController {
     data.forEach((key, value) {
       request.fields[key] = value.toString();
     });
-    print('stream response $response');
+    // consoleLog('stream response $response');
     try {
       response = await request.send();
       status.value = response.statusCode;
       final normalResp = await http.Response.fromStream(response);
-      print('stream response ${normalResp.body}');
-      if (response.statusCode != 200) {
+      consoleLog('stream response ${normalResp.body}');
+      if (response.statusCode == 200) {
         ApiProcessorController.successSnack(successMsg);
         isLoad.value = false;
+        update();
+        Get.close(1);
         update([tag]);
         return;
+      } else {
+        ApiProcessorController.errorSnack(errorMsg);
       }
+    } on SocketException {
+      ApiProcessorController.errorSnack("Please connect to the internet");
     } catch (e) {
+      ApiProcessorController.errorSnack("An error occured. \nERROR: $e");
+      consoleLog("An error occured. \nERROR: $e");
       response = null;
     }
 

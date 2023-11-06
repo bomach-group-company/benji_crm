@@ -1,12 +1,11 @@
-import 'package:benji_aggregator/services/api_url.dart';
 import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 
-import '../../src/components/input/my_blue_textformfield.dart';
 import '../../src/components/button/my_elevatedButton.dart';
+import '../../src/components/input/my_blue_textformfield.dart';
 import '../../src/components/input/my_textformfield2.dart';
 import '../../src/providers/constants.dart';
 import '../../src/responsive/my_reponsive_width.dart';
@@ -69,7 +68,7 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
       curve: Curves.easeIn,
       preventDuplicates: true,
       popGesture: true,
-      transition: Transition.rightToLeft,
+      transition: Transition.downToUp,
     );
     if (selectedBank != null) {
       setState(() {

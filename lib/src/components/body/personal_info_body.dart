@@ -3,7 +3,9 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:benji_aggregator/controller/form_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
+import 'package:benji_aggregator/services/api_url.dart';
 import 'package:benji_aggregator/src/components/image/my_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -12,10 +14,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../../app/google_maps/get_location_on_map.dart';
 import '../../../controller/latlng_detail_controller.dart';
-import '../../../controller/profile_controller.dart';
 import '../../../services/keys.dart';
 import '../../../theme/colors.dart';
 import '../../googleMaps/autocomplete_prediction.dart';
@@ -24,6 +26,7 @@ import '../../providers/constants.dart';
 import '../../responsive/responsive_constant.dart';
 import '../../utils/network_utils.dart';
 import '../button/my_elevatedButton.dart';
+import '../input/my_intl_phonefield.dart';
 import '../input/my_maps_textformfield.dart';
 import '../input/name_textformfield.dart';
 import '../section/location_list_tile.dart';
@@ -38,6 +41,7 @@ class PersonalInfoBody extends StatefulWidget {
 
 class _PersonalInfoBodyState extends State<PersonalInfoBody> {
   //==========================================================================================\\
+
   @override
   void initState() {
     super.initState();
@@ -45,6 +49,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
     userNameEC.text = UserController.instance.user.value.username;
     firstNameEC.text = UserController.instance.user.value.firstName;
     lastNameEC.text = UserController.instance.user.value.lastName;
+    phoneNumberEC.text = UserController.instance.user.value.phone;
     mapsLocationEC.text = UserController.instance.user.value.address;
   }
 
@@ -78,7 +83,9 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
   final userNameEC = TextEditingController();
   final firstNameEC = TextEditingController();
   final lastNameEC = TextEditingController();
+  final phoneNumberEC = TextEditingController();
   final mapsLocationEC = TextEditingController();
+
   final LatLngDetailController latLngDetailController =
       LatLngDetailController.instance;
 
@@ -86,6 +93,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
   final userNameFN = FocusNode();
   final firstNameFN = FocusNode();
   final lastNameFN = FocusNode();
+  final phoneNumberFN = FocusNode();
   final mapsLocationFN = FocusNode();
 
   //=========================== IMAGE PICKER ====================================\\
@@ -94,7 +102,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
   File? selectedImage;
 
   //=========================== WIDGETS ====================================\\
-  Widget _profilePicBottomSheet() {
+  Widget profilePicBottomSheet() {
     return Container(
       height: 140,
       width: MediaQuery.of(context).size.width,
@@ -294,13 +302,29 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
     setState(() {
       _isLoading = true;
     });
-    await ProfileController.instance.updateProfile(
-      userName: userNameEC.text,
-      firstName: firstNameEC.text,
-      lastName: lastNameEC.text,
-      address: mapsLocationEC.text,
-      isCurrent: true,
-    );
+    // await ProfileController.instance.updateProfile(
+    //   firstName: firstNameEC.text,
+    //   lastName: lastNameEC.text,
+    //   address: mapsLocationEC.text,
+    //   latitude: latitude,
+    //   longitude: longitude,
+    //   phoneNumber: phoneNumberEC.text,
+
+    // );
+    int uuid = UserController.instance.user.value.id;
+
+    var url = "${Api.baseUrl}/agents/changeAgent/$uuid";
+
+    Map data = {
+      "first_name": firstNameEC.text,
+      "last_name": lastNameEC.text,
+      "address": mapsLocationEC.text,
+      "latitude": latitude,
+      "longitude": longitude,
+      "phone": phoneNumberEC.text
+    };
+    await FormController.instance.postAuthstream(
+        url, {'data': data}, {'image': selectedImage}, 'editProfile');
 
     setState(() {
       _isLoading = false;
@@ -320,9 +344,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
       kSuccessColor,
       "Success!",
       "ID copied to clipboard",
-      const Duration(
-        seconds: 2,
-      ),
+      const Duration(seconds: 2),
     );
   }
 
@@ -382,8 +404,11 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                                         ),
                                       ),
                                       child: MyImage(
-                                          url: UserController
-                                              .instance.user.value.image),
+                                        defaultUrl:
+                                            "assets/images/profile/avatar-image.jpg",
+                                        url: UserController
+                                            .instance.user.value.image,
+                                      ),
                                     )
                                   : Container(
                                       height: deviceType(media.width) == 1
@@ -427,7 +452,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                                       ),
                                       enableDrag: true,
                                       builder: (builder) =>
-                                          _profilePicBottomSheet(),
+                                          profilePicBottomSheet(),
                                     );
                                   },
                                   borderRadius: BorderRadius.circular(100),
@@ -464,7 +489,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              controller.user.value.username,
+                              "${controller.user.value.firstName} ${controller.user.value.lastName}",
                               softWrap: true,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
@@ -510,7 +535,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                                   mouseCursor: SystemMouseCursors.click,
                                   icon: FaIcon(
                                     FontAwesomeIcons.copy,
-                                    size: 14,
+                                    size: 16,
                                     color: kAccentColor,
                                   ),
                                 ),
@@ -543,37 +568,6 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "Username".toUpperCase(),
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        kHalfSizedBox,
-                        NameTextFormField(
-                          controller: userNameEC,
-                          hintText: "Enter a username",
-                          validator: (value) {
-                            //Min. of 3 characters
-                            RegExp userNamePattern = RegExp(r'^.{3,}$');
-
-                            if (value == null || value!.isEmpty) {
-                              userNameFN.requestFocus();
-                              return "Enter a username";
-                            } else if (!userNamePattern.hasMatch(value)) {
-                              userNameFN.requestFocus();
-                              return "Username must be at least 3 characters";
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            userNameEC.text = value;
-                          },
-                          textInputAction: TextInputAction.next,
-                          nameFocusNode: userNameFN,
-                        ),
-                        kSizedBox,
                         Text(
                           "First Name".toUpperCase(),
                           style: const TextStyle(
@@ -631,6 +625,37 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                           },
                           onSaved: (value) {
                             lastNameEC.text = value;
+                          },
+                        ),
+                        kSizedBox,
+                        Text(
+                          "Phone Number".toUpperCase(),
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        kHalfSizedBox,
+                        MyIntlPhoneField(
+                          controller: phoneNumberEC,
+                          initialCountryCode: "NG",
+                          invalidNumberMessage: "Invalid phone number",
+                          dropdownIconPosition: IconPosition.trailing,
+                          showCountryFlag: true,
+                          showDropdownIcon: true,
+                          dropdownIcon: Icon(Icons.arrow_drop_down_rounded,
+                              color: kAccentColor),
+                          textInputAction: TextInputAction.next,
+                          focusNode: phoneNumberFN,
+                          validator: (value) {
+                            if (value == null || phoneNumberEC.text.isEmpty) {
+                              return "Field cannot be empty";
+                            } else {
+                              return null;
+                            }
+                          },
+                          onSaved: (value) {
+                            phoneNumberEC.text = value!;
                           },
                         ),
                         kSizedBox,

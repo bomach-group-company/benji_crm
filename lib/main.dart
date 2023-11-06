@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'app/others/splash_screen.dart';
+import 'app/splash_screens/splash_screen.dart';
 import 'theme/app theme.dart';
 
 late SharedPreferences prefs;

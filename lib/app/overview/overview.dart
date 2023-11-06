@@ -12,6 +12,7 @@ import '../../controller/notification_controller.dart';
 import '../../controller/profile_controller.dart';
 import '../../controller/rider_controller.dart';
 import '../../controller/user_controller.dart';
+import '../../controller/withdraw_controller.dart';
 import '../../theme/colors.dart';
 import '../dashboard/dashboard.dart';
 import '../profile/profile.dart';
@@ -29,8 +30,11 @@ class OverView extends StatefulWidget {
   final riderHistory = Get.put(RiderHistoryController());
   final location = Get.put(LatLngDetailController());
   final form = Get.put(FormController());
+  final banks = Get.put(WithdrawController());
 
-  OverView({super.key});
+  final int currentIndex;
+
+  OverView({super.key, this.currentIndex = 0});
 
   @override
   State<OverView> createState() => _OverViewState();
@@ -40,10 +44,12 @@ class _OverViewState extends State<OverView> {
 //===================================== ALL VARAIBLES =================================================\\
 
   bool _bottomNavBarIsVisible = true;
-  int _currentIndex = 0;
+  late int _currentIndex;
 
   @override
   void initState() {
+    _currentIndex = widget.currentIndex;
+
     super.initState();
   }
 
@@ -65,24 +71,9 @@ class _OverViewState extends State<OverView> {
   Widget build(BuildContext context) {
     //===================================== PAGINATION =================================================\\
     final List<Widget> pages = [
-      Dashboard(
-        showNavigation: showNav,
-        hideNavigation: hideNav,
-      ),
-      Vendors(
-        showNavigation: showNav,
-        hideNavigation: hideNav,
-        appBarBackgroundColor: kPrimaryColor,
-        appTitleColor: kTextBlackColor,
-        appBarSearchIconColor: kAccentColor,
-      ),
-      Riders(
-        showNavigation: showNav,
-        hideNavigation: hideNav,
-        appBarBackgroundColor: kPrimaryColor,
-        appTitleColor: kTextBlackColor,
-        appBarSearchIconColor: kAccentColor,
-      ),
+      Dashboard(showNavigation: showNav, hideNavigation: hideNav),
+      Vendors(showNavigation: showNav, hideNavigation: hideNav),
+      Riders(showNavigation: showNav, hideNavigation: hideNav),
       const Profile(),
     ];
 

@@ -51,6 +51,12 @@ class Api {
 
   //BusinessTypes
   static const businessType = "/categories/list";
+
+  //Wallet
+  static const listBanks = "/wallet/list_banks";
+  static const withdrawalHistory = "/wallet/withdrawalHistory/";
+  static const listWithdrawalHistories =
+      "/withdrawalhistory/listWithdrawalHistories/";
 }
 
 String header = "application/json";
@@ -197,16 +203,17 @@ class HandleData {
     request.fields["satOpeningHours"] = data.satOpenHours!.toString();
     request.fields["satClosingHours"] = data.satCloseHours!.toString();
     request.fields["sunWeekOpeningHours"] = data.sunOpenHours!.toString();
-
     request.fields["sunWeekClosingHours"] = data.sunCloseHours!.toString();
 
     request.fields["personalId"] = data.personaId!.toString();
     request.fields["businessId"] = data.businessId!.toString();
     request.fields["businessBio"] = data.businessBio!.toString();
-    request.fields["city"] = data.city!.toString();
 
+    request.fields["city"] = data.city!.toString();
     request.fields["state"] = data.state!.toString();
     request.fields["country"] = data.country!.toString();
+    request.fields["latitude"] = data.latitude!.toString();
+    request.fields["longitude"] = data.longitude!.toString();
     //  request.files.add(file);
     try {
       response = await request.send();
@@ -260,7 +267,7 @@ class HandleData {
     try {
       response = await request.send();
     } catch (e) {
-      log(e.toString());
+      consoleLog(e.toString());
       response = null;
     }
     return response;

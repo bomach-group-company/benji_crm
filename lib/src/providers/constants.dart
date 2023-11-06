@@ -83,3 +83,18 @@ String intFormattedText(int value) {
 }
 
 const String notAvailable = "N/A";
+
+String formatNumber(int num) {
+  if (num >= 1000) {
+    double numDouble = num / 1000.0;
+    return '${numDouble.toStringAsFixed(numDouble.truncateToDouble() == numDouble ? 0 : 1)}K';
+  } else {
+    return num.toString();
+  }
+}
+
+convertToCurrency(String e) {
+  String newStr = e.replaceAllMapped(
+      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => "${m[0]},");
+  return newStr;
+}

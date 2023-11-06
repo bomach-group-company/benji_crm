@@ -1,10 +1,9 @@
 // ignore_for_file: unused_local_variable, unused_element
 
 import 'package:benji_aggregator/controller/order_controller.dart';
-import 'package:benji_aggregator/model/my_vendor.dart';
+import 'package:benji_aggregator/model/my_vendor_model.dart';
 import 'package:benji_aggregator/src/components/image/my_image.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
-import 'package:benji_aggregator/src/providers/custom_show_search.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -22,7 +21,6 @@ import '../my_products/my_product_details.dart';
 import 'about_my_vendor.dart';
 import 'delete_my_vendor.dart';
 import 'my_vendors_location.dart';
-import 'report_my_vendor.dart';
 
 class MyVendorDetailsPage extends StatefulWidget {
   final MyVendorModel vendor;
@@ -58,15 +56,9 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
   int tabBar = 0;
 
   //=================================== Orders =======================================\\
-  final int _incrementOrderID = 2 + 2;
-  late int _orderID;
-  final String _orderItem = "Jollof Rice and Chicken";
-  final String _customerAddress = "21 Odogwu Street, New Haven";
   final int _orderQuantity = 2;
   // final double _price = 2500;
   final double _itemPrice = 2500;
-  final String _orderImage = "chizzy's-food";
-  final String _customerName = "Mercy Luke";
 
   //=============================== Products ====================================\\
   final String _productName = "Smokey Jollof Pasta";
@@ -102,7 +94,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
 
   //=================================== Show Popup Menu =====================================\\
   //Show popup menu
-  void _showPopupMenu(BuildContext context) {
+  void showPopupMenu(BuildContext context) {
     final RenderBox overlay =
         Overlay.of(context).context.findRenderObject() as RenderBox;
     const position = RelativeRect.fromLTRB(10, 60, 0, 0);
@@ -117,10 +109,6 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
           child: Text("About vendor"),
         ),
         const PopupMenuItem<String>(
-          value: 'report',
-          child: Text("Report vendor"),
-        ),
-        const PopupMenuItem<String>(
           value: 'delete',
           child: Text("Delete vendor"),
         ),
@@ -131,25 +119,11 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
         switch (value) {
           case 'about':
             Get.to(
-              () => AboutMyVendor(
-                vendor: widget.vendor,
-              ),
+              () => AboutMyVendor(vendor: widget.vendor),
               duration: const Duration(milliseconds: 300),
               fullscreenDialog: true,
               curve: Curves.easeIn,
               routeName: "About my vendor",
-              preventDuplicates: true,
-              popGesture: true,
-              transition: Transition.rightToLeft,
-            );
-            break;
-          case 'report':
-            Get.to(
-              () => ReportMyVendor(vendor: widget.vendor),
-              duration: const Duration(milliseconds: 300),
-              fullscreenDialog: true,
-              curve: Curves.easeIn,
-              routeName: "Report my vendor",
               preventDuplicates: true,
               popGesture: true,
               transition: Transition.rightToLeft,
@@ -190,7 +164,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
         transition: Transition.rightToLeft,
       );
 
-  void _toAddProduct() => Get.to(
+  void toAddProduct() => Get.to(
         () => AddProduct(vendor: widget.vendor),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -201,7 +175,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
         transition: Transition.downToUp,
       );
 
-  void _toVendorLocation() => Get.to(
+  void toVendorLocation() => Get.to(
         () => MyVendorLocation(
           vendorName: widget.vendor.shopName,
           vendorAddress: widget.vendor.address,
@@ -227,7 +201,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
       onRefresh: _handleRefresh,
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
-          onPressed: _toAddProduct,
+          onPressed: toAddProduct,
           elevation: 20.0,
           mouseCursor: SystemMouseCursors.click,
           tooltip: "Add Product",
@@ -241,16 +215,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
           backgroundColor: kPrimaryColor,
           actions: [
             IconButton(
-              onPressed: () {
-                showSearch(context: context, delegate: CustomSearchDelegate());
-              },
-              icon: FaIcon(
-                FontAwesomeIcons.magnifyingGlass,
-                color: kAccentColor,
-              ),
-            ),
-            IconButton(
-              onPressed: () => _showPopupMenu(context),
+              onPressed: () => showPopupMenu(context),
               icon: FaIcon(
                 FontAwesomeIcons.ellipsisVertical,
                 color: kAccentColor,
@@ -331,7 +296,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                   SizedBox(
                                     width: media.width - 200,
                                     child: Text(
-                                      widget.vendor.shopName ?? 'Not Available',
+                                      widget.vendor.shopName,
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
                                       textAlign: TextAlign.center,
@@ -359,8 +324,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                         ),
                                         kHalfWidthSizedBox,
                                         Text(
-                                          widget.vendor.address ??
-                                              'Not Available',
+                                          widget.vendor.address,
                                           overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(
                                             fontSize: 14,
@@ -372,7 +336,9 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                   ),
                                   kHalfSizedBox,
                                   InkWell(
-                                    onTap: () {},
+                                    onTap: widget.vendor.address.isEmpty
+                                        ? null
+                                        : toVendorLocation,
                                     borderRadius: BorderRadius.circular(10),
                                     child: Container(
                                       padding: const EdgeInsets.all(
@@ -385,8 +351,10 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                         ),
                                       ),
                                       child: Text(
-                                        widget.vendor.address == null
-                                            ? "Not Available"
+                                        widget.vendor.address.isEmpty ||
+                                                widget.vendor.address ==
+                                                    notAvailable
+                                            ? "Not available"
                                             : "Show on map",
                                         textAlign: TextAlign.center,
                                         style: const TextStyle(
@@ -448,12 +416,13 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                               MainAxisAlignment.center,
                                           children: [
                                             Text(
-                                              widget.vendor.isOnline
+                                              widget.vendor.isOnline == false
                                                   ? "Online"
                                                   : 'Offline',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
-                                                color: widget.vendor.isOnline
+                                                color: widget.vendor.isOnline ==
+                                                        false
                                                     ? kSuccessColor
                                                     : kAccentColor,
                                                 fontSize: 14,
@@ -499,6 +468,53 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                       ],
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: kDefaultPadding,
+                    ),
+                    child: Container(
+                      width: media.width,
+                      decoration: BoxDecoration(
+                        color: kDefaultCategoryBackgroundColor,
+                        borderRadius: BorderRadius.circular(50),
+                        border: Border.all(
+                          color: kLightGreyColor,
+                          style: BorderStyle.solid,
+                          strokeAlign: BorderSide.strokeAlignOutside,
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: TabBar(
+                              controller: _tabBarController,
+                              onTap: _clickOnTabBarOption,
+                              enableFeedback: true,
+                              mouseCursor: SystemMouseCursors.click,
+                              automaticIndicatorColorAdjustment: true,
+                              overlayColor:
+                                  MaterialStatePropertyAll(kAccentColor),
+                              labelColor: kPrimaryColor,
+                              unselectedLabelColor: kTextGreyColor,
+                              indicatorColor: kAccentColor,
+                              indicatorWeight: 2,
+                              splashBorderRadius: BorderRadius.circular(50),
+                              indicator: BoxDecoration(
+                                color: kAccentColor,
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              tabs: const [
+                                Tab(text: "Products"),
+                                Tab(text: "Orders"),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  kSizedBox,
                   Container(
                     height: media.height,
                     width: media.width,
@@ -510,23 +526,27 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                       children: [
                         tabBar == 0
                             ?
-                            //  const VendorsTabBarProductsContentSkeleton()
+                            // const VendorsTabBarProductsContentSkeleton()
                             Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   // CategoryButtonSection(
-                                  //   onPressed: _changeProductCategory,
-                                  //   category: _categoryButtonText,
+                                  //   onPressed:
+                                  //       _changeProductCategory,
+                                  //   category:
+                                  //       _categoryButtonText,
                                   //   categorybgColor:
                                   //       _categoryButtonBgColor,
                                   //   categoryFontColor:
                                   //       _categoryButtonFontColor,
                                   // ),
+
                                   GetBuilder<VendorController>(
                                     initState: (state) async {
                                       await VendorController.instance
                                           .getVendorProduct(widget.vendor.id);
                                     },
+                                    init: VendorController(),
                                     builder: (controller) {
                                       return ListView.builder(
                                         shrinkWrap: true,
@@ -542,25 +562,82 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                         },
                                       );
                                     },
+                                  ),
+                                  GetBuilder<VendorController>(
+                                    builder: (controller) => Column(
+                                      children: [
+                                        controller.isLoadMoreProduct.value
+                                            ? Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: kAccentColor,
+                                                ),
+                                              )
+                                            : const SizedBox(),
+                                        controller.loadedAllProduct.value
+                                            ? Container(
+                                                margin: const EdgeInsets.only(
+                                                    top: 20, bottom: 20),
+                                                height: 10,
+                                                width: 10,
+                                                decoration: ShapeDecoration(
+                                                    shape: const CircleBorder(),
+                                                    color: kPageSkeletonColor),
+                                              )
+                                            : const SizedBox(),
+                                      ],
+                                    ),
                                   )
                                 ],
                               )
-                            //  const VendorsTabBarOrdersContentSkeleton()
-                            : GetBuilder<OrderController>(
-                                initState: (state) async {
-                                  await OrderController.instance.getOrders();
-                                },
-                                builder: (controller) => ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: controller.orderList.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return VendorsOrderContainer(
-                                      order: controller.orderList[index],
-                                    );
-                                  },
-                                ),
+                            // const VendorsTabBarOrdersContentSkeleton()
+                            : Column(
+                                children: [
+                                  GetBuilder<OrderController>(
+                                    initState: (state) async {
+                                      await OrderController.instance
+                                          .getOrders();
+                                    },
+                                    init: OrderController(),
+                                    builder: (controller) => ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: controller.orderList.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return VendorsOrderContainer(
+                                          order: controller.orderList[index],
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  GetBuilder<OrderController>(
+                                    builder: (controller) => Column(
+                                      children: [
+                                        controller.isLoadMore.value
+                                            ? Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: kAccentColor,
+                                                ),
+                                              )
+                                            : const SizedBox(),
+                                        controller.loadedAll.value
+                                            ? Container(
+                                                margin: const EdgeInsets.only(
+                                                    top: 20, bottom: 20),
+                                                height: 10,
+                                                width: 10,
+                                                decoration: ShapeDecoration(
+                                                    shape: const CircleBorder(),
+                                                    color: kPageSkeletonColor),
+                                              )
+                                            : const SizedBox(),
+                                      ],
+                                    ),
+                                  )
+                                ],
                               ),
+                        // const VendorsTabBarOrdersContentSkeleton()
                       ],
                     ),
                   ),

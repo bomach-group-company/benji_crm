@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 class EmptyCard extends StatelessWidget {
+  final String message;
   const EmptyCard({
     super.key,
+    this.message = "Oops! There is nothing here.",
   });
 
   @override
@@ -20,7 +22,7 @@ class EmptyCard extends StatelessWidget {
             ),
             kSizedBox,
             Text(
-              "Oops!, There is nothing here",
+              message,
               style: TextStyle(
                 color: kTextGreyColor,
                 fontSize: 18,

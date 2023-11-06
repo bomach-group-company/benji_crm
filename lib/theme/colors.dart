@@ -38,10 +38,3 @@ const Color kIconLightColor = Color(0xFFA5A5A5);
 //Border Colors
 const Color kBorderLightColor = Color(0xFFA5A5A5);
 const Color kErrorBorderColor = Color(0xFFE74C3C);
-
-
-convertToCurrency(String e) {
-  String newStr = e.replaceAllMapped(
-      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => "${m[0]},");
-  return newStr;
-}

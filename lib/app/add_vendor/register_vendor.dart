@@ -21,6 +21,7 @@ import '../../../src/providers/constants.dart';
 import '../../controller/category_controller.dart';
 import '../../controller/latlng_detail_controller.dart';
 import '../../model/create_vendor_model.dart';
+import '../../services/api_url.dart';
 import '../../services/helper.dart';
 import '../../services/keys.dart';
 import '../../src/components/button/my_elevatedButton.dart';
@@ -252,12 +253,14 @@ class _RegisterVendorState extends State<RegisterVendor> {
       businessId: vendorBusinessIdEC.text,
       businessName: vendorNameEC.text,
       businessType: shopType,
-      businessPhone: vendorPhoneNumberEC.text,
+      businessPhone: "+234${vendorPhoneNumberEC.text}",
       bussinessAddress: mapsLocationEC.text,
       businessEmail: vendorEmailEC.text,
       country: country ?? "NG",
       state: state ?? "",
       city: city ?? "",
+      latitude: latitude ?? "",
+      longitude: longitude ?? "",
       openHours: vendorMonToFriOpeningHoursEC.text,
       closeHours: vendorMonToFriClosingHoursEC.text,
       satOpenHours: vendorSatOpeningHoursEC.text,
@@ -731,7 +734,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                           ),
                           kSizedBox,
                           const Text(
-                            "Business Identification",
+                            "Business Identification Number",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
@@ -796,6 +799,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                                     shopTypeHint = data.name;
                                     vendorBusinessTypeEC.text = data.name;
                                   });
+                                  consoleLog(shopType.toString());
                                 }
                               },
                               child: MyBlueTextFormField(
@@ -972,7 +976,9 @@ class _RegisterVendorState extends State<RegisterVendor> {
                                     return 0.0;
                                   }
                                   if (_typing == true) {
-                                    return 150.0;
+                                    return deviceType(media.width) >= 2
+                                        ? 300.0
+                                        : 150.0;
                                   }
                                 }(),
                                 child: Scrollbar(

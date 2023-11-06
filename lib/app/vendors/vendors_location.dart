@@ -16,11 +16,11 @@ import '../../src/components/appbar/my_appbar.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 
-class MyVendorLocation extends StatefulWidget {
+class VendorLocation extends StatefulWidget {
   final String vendorName;
   final String vendorAddress;
   final String vendorRating;
-  const MyVendorLocation({
+  const VendorLocation({
     Key? key,
     required this.vendorName,
     required this.vendorAddress,
@@ -28,10 +28,10 @@ class MyVendorLocation extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<MyVendorLocation> createState() => _MyVendorLocationState();
+  State<VendorLocation> createState() => _VendorLocationState();
 }
 
-class _MyVendorLocationState extends State<MyVendorLocation> {
+class _VendorLocationState extends State<VendorLocation> {
   //============================================================== INITIAL STATE ====================================================================\\
   @override
   void initState() {
@@ -228,7 +228,11 @@ class _MyVendorLocationState extends State<MyVendorLocation> {
       body: Stack(
         children: [
           _userPosition == null
-              ? Center(child: CircularProgressIndicator(color: kAccentColor))
+              ? Center(
+                  child: CircularProgressIndicator(
+                    color: kAccentColor,
+                  ),
+                )
               : GoogleMap(
                   mapType: MapType.normal,
                   onMapCreated: _onMapCreated,
@@ -246,7 +250,9 @@ class _MyVendorLocationState extends State<MyVendorLocation> {
                       width: 4,
                     ),
                   },
-                  padding: EdgeInsets.only(bottom: _isExpanded ? 200 : 60),
+                  padding: EdgeInsets.only(
+                    bottom: _isExpanded ? 200 : 60,
+                  ),
                   compassEnabled: true,
                   mapToolbarEnabled: true,
                   minMaxZoomPreference: MinMaxZoomPreference.unbounded,

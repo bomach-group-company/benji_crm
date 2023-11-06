@@ -171,7 +171,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                               ],
                             ),
                             child: CachedNetworkImage(
-                              imageUrl: widget.product!.productImage ?? "",
+                              imageUrl: widget.product.productImage,
                               fit: BoxFit.cover,
                               progressIndicatorBuilder:
                                   (context, url, downloadProgress) =>
@@ -196,7 +196,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      widget.product!.name ?? "",
+                                      widget.product.name,
                                       textAlign: TextAlign.center,
                                       style: const TextStyle(
                                         color: kTextBlackColor,
@@ -205,7 +205,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       ),
                                     ),
                                     Text(
-                                      "₦ ${convertToCurrency(widget.product!.price.toString())}",
+                                      "₦ ${convertToCurrency(widget.product.price.toString())}",
                                       style: const TextStyle(
                                         color: kTextBlackColor,
                                         fontSize: 22,
@@ -227,7 +227,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 ),
                                 kHalfSizedBox,
                                 ReadMoreText(
-                                  widget.product!.description ?? "",
+                                  widget.product.description,
                                   callback: (val) {},
                                   delimiter: "...",
                                   trimLines: 10,

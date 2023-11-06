@@ -25,13 +25,14 @@ class ProfileController extends GetxController {
 
 //===================== Update Personal Profile ==================\\
 
-  Future<bool> updateProfile(
-      {String? userName,
-      phoneNumber,
-      firstName,
-      lastName,
-      address,
-      bool isCurrent = true}) async {
+  Future<bool> updateProfile({
+    String? phoneNumber,
+    firstName,
+    lastName,
+    address,
+    latitude,
+    longitude,
+  }) async {
     late String token;
     token = UserController.instance.user.value.token;
     int uuid = UserController.instance.user.value.id;
@@ -39,25 +40,28 @@ class ProfileController extends GetxController {
     var url = "${Api.baseUrl}/agents/changeAgent/$uuid";
 
     Map body = {
-      "username": userName ?? "",
       "first_name": firstName ?? "",
       "last_name": lastName ?? "",
       "address": address ?? "",
+      "latitude": latitude ?? "",
+      "longitude": longitude ?? "",
+      "phone": phoneNumber ?? "",
     };
     try {
-      var response = await http.put(
+      var response = await http.post(
         Uri.parse(url),
         headers: {
           HttpHeaders.contentTypeHeader: header,
           HttpHeaders.authorizationHeader: "Bearer $token",
           "Content-Type": content,
         },
-        body: jsonEncode(body),
+        body: {'data': jsonEncode(body)},
       );
-
+      consoleLog(response.body);
       //Print the response in the console:
       // will do this when the endpoint stops returning null (save the new data)
-      // UserController.instance.saveUser(response.body, UserController.instance.user.value.token)
+      UserController.instance
+          .saveUser(response.body, UserController.instance.user.value.token);
 
       if (response.statusCode == 200) {
         ApiProcessorController.successSnack(
@@ -105,7 +109,7 @@ class ProfileController extends GetxController {
         body: body,
       );
 
-      var jsonData = jsonDecode(response.body);
+      // var jsonData = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
         ApiProcessorController.successSnack("Password Changed Successfully");

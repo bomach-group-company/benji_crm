@@ -1,4 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.benji.benji_aggregator">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.benji.benjiCRM">
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -40,7 +40,7 @@
         <!-- If your sends SMS messages -->
         <intent>
             <action android:name="android.intent.action.SENDTO" />
-            <data android:scheme="sms-to" />
+            <data android:scheme="smsto" />
         </intent>
         <!-- If your app sends emails -->
         <intent>
@@ -80,8 +80,8 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-             <meta-data
-                android:name="com.google.android.geo.API_KEY"
-                android:value="AIzaSyAtbHOL3DbQD613UEmh0WYd68y0pY5h03E" />  
+         <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAtbHOL3DbQD613UEmh0WYd68y0pY5h03E" />
     </application>
 </manifest>

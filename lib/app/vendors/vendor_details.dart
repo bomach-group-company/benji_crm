@@ -6,22 +6,22 @@ import 'package:benji_aggregator/model/product_model.dart';
 import 'package:benji_aggregator/model/vendor_model.dart';
 import 'package:benji_aggregator/src/components/image/my_image.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
-import 'package:benji_aggregator/src/providers/custom_show_search.dart';
 import 'package:benji_aggregator/src/responsive/responsive_constant.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../controller/vendor_controller.dart';
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/container/vendors_order_container.dart';
 import '../../src/components/container/vendors_product_container.dart';
+import '../../src/components/section/my_liquid_refresh.dart';
 import '../../theme/colors.dart';
 import 'about_vendor.dart';
 import 'report_vendor.dart';
+import 'vendors_location.dart';
 
 class VendorDetailsPage extends StatefulWidget {
   final VendorModel vendor;
@@ -60,20 +60,13 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
   int tabBar = 0;
 
   //=================================== Orders =======================================\\
-  final int _incrementOrderID = 2 + 2;
-  final int _orderID = 0;
-  final String _orderItem = "Jollof Rice and Chicken";
-  final String _customerAddress = "21 Odogwu Street, New Haven";
   final int _itemQuantity = 2;
   // final double _price = 2500;
   final double _itemPrice = 2500;
-  final String _orderImage = "chizzy's-food";
-  final String _customerName = "Mercy Luke";
 
   //=============================== Products ====================================\\
   final String _productName = "Smokey Jollof Pasta";
   final String _productImage = "pasta";
-
   final String _productDescription =
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit, tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit, quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos  sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam recusandae alias error harum maxime adipisci amet laborum. Perspiciatis  minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit  quibusdam sed amet tempora. Sit laborum ab, eius fugit doloribus tenetur  fugiat, temporibus enim commodi iusto libero magni deleniti quod quam consequuntur! Commodi minima excepturi repudiandae velit hic maxime doloremque. Quaerat provident commodi consectetur veniam similique ad earum omnis ipsum saepe, voluptas, hic voluptates pariatur est explicabo fugiat, dolorum eligendi quam cupiditate excepturi mollitia maiores labore suscipit quas? Nulla, placeat. Voluptatem quaerat non architecto ab laudantium modi minima sunt esse temporibus sint culpa, recusandae aliquam numquam totam ratione voluptas quod exercitationem fuga. Possim";
   final double _productPrice = 1200;
@@ -100,7 +93,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
 
 //===================== Handle refresh ==========================\\
 
-  Future<void> _handleRefresh() async {}
+  Future<void> handleRefresh() async {}
 
   void _clickOnTabBarOption(value) async {
     setState(() {
@@ -134,10 +127,10 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
       if (value != null) {
         switch (value) {
           case 'about':
-            _toAboutVendor();
+            toAboutVendor(widget.vendor);
             break;
           case 'report':
-            _toSuspendVendor();
+            toSuspendVendor();
             break;
         }
       }
@@ -162,10 +155,8 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
         transition: Transition.rightToLeft,
       );
 
-  void _toAboutVendor() => Get.to(
-        () => AboutVendor(
-          vendor: widget.vendor,
-        ),
+  void toAboutVendor(VendorModel data) => Get.to(
+        () => AboutVendor(vendor: data),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -175,7 +166,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
         transition: Transition.rightToLeft,
       );
 
-  void _toSuspendVendor() => Get.to(
+  void toSuspendVendor() => Get.to(
         () => ReportVendor(vendor: widget.vendor),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -186,39 +177,38 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
         transition: Transition.rightToLeft,
       );
 
+  void toVendorLocation() => Get.to(
+        () => VendorLocation(
+          vendorName: widget.vendor.shopName,
+          vendorAddress: widget.vendor.address,
+          vendorRating: widget.vendor.averageRating.toString(),
+        ),
+        routeName: 'VendorLocation',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
+
   @override
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
     String formattedDateAndTime = formatDateAndTime(now);
-    double mediaWidth = MediaQuery.of(context).size.width;
-    double mediaHeight = MediaQuery.of(context).size.height;
+    var media = MediaQuery.of(context).size;
     double subtotalPrice = calculateSubtotal();
 
 //====================================================================================\\
 
-    return LiquidPullToRefresh(
-      onRefresh: _handleRefresh,
-      color: kAccentColor,
-      borderWidth: 5.0,
-      backgroundColor: kPrimaryColor,
-      height: 150,
-      animSpeedFactor: 2,
-      showChildOpacityTransition: false,
+    return MyLiquidRefresh(
+      onRefresh: handleRefresh,
       child: Scaffold(
-        extendBody: true,
-        extendBodyBehindAppBar: true,
         appBar: MyAppBar(
           title: "Vendor Details",
           elevation: 0,
           backgroundColor: kPrimaryColor,
           actions: [
-            IconButton(
-              onPressed: () {
-                showSearch(context: context, delegate: CustomSearchDelegate());
-              },
-              icon:
-                  FaIcon(FontAwesomeIcons.magnifyingGlass, color: kAccentColor),
-            ),
             IconButton(
               onPressed: () => showPopupMenu(context),
               icon: FaIcon(
@@ -241,9 +231,9 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
               children: [
                 SizedBox(
                   height:
-                      deviceType(mediaWidth) > 2 && deviceType(mediaWidth) < 4
+                      deviceType(media.width) > 2 && deviceType(media.width) < 4
                           ? 540
-                          : deviceType(mediaWidth) > 2
+                          : deviceType(media.width) > 2
                               ? 470
                               : 370,
                   child: Stack(
@@ -253,12 +243,12 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                         left: 0,
                         right: 0,
                         child: Container(
-                          height: deviceType(mediaWidth) > 3 &&
-                                  deviceType(mediaWidth) < 5
-                              ? mediaHeight * 0.4
-                              : deviceType(mediaWidth) > 2
-                                  ? mediaHeight * 0.415
-                                  : mediaHeight * 0.28,
+                          height: deviceType(media.width) > 3 &&
+                                  deviceType(media.width) < 5
+                              ? media.height * 0.4
+                              : deviceType(media.width) > 2
+                                  ? media.height * 0.415
+                                  : media.height * 0.28,
                           decoration: BoxDecoration(
                             color: kPageSkeletonColor,
                           ),
@@ -266,9 +256,9 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                         ),
                       ),
                       Positioned(
-                        top: deviceType(mediaWidth) > 2
-                            ? mediaHeight * 0.25
-                            : mediaHeight * 0.13,
+                        top: deviceType(media.width) > 2
+                            ? media.height * 0.25
+                            : media.height * 0.13,
                         left: kDefaultPadding,
                         right: kDefaultPadding,
                         child: Container(
@@ -300,7 +290,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 SizedBox(
-                                  width: mediaWidth - 200,
+                                  width: media.width - 200,
                                   child: Text(
                                     widget.vendor.shopName,
                                     overflow: TextOverflow.ellipsis,
@@ -315,7 +305,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                 ),
                                 kHalfSizedBox,
                                 Container(
-                                  width: mediaWidth - 90,
+                                  width: media.width - 90,
                                   alignment: Alignment.center,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -341,7 +331,10 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                 ),
                                 kHalfSizedBox,
                                 InkWell(
-                                  onTap: () {},
+                                  onTap: widget.vendor.address.isEmpty ||
+                                          widget.vendor.address == notAvailable
+                                      ? null
+                                      : toVendorLocation,
                                   borderRadius: BorderRadius.circular(10),
                                   child: Container(
                                     padding: const EdgeInsets.all(
@@ -371,7 +364,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Container(
-                                      width: mediaWidth * 0.23,
+                                      width: media.width * 0.23,
                                       height: 57,
                                       decoration: ShapeDecoration(
                                         color: kPrimaryColor,
@@ -403,7 +396,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                       ),
                                     ),
                                     Container(
-                                      width: mediaWidth * 0.25,
+                                      width: media.width * 0.25,
                                       height: 57,
                                       decoration: ShapeDecoration(
                                         color: kPrimaryColor,
@@ -446,18 +439,18 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                         ),
                       ),
                       Positioned(
-                        top: deviceType(mediaWidth) > 3 &&
-                                deviceType(mediaWidth) < 5
-                            ? mediaHeight * 0.15
-                            : deviceType(mediaWidth) > 2
-                                ? mediaHeight * 0.15
-                                : mediaHeight * 0.08,
-                        left: deviceType(mediaWidth) > 2
-                            ? (mediaWidth / 2) - (126 / 2)
-                            : (mediaWidth / 2) - (100 / 2),
+                        top: deviceType(media.width) > 3 &&
+                                deviceType(media.width) < 5
+                            ? media.height * 0.15
+                            : deviceType(media.width) > 2
+                                ? media.height * 0.15
+                                : media.height * 0.08,
+                        left: deviceType(media.width) > 2
+                            ? (media.width / 2) - (126 / 2)
+                            : (media.width / 2) - (100 / 2),
                         child: Container(
-                          width: deviceType(mediaWidth) > 2 ? 126 : 100,
-                          height: deviceType(mediaWidth) > 2 ? 126 : 100,
+                          width: deviceType(media.width) > 2 ? 126 : 100,
+                          height: deviceType(media.width) > 2 ? 126 : 100,
                           decoration: ShapeDecoration(
                             color: kPageSkeletonColor,
                             shape: const OvalBorder(),
@@ -473,7 +466,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                     horizontal: kDefaultPadding,
                   ),
                   child: Container(
-                    width: mediaWidth,
+                    width: media.width,
                     decoration: BoxDecoration(
                       color: kDefaultCategoryBackgroundColor,
                       borderRadius: BorderRadius.circular(50),
@@ -516,7 +509,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                 ),
                 kSizedBox,
                 Container(
-                  width: mediaWidth,
+                  width: media.width,
                   padding: const EdgeInsets.only(
                     left: kDefaultPadding / 2,
                     right: kDefaultPadding / 2,
