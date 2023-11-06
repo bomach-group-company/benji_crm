@@ -23,7 +23,6 @@ import '../../theme/colors.dart';
 import '../my_orders/active_orders.dart';
 import '../my_orders/pending_orders.dart';
 import '../overview/overview.dart';
-import '../withdrawal/select_account.dart';
 
 class Dashboard extends StatefulWidget {
   final VoidCallback showNavigation;
@@ -196,17 +195,6 @@ class _DashboardState extends State<Dashboard>
         transition: Transition.downToUp,
       );
 
-  void toSelectAccount() => Get.to(
-        () => const SelectAccountPage(),
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "SelectAccountPage",
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.cupertinoDialog,
-      );
-
   @override
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
@@ -247,12 +235,8 @@ class _DashboardState extends State<Dashboard>
               physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.all(kDefaultPadding),
               children: [
-                AvailableBalanceCard(
-                  onTap: toSelectAccount,
-                  availableBalance: doubleFormattedText(0),
-                ),
+                AvailableBalanceCard(availableBalance: doubleFormattedText(0)),
                 kSizedBox,
-
                 // GetBuilder<OrderController>(initState: (state) async {
                 //   await OrderController.instance.getOrders();
                 // }, builder: (order) {
