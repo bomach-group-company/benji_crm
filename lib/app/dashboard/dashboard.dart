@@ -24,7 +24,6 @@ import '../../theme/colors.dart';
 import '../my_orders/active_orders.dart';
 import '../my_orders/pending_orders.dart';
 import '../overview/overview.dart';
-import '../riders/riders.dart';
 
 class Dashboard extends StatefulWidget {
   final VoidCallback showNavigation;
@@ -139,27 +138,23 @@ class _DashboardState extends State<Dashboard>
   }
 
 //=================================== Navigation =====================================\\
-
-  void _toSeeAllRiders() => Get.to(
-        () => Riders(
-          showNavigation: () {},
-          hideNavigation: () {},
-        ),
+  void _toSeeAllVendors() => Get.to(
+        () => OverView(currentIndex: 1),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "Riders",
+        routeName: "Vendors",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.downToUp,
       );
 
-  void _toSeeAllVendors() => Get.to(
-        () => OverView(),
+  void _toSeeAllRiders() => Get.to(
+        () => OverView(currentIndex: 2),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "Vendors",
+        routeName: "Riders",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.downToUp,
@@ -177,9 +172,7 @@ class _DashboardState extends State<Dashboard>
       );
 
   void _toSeeAllPendingOrders(List<Order> orderList) => Get.to(
-        () => PendingOrders(
-          orderList: orderList,
-        ),
+        () => PendingOrders(orderList: orderList),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,

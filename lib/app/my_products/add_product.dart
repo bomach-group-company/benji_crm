@@ -89,7 +89,7 @@ class _AddProductState extends State<AddProduct> {
   //================================== FUNCTIONS ====================================\\
   submit() async {
     if (selectedImage == null) {
-      ApiProcessorController.errorSnack("Select a product image(s)");
+      ApiProcessorController.errorSnack("Add product image(s)");
       return;
     }
     if (_productType!.isEmpty ||
@@ -359,7 +359,7 @@ class _AddProductState extends State<AddProduct> {
                       ),
                       kSizedBox,
                       Text(
-                        'Sub Category',
+                        'Category',
                         style: TextStyle(
                           color: kTextGreyColor,
                           fontSize: 16,
@@ -453,7 +453,7 @@ class _AddProductState extends State<AddProduct> {
                       MyTextFormField(
                         controller: productPriceEC,
                         focusNode: productPriceFN,
-                        hintText: "Enter the unit price here",
+                        hintText: "Enter the unit price here (NGN)",
                         textInputAction: TextInputAction.next,
                         textInputType: TextInputType.number,
                         textCapitalization: TextCapitalization.sentences,

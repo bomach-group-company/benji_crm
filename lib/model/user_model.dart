@@ -63,7 +63,7 @@ class UserModel {
     return UserModel(
       id: json['id'] ?? 0,
       email: json['email'] ?? notAvailable,
-      phone: json['phone'] ?? notAvailable,
+      phone: json['phone'] ?? '',
       code: json['code'] ?? notAvailable,
       username: json['username'] ?? notAvailable,
       firstName: json['first_name'] ?? notAvailable,

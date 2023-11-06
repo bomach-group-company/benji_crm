@@ -39,7 +39,7 @@ class _MyVendorsState extends State<MyVendors> {
   }
 
 //============================================== ALL VARIABLES =================================================\\
-  late bool loadingScreen;
+  bool loadingScreen = false;
   // bool _isScrollToTopBtnVisible = false;
 
 //============================================== CONTROLLERS =================================================\\
@@ -50,8 +50,14 @@ class _MyVendorsState extends State<MyVendors> {
 
 //===================== Handle refresh ==========================\\
 
-  Future<void> _handleRefresh() async {
+  Future<void> handleRefresh() async {
+    setState(() {
+      loadingScreen = true;
+    });
     await VendorController.instance.getMyVendors();
+    setState(() {
+      loadingScreen = false;
+    });
   }
 
 // //============================= Scroll to Top ======================================//
@@ -76,10 +82,8 @@ class _MyVendorsState extends State<MyVendors> {
 
 //===================== Navigation ==========================\\
 
-  void _toVendorDetailsPage(MyVendorModel data) => Get.to(
-        () => MyVendorDetailsPage(
-          vendor: data,
-        ),
+  void toVendorDetailsPage(MyVendorModel data) => Get.to(
+        () => MyVendorDetailsPage(vendor: data),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -116,7 +120,7 @@ class _MyVendorsState extends State<MyVendors> {
   @override
   Widget build(BuildContext context) {
     return MyLiquidRefresh(
-      onRefresh: _handleRefresh,
+      onRefresh: handleRefresh,
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: addThirdPartyVendor,
@@ -150,39 +154,43 @@ class _MyVendorsState extends State<MyVendors> {
                   ),
                   children: [
                     kSizedBox,
-                    controller.isLoad.value && controller.vendorMyList.isEmpty
+                    loadingScreen
                         ? const VendorsListSkeleton()
-                        : ListView.separated(
-                            separatorBuilder: (context, index) =>
-                                const SizedBox(height: kDefaultPadding / 2),
-                            itemCount: controller.vendorMyList.length,
-                            addAutomaticKeepAlives: true,
-                            physics: const BouncingScrollPhysics(),
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) => InkWell(
-                              borderRadius: BorderRadius.circular(16),
-                              child: Container(
-                                  decoration: ShapeDecoration(
-                                    color: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16),
-                                    ),
-                                    shadows: const [
-                                      BoxShadow(
-                                        color: Color(0x0F000000),
-                                        blurRadius: 24,
-                                        offset: Offset(0, 4),
-                                        spreadRadius: 0,
+                        : controller.isLoad.value &&
+                                controller.vendorMyList.isEmpty
+                            ? const VendorsListSkeleton()
+                            : ListView.separated(
+                                separatorBuilder: (context, index) =>
+                                    const SizedBox(height: kDefaultPadding / 2),
+                                itemCount: controller.vendorMyList.length,
+                                addAutomaticKeepAlives: true,
+                                physics: const BouncingScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) => InkWell(
+                                  borderRadius: BorderRadius.circular(16),
+                                  child: Container(
+                                      decoration: ShapeDecoration(
+                                        color: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                        ),
+                                        shadows: const [
+                                          BoxShadow(
+                                            color: Color(0x0F000000),
+                                            blurRadius: 24,
+                                            offset: Offset(0, 4),
+                                            spreadRadius: 0,
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                  child: MyVendorContainer(
-                                    onTap: () => _toVendorDetailsPage(
-                                        controller.vendorMyList[index]),
-                                    vendor: controller.vendorMyList[index],
-                                  )),
-                            ),
-                          ),
+                                      child: MyVendorContainer(
+                                        onTap: () => toVendorDetailsPage(
+                                            controller.vendorMyList[index]),
+                                        vendor: controller.vendorMyList[index],
+                                      )),
+                                ),
+                              ),
                     kSizedBox,
                     GetBuilder<VendorController>(
                       builder: (controller) => Column(

@@ -45,7 +45,7 @@ class _ProfileState extends State<Profile> {
   Future<void> _handleRefresh() async {}
 
 //=============================================== Navigation ======================================================\\
-  void _toPersonalInfo() => Get.to(
+  void toPersonalInfo() => Get.to(
         () => const PersonalInfo(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -55,7 +55,7 @@ class _ProfileState extends State<Profile> {
         popGesture: false,
         transition: Transition.rightToLeft,
       );
-  void _toSettings() => Get.to(
+  void toSettings() => Get.to(
         () => const Settings(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -65,7 +65,7 @@ class _ProfileState extends State<Profile> {
         popGesture: false,
         transition: Transition.rightToLeft,
       );
-  void _toWithdrawalHistory() => Get.to(
+  void toWithdrawalHistory() => Get.to(
         () => const WithdrawalHistoryPage(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -132,7 +132,7 @@ class _ProfileState extends State<Profile> {
                       child: Column(
                         children: [
                           ListTile(
-                            onTap: _toPersonalInfo,
+                            onTap: toPersonalInfo,
                             enableFeedback: true,
                             mouseCursor: SystemMouseCursors.click,
                             leading: FaIcon(
@@ -152,7 +152,7 @@ class _ProfileState extends State<Profile> {
                             ),
                           ),
                           ListTile(
-                            onTap: _toSettings,
+                            onTap: toSettings,
                             enableFeedback: true,
                             mouseCursor: SystemMouseCursors.click,
                             leading: FaIcon(
@@ -202,7 +202,7 @@ class _ProfileState extends State<Profile> {
                       child: Column(
                         children: [
                           ListTile(
-                            onTap: _toWithdrawalHistory,
+                            onTap: toWithdrawalHistory,
                             enableFeedback: true,
                             mouseCursor: SystemMouseCursors.click,
                             leading: FaIcon(

@@ -12,6 +12,7 @@ import '../../controller/notification_controller.dart';
 import '../../controller/profile_controller.dart';
 import '../../controller/rider_controller.dart';
 import '../../controller/user_controller.dart';
+import '../../controller/withdraw_controller.dart';
 import '../../theme/colors.dart';
 import '../dashboard/dashboard.dart';
 import '../profile/profile.dart';
@@ -29,6 +30,8 @@ class OverView extends StatefulWidget {
   final riderHistory = Get.put(RiderHistoryController());
   final location = Get.put(LatLngDetailController());
   final form = Get.put(FormController());
+  final banks = Get.put(WithdrawController());
+
   final int currentIndex;
 
   OverView({super.key, this.currentIndex = 0});
@@ -68,18 +71,9 @@ class _OverViewState extends State<OverView> {
   Widget build(BuildContext context) {
     //===================================== PAGINATION =================================================\\
     final List<Widget> pages = [
-      Dashboard(
-        showNavigation: showNav,
-        hideNavigation: hideNav,
-      ),
-      Vendors(
-        showNavigation: showNav,
-        hideNavigation: hideNav,
-      ),
-      Riders(
-        showNavigation: showNav,
-        hideNavigation: hideNav,
-      ),
+      Dashboard(showNavigation: showNav, hideNavigation: hideNav),
+      Vendors(showNavigation: showNav, hideNavigation: hideNav),
+      Riders(showNavigation: showNav, hideNavigation: hideNav),
       const Profile(),
     ];
 

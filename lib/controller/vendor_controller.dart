@@ -130,7 +130,9 @@ class VendorController extends GetxController {
           .map((e) => MyVendorModel.fromJson(e))
           .toList();
       vendorMyList.value += data;
-    } catch (e) {}
+    } catch (e) {
+      ApiProcessorController.errorSnack("An error occurred. \n ERROR: $e");
+    }
     loadedAllMyVendor.value = data.isEmpty;
     isLoadMoreMyVendor.value = false;
 

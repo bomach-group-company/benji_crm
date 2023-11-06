@@ -6,7 +6,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
 import '../../src/providers/constants.dart';
-import 'add_to_a_vendor.dart';
 import 'register_vendor.dart';
 
 class AddVendor extends StatefulWidget {
@@ -59,16 +58,16 @@ class _AddVendorState extends State<AddVendor> {
   //       popGesture: true,
   //       transition: Transition.rightToLeft,
   //     );
-  void addToAVendor() => Get.to(
-        () => const AddToAVendor(),
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "AddToAVendor",
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+  // void addToAVendor() => Get.to(
+  //       () => const AddToAVendor(),
+  //       duration: const Duration(milliseconds: 300),
+  //       fullscreenDialog: true,
+  //       curve: Curves.easeIn,
+  //       routeName: "AddToAVendor",
+  //       preventDuplicates: true,
+  //       popGesture: true,
+  //       transition: Transition.rightToLeft,
+  //     );
 
   @override
   Widget build(BuildContext context) {
@@ -181,39 +180,40 @@ class _AddVendorState extends State<AddVendor> {
               //   ),
               // ),
               // kSizedBox,
-              ListTile(
-                onTap: addToAVendor,
-                horizontalTitleGap: 10,
-                mouseCursor: SystemMouseCursors.click,
-                enableFeedback: true,
-                tileColor: kLightGreyColor.withOpacity(0.15),
-                focusColor: kLightGreyColor.withOpacity(0.15),
-                splashColor: kLightGreyColor.withOpacity(0.15),
-                minVerticalPadding: kDefaultPadding / 2,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(kDefaultPadding / 2),
-                ),
-                leading: FaIcon(
-                  FontAwesomeIcons.store,
-                  color: kAccentColor,
-                  size: 30,
-                ),
-                title: const Text("Add a business to a vendor"),
-                titleTextStyle: const TextStyle(
-                  color: kTextBlackColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
-                subtitle: const Text(
-                  "Add a business to an already registered business account",
-                ),
-                subtitleTextStyle: TextStyle(color: kTextGreyColor),
-                trailing: FaIcon(
-                  FontAwesomeIcons.chevronRight,
-                  color: kAccentColor,
-                  size: 26,
-                ),
-              ),
+              // ListTile(
+              //   onTap: addToAVendor,
+              //   horizontalTitleGap: 10,
+              //   mouseCursor: SystemMouseCursors.click,
+              //   enableFeedback: true,
+              //   tileColor: kLightGreyColor.withOpacity(0.15),
+              //   focusColor: kLightGreyColor.withOpacity(0.15),
+              //   splashColor: kLightGreyColor.withOpacity(0.15),
+              //   minVerticalPadding: kDefaultPadding / 2,
+              //   shape: RoundedRectangleBorder(
+              //     borderRadius: BorderRadius.circular(kDefaultPadding / 2),
+              //   ),
+              //   leading: FaIcon(
+              //     FontAwesomeIcons.store,
+              //     color: kAccentColor,
+              //     size: 30,
+              //   ),
+              //   title: const Text("Add a business to a vendor"),
+              //   titleTextStyle: const TextStyle(
+              //     color: kTextBlackColor,
+              //     fontSize: 18,
+              //     fontWeight: FontWeight.w600,
+              //   ),
+              //   subtitle: const Text(
+              //     "Add a business to an already registered business account",
+              //   ),
+              //   subtitleTextStyle: TextStyle(color: kTextGreyColor),
+              //   trailing: FaIcon(
+              //     FontAwesomeIcons.chevronRight,
+              //     color: kAccentColor,
+              //     size: 26,
+              //   ),
+              // ),
+              // kSizedBox,
             ],
           ),
         ),

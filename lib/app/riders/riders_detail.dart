@@ -256,7 +256,7 @@ class _RidersDetailState extends State<RidersDetail> {
                           children: [
                             CircleAvatar(
                               radius: 60,
-                              backgroundColor: Colors.white54,
+                              backgroundColor: kGreyColor1,
                               child: ClipOval(
                                 child: MyImage(url: widget.rider.image),
                               ),

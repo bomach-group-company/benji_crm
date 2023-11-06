@@ -38,7 +38,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
 
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 300));
-    scrollController.addListener(_scrollListener);
+    scrollController.addListener(scrollListener);
     scrollController.addListener(() {
       if (scrollController.position.userScrollDirection ==
               ScrollDirection.forward ||
@@ -69,7 +69,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
 
   //===================== Handle refresh ==========================\\
 
-  Future<void> _handleRefresh() async {
+  Future<void> handleRefresh() async {
     setState(() {
       loadingScreen = true;
     });
@@ -90,7 +90,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
     );
   }
 
-  Future<void> _scrollListener() async {
+  Future<void> scrollListener() async {
     if (scrollController.position.pixels >= 100 &&
         isScrollToTopBtnVisible != true) {
       setState(() {
@@ -135,7 +135,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
         showSearch(context: context, delegate: CustomSearchDelegate());
 
     return MyLiquidRefresh(
-      onRefresh: _handleRefresh,
+      onRefresh: handleRefresh,
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
