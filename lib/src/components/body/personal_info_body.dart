@@ -102,7 +102,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
   File? selectedImage;
 
   //=========================== WIDGETS ====================================\\
-  Widget _profilePicBottomSheet() {
+  Widget profilePicBottomSheet() {
     return Container(
       height: 140,
       width: MediaQuery.of(context).size.width,
@@ -403,8 +403,11 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                                         ),
                                       ),
                                       child: MyImage(
-                                          url: UserController
-                                              .instance.user.value.image),
+                                        defaultUrl:
+                                            "assets/images/profile/avatar-image.jpg",
+                                        url: UserController
+                                            .instance.user.value.image,
+                                      ),
                                     )
                                   : Container(
                                       height: deviceType(media.width) == 1
@@ -448,7 +451,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                                       ),
                                       enableDrag: true,
                                       builder: (builder) =>
-                                          _profilePicBottomSheet(),
+                                          profilePicBottomSheet(),
                                     );
                                   },
                                   borderRadius: BorderRadius.circular(100),

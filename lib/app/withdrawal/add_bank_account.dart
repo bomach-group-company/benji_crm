@@ -68,7 +68,7 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
       curve: Curves.easeIn,
       preventDuplicates: true,
       popGesture: true,
-      transition: Transition.rightToLeft,
+      transition: Transition.downToUp,
     );
     if (selectedBank != null) {
       setState(() {
