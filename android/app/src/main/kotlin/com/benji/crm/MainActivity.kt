@@ -1,4 +1,4 @@
-package com.benji.benjiCRM
+package com.benji.crm
 
 import io.flutter.embedding.android.FlutterActivity
 
