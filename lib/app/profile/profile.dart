@@ -32,7 +32,7 @@ class _ProfileState extends State<Profile> {
 
   @override
   void dispose() {
-    _handleRefresh().ignore();
+    handleRefresh().ignore();
     super.dispose();
   }
 
@@ -40,12 +40,23 @@ class _ProfileState extends State<Profile> {
   final totalNumOfOrders = OrderController.instance.orderList.toList();
 
 //=============================================== ALL BOOL VALUES ======================================================\\
-
+  bool loadingScreen = false;
 //=============================================== FUNCTIONS ======================================================\\
 
 //===================== Handle refresh ==========================\\
 
-  Future<void> _handleRefresh() async {}
+  Future<void> handleRefresh() async {
+    setState(() {
+      loadingScreen = true;
+    });
+    await Future.delayed(const Duration(milliseconds: 500));
+    await OrderController.instance.getOrders();
+    OrderController.instance.loadNum();
+
+    setState(() {
+      loadingScreen = false;
+    });
+  }
 
 //=============================================== Navigation ======================================================\\
   void toPersonalInfo() => Get.to(
@@ -96,7 +107,7 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
     return MyLiquidRefresh(
-      onRefresh: _handleRefresh,
+      onRefresh: handleRefresh,
       child: Scaffold(
         appBar: AppBar(backgroundColor: kAccentColor, elevation: 0.0),
         body: SafeArea(
@@ -106,8 +117,7 @@ class _ProfileState extends State<Profile> {
               return ListView(
                 scrollDirection: Axis.vertical,
                 children: [
-                  ProfileFirstHalf(
-                      availableBalance: doubleFormattedText(1000000)),
+                  ProfileFirstHalf(availableBalance: doubleFormattedText(0)),
                   Padding(
                     padding: const EdgeInsets.only(
                       top: kDefaultPadding,
@@ -240,10 +250,13 @@ class _ProfileState extends State<Profile> {
                               ),
                             ),
                             trailing: Text(
-                              formatNumber(totalNumOfOrders.length),
+                              loadingScreen
+                                  ? "Loading..."
+                                  : formatNumber(totalNumOfOrders.length),
+                              overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.right,
-                              style: const TextStyle(
-                                color: Color(0xFF9B9BA5),
+                              style: TextStyle(
+                                color: kAccentColor,
                                 fontSize: 17,
                                 fontWeight: FontWeight.w700,
                               ),

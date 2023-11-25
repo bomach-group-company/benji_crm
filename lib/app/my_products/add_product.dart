@@ -18,6 +18,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../model/my_vendor_model.dart';
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/button/my_elevatedButton.dart';
+import '../../src/components/input/message_textformfield.dart';
 import '../../src/components/input/my_textformfield.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
@@ -332,10 +333,10 @@ class _AddProductState extends State<AddProduct> {
                         ),
                       ),
                       kSizedBox,
-                      Text(
+                      const Text(
                         'Product Type',
                         style: TextStyle(
-                          color: kTextGreyColor,
+                          color: kTextBlackColor,
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           letterSpacing: -0.32,
@@ -358,10 +359,10 @@ class _AddProductState extends State<AddProduct> {
                         ),
                       ),
                       kSizedBox,
-                      Text(
+                      const Text(
                         'Category',
                         style: TextStyle(
-                          color: kTextGreyColor,
+                          color: kTextBlackColor,
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           letterSpacing: -0.32,
@@ -385,7 +386,7 @@ class _AddProductState extends State<AddProduct> {
                       const Text(
                         'Product Name',
                         style: TextStyle(
-                          color: Color(0xFF575757),
+                          color: kTextBlackColor,
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           letterSpacing: -0.32,
@@ -411,39 +412,10 @@ class _AddProductState extends State<AddProduct> {
                         },
                       ),
                       kSizedBox,
-                      Text(
-                        'Product Description',
-                        style: TextStyle(
-                          color: kTextGreyColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: -0.32,
-                        ),
-                      ),
-                      kHalfSizedBox,
-                      MyTextFormField(
-                        controller: productDescriptionEC,
-                        focusNode: productDescriptionFN,
-                        hintText: "Enter the description here",
-                        textInputAction: TextInputAction.next,
-                        textInputType: TextInputType.text,
-                        textCapitalization: TextCapitalization.sentences,
-                        validator: (value) {
-                          if (value == null || value!.isEmpty) {
-                            productDescriptionFN.requestFocus();
-                            return "Enter the product description";
-                          }
-                          return null;
-                        },
-                        onSaved: (value) {
-                          productDescriptionEC.text = value!;
-                        },
-                      ),
-                      kSizedBox,
-                      Text(
+                      const Text(
                         'Unit Price',
                         style: TextStyle(
-                          color: kTextGreyColor,
+                          color: kTextBlackColor,
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           letterSpacing: -0.32,
@@ -474,10 +446,10 @@ class _AddProductState extends State<AddProduct> {
                         },
                       ),
                       kSizedBox,
-                      Text(
+                      const Text(
                         'Quantity',
                         style: TextStyle(
-                          color: kTextGreyColor,
+                          color: kTextBlackColor,
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           letterSpacing: -0.32,
@@ -505,6 +477,36 @@ class _AddProductState extends State<AddProduct> {
                         },
                         onSaved: (value) {
                           productQuantityEC.text = value!;
+                        },
+                      ),
+                      kSizedBox,
+                      const Text(
+                        'Product Description',
+                        style: TextStyle(
+                          color: kTextBlackColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: -0.32,
+                        ),
+                      ),
+                      kHalfSizedBox,
+                      MyMessageTextFormField(
+                        controller: productDescriptionEC,
+                        focusNode: productDescriptionFN,
+                        hintText: "Enter the description here",
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.text,
+                        maxLines: 10,
+                        maxLength: 1000,
+                        validator: (value) {
+                          if (value == null || value!.isEmpty) {
+                            productDescriptionFN.requestFocus();
+                            return "Enter the product name";
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          productDescriptionEC.text = value!;
                         },
                       ),
                       kSizedBox,

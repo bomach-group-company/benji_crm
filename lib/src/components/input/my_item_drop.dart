@@ -57,7 +57,7 @@ class ItemDropDownMenu extends StatelessWidget {
           ? media.height * 0.6
           : media.height * 0.4,
       inputDecorationTheme: InputDecorationTheme(
-        errorStyle: const TextStyle(color: kErrorColor),
+        errorStyle: TextStyle(color: kAccentColor),
         filled: true,
         fillColor: Colors.blue.shade50,
         focusColor: Colors.blue.shade50,
