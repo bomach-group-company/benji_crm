@@ -256,7 +256,7 @@ class _AddToAVendorState extends State<AddToAVendor> {
       businessType: shopType,
       businessPhone: vendorPhoneNumberEC.text,
       bussinessAddress: mapsLocationEC.text,
-      businessEmail: "",
+      businessEmail: vendorEmailEC.text,
       country: country ?? "NG",
       state: state ?? "",
       city: city ?? "",
@@ -819,29 +819,29 @@ class _AddToAVendorState extends State<AddToAVendor> {
                             );
                           }),
                           kSizedBox,
-                          // const Text(
-                          //   "Business Email",
-                          //   style: TextStyle(
-                          //     fontSize: 16,
-                          //     fontWeight: FontWeight.w700,
-                          //   ),
-                          // ),
-                          // kSizedBox,
-                          // MyBlueTextFormField(
-                          //   controller: vendorEmailEC,
-                          //   validator: (value) {
-                          //     if (value == null || value!.isEmpty) {
-                          //       return "Field cannot be empty";
-                          //     } else {
-                          //       return null;
-                          //     }
-                          //   },
-                          //   onSaved: (value) {},
-                          //   textInputAction: TextInputAction.next,
-                          //   focusNode: vendorEmailFN,
-                          //   hintText: "Enter the bussiness email",
-                          //   textInputType: TextInputType.emailAddress,
-                          // ),
+                          const Text(
+                            "Business Email",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          kSizedBox,
+                          MyBlueTextFormField(
+                            controller: vendorEmailEC,
+                            validator: (value) {
+                              if (value == null || value!.isEmpty) {
+                                return "Field cannot be empty";
+                              } else {
+                                return null;
+                              }
+                            },
+                            onSaved: (value) {},
+                            textInputAction: TextInputAction.next,
+                            focusNode: vendorEmailFN,
+                            hintText: "Enter the bussiness email",
+                            textInputType: TextInputType.emailAddress,
+                          ),
                           // kSizedBox,
                           const Text(
                             "Business Phone Number",

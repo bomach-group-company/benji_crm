@@ -35,8 +35,7 @@ class Api {
 
   static const agentAddProductToVendor = '/agents/agentAddProductToVendor';
 
-  static const createThirdPartyVendor =
-      "/api/v1/agents/agentCreateThirdPartyVendor/";
+  static const createThirdPartyVendor = "/agents/agentCreateThirdPartyVendor/";
 
   //order
   static const orderList = "/agents/getAllMyVendorsOrders/";
@@ -256,13 +255,14 @@ class HandleData {
 
     request.fields["sunWeekClosingHours"] = data.sunCloseHours!.toString();
 
-    request.fields["personalId"] = data.personaId!.toString();
-    request.fields["businessId"] = data.businessId!.toString();
+    // request.fields["personalId"] = data.personaId!.toString();
+    // request.fields["businessId"] = data.businessId!.toString();
     request.fields["businessBio"] = data.businessBio!.toString();
     request.fields["city"] = data.city!.toString();
 
     request.fields["state"] = data.state!.toString();
     request.fields["country"] = data.country!.toString();
+    print(request.fields);
     //  request.files.add(file);
     try {
       response = await request.send();
