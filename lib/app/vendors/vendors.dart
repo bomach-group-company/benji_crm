@@ -3,8 +3,10 @@
 import 'dart:async';
 
 import 'package:benji_aggregator/app/add_vendor/add_vendor.dart';
+import 'package:benji_aggregator/app/my_vendors/my_vendors.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:benji_aggregator/model/vendor_model.dart';
+import 'package:benji_aggregator/src/components/button/my_outlined_elevatedButton.dart';
 import 'package:benji_aggregator/src/components/container/vendors_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -141,16 +143,16 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
         transition: Transition.downToUp,
       );
 
-  // void toMyVendorsPage() => Get.to(
-  //       () => const MyVendors(),
-  //       duration: const Duration(milliseconds: 300),
-  //       fullscreenDialog: true,
-  //       curve: Curves.easeIn,
-  //       routeName: "MyVendors",
-  //       preventDuplicates: true,
-  //       popGesture: true,
-  //       transition: Transition.downToUp,
-  //     );
+  void toMyVendorsPage() => Get.to(
+        () => const MyVendors(),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "MyVendors",
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.downToUp,
+      );
 
   void _toVendorDetailsPage(VendorModel data) => Get.to(
         () => VendorDetailsPage(vendor: data),
@@ -196,7 +198,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
               ),
             ),
           ),
-          actions: const [
+          actions: [
             // IconButton(
             //   onPressed: showSearchField,
             //   tooltip: "Search for a vendor",
@@ -205,20 +207,20 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
             //     color: kAccentColor,
             //   ),
             // ),
-            // Padding(
-            //   padding: const EdgeInsets.all(kDefaultPadding / 2),
-            //   child: MyOutlinedElevatedButton(
-            //     onPressed: toMyVendorsPage,
-            //     circularBorderRadius: 20,
-            //     minimumSizeWidth: 100,
-            //     minimumSizeHeight: 30,
-            //     maximumSizeWidth: 100,
-            //     maximumSizeHeight: 30,
-            //     buttonTitle: "My Vendors",
-            //     titleFontSize: 12,
-            //     elevation: 0.0,
-            //   ),
-            // ),
+            Padding(
+              padding: const EdgeInsets.all(kDefaultPadding / 2),
+              child: MyOutlinedElevatedButton(
+                onPressed: toMyVendorsPage,
+                circularBorderRadius: 20,
+                minimumSizeWidth: 100,
+                minimumSizeHeight: 30,
+                maximumSizeWidth: 200,
+                maximumSizeHeight: 30,
+                buttonTitle: "My Vendors",
+                titleFontSize: 12,
+                elevation: 0.0,
+              ),
+            ),
           ],
         ),
         body: SafeArea(

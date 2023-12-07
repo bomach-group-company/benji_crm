@@ -204,8 +204,8 @@ class HandleData {
     request.fields["sunWeekOpeningHours"] = data.sunOpenHours!.toString();
     request.fields["sunWeekClosingHours"] = data.sunCloseHours!.toString();
 
-    request.fields["personalId"] = data.personaId!.toString();
-    request.fields["businessId"] = data.businessId!.toString();
+    // request.fields["personalId"] = data.personaId!.toString();
+    // request.fields["businessId"] = data.businessId!.toString();
     request.fields["businessBio"] = data.businessBio!.toString();
 
     request.fields["city"] = data.city!.toString();
@@ -213,6 +213,7 @@ class HandleData {
     request.fields["country"] = data.country!.toString();
     request.fields["latitude"] = data.latitude!.toString();
     request.fields["longitude"] = data.longitude!.toString();
+    print(request.fields);
     //  request.files.add(file);
     try {
       response = await request.send();
