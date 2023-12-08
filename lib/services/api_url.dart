@@ -118,6 +118,8 @@ class HandleData {
       response = null;
       consoleLog(e.toString());
     }
+    print(response?.body);
+    print(url);
     return response;
   }
 

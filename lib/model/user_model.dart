@@ -34,6 +34,7 @@ class UserModel {
   String token;
   String image;
   double balance;
+  bool isVisibleCash;
 
   UserModel({
     required this.id,
@@ -59,6 +60,7 @@ class UserModel {
     required this.token,
     required this.image,
     required this.balance,
+    required this.isVisibleCash,
   });
   factory UserModel.fromJson(Map<String, dynamic>? json) {
     json ??= {};
@@ -86,6 +88,7 @@ class UserModel {
       token: json['token'] ?? '',
       image: json['image'] ?? '',
       balance: json['balance'] ?? 0.0,
+      isVisibleCash: json['isVisibleCash'] ?? true,
     );
   }
 

@@ -54,10 +54,14 @@ class UserController extends GetxController {
 
   void setUserSync() {
     String? userData = prefs.getString('user');
+    bool? isVisibleCash = prefs.getBool('isVisibleCash');
     if (userData == null) {
       user.value = UserModel.fromJson(null);
     } else {
-      user.value = userModelFromJson(userData);
+      Map<String, dynamic> userObj =
+          (jsonDecode(userData) as Map<String, dynamic>);
+      userObj['isVisibleCash'] = isVisibleCash;
+      user.value = UserModel.fromJson(userObj);
     }
     update();
   }
@@ -72,7 +76,7 @@ class UserController extends GetxController {
 
     final user = UserController.instance.user.value;
     http.Response? responseUserData = await HandleData.getApi(
-        '${Api.baseUrl}${Api.getSpecificRider}${user.id}/', user.token);
+        '${Api.baseUrl}/agents/getAgent/${user.id}', user.token);
     if (responseUserData?.statusCode != 200) {
       ApiProcessorController.errorSnack("Failed to refresh");
       isLoading.value = false;

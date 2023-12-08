@@ -53,6 +53,10 @@ class _OverViewState extends State<OverView> {
     _currentIndex = widget.currentIndex;
     WithdrawController().listBanks();
     AccountController().getAccounts();
+    VendorController().getVendors();
+    VendorController().getMyVendors();
+    CategoryController().getCategory();
+    AccountController().getAccounts();
 
     super.initState();
   }
