@@ -33,6 +33,7 @@ class UserModel {
   String license;
   String token;
   String image;
+  double balance;
 
   UserModel({
     required this.id,
@@ -57,6 +58,7 @@ class UserModel {
     required this.license,
     required this.token,
     required this.image,
+    required this.balance,
   });
   factory UserModel.fromJson(Map<String, dynamic>? json) {
     json ??= {};
@@ -83,6 +85,7 @@ class UserModel {
       license: json['license'] ?? notAvailable,
       token: json['token'] ?? '',
       image: json['image'] ?? '',
+      balance: json['balance'] ?? 0.0,
     );
   }
 
@@ -109,5 +112,6 @@ class UserModel {
         "license": license,
         "token": token,
         "image": image,
+        "balance": balance,
       };
 }

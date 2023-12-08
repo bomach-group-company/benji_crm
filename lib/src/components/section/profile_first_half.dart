@@ -98,7 +98,7 @@ class _ProfileFirstHalfState extends State<ProfileFirstHalf> {
           ),
           kSizedBox,
           InkWell(
-            onTap: null,
+            onTap: toSelectAccount,
             child: Container(
               width: 100,
               height: 37,
