@@ -21,7 +21,7 @@ class FormController extends GetxController {
   Future postAuth(String url, Map data, String tag,
       [String errorMsg = "Error occurred",
       String successMsg = "Submitted successfully",
-      bool encodeIt = true]) async {
+      bool encodeIt = false]) async {
     isLoad.value = true;
     update([tag]);
     final response = await http.post(
@@ -29,6 +29,7 @@ class FormController extends GetxController {
       headers: authHeader(),
       body: encodeIt ? jsonEncode(data) : data,
     );
+    print(data);
     print(response.body);
     status.value = response.statusCode;
     if (response.statusCode != 200) {
