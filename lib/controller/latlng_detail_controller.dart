@@ -10,10 +10,12 @@ class LatLngDetailController extends GetxController {
     for (var i in latLngDetailList) {
       latLngDetail.add(i ?? '');
     }
+    update();
   }
 
   setEmpty() {
     latLngDetail.removeRange(0, latLngDetail.length);
     latLngDetail.addAll(['', '', '']);
+    update();
   }
 }
