@@ -304,29 +304,29 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                   ),
                                 ),
                                 kHalfSizedBox,
-                                Container(
-                                  width: media.width - 90,
-                                  alignment: Alignment.center,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      FaIcon(
-                                        FontAwesomeIcons.locationDot,
-                                        color: kAccentColor,
-                                        size: 15,
-                                      ),
-                                      kHalfWidthSizedBox,
-                                      Text(
-                                        widget.vendor.address,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
+                                Center(
+                                  child: Container(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        FaIcon(
+                                          FontAwesomeIcons.locationDot,
+                                          color: kAccentColor,
+                                          size: 15,
                                         ),
-                                      ),
-                                    ],
+                                        kHalfWidthSizedBox,
+                                        Flexible(
+                                          child: Text(
+                                            widget.vendor.address,
+                                            overflow: TextOverflow.ellipsis,
+                                            style:
+                                                const TextStyle(fontSize: 16.0),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 kHalfSizedBox,
