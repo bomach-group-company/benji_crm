@@ -41,8 +41,11 @@ class _ReportRiderState extends State<ReportRider> {
       "message": _messageEC.text,
     };
 
-    await FormController.instance
-        .postAuth(Api.baseUrl + Api.report, data, 'report_rider');
+    await FormController.instance.postAuth(Api.baseUrl + Api.report, data,
+        'report_rider', 'Error occurred', "Submitted successfully", false);
+    if (FormController.instance.status.value == 200) {
+      Get.close(1);
+    }
   }
 
   @override

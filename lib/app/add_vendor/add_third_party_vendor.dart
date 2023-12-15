@@ -166,6 +166,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
     latitude = latLngDetailController.latLngDetail.value[0];
     longitude = latLngDetailController.latLngDetail.value[1];
     mapsLocationEC.text = latLngDetailController.latLngDetail.value[2];
+    setState(() {});
     latLngDetailController.setEmpty();
     if (kDebugMode) {
       print("LATLNG: $latitude,$longitude");

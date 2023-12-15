@@ -184,36 +184,6 @@ class _ProfileState extends State<Profile> {
                               FontAwesomeIcons.chevronRight,
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: kDefaultPadding,
-                      right: kDefaultPadding,
-                      bottom: kDefaultPadding / 1.5,
-                    ),
-                    child: Container(
-                      width: 327,
-                      height: 141,
-                      padding: const EdgeInsets.all(kDefaultPadding / 2),
-                      decoration: ShapeDecoration(
-                        color: kPrimaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        shadows: const [
-                          BoxShadow(
-                            color: Color(0x0F000000),
-                            blurRadius: 24,
-                            offset: Offset(0, 4),
-                            spreadRadius: 0,
-                          )
-                        ],
-                      ),
-                      child: Column(
-                        children: [
                           ListTile(
                             onTap: toWithdrawalHistory,
                             enableFeedback: true,
@@ -232,34 +202,6 @@ class _ProfileState extends State<Profile> {
                             ),
                             trailing: const FaIcon(
                               FontAwesomeIcons.chevronRight,
-                            ),
-                          ),
-                          ListTile(
-                            enableFeedback: true,
-                            mouseCursor: SystemMouseCursors.click,
-                            leading: FaIcon(
-                              FontAwesomeIcons.receipt,
-                              color: kAccentColor,
-                            ),
-                            title: const Text(
-                              'Number of Orders',
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            trailing: Text(
-                              loadingScreen
-                                  ? "Loading..."
-                                  : formatNumber(totalNumOfOrders.length),
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                color: kAccentColor,
-                                fontSize: 17,
-                                fontWeight: FontWeight.w700,
-                              ),
                             ),
                           ),
                         ],

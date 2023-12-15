@@ -33,7 +33,7 @@ class RiderVendorContainer extends StatelessWidget {
           right: kDefaultPadding / 1.5,
         ),
         width: media.width,
-        height: deviceType(media.width) >= 2 ? 200 : 140,
+        height: deviceType(media.width) >= 2 ? 200 : 160,
         decoration: ShapeDecoration(
           color: kPrimaryColor,
           shape: RoundedRectangleBorder(

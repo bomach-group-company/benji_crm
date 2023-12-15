@@ -1,17 +1,20 @@
+import 'package:benji_aggregator/controller/error_controller.dart';
+import 'package:benji_aggregator/controller/user_controller.dart';
+import 'package:benji_aggregator/controller/withdraw_controller.dart';
+import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
+import 'package:benji_aggregator/src/components/button/my_elevatedButton.dart';
+import 'package:benji_aggregator/src/components/input/number_textformfield.dart';
+import 'package:benji_aggregator/src/responsive/my_reponsive_width.dart';
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../../src/components/appbar/my_appbar.dart';
-import '../../src/components/button/my_elevatedButton.dart';
-import '../../src/components/input/number_textformfield.dart';
 import '../../src/providers/constants.dart';
-import '../../src/responsive/my_reponsive_width.dart';
 import '../../theme/colors.dart';
-import 'verify_withdrawal.dart';
 
 class WithdrawPage extends StatefulWidget {
-  const WithdrawPage({Key? key}) : super(key: key);
+  final String bankDetailId;
+  const WithdrawPage({super.key, required this.bankDetailId});
 
   @override
   State<WithdrawPage> createState() => _WithdrawPageState();
@@ -45,17 +48,25 @@ class _WithdrawPageState extends State<WithdrawPage> {
   final formKey = GlobalKey<FormState>();
 
   //================================== FUNCTION ====================================\\
-  void goToVerify() {
-    Get.to(
-      () => const VerifyWithdrawalPage(),
-      routeName: 'VerifyWithdrawalPage',
-      duration: const Duration(milliseconds: 300),
-      fullscreenDialog: true,
-      curve: Curves.easeIn,
-      preventDuplicates: true,
-      popGesture: true,
-      transition: Transition.rightToLeft,
-    );
+  void makeWithdrawal() async {
+    final user = UserController.instance.user.value;
+    if (user.balance < double.parse(amountEC.text.replaceAll(',', ''))) {
+      ApiProcessorController.errorSnack('Amount more than balance');
+      return;
+    }
+
+    Map data = {
+      "user_id": UserController.instance.user.value.id,
+      "amount_to_withdraw": amountEC.text,
+      "bank_details_id": widget.bankDetailId
+    };
+
+    final result = await WithdrawController.instance.withdraw(data);
+    print('got to the before ${result.statusCode.toString()}');
+    if (result.statusCode == 200) {
+      print('got to the close');
+      Get.close(1);
+    }
   }
 
   @override
@@ -113,14 +124,17 @@ class _WithdrawPageState extends State<WithdrawPage> {
                           },
                         ),
                         kSizedBox,
-                        MyElevatedButton(
-                          onPressed: (() async {
-                            if (formKey.currentState!.validate()) {
-                              goToVerify();
-                            }
-                          }),
-                          title: "Withdraw",
-                        ),
+                        GetBuilder<WithdrawController>(
+                          builder: (controller) => MyElevatedButton(
+                            isLoading: controller.isLoadWithdraw.value,
+                            onPressed: (() async {
+                              if (formKey.currentState!.validate()) {
+                                makeWithdrawal();
+                              }
+                            }),
+                            title: "Withdraw",
+                          ),
+                        )
                       ],
                     ),
                   ),

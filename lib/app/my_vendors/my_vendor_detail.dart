@@ -308,30 +308,29 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                     ),
                                   ),
                                   kHalfSizedBox,
-                                  Container(
-                                    width: media.width - 90,
-                                    alignment: Alignment.center,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        FaIcon(
-                                          FontAwesomeIcons.locationDot,
-                                          color: kAccentColor,
-                                          size: 15,
-                                        ),
-                                        kHalfWidthSizedBox,
-                                        Text(
-                                          widget.vendor.address,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
+                                  Center(
+                                    child: Container(
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          FaIcon(
+                                            FontAwesomeIcons.locationDot,
+                                            color: kAccentColor,
+                                            size: 15,
                                           ),
-                                        ),
-                                      ],
+                                          kHalfWidthSizedBox,
+                                          Flexible(
+                                            child: Text(
+                                              widget.vendor.address,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: const TextStyle(
+                                                  fontSize: 16.0),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   kHalfSizedBox,
@@ -490,16 +489,14 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                             child: TabBar(
                               controller: _tabBarController,
                               onTap: _clickOnTabBarOption,
+                              splashBorderRadius: BorderRadius.circular(50),
                               enableFeedback: true,
                               mouseCursor: SystemMouseCursors.click,
+                              indicatorSize: TabBarIndicatorSize.tab,
+                              dividerColor: kTransparentColor,
                               automaticIndicatorColorAdjustment: true,
-                              overlayColor:
-                                  MaterialStatePropertyAll(kAccentColor),
                               labelColor: kPrimaryColor,
                               unselectedLabelColor: kTextGreyColor,
-                              indicatorColor: kAccentColor,
-                              indicatorWeight: 2,
-                              splashBorderRadius: BorderRadius.circular(50),
                               indicator: BoxDecoration(
                                 color: kAccentColor,
                                 borderRadius: BorderRadius.circular(50),

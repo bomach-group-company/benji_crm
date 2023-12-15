@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:benji_aggregator/app/my_orders/all_orders.dart';
+import 'package:benji_aggregator/controller/category_controller.dart';
 import 'package:benji_aggregator/controller/notification_controller.dart';
 import 'package:benji_aggregator/controller/order_controller.dart';
 import 'package:benji_aggregator/controller/rider_controller.dart';
@@ -107,10 +108,11 @@ class _DashboardState extends State<Dashboard>
     setState(() {
       loadingScreen = true;
     });
-    RiderController.instance.getRiders();
-    OrderController.instance.getOrders();
     VendorController.instance.getVendors();
     VendorController.instance.getMyVendors();
+    OrderController.instance.getOrders();
+    CategoryController.instance.getCategory();
+    RiderController.instance.getRiders();
     NotificationController.instance.runTask();
     setState(() {
       loadingScreen = false;

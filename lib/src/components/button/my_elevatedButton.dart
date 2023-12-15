@@ -6,7 +6,7 @@ import '../../../theme/colors.dart';
 
 class MyElevatedButton extends StatelessWidget {
   final String title;
-  final Function() onPressed;
+  final Function()? onPressed;
   final bool isLoading;
 
   const MyElevatedButton({

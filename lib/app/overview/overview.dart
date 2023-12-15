@@ -1,3 +1,4 @@
+import 'package:benji_aggregator/controller/account_controller.dart';
 import 'package:benji_aggregator/controller/category_controller.dart';
 import 'package:benji_aggregator/controller/form_controller.dart';
 import 'package:benji_aggregator/controller/latlng_detail_controller.dart';
@@ -30,7 +31,8 @@ class OverView extends StatefulWidget {
   final riderHistory = Get.put(RiderHistoryController());
   final location = Get.put(LatLngDetailController());
   final form = Get.put(FormController());
-  final banks = Get.put(WithdrawController());
+  final withdrawal = Get.put(WithdrawController());
+  final accounts = Get.put(AccountController());
 
   final int currentIndex;
 
@@ -49,6 +51,12 @@ class _OverViewState extends State<OverView> {
   @override
   void initState() {
     _currentIndex = widget.currentIndex;
+    WithdrawController().listBanks();
+    AccountController().getAccounts();
+    VendorController().getVendors();
+    VendorController().getMyVendors();
+    CategoryController().getCategory();
+    AccountController().getAccounts();
 
     super.initState();
   }

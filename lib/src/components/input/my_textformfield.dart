@@ -25,7 +25,7 @@ class MyTextFormField extends StatelessWidget {
     required this.focusNode,
     required this.hintText,
     required this.textInputType,
-    required this.textCapitalization,
+    this.textCapitalization = TextCapitalization.none,
     this.onChanged,
     this.onFieldSubmitted,
   });

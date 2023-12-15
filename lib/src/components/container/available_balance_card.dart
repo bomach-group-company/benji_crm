@@ -1,11 +1,13 @@
 // ignore_for_file: file_names
 
+import 'package:benji_aggregator/controller/user_controller.dart';
+import 'package:benji_aggregator/main.dart';
 import 'package:benji_aggregator/src/responsive/responsive_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get_state_manager/src/simple/get_state.dart';
 
 import '../../../../theme/colors.dart';
-import '../../../services/helper.dart';
 import '../../providers/constants.dart';
 
 class AvailableBalanceCard extends StatefulWidget {
@@ -20,6 +22,14 @@ class AvailableBalanceCard extends StatefulWidget {
 }
 
 class _AvailableBalanceCardState extends State<AvailableBalanceCard> {
+  // logic
+  Future<void> toggleVisibleCash() async {
+    bool isVisibleCash = prefs.getBool('isVisibleCash') ?? true;
+    await prefs.setBool('isVisibleCash', !isVisibleCash);
+
+    UserController.instance.setUserSync();
+  }
+
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
@@ -56,51 +66,77 @@ class _AvailableBalanceCardState extends State<AvailableBalanceCard> {
                   fontWeight: FontWeight.w400,
                 ),
               ),
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    setRememberBalance(!rememberBalance());
-                  });
-                },
-                icon: rememberBalance()
-                    ? FaIcon(FontAwesomeIcons.solidEye, color: kAccentColor)
-                    : const FaIcon(
-                        FontAwesomeIcons.solidEyeSlash,
-                        color: kGreyColor1,
-                      ),
+              GetBuilder<UserController>(
+                init: UserController(),
+                builder: (controller) => IconButton(
+                  onPressed: toggleVisibleCash,
+                  icon: FaIcon(
+                    controller.user.value.isVisibleCash
+                        ? FontAwesomeIcons.solidEye
+                        : FontAwesomeIcons.solidEyeSlash,
+                    color: kAccentColor,
+                  ),
+                ),
               ),
             ],
           ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: SizedBox(
-              width: media.width - 200,
-              child: Text.rich(
-                TextSpan(
-                  children: [
-                    const TextSpan(
-                      text: "₦ ",
-                      style: TextStyle(
-                        color: kTextBlackColor,
-                        fontSize: 30,
-                        fontFamily: 'sen',
-                        fontWeight: FontWeight.w700,
+          Row(
+            children: [
+              GetBuilder<UserController>(
+                init: UserController(),
+                builder: (controller) => controller.isLoading.value
+                    ? Text(
+                        'Loading...',
+                        style: TextStyle(
+                          color: kGreyColor,
+                          fontSize: 20,
+                          fontFamily: 'sen',
+                          fontWeight: FontWeight.w600,
+                        ),
+                      )
+                    : Text.rich(
+                        TextSpan(
+                          children: [
+                            const TextSpan(
+                              text: "₦ ",
+                              style: TextStyle(
+                                color: kTextBlackColor,
+                                fontSize: 30,
+                                fontFamily: 'sen',
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            TextSpan(
+                              text: controller.user.value.isVisibleCash
+                                  ? doubleFormattedText(
+                                      controller.user.value.balance)
+                                  : '******',
+                              style: TextStyle(
+                                color: kAccentColor,
+                                fontSize: 30,
+                                fontFamily: 'sen',
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    TextSpan(
-                      text: rememberBalance()
-                          ? widget.availableBalance
-                          : 'XXXXXXX',
-                      style: TextStyle(
-                        color: kAccentColor,
-                        fontSize: 30,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                ),
               ),
-            ),
+              kSizedBox,
+              IconButton(
+                icon: const Icon(Icons.refresh),
+                onPressed: () async {
+                  await UserController.instance.getUser();
+                },
+                color: kGreyColor,
+                iconSize: 25.0,
+                tooltip: 'Refresh',
+                padding: const EdgeInsets.all(10.0),
+                splashRadius: 20.0,
+                splashColor: Colors.blue,
+                highlightColor: Colors.transparent,
+              ),
+            ],
           ),
         ],
       ),

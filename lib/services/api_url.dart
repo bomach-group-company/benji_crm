@@ -18,6 +18,7 @@ class Api {
   static const user = "/auth/";
   static const notification = "/agents/getAgentNotifications/";
   static const changePassword = "/auth/changeNewPassword/";
+  static const validateBankNumber = "/payments/validateBankNumbers/";
 
 //Vendor
   static const vendorList = "/agents/listAllMyVendors";
@@ -35,8 +36,7 @@ class Api {
 
   static const agentAddProductToVendor = '/agents/agentAddProductToVendor';
 
-  static const createThirdPartyVendor =
-      "/api/v1/agents/agentCreateThirdPartyVendor/";
+  static const createThirdPartyVendor = "/agents/agentCreateThirdPartyVendor/";
 
   //order
   static const orderList = "/agents/getAllMyVendorsOrders/";
@@ -53,7 +53,7 @@ class Api {
   static const businessType = "/categories/list";
 
   //Wallet
-  static const listBanks = "/wallet/list_banks";
+  static const listBanks = "/payments/list_banks/";
   static const withdrawalHistory = "/wallet/withdrawalHistory/";
   static const listWithdrawalHistories =
       "/withdrawalhistory/listWithdrawalHistories/";
@@ -118,6 +118,8 @@ class HandleData {
       response = null;
       consoleLog(e.toString());
     }
+    print(response?.body);
+    print(url);
     return response;
   }
 
@@ -205,8 +207,8 @@ class HandleData {
     request.fields["sunWeekOpeningHours"] = data.sunOpenHours!.toString();
     request.fields["sunWeekClosingHours"] = data.sunCloseHours!.toString();
 
-    request.fields["personalId"] = data.personaId!.toString();
-    request.fields["businessId"] = data.businessId!.toString();
+    // request.fields["personalId"] = data.personaId!.toString();
+    // request.fields["businessId"] = data.businessId!.toString();
     request.fields["businessBio"] = data.businessBio!.toString();
 
     request.fields["city"] = data.city!.toString();
@@ -214,6 +216,7 @@ class HandleData {
     request.fields["country"] = data.country!.toString();
     request.fields["latitude"] = data.latitude!.toString();
     request.fields["longitude"] = data.longitude!.toString();
+    print(request.fields);
     //  request.files.add(file);
     try {
       response = await request.send();
@@ -256,13 +259,14 @@ class HandleData {
 
     request.fields["sunWeekClosingHours"] = data.sunCloseHours!.toString();
 
-    request.fields["personalId"] = data.personaId!.toString();
-    request.fields["businessId"] = data.businessId!.toString();
+    // request.fields["personalId"] = data.personaId!.toString();
+    // request.fields["businessId"] = data.businessId!.toString();
     request.fields["businessBio"] = data.businessBio!.toString();
     request.fields["city"] = data.city!.toString();
 
     request.fields["state"] = data.state!.toString();
     request.fields["country"] = data.country!.toString();
+    print(request.fields);
     //  request.files.add(file);
     try {
       response = await request.send();

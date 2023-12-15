@@ -2,18 +2,18 @@
 
 import 'dart:async';
 
+import 'package:benji_aggregator/app/overview/overview.dart';
+import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
+import 'package:benji_aggregator/src/components/input/otp_textFormField.dart';
+import 'package:benji_aggregator/src/components/section/reusable_authentication_firsthalf.dart';
+import 'package:benji_aggregator/src/responsive/responsive_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
-import '../../src/components/appbar/my_appbar.dart';
-import '../../src/components/input/otp_textFormField.dart';
-import '../../src/components/section/reusable_authentication_firsthalf.dart';
 import '../../src/providers/constants.dart';
-import '../../src/responsive/responsive_constant.dart';
 import '../../theme/colors.dart';
-import '../overview/overview.dart';
 import '../splash_screens/successful_screen.dart';
 
 class VerifyWithdrawalPage extends StatefulWidget {
@@ -125,7 +125,7 @@ class _VerifyWithdrawalPageState extends State<VerifyWithdrawalPage> {
         text: 'Withdrawal Successful',
         buttonAction: () => Get.offAll(
           () => OverView(),
-          routeName: 'Overview',
+          routeName: 'OverView',
           duration: const Duration(milliseconds: 300),
           fullscreenDialog: true,
           curve: Curves.easeIn,

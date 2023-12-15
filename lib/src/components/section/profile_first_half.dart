@@ -1,9 +1,10 @@
 // ignore_for_file: file_names, prefer_typing_uninitialized_variables
 
 import 'package:benji_aggregator/app/withdrawal/select_account.dart';
-import 'package:benji_aggregator/services/helper.dart';
+import 'package:benji_aggregator/controller/user_controller.dart';
+import 'package:benji_aggregator/main.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:get/route_manager.dart';
 
 import '../../../theme/colors.dart';
@@ -30,6 +31,15 @@ class _ProfileFirstHalfState extends State<ProfileFirstHalf> {
 //======================================================= ALL VARIABLES ================================================\\
 
 //======================================================= FUNCTIONS ================================================\\
+
+// logic
+  Future<void> toggleVisibleCash() async {
+    bool isVisibleCash = prefs.getBool('isVisibleCash') ?? true;
+    await prefs.setBool('isVisibleCash', !isVisibleCash);
+
+    UserController.instance.setUserSync();
+  }
+
   void toSelectAccount() => Get.to(
         () => const SelectAccountPage(),
         duration: const Duration(milliseconds: 300),
@@ -64,41 +74,85 @@ class _ProfileFirstHalfState extends State<ProfileFirstHalf> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: kPrimaryColor,
-                  fontSize: 20,
+                  fontSize: 16,
                   fontWeight: FontWeight.w400,
                 ),
               ),
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    setRememberBalance(!rememberBalance());
-                  });
-                },
-                icon: rememberBalance()
-                    ? FaIcon(FontAwesomeIcons.solidEye, color: kPrimaryColor)
-                    : FaIcon(
-                        FontAwesomeIcons.solidEyeSlash,
-                        color: kPrimaryColor,
-                      ),
+              GetBuilder<UserController>(
+                init: UserController(),
+                builder: (controller) => IconButton(
+                  onPressed: toggleVisibleCash,
+                  icon: Icon(
+                    controller.user.value.isVisibleCash
+                        ? Icons.visibility
+                        : Icons.visibility_off,
+                    color: kPrimaryColor,
+                  ),
+                ),
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Text(
-              rememberBalance() ? '₦${widget.availableBalance}' : 'XXXXXXXXX',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: kPrimaryColor,
-                fontSize: 30,
-                fontFamily: 'Sen',
-                fontWeight: FontWeight.w700,
+          kSizedBox,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              GetBuilder<UserController>(
+                init: UserController(),
+                builder: (controller) => controller.isLoading.value
+                    ? Text(
+                        'Loading...',
+                        style: TextStyle(
+                          color: kTextWhiteColor.withOpacity(0.8),
+                          fontSize: 20,
+                          fontFamily: 'sen',
+                          fontWeight: FontWeight.w600,
+                        ),
+                      )
+                    : Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                              text: "₦",
+                              style: TextStyle(
+                                color: kPrimaryColor,
+                                fontSize: 20,
+                                fontFamily: 'sen',
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            TextSpan(
+                              text: controller.user.value.isVisibleCash
+                                  ? doubleFormattedText(
+                                      controller.user.value.balance)
+                                  : '******',
+                              style: TextStyle(
+                                color: kPrimaryColor,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
               ),
-            ),
+              IconButton(
+                icon: const Icon(Icons.refresh),
+                onPressed: () async {
+                  await UserController.instance.getUser();
+                },
+                color: kTextWhiteColor.withOpacity(0.8),
+                iconSize: 25.0,
+                tooltip: 'Refresh',
+                padding: const EdgeInsets.all(10.0),
+                splashRadius: 20.0,
+                splashColor: Colors.blue,
+                highlightColor: Colors.transparent,
+              ),
+            ],
           ),
           kSizedBox,
           InkWell(
-            onTap: null,
+            onTap: toSelectAccount,
             child: Container(
               width: 100,
               height: 37,
