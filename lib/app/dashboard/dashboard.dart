@@ -306,9 +306,7 @@ class _DashboardState extends State<Dashboard>
                     onTap: _toSeeAllVendors,
                     number: intFormattedText(allVendor.length),
                     typeOf: "Vendors",
-                    onlineStatus: vendor.isLoad.value
-                        ? "Loading..."
-                        : "${intFormattedText(allOnlineVendor.length)} Online",
+                    onlineStatus: "Available",
                   );
                 }),
                 kSizedBox,
@@ -323,7 +321,7 @@ class _DashboardState extends State<Dashboard>
                     onTap: _toSeeAllRiders,
                     number: rider.total.value.toString(),
                     typeOf: "Riders",
-                    onlineStatus: rider.isLoad.value ? "Loading..." : "Online",
+                    onlineStatus: "Available",
                     // : "$allOnlineRiders Online",
                   );
                 }),
