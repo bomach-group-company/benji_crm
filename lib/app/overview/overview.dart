@@ -2,6 +2,7 @@ import 'package:benji_aggregator/controller/account_controller.dart';
 import 'package:benji_aggregator/controller/category_controller.dart';
 import 'package:benji_aggregator/controller/form_controller.dart';
 import 'package:benji_aggregator/controller/latlng_detail_controller.dart';
+import 'package:benji_aggregator/controller/login_controller.dart';
 import 'package:benji_aggregator/controller/order_controller.dart';
 import 'package:benji_aggregator/controller/rider_history_controller.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
@@ -21,6 +22,7 @@ import '../riders/riders.dart';
 import '../vendors/vendors.dart';
 
 class OverView extends StatefulWidget {
+  final login = Get.put(LoginController());
   final user = Get.put(UserController());
   final userProfile = Get.put(ProfileController());
   final vendor = Get.put(VendorController());
@@ -51,6 +53,7 @@ class _OverViewState extends State<OverView> {
   @override
   void initState() {
     _currentIndex = widget.currentIndex;
+
     WithdrawController().listBanks();
     AccountController().getAccounts();
     VendorController().getVendors();
