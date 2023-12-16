@@ -29,6 +29,12 @@ class MyVendorModel {
   String shopImage;
   String profileLogo;
   BusinessType shopType;
+  String weekOpeningHours;
+  String weekClosingHours;
+  String satOpeningHours;
+  String satClosingHours;
+  String sunWeekOpeningHours;
+  String sunWeekClosingHours;
 
   MyVendorModel({
     required this.id,
@@ -47,6 +53,12 @@ class MyVendorModel {
     required this.shopImage,
     required this.profileLogo,
     required this.shopType,
+    required this.weekOpeningHours,
+    required this.weekClosingHours,
+    required this.satOpeningHours,
+    required this.satClosingHours,
+    required this.sunWeekOpeningHours,
+    required this.sunWeekClosingHours,
   });
 
   factory MyVendorModel.fromJson(Map<String, dynamic>? json) {
@@ -70,6 +82,12 @@ class MyVendorModel {
       shopImage: json["vendor"]["shop_image"] ?? '',
       profileLogo: json["vendor"]["profileLogo"] ?? '',
       shopType: BusinessType.fromJson(json["vendor"]["shop_type"]),
+      weekOpeningHours: json["weekOpeningHours"] ?? '',
+      weekClosingHours: json["weekClosingHours"] ?? '',
+      satOpeningHours: json["satOpeningHours"] ?? '',
+      satClosingHours: json["satClosingHours"] ?? '',
+      sunWeekOpeningHours: json["sunWeekOpeningHours"] ?? '',
+      sunWeekClosingHours: json["sunWeekClosingHours"] ?? '',
     );
   }
 }
