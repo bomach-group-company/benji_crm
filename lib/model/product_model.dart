@@ -45,17 +45,4 @@ class Product {
       subCategory: SubCategory.fromJson(json["sub_category"]),
     );
   }
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "description": description,
-        "price": price,
-        "quantity_available": quantityAvailable,
-        "product_image": productImage,
-        "is_available": isAvailable,
-        "is_trending": isTrending,
-        "is_recommended": isRecommended,
-        "vendor_id": vendor.toJson(),
-        "sub_category_id": subCategory.toJson(),
-      };
 }
