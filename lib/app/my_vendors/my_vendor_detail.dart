@@ -2,6 +2,7 @@
 
 import 'package:benji_aggregator/controller/order_controller.dart';
 import 'package:benji_aggregator/model/my_vendor_model.dart';
+import 'package:benji_aggregator/src/components/card/empty.dart';
 import 'package:benji_aggregator/src/components/image/my_image.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
 import 'package:flutter/gestures.dart';
@@ -256,13 +257,13 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                             decoration: BoxDecoration(
                               color: kPageSkeletonColor,
                             ),
-                            child: MyImage(url: widget.vendor.profileLogo),
+                            child: MyImage(url: widget.vendor.shopImage),
                           ),
                         ),
                         Positioned(
                           top: deviceType(media.width) > 2
                               ? media.height * 0.25
-                              : media.height * 0.13,
+                              : media.height * 0.1,
                           left: kDefaultPadding,
                           right: kDefaultPadding,
                           child: Container(
@@ -450,7 +451,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                               ? media.height * 0.15
                               : deviceType(media.width) > 2
                                   ? media.height * 0.15
-                                  : media.height * 0.08,
+                                  : media.height * 0.04,
                           left: deviceType(media.width) > 2
                               ? (media.width / 2) - (126 / 2)
                               : (media.width / 2) - (100 / 2),
@@ -545,6 +546,11 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                     },
                                     init: VendorController(),
                                     builder: (controller) {
+                                      if (controller.isLoad.isFalse &&
+                                          controller
+                                              .vendorProductList.isEmpty) {
+                                        return const EmptyCard();
+                                      }
                                       return ListView.builder(
                                         shrinkWrap: true,
                                         itemCount:
