@@ -305,7 +305,7 @@ class _AboutVendorState extends State<AboutVendor> {
                                 TextSpan(
                                   children: [
                                     TextSpan(
-                                      text: "8 AM".toUpperCase(),
+                                      text: widget.vendor.weekOpeningHours,
                                       style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700,
@@ -319,7 +319,7 @@ class _AboutVendorState extends State<AboutVendor> {
                                       ),
                                     ),
                                     TextSpan(
-                                      text: "10 PM".toUpperCase(),
+                                      text: widget.vendor.weekClosingHours,
                                       style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700,
@@ -333,7 +333,7 @@ class _AboutVendorState extends State<AboutVendor> {
                                 TextSpan(
                                   children: [
                                     TextSpan(
-                                      text: "8 AM".toUpperCase(),
+                                      text: widget.vendor.satOpeningHours,
                                       style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700,
@@ -347,7 +347,7 @@ class _AboutVendorState extends State<AboutVendor> {
                                       ),
                                     ),
                                     TextSpan(
-                                      text: "10 PM".toUpperCase(),
+                                      text: widget.vendor.satClosingHours,
                                       style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700,
@@ -361,7 +361,7 @@ class _AboutVendorState extends State<AboutVendor> {
                                 TextSpan(
                                   children: [
                                     TextSpan(
-                                      text: "closed".toUpperCase(),
+                                      text: widget.vendor.sunWeekOpeningHours,
                                       style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700,
@@ -375,7 +375,7 @@ class _AboutVendorState extends State<AboutVendor> {
                                       ),
                                     ),
                                     TextSpan(
-                                      text: "closed".toUpperCase(),
+                                      text: widget.vendor.sunWeekClosingHours,
                                       style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700,

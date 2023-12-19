@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member
 
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:benji_aggregator/controller/form_controller.dart';
@@ -324,8 +323,8 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
       "longitude": longitude,
       "phone": phoneNumberEC.text
     };
-    await FormController.instance.postAuthstream(url,
-        {'data': jsonEncode(data)}, {'image': selectedImage}, 'editProfile');
+    await FormController.instance
+        .postAuthstream(url, data, {'image': selectedImage}, 'editProfile');
 
     setState(() {
       _isLoading = false;

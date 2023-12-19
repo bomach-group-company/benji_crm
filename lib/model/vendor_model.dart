@@ -11,9 +11,6 @@ import 'package:get/get.dart';
 List<VendorModel> vendorModelFromJson(String str) => List<VendorModel>.from(
     json.decode(str).map((x) => VendorModel.fromJson(x)));
 
-String vendorModelToJson(List<VendorModel> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
-
 class VendorModel {
   int id;
   String email;
@@ -31,6 +28,15 @@ class VendorModel {
   String shopImage;
   String profileLogo;
   BusinessType shopType;
+  String description;
+  String weekOpeningHours;
+  String weekClosingHours;
+  String satOpeningHours;
+  String satClosingHours;
+  String sunWeekOpeningHours;
+  String sunWeekClosingHours;
+  String longitude;
+  String latitude;
 
   VendorModel({
     required this.id,
@@ -49,6 +55,15 @@ class VendorModel {
     required this.shopImage,
     required this.profileLogo,
     required this.shopType,
+    required this.description,
+    required this.weekOpeningHours,
+    required this.weekClosingHours,
+    required this.satOpeningHours,
+    required this.satClosingHours,
+    required this.sunWeekOpeningHours,
+    required this.sunWeekClosingHours,
+    required this.longitude,
+    required this.latitude,
   });
 
   factory VendorModel.fromJson(Map<String, dynamic>? json) {
@@ -70,25 +85,15 @@ class VendorModel {
       shopImage: json["shop_image"] ?? '',
       profileLogo: json["profileLogo"] ?? '',
       shopType: BusinessType.fromJson(json["shop_type"]),
+      description: json["description"] ?? '',
+      weekOpeningHours: json["weekOpeningHours"] ?? '',
+      weekClosingHours: json["weekClosingHours"] ?? '',
+      satOpeningHours: json["satOpeningHours"] ?? '',
+      satClosingHours: json["satClosingHours"] ?? '',
+      sunWeekOpeningHours: json["sunWeekOpeningHours"] ?? '',
+      sunWeekClosingHours: json["sunWeekClosingHours"] ?? '',
+      longitude: json["longitude"] ?? '',
+      latitude: json["latitude"] ?? '',
     );
   }
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "email": email,
-        "phone": phone,
-        "username": username,
-        "code": code,
-        "first_name": firstName,
-        "last_name": lastName,
-        "gender": gender,
-        "address": address,
-        "is_online": isOnline,
-        "average_rating": averageRating,
-        "number_of_clients_reactions": numberOfClientsReactions,
-        "shop_name": shopName,
-        "shop_image": shopImage,
-        "profileLogo": profileLogo,
-        "shop_type": shopType.toJson(),
-      };
 }
