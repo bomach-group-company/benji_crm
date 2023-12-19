@@ -71,7 +71,7 @@ class LoginController extends GetxController {
           return;
         }
 
-        UserController.instance
+        await UserController.instance
             .saveUser(responseUserData.body, jsonData["token"]);
 
         ApiProcessorController.successSnack("Login Successful");
