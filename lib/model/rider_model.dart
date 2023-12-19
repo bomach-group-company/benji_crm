@@ -50,7 +50,9 @@ class RiderItem {
       address: json["address"] ?? notAvailable,
       plateNumber: json["plate_number"] ?? notAvailable,
       chassisNumber: json["chassis_number"] ?? notAvailable,
-      balance: json["balance"] ?? 0.0,
+      balance: json["balance"] == null
+          ? 0.0
+          : double.parse(json["balance"].toString()),
       image: json["image"] ?? '',
       tripCount: json['tripCount'] ?? 0,
     );
