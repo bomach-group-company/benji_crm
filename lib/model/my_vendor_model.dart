@@ -35,6 +35,8 @@ class MyVendorModel {
   String satClosingHours;
   String sunWeekOpeningHours;
   String sunWeekClosingHours;
+  String longitude;
+  String latitude;
 
   MyVendorModel({
     required this.id,
@@ -59,6 +61,8 @@ class MyVendorModel {
     required this.satClosingHours,
     required this.sunWeekOpeningHours,
     required this.sunWeekClosingHours,
+    required this.longitude,
+    required this.latitude,
   });
 
   factory MyVendorModel.fromJson(Map<String, dynamic>? json) {
@@ -88,6 +92,8 @@ class MyVendorModel {
       satClosingHours: json["satClosingHours"] ?? '',
       sunWeekOpeningHours: json["sunWeekOpeningHours"] ?? '',
       sunWeekClosingHours: json["sunWeekClosingHours"] ?? '',
+      longitude: json["longitude"] ?? '',
+      latitude: json["latitude"] ?? '',
     );
   }
 }

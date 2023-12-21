@@ -1,5 +1,6 @@
 // ignore_for_file: unused_local_variable, unused_element
 
+import 'package:benji_aggregator/controller/error_controller.dart';
 import 'package:benji_aggregator/controller/order_controller.dart';
 import 'package:benji_aggregator/model/my_vendor_model.dart';
 import 'package:benji_aggregator/src/components/card/empty.dart';
@@ -176,20 +177,41 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
         transition: Transition.downToUp,
       );
 
-  void toVendorLocation() => Get.to(
-        () => MyVendorLocation(
-          vendorName: widget.vendor.shopName,
-          vendorAddress: widget.vendor.address,
-          vendorRating: widget.vendor.averageRating.toString(),
-        ),
-        routeName: 'MyVendorLocation',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+  toVendorLocation() {
+    double latitude;
+    double longitude;
+    try {
+      latitude = double.parse(widget.vendor.latitude);
+      longitude = double.parse(widget.vendor.longitude);
+      if (latitude >= -90 &&
+          latitude <= 90 &&
+          longitude >= -180 &&
+          longitude <= 180) {
+      } else {
+        ApiProcessorController.errorSnack("Couldn't get the address");
+        return;
+      }
+    } catch (e) {
+      ApiProcessorController.errorSnack("Couldn't get the address");
+      return;
+    }
+    Get.to(
+      () => MyVendorLocation(
+        vendorName: widget.vendor.shopName,
+        vendorAddress: widget.vendor.address,
+        vendorRating: widget.vendor.averageRating.toString(),
+        latitude: widget.vendor.latitude,
+        longitude: widget.vendor.longitude,
+      ),
+      routeName: 'MyVendorLocation',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
