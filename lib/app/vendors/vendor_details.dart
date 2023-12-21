@@ -1,9 +1,11 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:benji_aggregator/app/products/product_details.dart';
+import 'package:benji_aggregator/controller/error_controller.dart';
 import 'package:benji_aggregator/controller/order_controller.dart';
 import 'package:benji_aggregator/model/product_model.dart';
 import 'package:benji_aggregator/model/vendor_model.dart';
+import 'package:benji_aggregator/src/components/card/empty.dart';
 import 'package:benji_aggregator/src/components/image/my_image.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
 import 'package:benji_aggregator/src/responsive/responsive_constant.dart';
@@ -177,20 +179,56 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
         transition: Transition.rightToLeft,
       );
 
-  void toVendorLocation() => Get.to(
-        () => VendorLocation(
-          vendorName: widget.vendor.shopName,
-          vendorAddress: widget.vendor.address,
-          vendorRating: widget.vendor.averageRating.toString(),
-        ),
-        routeName: 'VendorLocation',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+  // void toVendorLocation() => Get.to(
+  //       () => VendorLocation(
+  //         vendorName: widget.vendor.shopName,
+  //         vendorAddress: widget.vendor.address,
+  //         vendorRating: widget.vendor.averageRating.toString(),
+  //       ),
+  //       routeName: 'VendorLocation',
+  //       duration: const Duration(milliseconds: 300),
+  //       fullscreenDialog: true,
+  //       curve: Curves.easeIn,
+  //       preventDuplicates: true,
+  //       popGesture: true,
+  //       transition: Transition.rightToLeft,
+  //     );
+
+  toVendorLocation() {
+    double latitude;
+    double longitude;
+    try {
+      latitude = double.parse(widget.vendor.latitude);
+      longitude = double.parse(widget.vendor.longitude);
+      if (latitude >= -90 &&
+          latitude <= 90 &&
+          longitude >= -180 &&
+          longitude <= 180) {
+      } else {
+        ApiProcessorController.errorSnack("Couldn't get the address");
+        return;
+      }
+    } catch (e) {
+      ApiProcessorController.errorSnack("Couldn't get the address");
+      return;
+    }
+    Get.to(
+      () => VendorLocation(
+        vendorName: widget.vendor.shopName,
+        vendorAddress: widget.vendor.address,
+        vendorRating: widget.vendor.averageRating.toString(),
+        latitude: widget.vendor.latitude,
+        longitude: widget.vendor.longitude,
+      ),
+      routeName: 'VendorLocation',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -258,7 +296,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                       Positioned(
                         top: deviceType(media.width) > 2
                             ? media.height * 0.25
-                            : media.height * 0.13,
+                            : media.height * 0.1,
                         left: kDefaultPadding,
                         right: kDefaultPadding,
                         child: Container(
@@ -444,7 +482,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                             ? media.height * 0.15
                             : deviceType(media.width) > 2
                                 ? media.height * 0.15
-                                : media.height * 0.08,
+                                : media.height * 0.04,
                         left: deviceType(media.width) > 2
                             ? (media.width / 2) - (126 / 2)
                             : (media.width / 2) - (100 / 2),
@@ -538,6 +576,10 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                   },
                                   init: VendorController(),
                                   builder: (controller) {
+                                    if (controller.isLoad.isFalse &&
+                                        controller.vendorProductList.isEmpty) {
+                                      return const EmptyCard();
+                                    }
                                     return ListView.builder(
                                       shrinkWrap: true,
                                       itemCount:

@@ -32,63 +32,67 @@ class RiderController extends GetxController {
   Future getRiders() async {
     late String token;
     isLoad.value = true;
+    isLoadMore.value = true;
+
     update();
-    var url = "${Api.baseUrl}${Api.riderList}?start=0&end=10";
+    var url =
+        "${Api.baseUrl}${Api.riderList}?start=${moreNum.value - 10}&end=${moreNum.value}";
+
+    moreNum.value += 10;
     token = UserController.instance.user.value.token;
     try {
       http.Response? response = await HandleData.getApi(url, token);
 
-      var responseData =
-          await ApiProcessorController.errorState(response, isFirst ?? true);
+      var responseData = await ApiProcessorController.errorState(response);
       log(responseData);
       if (responseData == null) {
         return;
       }
 
       total.value = jsonDecode(responseData)['total'];
-      riderList.value = (jsonDecode(responseData)['items'] as List)
-          .map((e) => RiderItem.fromJson(e))
-          .toList();
-      update();
-    } catch (e) {
-      consoleLog("$e");
-    }
-    isLoad.value = false;
-    moreNum.value += 10;
-    loadedAll.value = false;
-    update();
-  }
-
-  Future loadMore() async {
-    late String token;
-    isLoadMore.value = true;
-    var url =
-        "${Api.baseUrl}${Api.riderList}?start=${moreNum.value - 10}&end=${moreNum.value}";
-    token = UserController.instance.user.value.token;
-    consoleLog('$url $moreNum chai');
-    moreNum.value += 10;
-    try {
-      http.Response? response = await HandleData.getApi(url, token);
-
-      var responseData =
-          await ApiProcessorController.errorState(response, isFirst ?? true);
-      log(responseData);
-      if (responseData == null) {
-        update();
-        return;
-      }
       List<RiderItem> val = (jsonDecode(responseData)['items'] as List)
           .map((e) => RiderItem.fromJson(e))
           .toList();
       riderList.value += val;
       loadedAll.value = val.isEmpty;
-      update();
     } catch (e) {
       consoleLog("$e");
     }
+    isLoad.value = false;
     isLoadMore.value = false;
+
     update();
   }
+
+  // Future loadMore() async {
+  //   late String token;
+  //   isLoadMore.value = true;
+  //   var url =
+  //       "${Api.baseUrl}${Api.riderList}?start=${moreNum.value - 10}&end=${moreNum.value}";
+  //   token = UserController.instance.user.value.token;
+  //   consoleLog('$url $moreNum chai');
+  //   moreNum.value += 10;
+  //   try {
+  //     http.Response? response = await HandleData.getApi(url, token);
+
+  //     var responseData = await ApiProcessorController.errorState(response);
+  //     log(responseData);
+  //     if (responseData == null) {
+  //       update();
+  //       return;
+  //     }
+  //     List<RiderItem> val = (jsonDecode(responseData)['items'] as List)
+  //         .map((e) => RiderItem.fromJson(e))
+  //         .toList();
+  //     riderList.value += val;
+  //     loadedAll.value = val.isEmpty;
+  //     update();
+  //   } catch (e) {
+  //     consoleLog("$e");
+  //   }
+  //   isLoadMore.value = false;
+  //   update();
+  // }
 
   emptyRiderList() {
     riderList.value = [];

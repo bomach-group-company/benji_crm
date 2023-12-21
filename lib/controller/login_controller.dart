@@ -76,6 +76,9 @@ class LoginController extends GetxController {
 
         ApiProcessorController.successSnack("Login Successful");
 
+        isLoad.value = false;
+        update();
+
         Get.offAll(
           () => OverView(),
           fullscreenDialog: true,

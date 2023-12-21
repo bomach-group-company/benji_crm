@@ -110,7 +110,7 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
 
     if (scrollController.offset >= scrollController.position.maxScrollExtent &&
         !scrollController.position.outOfRange) {
-      await RiderController.instance.loadMore();
+      await RiderController.instance.getRiders();
     }
   }
 

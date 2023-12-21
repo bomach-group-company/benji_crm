@@ -325,7 +325,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
     };
     await FormController.instance
         .postAuthstream(url, data, {'image': selectedImage}, 'editProfile');
-
+    UserController.instance.getUser();
     setState(() {
       _isLoading = false;
     });
@@ -403,8 +403,6 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                                         ),
                                       ),
                                       child: MyImage(
-                                        defaultUrl:
-                                            "assets/images/profile/avatar-image.jpg",
                                         url: UserController
                                             .instance.user.value.image,
                                       ),

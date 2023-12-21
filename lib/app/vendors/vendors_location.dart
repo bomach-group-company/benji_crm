@@ -20,11 +20,15 @@ class VendorLocation extends StatefulWidget {
   final String vendorName;
   final String vendorAddress;
   final String vendorRating;
+  final String latitude;
+  final String longitude;
   const VendorLocation({
     Key? key,
     required this.vendorName,
     required this.vendorAddress,
     required this.vendorRating,
+    required this.latitude,
+    required this.longitude,
   }) : super(key: key);
 
   @override
@@ -36,6 +40,8 @@ class _VendorLocationState extends State<VendorLocation> {
   @override
   void initState() {
     super.initState();
+    _vendorLocation =
+        LatLng(double.parse(widget.latitude), double.parse(widget.longitude));
     // _getPolyPoints();
     _markerTitle = <String>["Me", 'Vendor'];
     _markerSnippet = <String>["My Location", "${widget.vendorRating} Rating"];
@@ -48,8 +54,8 @@ class _VendorLocationState extends State<VendorLocation> {
 
   Position? _userPosition;
 
-  static const LatLng _vendorLocation =
-      LatLng(6.463810164127019, 7.539888438605598);
+  late LatLng _vendorLocation;
+
   final List<LatLng> _polylineCoordinates = [];
   // List<LatLng> _latLng = <LatLng>[_userLocation, _vendorLocation];
   Uint8List? _markerImage;

@@ -81,7 +81,7 @@ class VendorController extends GetxController {
         !scrollController.position.outOfRange) {
       VendorController.instance.isLoadMoreProduct.value = true;
       update();
-      await VendorController.instance.getVendorProduct(vendorId);
+      await VendorController.instance.getVendorProduct(vendorId, more: true);
     }
   }
 
@@ -142,17 +142,19 @@ class VendorController extends GetxController {
 
   Future getVendorProduct(
     id, {
-    bool first = false,
+    bool more = false,
   }) async {
-    if (first) {
+    if (!more) {
+      vendorProductList.value = [];
+      loadedAllProduct.value = false;
       loadNumProduct.value = 10;
     }
     if (loadedAllProduct.value) {
       return;
     }
-    if (!first) {
-      isLoadMoreProduct.value = true;
-    }
+
+    isLoadMoreProduct.value = true;
+
     isLoad.value = true;
 
     var url =
@@ -163,23 +165,22 @@ class VendorController extends GetxController {
     var responseData = await ApiProcessorController.errorState(response);
     if (responseData == null) {
       isLoad.value = false;
-      if (!first) {
-        isLoadMoreProduct.value = false;
-      }
+      isLoadMoreProduct.value = false;
 
       update();
       return;
     }
+
     List<Product> data = [];
     try {
       data = (jsonDecode(response!.body)['items'] as List)
           .map((e) => Product.fromJson(e))
           .toList();
-      vendorProductList.value += data;
+      vendorProductList.value = data;
     } catch (e) {
       debugPrint(e.toString());
     }
-    loadedAllProduct.value = data.isEmpty;
+    loadedAllProduct.value = data.isEmpty && more;
     isLoad.value = false;
     isLoadMoreProduct.value = false;
 

@@ -1,7 +1,9 @@
 // ignore_for_file: unused_local_variable, unused_element
 
+import 'package:benji_aggregator/controller/error_controller.dart';
 import 'package:benji_aggregator/controller/order_controller.dart';
 import 'package:benji_aggregator/model/my_vendor_model.dart';
+import 'package:benji_aggregator/src/components/card/empty.dart';
 import 'package:benji_aggregator/src/components/image/my_image.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
 import 'package:flutter/gestures.dart';
@@ -175,20 +177,41 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
         transition: Transition.downToUp,
       );
 
-  void toVendorLocation() => Get.to(
-        () => MyVendorLocation(
-          vendorName: widget.vendor.shopName,
-          vendorAddress: widget.vendor.address,
-          vendorRating: widget.vendor.averageRating.toString(),
-        ),
-        routeName: 'MyVendorLocation',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+  toVendorLocation() {
+    double latitude;
+    double longitude;
+    try {
+      latitude = double.parse(widget.vendor.latitude);
+      longitude = double.parse(widget.vendor.longitude);
+      if (latitude >= -90 &&
+          latitude <= 90 &&
+          longitude >= -180 &&
+          longitude <= 180) {
+      } else {
+        ApiProcessorController.errorSnack("Couldn't get the address");
+        return;
+      }
+    } catch (e) {
+      ApiProcessorController.errorSnack("Couldn't get the address");
+      return;
+    }
+    Get.to(
+      () => MyVendorLocation(
+        vendorName: widget.vendor.shopName,
+        vendorAddress: widget.vendor.address,
+        vendorRating: widget.vendor.averageRating.toString(),
+        latitude: widget.vendor.latitude,
+        longitude: widget.vendor.longitude,
+      ),
+      routeName: 'MyVendorLocation',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -256,13 +279,13 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                             decoration: BoxDecoration(
                               color: kPageSkeletonColor,
                             ),
-                            child: MyImage(url: widget.vendor.profileLogo),
+                            child: MyImage(url: widget.vendor.shopImage),
                           ),
                         ),
                         Positioned(
                           top: deviceType(media.width) > 2
                               ? media.height * 0.25
-                              : media.height * 0.13,
+                              : media.height * 0.1,
                           left: kDefaultPadding,
                           right: kDefaultPadding,
                           child: Container(
@@ -450,7 +473,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                               ? media.height * 0.15
                               : deviceType(media.width) > 2
                                   ? media.height * 0.15
-                                  : media.height * 0.08,
+                                  : media.height * 0.04,
                           left: deviceType(media.width) > 2
                               ? (media.width / 2) - (126 / 2)
                               : (media.width / 2) - (100 / 2),
@@ -545,6 +568,11 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                     },
                                     init: VendorController(),
                                     builder: (controller) {
+                                      if (controller.isLoad.isFalse &&
+                                          controller
+                                              .vendorProductList.isEmpty) {
+                                        return const EmptyCard();
+                                      }
                                       return ListView.builder(
                                         shrinkWrap: true,
                                         itemCount:
