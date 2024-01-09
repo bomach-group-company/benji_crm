@@ -5,7 +5,6 @@ import 'package:benji_aggregator/src/components/card/empty.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
 
 import '../../model/my_vendor_model.dart';
 import '../../src/components/section/my_liquid_refresh.dart';
@@ -147,38 +146,6 @@ class _AboutMyVendorState extends State<AboutMyVendor> {
                         ),
                       ],
                     ),
-                    child: Text(
-                      widget.vendor.shopType.isBlank == true
-                          ? 'Not Available'
-                          : widget.vendor.shopType.description,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ),
-                  kSizedBox,
-                  Container(
-                    width: media.width,
-                    padding: const EdgeInsets.all(kDefaultPadding),
-                    decoration: ShapeDecoration(
-                      color: const Color(0xFFFEF8F8),
-                      shape: RoundedRectangleBorder(
-                        side: const BorderSide(
-                          width: 0.50,
-                          color: Color(0xFFFDEDED),
-                        ),
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      shadows: const [
-                        BoxShadow(
-                          color: Color(0x0F000000),
-                          blurRadius: 24,
-                          offset: Offset(0, 4),
-                          spreadRadius: 0,
-                        ),
-                      ],
-                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -256,130 +223,6 @@ class _AboutMyVendorState extends State<AboutMyVendor> {
                           blurRadius: 24,
                           offset: Offset(0, 4),
                           spreadRadius: 0,
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Mon. - Fri.",
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            kSizedBox,
-                            Text(
-                              "Sat.",
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            kSizedBox,
-                            Text(
-                              "Sun.",
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
-                        ),
-                        kHalfSizedBox,
-                        const SizedBox(width: kDefaultPadding * 2),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text.rich(
-                              TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: widget.vendor.weekOpeningHours,
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  const TextSpan(
-                                    text: " - ",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: widget.vendor.weekClosingHours,
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            kSizedBox,
-                            Text.rich(
-                              TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: widget.vendor.satOpeningHours,
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  const TextSpan(
-                                    text: " - ",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: widget.vendor.satClosingHours,
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            kSizedBox,
-                            Text.rich(
-                              TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: widget.vendor.sunWeekOpeningHours,
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  const TextSpan(
-                                    text: " - ",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: widget.vendor.sunWeekClosingHours,
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            kSizedBox,
-                          ],
                         ),
                       ],
                     ),

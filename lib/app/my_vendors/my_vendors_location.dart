@@ -19,14 +19,12 @@ import '../../theme/colors.dart';
 class MyVendorLocation extends StatefulWidget {
   final String vendorName;
   final String vendorAddress;
-  final String vendorRating;
   final String latitude;
   final String longitude;
   const MyVendorLocation({
     Key? key,
     required this.vendorName,
     required this.vendorAddress,
-    required this.vendorRating,
     required this.latitude,
     required this.longitude,
   }) : super(key: key);
@@ -44,7 +42,7 @@ class _MyVendorLocationState extends State<MyVendorLocation> {
         LatLng(double.parse(widget.latitude), double.parse(widget.longitude));
     // _getPolyPoints();
     _markerTitle = <String>["Me", 'Vendor'];
-    _markerSnippet = <String>["My Location", "${widget.vendorRating} Rating"];
+    _markerSnippet = <String>["My Location", "Rating"];
     _loadMapData();
   }
 
@@ -358,36 +356,6 @@ class _MyVendorLocationState extends State<MyVendorLocation> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Container(
-                        width: media.width * 0.23,
-                        height: 57,
-                        decoration: ShapeDecoration(
-                          color: kPrimaryColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(19),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            FaIcon(
-                              FontAwesomeIcons.solidStar,
-                              color: kStarColor,
-                              size: 17,
-                            ),
-                            const SizedBox(width: 5),
-                            Text(
-                              widget.vendorRating,
-                              style: const TextStyle(
-                                color: kBlackColor,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                letterSpacing: -0.28,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
                       Container(
                         width: media.width * 0.25,
                         height: 57,

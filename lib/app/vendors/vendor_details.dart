@@ -214,9 +214,8 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
     }
     Get.to(
       () => VendorLocation(
-        vendorName: widget.vendor.shopName,
+        vendorName: widget.vendor.username,
         vendorAddress: widget.vendor.address,
-        vendorRating: widget.vendor.averageRating.toString(),
         latitude: widget.vendor.latitude,
         longitude: widget.vendor.longitude,
       ),
@@ -290,7 +289,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                           decoration: BoxDecoration(
                             color: kPageSkeletonColor,
                           ),
-                          child: MyImage(url: widget.vendor.shopImage),
+                          child: MyImage(url: widget.vendor.profileLogo),
                         ),
                       ),
                       Positioned(
@@ -330,7 +329,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                 SizedBox(
                                   width: media.width - 200,
                                   child: Text(
-                                    widget.vendor.shopName,
+                                    widget.vendor.username,
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     textAlign: TextAlign.center,
@@ -397,78 +396,78 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                   ),
                                 ),
                                 kHalfSizedBox,
-                                Row(
+                                const Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    Container(
-                                      width: media.width * 0.23,
-                                      height: 57,
-                                      decoration: ShapeDecoration(
-                                        color: kPrimaryColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(19),
-                                        ),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          FaIcon(
-                                            FontAwesomeIcons.solidStar,
-                                            color: kStarColor,
-                                            size: 17,
-                                          ),
-                                          const SizedBox(width: 5),
-                                          Text(
-                                            '${widget.vendor.averageRating}',
-                                            style: const TextStyle(
-                                              color: kBlackColor,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w400,
-                                              letterSpacing: -0.28,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      width: media.width * 0.25,
-                                      height: 57,
-                                      decoration: ShapeDecoration(
-                                        color: kPrimaryColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(19),
-                                        ),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            widget.vendor.isOnline
-                                                ? "Online"
-                                                : 'Offline',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              color: widget.vendor.isOnline
-                                                  ? kSuccessColor
-                                                  : kAccentColor,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w400,
-                                              letterSpacing: -0.36,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 5),
-                                          FaIcon(
-                                            Icons.info,
-                                            color: kAccentColor,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                    // Container(
+                                    //   width: media.width * 0.23,
+                                    //   height: 57,
+                                    //   decoration: ShapeDecoration(
+                                    //     color: kPrimaryColor,
+                                    //     shape: RoundedRectangleBorder(
+                                    //       borderRadius:
+                                    //           BorderRadius.circular(19),
+                                    //     ),
+                                    //   ),
+                                    //   child: Row(
+                                    //     mainAxisAlignment:
+                                    //         MainAxisAlignment.center,
+                                    //     children: [
+                                    //       FaIcon(
+                                    //         FontAwesomeIcons.solidStar,
+                                    //         color: kStarColor,
+                                    //         size: 17,
+                                    //       ),
+                                    //       const SizedBox(width: 5),
+                                    //       Text(
+                                    //         '${widget.vendor.averageRating}',
+                                    //         style: const TextStyle(
+                                    //           color: kBlackColor,
+                                    //           fontSize: 14,
+                                    //           fontWeight: FontWeight.w400,
+                                    //           letterSpacing: -0.28,
+                                    //         ),
+                                    //       ),
+                                    //     ],
+                                    //   ),
+                                    // ),
+                                    // Container(
+                                    //   width: media.width * 0.25,
+                                    //   height: 57,
+                                    //   decoration: ShapeDecoration(
+                                    //     color: kPrimaryColor,
+                                    //     shape: RoundedRectangleBorder(
+                                    //       borderRadius:
+                                    //           BorderRadius.circular(19),
+                                    //     ),
+                                    //   ),
+                                    //   child: Row(
+                                    //     mainAxisAlignment:
+                                    //         MainAxisAlignment.center,
+                                    //     children: [
+                                    //       Text(
+                                    //         widget.vendor.isOnline
+                                    //             ? "Online"
+                                    //             : 'Offline',
+                                    //         textAlign: TextAlign.center,
+                                    //         style: TextStyle(
+                                    //           color: widget.vendor.isOnline
+                                    //               ? kSuccessColor
+                                    //               : kAccentColor,
+                                    //           fontSize: 14,
+                                    //           fontWeight: FontWeight.w400,
+                                    //           letterSpacing: -0.36,
+                                    //         ),
+                                    //       ),
+                                    //       const SizedBox(width: 5),
+                                    //       FaIcon(
+                                    //         Icons.info,
+                                    //         color: kAccentColor,
+                                    //       ),
+                                    //     ],
+                                    //   ),
+                                    // ),
                                   ],
                                 )
                               ],

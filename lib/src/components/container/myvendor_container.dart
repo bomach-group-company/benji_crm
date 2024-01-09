@@ -3,7 +3,6 @@
 import 'package:benji_aggregator/model/my_vendor_model.dart';
 import 'package:benji_aggregator/src/components/image/my_image.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../theme/colors.dart';
 import '../../providers/constants.dart';
@@ -25,7 +24,7 @@ class MyVendorContainer extends StatelessWidget {
       borderRadius: BorderRadius.circular(16),
       child: Container(
         decoration: ShapeDecoration(
-          color: Colors.white,
+          color: kPrimaryColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
@@ -50,9 +49,9 @@ class MyVendorContainer extends StatelessWidget {
               children: [
                 SizedBox(
                   child: Text(
-                    vendor.shopName,
+                    vendor.username,
                     style: const TextStyle(
-                      color: Colors.black,
+                      color: kTextBlackColor,
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
                       letterSpacing: -0.36,
@@ -60,47 +59,47 @@ class MyVendorContainer extends StatelessWidget {
                   ),
                 ),
                 kSizedBox,
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      vendor.shopType.name,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        color: Color(0x662F2E3C),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
-                kSizedBox,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    FaIcon(
-                      FontAwesomeIcons.solidStar,
-                      color: kStarColor,
-                      size: 18,
-                    ),
-                    const SizedBox(width: kDefaultPadding / 2),
-                    SizedBox(
-                      width: media.width - 250,
-                      child: Text(
-                        "${vendor.averageRating} (${vendor.numberOfClientsReactions}+)",
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w400,
-                          letterSpacing: -0.24,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                // Row(
+                //   mainAxisSize: MainAxisSize.min,
+                //   mainAxisAlignment: MainAxisAlignment.start,
+                //   crossAxisAlignment: CrossAxisAlignment.center,
+                //   children: [
+                //     Text(
+                //       vendor.shopType.name,
+                //       textAlign: TextAlign.center,
+                //       style: const TextStyle(
+                //         color: Color(0x662F2E3C),
+                //         fontSize: 14,
+                //         fontWeight: FontWeight.w400,
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                // kSizedBox,
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.start,
+                //   crossAxisAlignment: CrossAxisAlignment.start,
+                //   children: [
+                //     FaIcon(
+                //       FontAwesomeIcons.solidStar,
+                //       color: kStarColor,
+                //       size: 18,
+                //     ),
+                //     const SizedBox(width: kDefaultPadding / 2),
+                //     SizedBox(
+                //       width: media.width - 250,
+                //       child: Text(
+                //         "${vendor.averageRating} (${vendor.numberOfClientsReactions}+)",
+                //         style: const TextStyle(
+                //           color: kTextBlackColor,
+                //           fontSize: 15,
+                //           fontWeight: FontWeight.w400,
+                //           letterSpacing: -0.24,
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // ),
               ],
             ),
           ],

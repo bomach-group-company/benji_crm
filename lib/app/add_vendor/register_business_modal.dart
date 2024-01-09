@@ -61,7 +61,7 @@ Future registeredBusinessesModal(
                           height: 40,
                           padding: const EdgeInsets.all(10),
                           child: Text(
-                            "($adjustedIndex) ${type[index].shopName}",
+                            "($adjustedIndex) ${type[index].username}",
                             style: TextStyle(
                               color: kTextGreyColor,
                               fontSize: 16,

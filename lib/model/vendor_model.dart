@@ -4,9 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:benji_aggregator/model/business_type_model.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
-import 'package:get/get.dart';
 
 List<VendorModel> vendorModelFromJson(String str) => List<VendorModel>.from(
     json.decode(str).map((x) => VendorModel.fromJson(x)));
@@ -21,22 +19,13 @@ class VendorModel {
   String lastName;
   String gender;
   String address;
-  bool isOnline;
-  double averageRating;
-  int numberOfClientsReactions;
-  String shopName;
-  String shopImage;
-  String profileLogo;
-  BusinessType shopType;
-  String description;
-  String weekOpeningHours;
-  String weekClosingHours;
-  String satOpeningHours;
-  String satClosingHours;
-  String sunWeekOpeningHours;
-  String sunWeekClosingHours;
   String longitude;
   String latitude;
+  String country;
+  String state;
+  String city;
+  String lga;
+  String profileLogo;
 
   VendorModel({
     required this.id,
@@ -48,52 +37,58 @@ class VendorModel {
     required this.lastName,
     required this.gender,
     required this.address,
-    required this.isOnline,
-    required this.averageRating,
-    required this.numberOfClientsReactions,
-    required this.shopName,
-    required this.shopImage,
-    required this.profileLogo,
-    required this.shopType,
-    required this.description,
-    required this.weekOpeningHours,
-    required this.weekClosingHours,
-    required this.satOpeningHours,
-    required this.satClosingHours,
-    required this.sunWeekOpeningHours,
-    required this.sunWeekClosingHours,
     required this.longitude,
     required this.latitude,
+    required this.country,
+    required this.state,
+    required this.city,
+    required this.lga,
+    required this.profileLogo,
   });
 
   factory VendorModel.fromJson(Map<String, dynamic>? json) {
     json ??= {};
-    return VendorModel(
-      id: json["id"] ?? 0,
-      email: json["email"] ?? notAvailable,
-      phone: json["phone"] ?? notAvailable,
-      username: json["username"] ?? notAvailable,
-      code: json["code"] ?? notAvailable,
-      firstName: json["first_name"] ?? notAvailable,
-      lastName: json["last_name"] ?? notAvailable,
-      gender: json["gender"] ?? notAvailable,
-      address: json["address"] ?? notAvailable,
-      isOnline: json["is_online"] ?? false,
-      averageRating: ((json["average_rating"] ?? 0.0) as double).toPrecision(1),
-      numberOfClientsReactions: json["number_of_clients_reactions"] ?? 0,
-      shopName: json["shop_name"] ?? notAvailable,
-      shopImage: json["shop_image"] ?? '',
-      profileLogo: json["profileLogo"] ?? '',
-      shopType: BusinessType.fromJson(json["shop_type"]),
-      description: json["description"] ?? '',
-      weekOpeningHours: json["weekOpeningHours"] ?? '',
-      weekClosingHours: json["weekClosingHours"] ?? '',
-      satOpeningHours: json["satOpeningHours"] ?? '',
-      satClosingHours: json["satClosingHours"] ?? '',
-      sunWeekOpeningHours: json["sunWeekOpeningHours"] ?? '',
-      sunWeekClosingHours: json["sunWeekClosingHours"] ?? '',
-      longitude: json["longitude"] ?? '',
-      latitude: json["latitude"] ?? '',
-    );
+    print("JSON data: $json");
+    try {
+      return VendorModel(
+        id: json["id"] ?? 0,
+        email: json["email"] ?? notAvailable,
+        phone: json["phone"] ?? notAvailable,
+        username: json["username"] ?? notAvailable,
+        code: json["code"] ?? notAvailable,
+        firstName: json["first_name"] ?? notAvailable,
+        lastName: json["last_name"] ?? notAvailable,
+        gender: json["gender"] ?? notAvailable,
+        address: json["address"] ?? notAvailable,
+        longitude: json["longitude"] ?? notAvailable,
+        latitude: json["latitude"] ?? notAvailable,
+        country: json["country"] ?? notAvailable,
+        state: json["state"] ?? notAvailable,
+        city: json["city"] ?? notAvailable,
+        lga: json["lga"] ?? notAvailable,
+        profileLogo: json["profileLogo"] ?? '',
+      );
+    } catch (e) {
+      print("Error parsing average_rating: $e");
+      return VendorModel.fromJson(null);
+      //  return VendorModel.defaults();
+    }
   }
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "email": email,
+        "phone": phone,
+        "username": username,
+        "code": code,
+        "first_name": firstName,
+        "last_name": lastName,
+        "gender": gender,
+        "address": address,
+        "country": country,
+        "state": state,
+        "city": city,
+        "lga": lga,
+        "profileLogo": profileLogo,
+      };
 }

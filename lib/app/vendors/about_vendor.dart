@@ -6,7 +6,6 @@ import 'package:benji_aggregator/src/components/card/empty.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
 
 import '../../src/components/section/my_liquid_refresh.dart';
 import '../../src/providers/constants.dart';
@@ -107,7 +106,7 @@ class _AboutVendorState extends State<AboutVendor> {
               )
             : const SizedBox(),
         appBar: MyAppBar(
-          title: widget.vendor.shopName,
+          title: widget.vendor.username,
           elevation: 0,
           actions: const [],
           backgroundColor: kPrimaryColor,
@@ -154,9 +153,7 @@ class _AboutVendorState extends State<AboutVendor> {
                         ],
                       ),
                       child: Text(
-                        widget.vendor.shopType.isBlank == true
-                            ? 'Not Available'
-                            : widget.vendor.shopType.description,
+                        widget.vendor.username,
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
@@ -265,10 +262,10 @@ class _AboutVendorState extends State<AboutVendor> {
                           ),
                         ],
                       ),
-                      child: Row(
+                      child: const Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Column(
+                          Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
@@ -297,96 +294,96 @@ class _AboutVendorState extends State<AboutVendor> {
                             ],
                           ),
                           kHalfSizedBox,
-                          const SizedBox(width: kDefaultPadding * 2),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text.rich(
-                                TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: widget.vendor.weekOpeningHours,
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    const TextSpan(
-                                      text: " - ",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: widget.vendor.weekClosingHours,
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              kSizedBox,
-                              Text.rich(
-                                TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: widget.vendor.satOpeningHours,
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    const TextSpan(
-                                      text: " - ",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: widget.vendor.satClosingHours,
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              kSizedBox,
-                              Text.rich(
-                                TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: widget.vendor.sunWeekOpeningHours,
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    const TextSpan(
-                                      text: " - ",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: widget.vendor.sunWeekClosingHours,
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              kSizedBox,
-                            ],
-                          ),
+                          // const SizedBox(width: kDefaultPadding * 2),
+                          // Column(
+                          //   crossAxisAlignment: CrossAxisAlignment.start,
+                          //   children: [
+                          //     Text.rich(
+                          //       TextSpan(
+                          //         children: [
+                          //           TextSpan(
+                          //             text: widget.vendor.weekOpeningHours,
+                          //             style: const TextStyle(
+                          //               fontSize: 16,
+                          //               fontWeight: FontWeight.w700,
+                          //             ),
+                          //           ),
+                          //           const TextSpan(
+                          //             text: " - ",
+                          //             style: TextStyle(
+                          //               fontSize: 16,
+                          //               fontWeight: FontWeight.w700,
+                          //             ),
+                          //           ),
+                          //           TextSpan(
+                          //             text: widget.vendor.weekClosingHours,
+                          //             style: const TextStyle(
+                          //               fontSize: 16,
+                          //               fontWeight: FontWeight.w700,
+                          //             ),
+                          //           ),
+                          //         ],
+                          //       ),
+                          //     ),
+                          //     kSizedBox,
+                          //     Text.rich(
+                          //       TextSpan(
+                          //         children: [
+                          //           TextSpan(
+                          //             text: widget.vendor.satOpeningHours,
+                          //             style: const TextStyle(
+                          //               fontSize: 16,
+                          //               fontWeight: FontWeight.w700,
+                          //             ),
+                          //           ),
+                          //           const TextSpan(
+                          //             text: " - ",
+                          //             style: TextStyle(
+                          //               fontSize: 16,
+                          //               fontWeight: FontWeight.w700,
+                          //             ),
+                          //           ),
+                          //           TextSpan(
+                          //             text: widget.vendor.satClosingHours,
+                          //             style: const TextStyle(
+                          //               fontSize: 16,
+                          //               fontWeight: FontWeight.w700,
+                          //             ),
+                          //           ),
+                          //         ],
+                          //       ),
+                          //     ),
+                          //     kSizedBox,
+                          //     Text.rich(
+                          //       TextSpan(
+                          //         children: [
+                          //           TextSpan(
+                          //             text: widget.vendor.sunWeekOpeningHours,
+                          //             style: const TextStyle(
+                          //               fontSize: 16,
+                          //               fontWeight: FontWeight.w700,
+                          //             ),
+                          //           ),
+                          //           const TextSpan(
+                          //             text: " - ",
+                          //             style: TextStyle(
+                          //               fontSize: 16,
+                          //               fontWeight: FontWeight.w700,
+                          //             ),
+                          //           ),
+                          //           TextSpan(
+                          //             text: widget.vendor.sunWeekClosingHours,
+                          //             style: const TextStyle(
+                          //               fontSize: 16,
+                          //               fontWeight: FontWeight.w700,
+                          //             ),
+                          //           ),
+                          //         ],
+                          //       ),
+                          //     ),
+                          //     kSizedBox,
+                          //   ],
+                          // ),
                         ],
                       ),
                     ),

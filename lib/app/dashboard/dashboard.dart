@@ -299,9 +299,7 @@ class _DashboardState extends State<Dashboard>
                   await VendorController.instance.getVendors();
                 }, builder: (vendor) {
                   final allVendor = vendor.vendorList.toList();
-                  final allOnlineVendor = vendor.vendorList
-                      .where((p0) => p0.isOnline == true)
-                      .toList();
+                  final allOnlineVendor = vendor.vendorList;
                   return RiderVendorContainer(
                     onTap: _toSeeAllVendors,
                     number: intFormattedText(allVendor.length),
