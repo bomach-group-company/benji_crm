@@ -10,7 +10,6 @@ import 'package:csc_picker/csc_picker.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
@@ -22,10 +21,8 @@ import '../../controller/category_controller.dart';
 import '../../controller/latlng_detail_controller.dart';
 import '../../model/create_vendor_model.dart';
 import '../../services/api_url.dart';
-import '../../services/helper.dart';
 import '../../services/keys.dart';
 import '../../src/components/button/my_elevatedButton.dart';
-import '../../src/components/input/message_textformfield.dart';
 import '../../src/components/input/my_blue_textformfield.dart';
 import '../../src/components/input/my_intl_phonefield.dart';
 import '../../src/components/input/my_maps_textformfield.dart';
@@ -94,12 +91,12 @@ class _RegisterVendorState extends State<RegisterVendor> {
   final vendorAddressEC = TextEditingController();
   final vendorBusinessTypeEC = TextEditingController();
   final vendorBusinessBioEC = TextEditingController();
-  final vendorMonToFriOpeningHoursEC = TextEditingController();
-  final vendorSatOpeningHoursEC = TextEditingController();
-  final vendorSunOpeningHoursEC = TextEditingController();
-  final vendorMonToFriClosingHoursEC = TextEditingController();
-  final vendorSatClosingHoursEC = TextEditingController();
-  final vendorSunClosingHoursEC = TextEditingController();
+  // final vendorMonToFriOpeningHoursEC = TextEditingController();
+  // final vendorSatOpeningHoursEC = TextEditingController();
+  // final vendorSunOpeningHoursEC = TextEditingController();
+  // final vendorMonToFriClosingHoursEC = TextEditingController();
+  // final vendorSatClosingHoursEC = TextEditingController();
+  // final vendorSunClosingHoursEC = TextEditingController();
   final mapsLocationEC = TextEditingController();
   final LatLngDetailController latLngDetailController =
       LatLngDetailController.instance;
@@ -113,12 +110,12 @@ class _RegisterVendorState extends State<RegisterVendor> {
   final vendorAddressFN = FocusNode();
   final vendorBusinessTypeFN = FocusNode();
   final vendorBusinessBioFN = FocusNode();
-  final vendorMonToFriOpeningHoursFN = FocusNode();
-  final vendorSatOpeningHoursFN = FocusNode();
-  final vendorSunOpeningHoursFN = FocusNode();
-  final vendorMonToFriClosingHoursFN = FocusNode();
-  final vendorSatClosingHoursFN = FocusNode();
-  final vendorSunClosingHoursFN = FocusNode();
+  // final vendorMonToFriOpeningHoursFN = FocusNode();
+  // final vendorSatOpeningHoursFN = FocusNode();
+  // final vendorSunOpeningHoursFN = FocusNode();
+  // final vendorMonToFriClosingHoursFN = FocusNode();
+  // final vendorSatClosingHoursFN = FocusNode();
+  // final vendorSunClosingHoursFN = FocusNode();
   final mapsLocationFN = FocusNode();
 
   //============================================= FUNCTIONS ===============================================\\
@@ -261,12 +258,12 @@ class _RegisterVendorState extends State<RegisterVendor> {
       city: city ?? "",
       latitude: latitude ?? "",
       longitude: longitude ?? "",
-      openHours: vendorMonToFriOpeningHoursEC.text,
-      closeHours: vendorMonToFriClosingHoursEC.text,
-      satOpenHours: vendorSatOpeningHoursEC.text,
-      satCloseHours: vendorSatClosingHoursEC.text,
-      sunOpenHours: vendorSunOpeningHoursEC.text,
-      sunCloseHours: vendorSunClosingHoursEC.text,
+      // openHours: vendorMonToFriOpeningHoursEC.text,
+      // closeHours: vendorMonToFriClosingHoursEC.text,
+      // satOpenHours: vendorSatOpeningHoursEC.text,
+      // satCloseHours: vendorSatClosingHoursEC.text,
+      // sunOpenHours: vendorSunOpeningHoursEC.text,
+      // sunCloseHours: vendorSunClosingHoursEC.text,
       businessBio: vendorBusinessBioEC.text,
       coverImage: selectedCoverImage,
       profileImage: selectedLogoImage,
@@ -275,96 +272,6 @@ class _RegisterVendorState extends State<RegisterVendor> {
   }
 
   //=========================== WIDGETS ====================================\\
-  Widget uploadCoverImage() => Container(
-        height: 140,
-        width: MediaQuery.of(context).size.width,
-        margin: const EdgeInsets.only(
-          left: kDefaultPadding,
-          right: kDefaultPadding,
-          bottom: kDefaultPadding,
-        ),
-        child: Column(
-          children: <Widget>[
-            const Text(
-              "Upload Cover Image",
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            kSizedBox,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Column(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        pickCoverImage(ImageSource.camera);
-                      },
-                      borderRadius: BorderRadius.circular(100),
-                      child: Container(
-                        height: 60,
-                        width: 60,
-                        decoration: ShapeDecoration(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(100),
-                            side: BorderSide(
-                              width: 0.5,
-                              color: kLightGreyColor,
-                            ),
-                          ),
-                        ),
-                        child: Center(
-                          child: FaIcon(
-                            FontAwesomeIcons.camera,
-                            color: kAccentColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                    kHalfSizedBox,
-                    const Text("Camera"),
-                  ],
-                ),
-                kWidthSizedBox,
-                Column(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        pickCoverImage(ImageSource.gallery);
-                      },
-                      borderRadius: BorderRadius.circular(100),
-                      child: Container(
-                        height: 60,
-                        width: 60,
-                        decoration: ShapeDecoration(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(100),
-                            side: BorderSide(
-                              width: 0.5,
-                              color: kLightGreyColor,
-                            ),
-                          ),
-                        ),
-                        child: Center(
-                          child: FaIcon(
-                            FontAwesomeIcons.image,
-                            color: kAccentColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                    kHalfSizedBox,
-                    const Text("Gallery"),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
-      );
 
   Widget uploadLogoImage() => Container(
         height: 140,
@@ -552,79 +459,6 @@ class _RegisterVendorState extends State<RegisterVendor> {
                 radius: const Radius.circular(20),
                 child: Column(
                   children: [
-                    Column(
-                      children: [
-                        selectedCoverImage == null
-                            ? Container(
-                                width: media.width,
-                                height: 144,
-                                decoration: ShapeDecoration(
-                                  shape: RoundedRectangleBorder(
-                                    side: const BorderSide(
-                                      width: 0.50,
-                                      color: Color(0xFFE6E6E6),
-                                    ),
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                ),
-                                child: Center(
-                                  child: Image.asset(
-                                      "assets/icons/image-upload.png"),
-                                ),
-                              )
-                            : Container(
-                                width: media.width,
-                                height: 144,
-                                decoration: ShapeDecoration(
-                                  image: DecorationImage(
-                                    image: FileImage(selectedCoverImage!),
-                                    fit: BoxFit.cover,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    side: const BorderSide(
-                                      width: 0.50,
-                                      color: Color(0xFFE6E6E6),
-                                    ),
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                ),
-                              ),
-                        InkWell(
-                          onTap: () {
-                            showModalBottomSheet(
-                              context: context,
-                              elevation: 20,
-                              barrierColor: kBlackColor.withOpacity(0.8),
-                              showDragHandle: true,
-                              useSafeArea: true,
-                              isDismissible: true,
-                              isScrollControlled: true,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(kDefaultPadding),
-                                ),
-                              ),
-                              enableDrag: true,
-                              builder: ((builder) => uploadCoverImage()),
-                            );
-                          },
-                          splashColor: kAccentColor.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(10),
-                          child: Container(
-                            padding: const EdgeInsets.all(10),
-                            child: Text(
-                              'Upload cover image',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: kAccentColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
                     Column(
                       children: [
                         selectedLogoImage == null
@@ -1034,243 +868,6 @@ class _RegisterVendorState extends State<RegisterVendor> {
                                   city = value;
                                 });
                               }
-                            },
-                          ),
-                          kSizedBox,
-                          Center(
-                            child: Text(
-                              "Business hours".toUpperCase(),
-                              style: const TextStyle(
-                                fontSize: 18,
-                                decoration: TextDecoration.underline,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                          kSizedBox,
-                          const Center(
-                            child: Text(
-                              "Mondays to Fridays",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                          kSizedBox,
-                          const Text(
-                            "Opening hours",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          kSizedBox,
-                          MyBlueTextFormField(
-                            controller: vendorMonToFriOpeningHoursEC,
-                            validator: (value) {
-                              if (value == null || value!.isEmpty) {
-                                return "Field cannot be empty";
-                              } else {
-                                return null;
-                              }
-                            },
-                            onSaved: (value) {},
-                            inputFormatters: [
-                              FilteringTextInputFormatter.singleLineFormatter,
-                              UppercaseTextInputFormatter(), // Custom formatter to make text uppercase
-                            ],
-                            textInputAction: TextInputAction.next,
-                            focusNode: vendorMonToFriOpeningHoursFN,
-                            hintText: "00:00 AM",
-                            textInputType: TextInputType.text,
-                          ),
-                          kSizedBox,
-                          const Text(
-                            "Closing hours",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          kSizedBox,
-                          MyBlueTextFormField(
-                            controller: vendorMonToFriClosingHoursEC,
-                            validator: (value) {
-                              if (value == null || value!.isEmpty) {
-                                return "Field cannot be empty";
-                              } else {
-                                return null;
-                              }
-                            },
-                            onSaved: (value) {},
-                            inputFormatters: [
-                              FilteringTextInputFormatter.singleLineFormatter,
-                              UppercaseTextInputFormatter(), // Custom formatter to make text uppercase
-                            ],
-                            textInputAction: TextInputAction.next,
-                            focusNode: vendorMonToFriClosingHoursFN,
-                            hintText: "00:00 PM",
-                            textInputType: TextInputType.text,
-                          ),
-                          kSizedBox,
-                          const Center(
-                            child: Text(
-                              "Saturdays",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                          kSizedBox,
-                          const Text(
-                            "Opening hours",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          kSizedBox,
-                          MyBlueTextFormField(
-                            controller: vendorSatOpeningHoursEC,
-                            validator: (value) {
-                              if (value == null || value!.isEmpty) {
-                                return "Field cannot be empty";
-                              } else {
-                                return null;
-                              }
-                            },
-                            onSaved: (value) {},
-                            inputFormatters: [
-                              FilteringTextInputFormatter.singleLineFormatter,
-                              UppercaseTextInputFormatter(), // Custom formatter to make text uppercase
-                            ],
-                            textInputAction: TextInputAction.next,
-                            focusNode: vendorSatOpeningHoursFN,
-                            hintText: "00:00 AM",
-                            textInputType: TextInputType.text,
-                          ),
-                          kSizedBox,
-                          const Text(
-                            "Closing hours",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          kSizedBox,
-                          MyBlueTextFormField(
-                            controller: vendorSatClosingHoursEC,
-                            validator: (value) {
-                              if (value == null || value!.isEmpty) {
-                                return "Field cannot be empty";
-                              } else {
-                                return null;
-                              }
-                            },
-                            onSaved: (value) {},
-                            inputFormatters: [
-                              FilteringTextInputFormatter.singleLineFormatter,
-                              UppercaseTextInputFormatter(), // Custom formatter to make text uppercase
-                            ],
-                            textInputAction: TextInputAction.next,
-                            focusNode: vendorSatClosingHoursFN,
-                            hintText: "00:00 PM",
-                            textInputType: TextInputType.text,
-                          ),
-                          kSizedBox,
-                          const Center(
-                            child: Text(
-                              "Sundays",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                          kSizedBox,
-                          const Text(
-                            "Opening hours",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          kSizedBox,
-                          MyBlueTextFormField(
-                            controller: vendorSunOpeningHoursEC,
-                            validator: (value) {
-                              if (value == null || value!.isEmpty) {
-                                return "Field cannot be empty";
-                              } else {
-                                return null;
-                              }
-                            },
-                            onSaved: (value) {},
-                            inputFormatters: [
-                              FilteringTextInputFormatter.singleLineFormatter,
-                              UppercaseTextInputFormatter(), // Custom formatter to make text uppercase
-                            ],
-                            textInputAction: TextInputAction.next,
-                            focusNode: vendorSunOpeningHoursFN,
-                            hintText: "00:00 AM",
-                            textInputType: TextInputType.text,
-                          ),
-                          kSizedBox,
-                          const Text(
-                            "Closing hours",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          kSizedBox,
-                          MyBlueTextFormField(
-                            controller: vendorSunClosingHoursEC,
-                            validator: (value) {
-                              if (value == null || value!.isEmpty) {
-                                return "Field cannot be empty";
-                              } else {
-                                return null;
-                              }
-                            },
-                            onSaved: (value) {},
-                            inputFormatters: [
-                              FilteringTextInputFormatter.singleLineFormatter,
-                              UppercaseTextInputFormatter(), // Custom formatter to make text uppercase
-                            ],
-                            textInputAction: TextInputAction.next,
-                            focusNode: vendorSunClosingHoursFN,
-                            hintText: "00:00 PM",
-                            textInputType: TextInputType.text,
-                          ),
-                          kSizedBox,
-                          const Text(
-                            "Business Bio",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          kSizedBox,
-                          MyMessageTextFormField(
-                            controller: vendorBusinessBioEC,
-                            textInputAction: TextInputAction.newline,
-                            focusNode: vendorBusinessBioFN,
-                            hintText: "About the business...",
-                            maxLines: 10,
-                            keyboardType: TextInputType.multiline,
-                            maxLength: 1000,
-                            validator: (value) {
-                              if (value == null || value!.isEmpty) {
-                                return "Field cannot be empty";
-                              } else {
-                                return null;
-                              }
-                            },
-                            onSaved: (value) {
-                              vendorBusinessBioEC.text = value;
                             },
                           ),
                         ],
