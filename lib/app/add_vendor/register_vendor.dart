@@ -20,7 +20,6 @@ import '../../../src/providers/constants.dart';
 import '../../controller/category_controller.dart';
 import '../../controller/latlng_detail_controller.dart';
 import '../../model/create_vendor_model.dart';
-import '../../services/api_url.dart';
 import '../../services/keys.dart';
 import '../../src/components/button/my_elevatedButton.dart';
 import '../../src/components/input/my_blue_textformfield.dart';
@@ -33,7 +32,6 @@ import '../../src/googleMaps/places_autocomplete_response.dart';
 import '../../src/responsive/responsive_constant.dart';
 import '../../src/utils/network_utils.dart';
 import '../google_maps/get_location_on_map.dart';
-import 'business_category_modal.dart';
 
 class RegisterVendor extends StatefulWidget {
   const RegisterVendor({super.key});
@@ -91,8 +89,8 @@ class _RegisterVendorState extends State<RegisterVendor> {
   final vendorAddressEC = TextEditingController();
   final vendorBusinessTypeEC = TextEditingController();
   final vendorBusinessBioEC = TextEditingController();
-  // final vendorMonToFriOpeningHoursEC = TextEditingController();
-  // final vendorSatOpeningHoursEC = TextEditingController();
+  final vendorFirstnameEC = TextEditingController();
+  final vendorLastnameEC = TextEditingController();
   // final vendorSunOpeningHoursEC = TextEditingController();
   // final vendorMonToFriClosingHoursEC = TextEditingController();
   // final vendorSatClosingHoursEC = TextEditingController();
@@ -110,8 +108,8 @@ class _RegisterVendorState extends State<RegisterVendor> {
   final vendorAddressFN = FocusNode();
   final vendorBusinessTypeFN = FocusNode();
   final vendorBusinessBioFN = FocusNode();
-  // final vendorMonToFriOpeningHoursFN = FocusNode();
-  // final vendorSatOpeningHoursFN = FocusNode();
+  final vendorFirstnameFN = FocusNode();
+  final vendorLastnameFN = FocusNode();
   // final vendorSunOpeningHoursFN = FocusNode();
   // final vendorMonToFriClosingHoursFN = FocusNode();
   // final vendorSatClosingHoursFN = FocusNode();
@@ -236,20 +234,8 @@ class _RegisterVendorState extends State<RegisterVendor> {
       );
       return;
     }
-    if (shopType == null) {
-      myFixedSnackBar(
-        context,
-        "please select type of business".toUpperCase(),
-        kErrorColor,
-        const Duration(seconds: 1),
-      );
-      return;
-    }
+
     SendCreateModel data = SendCreateModel(
-      personaId: personalIdEC.text,
-      businessId: vendorBusinessIdEC.text,
-      businessName: vendorNameEC.text,
-      businessType: shopType,
       businessPhone: "+234${vendorPhoneNumberEC.text}",
       bussinessAddress: mapsLocationEC.text,
       businessEmail: vendorEmailEC.text,
@@ -258,14 +244,10 @@ class _RegisterVendorState extends State<RegisterVendor> {
       city: city ?? "",
       latitude: latitude ?? "",
       longitude: longitude ?? "",
-      // openHours: vendorMonToFriOpeningHoursEC.text,
-      // closeHours: vendorMonToFriClosingHoursEC.text,
-      // satOpenHours: vendorSatOpeningHoursEC.text,
-      // satCloseHours: vendorSatClosingHoursEC.text,
+      firstName: vendorFirstnameEC.text,
+      lastName: vendorLastnameEC.text,
       // sunOpenHours: vendorSunOpeningHoursEC.text,
       // sunCloseHours: vendorSunClosingHoursEC.text,
-      businessBio: vendorBusinessBioEC.text,
-      coverImage: selectedCoverImage,
       profileImage: selectedLogoImage,
     );
     VendorController.instance.createVendor(data, true);
@@ -292,7 +274,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
             ),
             kSizedBox,
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Column(
                   children: [
@@ -457,80 +439,82 @@ class _RegisterVendorState extends State<RegisterVendor> {
                 padding: const EdgeInsets.all(kDefaultPadding / 2),
                 borderType: BorderType.RRect,
                 radius: const Radius.circular(20),
-                child: Column(
-                  children: [
-                    Column(
-                      children: [
-                        selectedLogoImage == null
-                            ? Container(
-                                width: media.width,
-                                height: 144,
-                                decoration: ShapeDecoration(
-                                  shape: RoundedRectangleBorder(
-                                    side: const BorderSide(
-                                      width: 0.50,
-                                      color: Color(0xFFE6E6E6),
+                child: Center(
+                  child: Column(
+                    children: [
+                      Column(
+                        children: [
+                          selectedLogoImage == null
+                              ? Container(
+                                  width: media.width,
+                                  height: 144,
+                                  decoration: ShapeDecoration(
+                                    shape: RoundedRectangleBorder(
+                                      side: const BorderSide(
+                                        width: 0.50,
+                                        color: Color(0xFFE6E6E6),
+                                      ),
+                                      borderRadius: BorderRadius.circular(20),
                                     ),
-                                    borderRadius: BorderRadius.circular(20),
                                   ),
-                                ),
-                                child: Center(
-                                  child: FaIcon(
-                                    FontAwesomeIcons.solidCircleUser,
-                                    color: kAccentColor,
-                                    size: 40,
-                                  ),
-                                ),
-                              )
-                            : Container(
-                                height: 200,
-                                width: 200,
-                                decoration: ShapeDecoration(
-                                  shape: const OvalBorder(),
-                                  image: DecorationImage(
-                                    image: FileImage(
-                                      selectedLogoImage!,
+                                  child: Center(
+                                    child: FaIcon(
+                                      FontAwesomeIcons.solidCircleUser,
+                                      color: kAccentColor,
+                                      size: 40,
                                     ),
-                                    fit: BoxFit.cover,
+                                  ),
+                                )
+                              : Container(
+                                  height: 200,
+                                  width: 200,
+                                  decoration: ShapeDecoration(
+                                    shape: const OvalBorder(),
+                                    image: DecorationImage(
+                                      image: FileImage(
+                                        selectedLogoImage!,
+                                      ),
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
-                              ),
-                        InkWell(
-                          onTap: () {
-                            showModalBottomSheet(
-                              context: context,
-                              elevation: 20,
-                              barrierColor: kBlackColor.withOpacity(0.8),
-                              showDragHandle: true,
-                              useSafeArea: true,
-                              isDismissible: true,
-                              isScrollControlled: true,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(kDefaultPadding),
+                          InkWell(
+                            onTap: () {
+                              showModalBottomSheet(
+                                context: context,
+                                elevation: 20,
+                                barrierColor: kBlackColor.withOpacity(0.8),
+                                showDragHandle: true,
+                                useSafeArea: true,
+                                isDismissible: true,
+                                isScrollControlled: true,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(kDefaultPadding),
+                                  ),
                                 ),
-                              ),
-                              enableDrag: true,
-                              builder: ((builder) => uploadLogoImage()),
-                            );
-                          },
-                          splashColor: kAccentColor.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(10),
-                          child: Container(
-                            padding: const EdgeInsets.all(10),
-                            child: Text(
-                              'Upload business logo',
-                              style: TextStyle(
-                                color: kAccentColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
+                                enableDrag: true,
+                                builder: ((builder) => uploadLogoImage()),
+                              );
+                            },
+                            splashColor: kAccentColor.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(10),
+                            child: Container(
+                              padding: const EdgeInsets.all(10),
+                              child: Text(
+                                'Upload business logo',
+                                style: TextStyle(
+                                  color: kAccentColor,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
               kSizedBox,
@@ -543,120 +527,6 @@ class _RegisterVendorState extends State<RegisterVendor> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            "Personal Identification",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          kSizedBox,
-                          MyBlueTextFormField(
-                            controller: personalIdEC,
-                            validator: (value) {
-                              if (value == null || value!.isEmpty) {
-                                vendorPersonalIdFN.requestFocus();
-                                return "Field cannot be empty";
-                              } else {
-                                return null;
-                              }
-                            },
-                            textInputAction: TextInputAction.next,
-                            focusNode: vendorPersonalIdFN,
-                            hintText: "NIN, Driver's License, etc",
-                            textInputType: TextInputType.text,
-                          ),
-                          kSizedBox,
-                          const Text(
-                            "Business Identification Number",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          kSizedBox,
-                          MyBlueTextFormField(
-                            controller: vendorBusinessIdEC,
-                            validator: (value) {
-                              if (value == null || value!.isEmpty) {
-                                return "Field cannot be empty";
-                              } else {
-                                return null;
-                              }
-                            },
-                            textInputAction: TextInputAction.next,
-                            focusNode: vendorBusinessIdFN,
-                            hintText:
-                                "Enter the business ID (if provided by the vendor)",
-                            textInputType: TextInputType.text,
-                          ),
-                          kSizedBox,
-                          const Text(
-                            "Business Name",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          kSizedBox,
-                          MyBlueTextFormField(
-                            controller: vendorNameEC,
-                            validator: (value) {
-                              if (value == null || value!.isEmpty) {
-                                return "Field cannot be empty";
-                              } else {
-                                return null;
-                              }
-                            },
-                            textInputAction: TextInputAction.next,
-                            focusNode: vendorNameFN,
-                            hintText: "Enter the name of the business",
-                            textInputType: TextInputType.name,
-                          ),
-                          kSizedBox,
-                          const Text(
-                            "Type of Business",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          kSizedBox,
-                          GetBuilder<CategoryController>(builder: (type) {
-                            return InkWell(
-                              onTap: () async {
-                                var data =
-                                    await shopTypeModal(context, type.category);
-                                if (data != null) {
-                                  setState(() {
-                                    shopType = data.id;
-                                    shopTypeHint = data.name;
-                                    vendorBusinessTypeEC.text = data.name;
-                                  });
-                                  consoleLog(shopType.toString());
-                                }
-                              },
-                              child: MyBlueTextFormField(
-                                controller: vendorBusinessTypeEC,
-                                isEnabled: false,
-                                validator: (value) {
-                                  if (value.isEmpty || value == null) {
-                                    "Field cannot be empty";
-                                  }
-                                  return null;
-                                },
-                                onSaved: (value) {
-                                  vendorBusinessTypeEC.text = value!;
-                                },
-                                textInputAction: TextInputAction.next,
-                                focusNode: vendorBusinessTypeFN,
-                                hintText: shopTypeHint ??
-                                    "E.g Restaurant, Auto Dealer, etc",
-                                textInputType: TextInputType.text,
-                              ),
-                            );
-                          }),
-                          kSizedBox,
                           const Text(
                             "Business Email",
                             style: TextStyle(
@@ -710,6 +580,54 @@ class _RegisterVendorState extends State<RegisterVendor> {
                               }
                             },
                             onSaved: (value) {},
+                          ),
+                          kSizedBox,
+                          const Text(
+                            "first name",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          kSizedBox,
+                          MyBlueTextFormField(
+                            controller: vendorFirstnameEC,
+                            validator: (value) {
+                              if (value == null || value!.isEmpty) {
+                                return "Field cannot be empty";
+                              } else {
+                                return null;
+                              }
+                            },
+                            onSaved: (value) {},
+                            textInputAction: TextInputAction.next,
+                            focusNode: vendorFirstnameFN,
+                            hintText: "Enter the first name",
+                            textInputType: TextInputType.name,
+                          ),
+                          kSizedBox,
+                          const Text(
+                            "Last name",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          kSizedBox,
+                          MyBlueTextFormField(
+                            controller: vendorLastnameEC,
+                            validator: (value) {
+                              if (value == null || value!.isEmpty) {
+                                return "Field cannot be empty";
+                              } else {
+                                return null;
+                              }
+                            },
+                            onSaved: (value) {},
+                            textInputAction: TextInputAction.next,
+                            focusNode: vendorLastnameFN,
+                            hintText: "Enter the last name",
+                            textInputType: TextInputType.name,
                           ),
                           kSizedBox,
                           const Text(

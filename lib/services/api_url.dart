@@ -147,25 +147,18 @@ class HandleData {
     request.fields["email"] = data.businessEmail!.toString();
     request.fields["phone"] = data.businessPhone!.toString();
     request.fields["address"] = data.bussinessAddress!.toString();
-    request.fields["shop_name"] = data.businessName!.toString();
 
-    request.fields["shop_type"] = data.businessType!.toString();
-    request.fields["weekOpeningHours"] = data.openHours!.toString();
-    request.fields["weekClosingHours"] = data.closeHours!.toString();
-    request.fields["satOpeningHours"] = data.satOpenHours!.toString();
-    request.fields["satClosingHours"] = data.satCloseHours!.toString();
-    request.fields["sunWeekOpeningHours"] = data.sunOpenHours!.toString();
-
-    request.fields["sunWeekClosingHours"] = data.sunCloseHours!.toString();
-
-    request.fields["personalId"] = data.personaId!.toString();
-    request.fields["businessId"] = data.businessId!.toString();
-    request.fields["businessBio"] = data.businessBio!.toString();
     request.fields["city"] = data.city!.toString();
+
+    request.fields["first_name"] = data.firstName!.toString();
+    request.fields["last_name"] = data.lastName!.toString();
 
     request.fields["state"] = data.state!.toString();
     request.fields["country"] = data.country!.toString();
-    request.fields["vendorClassifier"] = vendorClassifier.toString();
+    request.fields["latitude"] = data.latitude!.toString();
+    request.fields["longitude"] = data.longitude!.toString();
+    print(request.fields);
+    // request.fields["vendorClassifier"] = vendorClassifier.toString();
     //  request.files.add(file);
     try {
       response = await request.send();
@@ -197,19 +190,6 @@ class HandleData {
     request.fields["email"] = data.businessEmail!.toString();
     request.fields["phone"] = data.businessPhone!.toString();
     request.fields["address"] = data.bussinessAddress!.toString();
-    request.fields["shop_name"] = data.businessName!.toString();
-
-    request.fields["shop_type"] = data.businessType!.toString();
-    request.fields["weekOpeningHours"] = data.openHours!.toString();
-    request.fields["weekClosingHours"] = data.closeHours!.toString();
-    request.fields["satOpeningHours"] = data.satOpenHours!.toString();
-    request.fields["satClosingHours"] = data.satCloseHours!.toString();
-    request.fields["sunWeekOpeningHours"] = data.sunOpenHours!.toString();
-    request.fields["sunWeekClosingHours"] = data.sunCloseHours!.toString();
-
-    // request.fields["personalId"] = data.personaId!.toString();
-    // request.fields["businessId"] = data.businessId!.toString();
-    request.fields["businessBio"] = data.businessBio!.toString();
 
     request.fields["city"] = data.city!.toString();
     request.fields["state"] = data.state!.toString();
@@ -248,20 +228,9 @@ class HandleData {
     request.fields["email"] = data.businessEmail!.toString();
     request.fields["phone"] = data.businessPhone!.toString();
     request.fields["address"] = data.bussinessAddress!.toString();
-    request.fields["shop_name"] = data.businessName!.toString();
-
-    request.fields["shop_type"] = data.businessType!.toString();
-    request.fields["weekOpeningHours"] = data.openHours!.toString();
-    request.fields["weekClosingHours"] = data.closeHours!.toString();
-    request.fields["satOpeningHours"] = data.satOpenHours!.toString();
-    request.fields["satClosingHours"] = data.satCloseHours!.toString();
-    request.fields["sunWeekOpeningHours"] = data.sunOpenHours!.toString();
-
-    request.fields["sunWeekClosingHours"] = data.sunCloseHours!.toString();
 
     // request.fields["personalId"] = data.personaId!.toString();
     // request.fields["businessId"] = data.businessId!.toString();
-    request.fields["businessBio"] = data.businessBio!.toString();
     request.fields["city"] = data.city!.toString();
 
     request.fields["state"] = data.state!.toString();

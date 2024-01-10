@@ -250,10 +250,6 @@ class _AddToAVendorState extends State<AddToAVendor> {
       return;
     }
     SendCreateModel data = SendCreateModel(
-      personaId: "",
-      businessId: "",
-      businessName: vendorNameEC.text,
-      businessType: shopType,
       businessPhone: vendorPhoneNumberEC.text,
       bussinessAddress: mapsLocationEC.text,
       businessEmail: vendorEmailEC.text,
@@ -262,14 +258,6 @@ class _AddToAVendorState extends State<AddToAVendor> {
       city: city ?? "",
       latitude: latitude ?? "",
       longitude: longitude ?? "",
-      openHours: vendorMonToFriOpeningHoursEC.text,
-      closeHours: vendorMonToFriClosingHoursEC.text,
-      satOpenHours: vendorSatOpeningHoursEC.text,
-      satCloseHours: vendorSatClosingHoursEC.text,
-      sunOpenHours: vendorSunOpeningHoursEC.text,
-      sunCloseHours: vendorSunClosingHoursEC.text,
-      businessBio: vendorBusinessBioEC.text,
-      coverImage: selectedCoverImage,
       profileImage: selectedLogoImage,
     );
     VendorController.instance.addToAVendor(data, vendorId!);
