@@ -32,7 +32,7 @@ class _AddVendorState extends State<AddVendor> {
   }
 
   //============================================ CONTROLLERS =================================================\\
-  final ScrollController scrollController = ScrollController();
+  final scrollController = ScrollController();
 
   //============================================ ALL VARIABLES =================================================\\
 

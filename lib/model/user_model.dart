@@ -86,7 +86,9 @@ class UserModel {
       phoneNumberOfSpouse: json['phoneNumberOfSpouse'] ?? notAvailable,
       license: json['license'] ?? notAvailable,
       token: json['token'] ?? '',
-      image: json['image'] ?? '',
+      image: json['image'] == null || json['image'] == ""
+          ? 'https://img.freepik.com/free-psd/3d-icon-social-media-app_23-2150049569.jpg'
+          : json['image'],
       balance: json['balance'] ?? 0.0,
       isVisibleCash: json['isVisibleCash'] ?? true,
     );

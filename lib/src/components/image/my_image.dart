@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:benji_aggregator/services/api_url.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -18,8 +16,13 @@ class MyImage extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(radius),
       child: CachedNetworkImage(
-        imageUrl: url == null ? '' : baseImage + url!,
-        height: min(media.height, imageHeight),
+        imageUrl: url == null
+            ? ''
+            : url!.startsWith("https")
+                ? url!
+                : baseImage + url!,
+       width: double.infinity,
+        height: double.infinity,
         filterQuality: FilterQuality.high,
         fit: BoxFit.cover,
         progressIndicatorBuilder: (context, url, downloadProgress) =>

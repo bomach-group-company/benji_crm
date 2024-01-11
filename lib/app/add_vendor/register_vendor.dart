@@ -55,7 +55,6 @@ class _RegisterVendorState extends State<RegisterVendor> {
   @override
   void dispose() {
     super.dispose();
-    _timer.cancel();
     selectedLocation.dispose();
     scrollController.dispose();
   }
@@ -63,7 +62,6 @@ class _RegisterVendorState extends State<RegisterVendor> {
 //==========================================================================================\\
 
   //===================== ALL VARIABLES =======================\\
-  late Timer _timer;
   String? latitude;
   String? longitude;
   String countryDialCode = '234';
@@ -346,7 +344,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
       );
 
   //===================== Scroll to Top ==========================\\
-  Future<void> _scrollToTop() async {
+  Future<void> scrollToTop() async {
     await scrollController.animateTo(
       0.0,
       duration: const Duration(milliseconds: 500),
@@ -405,7 +403,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
         }),
         floatingActionButton: _isScrollToTopBtnVisible
             ? FloatingActionButton(
-                onPressed: _scrollToTop,
+                onPressed: scrollToTop,
                 mini: deviceType(media.width) > 2 ? false : true,
                 backgroundColor: kAccentColor,
                 enableFeedback: true,
@@ -413,7 +411,8 @@ class _RegisterVendorState extends State<RegisterVendor> {
                 tooltip: "Scroll to top",
                 hoverColor: kAccentColor,
                 hoverElevation: 50.0,
-                child: const FaIcon(FontAwesomeIcons.chevronUp, size: 18),
+                child: FaIcon(FontAwesomeIcons.chevronUp,
+                    size: 18, color: kPrimaryColor),
               )
             : const SizedBox(),
         body: SafeArea(
