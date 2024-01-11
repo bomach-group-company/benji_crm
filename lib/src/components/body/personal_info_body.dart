@@ -205,7 +205,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
       setState(() {});
       // User? user = await getUser();
       // final url =
-      //     Uri.parse('$baseURL/clients/changeClientProfileImage/${user!.id}');
+      //     Uri.parse('$baseURL/clients/changeClientbusinessLogo/${user!.id}');
 
       // Create a multipart request
       // final request = http.MultipartRequest('PUT', url);

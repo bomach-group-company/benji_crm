@@ -2,7 +2,6 @@
 
 import 'dart:async';
 
-import 'package:benji_aggregator/app/add_vendor/add_vendor.dart';
 import 'package:benji_aggregator/app/my_vendors/my_vendors.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:benji_aggregator/model/vendor_model.dart';
@@ -17,6 +16,7 @@ import '../../src/components/section/my_liquid_refresh.dart';
 import '../../src/providers/constants.dart';
 import '../../src/skeletons/vendors_list_skeleton.dart';
 import '../../theme/colors.dart';
+import '../add_vendor/register_vendor.dart';
 import 'vendor_details.dart';
 
 class Vendors extends StatefulWidget {
@@ -40,7 +40,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
     scrollController.addListener(
         () => VendorController.instance.scrollListenerVendor(scrollController));
     VendorController.instance.getMyVendors();
-
+    scrollController.addListener(scrollListener);
     scrollController.addListener(() {
       if (scrollController.position.userScrollDirection ==
               ScrollDirection.forward ||
@@ -72,6 +72,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
   bool vendorStatus = true;
   // bool _isScrollToTopBtnVisible = false;
   bool loadingScreen = false;
+  bool _isScrollToTopBtnVisible = false;
 
   //Online Vendors
   final String _onlineVendorsName = "Ntachi Osa";
@@ -110,38 +111,45 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
     });
   }
 
-// //============================= Scroll to Top ======================================//
-//   void _scrollToTop() {
-//     _animationController.reverse();
-//     scrollController.animateTo(0,
-//         duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn);
-//   }
+//============================= Scroll to Top ======================================//
+  void scrollToTop() {
+    scrollController.animateTo(0,
+        duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn);
+  }
 
-//   void _scrollListener() {
-//     //========= Show action button ========//
-//     if (scrollController.position.pixels >= 200) {
-//       _animationController.forward();
-//       setState(() => _isScrollToTopBtnVisible = true);
-//     }
-//     //========= Hide action button ========//
-//     else if (scrollController.position.pixels < 200) {
-//       _animationController.reverse();
-//       setState(() => _isScrollToTopBtnVisible = true);
-//     }
-//   }
+  void scrollListener() {
+    //========= Show action button ========//
+    if (scrollController.position.pixels >= 100) {
+      setState(() => _isScrollToTopBtnVisible = true);
+    }
+    //========= Hide action button ========//
+    else if (scrollController.position.pixels < 100) {
+      setState(() => _isScrollToTopBtnVisible = false);
+    }
+  }
 
 //===================== Navigation ==========================\\
 
   void toAddVendor() => Get.to(
-        () => const AddVendor(),
+        () => const RegisterVendor(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "AddVendor",
+        routeName: "RegisterVendor",
         preventDuplicates: true,
         popGesture: true,
-        transition: Transition.downToUp,
+        transition: Transition.rightToLeft,
       );
+  // void toAddVendor() => Get.to(
+  //       () => const AddVendor(),
+  //       duration: const Duration(milliseconds: 300),
+  //       fullscreenDialog: true,
+  //       curve: Curves.easeIn,
+  //       routeName: "AddVendor",
+  //       preventDuplicates: true,
+  //       popGesture: true,
+  //       transition: Transition.downToUp,
+  //     );
 
   void toMyVendorsPage() => Get.to(
         () => const MyVendors(),
@@ -175,7 +183,25 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
     return MyLiquidRefresh(
       onRefresh: handleRefresh,
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
+        floatingActionButton:
+            // _isScrollToTopBtnVisible
+            //     ? FloatingActionButton(
+            //         onPressed: scrollToTop,
+            //         mini: deviceType(media.width) > 2 ? false : true,
+            //         backgroundColor: kAccentColor,
+            //         enableFeedback: true,
+            //         mouseCursor: SystemMouseCursors.click,
+            //         tooltip: "Scroll to top",
+            //         hoverColor: kAccentColor,
+            //         hoverElevation: 50.0,
+            //         child: FaIcon(
+            //           FontAwesomeIcons.chevronUp,
+            //           size: 18,
+            //           color: kPrimaryColor,
+            //         ),
+            //       )
+            //     :
+            FloatingActionButton(
           onPressed: toAddVendor,
           elevation: 20.0,
           mouseCursor: SystemMouseCursors.click,

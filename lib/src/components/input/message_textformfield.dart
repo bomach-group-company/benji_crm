@@ -40,6 +40,7 @@ class MyMessageTextFormField extends StatelessWidget {
       autocorrect: true,
       maxLines: maxLines,
       enableSuggestions: true,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: keyboardType,
       maxLengthEnforcement: MaxLengthEnforcement.enforced,
       maxLength: maxLength,

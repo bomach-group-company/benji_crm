@@ -12,6 +12,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../../src/providers/constants.dart';
+import '../../src/responsive/responsive_constant.dart';
 import '../../theme/colors.dart';
 import '../add_vendor/add_third_party_vendor.dart';
 
@@ -27,6 +28,7 @@ class _MyVendorsState extends State<MyVendors> {
   @override
   void initState() {
     super.initState();
+    scrollController.addListener(_scrollListener);
     scrollController.addListener(() =>
         VendorController.instance.scrollListenerMyVendor(scrollController));
   }
@@ -36,15 +38,15 @@ class _MyVendorsState extends State<MyVendors> {
     super.dispose();
     // _animationController.dispose();
     scrollController.dispose();
+    handleRefresh().ignore();
   }
 
 //============================================== ALL VARIABLES =================================================\\
   bool loadingScreen = false;
-  // bool _isScrollToTopBtnVisible = false;
+  bool _isScrollToTopBtnVisible = false;
 
 //============================================== CONTROLLERS =================================================\\
   final scrollController = ScrollController();
-  // late AnimationController _animationController;
 
 //============================================== FUNCTIONS =================================================\\
 
@@ -60,25 +62,22 @@ class _MyVendorsState extends State<MyVendors> {
     });
   }
 
-// //============================= Scroll to Top ======================================//
-//   void _scrollToTop() {
-//     _animationController.reverse();
-//     scrollController.animateTo(0,
-//         duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn);
-//   }
+//============================= Scroll to Top ======================================//
+  void _scrollToTop() {
+    scrollController.animateTo(0,
+        duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn);
+  }
 
-//   void _scrollListener() {
-//     //========= Show action button ========//
-//     if (scrollController.position.pixels >= 200) {
-//       _animationController.forward();
-//       setState(() => _isScrollToTopBtnVisible = true);
-//     }
-//     //========= Hide action button ========//
-//     else if (scrollController.position.pixels < 200) {
-//       _animationController.reverse();
-//       setState(() => _isScrollToTopBtnVisible = true);
-//     }
-//   }
+  void _scrollListener() {
+    //========= Show action button ========//
+    if (scrollController.position.pixels >= 100) {
+      setState(() => _isScrollToTopBtnVisible = true);
+    }
+    //========= Hide action button ========//
+    else if (scrollController.position.pixels < 100) {
+      setState(() => _isScrollToTopBtnVisible = false);
+    }
+  }
 
 //===================== Navigation ==========================\\
 
@@ -119,18 +118,27 @@ class _MyVendorsState extends State<MyVendors> {
 
   @override
   Widget build(BuildContext context) {
+    var media = MediaQuery.of(context).size;
     return MyLiquidRefresh(
       onRefresh: handleRefresh,
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: addThirdPartyVendor,
-          elevation: 20.0,
-          mouseCursor: SystemMouseCursors.click,
-          tooltip: "Add a vendor",
-          backgroundColor: kAccentColor,
-          foregroundColor: kPrimaryColor,
-          child: const FaIcon(FontAwesomeIcons.plus),
-        ),
+        floatingActionButton: _isScrollToTopBtnVisible
+            ? FloatingActionButton(
+                onPressed: _scrollToTop,
+                mini: deviceType(media.width) > 2 ? false : true,
+                backgroundColor: kAccentColor,
+                enableFeedback: true,
+                mouseCursor: SystemMouseCursors.click,
+                tooltip: "Scroll to top",
+                hoverColor: kAccentColor,
+                hoverElevation: 50.0,
+                child: FaIcon(
+                  FontAwesomeIcons.chevronUp,
+                  size: 18,
+                  color: kPrimaryColor,
+                ),
+              )
+            : const SizedBox(),
         appBar: MyAppBar(
           title: "My Vendors",
           elevation: 0,
@@ -142,16 +150,10 @@ class _MyVendorsState extends State<MyVendors> {
           child: GetBuilder<VendorController>(
             builder: (controller) {
               return Scrollbar(
-                controller: scrollController,
                 child: ListView(
                   controller: scrollController,
                   physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.fromLTRB(
-                    kDefaultPadding,
-                    0,
-                    kDefaultPadding,
-                    kDefaultPadding,
-                  ),
+                  padding: const EdgeInsets.all(kDefaultPadding),
                   children: [
                     kSizedBox,
                     loadingScreen

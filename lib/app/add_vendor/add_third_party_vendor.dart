@@ -19,6 +19,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../controller/category_controller.dart';
+import '../../controller/error_controller.dart';
 import '../../controller/latlng_detail_controller.dart';
 import '../../model/create_vendor_model.dart';
 import '../../services/helper.dart';
@@ -29,7 +30,6 @@ import '../../src/components/input/my_blue_textformfield.dart';
 import '../../src/components/input/my_intl_phonefield.dart';
 import '../../src/components/input/my_maps_textformfield.dart';
 import '../../src/components/section/location_list_tile.dart';
-import '../../src/components/snackbar/my_fixed_snackBar.dart';
 import '../../src/googleMaps/autocomplete_prediction.dart';
 import '../../src/googleMaps/places_autocomplete_response.dart';
 import '../../src/providers/constants.dart';
@@ -210,45 +210,36 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
   //========================== Save data ==================================\\
   Future<void> saveChanges() async {
     if (country == null) {
-      myFixedSnackBar(
-        context,
-        "please select country".toUpperCase(),
-        kErrorColor,
-        const Duration(seconds: 1),
-      );
+      ApiProcessorController.errorSnack("Please select a country");
+
       return;
     }
     if (state == null) {
-      myFixedSnackBar(
-        context,
-        "please select state".toUpperCase(),
-        kErrorColor,
-        const Duration(seconds: 1),
-      );
+      ApiProcessorController.errorSnack("Please select a state");
+      if (state != "Enugu") {
+        ApiProcessorController.errorSnack(
+          "We are only available in Enugu state",
+        );
+      }
       return;
     }
     if (city == null) {
-      myFixedSnackBar(
-        context,
-        "please select city".toUpperCase(),
-        kErrorColor,
-        const Duration(seconds: 1),
-      );
+      ApiProcessorController.errorSnack("Please select city");
       return;
     }
     if (shopType == null) {
-      myFixedSnackBar(
-        context,
-        "please select type of business".toUpperCase(),
-        kErrorColor,
-        const Duration(seconds: 1),
-      );
+      ApiProcessorController.errorSnack("Please select a type of business");
+
       return;
     }
+    if (selectedCoverImage == null) {
+      ApiProcessorController.errorSnack("Please select a cover image");
+    }
+
     SendCreateModel data = SendCreateModel(
-      businessPhone: vendorPhoneNumberEC.text,
+      vendorPhone: vendorPhoneNumberEC.text,
       bussinessAddress: vendorAddressEC.text,
-      businessEmail: vendorEmailEC.text,
+      vendorEmail: vendorEmailEC.text,
       country: country ?? "NG",
       state: state ?? "",
       city: city ?? "",
@@ -262,14 +253,9 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
 
   //=========================== WIDGETS ====================================\\
   Widget uploadCoverImage() => Container(
-        height: 140,
-        width: MediaQuery.of(context).size.width,
-        margin: const EdgeInsets.only(
-          left: kDefaultPadding,
-          right: kDefaultPadding,
-          bottom: kDefaultPadding,
-        ),
+        padding: const EdgeInsets.all(kDefaultPadding),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             const Text(
               "Upload Cover Image",
@@ -353,14 +339,9 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
       );
 
   Widget uploadLogoImage() => Container(
-        height: 140,
-        width: MediaQuery.of(context).size.width,
-        margin: const EdgeInsets.only(
-          left: kDefaultPadding,
-          right: kDefaultPadding,
-          bottom: kDefaultPadding,
-        ),
+        padding: const EdgeInsets.all(kDefaultPadding),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             const Text(
               "Upload Logo Image",
@@ -515,7 +496,6 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
             : const SizedBox(),
         body: SafeArea(
           child: Scrollbar(
-            controller: scrollController,
             child: ListView(
               controller: scrollController,
               physics: const BouncingScrollPhysics(),

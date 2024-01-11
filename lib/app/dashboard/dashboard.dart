@@ -17,7 +17,7 @@ import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-import '../../src/components/container/dashboard_rider_vendor_container.dart';
+import '../../src/components/container/dashboard_container.dart';
 import '../../src/providers/constants.dart';
 import '../../src/responsive/responsive_constant.dart';
 import '../../theme/colors.dart';
@@ -120,7 +120,7 @@ class _DashboardState extends State<Dashboard>
   }
 
 //============================= Scroll to Top ======================================//
-  void _scrollToTop() {
+  void scrollToTop() {
     _animationController.reverse();
     scrollController.animateTo(0,
         duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn);
@@ -161,6 +161,8 @@ class _DashboardState extends State<Dashboard>
         popGesture: true,
         transition: Transition.downToUp,
       );
+
+  void toSeeAllBusinesses() {}
 
   void toSeeAllCompletedOrders(List<Order> completed) => Get.to(
         () => AllCompletedOrders(completed: completed),
@@ -214,7 +216,7 @@ class _DashboardState extends State<Dashboard>
       ),
       floatingActionButton: _isScrollToTopBtnVisible
           ? FloatingActionButton(
-              onPressed: _scrollToTop,
+              onPressed: scrollToTop,
               mini: deviceType(media.width) > 2 ? false : true,
               backgroundColor: kAccentColor,
               enableFeedback: true,
@@ -222,7 +224,11 @@ class _DashboardState extends State<Dashboard>
               tooltip: "Scroll to top",
               hoverColor: kAccentColor,
               hoverElevation: 50.0,
-              child: const FaIcon(FontAwesomeIcons.chevronUp, size: 18),
+              child: FaIcon(
+                FontAwesomeIcons.chevronUp,
+                size: 18,
+                color: kPrimaryColor,
+              ),
             )
           : const SizedBox(),
       body: SafeArea(
@@ -300,13 +306,21 @@ class _DashboardState extends State<Dashboard>
                 }, builder: (vendor) {
                   final allVendor = vendor.vendorList.toList();
                   final allOnlineVendor = vendor.vendorList;
-                  return RiderVendorContainer(
+                  return DashboardContainer(
                     onTap: _toSeeAllVendors,
                     number: intFormattedText(allVendor.length),
                     typeOf: "Vendors",
-                    onlineStatus: "Available",
+                    onlineStatus: "Online",
                   );
                 }),
+                kSizedBox,
+                DashboardContainer(
+                  onTap: toSeeAllBusinesses,
+                  number: "0",
+                  typeOf: "Businesses",
+                  onlineStatus: "Online",
+                  // : "$allOnlineRiders Online",
+                ),
                 kSizedBox,
                 GetBuilder<RiderController>(initState: (state) async {
                   await RiderController.instance.getRiders();
@@ -315,15 +329,15 @@ class _DashboardState extends State<Dashboard>
                   // final allOnlineRiders = rider.riderList
                   //     .where((p0) => p0.isOnline == true)
                   //     .toList();
-                  return RiderVendorContainer(
+                  return DashboardContainer(
                     onTap: _toSeeAllRiders,
                     number: rider.total.value.toString(),
                     typeOf: "Riders",
-                    onlineStatus: "Available",
+                    onlineStatus: "Online",
                     // : "$allOnlineRiders Online",
                   );
                 }),
-                const SizedBox(height: kDefaultPadding * 2),
+
                 kSizedBox,
               ],
             ),

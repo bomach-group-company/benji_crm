@@ -7,12 +7,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../../theme/colors.dart';
 import '../../providers/constants.dart';
 
-class RiderVendorContainer extends StatelessWidget {
+class DashboardContainer extends StatelessWidget {
   final Function() onTap;
   final String number;
   final String typeOf;
   final String? onlineStatus;
-  const RiderVendorContainer({
+  const DashboardContainer({
     super.key,
     required this.onTap,
     required this.number,
@@ -67,7 +67,7 @@ class RiderVendorContainer extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: kTextBlackColor,
-                      fontSize: 13,
+                      fontSize: 16,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -95,9 +95,9 @@ class RiderVendorContainer extends StatelessWidget {
                         child: Text(
                           onlineStatus!,
                           textAlign: TextAlign.left,
-                          style: TextStyle(
-                            color: kAccentColor,
-                            fontSize: 13,
+                          style: const TextStyle(
+                            color: kSuccessColor,
+                            fontSize: 16,
                             fontWeight: FontWeight.w700,
                           ),
                         ),

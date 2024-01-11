@@ -45,6 +45,7 @@ class MyBlueTextFormField extends StatelessWidget {
       textInputAction: textInputAction,
       textAlign: TextAlign.start,
       cursorColor: kSecondaryColor,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       autocorrect: true,
       enableSuggestions: true,
       keyboardType: textInputType,

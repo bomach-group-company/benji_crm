@@ -1,8 +1,9 @@
-// ignore_for_file: unused_local_variable, use_build_context_synchronously, unused_field, invalid_use_of_protected_member
+// ignore_for_file: invalid_use_of_protected_member
 
 import 'dart:async';
 import 'dart:io';
 
+import 'package:benji_aggregator/controller/error_controller.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
 import 'package:benji_aggregator/theme/colors.dart';
@@ -26,7 +27,6 @@ import '../../src/components/input/my_blue_textformfield.dart';
 import '../../src/components/input/my_intl_phonefield.dart';
 import '../../src/components/input/my_maps_textformfield.dart';
 import '../../src/components/section/location_list_tile.dart';
-import '../../src/components/snackbar/my_fixed_snackBar.dart';
 import '../../src/googleMaps/autocomplete_prediction.dart';
 import '../../src/googleMaps/places_autocomplete_response.dart';
 import '../../src/responsive/responsive_constant.dart';
@@ -64,7 +64,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
   //===================== ALL VARIABLES =======================\\
   String? latitude;
   String? longitude;
-  String countryDialCode = '234';
+  String countryDialCode = '+234';
   List<AutocompletePrediction> placePredictions = [];
   final selectedLocation = ValueNotifier<String?>(null);
 
@@ -74,19 +74,18 @@ class _RegisterVendorState extends State<RegisterVendor> {
 
   //===================== BOOL VALUES =======================\\
   bool _isScrollToTopBtnVisible = false;
-  final bool _savingChanges = false;
   bool _typing = false;
 
   //============================================== CONTROLLERS =================================================\\
   final scrollController = ScrollController();
   final personalIdEC = TextEditingController();
-  final vendorBusinessIdEC = TextEditingController();
+  final vendorvendorIdEC = TextEditingController();
   final vendorNameEC = TextEditingController();
   final vendorEmailEC = TextEditingController();
   final vendorPhoneNumberEC = TextEditingController();
   final vendorAddressEC = TextEditingController();
-  final vendorBusinessTypeEC = TextEditingController();
-  final vendorBusinessBioEC = TextEditingController();
+  final vendorvendorTypeEC = TextEditingController();
+  final vendorvendorBioEC = TextEditingController();
   final vendorFirstnameEC = TextEditingController();
   final vendorLastnameEC = TextEditingController();
   // final vendorSunOpeningHoursEC = TextEditingController();
@@ -99,13 +98,13 @@ class _RegisterVendorState extends State<RegisterVendor> {
 
   //=================================== FOCUS NODES ====================================\\
   final vendorPersonalIdFN = FocusNode();
-  final vendorBusinessIdFN = FocusNode();
+  final vendorvendorIdFN = FocusNode();
   final vendorNameFN = FocusNode();
   final vendorEmailFN = FocusNode();
   final vendorPhoneNumberFN = FocusNode();
   final vendorAddressFN = FocusNode();
-  final vendorBusinessTypeFN = FocusNode();
-  final vendorBusinessBioFN = FocusNode();
+  final vendorvendorTypeFN = FocusNode();
+  final vendorvendorBioFN = FocusNode();
   final vendorFirstnameFN = FocusNode();
   final vendorLastnameFN = FocusNode();
   // final vendorSunOpeningHoursFN = FocusNode();
@@ -206,37 +205,28 @@ class _RegisterVendorState extends State<RegisterVendor> {
   //========================== Save data ==================================\\
   Future<void> saveChanges() async {
     if (country == null) {
-      myFixedSnackBar(
-        context,
-        "please select country".toUpperCase(),
-        kErrorColor,
-        const Duration(seconds: 1),
-      );
+      ApiProcessorController.errorSnack("Please select country");
+
       return;
     }
     if (state == null) {
-      myFixedSnackBar(
-        context,
-        "please select state".toUpperCase(),
-        kErrorColor,
-        const Duration(seconds: 1),
-      );
+      ApiProcessorController.errorSnack("Please select state");
+      if (state != "Enugu") {
+        ApiProcessorController.errorSnack(
+          "We are only available in Enugu state",
+        );
+      }
       return;
     }
     if (city == null) {
-      myFixedSnackBar(
-        context,
-        "please select city".toUpperCase(),
-        kErrorColor,
-        const Duration(seconds: 1),
-      );
+      ApiProcessorController.errorSnack("Please select city");
       return;
     }
 
     SendCreateModel data = SendCreateModel(
-      businessPhone: "+234${vendorPhoneNumberEC.text}",
+      vendorPhone: countryDialCode + vendorPhoneNumberEC.text,
       bussinessAddress: mapsLocationEC.text,
-      businessEmail: vendorEmailEC.text,
+      vendorEmail: vendorEmailEC.text,
       country: country ?? "NG",
       state: state ?? "",
       city: city ?? "",
@@ -254,14 +244,9 @@ class _RegisterVendorState extends State<RegisterVendor> {
   //=========================== WIDGETS ====================================\\
 
   Widget uploadLogoImage() => Container(
-        height: 140,
-        width: MediaQuery.of(context).size.width,
-        margin: const EdgeInsets.only(
-          left: kDefaultPadding,
-          right: kDefaultPadding,
-          bottom: kDefaultPadding,
-        ),
+        padding: const EdgeInsets.all(kDefaultPadding),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             const Text(
               "Upload Logo Image",
@@ -272,7 +257,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
             ),
             kSizedBox,
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              // mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Column(
                   children: [
@@ -282,14 +267,13 @@ class _RegisterVendorState extends State<RegisterVendor> {
                       },
                       borderRadius: BorderRadius.circular(100),
                       child: Container(
-                        height: 60,
-                        width: 60,
+                        padding: const EdgeInsets.all(10),
                         decoration: ShapeDecoration(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100),
-                            side: BorderSide(
+                            side: const BorderSide(
                               width: 0.5,
-                              color: kLightGreyColor,
+                              color: kGreyColor1,
                             ),
                           ),
                         ),
@@ -314,14 +298,13 @@ class _RegisterVendorState extends State<RegisterVendor> {
                       },
                       borderRadius: BorderRadius.circular(100),
                       child: Container(
-                        height: 60,
-                        width: 60,
+                        padding: const EdgeInsets.all(10),
                         decoration: ShapeDecoration(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100),
-                            side: BorderSide(
+                            side: const BorderSide(
                               width: 0.5,
-                              color: kLightGreyColor,
+                              color: kGreyColor1,
                             ),
                           ),
                         ),
@@ -501,7 +484,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                             child: Container(
                               padding: const EdgeInsets.all(10),
                               child: Text(
-                                'Upload business logo',
+                                'Upload profile picture',
                                 style: TextStyle(
                                   color: kAccentColor,
                                   fontSize: 16,
@@ -527,7 +510,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            "Business Email",
+                            "Vendor Email",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
@@ -551,7 +534,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                           ),
                           kSizedBox,
                           const Text(
-                            "Business Phone Number",
+                            "Vendor Phone Number",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
@@ -582,7 +565,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                           ),
                           kSizedBox,
                           const Text(
-                            "first name",
+                            "First Name",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
@@ -606,7 +589,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                           ),
                           kSizedBox,
                           const Text(
-                            "Last name",
+                            "Last Name",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
@@ -630,7 +613,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                           ),
                           kSizedBox,
                           const Text(
-                            "Business Address",
+                            "Vendor Address",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,

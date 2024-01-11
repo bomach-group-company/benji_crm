@@ -118,8 +118,6 @@ class HandleData {
       response = null;
       consoleLog(e.toString());
     }
-    print(response?.body);
-    print(url);
     return response;
   }
 
@@ -144,8 +142,8 @@ class HandleData {
 
     request.headers.addAll(headers);
 
-    request.fields["email"] = data.businessEmail!.toString();
-    request.fields["phone"] = data.businessPhone!.toString();
+    request.fields["email"] = data.vendorEmail!.toString();
+    request.fields["phone"] = data.vendorPhone!.toString();
     request.fields["address"] = data.bussinessAddress!.toString();
 
     request.fields["city"] = data.city!.toString();
@@ -157,7 +155,6 @@ class HandleData {
     request.fields["country"] = data.country!.toString();
     request.fields["latitude"] = data.latitude!.toString();
     request.fields["longitude"] = data.longitude!.toString();
-    print(request.fields);
     // request.fields["vendorClassifier"] = vendorClassifier.toString();
     //  request.files.add(file);
     try {
@@ -187,8 +184,8 @@ class HandleData {
 
     request.headers.addAll(headers);
 
-    request.fields["email"] = data.businessEmail!.toString();
-    request.fields["phone"] = data.businessPhone!.toString();
+    request.fields["email"] = data.vendorEmail!.toString();
+    request.fields["phone"] = data.vendorPhone!.toString();
     request.fields["address"] = data.bussinessAddress!.toString();
 
     request.fields["city"] = data.city!.toString();
@@ -196,7 +193,6 @@ class HandleData {
     request.fields["country"] = data.country!.toString();
     request.fields["latitude"] = data.latitude!.toString();
     request.fields["longitude"] = data.longitude!.toString();
-    print(request.fields);
     //  request.files.add(file);
     try {
       response = await request.send();
@@ -225,8 +221,8 @@ class HandleData {
 
     request.headers.addAll(headers);
 
-    request.fields["email"] = data.businessEmail!.toString();
-    request.fields["phone"] = data.businessPhone!.toString();
+    request.fields["email"] = data.vendorEmail!.toString();
+    request.fields["phone"] = data.vendorPhone!.toString();
     request.fields["address"] = data.bussinessAddress!.toString();
 
     // request.fields["personalId"] = data.personaId!.toString();
@@ -235,7 +231,6 @@ class HandleData {
 
     request.fields["state"] = data.state!.toString();
     request.fields["country"] = data.country!.toString();
-    print(request.fields);
     //  request.files.add(file);
     try {
       response = await request.send();

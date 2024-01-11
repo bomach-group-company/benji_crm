@@ -250,9 +250,9 @@ class _AddToAVendorState extends State<AddToAVendor> {
       return;
     }
     SendCreateModel data = SendCreateModel(
-      businessPhone: vendorPhoneNumberEC.text,
+      vendorPhone: vendorPhoneNumberEC.text,
       bussinessAddress: mapsLocationEC.text,
-      businessEmail: vendorEmailEC.text,
+      vendorEmail: vendorEmailEC.text,
       country: country ?? "NG",
       state: state ?? "",
       city: city ?? "",
@@ -265,14 +265,9 @@ class _AddToAVendorState extends State<AddToAVendor> {
 
   //=========================== WIDGETS ====================================\\
   Widget uploadCoverImage() => Container(
-        height: 140,
-        width: MediaQuery.of(context).size.width,
-        margin: const EdgeInsets.only(
-          left: kDefaultPadding,
-          right: kDefaultPadding,
-          bottom: kDefaultPadding,
-        ),
+        padding: const EdgeInsets.all(kDefaultPadding),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             const Text(
               "Upload Cover Image",
@@ -356,14 +351,9 @@ class _AddToAVendorState extends State<AddToAVendor> {
       );
 
   Widget uploadLogoImage() => Container(
-        height: 140,
-        width: MediaQuery.of(context).size.width,
-        margin: const EdgeInsets.only(
-          left: kDefaultPadding,
-          right: kDefaultPadding,
-          bottom: kDefaultPadding,
-        ),
+        padding: const EdgeInsets.all(kDefaultPadding),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             const Text(
               "Upload Logo Image",
