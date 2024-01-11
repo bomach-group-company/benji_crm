@@ -406,15 +406,6 @@ class _RegisterVendorState extends State<RegisterVendor> {
             physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.all(kDefaultPadding),
             children: [
-              const Text(
-                "Header content",
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              kSizedBox,
               DottedBorder(
                 color: kLightGreyColor,
                 borderPadding: const EdgeInsets.all(3),
