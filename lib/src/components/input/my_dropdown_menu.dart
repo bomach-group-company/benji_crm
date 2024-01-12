@@ -2,10 +2,10 @@ import 'package:benji_aggregator/src/responsive/responsive_constant.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
 
-class ItemDropDownMenu extends StatelessWidget {
-  const ItemDropDownMenu({
+class MyDropDownMenu extends StatelessWidget {
+  const MyDropDownMenu({
     super.key,
-    required this.itemEC,
+    required this.controller,
     required this.hintText,
     required this.dropdownMenuEntries,
     this.onSelected,
@@ -16,7 +16,7 @@ class ItemDropDownMenu extends StatelessWidget {
     this.width,
   });
 
-  final TextEditingController itemEC;
+  final TextEditingController controller;
 
   final String hintText;
   final List<DropdownMenuEntry<Object>> dropdownMenuEntries;
@@ -46,7 +46,7 @@ class ItemDropDownMenu extends StatelessWidget {
       ),
       onSelected: onSelected ??
           (value) {
-            itemEC.text = value!.toString();
+            controller.text = value!.toString();
           },
       width: width ?? media.width - 40,
       hintText: hintText,

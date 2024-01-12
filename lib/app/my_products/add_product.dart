@@ -7,7 +7,7 @@ import 'package:benji_aggregator/controller/form_controller.dart';
 import 'package:benji_aggregator/model/product_type_model.dart';
 import 'package:benji_aggregator/model/sub_category.dart';
 import 'package:benji_aggregator/services/api_url.dart';
-import 'package:benji_aggregator/src/components/input/my_item_drop.dart';
+import 'package:benji_aggregator/src/components/input/my_dropdown_menu.dart';
 import 'package:benji_aggregator/src/components/sheet/showModalBottomSheetTitleWithIcon.dart';
 import 'package:benji_aggregator/src/responsive/responsive_constant.dart';
 import 'package:flutter/material.dart';
@@ -344,8 +344,8 @@ class _AddProductState extends State<AddProduct> {
                       ),
                       kHalfSizedBox,
                       SizedBox(
-                        child: ItemDropDownMenu(
-                          itemEC: productTypeEC,
+                        child: MyDropDownMenu(
+                          controller: productTypeEC,
                           hintText: "Choose product type",
                           dropdownMenuEntries: _productType == null
                               ? [
@@ -369,8 +369,8 @@ class _AddProductState extends State<AddProduct> {
                         ),
                       ),
                       kHalfSizedBox,
-                      ItemDropDownMenu(
-                        itemEC: productSubCategoryEC,
+                      MyDropDownMenu(
+                        controller: productSubCategoryEC,
                         hintText: "Select a category for your product",
                         dropdownMenuEntries: _subCategory == null
                             ? [
