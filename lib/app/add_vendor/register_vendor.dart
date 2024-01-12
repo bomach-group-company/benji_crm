@@ -394,13 +394,15 @@ class _RegisterVendorState extends State<RegisterVendor> {
                 tooltip: "Scroll to top",
                 hoverColor: kAccentColor,
                 hoverElevation: 50.0,
-                child: FaIcon(FontAwesomeIcons.chevronUp,
-                    size: 18, color: kPrimaryColor),
+                child: FaIcon(
+                  FontAwesomeIcons.chevronUp,
+                  size: 18,
+                  color: kPrimaryColor,
+                ),
               )
             : const SizedBox(),
         body: SafeArea(
             child: Scrollbar(
-          controller: scrollController,
           child: ListView(
             controller: scrollController,
             physics: const BouncingScrollPhysics(),
@@ -501,61 +503,6 @@ class _RegisterVendorState extends State<RegisterVendor> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            "Vendor Email",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          kSizedBox,
-                          MyBlueTextFormField(
-                            controller: vendorEmailEC,
-                            validator: (value) {
-                              if (value == null || value!.isEmpty) {
-                                return "Field cannot be empty";
-                              } else {
-                                return null;
-                              }
-                            },
-                            onSaved: (value) {},
-                            textInputAction: TextInputAction.next,
-                            focusNode: vendorEmailFN,
-                            hintText: "Enter the bussiness email",
-                            textInputType: TextInputType.emailAddress,
-                          ),
-                          kSizedBox,
-                          const Text(
-                            "Vendor Phone Number",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          kSizedBox,
-                          MyIntlPhoneField(
-                            controller: vendorPhoneNumberEC,
-                            initialCountryCode: "NG",
-                            invalidNumberMessage: "Invalid phone number",
-                            dropdownIconPosition: IconPosition.trailing,
-                            showCountryFlag: true,
-                            showDropdownIcon: true,
-                            dropdownIcon: Icon(
-                              Icons.arrow_drop_down_rounded,
-                              color: kAccentColor,
-                            ),
-                            textInputAction: TextInputAction.next,
-                            focusNode: vendorPhoneNumberFN,
-                            validator: (value) {
-                              if (value == null || value!.isEmpty) {
-                                return "Field cannot be empty";
-                              } else {
-                                return null;
-                              }
-                            },
-                            onSaved: (value) {},
-                          ),
-                          kSizedBox,
-                          const Text(
                             "First Name",
                             style: TextStyle(
                               fontSize: 16,
@@ -604,7 +551,62 @@ class _RegisterVendorState extends State<RegisterVendor> {
                           ),
                           kSizedBox,
                           const Text(
-                            "Vendor Address",
+                            "Email",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          kSizedBox,
+                          MyBlueTextFormField(
+                            controller: vendorEmailEC,
+                            validator: (value) {
+                              if (value == null || value!.isEmpty) {
+                                return "Field cannot be empty";
+                              } else {
+                                return null;
+                              }
+                            },
+                            onSaved: (value) {},
+                            textInputAction: TextInputAction.next,
+                            focusNode: vendorEmailFN,
+                            hintText: "Enter the bussiness email",
+                            textInputType: TextInputType.emailAddress,
+                          ),
+                          kSizedBox,
+                          const Text(
+                            "Phone Number",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          kSizedBox,
+                          MyIntlPhoneField(
+                            controller: vendorPhoneNumberEC,
+                            initialCountryCode: "NG",
+                            invalidNumberMessage: "Invalid phone number",
+                            dropdownIconPosition: IconPosition.trailing,
+                            showCountryFlag: true,
+                            showDropdownIcon: true,
+                            dropdownIcon: Icon(
+                              Icons.arrow_drop_down_rounded,
+                              color: kAccentColor,
+                            ),
+                            textInputAction: TextInputAction.next,
+                            focusNode: vendorPhoneNumberFN,
+                            validator: (value) {
+                              if (value == null || value!.isEmpty) {
+                                return "Field cannot be empty";
+                              } else {
+                                return null;
+                              }
+                            },
+                            onSaved: (value) {},
+                          ),
+                          kSizedBox,
+                          const Text(
+                            "House Address",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
