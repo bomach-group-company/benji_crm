@@ -12,7 +12,6 @@ class MyImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.of(context).size;
     return ClipRRect(
       borderRadius: BorderRadius.circular(radius),
       child: CachedNetworkImage(
@@ -21,7 +20,7 @@ class MyImage extends StatelessWidget {
             : url!.startsWith("https")
                 ? url!
                 : baseImage + url!,
-       width: double.infinity,
+        width: double.infinity,
         height: double.infinity,
         filterQuality: FilterQuality.high,
         fit: BoxFit.cover,

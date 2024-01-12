@@ -48,7 +48,6 @@ class VendorModel {
 
   factory VendorModel.fromJson(Map<String, dynamic>? json) {
     json ??= {};
-    print("JSON data: $json");
     try {
       return VendorModel(
         id: json["id"] ?? 0,
@@ -69,7 +68,6 @@ class VendorModel {
         profileLogo: json["profileLogo"] ?? '',
       );
     } catch (e) {
-      print("Error parsing average_rating: $e");
       return VendorModel.fromJson(null);
       //  return VendorModel.defaults();
     }

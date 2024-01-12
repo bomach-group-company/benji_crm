@@ -29,10 +29,10 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
   void initState() {
     super.initState();
     UserController.instance.getUser();
-    _loadingScreen = true;
+    loadingScreen = true;
     scrollController.addListener(_scrollListener);
     _timer = Timer(const Duration(milliseconds: 1000), () {
-      setState(() => _loadingScreen = false);
+      setState(() => loadingScreen = false);
     });
   }
 
@@ -51,7 +51,7 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
   late Timer _timer;
 
 //=============================================== BOOL VALUES ======================================================\\
-  late bool _loadingScreen;
+  late bool loadingScreen;
   bool _isScrollToTopBtnVisible = false;
 
 //=============================================== FUNCTIONS ======================================================\\
@@ -86,11 +86,11 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
 //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
-    _loadingScreen = true;
+    loadingScreen = true;
     _timer = Timer(const Duration(milliseconds: 1000), () {
       scrollController.addListener(_scrollListener);
 
-      setState(() => _loadingScreen = false);
+      setState(() => loadingScreen = false);
     });
   }
 
@@ -232,7 +232,7 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
                                       ),
                                       // IconButton(
                                       //   onPressed: () {
-                                      //     _showBottomSheet(context);
+                                      //     showBottomSheet(context);
                                       //   },
                                       //   icon: FaIcon(
                                       //     FontAwesomeIcons.ellipsis,
@@ -269,7 +269,7 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
 //Delete Account
   void _deleteAccount() {}
 
-  void _showBottomSheet(BuildContext context) {
+  void showBottomSheet(BuildContext context) {
     var media = MediaQuery.of(context).size;
     showModalBottomSheet(
       showDragHandle: true,
