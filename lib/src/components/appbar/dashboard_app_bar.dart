@@ -78,13 +78,14 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
                         color: kPageSkeletonColor,
                         shape: const OvalBorder(),
                       ),
+                      padding: const EdgeInsets.all(5),
                       child: MyImage(url: image),
                     ),
                   ),
                 ),
                 AppBarAggregator(
                   title: "Welcome,",
-                  aggregatorName: controller.user.value.username,
+                  aggregatorName: controller.user.value.firstName,
                 ),
               ],
             );

@@ -237,7 +237,6 @@ class _DashboardState extends State<Dashboard>
           onRefresh: handleRefresh,
           color: kAccentColor,
           child: Scrollbar(
-            controller: scrollController,
             child: ListView(
               controller: scrollController,
               physics: const BouncingScrollPhysics(),
@@ -314,14 +313,14 @@ class _DashboardState extends State<Dashboard>
                   );
                 }),
                 kSizedBox,
-                DashboardContainer(
-                  onTap: toSeeAllBusinesses,
-                  number: "0",
-                  typeOf: "Businesses",
-                  onlineStatus: "Online",
-                  // : "$allOnlineRiders Online",
-                ),
-                kSizedBox,
+                // DashboardContainer(
+                //   onTap: toSeeAllBusinesses,
+                //   number: "0",
+                //   typeOf: "Businesses",
+                //   onlineStatus: "Online",
+                //   // : "$allOnlineRiders Online",
+                // ),
+                // kSizedBox,
                 GetBuilder<RiderController>(initState: (state) async {
                   await RiderController.instance.getRiders();
                 }, builder: (rider) {

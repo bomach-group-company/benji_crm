@@ -354,7 +354,6 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
     return SafeArea(
       maintainBottomViewPadding: true,
       child: Scrollbar(
-        controller: scrollController,
         child: ListView(
           controller: scrollController,
           padding: const EdgeInsets.all(10),
@@ -402,6 +401,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                                               BorderRadius.circular(100),
                                         ),
                                       ),
+                                      padding: const EdgeInsets.all(10),
                                       child: MyImage(
                                         url: UserController
                                             .instance.user.value.image,
@@ -416,15 +416,13 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                                           : 150,
                                       decoration: ShapeDecoration(
                                         color: kPageSkeletonColor,
-                                        image: DecorationImage(
-                                          image: FileImage(selectedImage!),
-                                          fit: BoxFit.cover,
-                                        ),
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(100),
                                         ),
                                       ),
+                                      padding: const EdgeInsets.all(10),
+                                      child: Image.file(selectedImage!),
                                     ),
                               Positioned(
                                 bottom: 0,
@@ -777,21 +775,23 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                     );
                   }),
             ),
-            _isLoading
-                ? Center(
-                    child: CircularProgressIndicator(color: kAccentColor),
-                  )
-                : Padding(
-                    padding: const EdgeInsets.all(kDefaultPadding),
-                    child: MyElevatedButton(
-                      onPressed: (() async {
-                        if (_formKey.currentState!.validate()) {
-                          updateData();
-                        }
-                      }),
-                      title: "Save",
-                    ),
-                  ),
+            // _isLoading
+            //     ? Center(
+            //         child: CircularProgressIndicator(color: kAccentColor),
+            //       )
+            //     :
+            Padding(
+              padding: const EdgeInsets.all(kDefaultPadding),
+              child: MyElevatedButton(
+                onPressed: (() async {
+                  if (_formKey.currentState!.validate()) {
+                    updateData();
+                  }
+                }),
+                isLoading: _isLoading,
+                title: "Save",
+              ),
+            ),
           ],
         ),
       ),
