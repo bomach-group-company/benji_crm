@@ -527,7 +527,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                                   tooltip: "Copy ID",
                                   mouseCursor: SystemMouseCursors.click,
                                   icon: FaIcon(
-                                    FontAwesomeIcons.copy,
+                                    FontAwesomeIcons.solidCopy,
                                     size: 16,
                                     color: kAccentColor,
                                   ),

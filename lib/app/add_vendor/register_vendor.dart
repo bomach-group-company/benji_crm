@@ -4,7 +4,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:benji_aggregator/controller/error_controller.dart';
-import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:benji_aggregator/services/api_url.dart';
 import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
 import 'package:benji_aggregator/theme/colors.dart';
@@ -20,8 +19,9 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../../src/providers/constants.dart';
 import '../../controller/category_controller.dart';
+import '../../controller/form_controller.dart';
 import '../../controller/latlng_detail_controller.dart';
-import '../../model/create_vendor_model.dart';
+import '../../controller/user_controller.dart';
 import '../../services/keys.dart';
 import '../../src/components/button/my_elevatedButton.dart';
 import '../../src/components/input/my_blue_textformfield.dart';
@@ -109,6 +109,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
   final vendorvendorBioFN = FocusNode();
   final vendorFirstnameFN = FocusNode();
   final vendorLastnameFN = FocusNode();
+  final vendorLGAFN = FocusNode();
   // final vendorSunOpeningHoursFN = FocusNode();
   // final vendorMonToFriClosingHoursFN = FocusNode();
   // final vendorSatClosingHoursFN = FocusNode();
@@ -227,27 +228,51 @@ class _RegisterVendorState extends State<RegisterVendor> {
       ApiProcessorController.errorSnack("Please select a city");
       return;
     }
+    if (vendorLGAEC.text.isEmpty || vendorLGAEC.text == "") {
+      ApiProcessorController.errorSnack("Please select an LGA");
+      return;
+    }
 
-    SendCreateModel data = SendCreateModel(
-      phoneNumber: countryDialCode + vendorPhoneNumberEC.text,
-      address: mapsLocationEC.text,
-      email: vendorEmailEC.text,
-      personalID: personalIdEC.text,
-      country: country ?? "NG",
-      state: state ?? "",
-      city: city ?? "",
-      latitude: latitude ?? "",
-      longitude: longitude ?? "",
-      firstName: vendorFirstNameEC.text,
-      lastName: vendorLastNameEC.text,
-      // sunOpenHours: vendorSunOpeningHoursEC.text,
-      // sunCloseHours: vendorSunClosingHoursEC.text,
-      // profileImage: selectedLogoImage,
-    );
+    Map data = {
+      'first_name': vendorFirstNameEC.text,
+      'last_name': vendorLastNameEC.text,
+      'email': vendorEmailEC.text,
+      'phone': vendorPhoneNumberEC.text,
+      'personalId': personalIdEC.text,
+      'country': country ?? "NG",
+      'state': state ?? "",
+      'city': city ?? "",
+      'lga': vendorLGAEC.text,
+      'latitude': latitude,
+      'longitude': longitude,
+    };
+
+    String agentId = UserController.instance.user.value.id.toString();
+
+    var url = Api.baseUrl + Api.createThirdPartyVendor + agentId;
+    consoleLog(url);
+    await FormController.instance.postAuthstream(
+        url, data, {'profileLogo': selectedLogoImage}, 'agentCreateVendor');
+    // SendCreateModel data = SendCreateModel(
+    //   phoneNumber: countryDialCode + vendorPhoneNumberEC.text,
+    //   address: mapsLocationEC.text,
+    //   email: vendorEmailEC.text,
+    //   personalID: personalIdEC.text,
+    //   country: country ?? "NG",
+    //   state: state ?? "",
+    //   city: city ?? "",
+    //   latitude: latitude ?? "",
+    //   longitude: longitude ?? "",
+    //   firstName: vendorFirstNameEC.text,
+    //   lastName: vendorLastNameEC.text,
+    //   // sunOpenHours: vendorSunOpeningHoursEC.text,
+    //   // sunCloseHours: vendorSunClosingHoursEC.text,
+    //   profileImage: selectedLogoImage,
+    // );
     if (kDebugMode) {
       print(data);
     }
-    VendorController.instance.createVendor(data, true);
+    // VendorController.instance.createVendor(data, true);
   }
 
   //=========================== WIDGETS ====================================\\
@@ -377,7 +402,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
           actions: const [],
           backgroundColor: kPrimaryColor,
         ),
-        bottomNavigationBar: GetBuilder<VendorController>(builder: (sending) {
+        bottomNavigationBar: GetBuilder<FormController>(builder: (sending) {
           return Container(
             color: kPrimaryColor,
             padding: const EdgeInsets.all(kDefaultPadding),
@@ -388,7 +413,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                   saveChanges();
                 }
               }),
-              isLoading: sending.isLoadCreate.value,
+              isLoading: sending.isLoad.value,
               title: "Save",
             ),
           );
@@ -796,6 +821,32 @@ class _RegisterVendorState extends State<RegisterVendor> {
                               }
                             },
                           ),
+                          kSizedBox,
+                          const Text(
+                            "Local Government Area",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          kSizedBox,
+                          MyBlueTextFormField(
+                            controller: vendorLGAEC,
+                            validator: (value) {
+                              if (value == null || value!.isEmpty) {
+                                return "Field cannot be empty";
+                              } else {
+                                return null;
+                              }
+                            },
+                            onSaved: (value) {},
+                            textInputAction: TextInputAction.next,
+                            focusNode: vendorLGAFN,
+                            hintText: "Enter the LGA",
+                            textInputType: TextInputType.text,
+                          ),
+                          kSizedBox,
+
                           // MyDropDownMenu(
                           //   controller: vendorLGAEC,
                           //   hintText: "Select your LGA",
