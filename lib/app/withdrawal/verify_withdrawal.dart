@@ -162,7 +162,6 @@ class _VerifyWithdrawalPageState extends State<VerifyWithdrawalPage> {
           backgroundColor: kTransparentColor,
         ),
         body: SafeArea(
-          maintainBottomViewPadding: true,
           child: LayoutGrid(
             columnSizes: breakPointDynamic(
               media.size.width,

@@ -101,7 +101,6 @@ class _WithdrawalHistoryPageState extends State<WithdrawalHistoryPage> {
             )
           : const SizedBox(),
       body: SafeArea(
-        maintainBottomViewPadding: true,
         child: Scrollbar(
           controller: scrollController,
           child: GetBuilder<WithdrawController>(

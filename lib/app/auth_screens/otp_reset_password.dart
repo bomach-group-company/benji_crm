@@ -211,7 +211,6 @@ class _OTPResetPasswordState extends State<OTPResetPassword> {
           backgroundColor: kTransparentColor,
         ),
         body: SafeArea(
-          maintainBottomViewPadding: true,
           child: LayoutGrid(
             columnSizes: breakPointDynamic(
               media.size.width,

@@ -250,7 +250,6 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
           ],
         ),
         body: SafeArea(
-          maintainBottomViewPadding: true,
           child: GetBuilder<VendorController>(
             builder: (controller) {
               return Scrollbar(

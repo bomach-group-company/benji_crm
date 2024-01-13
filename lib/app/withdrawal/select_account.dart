@@ -159,7 +159,6 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
         displacement: 5,
         color: kAccentColor,
         child: SafeArea(
-          maintainBottomViewPadding: true,
           child: ListView(
             padding: const EdgeInsets.all(10),
             controller: scrollController,

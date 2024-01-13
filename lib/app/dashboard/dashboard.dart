@@ -232,7 +232,6 @@ class _DashboardState extends State<Dashboard>
             )
           : const SizedBox(),
       body: SafeArea(
-        maintainBottomViewPadding: true,
         child: RefreshIndicator(
           onRefresh: handleRefresh,
           color: kAccentColor,

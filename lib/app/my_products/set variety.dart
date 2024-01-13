@@ -46,7 +46,6 @@ class _SetVarietyState extends State<SetVariety> {
       body: GestureDetector(
         onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
         child: SafeArea(
-          maintainBottomViewPadding: true,
           child: ListView(
             padding: const EdgeInsets.all(kDefaultPadding),
             children: [

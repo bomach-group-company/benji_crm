@@ -82,7 +82,6 @@ class _AddVendorState extends State<AddVendor> {
         backgroundColor: kPrimaryColor,
       ),
       body: SafeArea(
-        maintainBottomViewPadding: true,
         child: Scrollbar(
           controller: scrollController,
           radius: const Radius.circular(10),

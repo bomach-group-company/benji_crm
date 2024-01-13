@@ -61,7 +61,6 @@ class _SelectBankBodyState extends State<SelectBankBody> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      maintainBottomViewPadding: true,
       child: Column(
         children: [
           // Padding(

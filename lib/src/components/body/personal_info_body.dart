@@ -352,7 +352,6 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
     return SafeArea(
-      maintainBottomViewPadding: true,
       child: Scrollbar(
         child: ListView(
           controller: scrollController,

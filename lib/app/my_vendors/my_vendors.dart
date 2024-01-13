@@ -146,7 +146,6 @@ class _MyVendorsState extends State<MyVendors> {
           backgroundColor: kPrimaryColor,
         ),
         body: SafeArea(
-          maintainBottomViewPadding: true,
           child: GetBuilder<VendorController>(
             builder: (controller) {
               return Scrollbar(

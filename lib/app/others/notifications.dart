@@ -69,7 +69,6 @@ class _NotificationsState extends State<Notifications> {
           actions: const [],
         ),
         body: SafeArea(
-          maintainBottomViewPadding: true,
           child: GetBuilder<NotificationController>(
             builder: (notifications) {
               return notifications.isLoad.value

@@ -112,7 +112,6 @@ class _AboutVendorState extends State<AboutVendor> {
           backgroundColor: kPrimaryColor,
         ),
         body: SafeArea(
-          maintainBottomViewPadding: true,
           child: Scrollbar(
             child: ListView(
               physics: const BouncingScrollPhysics(),

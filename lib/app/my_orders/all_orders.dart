@@ -90,7 +90,6 @@ class _AllCompletedOrdersState extends State<AllCompletedOrders>
           backgroundColor: kPrimaryColor,
         ),
         body: SafeArea(
-          maintainBottomViewPadding: true,
           child: MyFutureBuilder(
             future: null,
             child: () {

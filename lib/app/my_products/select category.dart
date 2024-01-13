@@ -58,7 +58,6 @@ class _SelectCategoryState extends State<SelectCategory> {
         backgroundColor: kPrimaryColor,
       ),
       body: SafeArea(
-        maintainBottomViewPadding: true,
         child: ListView(
           physics: const BouncingScrollPhysics(),
           scrollDirection: Axis.vertical,

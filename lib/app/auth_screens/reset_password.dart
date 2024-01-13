@@ -139,7 +139,6 @@ class _ResetPasswordState extends State<ResetPassword> {
           backgroundColor: kTransparentColor,
         ),
         body: SafeArea(
-          maintainBottomViewPadding: true,
           child: LayoutGrid(
             columnSizes: breakPointDynamic(
               media.size.width,

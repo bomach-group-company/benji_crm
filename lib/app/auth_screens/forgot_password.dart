@@ -115,7 +115,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           backgroundColor: kTransparentColor,
         ),
         body: SafeArea(
-          maintainBottomViewPadding: true,
           child: LayoutGrid(
             columnSizes: breakPointDynamic(
               media.size.width,

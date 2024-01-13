@@ -22,7 +22,6 @@ class SuccessfulScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        maintainBottomViewPadding: true,
         child: Container(
           margin: const EdgeInsets.only(
             top: kDefaultPadding,

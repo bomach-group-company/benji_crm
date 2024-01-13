@@ -250,7 +250,6 @@ class _AddProductState extends State<AddProduct> {
           );
         }),
         body: SafeArea(
-          maintainBottomViewPadding: true,
           child: Scrollbar(
             child: ListView(
               padding: const EdgeInsets.all(kDefaultPadding),

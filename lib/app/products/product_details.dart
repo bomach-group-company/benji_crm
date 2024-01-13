@@ -113,7 +113,6 @@ class _ProductDetailsState extends State<ProductDetails> {
         extendBodyBehindAppBar: true,
         backgroundColor: kPrimaryColor,
         body: SafeArea(
-          maintainBottomViewPadding: true,
           child: Scrollbar(
             controller: scrollController,
             radius: const Radius.circular(10),

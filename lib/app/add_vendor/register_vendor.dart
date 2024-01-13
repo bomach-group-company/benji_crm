@@ -242,7 +242,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
       lastName: vendorLastNameEC.text,
       // sunOpenHours: vendorSunOpeningHoursEC.text,
       // sunCloseHours: vendorSunClosingHoursEC.text,
-      profileImage: selectedLogoImage,
+      // profileImage: selectedLogoImage,
     );
     if (kDebugMode) {
       print(data);

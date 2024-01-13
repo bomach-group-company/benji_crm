@@ -111,7 +111,6 @@ class _ProfileState extends State<Profile> {
       child: Scaffold(
         appBar: AppBar(backgroundColor: kAccentColor, elevation: 0.0),
         body: SafeArea(
-          maintainBottomViewPadding: true,
           child: GetBuilder<UserController>(
             builder: (controller) {
               return ListView(

@@ -256,7 +256,6 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
           ],
         ),
         body: SafeArea(
-          maintainBottomViewPadding: true,
           child: Scrollbar(
             controller: scrollController,
             radius: const Radius.circular(10),

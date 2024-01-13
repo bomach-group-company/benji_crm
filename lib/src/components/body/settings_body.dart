@@ -66,7 +66,6 @@ class _SettingsBodyState extends State<SettingsBody> {
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
     return SafeArea(
-      maintainBottomViewPadding: true,
       child: Scrollbar(
         controller: scrollController,
         child: ListView(

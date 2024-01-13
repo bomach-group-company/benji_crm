@@ -137,7 +137,6 @@ class _SimilarProductsPageState extends State<SimilarProductsPage>
           ],
         ),
         body: SafeArea(
-          maintainBottomViewPadding: true,
           child: FutureBuilder(
               future: null,
               builder: (context, snapshot) {

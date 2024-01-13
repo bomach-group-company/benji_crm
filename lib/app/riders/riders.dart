@@ -176,7 +176,6 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
               )
             : const SizedBox(),
         body: SafeArea(
-          maintainBottomViewPadding: true,
           child: GetBuilder<RiderController>(initState: (state) async {
             await RiderController.instance.getRiders();
           }, builder: (controller) {

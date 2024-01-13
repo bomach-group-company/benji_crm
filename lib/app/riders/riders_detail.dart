@@ -216,7 +216,6 @@ class _RidersDetailState extends State<RidersDetail> {
               )
             : const SizedBox(),
         body: SafeArea(
-          maintainBottomViewPadding: true,
           child: GetBuilder<RiderHistoryController>(initState: (state) async {
             await RiderHistoryController.instance.riderHistory(widget.rider.id);
           }, builder: (riderController) {

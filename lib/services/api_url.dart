@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-import 'package:path/path.dart';
 
 import '../model/create_vendor_model.dart';
 
@@ -129,7 +128,7 @@ class HandleData {
       url, token, SendCreateModel data, bool vendorClassifier) async {
     http.StreamedResponse? response;
 
-    final filePhotoName = basename(data.profileImage!.path);
+    // final filePhotoName = basename(data.profileImage!.path);
 
     var request = http.MultipartRequest("POST", Uri.parse(url));
     Map<String, String> headers = {
@@ -138,9 +137,9 @@ class HandleData {
       'authorization': 'Bearer $token',
     };
 
-    var file = await http.MultipartFile.fromPath(
-        'image', data.profileImage!.path,
-        filename: filePhotoName);
+    // var file = await http.MultipartFile.fromPath(
+    //     'image', data.profileImage!.path,
+    //     filename: filePhotoName);
 
     request.headers.addAll(headers);
 
@@ -158,7 +157,7 @@ class HandleData {
     request.fields["latitude"] = data.latitude!.toString();
     request.fields["longitude"] = data.longitude!.toString();
     request.fields["vendorClassifier"] = vendorClassifier.toString();
-    request.files.add(file);
+    // request.files.add(file)  ;
     try {
       response = await request.send();
     } catch (e) {

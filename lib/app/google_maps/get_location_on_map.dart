@@ -310,7 +310,6 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
           ),
         ),
         body: SafeArea(
-          maintainBottomViewPadding: true,
           child: _userPosition == null
               ? Center(
                   child: CircularProgressIndicator(

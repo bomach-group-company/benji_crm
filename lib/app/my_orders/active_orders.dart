@@ -97,7 +97,6 @@ class _ActiveOrdersState extends State<ActiveOrders> {
           backgroundColor: kPrimaryColor,
         ),
         body: SafeArea(
-          maintainBottomViewPadding: true,
           child: MyFutureBuilder(
             future: null,
             child: () {
