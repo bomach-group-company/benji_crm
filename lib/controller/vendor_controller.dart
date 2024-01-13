@@ -228,12 +228,19 @@ class VendorController extends GetxController {
     try {
       http.StreamedResponse? response =
           await HandleData.streamAddVendor(url, token, data, classify);
+
+      if (kDebugMode) {
+        final res = await http.Response.fromStream(response!);
+        print("This is the response: ${jsonDecode(res.body)}");
+        print("This is the status code: ${response.statusCode.toString()}");
+      }
       if (response == null) {
         isLoadCreate.value = false;
       } else if (response.statusCode == 200) {
         final res = await http.Response.fromStream(response);
         var jsonData = jsonDecode(res.body);
         ApiProcessorController.successSnack(jsonData);
+
         isLoadCreate.value = false;
         Get.close(1);
       } else {

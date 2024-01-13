@@ -2,9 +2,10 @@ import 'dart:io';
 
 class SendCreateModel {
   File? profileImage;
-  String? vendorEmail;
-  String? vendorPhone;
-  String? bussinessAddress;
+  String? email;
+  String? phoneNumber;
+  String? personalID;
+  String? address;
   String? country;
   String? state;
   String? city;
@@ -14,9 +15,10 @@ class SendCreateModel {
   String? lastName;
   SendCreateModel({
     this.profileImage,
-    this.vendorEmail,
-    this.vendorPhone,
-    this.bussinessAddress,
+    this.email,
+    this.phoneNumber,
+    this.personalID,
+    this.address,
     this.country,
     this.state,
     this.city,

@@ -218,12 +218,12 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
       target: position,
       zoom: zoom,
     )));
-    await _getPlaceMark(position);
+    await getPlaceMark(position);
   }
 
 //========================================================== Get PlaceMark Address and LatLng =============================================================\\
 
-  Future _getPlaceMark(LatLng position) async {
+  Future getPlaceMark(LatLng position) async {
     List<Placemark> placemarks =
         await placemarkFromCoordinates(position.latitude, position.longitude);
     Placemark address = placemarks[0];
@@ -238,8 +238,8 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
   }
 
 //==================== Select Location using ===============\\
-  void _selectLocation() async {
-    _getPlaceMark(draggedLatLng);
+  void selectLocation() async {
+    getPlaceMark(draggedLatLng);
   }
 
 //============================================== Create Google Maps ==================================================\\
@@ -250,18 +250,16 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
   }
 
 //========================================================== Save Function =============================================================\\
-  _saveFunc() async {
-    _getPlaceMark(draggedLatLng);
-    if (kDebugMode) {
-      print("draggedLatLng: $draggedLatLng");
-      print("PinnedLocation: $pinnedLocation");
-    }
+  saveData() async {
+    getPlaceMark(draggedLatLng);
     String latitude = draggedLatLng.latitude.toString();
     String longitude = draggedLatLng.longitude.toString();
-    latLngDetailController
-        .setLatLngdetail([latitude, longitude, pinnedLocation]);
-
-    Get.back();
+    var data = {
+      'mapsLocation': pinnedLocation,
+      'latitude': latitude, // Replace with actual latitude
+      'longitude': longitude, // Replace with actual longitude
+    };
+    Get.back(result: data);
   }
 
   @override
@@ -271,19 +269,20 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
       child: Scaffold(
         appBar: MyAppBar(
           title: "Locate on Map",
-          elevation: 0.0,
+          elevation: 0,
           actions: const [],
           backgroundColor: kPrimaryColor,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
         floatingActionButton: FloatingActionButton(
-          onPressed: _selectLocation,
+          onPressed: selectLocation,
           backgroundColor: kAccentColor,
           tooltip: "Pin Location",
           mouseCursor: SystemMouseCursors.click,
-          child: const FaIcon(
+          child: FaIcon(
             FontAwesomeIcons.locationDot,
             size: 18,
+            color: kPrimaryColor,
           ),
         ),
         bottomNavigationBar: Container(
@@ -306,7 +305,7 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
                 TextSpan(text: pinnedLocation!),
               ])),
               kHalfSizedBox,
-              MyElevatedButton(title: "Save", onPressed: _saveFunc),
+              MyElevatedButton(title: "Save", onPressed: saveData),
             ],
           ),
         ),
@@ -367,7 +366,7 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
                               setState(() {
                                 locationPinIsVisible = true;
                               });
-                              _getPlaceMark(draggedLatLng);
+                              getPlaceMark(draggedLatLng);
                             },
                             onCameraMove: (cameraPosition) {
                               setState(() {

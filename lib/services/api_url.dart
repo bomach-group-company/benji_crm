@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:path/path.dart';
 
 import '../model/create_vendor_model.dart';
 
@@ -128,7 +129,7 @@ class HandleData {
       url, token, SendCreateModel data, bool vendorClassifier) async {
     http.StreamedResponse? response;
 
-    //  final filePhotoName = basename(data.image!.path);
+    final filePhotoName = basename(data.profileImage!.path);
 
     var request = http.MultipartRequest("POST", Uri.parse(url));
     Map<String, String> headers = {
@@ -137,26 +138,27 @@ class HandleData {
       'authorization': 'Bearer $token',
     };
 
-    // var file = await http.MultipartFile.fromPath('image', data.image!.path,
-    //     filename: filePhotoName);
+    var file = await http.MultipartFile.fromPath(
+        'image', data.profileImage!.path,
+        filename: filePhotoName);
 
     request.headers.addAll(headers);
 
-    request.fields["email"] = data.vendorEmail!.toString();
-    request.fields["phone"] = data.vendorPhone!.toString();
-    request.fields["address"] = data.bussinessAddress!.toString();
+    request.fields["email"] = data.email!.toString();
+    request.fields["phone"] = data.phoneNumber!.toString();
+    request.fields["address"] = data.address!.toString();
 
     request.fields["city"] = data.city!.toString();
 
     request.fields["first_name"] = data.firstName!.toString();
     request.fields["last_name"] = data.lastName!.toString();
-
+    request.fields["personalId"] = data.personalID!.toString();
     request.fields["state"] = data.state!.toString();
     request.fields["country"] = data.country!.toString();
     request.fields["latitude"] = data.latitude!.toString();
     request.fields["longitude"] = data.longitude!.toString();
-    // request.fields["vendorClassifier"] = vendorClassifier.toString();
-    //  request.files.add(file);
+    request.fields["vendorClassifier"] = vendorClassifier.toString();
+    request.files.add(file);
     try {
       response = await request.send();
     } catch (e) {
@@ -184,9 +186,9 @@ class HandleData {
 
     request.headers.addAll(headers);
 
-    request.fields["email"] = data.vendorEmail!.toString();
-    request.fields["phone"] = data.vendorPhone!.toString();
-    request.fields["address"] = data.bussinessAddress!.toString();
+    request.fields["email"] = data.email!.toString();
+    request.fields["phone"] = data.phoneNumber!.toString();
+    request.fields["address"] = data.address!.toString();
 
     request.fields["city"] = data.city!.toString();
     request.fields["state"] = data.state!.toString();
@@ -221,9 +223,9 @@ class HandleData {
 
     request.headers.addAll(headers);
 
-    request.fields["email"] = data.vendorEmail!.toString();
-    request.fields["phone"] = data.vendorPhone!.toString();
-    request.fields["address"] = data.bussinessAddress!.toString();
+    request.fields["email"] = data.email!.toString();
+    request.fields["phone"] = data.phoneNumber!.toString();
+    request.fields["address"] = data.address!.toString();
 
     // request.fields["personalId"] = data.personaId!.toString();
     // request.fields["businessId"] = data.businessId!.toString();

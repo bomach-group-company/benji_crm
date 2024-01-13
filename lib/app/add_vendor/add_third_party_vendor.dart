@@ -237,9 +237,9 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
     }
 
     SendCreateModel data = SendCreateModel(
-      vendorPhone: vendorPhoneNumberEC.text,
-      bussinessAddress: vendorAddressEC.text,
-      vendorEmail: vendorEmailEC.text,
+      phoneNumber: vendorPhoneNumberEC.text,
+      address: vendorAddressEC.text,
+      email: vendorEmailEC.text,
       country: country ?? "NG",
       state: state ?? "",
       city: city ?? "",

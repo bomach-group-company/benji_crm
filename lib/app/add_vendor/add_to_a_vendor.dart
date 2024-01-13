@@ -250,9 +250,9 @@ class _AddToAVendorState extends State<AddToAVendor> {
       return;
     }
     SendCreateModel data = SendCreateModel(
-      vendorPhone: vendorPhoneNumberEC.text,
-      bussinessAddress: mapsLocationEC.text,
-      vendorEmail: vendorEmailEC.text,
+      phoneNumber: vendorPhoneNumberEC.text,
+      address: mapsLocationEC.text,
+      email: vendorEmailEC.text,
       country: country ?? "NG",
       state: state ?? "",
       city: city ?? "",

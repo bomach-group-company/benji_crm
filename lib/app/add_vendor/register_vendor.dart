@@ -5,6 +5,7 @@ import 'dart:io';
 
 import 'package:benji_aggregator/controller/error_controller.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
+import 'package:benji_aggregator/services/api_url.dart';
 import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:csc_picker/csc_picker.dart';
@@ -86,18 +87,19 @@ class _RegisterVendorState extends State<RegisterVendor> {
   final vendorAddressEC = TextEditingController();
   final vendorvendorTypeEC = TextEditingController();
   final vendorvendorBioEC = TextEditingController();
-  final vendorFirstnameEC = TextEditingController();
-  final vendorLastnameEC = TextEditingController();
+  final vendorFirstNameEC = TextEditingController();
+  final vendorLastNameEC = TextEditingController();
+
+  final vendorLGAEC = TextEditingController();
   // final vendorSunOpeningHoursEC = TextEditingController();
   // final vendorMonToFriClosingHoursEC = TextEditingController();
   // final vendorSatClosingHoursEC = TextEditingController();
   // final vendorSunClosingHoursEC = TextEditingController();
   final mapsLocationEC = TextEditingController();
-  final LatLngDetailController latLngDetailController =
-      LatLngDetailController.instance;
+  final latLngDetailController = LatLngDetailController.instance;
 
   //=================================== FOCUS NODES ====================================\\
-  final vendorPersonalIdFN = FocusNode();
+  final personalIdFN = FocusNode();
   final vendorvendorIdFN = FocusNode();
   final vendorNameFN = FocusNode();
   final vendorEmailFN = FocusNode();
@@ -116,7 +118,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
   //============================================= FUNCTIONS ===============================================\\
 
 //Google Maps
-  _setLocation(index) async {
+  setLocation(index) async {
     final newLocation = placePredictions[index].description!;
     selectedLocation.value = newLocation;
 
@@ -149,7 +151,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
   }
 
   void getLocationOnMap() async {
-    await Get.to(
+    var result = await Get.to(
       () => const GetLocationOnMap(),
       routeName: 'GetLocationOnMap',
       duration: const Duration(milliseconds: 300),
@@ -159,14 +161,14 @@ class _RegisterVendorState extends State<RegisterVendor> {
       popGesture: true,
       transition: Transition.rightToLeft,
     );
-    latitude = latLngDetailController.latLngDetail.value[0];
-    longitude = latLngDetailController.latLngDetail.value[1];
-    mapsLocationEC.text = latLngDetailController.latLngDetail.value[2];
-    latLngDetailController.setEmpty();
-    if (kDebugMode) {
-      print("LATLNG: $latitude,$longitude");
-      print(mapsLocationEC.text);
+    if (result != null) {
+      mapsLocationEC.text = result["mapsLocation"];
+      latitude = result["latitude"];
+      longitude = result["longitude"];
     }
+    consoleLog(
+      "Received Data - Maps Location: ${mapsLocationEC.text}, Latitude: $latitude, Longitude: $longitude",
+    );
   }
 
 //=========================== IMAGE PICKER ====================================\\
@@ -204,40 +206,47 @@ class _RegisterVendorState extends State<RegisterVendor> {
 
   //========================== Save data ==================================\\
   Future<void> saveChanges() async {
-    if (country == null) {
-      ApiProcessorController.errorSnack("Please select country");
+    if (selectedLogoImage == null) {
+      ApiProcessorController.errorSnack("Please add a profile picture");
+      return;
+    }
+    if (country == null || country!.isEmpty || country == "") {
+      ApiProcessorController.errorSnack("Please select a country");
+      return;
+    }
 
+    if (state == null || state!.isEmpty || state == "") {
+      ApiProcessorController.errorSnack("Please select a state");
       return;
     }
-    if (state == null) {
-      ApiProcessorController.errorSnack("Please select state");
-      if (state != "Enugu") {
-        ApiProcessorController.errorSnack(
-          "We are only available in Enugu state",
-        );
-      }
+    if (!state!.contains("Enugu")) {
+      ApiProcessorController.errorSnack("We are only available in Enugu state");
       return;
     }
-    if (city == null) {
-      ApiProcessorController.errorSnack("Please select city");
+    if (city == null || city!.isEmpty || city == "") {
+      ApiProcessorController.errorSnack("Please select a city");
       return;
     }
 
     SendCreateModel data = SendCreateModel(
-      vendorPhone: countryDialCode + vendorPhoneNumberEC.text,
-      bussinessAddress: mapsLocationEC.text,
-      vendorEmail: vendorEmailEC.text,
+      phoneNumber: countryDialCode + vendorPhoneNumberEC.text,
+      address: mapsLocationEC.text,
+      email: vendorEmailEC.text,
+      personalID: personalIdEC.text,
       country: country ?? "NG",
       state: state ?? "",
       city: city ?? "",
       latitude: latitude ?? "",
       longitude: longitude ?? "",
-      firstName: vendorFirstnameEC.text,
-      lastName: vendorLastnameEC.text,
+      firstName: vendorFirstNameEC.text,
+      lastName: vendorLastNameEC.text,
       // sunOpenHours: vendorSunOpeningHoursEC.text,
       // sunCloseHours: vendorSunClosingHoursEC.text,
       profileImage: selectedLogoImage,
     );
+    if (kDebugMode) {
+      print(data);
+    }
     VendorController.instance.createVendor(data, true);
   }
 
@@ -511,7 +520,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                           ),
                           kSizedBox,
                           MyBlueTextFormField(
-                            controller: vendorFirstnameEC,
+                            controller: vendorFirstNameEC,
                             validator: (value) {
                               if (value == null || value!.isEmpty) {
                                 return "Field cannot be empty";
@@ -535,7 +544,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                           ),
                           kSizedBox,
                           MyBlueTextFormField(
-                            controller: vendorLastnameEC,
+                            controller: vendorLastNameEC,
                             validator: (value) {
                               if (value == null || value!.isEmpty) {
                                 return "Field cannot be empty";
@@ -572,6 +581,30 @@ class _RegisterVendorState extends State<RegisterVendor> {
                             focusNode: vendorEmailFN,
                             hintText: "Enter the bussiness email",
                             textInputType: TextInputType.emailAddress,
+                          ),
+                          kSizedBox,
+                          const Text(
+                            "Personal ID",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          kSizedBox,
+                          MyBlueTextFormField(
+                            controller: personalIdEC,
+                            validator: (value) {
+                              if (value == null || value!.isEmpty) {
+                                return "Field cannot be empty";
+                              } else {
+                                return null;
+                              }
+                            },
+                            onSaved: (value) {},
+                            textInputAction: TextInputAction.next,
+                            focusNode: personalIdFN,
+                            hintText: "Enter the personal ID",
+                            textInputType: TextInputType.text,
                           ),
                           kSizedBox,
                           const Text(
@@ -716,7 +749,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                                     itemCount: placePredictions.length,
                                     itemBuilder: (context, index) =>
                                         LocationListTile(
-                                      onTap: () => _setLocation(index),
+                                      onTap: () => setLocation(index),
                                       location:
                                           placePredictions[index].description!,
                                     ),
@@ -763,6 +796,16 @@ class _RegisterVendorState extends State<RegisterVendor> {
                               }
                             },
                           ),
+                          // MyDropDownMenu(
+                          //   controller: vendorLGAEC,
+                          //   hintText: "Select your LGA",
+                          //   dropdownMenuEntries: const [
+                          //     DropdownMenuEntry(
+                          //       value: "1",
+                          //       label: "Enugu North",
+                          //     ),
+                          //   ],
+                          // ),
                         ],
                       );
                     }),
