@@ -251,6 +251,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
 
     var url = Api.baseUrl + Api.createThirdPartyVendor + agentId;
     consoleLog(url);
+    consoleLog(data.toString());
     await FormController.instance.postAuthstream(
         url, data, {'profileLogo': selectedLogoImage}, 'agentCreateVendor');
     // SendCreateModel data = SendCreateModel(
