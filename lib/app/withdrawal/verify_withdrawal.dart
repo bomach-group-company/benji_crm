@@ -124,7 +124,7 @@ class _VerifyWithdrawalPageState extends State<VerifyWithdrawalPage> {
         elevatedButtonTitle: "Okay",
         text: 'Withdrawal Successful',
         buttonAction: () => Get.offAll(
-          () => OverView(),
+          () => const OverView(),
           routeName: 'OverView',
           duration: const Duration(milliseconds: 300),
           fullscreenDialog: true,

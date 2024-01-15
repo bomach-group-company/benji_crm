@@ -80,7 +80,7 @@ class LoginController extends GetxController {
         update();
 
         Get.offAll(
-          () => OverView(),
+          () => const OverView(),
           fullscreenDialog: true,
           curve: Curves.easeIn,
           routeName: "OverView",

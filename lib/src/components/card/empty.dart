@@ -50,7 +50,7 @@ class EmptyCard extends StatelessWidget {
                     onPressed: onPressed ??
                         () {
                           Get.offAll(
-                            () => OverView(currentIndex: 0),
+                            () => const OverView(currentIndex: 0),
                             routeName: 'OverView',
                             duration: const Duration(milliseconds: 300),
                             fullscreenDialog: true,

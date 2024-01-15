@@ -3,9 +3,7 @@
 import 'dart:async';
 
 import 'package:benji_aggregator/app/my_orders/all_orders.dart';
-import 'package:benji_aggregator/controller/category_controller.dart';
 import 'package:benji_aggregator/controller/notification_controller.dart';
-import 'package:benji_aggregator/controller/order_controller.dart';
 import 'package:benji_aggregator/controller/rider_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
@@ -108,12 +106,8 @@ class _DashboardState extends State<Dashboard>
     setState(() {
       loadingScreen = true;
     });
-    VendorController.instance.getVendors();
-    VendorController.instance.getMyVendors();
-    OrderController.instance.getOrders();
-    CategoryController.instance.getCategory();
-    RiderController.instance.getRiders();
-    NotificationController.instance.runTask();
+    await VendorController.instance.getMyVendors();
+    await NotificationController.instance.runTask();
     setState(() {
       loadingScreen = false;
     });
@@ -140,8 +134,8 @@ class _DashboardState extends State<Dashboard>
   }
 
 //=================================== Navigation =====================================\\
-  void _toSeeAllVendors() => Get.to(
-        () => OverView(currentIndex: 1),
+  void toSeeMyVendors() => Get.to(
+        () => const OverView(currentIndex: 1),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -152,7 +146,7 @@ class _DashboardState extends State<Dashboard>
       );
 
   void _toSeeAllRiders() => Get.to(
-        () => OverView(currentIndex: 2),
+        () => const OverView(currentIndex: 2),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -241,7 +235,7 @@ class _DashboardState extends State<Dashboard>
               physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.all(kDefaultPadding),
               children: [
-                AvailableBalanceCard(availableBalance: doubleFormattedText(0)),
+                const AvailableBalanceCard(),
                 kSizedBox,
                 // GetBuilder<OrderController>(initState: (state) async {
                 //   await OrderController.instance.getOrders();
@@ -299,18 +293,22 @@ class _DashboardState extends State<Dashboard>
                 //   );
                 // }),
                 // kSizedBox,
-                GetBuilder<VendorController>(initState: (state) async {
-                  await VendorController.instance.getVendors();
-                }, builder: (vendor) {
-                  final allVendor = vendor.vendorList.toList();
-                  final allOnlineVendor = vendor.vendorList;
-                  return DashboardContainer(
-                    onTap: _toSeeAllVendors,
-                    number: intFormattedText(allVendor.length),
-                    typeOf: "Vendors",
-                    onlineStatus: "Online",
-                  );
-                }),
+                GetBuilder<VendorController>(
+                  init: VendorController(),
+                  initState: (state) async {
+                    await VendorController.instance.getMyVendors();
+                  },
+                  builder: (vendor) {
+                    final myVendors = vendor.vendorMyList.toList();
+
+                    return DashboardContainer(
+                      onTap: toSeeMyVendors,
+                      number: intFormattedText(myVendors.length),
+                      typeOf: "My Vendors",
+                      onlineStatus: "Online",
+                    );
+                  },
+                ),
                 kSizedBox,
                 // DashboardContainer(
                 //   onTap: toSeeAllBusinesses,

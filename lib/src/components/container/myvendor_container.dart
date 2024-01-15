@@ -18,6 +18,7 @@ class MyVendorContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var media = MediaQuery.of(context).size;
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(16),
@@ -43,17 +44,42 @@ class MyVendorContainer extends StatelessWidget {
             ),
             kHalfWidthSizedBox,
             Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
+                  width: media.width - 250,
                   child: Text(
-                    vendor.username,
+                    "${vendor.firstName} ${vendor.lastName}",
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       color: kTextBlackColor,
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
-                      letterSpacing: -0.36,
+                    ),
+                  ),
+                ),
+
+                SizedBox(
+                  width: media.width - 250,
+                  child: Text(
+                    vendor.username,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: kTextGreyColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+                kHalfSizedBox,
+                SizedBox(
+                  width: media.width - 250,
+                  child: Text(
+                    vendor.email,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: kAccentColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w300,
                     ),
                   ),
                 ),

@@ -27,7 +27,7 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
 
 //======================================== FUNCTIONS ==============================================\\
   void toProfilePage() => Get.to(
-        () => OverView(currentIndex: 3),
+        () => const OverView(currentIndex: 3),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,

@@ -315,9 +315,9 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               SizedBox(
-                                width: media.width - 200,
+                                width: media.width - 150,
                                 child: Text(
-                                  widget.vendor.username,
+                                  "${widget.vendor.firstName} ${widget.vendor.lastName}",
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   textAlign: TextAlign.center,
@@ -355,7 +355,8 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                               ),
                               kHalfSizedBox,
                               InkWell(
-                                onTap: widget.vendor.address.isEmpty
+                                onTap: widget.vendor.address.isEmpty ||
+                                        widget.vendor.address == ""
                                     ? null
                                     : toVendorLocation,
                                 borderRadius: BorderRadius.circular(10),

@@ -22,8 +22,8 @@ class Api {
   static const validateBankNumber = "/payments/validateBankNumbers/";
 
 //Vendor
-  static const vendorList = "/agents/listAllMyVendors";
-  static const vendorMyList = "/agents/listThirdPartyMyVendor";
+  static const vendorMyList = "/agents/listAllMyVendors";
+  // static const vendorMyList = "/agents/listThirdPartyMyVendor";
   static const agentCreateVendor = "/agents/agentCreateVendor";
   static const getSpecificVendor = "/agents/getVendor/";
   static const getVendorProducts = "/agents/listVendorProducts/";

@@ -11,11 +11,7 @@ import '../../../../theme/colors.dart';
 import '../../providers/constants.dart';
 
 class AvailableBalanceCard extends StatefulWidget {
-  final String availableBalance;
-  const AvailableBalanceCard({
-    super.key,
-    required this.availableBalance,
-  });
+  const AvailableBalanceCard({super.key});
 
   @override
   State<AvailableBalanceCard> createState() => _AvailableBalanceCardState();

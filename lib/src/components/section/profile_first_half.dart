@@ -12,11 +12,7 @@ import '../../../theme/colors.dart';
 import '../../providers/constants.dart';
 
 class ProfileFirstHalf extends StatefulWidget {
-  final String availableBalance;
-  const ProfileFirstHalf({
-    super.key,
-    required this.availableBalance,
-  });
+  const ProfileFirstHalf({super.key});
 
   @override
   State<ProfileFirstHalf> createState() => _ProfileFirstHalfState();

@@ -116,7 +116,7 @@ class _ProfileState extends State<Profile> {
               return ListView(
                 scrollDirection: Axis.vertical,
                 children: [
-                  ProfileFirstHalf(availableBalance: doubleFormattedText(0)),
+                  const ProfileFirstHalf(),
                   Padding(
                     padding: const EdgeInsets.only(
                       top: kDefaultPadding,

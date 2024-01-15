@@ -57,15 +57,18 @@ class MyVendorModel {
       state: json["vendor"]["state"] ?? notAvailable,
       city: json["vendor"]["city"] ?? notAvailable,
       lga: json["vendor"]["lga"] ?? notAvailable,
-      username: json["agent"]["username"] ?? notAvailable,
-      code: json["agent"]["code"] ?? notAvailable,
-      firstName: json["agent"]["first_name"] ?? notAvailable,
-      lastName: json["agent"]["last_name"] ?? notAvailable,
-      gender: json["agent"]["gender"] ?? notAvailable,
-      address: json["agent"]["address"] ?? notAvailable,
-      profileLogo: json["vendor"]["profileLogo"] ?? '',
-      longitude: json["longitude"] ?? '',
-      latitude: json["latitude"] ?? '',
+      username: json["vendor"]["username"] ?? notAvailable,
+      code: json["vendor"]["code"] ?? notAvailable,
+      firstName: json["vendor"]["first_name"] ?? notAvailable,
+      lastName: json["vendor"]["last_name"] ?? notAvailable,
+      gender: json["vendor"]["gender"] ?? notAvailable,
+      address: json["vendor"]["address"] ?? notAvailable,
+      profileLogo: json["vendor"]["profileLogo"] == null ||
+              json["vendor"]["profileLogo"] == ""
+          ? 'https://img.freepik.com/free-psd/3d-icon-social-media-app_23-2150049569.jpg'
+          : json['image'],
+      longitude: json["longitude"] ?? notAvailable,
+      latitude: json["latitude"] ?? notAvailable,
     );
   }
 }

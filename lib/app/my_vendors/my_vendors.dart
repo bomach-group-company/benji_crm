@@ -3,21 +3,27 @@ import 'dart:async';
 import 'package:benji_aggregator/app/my_vendors/my_vendor_detail.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:benji_aggregator/model/my_vendor_model.dart';
-import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
 import 'package:benji_aggregator/src/components/container/myvendor_container.dart';
 import 'package:benji_aggregator/src/components/section/my_liquid_refresh.dart';
 import 'package:benji_aggregator/src/skeletons/vendors_list_skeleton.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../../src/providers/constants.dart';
 import '../../src/responsive/responsive_constant.dart';
 import '../../theme/colors.dart';
-import '../add_vendor/add_third_party_vendor.dart';
+import '../add_vendor/register_vendor.dart';
 
 class MyVendors extends StatefulWidget {
-  const MyVendors({super.key});
+  final VoidCallback showNavigation;
+  final VoidCallback hideNavigation;
+  const MyVendors({
+    required this.showNavigation,
+    required this.hideNavigation,
+    super.key,
+  });
 
   @override
   State<MyVendors> createState() => _MyVendorsState();
@@ -31,6 +37,16 @@ class _MyVendorsState extends State<MyVendors> {
     scrollController.addListener(_scrollListener);
     scrollController.addListener(() =>
         VendorController.instance.scrollListenerMyVendor(scrollController));
+    VendorController.instance.getMyVendors();
+    scrollController.addListener(() {
+      if (scrollController.position.userScrollDirection ==
+              ScrollDirection.forward ||
+          scrollController.position.pixels < 100) {
+        widget.showNavigation();
+      } else {
+        widget.hideNavigation();
+      }
+    });
   }
 
   @override
@@ -38,6 +54,14 @@ class _MyVendorsState extends State<MyVendors> {
     super.dispose();
     // _animationController.dispose();
     scrollController.dispose();
+    scrollController.removeListener(() {
+      if (scrollController.position.userScrollDirection ==
+          ScrollDirection.forward) {
+        widget.showNavigation();
+      } else {
+        widget.hideNavigation();
+      }
+    });
     handleRefresh().ignore();
   }
 
@@ -63,7 +87,7 @@ class _MyVendorsState extends State<MyVendors> {
   }
 
 //============================= Scroll to Top ======================================//
-  void _scrollToTop() {
+  void scrollToTop() {
     scrollController.animateTo(0,
         duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn);
   }
@@ -91,27 +115,16 @@ class _MyVendorsState extends State<MyVendors> {
         popGesture: true,
         transition: Transition.downToUp,
       );
-  void addThirdPartyVendor() => Get.to(
-        () => const AddThirdPartyVendor(),
+  void toAddVendor() => Get.to(
+        () => const RegisterVendor(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "AddThirdPartyVendor",
+        routeName: "RegisterVendor",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.rightToLeft,
       );
-
-  // void toMyVendorsPage() => Get.to(
-  //       () => const MyVendors(),
-  //       duration: const Duration(milliseconds: 300),
-  //       fullscreenDialog: true,
-  //       curve: Curves.easeIn,
-  //       routeName: "MyVendors",
-  //       preventDuplicates: true,
-  //       popGesture: true,
-  //       transition: Transition.downToUp,
-  //     );
 
   // void showSearchField() =>
   //     showSearch(context: context, delegate: CustomSearchDelegate());
@@ -124,7 +137,7 @@ class _MyVendorsState extends State<MyVendors> {
       child: Scaffold(
         floatingActionButton: _isScrollToTopBtnVisible
             ? FloatingActionButton(
-                onPressed: _scrollToTop,
+                onPressed: scrollToTop,
                 mini: deviceType(media.width) > 2 ? false : true,
                 backgroundColor: kAccentColor,
                 enableFeedback: true,
@@ -138,12 +151,30 @@ class _MyVendorsState extends State<MyVendors> {
                   color: kPrimaryColor,
                 ),
               )
-            : const SizedBox(),
-        appBar: MyAppBar(
-          title: "My Vendors",
-          elevation: 0,
-          actions: const [],
+            : FloatingActionButton(
+                onPressed: toAddVendor,
+                elevation: 20.0,
+                mouseCursor: SystemMouseCursors.click,
+                tooltip: "Add a vendor",
+                backgroundColor: kAccentColor,
+                foregroundColor: kPrimaryColor,
+                child: const FaIcon(FontAwesomeIcons.plus),
+              ),
+        appBar: AppBar(
           backgroundColor: kPrimaryColor,
+          elevation: 0,
+          title: const Padding(
+            padding: EdgeInsets.only(left: kDefaultPadding),
+            child: Text(
+              "My Vendors",
+              style: TextStyle(
+                fontSize: 20,
+                color: kTextBlackColor,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+          actions: const [],
         ),
         body: SafeArea(
           child: GetBuilder<VendorController>(
@@ -154,7 +185,6 @@ class _MyVendorsState extends State<MyVendors> {
                   physics: const BouncingScrollPhysics(),
                   padding: const EdgeInsets.all(kDefaultPadding),
                   children: [
-                    kSizedBox,
                     loadingScreen
                         ? const VendorsListSkeleton()
                         : controller.isLoad.value &&
@@ -171,7 +201,7 @@ class _MyVendorsState extends State<MyVendors> {
                                   borderRadius: BorderRadius.circular(16),
                                   child: Container(
                                       decoration: ShapeDecoration(
-                                        color: Colors.white,
+                                        color: kPrimaryColor,
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(16),
