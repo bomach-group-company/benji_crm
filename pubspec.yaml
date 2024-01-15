@@ -103,6 +103,7 @@ flutter:
     - assets/animations/delivery/
     - assets/animations/google_maps/
     - assets/animations/help_and_support/
+    - assets/animations/add_bank/
 
   #For example:
   # fonts:
