@@ -124,7 +124,7 @@ class _AvailableBalanceCardState extends State<AvailableBalanceCard> {
               ),
               kSizedBox,
               IconButton(
-                icon: const Icon(Icons.refresh),
+                icon: const FaIcon(FontAwesomeIcons.arrowsRotate),
                 onPressed: () async {
                   await UserController.instance.getUser();
                 },
@@ -133,8 +133,6 @@ class _AvailableBalanceCardState extends State<AvailableBalanceCard> {
                 tooltip: 'Refresh',
                 padding: const EdgeInsets.all(10.0),
                 splashRadius: 20.0,
-                splashColor: Colors.blue,
-                highlightColor: Colors.transparent,
               ),
             ],
           ),

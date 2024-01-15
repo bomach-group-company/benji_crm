@@ -18,7 +18,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../../src/providers/constants.dart';
-import '../../controller/category_controller.dart';
 import '../../controller/form_controller.dart';
 import '../../controller/latlng_detail_controller.dart';
 import '../../controller/vendor_controller.dart';
@@ -46,10 +45,10 @@ class _RegisterVendorState extends State<RegisterVendor> {
   //==========================================================================================\\
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      CategoryController.instance.category;
-      CategoryController.instance.getCategory();
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   CategoryController.instance.category;
+    //   CategoryController.instance.getCategory();
+    // });
     super.initState();
     scrollController.addListener(_scrollListener);
   }

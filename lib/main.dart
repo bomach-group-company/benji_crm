@@ -1,3 +1,10 @@
+import 'package:benji_aggregator/controller/account_controller.dart';
+import 'package:benji_aggregator/controller/auth_controller.dart';
+import 'package:benji_aggregator/controller/notification_controller.dart';
+import 'package:benji_aggregator/controller/profile_controller.dart';
+import 'package:benji_aggregator/controller/rider_controller.dart';
+import 'package:benji_aggregator/controller/vendor_controller.dart';
+import 'package:benji_aggregator/controller/withdraw_controller.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,6 +12,8 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app/splash_screens/splash_screen.dart';
+import 'controller/login_controller.dart';
+import 'controller/user_controller.dart';
 import 'theme/app theme.dart';
 
 late SharedPreferences prefs;
@@ -16,6 +25,15 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
   // await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  Get.put(UserController());
+  Get.put(LoginController());
+  Get.put(AuthController());
+  Get.put(NotificationController());
+  Get.put(AccountController());
+  Get.put(ProfileController());
+  Get.put(RiderController());
+  Get.put(VendorController());
+  Get.put(WithdrawController());
 
   runApp(const MyApp());
 }
@@ -35,7 +53,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.light,
       darkTheme: AppTheme.darkTheme,
       theme: AppTheme.lightTheme,
-      home: SplashScreen(),
+      home: const SplashScreen(),
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:benji_aggregator/app/withdrawal/select_account.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/main.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:get/route_manager.dart';
 
@@ -28,6 +29,10 @@ class _ProfileFirstHalfState extends State<ProfileFirstHalf> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
 //======================================================= ALL VARIABLES ================================================\\
 
 //======================================================= FUNCTIONS ================================================\\
@@ -79,13 +84,12 @@ class _ProfileFirstHalfState extends State<ProfileFirstHalf> {
                 ),
               ),
               GetBuilder<UserController>(
-                init: UserController(),
                 builder: (controller) => IconButton(
                   onPressed: toggleVisibleCash,
-                  icon: Icon(
+                  icon: FaIcon(
                     controller.user.value.isVisibleCash
-                        ? Icons.visibility
-                        : Icons.visibility_off,
+                        ? FontAwesomeIcons.solidEye
+                        : FontAwesomeIcons.solidEyeSlash,
                     color: kPrimaryColor,
                   ),
                 ),
@@ -98,6 +102,9 @@ class _ProfileFirstHalfState extends State<ProfileFirstHalf> {
             children: [
               GetBuilder<UserController>(
                 init: UserController(),
+                // initState: (state) {
+                //   state.controller!.getUser();
+                // },
                 builder: (controller) => controller.isLoading.value
                     ? Text(
                         'Loading...',
@@ -136,7 +143,7 @@ class _ProfileFirstHalfState extends State<ProfileFirstHalf> {
                       ),
               ),
               IconButton(
-                icon: const Icon(Icons.refresh),
+                icon: const FaIcon(FontAwesomeIcons.arrowsRotate),
                 onPressed: () async {
                   await UserController.instance.getUser();
                 },
@@ -145,8 +152,6 @@ class _ProfileFirstHalfState extends State<ProfileFirstHalf> {
                 tooltip: 'Refresh',
                 padding: const EdgeInsets.all(10.0),
                 splashRadius: 20.0,
-                splashColor: Colors.blue,
-                highlightColor: Colors.transparent,
               ),
             ],
           ),
