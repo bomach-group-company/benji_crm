@@ -229,27 +229,27 @@ class VendorController extends GetxController {
       http.StreamedResponse? response =
           await HandleData.streamAddVendor(url, token, data, classify);
 
-      if (kDebugMode) {
-        final res = await http.Response.fromStream(response!);
-        print("This is the response: ${jsonDecode(res.body)}");
-        print("This is the status code: ${response.statusCode.toString()}");
-      }
-      if (response == null) {
-        isLoadCreate.value = false;
-      } else if (response.statusCode == 200) {
+      // if (kDebugMode) {
+      //   final res = await http.Response.fromStream(response!);
+      //   print("This is the response body: ${jsonDecode(res.body)}");
+      //   print("This is the status code: ${response.statusCode.toString()}");
+      // }
+      if (response!.statusCode == 200) {
         final res = await http.Response.fromStream(response);
         var jsonData = jsonDecode(res.body);
-        ApiProcessorController.successSnack(jsonData);
+        ApiProcessorController.successSnack(
+            "You have successfully added a vendor");
 
         isLoadCreate.value = false;
         Get.close(1);
       } else {
         final res = await http.Response.fromStream(response);
         var jsonData = jsonDecode(res.body);
+        ApiProcessorController.successSnack(
+            "An error occured. Please try again later.");
         isLoadCreate.value = false;
       }
       isLoadCreate.value = false;
-
       update();
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet");

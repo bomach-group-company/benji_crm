@@ -18,7 +18,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../../src/providers/constants.dart';
-import '../../controller/form_controller.dart';
 import '../../controller/latlng_detail_controller.dart';
 import '../../controller/vendor_controller.dart';
 import '../../model/create_vendor_model.dart';
@@ -228,32 +227,11 @@ class _RegisterVendorState extends State<RegisterVendor> {
       ApiProcessorController.errorSnack("Please select a city");
       return;
     }
-    if (vendorLGAEC.text.isEmpty || vendorLGAEC.text == "") {
+    if (vendorLGAEC.isBlank! || vendorLGAEC.text == "") {
       ApiProcessorController.errorSnack("Please select an LGA");
       return;
     }
 
-    // Map data = {
-    //   'first_name': vendorFirstNameEC.text,
-    //   'last_name': vendorLastNameEC.text,
-    //   'email': vendorEmailEC.text,
-    //   'phone': vendorPhoneNumberEC.text,
-    //   'personalId': personalIdEC.text,
-    //   'country': country!.contains("Nigeria") ? "NG" : country,
-    //   'state': state ?? "",
-    //   'city': city ?? "",
-    //   'lga': vendorLGAEC.text,
-    //   'latitude': latitude,
-    //   'longitude': longitude,
-    // };
-
-    // String agentId = UserController.instance.user.value.id.toString();
-
-    // var url = Api.baseUrl + Api.createThirdPartyVendor + agentId;
-    // consoleLog(url);
-    // consoleLog(data.toString());
-    // await FormController.instance.postAuthstream(
-    //     url, data, {'profileLogo': selectedLogoImage}, 'agentCreateVendor');
     SendCreateModel data = SendCreateModel(
       phoneNumber: countryDialCode + vendorPhoneNumberEC.text,
       address: mapsLocationEC.text,
@@ -272,7 +250,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
       profileImage: selectedLogoImage,
     );
     if (kDebugMode) {
-      print(data);
+      print(data.toString());
     }
     VendorController.instance.createVendor(data, true);
   }
@@ -404,7 +382,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
           actions: const [],
           backgroundColor: kPrimaryColor,
         ),
-        bottomNavigationBar: GetBuilder<FormController>(builder: (sending) {
+        bottomNavigationBar: GetBuilder<VendorController>(builder: (sending) {
           return Container(
             color: kPrimaryColor,
             padding: const EdgeInsets.all(kDefaultPadding),
@@ -415,7 +393,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                   saveChanges();
                 }
               }),
-              isLoading: sending.isLoad.value,
+              isLoading: sending.isLoadCreate.value,
               title: "Save",
             ),
           );
@@ -476,18 +454,24 @@ class _RegisterVendorState extends State<RegisterVendor> {
                                     ),
                                   ),
                                 )
-                              : Container(
+                              : SizedBox(
                                   height: 200,
                                   width: 200,
-                                  decoration: ShapeDecoration(
-                                    shape: const OvalBorder(),
-                                    image: DecorationImage(
-                                      image: FileImage(
-                                        selectedLogoImage!,
-                                      ),
-                                      fit: BoxFit.cover,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Center(
+                                      child: Image.file(selectedLogoImage!),
                                     ),
                                   ),
+                                  // decoration: ShapeDecoration(
+                                  //   shape: const OvalBorder(),
+                                  //   image: DecorationImage(
+                                  //     image: FileImage(
+                                  //       selectedLogoImage!,
+                                  //     ),
+                                  //     fit: BoxFit.cover,
+                                  //   ),
+                                  // ),
                                 ),
                           InkWell(
                             onTap: () {
@@ -843,7 +827,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                               }
                             },
                             onSaved: (value) {},
-                            textInputAction: TextInputAction.next,
+                            textInputAction: TextInputAction.done,
                             focusNode: vendorLGAFN,
                             hintText: "Enter the LGA",
                             textInputType: TextInputType.text,
