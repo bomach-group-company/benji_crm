@@ -3,6 +3,7 @@
 import 'package:benji_aggregator/src/responsive/responsive_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../theme/colors.dart';
 
@@ -18,12 +19,14 @@ class MyBlueTextFormField extends StatelessWidget {
   final VoidCallback? click;
   final Widget? suffixIcon;
   final List<TextInputFormatter>? inputFormatters;
+  final int maxlines;
 
   const MyBlueTextFormField({
     super.key,
     required this.controller,
     required this.validator,
     this.onSaved,
+    this.maxlines = 1,
     required this.textInputAction,
     required this.focusNode,
     required this.hintText,
@@ -49,7 +52,7 @@ class MyBlueTextFormField extends StatelessWidget {
       autocorrect: true,
       enableSuggestions: true,
       keyboardType: textInputType,
-      maxLines: 1,
+      maxLines: maxlines,
       enabled: isEnabled ?? true,
       onTap: click,
       inputFormatters: inputFormatters,
@@ -65,7 +68,7 @@ class MyBlueTextFormField extends StatelessWidget {
             alignment: Alignment.centerRight,
             padding: const EdgeInsets.all(10),
             width: deviceType(media.width) >= 2 ? 50 : 30,
-            child: suffixIcon ?? const Icon(null)),
+            child: suffixIcon ?? const FaIcon(null)),
         filled: true,
         fillColor: Colors.blue.shade50,
         focusColor: Colors.blue.shade50,

@@ -13,6 +13,7 @@ class SendCreateModel {
   String? longitude;
   String? firstName;
   String? lastName;
+  String? lga;
   SendCreateModel({
     this.profileImage,
     this.email,
@@ -26,5 +27,6 @@ class SendCreateModel {
     this.longitude,
     this.firstName,
     this.lastName,
+    this.lga,
   });
 }

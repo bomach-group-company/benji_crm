@@ -92,12 +92,12 @@ class FormController extends GetxController {
     data.forEach((key, value) {
       request.fields[key] = value.toString();
     });
-    // consoleLog('stream response $response');
+    consoleLog('stream response: $response');
     try {
       response = await request.send();
       status.value = response.statusCode;
       final normalResp = await http.Response.fromStream(response);
-      consoleLog('stream response ${normalResp.body}');
+      consoleLog('stream response body: ${normalResp.body}');
       if (response.statusCode == 200) {
         ApiProcessorController.successSnack(successMsg);
         isLoad.value = false;
