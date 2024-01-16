@@ -128,6 +128,7 @@ class _AvailableBalanceCardState extends State<AvailableBalanceCard> {
                   await RiderController.instance.getRiders();
                   await UserController.instance.getUser();
                 },
+                mouseCursor: SystemMouseCursors.click,
                 color: kGreyColor,
                 iconSize: 25.0,
                 tooltip: 'Refresh',

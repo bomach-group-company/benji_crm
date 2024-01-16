@@ -41,6 +41,7 @@ dependencies:
   geocoding:
   path:
   path_provider:
+  group_radio_button:
 
 dev_dependencies:
   flutter_test:

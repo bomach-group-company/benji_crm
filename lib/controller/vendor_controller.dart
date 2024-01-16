@@ -1,6 +1,7 @@
 // ignore_for_file: unused_element, unused_local_variable, empty_catches
 
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:benji_aggregator/controller/error_controller.dart';
@@ -118,20 +119,25 @@ class VendorController extends GetxController {
     var url =
         "${Api.baseUrl}${Api.vendorMyList}?agent_id=$id&start=${loadNumMyVendor.value - 10}&end=${loadNumMyVendor.value}";
     loadNumMyVendor.value += 10;
+    log(url);
 
-    consoleLog(url);
     token = UserController.instance.user.value.token;
     List<MyVendorModel> data = [];
 
     try {
       http.Response? response = await HandleData.getApi(url, token);
+      log(response!.body);
       var responseData =
           await ApiProcessorController.errorState(response, isFirst ?? true);
-      data = (jsonDecode(response!.body)['items'] as List)
+      var data = (responseData['items'] as List)
           .map((e) => MyVendorModel.fromJson(e))
           .toList();
+      // data = (jsonDecode(response.body)["items"] as List)
+      //     .map((e) => MyVendorModel.fromJson(e))
+      //     .toList();
       vendorMyList.value += data;
     } catch (e) {
+      consoleLog("ERROR: ${e.toString()}");
       ApiProcessorController.errorSnack("An error occurred. \n ERROR: $e");
     }
     loadedAllMyVendor.value = data.isEmpty;
@@ -239,23 +245,28 @@ class VendorController extends GetxController {
         final res = await http.Response.fromStream(response);
         var jsonData = jsonDecode(res.body);
         ApiProcessorController.successSnack(
-            "You have successfully added a vendor");
+          "You have successfully added a vendor",
+        );
 
         isLoadCreate.value = false;
-        Get.close(1);
+        // Get.close(1);
       } else {
         final res = await http.Response.fromStream(response);
         var jsonData = jsonDecode(res.body);
         ApiProcessorController.successSnack(
-            "An error occured. Please try again later.");
+          "An unexpected error occurred. Please try again later",
+        );
         isLoadCreate.value = false;
       }
       isLoadCreate.value = false;
+
       update();
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet");
     } catch (e) {
-      ApiProcessorController.errorSnack("An error occurred. \nERROR: $e");
+      ApiProcessorController.errorSnack(
+        "An unexpected error occurred.\nERROR $e",
+      );
     }
     isLoadCreate.value = false;
     update();

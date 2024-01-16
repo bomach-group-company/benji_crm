@@ -13,12 +13,14 @@ class NumberTextFormField extends StatelessWidget {
   final FocusNode focusNode;
   final String hintText;
   final List<TextInputFormatter>? inputFormatters;
+  final int maxlength;
 
   const NumberTextFormField({
     super.key,
     required this.controller,
     required this.validator,
     this.onSaved,
+    this.maxlength = 20,
     required this.textInputAction,
     required this.focusNode,
     required this.hintText,
@@ -40,6 +42,10 @@ class NumberTextFormField extends StatelessWidget {
       enableSuggestions: true,
       keyboardType: TextInputType.number,
       inputFormatters: inputFormatters,
+      maxLength: maxlength,
+      maxLengthEnforcement: MaxLengthEnforcement.enforced,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      // mouseCursor: SystemMouseCursors.text,
       maxLines: 1,
       style: TextStyle(
         color: kSecondaryColor,

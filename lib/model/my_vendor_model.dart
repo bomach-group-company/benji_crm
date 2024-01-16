@@ -6,6 +6,8 @@ import 'dart:convert';
 
 import 'package:benji_aggregator/src/providers/constants.dart';
 
+import 'country_model.dart';
+
 List<MyVendorModel> myVendorModelFromJson(String str) =>
     List<MyVendorModel>.from(
         json.decode(str).map((x) => MyVendorModel.fromJson(x)));
@@ -22,11 +24,13 @@ class MyVendorModel {
   String address;
   String longitude;
   String latitude;
-  String country;
+  CountryModel country;
   String state;
   String city;
   String lga;
   String profileLogo;
+  double averageRating;
+  double numberOfClientReactions;
 
   MyVendorModel({
     required this.id,
@@ -41,6 +45,8 @@ class MyVendorModel {
     required this.firstName,
     required this.lastName,
     required this.gender,
+    required this.averageRating,
+    required this.numberOfClientReactions,
     required this.address,
     required this.profileLogo,
     required this.longitude,
@@ -51,24 +57,26 @@ class MyVendorModel {
     json ??= {'vendor': {}};
     return MyVendorModel(
       id: json["vendor"]["id"] ?? 0,
-      email: json["vendor"]["email"] ?? notAvailable,
-      phone: json["vendor"]["phone"] ?? notAvailable,
-      country: json["vendor"]["country"] ?? notAvailable,
-      state: json["vendor"]["state"] ?? notAvailable,
-      city: json["vendor"]["city"] ?? notAvailable,
-      lga: json["vendor"]["lga"] ?? notAvailable,
       username: json["vendor"]["username"] ?? notAvailable,
       code: json["vendor"]["code"] ?? notAvailable,
       firstName: json["vendor"]["first_name"] ?? notAvailable,
       lastName: json["vendor"]["last_name"] ?? notAvailable,
       gender: json["vendor"]["gender"] ?? notAvailable,
+      email: json["vendor"]["email"] ?? notAvailable,
+      phone: json["vendor"]["phone"] ?? notAvailable,
+      country: CountryModel.fromJson(json["vendor"]["country"] ?? {}),
+      state: json["vendor"]["state"] ?? notAvailable,
+      city: json["vendor"]["city"] ?? notAvailable,
+      lga: json["vendor"]["lga"] ?? notAvailable,
       address: json["vendor"]["address"] ?? notAvailable,
+      averageRating: json["vendor"]["average_rating"] ?? 0,
+      numberOfClientReactions: json["vendor"]["number_of_clients_reactions"],
       profileLogo: json["vendor"]["profileLogo"] == null ||
               json["vendor"]["profileLogo"] == ""
           ? 'https://img.freepik.com/free-psd/3d-icon-social-media-app_23-2150049569.jpg'
           : json['image'],
-      longitude: json["longitude"] ?? notAvailable,
-      latitude: json["latitude"] ?? notAvailable,
+      longitude: json["longitude"] ?? '',
+      latitude: json["latitude"] ?? '',
     );
   }
 }

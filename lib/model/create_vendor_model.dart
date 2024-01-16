@@ -14,6 +14,7 @@ class SendCreateModel {
   String? firstName;
   String? lastName;
   String? lga;
+  String? gender;
   SendCreateModel({
     this.profileImage,
     this.email,
@@ -23,6 +24,7 @@ class SendCreateModel {
     this.country,
     this.state,
     this.city,
+    this.gender,
     this.latitude,
     this.longitude,
     this.firstName,

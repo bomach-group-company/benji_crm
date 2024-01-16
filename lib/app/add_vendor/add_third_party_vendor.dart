@@ -240,7 +240,7 @@ class _AddThirdPartyVendorState extends State<AddThirdPartyVendor> {
       phoneNumber: vendorPhoneNumberEC.text,
       address: vendorAddressEC.text,
       email: vendorEmailEC.text,
-      country: country ?? "NG",
+      country: country!.contains("Nigeria") ? "NG" : "",
       state: state ?? "",
       city: city ?? "",
       latitude: latitude ?? "",

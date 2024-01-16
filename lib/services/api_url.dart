@@ -151,6 +151,7 @@ class HandleData {
 
     request.fields["first_name"] = data.firstName!.toString();
     request.fields["last_name"] = data.lastName!.toString();
+    request.fields["gender"] = data.gender!.toString();
     request.fields["lga"] = data.lga!.toString();
     request.fields["personalId"] = data.personalID!.toString();
     request.fields["state"] = data.state!.toString();

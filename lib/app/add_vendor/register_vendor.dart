@@ -1,6 +1,7 @@
 // ignore_for_file: invalid_use_of_protected_member
 
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:benji_aggregator/controller/error_controller.dart';
@@ -11,9 +12,11 @@ import 'package:csc_picker/csc_picker.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
+import 'package:group_radio_button/group_radio_button.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
@@ -26,6 +29,7 @@ import '../../src/components/button/my_elevatedButton.dart';
 import '../../src/components/input/my_blue_textformfield.dart';
 import '../../src/components/input/my_intl_phonefield.dart';
 import '../../src/components/input/my_maps_textformfield.dart';
+import '../../src/components/input/number_textformfield.dart';
 import '../../src/components/section/location_list_tile.dart';
 import '../../src/googleMaps/autocomplete_prediction.dart';
 import '../../src/googleMaps/places_autocomplete_response.dart';
@@ -67,6 +71,8 @@ class _RegisterVendorState extends State<RegisterVendor> {
   String countryDialCode = '+234';
   List<AutocompletePrediction> placePredictions = [];
   final selectedLocation = ValueNotifier<String?>(null);
+  String defaultGender = "Male";
+  final List<String> genders = <String>["Male", "Female"];
 
   //======================================== GLOBAL KEYS ==============================================\\
   final _formKey = GlobalKey<FormState>();
@@ -210,11 +216,13 @@ class _RegisterVendorState extends State<RegisterVendor> {
       ApiProcessorController.errorSnack("Please add a profile picture");
       return;
     }
+    if (defaultGender.isEmpty || defaultGender == "") {
+      ApiProcessorController.errorSnack("Please choose a gender");
+    }
     if (country == null || country!.isEmpty || country == "") {
       ApiProcessorController.errorSnack("Please select a country");
       return;
     }
-
     if (state == null || state!.isEmpty || state == "") {
       ApiProcessorController.errorSnack("Please select a state");
       return;
@@ -237,8 +245,9 @@ class _RegisterVendorState extends State<RegisterVendor> {
       address: mapsLocationEC.text,
       email: vendorEmailEC.text,
       personalID: personalIdEC.text,
-      country: country ?? "NG",
+      country: country!.contains("Nigeria") ? "NG" : "",
       state: state ?? "",
+      gender: defaultGender.contains("Male") ? "M" : "F",
       city: city ?? "",
       latitude: latitude ?? "",
       longitude: longitude ?? "",
@@ -249,9 +258,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
       // sunCloseHours: vendorSunClosingHoursEC.text,
       profileImage: selectedLogoImage,
     );
-    if (kDebugMode) {
-      print(data.toString());
-    }
+
     VendorController.instance.createVendor(data, true);
   }
 
@@ -590,19 +597,19 @@ class _RegisterVendorState extends State<RegisterVendor> {
                             onSaved: (value) {},
                             textInputAction: TextInputAction.next,
                             focusNode: vendorEmailFN,
-                            hintText: "Enter the bussiness email",
+                            hintText: "Enter email",
                             textInputType: TextInputType.emailAddress,
                           ),
                           kSizedBox,
                           const Text(
-                            "Personal ID",
+                            "National Identification Number (NIN)",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
                           kSizedBox,
-                          MyBlueTextFormField(
+                          NumberTextFormField(
                             controller: personalIdEC,
                             validator: (value) {
                               if (value == null || value!.isEmpty) {
@@ -612,13 +619,43 @@ class _RegisterVendorState extends State<RegisterVendor> {
                               }
                               return null;
                             },
+                            maxlength: 11,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
                             onSaved: (value) {},
                             textInputAction: TextInputAction.next,
                             focusNode: personalIdFN,
-                            hintText: "Enter the personal ID",
-                            textInputType: TextInputType.text,
+                            hintText:
+                                "Enter National Identification Number (NIN)",
                           ),
                           kSizedBox,
+                          const Text(
+                            "Gender",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          kSizedBox,
+                          RadioGroup<String>.builder(
+                            groupValue: defaultGender,
+                            onChanged: (value) => setState(() {
+                              defaultGender = value ?? "Male";
+                              log(defaultGender);
+
+                              // setState(() {
+                              //   selectedGender = value!;
+                              // });
+                            }),
+                            items: genders,
+                            itemBuilder: (item) => RadioButtonBuilder(item),
+                            direction: Axis.horizontal,
+                            horizontalAlignment: MainAxisAlignment.start,
+                            activeColor: kAccentColor,
+                          ),
+                          kSizedBox,
+
                           const Text(
                             "Phone Number",
                             style: TextStyle(

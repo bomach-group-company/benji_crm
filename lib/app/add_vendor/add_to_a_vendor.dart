@@ -253,7 +253,7 @@ class _AddToAVendorState extends State<AddToAVendor> {
       phoneNumber: vendorPhoneNumberEC.text,
       address: mapsLocationEC.text,
       email: vendorEmailEC.text,
-      country: country ?? "NG",
+      country: country!.contains("Nigeria") ? "NG" : "",
       state: state ?? "",
       city: city ?? "",
       latitude: latitude ?? "",

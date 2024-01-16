@@ -41,7 +41,7 @@ class _DashboardState extends State<Dashboard>
   @override
   void initState() {
     super.initState();
-    VendorController.instance.getMyVendors();
+
     _animationController =
         AnimationController(vsync: this, duration: const Duration(seconds: 1));
     scrollController.addListener(_scrollListener);
@@ -134,7 +134,7 @@ class _DashboardState extends State<Dashboard>
   }
 
 //=================================== Navigation =====================================\\
-  void toSeeMyVendors() => Get.to(
+  void _toSeeMyVendors() => Get.to(
         () => const OverView(currentIndex: 1),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -294,16 +294,16 @@ class _DashboardState extends State<Dashboard>
                 // }),
                 // kSizedBox,
                 GetBuilder<VendorController>(
-                  // init: VendorController(),
-                  // initState: (state) async {
-                  //   await VendorController.instance.getMyVendors();
-                  // },
+                  init: VendorController(),
+                  initState: (state) async {
+                    await VendorController.instance.getMyVendors();
+                  },
                   builder: (vendor) {
-                    final myVendors = vendor.vendorMyList.toList().length;
+                    final allVendor = vendor.vendorMyList.toList();
 
                     return DashboardContainer(
-                      onTap: toSeeMyVendors,
-                      number: intFormattedText(myVendors),
+                      onTap: _toSeeMyVendors,
+                      number: intFormattedText(allVendor.length),
                       typeOf: "My Vendors",
                       onlineStatus: "Online",
                     );
