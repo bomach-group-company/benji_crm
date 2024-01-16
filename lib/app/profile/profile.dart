@@ -27,7 +27,6 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     super.initState();
-    Get.put(OrderController());
   }
 
   @override

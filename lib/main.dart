@@ -1,6 +1,8 @@
 import 'package:benji_aggregator/controller/account_controller.dart';
 import 'package:benji_aggregator/controller/auth_controller.dart';
+import 'package:benji_aggregator/controller/latlng_detail_controller.dart';
 import 'package:benji_aggregator/controller/notification_controller.dart';
+import 'package:benji_aggregator/controller/order_controller.dart';
 import 'package:benji_aggregator/controller/profile_controller.dart';
 import 'package:benji_aggregator/controller/rider_controller.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
@@ -34,6 +36,8 @@ void main() async {
   Get.put(RiderController());
   Get.put(VendorController());
   Get.put(WithdrawController());
+  Get.put(OrderController());
+  Get.put(LatLngDetailController());
 
   runApp(const MyApp());
 }

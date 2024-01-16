@@ -8,6 +8,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 
 import '../../../../theme/colors.dart';
+import '../../../controller/rider_controller.dart';
+import '../../../controller/vendor_controller.dart';
 import '../../providers/constants.dart';
 
 class AvailableBalanceCard extends StatefulWidget {
@@ -122,6 +124,8 @@ class _AvailableBalanceCardState extends State<AvailableBalanceCard> {
               IconButton(
                 icon: const FaIcon(FontAwesomeIcons.arrowsRotate),
                 onPressed: () async {
+                  await VendorController.instance.getMyVendors();
+                  await RiderController.instance.getRiders();
                   await UserController.instance.getUser();
                 },
                 color: kGreyColor,
