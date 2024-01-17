@@ -7,7 +7,7 @@ import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
 import 'package:benji_aggregator/src/components/input/message_textformfield.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 
 import '../../controller/form_controller.dart';
 import '../../model/my_vendor_model.dart';
@@ -30,7 +30,6 @@ class _ReportMyVendorState extends State<ReportMyVendor> {
   }
 
   //============================================ ALL VARIABLES ===========================================\\
-  bool _submittingReport = false;
 
   //============================================ CONTROLLERS ===========================================\\
   final TextEditingController messageEC = TextEditingController();
@@ -44,10 +43,6 @@ class _ReportMyVendorState extends State<ReportMyVendor> {
   //============================================ FUNCTIONS ===========================================\\
   //========================== Save data ==================================\\
   Future<void> submitReport() async {
-    setState(() {
-      _submittingReport = true;
-    });
-
     Map data = {
       "user_id": widget.vendor.id.toString(),
       "message": messageEC.text,
@@ -57,15 +52,8 @@ class _ReportMyVendorState extends State<ReportMyVendor> {
 
     await FormController.instance.postAuth(url, data, "reportVendor");
     if (FormController.instance.status.value == 200) {
-      setState(() {
-        _submittingReport = false;
-      });
       Get.close(1);
     }
-
-    setState(() {
-      _submittingReport = false;
-    });
   }
 
   @override
@@ -82,15 +70,19 @@ class _ReportMyVendorState extends State<ReportMyVendor> {
         ),
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.all(kDefaultPadding),
-          child: MyElevatedButton(
-            onPressed: (() async {
-              if (_formKey.currentState!.validate()) {
-                submitReport();
-              }
-            }),
-            isLoading: _submittingReport,
-            title: "Submit",
-          ),
+          child: GetBuilder<FormController>(
+              id: "report_my_vendor",
+              builder: (controller) {
+                return MyElevatedButton(
+                  onPressed: (() async {
+                    if (_formKey.currentState!.validate()) {
+                      submitReport();
+                    }
+                  }),
+                  isLoading: controller.isLoad.value,
+                  title: "Submit",
+                );
+              }),
         ),
         body: SafeArea(
           child: ListView(

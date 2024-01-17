@@ -79,16 +79,16 @@ class MyVendorContainer extends StatelessWidget {
                   child: Row(
                     children: [
                       FaIcon(
-                        FontAwesomeIcons.shop,
+                        FontAwesomeIcons.solidUser,
                         color: kAccentColor,
                         size: 16,
                       ),
                       kHalfWidthSizedBox,
-                      const Text.rich(
+                      Text.rich(
                         TextSpan(
                           children: [
-                            TextSpan(
-                              text: " ",
+                            const TextSpan(
+                              text: "ID: ",
                               style: TextStyle(
                                 color: kTextBlackColor,
                                 fontSize: 16,
@@ -96,8 +96,8 @@ class MyVendorContainer extends StatelessWidget {
                               ),
                             ),
                             TextSpan(
-                              text: "Businesses",
-                              style: TextStyle(
+                              text: vendor.code,
+                              style: const TextStyle(
                                 color: kTextBlackColor,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w300,
