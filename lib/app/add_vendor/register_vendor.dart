@@ -4,7 +4,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:benji_aggregator/controller/error_controller.dart';
+import 'package:benji_aggregator/controller/api_processor_controller.dart';
 import 'package:benji_aggregator/services/api_url.dart';
 import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
 import 'package:benji_aggregator/theme/colors.dart';

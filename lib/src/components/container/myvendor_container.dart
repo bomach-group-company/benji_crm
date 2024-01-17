@@ -3,6 +3,7 @@
 import 'package:benji_aggregator/model/my_vendor_model.dart';
 import 'package:benji_aggregator/src/components/image/my_image.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../theme/colors.dart';
 import '../../providers/constants.dart';
@@ -44,11 +45,13 @@ class MyVendorContainer extends StatelessWidget {
             ),
             kHalfWidthSizedBox,
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  width: media.width - 250,
+                  width: media.width - 200,
                   child: Text(
                     "${vendor.firstName} ${vendor.lastName}",
+                    textAlign: TextAlign.start,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       color: kTextBlackColor,
@@ -57,22 +60,9 @@ class MyVendorContainer extends StatelessWidget {
                     ),
                   ),
                 ),
-
-                SizedBox(
-                  width: media.width - 250,
-                  child: Text(
-                    vendor.username,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: kTextGreyColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
                 kHalfSizedBox,
                 SizedBox(
-                  width: media.width - 250,
+                  width: media.width - 200,
                   child: Text(
                     vendor.email,
                     overflow: TextOverflow.ellipsis,
@@ -84,6 +74,41 @@ class MyVendorContainer extends StatelessWidget {
                   ),
                 ),
                 kSizedBox,
+                SizedBox(
+                  width: media.width - 250,
+                  child: Row(
+                    children: [
+                      FaIcon(
+                        FontAwesomeIcons.shop,
+                        color: kAccentColor,
+                        size: 16,
+                      ),
+                      kHalfWidthSizedBox,
+                      const Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                              text: " ",
+                              style: TextStyle(
+                                color: kTextBlackColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                            TextSpan(
+                              text: "Businesses",
+                              style: TextStyle(
+                                color: kTextBlackColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 // Row(
                 //   mainAxisSize: MainAxisSize.min,
                 //   mainAxisAlignment: MainAxisAlignment.start,

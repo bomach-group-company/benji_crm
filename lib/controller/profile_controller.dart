@@ -3,7 +3,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:benji_aggregator/controller/error_controller.dart';
+import 'package:benji_aggregator/controller/api_processor_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/model/user_model.dart';
 import 'package:benji_aggregator/services/api_url.dart';

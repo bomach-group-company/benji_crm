@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:benji_aggregator/controller/account_controller.dart';
 import 'package:benji_aggregator/controller/auth_controller.dart';
+import 'package:benji_aggregator/controller/form_controller.dart';
 import 'package:benji_aggregator/controller/latlng_detail_controller.dart';
 import 'package:benji_aggregator/controller/notification_controller.dart';
 import 'package:benji_aggregator/controller/order_controller.dart';
 import 'package:benji_aggregator/controller/profile_controller.dart';
 import 'package:benji_aggregator/controller/rider_controller.dart';
+import 'package:benji_aggregator/controller/rider_history_controller.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:benji_aggregator/controller/withdraw_controller.dart';
 import 'package:benji_aggregator/theme/colors.dart';
@@ -38,6 +42,11 @@ void main() async {
   Get.put(WithdrawController());
   Get.put(OrderController());
   Get.put(LatLngDetailController());
+  Get.put(FormController());
+  Get.put(WithdrawController());
+  Get.put(RiderController());
+  Get.put(RiderHistoryController());
+  Get.put(OrderController());
 
   runApp(const MyApp());
 }
@@ -49,6 +58,28 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    if (Platform.isIOS) {
+      return GetCupertinoApp(
+        debugShowCheckedModeBanner: false,
+        defaultTransition: Transition.rightToLeft,
+        title: "Benji CRM",
+        color: kPrimaryColor,
+        theme: AppTheme.iOSDarkTheme,
+        home: const SplashScreen(),
+      );
+    } else if (Platform.isAndroid) {
+      return GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        defaultTransition: Transition.rightToLeft,
+        title: "Benji CRM",
+        color: kPrimaryColor,
+        themeMode: ThemeMode.light,
+        darkTheme: AppTheme.darkTheme,
+        theme: AppTheme.lightTheme,
+        home: const SplashScreen(),
+      );
+    }
+
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       defaultTransition: Transition.rightToLeft,

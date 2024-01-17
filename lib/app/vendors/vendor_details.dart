@@ -1,7 +1,7 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:benji_aggregator/app/products/product_details.dart';
-import 'package:benji_aggregator/controller/error_controller.dart';
+import 'package:benji_aggregator/controller/api_processor_controller.dart';
 import 'package:benji_aggregator/controller/order_controller.dart';
 import 'package:benji_aggregator/model/product_model.dart';
 import 'package:benji_aggregator/model/vendor_model.dart';
