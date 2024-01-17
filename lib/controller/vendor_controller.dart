@@ -28,6 +28,7 @@ class VendorController extends GetxController {
   var isLoadCreate = false.obs;
   var vendorList = <VendorModel>[].obs;
   var vendorMyList = <MyVendorModel>[].obs;
+  var allMyVendorList = <MyVendorModel>[].obs;
   // var businessType = <BusinessType>[].obs;
   var vendorProductList = <Product>[].obs;
   var vendorOrderList = <Order>[].obs;
@@ -140,10 +141,48 @@ class VendorController extends GetxController {
       vendorMyList.value += data;
     } catch (e) {
       consoleLog("ERROR loggg: ${e.toString()}");
-      ApiProcessorController.errorSnack("An error occurred. \n ERROR: $e");
+      ApiProcessorController.errorSnack(
+        "An error occurred in fetching vendors. Please try again later.\n ERROR: $e",
+      );
     }
     loadedAllMyVendor.value = data.isEmpty;
     isLoadMoreMyVendor.value = false;
+
+    isLoad.value = false;
+    update();
+  }
+
+  Future getAllMyVendors() async {
+    isLoad.value = true;
+    late String token;
+    String id = UserController.instance.user.value.id.toString();
+    var url = "${Api.baseUrl}${Api.vendorMyList}?agent_id=$id&start=0&end=1000";
+
+    log(url);
+
+    token = UserController.instance.user.value.token;
+    List<MyVendorModel> data = [];
+
+    try {
+      http.Response? response = await HandleData.getApi(url, token);
+      // log(response!.body);
+      var responseData =
+          await ApiProcessorController.errorState(response, isFirst ?? true);
+
+      var data = (jsonDecode(responseData ?? '{}')['items'] as List)
+          .map((e) => MyVendorModel.fromJson(e))
+          .toList();
+
+      // data = (jsonDecode(response.body)["items"] as List)
+      //     .map((e) => MyVendorModel.fromJson(e))
+      //     .toList();
+      allMyVendorList.value += data;
+    } catch (e) {
+      consoleLog("ERROR loggg: ${e.toString()}");
+      ApiProcessorController.errorSnack(
+        "An unexpected error occurred in fetching all the vendors. Please try again later.\n ERROR: $e",
+      );
+    }
 
     isLoad.value = false;
     update();

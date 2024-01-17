@@ -107,6 +107,7 @@ class _DashboardState extends State<Dashboard>
       loadingScreen = true;
     });
     await VendorController.instance.getMyVendors();
+    await VendorController.instance.getAllMyVendors();
     await NotificationController.instance.runTask();
     setState(() {
       loadingScreen = false;
@@ -296,10 +297,10 @@ class _DashboardState extends State<Dashboard>
                 GetBuilder<VendorController>(
                   init: VendorController(),
                   initState: (state) async {
-                    await VendorController.instance.getMyVendors();
+                    await VendorController.instance.getAllMyVendors();
                   },
                   builder: (vendor) {
-                    final allVendor = vendor.vendorMyList.toList();
+                    final allVendor = vendor.allMyVendorList.toList();
 
                     return DashboardContainer(
                       onTap: _toSeeMyVendors,
