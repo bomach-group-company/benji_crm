@@ -1,11 +1,11 @@
 import '../src/providers/constants.dart';
 import 'business_type_model.dart';
 import 'country_model.dart';
-import 'vendor_model.dart';
+import 'my_vendor_model.dart';
 
 class VendorBusinessModel {
   String id;
-  VendorModel vendorOwner;
+  MyVendorModel vendorOwner;
   CountryModel country;
   String state;
   String city;
@@ -62,7 +62,7 @@ class VendorBusinessModel {
     json ??= {};
     return VendorBusinessModel(
       id: json['id'] ?? notAvailable,
-      vendorOwner: VendorModel.fromJson(json['vendor_owner'] ?? {}),
+      vendorOwner: MyVendorModel.fromJson(json['vendor_owner'] ?? {}),
       country: CountryModel.fromJson(json['country'] ?? {}),
       state: json['state'] ?? notAvailable,
       city: json['city'] ?? notAvailable,
