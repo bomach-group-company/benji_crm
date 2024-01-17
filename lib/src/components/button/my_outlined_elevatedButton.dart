@@ -7,10 +7,10 @@ import '../../../theme/colors.dart';
 class MyOutlinedElevatedButton extends StatelessWidget {
   final Function() onPressed;
   final double circularBorderRadius;
-  final double minimumSizeWidth;
-  final double minimumSizeHeight;
-  final double maximumSizeWidth;
-  final double maximumSizeHeight;
+  // final double minimumSizeWidth;
+  // final double minimumSizeHeight;
+  // final double maximumSizeWidth;
+  // final double maximumSizeHeight;
   final String buttonTitle;
   final double titleFontSize;
   final double elevation;
@@ -19,10 +19,10 @@ class MyOutlinedElevatedButton extends StatelessWidget {
     super.key,
     required this.onPressed,
     required this.circularBorderRadius,
-    required this.minimumSizeWidth,
-    required this.minimumSizeHeight,
-    required this.maximumSizeWidth,
-    required this.maximumSizeHeight,
+    // required this.minimumSizeWidth,
+    // required this.minimumSizeHeight,
+    // required this.maximumSizeWidth,
+    // required this.maximumSizeHeight,
     required this.buttonTitle,
     required this.titleFontSize,
     required this.elevation,
@@ -39,14 +39,14 @@ class MyOutlinedElevatedButton extends StatelessWidget {
           side: BorderSide(color: kAccentColor),
           borderRadius: BorderRadius.circular(circularBorderRadius),
         ),
-        minimumSize: Size(
-          minimumSizeWidth,
-          minimumSizeHeight,
-        ),
-        maximumSize: Size(
-          maximumSizeWidth,
-          maximumSizeHeight,
-        ),
+        // minimumSize: Size(
+        //   minimumSizeWidth,
+        //   minimumSizeHeight,
+        // ),
+        // maximumSize: Size(
+        //   maximumSizeWidth,
+        //   maximumSizeHeight,
+        // ),
       ),
       child: Text(
         buttonTitle,

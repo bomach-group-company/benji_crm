@@ -366,14 +366,14 @@ class _AssignRiderState extends State<AssignRider> {
                                                                     rider.id),
                                                             circularBorderRadius:
                                                                 24,
-                                                            minimumSizeWidth:
-                                                                80,
-                                                            minimumSizeHeight:
-                                                                30,
-                                                            maximumSizeWidth:
-                                                                80,
-                                                            maximumSizeHeight:
-                                                                30,
+                                                            // minimumSizeWidth:
+                                                            //     80,
+                                                            // minimumSizeHeight:
+                                                            //     30,
+                                                            // maximumSizeWidth:
+                                                            //     80,
+                                                            // maximumSizeHeight:
+                                                            //     30,
                                                             buttonTitle:
                                                                 "Assign",
                                                             titleFontSize: 12,

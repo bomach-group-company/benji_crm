@@ -30,7 +30,7 @@ class _ReportMyVendorState extends State<ReportMyVendor> {
   }
 
   //============================================ ALL VARIABLES ===========================================\\
-  bool _submittingRequest = false;
+  bool _submittingReport = false;
 
   //============================================ CONTROLLERS ===========================================\\
   final TextEditingController messageEC = TextEditingController();
@@ -43,27 +43,28 @@ class _ReportMyVendorState extends State<ReportMyVendor> {
 
   //============================================ FUNCTIONS ===========================================\\
   //========================== Save data ==================================\\
-  Future<void> _submitRequest() async {
+  Future<void> submitReport() async {
     setState(() {
-      _submittingRequest = true;
+      _submittingReport = true;
     });
 
     Map data = {
-      "user_id": widget.vendor.id,
+      "user_id": widget.vendor.id.toString(),
       "message": messageEC.text,
     };
     var url = Api.baseUrl + Api.report;
     log(url);
+
     await FormController.instance.postAuth(url, data, "reportVendor");
     if (FormController.instance.status.value == 200) {
       setState(() {
-        _submittingRequest = false;
+        _submittingReport = false;
       });
       Get.close(1);
     }
 
     setState(() {
-      _submittingRequest = false;
+      _submittingReport = false;
     });
   }
 
@@ -84,10 +85,10 @@ class _ReportMyVendorState extends State<ReportMyVendor> {
           child: MyElevatedButton(
             onPressed: (() async {
               if (_formKey.currentState!.validate()) {
-                _submitRequest();
+                submitReport();
               }
             }),
-            isLoading: _submittingRequest,
+            isLoading: _submittingReport,
             title: "Submit",
           ),
         ),

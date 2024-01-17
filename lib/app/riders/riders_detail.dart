@@ -285,8 +285,8 @@ class _RidersDetailState extends State<RidersDetail> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Icon(
-                                    Icons.phone,
+                                  FaIcon(
+                                    FontAwesomeIcons.phone,
                                     color: kAccentColor,
                                     size: 18,
                                   ),
@@ -311,8 +311,8 @@ class _RidersDetailState extends State<RidersDetail> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Icon(
-                                    Icons.route,
+                                  FaIcon(
+                                    FontAwesomeIcons.route,
                                     color: kAccentColor,
                                     size: 18,
                                   ),
@@ -334,12 +334,13 @@ class _RidersDetailState extends State<RidersDetail> {
                               MyOutlinedElevatedButton(
                                 onPressed: () =>
                                     UrlLaunchController.makePhoneCall(
-                                        widget.rider.phone),
+                                  widget.rider.phone,
+                                ),
                                 circularBorderRadius: 16,
-                                minimumSizeWidth: 100,
-                                minimumSizeHeight: 30,
-                                maximumSizeWidth: 100,
-                                maximumSizeHeight: 30,
+                                // minimumSizeWidth: 100,
+                                // minimumSizeHeight: 30,
+                                // maximumSizeWidth: 100,
+                                // maximumSizeHeight: 30,
                                 buttonTitle: "Call",
                                 titleFontSize: 14,
                                 elevation: 10.0,
@@ -352,7 +353,7 @@ class _RidersDetailState extends State<RidersDetail> {
                   ),
                   const SizedBox(height: kDefaultPadding),
                   const Text(
-                    "Shipping History",
+                    "Delivery History",
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
@@ -399,7 +400,7 @@ class _RidersDetailState extends State<RidersDetail> {
                                           flex: 1,
                                           child: Container(
                                             // width: 110,
-                                            height: 119,
+                                            height: 120,
                                             decoration: const ShapeDecoration(
                                               shape: RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.only(
@@ -410,7 +411,8 @@ class _RidersDetailState extends State<RidersDetail> {
                                               ),
                                             ),
                                             child: MyImage(
-                                                url: widget.rider.image),
+                                              url: widget.rider.image,
+                                            ),
                                           ),
                                         ),
                                         Expanded(
@@ -432,12 +434,10 @@ class _RidersDetailState extends State<RidersDetail> {
                                                           .spaceBetween,
                                                   children: [
                                                     Text(
-                                                      'ID ${riderController.historyList[index].order.code}',
-                                                      style: const TextStyle(
-                                                        color:
-                                                            Color(0xFF454545),
+                                                      'ID: ${riderController.historyList[index].order.code}',
+                                                      style: TextStyle(
+                                                        color: kTextGreyColor,
                                                         fontSize: 12,
-                                                        fontFamily: 'Sen',
                                                         fontWeight:
                                                             FontWeight.w700,
                                                       ),
@@ -465,8 +465,6 @@ class _RidersDetailState extends State<RidersDetail> {
                                                         ),
                                                       ),
                                                       child: SizedBox(
-                                                        width: 54,
-                                                        height: 10,
                                                         child: Text(
                                                           riderController
                                                               .historyList[
@@ -477,8 +475,6 @@ class _RidersDetailState extends State<RidersDetail> {
                                                           style: TextStyle(
                                                             color: kAccentColor,
                                                             fontSize: 10,
-                                                            fontFamily:
-                                                                'Overpass',
                                                             fontWeight:
                                                                 FontWeight.w400,
                                                           ),
@@ -612,12 +608,11 @@ class _RidersDetailState extends State<RidersDetail> {
                                                         ),
                                                       ),
                                                     ),
-                                                    const SizedBox(
+                                                    SizedBox(
                                                       child: Text(
                                                         '\u20A6 65,000',
                                                         style: TextStyle(
-                                                          color:
-                                                              Color(0xFF454545),
+                                                          color: kTextGreyColor,
                                                           fontSize: 10,
                                                           fontFamily: 'sen',
                                                           height: 1.5,

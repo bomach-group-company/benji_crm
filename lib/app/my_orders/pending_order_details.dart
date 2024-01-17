@@ -845,10 +845,10 @@ class _PendingOrderDetailsState extends State<PendingOrderDetails> {
                                           elevation: 10.0,
                                           titleFontSize: 16.09,
                                           circularBorderRadius: 10.0,
-                                          maximumSizeHeight: 50.07,
-                                          maximumSizeWidth: mediaWidth / 2.5,
-                                          minimumSizeHeight: 50.07,
-                                          minimumSizeWidth: mediaWidth / 2.5,
+                                          // maximumSizeHeight: 50.07,
+                                          // maximumSizeWidth: mediaWidth / 2.5,
+                                          // minimumSizeHeight: 50.07,
+                                          // minimumSizeWidth: mediaWidth / 2.5,
                                         ),
                                         MyElevatedButton(
                                           onPressed: () {

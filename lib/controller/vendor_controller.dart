@@ -176,7 +176,7 @@ class VendorController extends GetxController {
       // data = (jsonDecode(response.body)["items"] as List)
       //     .map((e) => MyVendorModel.fromJson(e))
       //     .toList();
-      allMyVendorList.value += data;
+      allMyVendorList.value = data;
     } catch (e) {
       consoleLog("ERROR loggg: ${e.toString()}");
       ApiProcessorController.errorSnack(

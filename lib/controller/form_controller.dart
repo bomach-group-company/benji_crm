@@ -1,7 +1,6 @@
 // ignore_for_file: empty_catches
 
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:benji_aggregator/controller/api_processor_controller.dart';
@@ -41,7 +40,6 @@ class FormController extends GetxController {
     ApiProcessorController.successSnack(successMsg);
     isLoad.value = false;
     responseObject.value = jsonDecode(response.body) as Map;
-    log(responseObject.value.toString());
     update([tag]);
   }
 

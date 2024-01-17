@@ -180,12 +180,8 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
             await RiderController.instance.getRiders();
           }, builder: (controller) {
             return Scrollbar(
-              controller: scrollController,
-              radius: const Radius.circular(10),
-              scrollbarOrientation: ScrollbarOrientation.right,
               child: ListView(
                 controller: scrollController,
-                scrollDirection: Axis.vertical,
                 physics: const BouncingScrollPhysics(),
                 padding: const EdgeInsets.only(
                   bottom: kDefaultPadding,
@@ -208,10 +204,25 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                               itemBuilder: (context, index) => ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: Container(
-                                  color: Colors.white,
+                                  decoration: ShapeDecoration(
+                                    color: kPrimaryColor,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                    shadows: const [
+                                      BoxShadow(
+                                        color: Color(0x0F000000),
+                                        blurRadius: 24,
+                                        offset: Offset(0, 4),
+                                        spreadRadius: 0,
+                                      ),
+                                    ],
+                                  ),
                                   child: ListTile(
                                     contentPadding: const EdgeInsets.symmetric(
-                                        vertical: 10, horizontal: 16),
+                                      vertical: 10,
+                                      horizontal: 16,
+                                    ),
                                     onTap: () => toRidersDetailPage(
                                         controller.riderList[index]),
                                     leading: Stack(
@@ -221,8 +232,9 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                           backgroundColor: kGreyColor1,
                                           child: ClipOval(
                                             child: MyImage(
-                                                url: controller
-                                                    .riderList[index].image),
+                                              url: controller
+                                                  .riderList[index].image,
+                                            ),
                                           ),
                                         ),
                                         // Positioned(
@@ -256,23 +268,35 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
                                         ),
                                         kHalfSizedBox,
                                         Text(
-                                          controller.riderList[index].username,
+                                          "ID: ${controller.riderList[index].id.toString()}",
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
                                           style: const TextStyle(
                                             fontSize: 14,
-                                            fontWeight: FontWeight.w700,
+                                            fontWeight: FontWeight.w500,
                                           ),
                                         ),
                                       ],
                                     ),
-                                    trailing: Text(
-                                      "${controller.riderList[index].tripCount} Trips Completed",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: kTextGreyColor,
-                                        fontWeight: FontWeight.w400,
-                                      ),
+                                    trailing: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        FaIcon(
+                                          FontAwesomeIcons.route,
+                                          color: kAccentColor,
+                                          size: 18,
+                                        ),
+                                        kHalfWidthSizedBox,
+                                        Text(
+                                          "${controller.riderList[index].tripCount} Trips Completed",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: kTextGreyColor,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),

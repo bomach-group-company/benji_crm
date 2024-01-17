@@ -132,7 +132,7 @@ class _MyVendorLocationState extends State<MyVendorLocation> {
         LatLng(userLocation.latitude, userLocation.longitude);
 
     CameraPosition cameraPosition =
-        CameraPosition(target: latLngPosition, zoom: 14);
+        CameraPosition(target: latLngPosition, zoom: 16);
 
     _newGoogleMapController?.animateCamera(
       CameraUpdate.newCameraPosition(cameraPosition),
@@ -239,7 +239,7 @@ class _MyVendorLocationState extends State<MyVendorLocation> {
                   initialCameraPosition: CameraPosition(
                     target: LatLng(
                         _userPosition!.latitude, _userPosition!.longitude),
-                    zoom: 14,
+                    zoom: 16,
                   ),
                   markers: Set.of(_markers),
                   polylines: {
