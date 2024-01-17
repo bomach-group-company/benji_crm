@@ -14,14 +14,4 @@ class CountryModel {
       code: json['code'] ?? '',
     );
   }
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'code': code,
-    };
-  }
-
-  static List<CountryModel> listFromJson(List<Map<String, dynamic>> jsonList) {
-    return jsonList.map((json) => CountryModel.fromJson(json)).toList();
-  }
 }

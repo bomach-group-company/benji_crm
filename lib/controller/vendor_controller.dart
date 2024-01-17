@@ -126,18 +126,20 @@ class VendorController extends GetxController {
 
     try {
       http.Response? response = await HandleData.getApi(url, token);
-      log(response!.body);
+      // log(response!.body);
       var responseData =
           await ApiProcessorController.errorState(response, isFirst ?? true);
-      var data = (responseData['items'] as List)
+
+      var data = (jsonDecode(responseData ?? '{}')['items'] as List)
           .map((e) => MyVendorModel.fromJson(e))
           .toList();
+
       // data = (jsonDecode(response.body)["items"] as List)
       //     .map((e) => MyVendorModel.fromJson(e))
       //     .toList();
       vendorMyList.value += data;
     } catch (e) {
-      consoleLog("ERROR: ${e.toString()}");
+      consoleLog("ERROR loggg: ${e.toString()}");
       ApiProcessorController.errorSnack("An error occurred. \n ERROR: $e");
     }
     loadedAllMyVendor.value = data.isEmpty;
@@ -249,7 +251,7 @@ class VendorController extends GetxController {
         );
 
         isLoadCreate.value = false;
-        // Get.close(1);
+        Get.close(1);
       } else {
         final res = await http.Response.fromStream(response);
         var jsonData = jsonDecode(res.body);

@@ -837,8 +837,9 @@ class _AddToAVendorState extends State<AddToAVendor> {
                             showCountryFlag: true,
                             showDropdownIcon: true,
                             dropdownIcon: Icon(
-                              Icons.arrow_drop_down_rounded,
+                              FontAwesomeIcons.caretDown,
                               color: kAccentColor,
+                              size: 14,
                             ),
                             textInputAction: TextInputAction.next,
                             focusNode: vendorPhoneNumberFN,

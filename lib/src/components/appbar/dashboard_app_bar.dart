@@ -85,7 +85,8 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 AppBarAggregator(
                   title: "Welcome,",
-                  aggregatorName: controller.user.value.firstName,
+                  aggregatorName: controller.user.value.firstName +
+                      controller.user.value.lastName,
                 ),
               ],
             );
