@@ -41,13 +41,13 @@ class _RidersDetailState extends State<RidersDetail> {
   //============================ ALL VARIABLES =============================\\
   late bool _loadingScreen;
 
-  bool _isScrollToTopBtnVisible = false;
+  bool isScrollToTopBtnVisible = false;
 
   //============================================== CONTROLLERS =================================================\\
   final ScrollController scrollController = ScrollController();
 
   //============================ FUNCTIONS =============================\\
-  void _scrollToTop() {
+  void scrollToTop() {
     scrollController.animateTo(
       0,
       duration: const Duration(milliseconds: 500),
@@ -57,15 +57,15 @@ class _RidersDetailState extends State<RidersDetail> {
 
   Future<void> _scrollListener() async {
     if (scrollController.position.pixels >= 200 &&
-        _isScrollToTopBtnVisible != true) {
+        isScrollToTopBtnVisible != true) {
       setState(() {
-        _isScrollToTopBtnVisible = true;
+        isScrollToTopBtnVisible = true;
       });
     }
     if (scrollController.position.pixels < 200 &&
-        _isScrollToTopBtnVisible == true) {
+        isScrollToTopBtnVisible == true) {
       setState(() {
-        _isScrollToTopBtnVisible = false;
+        isScrollToTopBtnVisible = false;
       });
     }
 
@@ -81,7 +81,7 @@ class _RidersDetailState extends State<RidersDetail> {
 
 //===================== Handle refresh ==========================\\
 
-  Future<void> _handleRefresh() async {
+  Future<void> handleRefresh() async {
     RiderHistoryController.instance.emptyRiderHistoryList();
     await RiderHistoryController.instance.riderHistory(widget.rider.id);
   }
@@ -167,10 +167,12 @@ class _RidersDetailState extends State<RidersDetail> {
 
     //====================================================================\\
     return MyLiquidRefresh(
-      onRefresh: _handleRefresh,
+      onRefresh: handleRefresh,
       child: Scaffold(
         appBar: MyAppBar(
-          title: "Riders Details",
+          title: isScrollToTopBtnVisible
+              ? "${widget.rider.firstName} ${widget.rider.lastName}"
+              : "Riders Details",
           elevation: 0,
           actions: [
             IconButton(
@@ -183,9 +185,9 @@ class _RidersDetailState extends State<RidersDetail> {
           ],
           backgroundColor: kPrimaryColor,
         ),
-        floatingActionButton: _isScrollToTopBtnVisible
+        floatingActionButton: isScrollToTopBtnVisible
             ? FloatingActionButton(
-                onPressed: _scrollToTop,
+                onPressed: scrollToTop,
                 mini: true,
                 backgroundColor: kAccentColor,
                 foregroundColor: kPrimaryColor,
