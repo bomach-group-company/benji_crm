@@ -3,6 +3,7 @@
 import 'dart:developer';
 
 import 'package:benji_aggregator/controller/api_processor_controller.dart';
+import 'package:benji_aggregator/controller/business_controller.dart';
 import 'package:benji_aggregator/model/my_vendor_model.dart';
 import 'package:benji_aggregator/src/components/image/my_image.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
@@ -34,6 +35,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
   @override
   void initState() {
     super.initState();
+    BusinessController.instance.getBusinesses(widget.vendor.id.toString());
     log("User ID: ${widget.vendor.id} Longitude: ${widget.vendor.longitude}Latitude: ${widget.vendor.latitude}");
     scrollController.addListener(_scrollListener);
     _tabBarController = TabController(length: 2, vsync: this);

@@ -169,7 +169,7 @@ class VendorController extends GetxController {
       var responseData =
           await ApiProcessorController.errorState(response, isFirst ?? true);
 
-      var data = (jsonDecode(responseData ?? '{}')['items'] as List)
+      data = (jsonDecode(responseData ?? '{}')['items'] as List)
           .map((e) => MyVendorModel.fromJson(e))
           .toList();
 
@@ -178,7 +178,7 @@ class VendorController extends GetxController {
       //     .toList();
       allMyVendorList.value = data;
     } catch (e) {
-      consoleLog("ERROR loggg: ${e.toString()}");
+      consoleLog("ERROR log: ${e.toString()}");
       ApiProcessorController.errorSnack(
         "An unexpected error occurred in fetching all the vendors. Please try again later.\n ERROR: $e",
       );

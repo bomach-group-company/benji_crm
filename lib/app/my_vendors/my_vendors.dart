@@ -217,7 +217,8 @@ class _MyVendorsState extends State<MyVendors> {
                                       ),
                                       child: MyVendorContainer(
                                         onTap: () => toVendorDetailsPage(
-                                            controller.vendorMyList[index]),
+                                          controller.vendorMyList[index],
+                                        ),
                                         vendor: controller.vendorMyList[index],
                                       )),
                                 ),
