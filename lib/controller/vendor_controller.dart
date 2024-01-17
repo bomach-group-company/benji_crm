@@ -177,6 +177,8 @@ class VendorController extends GetxController {
       //     .map((e) => MyVendorModel.fromJson(e))
       //     .toList();
       allMyVendorList.value = data;
+    } on SocketException {
+      ApiProcessorController.errorSnack("Please connect to the internet.");
     } catch (e) {
       consoleLog("ERROR log: ${e.toString()}");
       ApiProcessorController.errorSnack(

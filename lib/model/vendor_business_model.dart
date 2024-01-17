@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import '../src/providers/constants.dart';
 import 'business_type_model.dart';
 import 'country_model.dart';
@@ -59,6 +61,8 @@ class VendorBusinessModel {
   });
 
   factory VendorBusinessModel.fromJson(Map<String, dynamic>? json) {
+    log('business json $json');
+
     json ??= {};
     return VendorBusinessModel(
       id: json['id'] ?? notAvailable,

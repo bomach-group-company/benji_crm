@@ -192,7 +192,7 @@ class _MyVendorsState extends State<MyVendors> {
                             ? const VendorsListSkeleton()
                             : ListView.separated(
                                 separatorBuilder: (context, index) =>
-                                    const SizedBox(height: kDefaultPadding / 2),
+                                    kHalfSizedBox,
                                 itemCount: controller.vendorMyList.length,
                                 addAutomaticKeepAlives: true,
                                 physics: const BouncingScrollPhysics(),
@@ -200,27 +200,27 @@ class _MyVendorsState extends State<MyVendors> {
                                 itemBuilder: (context, index) => InkWell(
                                   borderRadius: BorderRadius.circular(16),
                                   child: Container(
-                                      decoration: ShapeDecoration(
-                                        color: kPrimaryColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                        ),
-                                        shadows: const [
-                                          BoxShadow(
-                                            color: Color(0x0F000000),
-                                            blurRadius: 24,
-                                            offset: Offset(0, 4),
-                                            spreadRadius: 0,
-                                          ),
-                                        ],
+                                    decoration: ShapeDecoration(
+                                      color: kPrimaryColor,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16),
                                       ),
-                                      child: MyVendorContainer(
-                                        onTap: () => toVendorDetailsPage(
-                                          controller.vendorMyList[index],
+                                      shadows: const [
+                                        BoxShadow(
+                                          color: Color(0x0F000000),
+                                          blurRadius: 24,
+                                          offset: Offset(0, 4),
+                                          spreadRadius: 0,
                                         ),
-                                        vendor: controller.vendorMyList[index],
-                                      )),
+                                      ],
+                                    ),
+                                    child: MyVendorContainer(
+                                      onTap: () => toVendorDetailsPage(
+                                        controller.vendorMyList[index],
+                                      ),
+                                      vendor: controller.vendorMyList[index],
+                                    ),
+                                  ),
                                 ),
                               ),
                     kSizedBox,
