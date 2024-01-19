@@ -5,7 +5,7 @@ import 'business_type_model.dart';
 import 'country_model.dart';
 import 'my_vendor_model.dart';
 
-class VendorBusinessModel {
+class BusinessModel {
   String id;
   MyVendorModel vendorOwner;
   CountryModel country;
@@ -32,7 +32,7 @@ class VendorBusinessModel {
   String accountBank;
   dynamic agent;
 
-  VendorBusinessModel({
+  BusinessModel({
     required this.id,
     required this.vendorOwner,
     required this.country,
@@ -60,11 +60,11 @@ class VendorBusinessModel {
     required this.agent,
   });
 
-  factory VendorBusinessModel.fromJson(Map<String, dynamic>? json) {
+  factory BusinessModel.fromJson(Map<String, dynamic>? json) {
     log('business json $json');
 
     json ??= {};
-    return VendorBusinessModel(
+    return BusinessModel(
       id: json['id'] ?? notAvailable,
       vendorOwner: MyVendorModel.fromJson(json['vendor_owner'] ?? {}),
       country: CountryModel.fromJson(json['country'] ?? {}),

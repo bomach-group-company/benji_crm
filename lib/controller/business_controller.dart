@@ -18,8 +18,8 @@ class BusinessController extends GetxController {
   bool? isFirst;
   BusinessController({this.isFirst});
   var isLoad = false.obs;
-  var businessesList = <VendorBusinessModel>[].obs;
-  var allBusinessesList = <VendorBusinessModel>[].obs;
+  var businessesList = <BusinessModel>[].obs;
+  var allBusinessesList = <BusinessModel>[].obs;
   // vendor pagination
   var loadNumBusinesses = 10.obs;
   var loadedAllBusinesses = false.obs;
@@ -47,7 +47,7 @@ class BusinessController extends GetxController {
     var url = Api.baseUrl + Api.getVendorBusinesses + vendorId;
     loadNumBusinesses.value += 10;
 
-    List<VendorBusinessModel> data = [];
+    List<BusinessModel> data = [];
     try {
       http.Response? response = await HandleData.getApi(url, token);
 
@@ -56,7 +56,7 @@ class BusinessController extends GetxController {
           await ApiProcessorController.errorState(response, isFirst ?? true);
 
       data = (jsonDecode(responseData) as List)
-          .map((e) => VendorBusinessModel.fromJson(e))
+          .map((e) => BusinessModel.fromJson(e))
           .toList();
       log("Got here!");
 
@@ -85,7 +85,7 @@ class BusinessController extends GetxController {
     var url = Api.baseUrl + Api.getVendorBusinesses + vendorId;
     loadNumBusinesses.value += 10;
 
-    List<VendorBusinessModel> data = [];
+    List<BusinessModel> data = [];
     try {
       http.Response? response = await HandleData.getApi(url, token);
 
@@ -94,7 +94,7 @@ class BusinessController extends GetxController {
           await ApiProcessorController.errorState(response, isFirst ?? true);
 
       data = (jsonDecode(responseData) as List)
-          .map((e) => VendorBusinessModel.fromJson(e))
+          .map((e) => BusinessModel.fromJson(e))
           .toList();
       log("Got all businesses here!");
 
