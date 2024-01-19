@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member
 
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:benji_aggregator/controller/form_controller.dart';
@@ -278,7 +279,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
   }
 
   void _toGetLocationOnMap() async {
-    await Get.to(
+    var result = await Get.to(
       () => const GetLocationOnMap(),
       routeName: 'GetLocationOnMap',
       duration: const Duration(milliseconds: 300),
@@ -288,14 +289,14 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
       popGesture: true,
       transition: Transition.rightToLeft,
     );
-    latitude = latLngDetailController.latLngDetail.value[0];
-    longitude = latLngDetailController.latLngDetail.value[1];
-    mapsLocationEC.text = latLngDetailController.latLngDetail.value[2];
-    latLngDetailController.setEmpty();
-    if (kDebugMode) {
-      print("LATLNG: $latitude,$longitude");
-      print(mapsLocationEC.text);
+    if (result != null) {
+      mapsLocationEC.text = result["mapsLocation"];
+      latitude = result["latitude"];
+      longitude = result["longitude"];
     }
+    log(
+      "Received Data - Maps Location: ${mapsLocationEC.text}, Latitude: $latitude, Longitude: $longitude",
+    );
   }
 
   Future<void> updateData() async {
