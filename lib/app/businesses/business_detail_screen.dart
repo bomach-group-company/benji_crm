@@ -7,7 +7,7 @@ import '../../controller/api_processor_controller.dart';
 import '../../controller/order_controller.dart';
 import '../../controller/product_controller.dart';
 import '../../controller/reviews_controller.dart';
-import '../../model/vendor_business_model.dart';
+import '../../model/business_model.dart';
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/image/my_image.dart';
 import '../../src/components/section/my_liquid_refresh.dart';

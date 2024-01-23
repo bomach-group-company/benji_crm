@@ -3,8 +3,8 @@ import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:get/get.dart';
 
 import '../../controller/product_controller.dart';
+import '../../model/business_model.dart';
 import '../../model/product_model.dart';
-import '../../model/vendor_business_model.dart';
 import '../../src/components/card/empty.dart';
 import '../../src/components/container/business_product_container.dart';
 import '../../src/providers/constants.dart';

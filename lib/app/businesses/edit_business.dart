@@ -19,7 +19,7 @@ import '../../controller/category_controller.dart';
 import '../../controller/form_controller.dart';
 import '../../controller/latlng_detail_controller.dart';
 import '../../controller/withdraw_controller.dart';
-import '../../model/vendor_business_model.dart';
+import '../../model/business_model.dart';
 import '../../services/api_url.dart';
 import '../../services/helper.dart';
 import '../../src/components/appbar/my_appbar.dart';

@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-import '../model/vendor_business_model.dart';
+import '../model/business_model.dart';
 import '../services/api_url.dart';
 import 'api_processor_controller.dart';
 import 'user_controller.dart';

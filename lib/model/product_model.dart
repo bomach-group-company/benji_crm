@@ -1,7 +1,7 @@
 import 'package:benji_aggregator/model/sub_category.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
 
-import 'vendor_business_model.dart';
+import 'business_model.dart';
 
 class ProductModel {
   final String id;

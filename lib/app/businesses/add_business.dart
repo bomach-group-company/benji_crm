@@ -20,7 +20,7 @@ import '../../controller/category_controller.dart';
 import '../../controller/form_controller.dart';
 import '../../controller/latlng_detail_controller.dart';
 import '../../controller/withdraw_controller.dart';
-import '../../model/vendor_business_model.dart';
+import '../../model/business_model.dart';
 import '../../services/api_url.dart';
 import '../../services/helper.dart';
 import '../../src/components/appbar/my_appbar.dart';
@@ -54,34 +54,7 @@ class _AddBusinessState extends State<AddBusiness> {
   void initState() {
     super.initState();
     CategoryController.instance.getCategory();
-    // log(widget.business!.id.toString());
     scrollController.addListener(_scrollListener);
-    // if (widget.business != null) {
-    //   addressEC.text = widget.business!.address;
-    //   latitude = widget.business!.latitude;
-    //   longitude = widget.business!.longitude;
-    //   accountBankEC.text = widget.business!.accountBank;
-    //   accountNameEC.text = widget.business!.accountName;
-    //   accountNumberEC.text = widget.business!.accountNumber;
-    //   accountTypeEC.text = widget.business!.accountType;
-    //   countryValue = widget.business!.country.name;
-    //   stateValue = widget.business!.state;
-    //   cityValue = widget.business!.city;
-
-    //   businessIdEC.text = widget.business!.businessId;
-    //   shopImage = widget.business!.shopImage;
-    //   shopNameEC.text = widget.business!.shopName;
-    //   vendorMonToFriOpeningHoursEC.text = widget.business!.weekOpeningHours;
-    //   vendorMonToFriClosingHoursEC.text = widget.business!.weekClosingHours;
-    //   vendorSatOpeningHoursEC.text = widget.business!.satOpeningHours;
-    //   vendorSatClosingHoursEC.text = widget.business!.satClosingHours;
-    //   vendorSunOpeningHoursEC.text = widget.business!.sunWeekOpeningHours;
-    //   vendorSunClosingHoursEC.text = widget.business!.sunWeekClosingHours;
-    //   businessBioEC.text = widget.business!.businessBio;
-    //   vendorBusinessTypeEC.text = widget.business!.shopType.id;
-
-    //   log("This is the shop image: $shopImage");
-    // }
   }
 
   @override
@@ -116,7 +89,7 @@ class _AddBusinessState extends State<AddBusiness> {
 
   //============================================== CONTROLLERS =================================================\\
   final scrollController = ScrollController();
-  final shopNameEC = TextEditingController();
+  final businessNameEC = TextEditingController();
   final vendorMonToFriOpeningHoursEC = TextEditingController();
   final vendorSatOpeningHoursEC = TextEditingController();
   final vendorSunOpeningHoursEC = TextEditingController();
@@ -135,7 +108,7 @@ class _AddBusinessState extends State<AddBusiness> {
   final businessIdEC = TextEditingController();
 
   //=================================== FOCUS NODES ====================================\\
-  final shopNameFN = FocusNode();
+  final businessNameFN = FocusNode();
   final vendorMonToFriOpeningHoursFN = FocusNode();
   final vendorSatOpeningHoursFN = FocusNode();
   final vendorSunOpeningHoursFN = FocusNode();
@@ -262,7 +235,11 @@ class _AddBusinessState extends State<AddBusiness> {
 
   //========================== Save data ==================================\\
   Future<void> saveChanges() async {
-    if (selectedCoverImage == null && shopImage!.isEmpty) {
+    if (selectedLogoImage == null) {
+      ApiProcessorController.errorSnack("Please select a shop image");
+      return;
+    }
+    if (selectedCoverImage == null) {
       ApiProcessorController.errorSnack("Please select a shop image");
       return;
     }
@@ -284,7 +261,7 @@ class _AddBusinessState extends State<AddBusiness> {
       "state": stateValue,
       "city": cityValue,
       "businessId": businessIdEC.text,
-      "shop_name": shopNameEC.text,
+      "shop_name": businessNameEC.text,
       "weekOpeningHours": vendorMonToFriOpeningHoursEC.text,
       "weekClosingHours": vendorMonToFriClosingHoursEC.text,
       "satOpeningHours": vendorSatOpeningHoursEC.text,
@@ -296,13 +273,14 @@ class _AddBusinessState extends State<AddBusiness> {
     };
     log("This is the data: $data");
 
-    log("shop_image: ${selectedCoverImage?.path}");
+    log("shop_image: ${selectedLogoImage?.path}");
+    log("coverImage: ${selectedCoverImage?.path}");
     var vendorId = widget.business!.id.toString();
 
     await FormController.instance.postAuthstream(
       '${Api.baseUrl}/vendors/createVendorBusiness/$vendorId',
       data,
-      {'shop_image': selectedCoverImage},
+      {'shop_image': selectedLogoImage, 'coverImage': selectedCoverImage},
       'changeVendorBusinessProfile',
     );
     if (FormController.instance.status.toString().startsWith('2')) {
@@ -310,7 +288,7 @@ class _AddBusinessState extends State<AddBusiness> {
       //   title: "Success.",
       //   body: "Your business profile has been successfully updated.",
       // );
-      Get.close(1);
+      // Get.close(1);
     }
   }
 
@@ -319,7 +297,7 @@ class _AddBusinessState extends State<AddBusiness> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           const Text(
-            "Upload Cover Image",
+            "Upload Business Logo",
             textAlign: TextAlign.left,
             style: TextStyle(
               fontSize: 18,
@@ -610,18 +588,17 @@ class _AddBusinessState extends State<AddBusiness> {
                               ),
                             ),
                           )
-                        : Container(
-                            decoration: ShapeDecoration(
-                              image: DecorationImage(
-                                image: FileImage(selectedLogoImage!),
-                                fit: BoxFit.cover,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                side: const BorderSide(
-                                  width: 0.50,
-                                  color: Color(0xFFE6E6E6),
+                        : CircleAvatar(
+                            backgroundColor: kTransparentColor,
+                            radius: 60,
+                            child: Center(
+                              child: SizedBox(
+                                height: 120,
+                                width: 120,
+                                child: Image.file(
+                                  selectedLogoImage!,
+                                  fit: BoxFit.cover,
                                 ),
-                                borderRadius: BorderRadius.circular(20),
                               ),
                             ),
                           ),
@@ -681,6 +658,7 @@ class _AddBusinessState extends State<AddBusiness> {
                             ),
                           )
                         : Container(
+                            height: 200,
                             decoration: ShapeDecoration(
                               image: DecorationImage(
                                 image: FileImage(selectedCoverImage!),
@@ -711,7 +689,7 @@ class _AddBusinessState extends State<AddBusiness> {
                             ),
                           ),
                           enableDrag: true,
-                          builder: ((builder) => uploadBusinessLogo()),
+                          builder: ((builder) => uploadBusinessCoverImage()),
                         );
                       },
                       splashColor: kAccentColor.withOpacity(0.1),
@@ -740,7 +718,7 @@ class _AddBusinessState extends State<AddBusiness> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      "Shop Name",
+                      "Business Name",
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
@@ -748,19 +726,46 @@ class _AddBusinessState extends State<AddBusiness> {
                     ),
                     kSizedBox,
                     MyBlueTextFormField(
-                      controller: shopNameEC,
+                      controller: businessNameEC,
                       validator: (value) {
                         if (value == null || value!.isEmpty) {
-                          shopNameFN.requestFocus();
+                          businessNameFN.requestFocus();
+                          if (value < 2) {
+                            "Please enter a valid name";
+                          }
                           return "Field cannot be empty";
                         } else {
                           return null;
                         }
                       },
                       textInputAction: TextInputAction.next,
-                      focusNode: shopNameFN,
-                      hintText: "Name of shop",
-                      textInputType: TextInputType.text,
+                      focusNode: businessNameFN,
+                      hintText: "Name of the business",
+                      textInputType: TextInputType.name,
+                    ),
+                    kSizedBox,
+                    const Text(
+                      "Business Identification Number/CAC Number",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    kSizedBox,
+                    MyBlueTextFormField(
+                      controller: businessIdEC,
+                      validator: (value) {
+                        if (value == null || value!.isEmpty) {
+                          businessNameFN.requestFocus();
+                          return "Field cannot be empty";
+                        } else {
+                          return null;
+                        }
+                      },
+                      textInputAction: TextInputAction.next,
+                      focusNode: businessIdFN,
+                      hintText: "Enter your registered business number",
+                      textInputType: TextInputType.number,
                     ),
                     kSizedBox,
                     const Text(
@@ -1071,7 +1076,7 @@ class _AddBusinessState extends State<AddBusiness> {
                           focusNode: accountNumberFN,
                           hintText: "Enter the account number here",
                           textInputAction: TextInputAction.next,
-                          textInputType: TextInputType.name,
+                          textInputType: TextInputType.number,
                           onChanged: (value) {
                             if (value.length >= 10) {
                               WithdrawController.instance.validateBankNumbers(

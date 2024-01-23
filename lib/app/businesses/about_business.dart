@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
+import '../../model/business_model.dart';
 import '../../model/rating_model.dart';
-import '../../model/vendor_business_model.dart';
 import '../../src/components/card/customer_review_card.dart';
 import '../../src/components/card/empty.dart';
 import '../../src/providers/constants.dart';

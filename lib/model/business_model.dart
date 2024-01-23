@@ -105,9 +105,12 @@ class BusinessModel {
         "state": state,
         "city": city,
         "address": address,
+        "lga": lga,
         "shop_name": shopName,
         "shop_image": shopImage,
+        "coverImage": coverImage,
         "shop_type": shopType.toJson(),
+        "vendor_owner": vendorOwner.toJson(),
         "weekOpeningHours": weekOpeningHours,
         "weekClosingHours": weekClosingHours,
         "satOpeningHours": satOpeningHours,
@@ -122,5 +125,6 @@ class BusinessModel {
         "accountNumber": accountNumber,
         "accountType": accountType,
         "accountBank": accountBank,
+        "agent": agent,
       };
 }
