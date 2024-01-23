@@ -152,7 +152,7 @@ class VendorController extends GetxController {
     update();
   }
 
-  Future getAllMyVendors() async {
+  Future getTotalNumberOfMyVendors() async {
     isLoad.value = true;
     late String token;
     String id = UserController.instance.user.value.id.toString();

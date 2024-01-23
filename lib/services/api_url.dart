@@ -47,7 +47,7 @@ class Api {
   static const deleteProduct = "/products/deleteProduct/";
 
   //order
-  static const orderList = "/agents/getAllMyVendorsOrders/";
+  static const orderList = "/agents/getTotalNumberOfMyVendorsOrders/";
 
   //Rider
   static const riderList = "/agents/listAllRiders";

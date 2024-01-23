@@ -2,7 +2,6 @@
 
 import 'dart:developer';
 
-import 'package:benji_aggregator/controller/api_processor_controller.dart';
 import 'package:benji_aggregator/controller/business_controller.dart';
 import 'package:benji_aggregator/model/my_vendor_model.dart';
 import 'package:benji_aggregator/src/components/card/empty.dart';
@@ -17,7 +16,6 @@ import '../../src/components/section/my_liquid_refresh.dart';
 import '../../src/responsive/responsive_constant.dart';
 import '../../src/skeletons/vendors_list_skeleton.dart';
 import '../../theme/colors.dart';
-import 'my_vendors_location.dart';
 import 'report_my_vendor.dart';
 
 class MyBusinessDetailPage extends StatefulWidget {
@@ -177,69 +175,6 @@ class _MyBusinessDetailPageState extends State<MyBusinessDetailPage>
   }
 
   //===================== Navigation ==========================\\
-  // void toProductDetailScreen() => Get.to(
-  //       () => MyProductDetails(
-  //         productImage: _productImage,
-  //         productName: _productName,
-  //         productPrice: _productPrice,
-  //         productDescription: _productDescription,
-  //       ),
-  //       duration: const Duration(milliseconds: 300),
-  //       fullscreenDialog: true,
-  //       curve: Curves.easeIn,
-  //       routeName: "My product details",
-  //       preventDuplicates: true,
-  //       popGesture: true,
-  //       transition: Transition.rightToLeft,
-  //     );
-
-  // void toAddProduct() => Get.to(
-  //       () => AddProduct(vendor: widget.vendor),
-  //       duration: const Duration(milliseconds: 300),
-  //       fullscreenDialog: true,
-  //       curve: Curves.easeIn,
-  //       routeName: "Add product",
-  //       preventDuplicates: true,
-  //       popGesture: true,
-  //       transition: Transition.downToUp,
-  //     );
-
-  toVendorLocation() {
-    double latitude;
-    double longitude;
-
-    try {
-      latitude = double.parse(widget.vendor.latitude);
-      longitude = double.parse(widget.vendor.longitude);
-      if (latitude >= -90 &&
-          latitude <= 90 &&
-          longitude >= -180 &&
-          longitude <= 180) {
-      } else {
-        ApiProcessorController.errorSnack(
-            "Couldn't get the address. Please refresh");
-        return;
-      }
-    } catch (e) {
-      ApiProcessorController.errorSnack("Couldn't get the address.\nERROR: $e");
-      return;
-    }
-    Get.to(
-      () => MyVendorLocation(
-        vendorName: widget.vendor.username,
-        vendorAddress: widget.vendor.address,
-        latitude: widget.vendor.latitude,
-        longitude: widget.vendor.longitude,
-      ),
-      routeName: 'MyVendorLocation',
-      duration: const Duration(milliseconds: 300),
-      fullscreenDialog: true,
-      curve: Curves.easeIn,
-      preventDuplicates: true,
-      popGesture: true,
-      transition: Transition.rightToLeft,
-    );
-  }
 
   @override
   Widget build(BuildContext context) {

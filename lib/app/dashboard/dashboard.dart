@@ -2,12 +2,10 @@
 
 import 'dart:async';
 
-import 'package:benji_aggregator/app/my_orders/all_orders.dart';
 import 'package:benji_aggregator/controller/notification_controller.dart';
 import 'package:benji_aggregator/controller/rider_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
-import 'package:benji_aggregator/model/business_order_model.dart';
 import 'package:benji_aggregator/src/components/appbar/dashboard_app_bar.dart';
 import 'package:benji_aggregator/src/components/container/available_balance_card.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +17,6 @@ import '../../src/components/container/dashboard_container.dart';
 import '../../src/providers/constants.dart';
 import '../../src/responsive/responsive_constant.dart';
 import '../../theme/colors.dart';
-import '../my_orders/active_orders.dart';
-import '../my_orders/pending_orders.dart';
 import '../overview/overview.dart';
 
 class Dashboard extends StatefulWidget {
@@ -107,7 +103,7 @@ class _DashboardState extends State<Dashboard>
       loadingScreen = true;
     });
     await VendorController.instance.getMyVendors();
-    await VendorController.instance.getAllMyVendors();
+    await VendorController.instance.getTotalNumberOfMyVendors();
     await NotificationController.instance.runTask();
     setState(() {
       loadingScreen = false;
@@ -157,43 +153,6 @@ class _DashboardState extends State<Dashboard>
         transition: Transition.downToUp,
       );
 
-  void toSeeAllBusinesses() {}
-
-  void toSeeAllCompletedOrders(List<BusinessOrderModel> completed) => Get.to(
-        () => AllCompletedOrders(completed: completed),
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "AllCompletedOrders",
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.downToUp,
-      );
-
-  void toSeeAllPendingOrders(List<BusinessOrderModel> orderList) => Get.to(
-        () => PendingOrders(orderList: orderList),
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "PendingOrders",
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.downToUp,
-      );
-
-  void toSeeAllActiveOrders(List<BusinessOrderModel> orderList) => Get.to(
-        () => ActiveOrders(
-          orderList: orderList,
-        ),
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "ActiveOrders",
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.downToUp,
-      );
-
   @override
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
@@ -238,66 +197,11 @@ class _DashboardState extends State<Dashboard>
               children: [
                 const AvailableBalanceCard(),
                 kSizedBox,
-                // GetBuilder<OrderController>(initState: (state) async {
-                //   await OrderController.instance.getOrders();
-                // }, builder: (order) {
-                //   final active = order.orderList
-                //       .where((p0) =>
-                //           !p0.deliveryStatus
-                //               .toLowerCase()
-                //               .contains("COMP".toLowerCase()) &&
-                //           p0.assignedStatus
-                //               .toLowerCase()
-                //               .contains("ASSG".toLowerCase()))
-                //       .toList();
-                //   final pending = order.orderList
-                //       .where((p0) =>
-                //           !p0.deliveryStatus
-                //               .toLowerCase()
-                //               .contains("COMP".toLowerCase()) &&
-                //           p0.assignedStatus
-                //               .toLowerCase()
-                //               .contains("PEND".toLowerCase()))
-                //       .toList();
-                //   return Row(
-                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //     children: [
-                //       OrdersContainer(
-                //         containerColor: kPrimaryColor,
-                //         typeOfOrderColor: kTextGreyColor,
-                //         iconColor: kLightGreyColor,
-                //         numberOfOrders: intFormattedText(active.length),
-                //         typeOfOrders: "Active",
-                //         onTap: () => toSeeAllActiveOrders(active),
-                //       ),
-                //       OrdersContainer(
-                //         containerColor:
-                //             // Colors.red.shade200,
-                //             kAccentColor.withOpacity(0.4),
-                //         typeOfOrderColor: kAccentColor,
-                //         iconColor: kAccentColor,
-                //         numberOfOrders: intFormattedText(pending.length),
-                //         typeOfOrders: "Pending",
-                //         onTap: () => toSeeAllPendingOrders(pending),
-                //       ),
-                //     ],
-                //   );
-                // }),
-                // kSizedBox,
-                // GetBuilder<OrderController>(builder: (order) {
-                //   final orders = order.orderList.toList();
 
-                //   return DasboardAllCompletedOrdersContainer(
-                //     onTap: () => toSeeAllCompletedOrders(orders),
-                //     number: intFormattedText(orders.length),
-                //     typeOf: "Orders",
-                //   );
-                // }),
-                // kSizedBox,
                 GetBuilder<VendorController>(
                   init: VendorController(),
                   initState: (state) async {
-                    await VendorController.instance.getAllMyVendors();
+                    await VendorController.instance.getTotalNumberOfMyVendors();
                   },
                   builder: (vendor) {
                     final allVendor = vendor.allMyVendorList.toList();
