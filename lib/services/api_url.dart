@@ -65,6 +65,16 @@ class Api {
   static const withdrawalHistory = "/wallet/withdrawalHistory/";
   static const listWithdrawalHistories =
       "/withdrawalhistory/listWithdrawalHistories/";
+
+  //Item Packages
+  static const getPackageCategory = "/sendPackage/getPackageCategory/";
+  static const getPackageWeight = "/sendPackage/getPackageWeight/";
+  static const createItemPackage = "/sendPackage/createItemPackage/";
+  static const dispatchPackage = "/sendPackage/changePackageStatus";
+  static const reportPackage = "/clients/clientReportPackage/";
+
+  //Payments
+  static const getDeliveryFee = "/payments/getdeliveryfee/";
 }
 
 String header = "application/json";

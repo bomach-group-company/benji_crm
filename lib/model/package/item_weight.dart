@@ -1,4 +1,4 @@
-import '../src/providers/constants.dart';
+import '../../src/providers/constants.dart';
 
 class ItemWeight {
   final String id;

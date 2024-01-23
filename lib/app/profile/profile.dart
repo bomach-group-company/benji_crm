@@ -12,6 +12,7 @@ import '../../src/components/section/profile_first_half.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 import '../auth_screens/login.dart';
+import '../packages/packages.dart';
 import 'personal_info.dart';
 import 'settings.dart';
 
@@ -49,7 +50,7 @@ class _ProfileState extends State<Profile> {
       loadingScreen = true;
     });
     await Future.delayed(const Duration(milliseconds: 500));
-    await OrderController.instance.getOrders();
+    // await OrderController.instance.getOrders();
     OrderController.instance.loadNum();
 
     setState(() {
@@ -78,6 +79,19 @@ class _ProfileState extends State<Profile> {
         popGesture: false,
         transition: Transition.rightToLeft,
       );
+  toPackages() {
+    Get.to(
+      () => const Packages(),
+      routeName: 'Packages',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+  }
+
   void toWithdrawalHistory() => Get.to(
         () => const WithdrawalHistoryPage(),
         duration: const Duration(milliseconds: 300),
@@ -161,6 +175,23 @@ class _ProfileState extends State<Profile> {
                             trailing: const FaIcon(
                               FontAwesomeIcons.chevronRight,
                             ),
+                          ),
+                          ListTile(
+                            onTap: toPackages,
+                            leading: FaIcon(
+                              FontAwesomeIcons.bicycle,
+                              color: kAccentColor,
+                            ),
+                            title: const Text(
+                              'Package delivery',
+                              style: TextStyle(
+                                color: kTextBlackColor,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            trailing:
+                                const FaIcon(FontAwesomeIcons.chevronRight),
                           ),
                           ListTile(
                             onTap: toSettings,

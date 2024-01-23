@@ -18,6 +18,7 @@ import '../../src/providers/constants.dart';
 import '../../src/responsive/responsive_constant.dart';
 import '../../theme/colors.dart';
 import '../overview/overview.dart';
+import '../packages/send_package.dart';
 
 class Dashboard extends StatefulWidget {
   final VoidCallback showNavigation;
@@ -153,6 +154,19 @@ class _DashboardState extends State<Dashboard>
         transition: Transition.downToUp,
       );
 
+  toSendPackage() {
+    Get.to(
+      () => const SendPackage(),
+      routeName: 'SendPackage',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
@@ -239,6 +253,40 @@ class _DashboardState extends State<Dashboard>
                   );
                 }),
 
+                kSizedBox,
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: ShapeDecoration(
+                    color: kPrimaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    shadows: const [
+                      BoxShadow(
+                        color: Color(0x0F000000),
+                        blurRadius: 24,
+                        offset: Offset(0, 4),
+                        spreadRadius: 0,
+                      ),
+                    ],
+                  ),
+                  child: ListTile(
+                    onTap: toSendPackage,
+                    leading: FaIcon(
+                      FontAwesomeIcons.bicycle,
+                      color: kAccentColor,
+                    ),
+                    title: const Text(
+                      'Send a Package',
+                      style: TextStyle(
+                        color: kTextBlackColor,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    trailing: const FaIcon(FontAwesomeIcons.chevronRight),
+                  ),
+                ),
                 kSizedBox,
                 deviceType(media.width) >= 2
                     ? const SizedBox(height: kDefaultPadding * 2)

@@ -1,14 +1,15 @@
-import 'package:benji_aggregator/model/rating_model.dart';
 import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
-import 'package:benji_aggregator/src/components/card/customer_review_card.dart';
-import 'package:benji_aggregator/src/components/card/empty.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../controller/user_controller.dart';
 import '../../model/my_vendor_model.dart';
+import '../../src/components/image/my_image.dart';
+import '../../src/components/input/my_blue_textformfield.dart';
 import '../../src/components/section/my_liquid_refresh.dart';
 import '../../src/providers/constants.dart';
+import '../../src/responsive/responsive_constant.dart';
 
 class AboutMyVendor extends StatefulWidget {
   final MyVendorModel vendor;
@@ -25,19 +26,58 @@ class _AboutMyVendorState extends State<AboutMyVendor> {
   @override
   void initState() {
     super.initState();
-    getData();
+    vendorFirstNameEC.text = widget.vendor.firstName;
+    vendorLastNameEC.text = widget.vendor.lastName;
+    vendorEmailEC.text = widget.vendor.email;
+    vendorAddressEC.text = widget.vendor.address;
+    vendorCountryEC.text = widget.vendor.country.name;
+    vendorStateEC.text = widget.vendor.state;
+    vendorCityEC.text = widget.vendor.city;
+    vendorLGAEC.text = widget.vendor.lga;
+    vendorIDEC.text = widget.vendor.id.toString();
+
     scrollController.addListener(_scrollListener);
   }
 
   //=================================== CONTROLLERS ====================================\\
-  final ScrollController scrollController = ScrollController();
+  final scrollController = ScrollController();
+
+  final vendorFirstNameEC = TextEditingController();
+  final vendorLastNameEC = TextEditingController();
+  final vendorEmailEC = TextEditingController();
+  final vendorAddressEC = TextEditingController();
+  final vendorCountryEC = TextEditingController();
+  final vendorStateEC = TextEditingController();
+  final vendorCityEC = TextEditingController();
+  final vendorLGAEC = TextEditingController();
+  final vendorIDEC = TextEditingController();
+
+  //=================================== FOCUS NODES ====================================\\
+  final vendorFirstNameFN = FocusNode();
+  final vendorLastNameFN = FocusNode();
+  final vendorEmailFN = FocusNode();
+  final vendorAddressFN = FocusNode();
+  final vendorCountryFN = FocusNode();
+  final vendorStateFN = FocusNode();
+  final vendorCityFN = FocusNode();
+  final vendorLGAFN = FocusNode();
+  final vendorIDFN = FocusNode();
 
 //============================================= ALL VARIABLES  ===================================================\\
-  final List<String> stars = ['5', '4', '3', '2', '1'];
-  String active = 'all';
   bool isScrollToTopBtnVisible = false;
+  bool refreshing = false;
 
 //============================================= FUNCTIONS  ===================================================\\
+
+  Future<void> handleRefresh() async {
+    setState(() {
+      refreshing = true;
+    });
+    await UserController.instance.getUser();
+    setState(() {
+      refreshing = false;
+    });
+  }
 
   void scrollToTop() {
     scrollController.animateTo(
@@ -62,30 +102,11 @@ class _AboutMyVendorState extends State<AboutMyVendor> {
     }
   }
 
-  List<RatingModel>? _ratings = [];
-  Future<void> getData() async {
-    setState(() {
-      _ratings = null;
-    });
-
-    List<RatingModel> ratings;
-    if (active == 'all') {
-      ratings = await getRatingsByVendorId(widget.vendor.id);
-    } else {
-      ratings = await getRatingsByVendorIdAndRating(
-          widget.vendor.id, int.parse(active));
-    }
-
-    setState(() {
-      _ratings = ratings;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
     return MyLiquidRefresh(
-      onRefresh: getData,
+      onRefresh: handleRefresh,
       child: Scaffold(
         appBar: MyAppBar(
           title: "About Vendor",
@@ -98,6 +119,7 @@ class _AboutMyVendorState extends State<AboutMyVendor> {
                 onPressed: scrollToTop,
                 mini: true,
                 backgroundColor: kAccentColor,
+                foregroundColor: kPrimaryColor,
                 enableFeedback: true,
                 mouseCursor: SystemMouseCursors.click,
                 tooltip: "Scroll to top",
@@ -112,293 +134,345 @@ class _AboutMyVendorState extends State<AboutMyVendor> {
             padding: const EdgeInsets.all(kDefaultPadding),
             controller: scrollController,
             children: [
-              kSizedBox,
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "About This Business",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  kSizedBox,
-                  Container(
-                    width: media.width,
-                    padding: const EdgeInsets.all(kDefaultPadding),
-                    decoration: ShapeDecoration(
-                      color: const Color(0xFFFEF8F8),
-                      shape: RoundedRectangleBorder(
-                        side: const BorderSide(
-                          width: 0.50,
-                          color: Color(0xFFFDEDED),
+              SizedBox(
+                height:
+                    deviceType(media.width) > 2 && deviceType(media.width) < 4
+                        ? 540
+                        : deviceType(media.width) > 2
+                            ? 470
+                            : 320,
+                child: Stack(
+                  children: [
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      child: Container(
+                        height: deviceType(media.width) > 3 &&
+                                deviceType(media.width) < 5
+                            ? media.height * 0.3
+                            : deviceType(media.width) > 2
+                                ? media.height * 0.2
+                                : media.height * 0.15,
+                        decoration:
+                            const BoxDecoration(color: kTransparentColor),
+                        child: Padding(
+                          padding: const EdgeInsets.all(kDefaultPadding),
+                          child: Opacity(
+                            opacity: 0.6,
+                            child: Image.asset(
+                              "assets/images/logo/benji_full_logo.png",
+                              filterQuality: FilterQuality.high,
+                              fit: BoxFit.contain,
+                            ),
+                          ),
                         ),
-                        borderRadius: BorderRadius.circular(25),
                       ),
-                      shadows: const [
-                        BoxShadow(
-                          color: Color(0x0F000000),
-                          blurRadius: 24,
-                          offset: Offset(0, 4),
-                          spreadRadius: 0,
-                        ),
-                      ],
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text.rich(
-                          TextSpan(
+                    Positioned(
+                      top: deviceType(media.width) > 2
+                          ? media.height * 0.25
+                          : media.height * 0.1,
+                      left: kDefaultPadding,
+                      right: kDefaultPadding,
+                      child: Container(
+                        // width: 200,
+                        padding: const EdgeInsets.all(kDefaultPadding / 2),
+                        decoration: ShapeDecoration(
+                          shadows: [
+                            BoxShadow(
+                              color: kBlackColor.withOpacity(0.1),
+                              blurRadius: 5,
+                              spreadRadius: 2,
+                              blurStyle: BlurStyle.normal,
+                            ),
+                          ],
+                          color: const Color(0xFFFEF8F8),
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                              width: 0.50,
+                              color: Color(0xFFFDEDED),
+                            ),
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                        ),
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.only(top: kDefaultPadding * 2.6),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const TextSpan(
-                                text: "Email: ",
-                                style: TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 16,
-                                ),
-                              ),
-                              TextSpan(
-                                text: widget.vendor.email,
-                                style: const TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        kHalfSizedBox,
-                        Text.rich(
-                          TextSpan(
-                            children: [
-                              const TextSpan(
-                                text: "Business Phone number: ",
-                                style: TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 16,
-                                ),
-                              ),
-                              TextSpan(
-                                text: widget.vendor.phone,
-                                style: const TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  kSizedBox,
-                  const Text(
-                    "Working Hours",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  kSizedBox,
-                  Container(
-                    width: media.width,
-                    padding: const EdgeInsets.all(kDefaultPadding),
-                    decoration: ShapeDecoration(
-                      color: const Color(0xFFFEF8F8),
-                      shape: RoundedRectangleBorder(
-                        side: const BorderSide(
-                          width: 0.50,
-                          color: Color(0xFFFDEDED),
-                        ),
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      shadows: const [
-                        BoxShadow(
-                          color: Color(0x0F000000),
-                          blurRadius: 24,
-                          offset: Offset(0, 4),
-                          spreadRadius: 0,
-                        ),
-                      ],
-                    ),
-                  ),
-                  kSizedBox,
-                  Container(
-                    width: media.width,
-                    padding: const EdgeInsets.all(kDefaultPadding),
-                    decoration: ShapeDecoration(
-                      color: const Color(0xFFFEF8F8),
-                      shape: RoundedRectangleBorder(
-                        side: const BorderSide(
-                          width: 0.50,
-                          color: Color(0xFFFDEDED),
-                        ),
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      shadows: const [
-                        BoxShadow(
-                          color: Color(0x0F000000),
-                          blurRadius: 24,
-                          offset: Offset(0, 4),
-                          spreadRadius: 0,
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          "Reviews View & Ratings",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: kDefaultPadding,
-                            horizontal: kDefaultPadding * 0.5,
-                          ),
-                          child: SingleChildScrollView(
-                            physics: const BouncingScrollPhysics(),
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: [
-                                OutlinedButton(
-                                  style: OutlinedButton.styleFrom(
-                                    side: BorderSide(
-                                      color: active == 'all'
-                                          ? kAccentColor
-                                          : const Color(
-                                              0xFFA9AAB1,
-                                            ),
-                                    ),
-                                    backgroundColor: active == 'all'
-                                        ? kAccentColor
-                                        : kPrimaryColor,
-                                    foregroundColor: active == 'all'
-                                        ? kPrimaryColor
-                                        : const Color(0xFFA9AAB1),
-                                  ),
-                                  onPressed: () async {
-                                    active = 'all';
-                                    setState(() {
-                                      _ratings = null;
-                                    });
-
-                                    List<RatingModel> ratings =
-                                        await getRatingsByVendorId(
-                                            widget.vendor.id);
-
-                                    setState(() {
-                                      _ratings = ratings;
-                                    });
-                                  },
-                                  child: const Text(
-                                    'All',
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w400,
-                                    ),
+                              SizedBox(
+                                width: media.width - 150,
+                                child: Text(
+                                  "${widget.vendor.firstName} ${widget.vendor.lastName}",
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    color: kTextBlackColor,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w700,
                                   ),
                                 ),
-                                Row(
-                                  children: stars
-                                      .map(
-                                        (item) => Row(
-                                          children: [
-                                            kHalfWidthSizedBox,
-                                            OutlinedButton(
-                                              style: OutlinedButton.styleFrom(
-                                                side: BorderSide(
-                                                  color: active == item
-                                                      ? kStarColor
-                                                      : const Color(0xFFA9AAB1),
-                                                ),
-                                                foregroundColor: active == item
-                                                    ? kStarColor
-                                                    : const Color(0xFFA9AAB1),
-                                              ),
-                                              onPressed: () async {
-                                                active = item;
-
-                                                setState(() {
-                                                  _ratings = null;
-                                                });
-
-                                                List<RatingModel> ratings =
-                                                    await getRatingsByVendorIdAndRating(
-                                                        widget.vendor.id,
-                                                        int.parse(active));
-
-                                                setState(() {
-                                                  _ratings = ratings;
-                                                });
-                                              },
-                                              child: Row(
-                                                children: [
-                                                  const FaIcon(
-                                                    FontAwesomeIcons.solidStar,
-                                                    size: 16,
-                                                  ),
-                                                  const SizedBox(
-                                                    width:
-                                                        kDefaultPadding * 0.2,
-                                                  ),
-                                                  Text(
-                                                    item,
-                                                    style: const TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
+                              ),
+                              kHalfSizedBox,
+                              SizedBox(
+                                width: media.width - 150,
+                                child: Text(
+                                  "ID: ${widget.vendor.code}",
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    color: kTextBlackColor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
+                              kHalfSizedBox,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Container(
+                                    width: media.width - 250,
+                                    padding:
+                                        const EdgeInsets.all(kDefaultPadding),
+                                    decoration: ShapeDecoration(
+                                      color: kPrimaryColor,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(19),
+                                      ),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const Text(
+                                          "Online",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: kSuccessColor,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400,
+                                            letterSpacing: -0.36,
+                                          ),
                                         ),
-                                      )
-                                      .toList(),
-                                ),
-                                kHalfWidthSizedBox,
-                              ],
-                            ),
+                                        const SizedBox(width: 5),
+                                        FaIcon(
+                                          Icons.info,
+                                          color: kAccentColor,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
                           ),
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                  kSizedBox,
-                  _ratings == null
-                      ? Center(
-                          child: CircularProgressIndicator(color: kAccentColor),
-                        )
-                      : _ratings!.isEmpty
-                          ? const EmptyCard()
-                          : Column(
-                              children: [
-                                ListView.separated(
-                                  physics: const BouncingScrollPhysics(),
-                                  separatorBuilder: (context, index) =>
-                                      kSizedBox,
-                                  shrinkWrap: true,
-                                  itemCount: _ratings!.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) =>
-                                          CostumerReviewCard(
-                                              rating: _ratings![index]),
-                                ),
-                                kSizedBox,
-                              ],
-                            ),
-                ],
+                    Positioned(
+                      top: deviceType(media.width) > 3 &&
+                              deviceType(media.width) < 5
+                          ? media.height * 0.15
+                          : deviceType(media.width) > 2
+                              ? media.height * 0.15
+                              : media.height * 0.04,
+                      left: deviceType(media.width) > 2
+                          ? (media.width / 2) - (126 / 2)
+                          : (media.width / 2) - (100 / 2),
+                      child: Container(
+                        width: deviceType(media.width) > 2 ? 126 : 100,
+                        height: deviceType(media.width) > 2 ? 126 : 100,
+                        decoration: ShapeDecoration(
+                          color: kPageSkeletonColor,
+                          shape: const OvalBorder(),
+                        ),
+                        child: MyImage(url: widget.vendor.profileLogo),
+                      ),
+                    ),
+                  ],
+                ),
               ),
+              const Text(
+                "First Name",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              kSizedBox,
+              MyBlueTextFormField(
+                isEnabled: false,
+                controller: vendorFirstNameEC,
+                validator: (value) {
+                  return null;
+                },
+                onSaved: (value) {},
+                textInputAction: TextInputAction.done,
+                focusNode: vendorFirstNameFN,
+                hintText: "",
+                textInputType: TextInputType.text,
+              ),
+              kSizedBox,
+              const Text(
+                "Last Name",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              kSizedBox,
+              MyBlueTextFormField(
+                isEnabled: false,
+                controller: vendorLastNameEC,
+                validator: (value) {
+                  return null;
+                },
+                onSaved: (value) {},
+                textInputAction: TextInputAction.done,
+                focusNode: vendorLastNameFN,
+                hintText: "",
+                textInputType: TextInputType.text,
+              ),
+              kSizedBox,
+              const Text(
+                "Email",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              kSizedBox,
+              MyBlueTextFormField(
+                isEnabled: false,
+                readOnly: true,
+                controller: vendorEmailEC,
+                validator: (value) {
+                  return null;
+                },
+                onSaved: (value) {},
+                textInputAction: TextInputAction.done,
+                focusNode: vendorEmailFN,
+                hintText: "",
+                textInputType: TextInputType.text,
+              ),
+              kSizedBox,
+              const Text(
+                "Address",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              kSizedBox,
+              MyBlueTextFormField(
+                isEnabled: false,
+                readOnly: true,
+                controller: vendorAddressEC,
+                validator: (value) {
+                  return null;
+                },
+                onSaved: (value) {},
+                textInputAction: TextInputAction.done,
+                focusNode: vendorAddressFN,
+                hintText: "",
+                textInputType: TextInputType.text,
+              ),
+              kSizedBox,
+              // const Text(
+              //   "Country",
+              //   style: TextStyle(
+              //     fontSize: 16,
+              //     fontWeight: FontWeight.w700,
+              //   ),
+              // ),
+              // kSizedBox,
+              // MyBlueTextFormField(
+              //   isEnabled: false,
+              //   readOnly: true,
+              //   controller: vendorCountryEC,
+              //   validator: (value) {
+              //     return null;
+              //   },
+              //   onSaved: (value) {},
+              //   textInputAction: TextInputAction.done,
+              //   focusNode: vendorCountryFN,
+              //   hintText: "",
+              //   textInputType: TextInputType.text,
+              // ),
+              // kSizedBox,
+              // const Text(
+              //   "State",
+              //   style: TextStyle(
+              //     fontSize: 16,
+              //     fontWeight: FontWeight.w700,
+              //   ),
+              // ),
+              // kSizedBox,
+              // MyBlueTextFormField(
+              //   isEnabled: false,
+              //   readOnly: true,
+              //   controller: vendorStateEC,
+              //   validator: (value) {
+              //     return null;
+              //   },
+              //   onSaved: (value) {},
+              //   textInputAction: TextInputAction.done,
+              //   focusNode: vendorStateFN,
+              //   hintText: "",
+              //   textInputType: TextInputType.text,
+              // ),
+              // kSizedBox,
+              // const Text(
+              //   "LGA",
+              //   style: TextStyle(
+              //     fontSize: 16,
+              //     fontWeight: FontWeight.w700,
+              //   ),
+              // ),
+              // kSizedBox,
+              // MyBlueTextFormField(
+              //   isEnabled: false,
+              //   readOnly: true,
+              //   controller: vendorLGAEC,
+              //   validator: (value) {
+              //     return null;
+              //   },
+              //   onSaved: (value) {},
+              //   textInputAction: TextInputAction.done,
+              //   focusNode: vendorLGAFN,
+              //   hintText: "",
+              //   textInputType: TextInputType.text,
+              // ),
+              // kSizedBox,
+              // const Text(
+              //   "City",
+              //   style: TextStyle(
+              //     fontSize: 16,
+              //     fontWeight: FontWeight.w700,
+              //   ),
+              // ),
+              // kSizedBox,
+              // MyBlueTextFormField(
+              //   isEnabled: false,
+              //   readOnly: true,
+              //   controller: vendorCityEC,
+              //   validator: (value) {
+              //     return null;
+              //   },
+              //   onSaved: (value) {},
+              //   textInputAction: TextInputAction.done,
+              //   focusNode: vendorCityFN,
+              //   hintText: "",
+              //   textInputType: TextInputType.text,
+              // ),
+              kSizedBox,
             ],
           ),
         ),

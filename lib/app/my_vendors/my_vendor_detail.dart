@@ -16,6 +16,7 @@ import '../../src/components/section/my_liquid_refresh.dart';
 import '../../src/responsive/responsive_constant.dart';
 import '../../src/skeletons/vendors_list_skeleton.dart';
 import '../../theme/colors.dart';
+import 'about_my_vendor.dart';
 import 'report_my_vendor.dart';
 
 class MyBusinessDetailPage extends StatefulWidget {
@@ -130,10 +131,10 @@ class _MyBusinessDetailPageState extends State<MyBusinessDetailPage>
       position: position,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       items: [
-        // const PopupMenuItem<String>(
-        //   value: 'about',
-        //   child: Text("About vendor"),
-        // ),
+        const PopupMenuItem<String>(
+          value: 'about',
+          child: Text("About vendor"),
+        ),
         const PopupMenuItem<String>(
           value: 'report',
           child: Text("Report vendor"),
@@ -143,18 +144,18 @@ class _MyBusinessDetailPageState extends State<MyBusinessDetailPage>
       // Handle the selected value from the popup menu
       if (value != null) {
         switch (value) {
-          // case 'about':
-          //   Get.to(
-          //     () => AboutMyVendor(vendor: widget.vendor),
-          //     duration: const Duration(milliseconds: 300),
-          //     fullscreenDialog: true,
-          //     curve: Curves.easeIn,
-          //     routeName: "About my vendor",
-          //     preventDuplicates: true,
-          //     popGesture: true,
-          //     transition: Transition.rightToLeft,
-          //   );
-          //   break;
+          case 'about':
+            Get.to(
+              () => AboutMyVendor(vendor: widget.vendor),
+              duration: const Duration(milliseconds: 300),
+              fullscreenDialog: true,
+              curve: Curves.easeIn,
+              routeName: "AboutMyVendor",
+              preventDuplicates: true,
+              popGesture: true,
+              transition: Transition.rightToLeft,
+            );
+            break;
 
           case 'report':
             Get.to(
@@ -167,7 +168,6 @@ class _MyBusinessDetailPageState extends State<MyBusinessDetailPage>
               popGesture: true,
               transition: Transition.rightToLeft,
             );
-
             break;
         }
       }

@@ -3,7 +3,7 @@ import 'dart:convert' as convert;
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
-import '../../services/keys.dart';
+import '../providers/keys.dart';
 
 class LocationService {
   Future<String> getPlaceId(String query) async {

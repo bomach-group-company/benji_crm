@@ -19,11 +19,11 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../../app/google_maps/get_location_on_map.dart';
 import '../../../controller/latlng_detail_controller.dart';
-import '../../../services/keys.dart';
 import '../../../theme/colors.dart';
 import '../../googleMaps/autocomplete_prediction.dart';
 import '../../googleMaps/places_autocomplete_response.dart';
 import '../../providers/constants.dart';
+import '../../providers/keys.dart';
 import '../../responsive/responsive_constant.dart';
 import '../../utils/network_utils.dart';
 import '../button/my_elevatedButton.dart';

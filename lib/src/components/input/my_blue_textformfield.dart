@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore_for_file: file_names,
 
 import 'package:benji_aggregator/src/responsive/responsive_constant.dart';
@@ -20,27 +21,30 @@ class MyBlueTextFormField extends StatelessWidget {
   final Widget? suffixIcon;
   final List<TextInputFormatter>? inputFormatters;
   final int maxlines;
+  final bool? readOnly;
 
   const MyBlueTextFormField({
-    super.key,
+    Key? key,
+    required this.hintText,
+    required this.textInputType,
     required this.controller,
     required this.validator,
     this.onSaved,
-    this.maxlines = 1,
     required this.textInputAction,
     required this.focusNode,
-    required this.hintText,
-    required this.textInputType,
     this.isEnabled,
     this.click,
     this.suffixIcon,
     this.inputFormatters,
-  });
+    this.maxlines = 1,
+    this.readOnly,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
     return TextFormField(
+      readOnly: readOnly ?? false,
       focusNode: focusNode,
       controller: controller,
       validator: validator,
