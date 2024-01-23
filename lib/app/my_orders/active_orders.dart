@@ -1,6 +1,6 @@
 // ignore_for_file: unused_local_variable
 
-import 'package:benji_aggregator/model/order.dart';
+import 'package:benji_aggregator/model/business_order_model.dart';
 import 'package:benji_aggregator/src/components/section/my_liquid_refresh.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
 import 'package:benji_aggregator/src/skeletons/dashboard_orders_list_skeleton.dart';
@@ -15,7 +15,7 @@ import '../../theme/colors.dart';
 import 'active_order_details.dart';
 
 class ActiveOrders extends StatefulWidget {
-  final List<Order>? orderList;
+  final List<BusinessOrderModel>? orderList;
   const ActiveOrders({super.key, required this.orderList});
 
   @override
@@ -116,7 +116,8 @@ class _ActiveOrdersState extends State<ActiveOrders> {
                           Column(
                             children: List.generate(widget.orderList!.length,
                                 (index) {
-                              final Order order = widget.orderList![index];
+                              final BusinessOrderModel order =
+                                  widget.orderList![index];
 
                               return OrderDetail(order: order);
                             }),
@@ -141,7 +142,7 @@ class _ActiveOrdersState extends State<ActiveOrders> {
 }
 
 class OrderDetail extends StatelessWidget {
-  final Order order;
+  final BusinessOrderModel order;
   const OrderDetail({super.key, required this.order});
   void _toActiveOrderDetailsPage() => Get.to(
         () => ActiveOrderDetails(

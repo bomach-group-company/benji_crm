@@ -2,7 +2,7 @@
 
 import 'package:benji_aggregator/controller/rider_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
-import 'package:benji_aggregator/model/order.dart';
+import 'package:benji_aggregator/model/business_order_model.dart';
 import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
 import 'package:benji_aggregator/src/components/button/my_outlined_elevatedButton.dart';
 import 'package:benji_aggregator/src/providers/custom_show_search.dart';
@@ -21,7 +21,7 @@ import '../../src/skeletons/assign_rider_page_skeleton.dart';
 import 'riders_detail.dart';
 
 class AssignRider extends StatefulWidget {
-  final Order? item;
+  final BusinessOrderModel? item;
   const AssignRider({super.key, required this.item});
 
   @override

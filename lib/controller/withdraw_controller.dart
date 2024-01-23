@@ -20,7 +20,7 @@ class WithdrawController extends GetxController {
   var isLoad = false.obs;
   var isLoadValidateAccount = false.obs;
   // var userId = UserController.instance.user.value.id;
-  var listOfBankDetail = <BankModel>[].obs;
+  var listOfBanks = <BankModel>[].obs;
   var listOfBanksSearch = <BankModel>[].obs;
   var listOfWithdrawals = <WithdrawalHistoryModel>[].obs;
   var validateAccount = ValidateBankAccountModel.fromJson(null).obs;
@@ -29,6 +29,12 @@ class WithdrawController extends GetxController {
   // makeWithdrawal(double amount) {
   //   final userId = UserController.instance.user.value.id;
   // }
+  searchBanks(String search) {
+    listOfBanksSearch = listOfBanks;
+    listOfBanksSearch.value =
+        listOfBanksSearch.where((str) => str.name.contains(search)).toList();
+    update();
+  }
 
   listBanks() async {
     var url = "${Api.baseUrl}${Api.listBanks}";
@@ -38,11 +44,11 @@ class WithdrawController extends GetxController {
       final response = await http.get(Uri.parse(url), headers: authHeader());
       if (response.statusCode == 200) {
         dynamic jsonResponse = jsonDecode(response.body);
-        listOfBankDetail.value =
+        listOfBanks.value =
             BankModel.listFromJson(jsonResponse.cast<Map<String, dynamic>>());
-        listOfBanksSearch = listOfBankDetail;
+        listOfBanksSearch = listOfBanks;
       } else {
-        listOfBankDetail.value = [];
+        listOfBanks.value = [];
         listOfBanksSearch.value = [];
       }
     } on SocketException {

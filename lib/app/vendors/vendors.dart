@@ -160,8 +160,8 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
   //       transition: Transition.downToUp,
   //     );
 
-  void _toVendorDetailsPage(VendorModel data) => Get.to(
-        () => VendorDetailsPage(vendor: data),
+  void _toBusinessDetailPage(VendorModel data) => Get.to(
+        () => BusinessDetailPage(vendor: data),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -293,7 +293,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
                                       ],
                                     ),
                                     child: VendorContainer(
-                                      onTap: () => _toVendorDetailsPage(
+                                      onTap: () => _toBusinessDetailPage(
                                           controller.vendorList[index]),
                                       vendor: controller.vendorList[index],
                                     ),

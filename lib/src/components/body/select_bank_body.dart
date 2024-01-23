@@ -43,10 +43,8 @@ class _SelectBankBodyState extends State<SelectBankBody> {
   //================== FUNCTIONS ==================\\
 
   selectBank(index) async {
-    final newBankName =
-        WithdrawController.instance.listOfBankDetail[index].name;
-    final newBankCode =
-        WithdrawController.instance.listOfBankDetail[index].code;
+    final newBankName = WithdrawController.instance.listOfBanks[index].name;
+    final newBankCode = WithdrawController.instance.listOfBanks[index].code;
 
     selectedBankName.value = newBankName;
     selectedBankCode.value = newBankCode;
@@ -91,9 +89,9 @@ class _SelectBankBodyState extends State<SelectBankBody> {
               child: GetBuilder<WithdrawController>(
                   initState: (state) => WithdrawController.instance.listBanks(),
                   builder: (banks) {
-                    return banks.listOfBankDetail.isEmpty
+                    return banks.listOfBanks.isEmpty
                         ? const EmptyCard()
-                        // : banks.listOfBankDetail.isEmpty && banks.isLoad.value
+                        // : banks.listOfBanks.isEmpty && banks.isLoad.value
                         //     ? Center(
                         //         child:
                         //             CircularProgressIndicator(color: kAccentColor),
@@ -102,11 +100,10 @@ class _SelectBankBodyState extends State<SelectBankBody> {
                             shrinkWrap: true,
                             physics: const BouncingScrollPhysics(),
                             padding: const EdgeInsets.all(10),
-                            itemCount: banks.listOfBankDetail.length,
+                            itemCount: banks.listOfBanks.length,
                             separatorBuilder: (context, index) => kSizedBox,
                             itemBuilder: (context, index) {
-                              final bankName =
-                                  banks.listOfBankDetail[index].name;
+                              final bankName = banks.listOfBanks[index].name;
                               // Check if the bankName contains the search query
                               if (bankName
                                   .toLowerCase()
@@ -121,7 +118,7 @@ class _SelectBankBodyState extends State<SelectBankBody> {
                               }
                               // BankListTile(
                               //   onTap: () => selectBank(index),
-                              //   bank: banks.listOfBankDetail[index].name,
+                              //   bank: banks.listOfBanks[index].name,
                               // );
                             });
                   }),

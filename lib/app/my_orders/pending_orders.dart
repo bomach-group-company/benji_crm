@@ -1,6 +1,6 @@
 // ignore_for_file: unused_local_variable
 
-import 'package:benji_aggregator/model/order.dart';
+import 'package:benji_aggregator/model/business_order_model.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
 import 'package:benji_aggregator/src/skeletons/dashboard_orders_list_skeleton.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -15,7 +15,7 @@ import '../../theme/colors.dart';
 import 'pending_order_details.dart';
 
 class PendingOrders extends StatefulWidget {
-  final List<Order> orderList;
+  final List<BusinessOrderModel> orderList;
   const PendingOrders({super.key, required this.orderList});
 
   @override
@@ -84,7 +84,7 @@ class _PendingOrdersState extends State<PendingOrders> {
     double mediaHeight = MediaQuery.of(context).size.height;
     double subtotalPrice = calculateSubtotal();
 
-    //===================== Navigate to Order Details Page ================================\\
+    //===================== Navigate to BusinessOrderModel Details Page ================================\\
 
 //====================================================================================\\
 
@@ -117,7 +117,8 @@ class _PendingOrdersState extends State<PendingOrders> {
                           Column(
                             children:
                                 List.generate(widget.orderList.length, (index) {
-                              Order order = widget.orderList[index];
+                              BusinessOrderModel order =
+                                  widget.orderList[index];
                               return PendingOrderView(
                                 order: order,
                               );
@@ -143,7 +144,7 @@ class _PendingOrdersState extends State<PendingOrders> {
 }
 
 class PendingOrderView extends StatelessWidget {
-  final Order order;
+  final BusinessOrderModel order;
   const PendingOrderView({super.key, required this.order});
 
   void toOrderDetailsPage() => Get.to(

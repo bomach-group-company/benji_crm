@@ -2,7 +2,7 @@ import 'package:benji_aggregator/services/api_url.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MyImage extends StatelessWidget {
   final String? url;
@@ -25,7 +25,7 @@ class MyImage extends StatelessWidget {
         progressIndicatorBuilder: (context, url, downloadProgress) =>
             Center(child: CupertinoActivityIndicator(color: kAccentColor)),
         errorWidget: (context, url, error) =>
-            Icon(Icons.error, color: kAccentColor),
+            FaIcon(FontAwesomeIcons.circleInfo, color: kAccentColor),
       ),
     );
   }

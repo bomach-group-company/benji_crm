@@ -42,6 +42,7 @@ dependencies:
   path:
   path_provider:
   group_radio_button:
+  flutter_carousel_widget:
 
 dev_dependencies:
   flutter_test:

@@ -17,23 +17,23 @@ import 'package:intl/intl.dart';
 
 import '../../controller/vendor_controller.dart';
 import '../../src/components/appbar/my_appbar.dart';
+import '../../src/components/container/business_product_container.dart';
 import '../../src/components/container/vendors_order_container.dart';
-import '../../src/components/container/vendors_product_container.dart';
 import '../../src/components/section/my_liquid_refresh.dart';
 import '../../theme/colors.dart';
 import 'about_vendor.dart';
 import 'report_vendor.dart';
 import 'vendors_location.dart';
 
-class VendorDetailsPage extends StatefulWidget {
+class BusinessDetailPage extends StatefulWidget {
   final VendorModel vendor;
-  const VendorDetailsPage({super.key, required this.vendor});
+  const BusinessDetailPage({super.key, required this.vendor});
 
   @override
-  State<VendorDetailsPage> createState() => _VendorDetailsPageState();
+  State<BusinessDetailPage> createState() => _BusinessDetailPageState();
 }
 
-class _VendorDetailsPageState extends State<VendorDetailsPage>
+class _BusinessDetailPageState extends State<BusinessDetailPage>
     with SingleTickerProviderStateMixin {
   //========================================= INITIAL STATE AND DISPOSE =============================================\\
   @override
@@ -140,7 +140,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
   }
 
   //===================== Navigation ==========================\\
-  void toProductDetailScreen(Product data) => Get.to(
+  void toProductDetailScreen(ProductModel data) => Get.to(
         () => ProductDetails(
           productImage: _productImage,
           productName: _productName,
@@ -584,7 +584,7 @@ class _VendorDetailsPageState extends State<VendorDetailsPage>
                                           controller.vendorProductList.length,
                                       itemBuilder:
                                           (BuildContext context, int index) {
-                                        return VendorsProductContainer(
+                                        return BusinessProductContainer(
                                           onTap: () {},
                                           product: controller
                                               .vendorProductList[index],

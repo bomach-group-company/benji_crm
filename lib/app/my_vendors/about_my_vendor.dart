@@ -62,13 +62,13 @@ class _AboutMyVendorState extends State<AboutMyVendor> {
     }
   }
 
-  List<Ratings>? _ratings = [];
+  List<RatingModel>? _ratings = [];
   Future<void> getData() async {
     setState(() {
       _ratings = null;
     });
 
-    List<Ratings> ratings;
+    List<RatingModel> ratings;
     if (active == 'all') {
       ratings = await getRatingsByVendorId(widget.vendor.id);
     } else {
@@ -291,7 +291,7 @@ class _AboutMyVendorState extends State<AboutMyVendor> {
                                       _ratings = null;
                                     });
 
-                                    List<Ratings> ratings =
+                                    List<RatingModel> ratings =
                                         await getRatingsByVendorId(
                                             widget.vendor.id);
 
@@ -331,7 +331,7 @@ class _AboutMyVendorState extends State<AboutMyVendor> {
                                                   _ratings = null;
                                                 });
 
-                                                List<Ratings> ratings =
+                                                List<RatingModel> ratings =
                                                     await getRatingsByVendorIdAndRating(
                                                         widget.vendor.id,
                                                         int.parse(active));

@@ -4,7 +4,7 @@ import 'dart:convert';
 
 import 'package:benji_aggregator/controller/api_processor_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
-import 'package:benji_aggregator/model/order.dart';
+import 'package:benji_aggregator/model/business_order_model.dart';
 import 'package:benji_aggregator/services/api_url.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -17,7 +17,7 @@ class OrderController extends GetxController {
   bool? isFirst;
   OrderController({this.isFirst});
   var isLoad = false.obs;
-  var orderList = <Order>[].obs;
+  var orderList = <BusinessOrderModel>[].obs;
 
   var loadedAll = false.obs;
   var isLoadMore = false.obs;
@@ -68,10 +68,10 @@ class OrderController extends GetxController {
       isLoad.value = false;
       return;
     }
-    List<Order> data = [];
+    List<BusinessOrderModel> data = [];
     try {
       data = (jsonDecode(responseData)['items'] as List)
-          .map((e) => Order.fromJson(e))
+          .map((e) => BusinessOrderModel.fromJson(e))
           .toList();
       orderList.value += data;
     } catch (e) {

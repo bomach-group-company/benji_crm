@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'package:benji_aggregator/controller/api_processor_controller.dart';
 import 'package:benji_aggregator/controller/business_controller.dart';
 import 'package:benji_aggregator/model/my_vendor_model.dart';
+import 'package:benji_aggregator/src/components/card/empty.dart';
 import 'package:benji_aggregator/src/components/image/my_image.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
 import 'package:flutter/material.dart';
@@ -19,18 +20,18 @@ import '../../theme/colors.dart';
 import 'my_vendors_location.dart';
 import 'report_my_vendor.dart';
 
-class MyVendorDetailsPage extends StatefulWidget {
+class MyBusinessDetailPage extends StatefulWidget {
   final MyVendorModel vendor;
-  const MyVendorDetailsPage({
+  const MyBusinessDetailPage({
     super.key,
     required this.vendor,
   });
 
   @override
-  State<MyVendorDetailsPage> createState() => _MyVendorDetailsPageState();
+  State<MyBusinessDetailPage> createState() => _MyBusinessDetailPageState();
 }
 
-class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
+class _MyBusinessDetailPageState extends State<MyBusinessDetailPage>
     with SingleTickerProviderStateMixin {
   //======================================= INITIAL AND DISPOSE ===============================================\\
   @override
@@ -266,17 +267,15 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                   color: kPrimaryColor,
                 ),
               )
-            : const SizedBox(),
-        //     :
-        // FloatingActionButton(
-        //   onPressed: toAddProduct,
-        //   elevation: 20.0,
-        //   mouseCursor: SystemMouseCursors.click,
-        //   tooltip: "Add Product",
-        //   backgroundColor: kAccentColor,
-        //   foregroundColor: kPrimaryColor,
-        //   child: const FaIcon(FontAwesomeIcons.plus),
-        // ),
+            : FloatingActionButton(
+                onPressed: () {},
+                elevation: 20.0,
+                mouseCursor: SystemMouseCursors.click,
+                tooltip: "Add Business",
+                backgroundColor: kAccentColor,
+                foregroundColor: kPrimaryColor,
+                child: const FaIcon(FontAwesomeIcons.plus),
+              ),
         appBar: MyAppBar(
           title: isScrollToTopBtnVisible
               ? "${widget.vendor.firstName} ${widget.vendor.lastName}"
@@ -638,158 +637,181 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                                 padding: EdgeInsets.symmetric(horizontal: 10),
                                 child: VendorsListSkeleton(),
                               )
-                            : showBusinesses
-                                ? ListView.separated(
-                                    physics: const BouncingScrollPhysics(),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10),
-                                    separatorBuilder: (context, index) =>
-                                        kHalfSizedBox,
-                                    shrinkWrap: true,
-                                    addAutomaticKeepAlives: true,
-                                    itemCount: controller.businessesList.length,
-                                    itemBuilder: (context, index) {
-                                      return InkWell(
-                                        onTap: () {},
-                                        borderRadius: BorderRadius.circular(16),
-                                        child: Container(
-                                          decoration: ShapeDecoration(
-                                            color: kPrimaryColor,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(16),
-                                            ),
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              Container(
-                                                height: 120,
-                                                width: 120,
-                                                decoration: ShapeDecoration(
-                                                  color: kLightGreyColor,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            16),
-                                                  ),
-                                                ),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(10),
-                                                  child: MyImage(
-                                                    url: controller
-                                                        .businessesList[index]
-                                                        .shopImage,
-                                                  ),
+                            : controller.businessesList.isEmpty
+                                ? const Center(
+                                    child: EmptyCard(
+                                      emptyCardMessage:
+                                          "You haven't added any business to this vendor",
+                                      animation:
+                                          "assets/animations/empty/frame_4.json",
+                                    ),
+                                  )
+                                : showBusinesses
+                                    ? ListView.separated(
+                                        physics: const BouncingScrollPhysics(),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        separatorBuilder: (context, index) =>
+                                            kHalfSizedBox,
+                                        shrinkWrap: true,
+                                        addAutomaticKeepAlives: true,
+                                        itemCount:
+                                            controller.businessesList.length,
+                                        itemBuilder: (context, index) {
+                                          return InkWell(
+                                            onTap: () {},
+                                            borderRadius:
+                                                BorderRadius.circular(16),
+                                            child: Container(
+                                              decoration: ShapeDecoration(
+                                                color: kPrimaryColor,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(16),
                                                 ),
                                               ),
-                                              kHalfWidthSizedBox,
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                              child: Row(
                                                 children: [
-                                                  SizedBox(
-                                                    width: media.width - 200,
-                                                    child: Text(
-                                                      controller
-                                                          .businessesList[index]
-                                                          .shopName,
-                                                      textAlign:
-                                                          TextAlign.start,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: const TextStyle(
-                                                        color: kTextBlackColor,
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.w700,
+                                                  Container(
+                                                    height: 120,
+                                                    width: 120,
+                                                    decoration: ShapeDecoration(
+                                                      color: kLightGreyColor,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(16),
+                                                      ),
+                                                    ),
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              10),
+                                                      child: MyImage(
+                                                        url: controller
+                                                            .businessesList[
+                                                                index]
+                                                            .shopImage,
                                                       ),
                                                     ),
                                                   ),
-                                                  kHalfSizedBox,
-                                                  SizedBox(
-                                                    width: media.width - 200,
-                                                    child: Text(
-                                                      controller
-                                                          .businessesList[index]
-                                                          .address,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: TextStyle(
-                                                        color: kAccentColor,
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.w300,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  kSizedBox,
-                                                  SizedBox(
-                                                    width: media.width - 150,
-                                                    child: Row(
-                                                      children: [
-                                                        FaIcon(
-                                                          FontAwesomeIcons
-                                                              .solidIdCard,
-                                                          color: kAccentColor,
-                                                          size: 16,
-                                                        ),
-                                                        kHalfWidthSizedBox,
-                                                        SizedBox(
-                                                          width:
-                                                              media.width - 200,
-                                                          child: Text.rich(
-                                                            maxLines: 1,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            TextSpan(
-                                                              children: [
-                                                                const TextSpan(
-                                                                  text: "TIN: ",
-                                                                  style:
-                                                                      TextStyle(
-                                                                    color:
-                                                                        kTextBlackColor,
-                                                                    fontSize:
-                                                                        16,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w300,
-                                                                  ),
-                                                                ),
-                                                                TextSpan(
-                                                                  text: controller
-                                                                      .businessesList[
-                                                                          index]
-                                                                      .businessId,
-                                                                  style:
-                                                                      const TextStyle(
-                                                                    color:
-                                                                        kTextBlackColor,
-                                                                    fontSize:
-                                                                        16,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w300,
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
+                                                  kHalfWidthSizedBox,
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      SizedBox(
+                                                        width:
+                                                            media.width - 200,
+                                                        child: Text(
+                                                          controller
+                                                              .businessesList[
+                                                                  index]
+                                                              .shopName,
+                                                          textAlign:
+                                                              TextAlign.start,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          style:
+                                                              const TextStyle(
+                                                            color:
+                                                                kTextBlackColor,
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight.w700,
                                                           ),
                                                         ),
-                                                      ],
-                                                    ),
+                                                      ),
+                                                      kHalfSizedBox,
+                                                      SizedBox(
+                                                        width:
+                                                            media.width - 200,
+                                                        child: Text(
+                                                          controller
+                                                              .businessesList[
+                                                                  index]
+                                                              .address,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          style: TextStyle(
+                                                            color: kAccentColor,
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight.w300,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      kSizedBox,
+                                                      SizedBox(
+                                                        width:
+                                                            media.width - 150,
+                                                        child: Row(
+                                                          children: [
+                                                            FaIcon(
+                                                              FontAwesomeIcons
+                                                                  .solidIdCard,
+                                                              color:
+                                                                  kAccentColor,
+                                                              size: 16,
+                                                            ),
+                                                            kHalfWidthSizedBox,
+                                                            SizedBox(
+                                                              width:
+                                                                  media.width -
+                                                                      200,
+                                                              child: Text.rich(
+                                                                maxLines: 1,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                TextSpan(
+                                                                  children: [
+                                                                    const TextSpan(
+                                                                      text:
+                                                                          "TIN: ",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color:
+                                                                            kTextBlackColor,
+                                                                        fontSize:
+                                                                            16,
+                                                                        fontWeight:
+                                                                            FontWeight.w300,
+                                                                      ),
+                                                                    ),
+                                                                    TextSpan(
+                                                                      text: controller
+                                                                          .businessesList[
+                                                                              index]
+                                                                          .businessId,
+                                                                      style:
+                                                                          const TextStyle(
+                                                                        color:
+                                                                            kTextBlackColor,
+                                                                        fontSize:
+                                                                            16,
+                                                                        fontWeight:
+                                                                            FontWeight.w300,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ],
                                               ),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  )
-                                : const SizedBox();
+                                            ),
+                                          );
+                                        },
+                                      )
+                                    : const SizedBox();
                   },
                 ),
 
@@ -881,7 +903,7 @@ class _MyVendorDetailsPageState extends State<MyVendorDetailsPage>
                 //                           controller.vendorProductList.length,
                 //                       itemBuilder:
                 //                           (BuildContext context, int index) {
-                //                         return VendorsProductContainer(
+                //                         return BusinessProductContainer(
                 //                           onTap: () {},
                 //                           product:
                 //                               controller.vendorProductList[index],

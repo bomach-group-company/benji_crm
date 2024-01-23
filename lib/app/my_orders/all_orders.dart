@@ -1,4 +1,3 @@
-import 'package:benji_aggregator/model/order.dart';
 import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
 import 'package:benji_aggregator/src/components/my_future_builder.dart';
 import 'package:benji_aggregator/src/components/section/my_liquid_refresh.dart';
@@ -6,11 +5,12 @@ import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import '../../model/business_order_model.dart';
 import '../../src/components/container/all_orders_container.dart';
 import '../../src/providers/constants.dart';
 
 class AllCompletedOrders extends StatefulWidget {
-  final List<Order> completed;
+  final List<BusinessOrderModel> completed;
 
   const AllCompletedOrders({super.key, required this.completed});
 
@@ -111,7 +111,8 @@ class _AllCompletedOrdersState extends State<AllCompletedOrders>
                                 separatorBuilder: (context, index) => kSizedBox,
                                 itemCount: widget.completed.length,
                                 itemBuilder: (context, index) {
-                                  Order completeOrder = widget.completed[index];
+                                  BusinessOrderModel completeOrder =
+                                      widget.completed[index];
 
                                   return AllCompletedOrdersContainer(
                                     mediaWidth: media.width,

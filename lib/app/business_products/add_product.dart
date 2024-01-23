@@ -2,30 +2,32 @@
 
 import 'dart:io';
 
-import 'package:benji_aggregator/controller/api_processor_controller.dart';
-import 'package:benji_aggregator/controller/form_controller.dart';
-import 'package:benji_aggregator/model/product_type_model.dart';
-import 'package:benji_aggregator/model/sub_category.dart';
-import 'package:benji_aggregator/services/api_url.dart';
-import 'package:benji_aggregator/src/components/input/my_dropdown_menu.dart';
-import 'package:benji_aggregator/src/components/sheet/showModalBottomSheetTitleWithIcon.dart';
-import 'package:benji_aggregator/src/responsive/responsive_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../model/my_vendor_model.dart';
+import '../../controller/api_processor_controller.dart';
+import '../../controller/business_controller.dart';
+import '../../controller/form_controller.dart';
+import '../../controller/product_controller.dart';
+import '../../model/product_model.dart';
+import '../../model/product_type_model.dart';
+import '../../model/sub_category.dart';
+import '../../model/vendor_business_model.dart';
+import '../../services/api_url.dart';
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/button/my_elevatedButton.dart';
 import '../../src/components/input/message_textformfield.dart';
+import '../../src/components/input/my_dropdown_menu.dart';
 import '../../src/components/input/my_textformfield.dart';
 import '../../src/providers/constants.dart';
+import '../../src/responsive/responsive_constant.dart';
 import '../../theme/colors.dart';
 
 class AddProduct extends StatefulWidget {
-  final MyVendorModel vendor;
-  const AddProduct({super.key, required this.vendor});
+  final BusinessModel business;
+  const AddProduct({super.key, required this.business});
 
   @override
   State<AddProduct> createState() => _AddProductState();
@@ -35,36 +37,30 @@ class _AddProductState extends State<AddProduct> {
   @override
   void initState() {
     super.initState();
+    isToggled = true;
+
     getSubCategories().then((value) {
-      _subCategory = value;
+      subCategoryEC = value;
       setState(() {});
     });
     getProductType().then((value) {
-      _productType = value;
+      productType = value;
       setState(() {});
     });
   }
   //============================= ALL VARIABLES =====================================\\
 
   //===================== GLOBAL KEYS =======================\\
-  final _formKey = GlobalKey<FormState>();
-
-  //================================== DROP DOWN BUTTONFORMFIELD ====================================\\
-  String dropDownItemValue = "Food";
+  final formKey = GlobalKey<FormState>();
 
   //================================== FOCUS NODES ====================================\\
-  final productType = FocusNode();
+  final productTypeFN = FocusNode();
   final productNameFN = FocusNode();
   final productDescriptionFN = FocusNode();
   final productPriceFN = FocusNode();
   final productQuantityFN = FocusNode();
   final productDiscountFN = FocusNode();
-
-  void dropDownOnChanged(String? onChanged) {
-    setState(() {
-      dropDownItemValue = onChanged!;
-    });
-  }
+  final vendorBusinessFN = FocusNode();
 
   //================================== CONTROLLERS ====================================\\
   final scrollController = ScrollController();
@@ -74,35 +70,39 @@ class _AddProductState extends State<AddProduct> {
   final productQuantityEC = TextEditingController();
   final productSubCategoryEC = TextEditingController();
   final productTypeEC = TextEditingController();
+  final vendorBusinessEC = TextEditingController();
 
   //================================== VALUES ====================================\\
 
-  List<SubCategory>? _subCategory;
-  List<ProductTypeModel>? _productType;
+  List<SubCategory>? subCategoryEC;
+  List<ProductTypeModel>? productType;
+  var product = ProductModel;
+
+  bool isChecked = false;
+  bool isChecked2 = false;
+  bool isChecked3 = false;
+  // bool categorySelected = false;
+  var isToggled;
 
   int? selectedCategory;
 
   //=========================== IMAGE PICKER ====================================\\
 
   final ImagePicker _picker = ImagePicker();
-  File? selectedImage;
+  File? selectedImages;
 
   //================================== FUNCTIONS ====================================\\
-  submit() async {
-    if (selectedImage == null) {
-      ApiProcessorController.errorSnack("Add product image(s)");
+  Future<void> submit() async {
+    if (selectedImages == null) {
+      ApiProcessorController.errorSnack("Please select product images");
       return;
     }
-    if (_productType!.isEmpty ||
-        productTypeEC.text.isEmpty ||
-        _productType == null) {
-      ApiProcessorController.errorSnack("Select a product type");
+    if (productType == null || productTypeEC.text.isEmpty) {
+      ApiProcessorController.errorSnack("Please select a product type");
       return;
     }
-    if (_subCategory!.isEmpty ||
-        productSubCategoryEC.text.isEmpty ||
-        _subCategory == null) {
-      ApiProcessorController.errorSnack("Select a category");
+    if (subCategoryEC == null || productSubCategoryEC.text.isEmpty) {
+      ApiProcessorController.errorSnack("Please select a category");
       return;
     }
     Map data = {
@@ -112,37 +112,64 @@ class _AddProductState extends State<AddProduct> {
       'quantity_available': productQuantityEC.text,
       'sub_category_id': productSubCategoryEC.text,
       'product_type': productTypeEC.text,
-      'vendor_id': widget.vendor.id,
+      'vendor_id': widget.business.id,
+      'business_id': vendorBusinessEC.text,
       'is_available': true,
       'is_recommended': true,
       'is_trending': true,
     };
-    debugPrint("$data");
     await FormController.instance.postAuthstream(
-        Api.baseUrl + Api.agentAddProductToVendor,
-        data,
-        {'product_image': selectedImage},
-        'agentAddProductToVendor');
+      Api.baseUrl + Api.addProduct,
+      data,
+      {'product_image': selectedImages},
+      'addProduct',
+    );
+    if (FormController.instance.status.toString().startsWith('2')) {
+      await ProductController.instance.reset();
+      // await PushNotificationController.showNotification(
+      //   title: "Success",
+      //   body: "${productNameEC.text} has been added to your products",
+      // );
+      Get.close(1);
+      // Get.offAll(
+      //   () => const OverView(currentIndex: 2),
+      //   routeName: 'OverView',
+      //   duration: const Duration(milliseconds: 300),
+      //   fullscreenDialog: true,
+      //   curve: Curves.easeIn,
+      //   popGesture: true,
+      //   transition: Transition.rightToLeft,
+      // );
+    }
   }
 
-  pickProductImage(ImageSource source) async {
+  pickProductImages(ImageSource source) async {
     final XFile? image = await _picker.pickImage(
       source: source,
     );
     if (image != null) {
-      selectedImage = File(image.path);
+      selectedImages = File(image.path);
       setState(() {});
     }
   }
 
   //=========================== WIDGETS ====================================\\
-  Widget uploadProductImage() {
+  Widget uploadProductImages(BuildContext context) {
+    var media = MediaQuery.of(context).size;
     return Container(
-      padding: const EdgeInsets.all(kDefaultPadding),
+      height: deviceType(media.width) >= 2 ? 200 : 160,
+      width: MediaQuery.of(context).size.width,
+      padding: const EdgeInsets.all(10),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const ShowModalBottomSheetTitleWithIcon(
-            title: "Upload Product Images",
+          const Text(
+            "Upload Product Images",
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
           ),
           kSizedBox,
           Row(
@@ -152,7 +179,7 @@ class _AddProductState extends State<AddProduct> {
                 children: [
                   InkWell(
                     onTap: () {
-                      pickProductImage(ImageSource.camera);
+                      pickProductImages(ImageSource.camera);
                     },
                     borderRadius: BorderRadius.circular(100),
                     child: Container(
@@ -161,16 +188,13 @@ class _AddProductState extends State<AddProduct> {
                       decoration: ShapeDecoration(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100),
-                          side: const BorderSide(
-                            width: 0.5,
-                            color: kGreyColor1,
-                          ),
+                          side:
+                              const BorderSide(width: 0.5, color: kGreyColor1),
                         ),
                       ),
                       child: Center(
                         child: FaIcon(
                           FontAwesomeIcons.camera,
-                          size: 18,
                           color: kAccentColor,
                         ),
                       ),
@@ -185,7 +209,7 @@ class _AddProductState extends State<AddProduct> {
                 children: [
                   InkWell(
                     onTap: () {
-                      pickProductImage(ImageSource.gallery);
+                      pickProductImages(ImageSource.gallery);
                     },
                     borderRadius: BorderRadius.circular(100),
                     child: Container(
@@ -203,7 +227,6 @@ class _AddProductState extends State<AddProduct> {
                       child: Center(
                         child: FaIcon(
                           FontAwesomeIcons.solidImages,
-                          size: 18,
                           color: kAccentColor,
                         ),
                       ),
@@ -222,114 +245,154 @@ class _AddProductState extends State<AddProduct> {
 
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
         backgroundColor: kPrimaryColor,
         appBar: MyAppBar(
-          title: "Add New Item",
+          title: "Add New Product",
           backgroundColor: kPrimaryColor,
-          elevation: 0.0,
+          elevation: 0,
           actions: const [],
         ),
-        bottomNavigationBar: GetBuilder<FormController>(builder: (submitting) {
-          return Container(
-            color: kPrimaryColor,
-            padding: const EdgeInsets.all(kDefaultPadding),
-            child: MyElevatedButton(
-              isLoading: submitting.isLoad.value,
-              title: "Save",
-              onPressed: (() async {
-                if (_formKey.currentState!.validate()) {
-                  _formKey.currentState!.save();
-                  submit();
-                }
-              }),
-            ),
-          );
-        }),
+        bottomNavigationBar: Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(color: kPrimaryColor),
+          child: GetBuilder<FormController>(
+            init: FormController(),
+            builder: (saving) {
+              return MyElevatedButton(
+                onPressed: () async {
+                  if (formKey.currentState!.validate()) {
+                    formKey.currentState!.save();
+                    submit();
+                  }
+                },
+                isLoading: saving.isLoad.value,
+                title: "Save",
+              );
+            },
+          ),
+        ),
         body: SafeArea(
+          maintainBottomViewPadding: true,
           child: Scrollbar(
             child: ListView(
-              padding: const EdgeInsets.all(kDefaultPadding),
               controller: scrollController,
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.vertical,
+              padding: const EdgeInsets.all(kDefaultPadding),
               children: [
                 Form(
-                  key: _formKey,
+                  key: formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      InkWell(
-                        onTap: () {
-                          showModalBottomSheet(
-                            context: context,
-                            elevation: 20,
-                            barrierColor: kBlackColor.withOpacity(0.8),
-                            showDragHandle: true,
-                            useSafeArea: true,
-                            isDismissible: true,
-                            isScrollControlled: true,
-                            constraints: const BoxConstraints(maxHeight: 240),
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(kDefaultPadding),
-                              ),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 144,
+                        decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                              width: 0.50,
+                              color: Color(0xFFE6E6E6),
                             ),
-                            enableDrag: true,
-                            builder: ((builder) => uploadProductImage()),
-                          );
-                        },
-                        splashColor: kAccentColor.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(16),
-                        child: Container(
-                          width: media.width,
-                          height: deviceType(media.width) >= 2
-                              ? media.width * 0.4
-                              : media.height * 0.2,
-                          decoration: ShapeDecoration(
-                            shape: RoundedRectangleBorder(
-                              side: const BorderSide(
-                                width: 0.50,
-                                color: Color(0xFFE6E6E6),
-                              ),
-                              borderRadius: BorderRadius.circular(16),
-                            ),
+                            borderRadius: BorderRadius.circular(16),
                           ),
-                          child: selectedImage == null
-                              ? Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Image.asset(
-                                      "assets/icons/image-upload.png",
-                                    ),
-                                    kHalfSizedBox,
-                                    const Text(
-                                      'Upload product images',
-                                      style: TextStyle(
-                                        color: Color(0xFF808080),
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ],
+                        ),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: selectedImages == null
+                              ? Image.asset(
+                                  "assets/icons/image-upload.png",
                                 )
-                              : selectedImage == null
+                              : selectedImages == null
                                   ? const SizedBox()
                                   : GridTile(
                                       child: Container(
-                                        alignment: Alignment.centerLeft,
                                         decoration: BoxDecoration(
                                           image: DecorationImage(
-                                            image: FileImage(selectedImage!),
+                                            image: FileImage(selectedImages!),
                                           ),
                                         ),
                                       ),
                                     ),
                         ),
+                      ),
+                      kSizedBox,
+                      Center(
+                        child: InkWell(
+                          onTap: () {
+                            showModalBottomSheet(
+                              context: context,
+                              elevation: 20,
+                              barrierColor: kBlackColor.withOpacity(0.8),
+                              showDragHandle: true,
+                              useSafeArea: true,
+                              isDismissible: true,
+                              isScrollControlled: true,
+                              enableDrag: true,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(kDefaultPadding),
+                                ),
+                              ),
+                              builder: ((builder) =>
+                                  uploadProductImages(context)),
+                            );
+                          },
+                          splashColor: kAccentColor.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(16),
+                          child: Container(
+                            padding: const EdgeInsets.all(10),
+                            child: Text(
+                              'Upload product images',
+                              style: TextStyle(
+                                color: kAccentColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      kSizedBox,
+                      const Text(
+                        'Businesses',
+                        style: TextStyle(
+                          color: kTextBlackColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: -0.32,
+                        ),
+                      ),
+                      kHalfSizedBox,
+                      GetBuilder<BusinessController>(
+                        initState: (state) {
+                          BusinessController.instance.getBusinesses(
+                              widget.business.vendorOwner.id.toString());
+                        },
+                        builder: (controller) {
+                          return MyDropDownMenu(
+                            controller: vendorBusinessEC,
+                            hintText: "E.g Restaurant, Auto Dealer, etc",
+                            dropdownMenuEntries:
+                                controller.businessesList.isEmpty &&
+                                        controller.isLoad.value
+                                    ? [
+                                        const DropdownMenuEntry(
+                                          value: 'Loading...',
+                                          label: 'Loading...',
+                                          enabled: false,
+                                        )
+                                      ]
+                                    : controller.businessesList
+                                        .map((item) => DropdownMenuEntry(
+                                            value: item.id,
+                                            label: item.shopName))
+                                        .toList(),
+                          );
+                        },
                       ),
                       kSizedBox,
                       const Text(
@@ -342,24 +405,25 @@ class _AddProductState extends State<AddProduct> {
                         ),
                       ),
                       kHalfSizedBox,
-                      SizedBox(
-                        child: MyDropDownMenu(
-                          controller: productTypeEC,
-                          hintText: "Choose product type",
-                          dropdownMenuEntries: _productType == null
-                              ? [
-                                  const DropdownMenuEntry(
-                                      value: 'Loading...', label: 'Loading...')
-                                ]
-                              : _productType!
-                                  .map((item) => DropdownMenuEntry(
-                                      value: item.id, label: item.name))
-                                  .toList(),
-                        ),
+                      MyDropDownMenu(
+                        controller: productTypeEC,
+                        hintText: "Choose product type",
+                        dropdownMenuEntries: productType == null
+                            ? [
+                                const DropdownMenuEntry(
+                                  value: 'Loading...',
+                                  label: 'Loading...',
+                                  enabled: false,
+                                )
+                              ]
+                            : productType!
+                                .map((item) => DropdownMenuEntry(
+                                    value: item.id, label: item.name))
+                                .toList(),
                       ),
                       kSizedBox,
                       const Text(
-                        'Category',
+                        'Product Category',
                         style: TextStyle(
                           color: kTextBlackColor,
                           fontSize: 16,
@@ -371,12 +435,15 @@ class _AddProductState extends State<AddProduct> {
                       MyDropDownMenu(
                         controller: productSubCategoryEC,
                         hintText: "Select a category for your product",
-                        dropdownMenuEntries: _subCategory == null
+                        dropdownMenuEntries: subCategoryEC == null
                             ? [
                                 const DropdownMenuEntry(
-                                    value: 'Loading...', label: 'Loading...')
+                                  value: 'Loading...',
+                                  label: 'Loading...',
+                                  enabled: false,
+                                )
                               ]
-                            : _subCategory!
+                            : subCategoryEC!
                                 .map((item) => DropdownMenuEntry(
                                     value: item.id, label: item.name))
                                 .toList(),
@@ -459,7 +526,7 @@ class _AddProductState extends State<AddProduct> {
                         controller: productQuantityEC,
                         focusNode: productQuantityFN,
                         hintText: "Enter the quantity here",
-                        textInputAction: TextInputAction.done,
+                        textInputAction: TextInputAction.next,
                         textInputType: TextInputType.number,
                         textCapitalization: TextCapitalization.sentences,
                         validator: (value) {
@@ -493,7 +560,7 @@ class _AddProductState extends State<AddProduct> {
                         controller: productDescriptionEC,
                         focusNode: productDescriptionFN,
                         hintText: "Enter the description here",
-                        textInputAction: TextInputAction.next,
+                        textInputAction: TextInputAction.done,
                         keyboardType: TextInputType.text,
                         maxLines: 10,
                         maxLength: 1000,

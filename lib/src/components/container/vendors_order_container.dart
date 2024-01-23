@@ -1,6 +1,6 @@
 // ignore_for_file: unused_field
 
-import 'package:benji_aggregator/model/order.dart';
+import 'package:benji_aggregator/model/business_order_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +9,7 @@ import '../../../theme/colors.dart';
 import '../../providers/constants.dart';
 
 class VendorsOrderContainer extends StatelessWidget {
-  final Order order;
+  final BusinessOrderModel order;
   const VendorsOrderContainer({super.key, required this.order});
 
   @override

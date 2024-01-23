@@ -8,6 +8,7 @@ class MyDropDownMenu extends StatelessWidget {
     required this.controller,
     required this.hintText,
     required this.dropdownMenuEntries,
+    this.enabled = true,
     this.onSelected,
     this.enableSearch,
     this.enableFilter,
@@ -17,7 +18,7 @@ class MyDropDownMenu extends StatelessWidget {
   });
 
   final TextEditingController controller;
-
+  final bool enabled;
   final String hintText;
   final List<DropdownMenuEntry<Object>> dropdownMenuEntries;
   final Function(dynamic value)? onSelected;
@@ -32,6 +33,7 @@ class MyDropDownMenu extends StatelessWidget {
     var media = MediaQuery.of(context).size;
     return DropdownMenu(
       dropdownMenuEntries: dropdownMenuEntries,
+      enabled: enabled,
       menuStyle: const MenuStyle(
         mouseCursor: MaterialStatePropertyAll(SystemMouseCursors.click),
         elevation: MaterialStatePropertyAll(10),

@@ -67,13 +67,13 @@ class _AboutVendorState extends State<AboutVendor> {
   final List<String> stars = ['5', '4', '3', '2', '1'];
   String active = 'all';
 
-  List<Ratings>? _ratings = [];
+  List<RatingModel>? _ratings = [];
   Future<void> getData() async {
     setState(() {
       _ratings = null;
     });
 
-    List<Ratings> ratings;
+    List<RatingModel> ratings;
     if (active == 'all') {
       ratings = await getRatingsByVendorId(widget.vendor.id);
     } else {
@@ -412,7 +412,7 @@ class _AboutVendorState extends State<AboutVendor> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            "Reviews View & Ratings",
+                            "Reviews View & RatingModel",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
@@ -450,7 +450,7 @@ class _AboutVendorState extends State<AboutVendor> {
                                         _ratings = null;
                                       });
 
-                                      List<Ratings> ratings =
+                                      List<RatingModel> ratings =
                                           await getRatingsByVendorId(
                                               widget.vendor.id);
 
@@ -492,7 +492,7 @@ class _AboutVendorState extends State<AboutVendor> {
                                                     _ratings = null;
                                                   });
 
-                                                  List<Ratings> ratings =
+                                                  List<RatingModel> ratings =
                                                       await getRatingsByVendorIdAndRating(
                                                           widget.vendor.id,
                                                           int.parse(active));

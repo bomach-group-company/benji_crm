@@ -25,45 +25,42 @@ class EmptyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
+    return Padding(
       padding: const EdgeInsets.all(kDefaultPadding),
-      children: [
-        Column(
-          children: [
-            Lottie.asset(animation),
-            kSizedBox,
-            Text(
-              emptyCardMessage,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: kTextGreyColor,
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-              ),
+      child: Column(
+        children: [
+          Lottie.asset(animation),
+          kSizedBox,
+          Text(
+            emptyCardMessage,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: kTextGreyColor,
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
             ),
-            kSizedBox,
-            showButton == false
-                ? const SizedBox()
-                : MyElevatedButton(
-                    title: buttonTitle,
-                    onPressed: onPressed ??
-                        () {
-                          Get.offAll(
-                            () => const OverView(currentIndex: 0),
-                            routeName: 'OverView',
-                            duration: const Duration(milliseconds: 300),
-                            fullscreenDialog: true,
-                            curve: Curves.easeIn,
-                            popGesture: false,
-                            predicate: (routes) => false,
-                            transition: Transition.rightToLeft,
-                          );
-                        },
-                  ),
-          ],
-        ),
-      ],
+          ),
+          kSizedBox,
+          showButton == false
+              ? const SizedBox()
+              : MyElevatedButton(
+                  title: buttonTitle,
+                  onPressed: onPressed ??
+                      () {
+                        Get.offAll(
+                          () => const OverView(currentIndex: 0),
+                          routeName: 'OverView',
+                          duration: const Duration(milliseconds: 300),
+                          fullscreenDialog: true,
+                          curve: Curves.easeIn,
+                          popGesture: false,
+                          predicate: (routes) => false,
+                          transition: Transition.rightToLeft,
+                        );
+                      },
+                ),
+        ],
+      ),
     );
   }
 }

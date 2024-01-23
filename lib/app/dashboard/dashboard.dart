@@ -7,7 +7,7 @@ import 'package:benji_aggregator/controller/notification_controller.dart';
 import 'package:benji_aggregator/controller/rider_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
-import 'package:benji_aggregator/model/order.dart';
+import 'package:benji_aggregator/model/business_order_model.dart';
 import 'package:benji_aggregator/src/components/appbar/dashboard_app_bar.dart';
 import 'package:benji_aggregator/src/components/container/available_balance_card.dart';
 import 'package:flutter/material.dart';
@@ -159,7 +159,7 @@ class _DashboardState extends State<Dashboard>
 
   void toSeeAllBusinesses() {}
 
-  void toSeeAllCompletedOrders(List<Order> completed) => Get.to(
+  void toSeeAllCompletedOrders(List<BusinessOrderModel> completed) => Get.to(
         () => AllCompletedOrders(completed: completed),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -170,7 +170,7 @@ class _DashboardState extends State<Dashboard>
         transition: Transition.downToUp,
       );
 
-  void toSeeAllPendingOrders(List<Order> orderList) => Get.to(
+  void toSeeAllPendingOrders(List<BusinessOrderModel> orderList) => Get.to(
         () => PendingOrders(orderList: orderList),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -181,7 +181,7 @@ class _DashboardState extends State<Dashboard>
         transition: Transition.downToUp,
       );
 
-  void toSeeAllActiveOrders(List<Order> orderList) => Get.to(
+  void toSeeAllActiveOrders(List<BusinessOrderModel> orderList) => Get.to(
         () => ActiveOrders(
           orderList: orderList,
         ),

@@ -1,6 +1,6 @@
 // ignore_for_file: file_names, unused_local_variable, unused_element
 
-import 'package:benji_aggregator/model/order.dart';
+import 'package:benji_aggregator/model/business_order_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +29,7 @@ class PendingOrderDetails extends StatefulWidget {
   final int itemQuantity;
   final double subtotalPrice;
   final String orderImage;
-  final Order order;
+  final BusinessOrderModel order;
   const PendingOrderDetails(
       {super.key,
       required this.orderID,

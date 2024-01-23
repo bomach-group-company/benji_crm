@@ -163,7 +163,7 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
                   GetBuilder<WithdrawController>(
                     builder: (controller) {
                       return InkWell(
-                        onTap: controller.listOfBankDetail.isEmpty &&
+                        onTap: controller.listOfBanks.isEmpty &&
                                 controller.isLoad.value
                             ? null
                             : selectBank,
@@ -172,7 +172,7 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
                           isEnabled: false,
                           textInputAction: TextInputAction.next,
                           focusNode: bankNameFN,
-                          hintText: controller.listOfBankDetail.isEmpty &&
+                          hintText: controller.listOfBanks.isEmpty &&
                                   controller.isLoad.value
                               ? "Loading..."
                               : "Select a bank",

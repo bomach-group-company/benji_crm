@@ -105,8 +105,8 @@ class _MyVendorsState extends State<MyVendors> {
 
 //===================== Navigation ==========================\\
 
-  void toVendorDetailsPage(MyVendorModel data) => Get.to(
-        () => MyVendorDetailsPage(vendor: data),
+  void toBusinessDetailPage(MyVendorModel data) => Get.to(
+        () => MyBusinessDetailPage(vendor: data),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -215,7 +215,7 @@ class _MyVendorsState extends State<MyVendors> {
                                       ],
                                     ),
                                     child: MyVendorContainer(
-                                      onTap: () => toVendorDetailsPage(
+                                      onTap: () => toBusinessDetailPage(
                                         controller.vendorMyList[index],
                                       ),
                                       vendor: controller.vendorMyList[index],

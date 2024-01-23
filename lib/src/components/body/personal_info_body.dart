@@ -27,6 +27,7 @@ import '../../providers/constants.dart';
 import '../../responsive/responsive_constant.dart';
 import '../../utils/network_utils.dart';
 import '../button/my_elevatedButton.dart';
+import '../input/my_blue_textformfield.dart';
 import '../input/my_intl_phonefield.dart';
 import '../input/my_maps_textformfield.dart';
 import '../input/name_textformfield.dart';
@@ -50,7 +51,9 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
     userNameEC.text = UserController.instance.user.value.username;
     firstNameEC.text = UserController.instance.user.value.firstName;
     lastNameEC.text = UserController.instance.user.value.lastName;
-    phoneNumberEC.text = UserController.instance.user.value.phone;
+    genderEC.text = UserController.instance.user.value.gender;
+    phoneNumberEC.text =
+        UserController.instance.user.value.phone.replaceFirst("+234", '');
     mapsLocationEC.text = UserController.instance.user.value.address;
   }
 
@@ -64,7 +67,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
 //==========================================================================================\\
 
 //======================================== ALL VARIABLES ==============================================\\
-  final String countryDialCode = '234';
+  final String countryDialCode = '+234';
   String? userCode;
   String? latitude;
   String? longitude;
@@ -84,6 +87,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
   final userNameEC = TextEditingController();
   final firstNameEC = TextEditingController();
   final lastNameEC = TextEditingController();
+  final genderEC = TextEditingController();
   final phoneNumberEC = TextEditingController();
   final mapsLocationEC = TextEditingController();
 
@@ -94,6 +98,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
   final userNameFN = FocusNode();
   final firstNameFN = FocusNode();
   final lastNameFN = FocusNode();
+  final genderFN = FocusNode();
   final phoneNumberFN = FocusNode();
   final mapsLocationFN = FocusNode();
 
@@ -322,7 +327,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
       "address": mapsLocationEC.text,
       "latitude": latitude,
       "longitude": longitude,
-      "phone": phoneNumberEC.text
+      "phone": countryDialCode + phoneNumberEC.text
     };
     await FormController.instance
         .postAuthstream(url, data, {'image': selectedImage}, 'editProfile');
@@ -622,6 +627,26 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                           },
                         ),
                         kSizedBox,
+                        Text(
+                          "Gender".toUpperCase(),
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        kHalfSizedBox,
+                        MyBlueTextFormField(
+                          controller: genderEC,
+                          isEnabled: false,
+                          validator: (value) {
+                            return null;
+                          },
+                          textInputAction: TextInputAction.next,
+                          focusNode: genderFN,
+                          hintText: "",
+                          textInputType: TextInputType.text,
+                        ),
+                        kHalfSizedBox,
                         Text(
                           "Phone Number".toUpperCase(),
                           style: const TextStyle(
