@@ -54,34 +54,34 @@ class _AddBusinessState extends State<AddBusiness> {
   void initState() {
     super.initState();
     CategoryController.instance.getCategory();
-    log(widget.business!.id.toString());
+    // log(widget.business!.id.toString());
     scrollController.addListener(_scrollListener);
-    if (widget.business != null) {
-      addressEC.text = widget.business!.address;
-      latitude = widget.business!.latitude;
-      longitude = widget.business!.longitude;
-      accountBankEC.text = widget.business!.accountBank;
-      accountNameEC.text = widget.business!.accountName;
-      accountNumberEC.text = widget.business!.accountNumber;
-      accountTypeEC.text = widget.business!.accountType;
-      countryValue = widget.business!.country.name;
-      stateValue = widget.business!.state;
-      cityValue = widget.business!.city;
+    // if (widget.business != null) {
+    //   addressEC.text = widget.business!.address;
+    //   latitude = widget.business!.latitude;
+    //   longitude = widget.business!.longitude;
+    //   accountBankEC.text = widget.business!.accountBank;
+    //   accountNameEC.text = widget.business!.accountName;
+    //   accountNumberEC.text = widget.business!.accountNumber;
+    //   accountTypeEC.text = widget.business!.accountType;
+    //   countryValue = widget.business!.country.name;
+    //   stateValue = widget.business!.state;
+    //   cityValue = widget.business!.city;
 
-      businessIdEC.text = widget.business!.businessId;
-      shopImage = widget.business!.shopImage;
-      shopNameEC.text = widget.business!.shopName;
-      vendorMonToFriOpeningHoursEC.text = widget.business!.weekOpeningHours;
-      vendorMonToFriClosingHoursEC.text = widget.business!.weekClosingHours;
-      vendorSatOpeningHoursEC.text = widget.business!.satOpeningHours;
-      vendorSatClosingHoursEC.text = widget.business!.satClosingHours;
-      vendorSunOpeningHoursEC.text = widget.business!.sunWeekOpeningHours;
-      vendorSunClosingHoursEC.text = widget.business!.sunWeekClosingHours;
-      businessBioEC.text = widget.business!.businessBio;
-      vendorBusinessTypeEC.text = widget.business!.shopType.id;
+    //   businessIdEC.text = widget.business!.businessId;
+    //   shopImage = widget.business!.shopImage;
+    //   shopNameEC.text = widget.business!.shopName;
+    //   vendorMonToFriOpeningHoursEC.text = widget.business!.weekOpeningHours;
+    //   vendorMonToFriClosingHoursEC.text = widget.business!.weekClosingHours;
+    //   vendorSatOpeningHoursEC.text = widget.business!.satOpeningHours;
+    //   vendorSatClosingHoursEC.text = widget.business!.satClosingHours;
+    //   vendorSunOpeningHoursEC.text = widget.business!.sunWeekOpeningHours;
+    //   vendorSunClosingHoursEC.text = widget.business!.sunWeekClosingHours;
+    //   businessBioEC.text = widget.business!.businessBio;
+    //   vendorBusinessTypeEC.text = widget.business!.shopType.id;
 
-      log("This is the shop image: $shopImage");
-    }
+    //   log("This is the shop image: $shopImage");
+    // }
   }
 
   @override

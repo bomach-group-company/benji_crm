@@ -2,6 +2,7 @@
 
 import 'dart:developer';
 
+import 'package:benji_aggregator/app/businesses/add_business.dart';
 import 'package:benji_aggregator/controller/business_controller.dart';
 import 'package:benji_aggregator/model/my_vendor_model.dart';
 import 'package:benji_aggregator/src/components/card/empty.dart';
@@ -179,6 +180,16 @@ class _MyBusinessDetailPageState extends State<MyBusinessDetailPage>
   }
 
   //===================== Navigation ==========================\\
+  void addBusiness() => Get.to(
+        () => const AddBusiness(),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "AddBusiness",
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.downToUp,
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -207,7 +218,7 @@ class _MyBusinessDetailPageState extends State<MyBusinessDetailPage>
                 ),
               )
             : FloatingActionButton(
-                onPressed: () {},
+                onPressed: addBusiness,
                 elevation: 20.0,
                 mouseCursor: SystemMouseCursors.click,
                 tooltip: "Add Business",

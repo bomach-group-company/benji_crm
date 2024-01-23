@@ -4,6 +4,7 @@ import 'package:benji_aggregator/controller/account_controller.dart';
 import 'package:benji_aggregator/controller/api_processor_controller.dart';
 import 'package:benji_aggregator/controller/auth_controller.dart';
 import 'package:benji_aggregator/controller/business_controller.dart';
+import 'package:benji_aggregator/controller/category_controller.dart';
 import 'package:benji_aggregator/controller/form_controller.dart';
 import 'package:benji_aggregator/controller/latlng_detail_controller.dart';
 import 'package:benji_aggregator/controller/notification_controller.dart';
@@ -59,6 +60,7 @@ void main() async {
   Get.put(ApiProcessorController());
   Get.put(UrlLaunchController());
   Get.put(SendPackageController());
+  Get.put(CategoryController());
 
   runApp(const MyApp());
 }
