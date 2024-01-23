@@ -13,18 +13,20 @@ class NumberTextFormField extends StatelessWidget {
   final FocusNode focusNode;
   final String hintText;
   final List<TextInputFormatter>? inputFormatters;
-  final int maxlength;
+  final dynamic maxlength;
+  final dynamic onChanged;
 
   const NumberTextFormField({
     super.key,
     required this.controller,
     required this.validator,
     this.onSaved,
-    this.maxlength = 20,
+    this.maxlength,
     required this.textInputAction,
     required this.focusNode,
     required this.hintText,
     this.inputFormatters,
+    this.onChanged,
   });
 
   @override
@@ -35,6 +37,7 @@ class NumberTextFormField extends StatelessWidget {
       controller: controller,
       validator: validator,
       onSaved: onSaved,
+      onChanged: onChanged,
       textInputAction: textInputAction,
       textAlign: TextAlign.start,
       cursorColor: kSecondaryColor,

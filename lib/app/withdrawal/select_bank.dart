@@ -14,7 +14,7 @@ class SelectBank extends StatelessWidget {
           title: "Select a bank",
           elevation: 0,
           actions: const [],
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          backgroundColor: Theme.of(context).colorScheme.background,
         ),
         body: SelectBankBody(),
       ),

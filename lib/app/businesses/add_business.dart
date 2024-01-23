@@ -19,8 +19,9 @@ import '../../controller/api_processor_controller.dart';
 import '../../controller/category_controller.dart';
 import '../../controller/form_controller.dart';
 import '../../controller/latlng_detail_controller.dart';
+import '../../controller/user_controller.dart';
 import '../../controller/withdraw_controller.dart';
-import '../../model/business_model.dart';
+import '../../model/vendor_model.dart';
 import '../../services/api_url.dart';
 import '../../services/helper.dart';
 import '../../src/components/appbar/my_appbar.dart';
@@ -29,7 +30,7 @@ import '../../src/components/input/message_textformfield.dart';
 import '../../src/components/input/my_blue_textformfield.dart';
 import '../../src/components/input/my_dropdown_menu.dart';
 import '../../src/components/input/my_maps_textformfield.dart';
-import '../../src/components/input/my_textformfield.dart';
+import '../../src/components/input/number_textformfield.dart';
 import '../../src/components/section/location_list_tile.dart';
 import '../../src/googleMaps/autocomplete_prediction.dart';
 import '../../src/googleMaps/places_autocomplete_response.dart';
@@ -41,8 +42,8 @@ import '../google_maps/get_location_on_map.dart';
 import '../withdrawal/select_bank.dart';
 
 class AddBusiness extends StatefulWidget {
-  const AddBusiness({super.key, this.business});
-  final BusinessModel? business;
+  final VendorModel? businessOwner;
+  const AddBusiness({super.key, this.businessOwner});
 
   @override
   State<AddBusiness> createState() => _AddBusinessState();
@@ -99,6 +100,7 @@ class _AddBusinessState extends State<AddBusiness> {
   final businessBioEC = TextEditingController();
   final vendorBusinessTypeEC = TextEditingController();
   final addressEC = TextEditingController();
+  final businessLGAEC = TextEditingController();
 
   final accountNameEC = TextEditingController();
   final accountNumberEC = TextEditingController();
@@ -117,6 +119,7 @@ class _AddBusinessState extends State<AddBusiness> {
   final vendorSunClosingHoursFN = FocusNode();
   final businessBioFN = FocusNode();
   final vendorBusinessTypeFN = FocusNode();
+  final businessLGAFN = FocusNode();
 
   final addressFN = FocusNode();
   final accountNameFN = FocusNode();
@@ -172,6 +175,7 @@ class _AddBusinessState extends State<AddBusiness> {
 
 // select bank
   selectBank() async {
+    WithdrawController.instance.listBanks();
     final result = await Get.to(
       () => const SelectBank(),
       routeName: 'SelectBank',
@@ -213,7 +217,7 @@ class _AddBusinessState extends State<AddBusiness> {
   }
 
   void getLocationOnMap() async {
-    await Get.to(
+    var result = await Get.to(
       () => const GetLocationOnMap(),
       routeName: 'GetLocationOnMap',
       duration: const Duration(milliseconds: 300),
@@ -223,14 +227,14 @@ class _AddBusinessState extends State<AddBusiness> {
       popGesture: true,
       transition: Transition.rightToLeft,
     );
-    latitude = latLngDetailController.latLngDetail.value[0];
-    longitude = latLngDetailController.latLngDetail.value[1];
-    addressEC.text = latLngDetailController.latLngDetail.value[2];
-    latLngDetailController.setEmpty();
-    if (kDebugMode) {
-      print("LATLNG: $latitude,$longitude");
-      print(addressEC.text);
+    if (result != null) {
+      latitude = result["latitude"];
+      longitude = result["longitude"];
+      addressEC.text = result["mapsLocation"];
     }
+
+    log("LATLNG: $latitude,$longitude");
+    log(addressEC.text);
   }
 
   //========================== Save data ==================================\\
@@ -249,6 +253,10 @@ class _AddBusinessState extends State<AddBusiness> {
       ApiProcessorController.errorSnack("Please select a type of business");
       return;
     }
+    if (!stateValue.contains("Enugu")) {
+      ApiProcessorController.errorSnack("We are only available in Enugu State");
+      return;
+    }
     Map data = {
       "address": addressEC.text,
       "latitude": latitude,
@@ -257,9 +265,10 @@ class _AddBusinessState extends State<AddBusiness> {
       "accountName": accountNameEC.text,
       "accountNumber": accountNumberEC.text,
       "accountType": accountTypeEC.text,
-      "country": countryValue,
+      "country": countryValue.contains("Nigeria") ? "NG" : "",
       "state": stateValue,
       "city": cityValue,
+      "lga": businessLGAEC.text,
       "businessId": businessIdEC.text,
       "shop_name": businessNameEC.text,
       "weekOpeningHours": vendorMonToFriOpeningHoursEC.text,
@@ -271,25 +280,36 @@ class _AddBusinessState extends State<AddBusiness> {
       "businessBio": businessBioEC.text,
       "shop_type": vendorBusinessTypeEC.text,
     };
+    log("Business ID: ${widget.businessOwner!.id}");
+
     log("This is the data: $data");
 
     log("shop_image: ${selectedLogoImage?.path}");
     log("coverImage: ${selectedCoverImage?.path}");
-    var vendorId = widget.business!.id.toString();
 
-    await FormController.instance.postAuthstream(
-      '${Api.baseUrl}/vendors/createVendorBusiness/$vendorId',
-      data,
-      {'shop_image': selectedLogoImage, 'coverImage': selectedCoverImage},
-      'changeVendorBusinessProfile',
-    );
-    if (FormController.instance.status.toString().startsWith('2')) {
-      // await PushNotificationController.showNotification(
-      //   title: "Success.",
-      //   body: "Your business profile has been successfully updated.",
-      // );
-      // Get.close(1);
-    }
+    var vendorId = widget.businessOwner!.id;
+    var agentId = UserController.instance.user.value.id;
+
+    String url = Api.baseUrl +
+        Api.agentCreateBusiness +
+        vendorId.toString() +
+        agentId.toString();
+
+    log(url);
+
+    // await FormController.instance.postAuthstream(
+    //   url,
+    //   data,
+    //   {'shop_image': selectedLogoImage, 'coverImage': selectedCoverImage},
+    //   'changeVendorBusinessProfile',
+    // );
+    // if (FormController.instance.status.toString().startsWith('2')) {
+    //   // await PushNotificationController.showNotification(
+    //   //   title: "Success.",
+    //   //   body: "Your business profile has been successfully updated.",
+    //   // );
+    //   // Get.close(1);
+    // }
   }
 
   //=========================== WIDGETS ====================================\\
@@ -741,7 +761,7 @@ class _AddBusinessState extends State<AddBusiness> {
                       textInputAction: TextInputAction.next,
                       focusNode: businessNameFN,
                       hintText: "Name of the business",
-                      textInputType: TextInputType.name,
+                      textInputType: TextInputType.text,
                     ),
                     kSizedBox,
                     const Text(
@@ -752,20 +772,22 @@ class _AddBusinessState extends State<AddBusiness> {
                       ),
                     ),
                     kSizedBox,
-                    MyBlueTextFormField(
+                    NumberTextFormField(
                       controller: businessIdEC,
                       validator: (value) {
                         if (value == null || value!.isEmpty) {
-                          businessNameFN.requestFocus();
                           return "Field cannot be empty";
-                        } else {
-                          return null;
+                        } else if (value.toString().length > 14) {
+                          return "Enter a valid value";
                         }
+                        return null;
                       },
+                      maxlength: 11,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      onSaved: (value) {},
                       textInputAction: TextInputAction.next,
                       focusNode: businessIdFN,
                       hintText: "Enter your registered business number",
-                      textInputType: TextInputType.number,
                     ),
                     kSizedBox,
                     const Text(
@@ -1070,17 +1092,21 @@ class _AddBusinessState extends State<AddBusiness> {
                           ),
                         ),
                         kHalfSizedBox,
-                        MyTextFormField(
-                          textCapitalization: TextCapitalization.none,
+                        NumberTextFormField(
                           controller: accountNumberEC,
                           focusNode: accountNumberFN,
                           hintText: "Enter the account number here",
                           textInputAction: TextInputAction.next,
-                          textInputType: TextInputType.number,
+                          maxlength: 11,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
                           onChanged: (value) {
                             if (value.length >= 10) {
                               WithdrawController.instance.validateBankNumbers(
-                                  accountNumberEC.text, bankCode);
+                                accountNumberEC.text,
+                                bankCode,
+                              );
                             }
                             setState(() {});
                           },
@@ -1095,36 +1121,42 @@ class _AddBusinessState extends State<AddBusiness> {
                             accountNumberEC.text = value!;
                           },
                         ),
-                        kSizedBox,
-                        GetBuilder<WithdrawController>(builder: (controller) {
-                          if (controller.isLoadValidateAccount.value) {
+                        GetBuilder<WithdrawController>(
+                          builder: (controller) {
+                            if (controller.isLoadValidateAccount.value) {
+                              return Text(
+                                'Loading...',
+                                style: TextStyle(
+                                  color: kAccentColor.withOpacity(0.8),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              );
+                            }
+                            if (accountNumberEC.text.length < 10) {
+                              return const Text('');
+                            }
+                            accountNameEC.text = WithdrawController.instance
+                                .validateAccount.value.responseBody.accountName;
+                            log(accountNameEC.text);
                             return Text(
-                              'Loading...',
+                              controller.validateAccount.value.requestSuccessful
+                                  ? controller.validateAccount.value
+                                      .responseBody.accountName
+                                  // : controller.validateAccount.value
+                                  //     .responseBody.accountName,
+                                  : 'Bank Name not found',
                               style: TextStyle(
-                                color: kAccentColor.withOpacity(0.8),
+                                color: kAccentColor,
                                 fontSize: 14,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w700,
                               ),
                             );
-                          }
-                          if (accountNumberEC.text.length < 10) {
-                            return const Text('');
-                          }
-                          return Text(
-                            controller.validateAccount.value.requestSuccessful
-                                ? controller.validateAccount.value.responseBody
-                                    .accountName
-                                : 'Bank details not found',
-                            style: TextStyle(
-                              color: kAccentColor,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          );
-                        }),
-                        //  address and location
-
+                          },
+                        ),
                         kSizedBox,
+
+                        //  Address and location
                         const Text(
                           'Country',
                           style: TextStyle(
@@ -1156,7 +1188,33 @@ class _AddBusinessState extends State<AddBusiness> {
                           },
                         ),
                         kSizedBox,
-
+                        const Text(
+                          "Local Government Area",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        kSizedBox,
+                        MyBlueTextFormField(
+                          controller: businessLGAEC,
+                          validator: (value) {
+                            if (value == null || value!.isEmpty) {
+                              businessLGAFN.requestFocus();
+                              if (value < 2) {
+                                "Please enter a valid value";
+                              }
+                              return "Field cannot be empty";
+                            } else {
+                              return null;
+                            }
+                          },
+                          textInputAction: TextInputAction.next,
+                          focusNode: businessLGAFN,
+                          hintText: "Name of the business",
+                          textInputType: TextInputType.text,
+                        ),
+                        kSizedBox,
                         const Text(
                           "Address",
                           style: TextStyle(
@@ -1297,11 +1355,11 @@ class _AddBusinessState extends State<AddBusiness> {
                             }
                           },
                           onSaved: (value) {},
-                          textInputAction: TextInputAction.go,
+                          textInputAction: TextInputAction.newline,
                           focusNode: businessBioFN,
                           hintText: "Business description",
                           maxLines: 10,
-                          keyboardType: TextInputType.text,
+                          keyboardType: TextInputType.multiline,
                           maxLength: 1000,
                         ),
                       ],
