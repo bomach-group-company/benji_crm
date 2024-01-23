@@ -14,7 +14,7 @@ import '../../src/components/section/my_liquid_refresh.dart';
 import '../../src/providers/constants.dart';
 import '../../src/skeletons/vendors_list_skeleton.dart';
 import '../../theme/colors.dart';
-import '../add_vendor/register_vendor.dart';
+import '../my_vendors/register_vendor.dart';
 import 'vendor_details.dart';
 
 class Vendors extends StatefulWidget {

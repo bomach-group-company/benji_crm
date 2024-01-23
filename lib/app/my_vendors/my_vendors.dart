@@ -14,7 +14,7 @@ import 'package:get/get.dart';
 import '../../src/providers/constants.dart';
 import '../../src/responsive/responsive_constant.dart';
 import '../../theme/colors.dart';
-import '../add_vendor/register_vendor.dart';
+import 'register_vendor.dart';
 
 class MyVendors extends StatefulWidget {
   final VoidCallback showNavigation;
