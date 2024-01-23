@@ -1,15 +1,20 @@
 import 'dart:io';
 
 import 'package:benji_aggregator/controller/account_controller.dart';
+import 'package:benji_aggregator/controller/api_processor_controller.dart';
 import 'package:benji_aggregator/controller/auth_controller.dart';
 import 'package:benji_aggregator/controller/business_controller.dart';
 import 'package:benji_aggregator/controller/form_controller.dart';
 import 'package:benji_aggregator/controller/latlng_detail_controller.dart';
 import 'package:benji_aggregator/controller/notification_controller.dart';
 import 'package:benji_aggregator/controller/order_controller.dart';
+import 'package:benji_aggregator/controller/payment_controller.dart';
+import 'package:benji_aggregator/controller/product_controller.dart';
 import 'package:benji_aggregator/controller/profile_controller.dart';
 import 'package:benji_aggregator/controller/rider_controller.dart';
 import 'package:benji_aggregator/controller/rider_history_controller.dart';
+import 'package:benji_aggregator/controller/send_package_controller.dart';
+import 'package:benji_aggregator/controller/url_launch_controller.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:benji_aggregator/controller/withdraw_controller.dart';
 import 'package:benji_aggregator/theme/colors.dart';
@@ -49,6 +54,11 @@ void main() async {
   Get.put(RiderHistoryController());
   Get.put(OrderController());
   Get.put(BusinessController());
+  Get.put(ProductController());
+  Get.put(PaymentController());
+  Get.put(ApiProcessorController());
+  Get.put(UrlLaunchController());
+  Get.put(SendPackageController());
 
   runApp(const MyApp());
 }

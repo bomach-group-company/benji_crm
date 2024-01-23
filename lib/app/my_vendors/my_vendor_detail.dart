@@ -12,10 +12,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../../src/components/appbar/my_appbar.dart';
+import '../../src/components/container/business_container.dart';
+import '../../src/components/section/dashboard_businesses_display_controller.dart';
 import '../../src/components/section/my_liquid_refresh.dart';
 import '../../src/responsive/responsive_constant.dart';
 import '../../src/skeletons/vendors_list_skeleton.dart';
 import '../../theme/colors.dart';
+import '../businesses/business_detail_screen.dart';
 import 'about_my_vendor.dart';
 import 'report_my_vendor.dart';
 
@@ -37,7 +40,8 @@ class _MyBusinessDetailPageState extends State<MyBusinessDetailPage>
   void initState() {
     super.initState();
     BusinessController.instance.getBusinesses(widget.vendor.id.toString());
-    BusinessController.instance.getAllBusinesses(widget.vendor.id.toString());
+    BusinessController.instance
+        .getTotalNumberOfBusinesses(widget.vendor.id.toString());
     log("User ID: ${widget.vendor.id} Longitude: ${widget.vendor.longitude}Latitude: ${widget.vendor.latitude}");
     scrollController.addListener(_scrollListener);
     _tabBarController = TabController(length: 2, vsync: this);
@@ -90,7 +94,7 @@ class _MyBusinessDetailPageState extends State<MyBusinessDetailPage>
     await BusinessController.instance
         .getBusinesses(widget.vendor.id.toString());
     await BusinessController.instance
-        .getAllBusinesses(widget.vendor.id.toString());
+        .getTotalNumberOfBusinesses(widget.vendor.id.toString());
     setState(() {
       loadingScreen = false;
     });
@@ -456,108 +460,23 @@ class _MyBusinessDetailPageState extends State<MyBusinessDetailPage>
                   ),
                 ),
                 GetBuilder<BusinessController>(
-                    init: BusinessController(),
-                    builder: (controller) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: InkWell(
-                          onTap: () {
-                            setState(() {
-                              showBusinesses = !showBusinesses;
-                            });
-                          },
-                          borderRadius: BorderRadius.circular(kDefaultPadding),
-                          child: Container(
-                            padding: const EdgeInsets.all(kDefaultPadding),
-                            decoration: ShapeDecoration(
-                              shadows: [
-                                BoxShadow(
-                                  color: kBlackColor.withOpacity(0.1),
-                                  blurRadius: 5,
-                                  spreadRadius: 2,
-                                  blurStyle: BlurStyle.normal,
-                                ),
-                              ],
-                              color: const Color(0xFFFEF8F8),
-                              shape: RoundedRectangleBorder(
-                                side: const BorderSide(
-                                  width: 0.50,
-                                  color: Color(0xFFFDEDED),
-                                ),
-                                borderRadius: BorderRadius.circular(25),
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                FaIcon(
-                                  FontAwesomeIcons.shop,
-                                  color: kAccentColor,
-                                  size: 16,
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      showBusinesses
-                                          ? "Hide Businesses"
-                                          : "Show Businesses",
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                        color: kTextBlackColor,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    kHalfWidthSizedBox,
-                                    Text.rich(
-                                      TextSpan(
-                                        children: [
-                                          TextSpan(
-                                            text: "(",
-                                            style: TextStyle(
-                                              color: kTextGreyColor,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text: loadingScreen
-                                                ? "..."
-                                                : "${controller.allBusinessesList.length}",
-                                            style: TextStyle(
-                                              color: kAccentColor,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text: ")",
-                                            style: TextStyle(
-                                              color: kTextGreyColor,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                FaIcon(
-                                  showBusinesses
-                                      ? FontAwesomeIcons.caretDown
-                                      : FontAwesomeIcons.caretUp,
-                                  color: kAccentColor,
-                                  size: 16,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    }),
+                  init: BusinessController(),
+                  builder: (controller) {
+                    return DashboardDisplayBusinessesController(
+                      refreshing: loadingScreen,
+                      showBusinesses: showBusinesses,
+                      onTap: () {
+                        setState(() {
+                          showBusinesses = !showBusinesses;
+                        });
+                      },
+                      numberOfBusinesses:
+                          controller.totalNumberOfBusiness.length.toString(),
+                    );
+                  },
+                ),
                 kSizedBox,
+
                 GetBuilder<BusinessController>(
                   init: BusinessController(),
                   builder: (controller) {
@@ -567,12 +486,12 @@ class _MyBusinessDetailPageState extends State<MyBusinessDetailPage>
                             child: VendorsListSkeleton(),
                           )
                         : controller.isLoad.value &&
-                                controller.businessesList.isEmpty
+                                controller.listOfBusinesses.isEmpty
                             ? const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 10),
                                 child: VendorsListSkeleton(),
                               )
-                            : controller.businessesList.isEmpty
+                            : controller.listOfBusinesses.isEmpty
                                 ? const Center(
                                     child: EmptyCard(
                                       emptyCardMessage:
@@ -591,158 +510,32 @@ class _MyBusinessDetailPageState extends State<MyBusinessDetailPage>
                                         shrinkWrap: true,
                                         addAutomaticKeepAlives: true,
                                         itemCount:
-                                            controller.businessesList.length,
+                                            controller.listOfBusinesses.length,
                                         itemBuilder: (context, index) {
-                                          return InkWell(
-                                            onTap: () {},
-                                            borderRadius:
-                                                BorderRadius.circular(16),
-                                            child: Container(
-                                              decoration: ShapeDecoration(
-                                                color: kPrimaryColor,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(16),
+                                          return BusinessContainer(
+                                            onTap: () {
+                                              Get.to(
+                                                () => BusinessDetailScreen(
+                                                  business: controller
+                                                      .listOfBusinesses[index],
                                                 ),
-                                              ),
-                                              child: Row(
-                                                children: [
-                                                  Container(
-                                                    height: 120,
-                                                    width: 120,
-                                                    decoration: ShapeDecoration(
-                                                      color: kLightGreyColor,
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(16),
-                                                      ),
-                                                    ),
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              10),
-                                                      child: MyImage(
-                                                        url: controller
-                                                            .businessesList[
-                                                                index]
-                                                            .shopImage,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  kHalfWidthSizedBox,
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      SizedBox(
-                                                        width:
-                                                            media.width - 200,
-                                                        child: Text(
-                                                          controller
-                                                              .businessesList[
-                                                                  index]
-                                                              .shopName,
-                                                          textAlign:
-                                                              TextAlign.start,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style:
-                                                              const TextStyle(
-                                                            color:
-                                                                kTextBlackColor,
-                                                            fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight.w700,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      kHalfSizedBox,
-                                                      SizedBox(
-                                                        width:
-                                                            media.width - 200,
-                                                        child: Text(
-                                                          controller
-                                                              .businessesList[
-                                                                  index]
-                                                              .address,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style: TextStyle(
-                                                            color: kAccentColor,
-                                                            fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight.w300,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      kSizedBox,
-                                                      SizedBox(
-                                                        width:
-                                                            media.width - 150,
-                                                        child: Row(
-                                                          children: [
-                                                            FaIcon(
-                                                              FontAwesomeIcons
-                                                                  .solidIdCard,
-                                                              color:
-                                                                  kAccentColor,
-                                                              size: 16,
-                                                            ),
-                                                            kHalfWidthSizedBox,
-                                                            SizedBox(
-                                                              width:
-                                                                  media.width -
-                                                                      200,
-                                                              child: Text.rich(
-                                                                maxLines: 1,
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                                TextSpan(
-                                                                  children: [
-                                                                    const TextSpan(
-                                                                      text:
-                                                                          "TIN: ",
-                                                                      style:
-                                                                          TextStyle(
-                                                                        color:
-                                                                            kTextBlackColor,
-                                                                        fontSize:
-                                                                            16,
-                                                                        fontWeight:
-                                                                            FontWeight.w300,
-                                                                      ),
-                                                                    ),
-                                                                    TextSpan(
-                                                                      text: controller
-                                                                          .businessesList[
-                                                                              index]
-                                                                          .businessId,
-                                                                      style:
-                                                                          const TextStyle(
-                                                                        color:
-                                                                            kTextBlackColor,
-                                                                        fontSize:
-                                                                            16,
-                                                                        fontWeight:
-                                                                            FontWeight.w300,
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
+                                                duration: const Duration(
+                                                    milliseconds: 300),
+                                                fullscreenDialog: true,
+                                                curve: Curves.easeIn,
+                                                routeName:
+                                                    "BusinessDetailScreen",
+                                                preventDuplicates: true,
+                                                popGesture: false,
+                                                transition:
+                                                    Transition.rightToLeft,
+                                              );
+                                            },
+                                            // onTap: toBusinessDetailScreen(
+                                            //   controller.businesses[index],
+                                            // ),
+                                            business: controller
+                                                .listOfBusinesses[index],
                                           );
                                         },
                                       )

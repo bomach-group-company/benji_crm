@@ -27,6 +27,7 @@ class BusinessProducts extends StatefulWidget {
 class _BusinessProductsState extends State<BusinessProducts> {
   @override
   void initState() {
+    ProductController.instance.getBusinessProducts();
     super.initState();
   }
 

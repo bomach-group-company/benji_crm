@@ -442,12 +442,13 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                         child: SizedBox(
                           width: deviceType(media.width) > 2 ? 126 : 100,
                           height: deviceType(media.width) > 2 ? 126 : 100,
-                          child: ClipRRect(
-                            child: CircleAvatar(
-                              backgroundColor: kLightGreyColor,
+                          child: CircleAvatar(
+                            backgroundColor: kLightGreyColor,
+                            radius: 30,
+                            child: Center(
                               child: MyImage(
                                 url: widget.business.shopImage,
-                                imageHeight: 70,
+                                imageHeight: 30,
                               ),
                             ),
                           ),

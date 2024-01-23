@@ -18,8 +18,8 @@ class BusinessController extends GetxController {
   bool? isFirst;
   BusinessController({this.isFirst});
   var isLoad = false.obs;
-  var businessesList = <BusinessModel>[].obs;
-  var allBusinessesList = <BusinessModel>[].obs;
+  var listOfBusinesses = <BusinessModel>[].obs;
+  var totalNumberOfBusiness = <BusinessModel>[].obs;
   // vendor pagination
   var loadNumBusinesses = 10.obs;
   var loadedAllBusinesses = false.obs;
@@ -60,7 +60,7 @@ class BusinessController extends GetxController {
           .toList();
       log("Got here!");
 
-      businessesList.value = data;
+      listOfBusinesses.value = data;
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet.");
     } catch (e) {
@@ -76,7 +76,7 @@ class BusinessController extends GetxController {
     update();
   }
 
-  Future getAllBusinesses(String vendorId) async {
+  Future getTotalNumberOfBusinesses(String vendorId) async {
     isLoad.value = true;
 
     late String token;
@@ -98,7 +98,7 @@ class BusinessController extends GetxController {
           .toList();
       log("Got all businesses here!");
 
-      allBusinessesList.value = data;
+      totalNumberOfBusiness.value = data;
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet.");
     } catch (e) {

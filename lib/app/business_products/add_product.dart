@@ -377,7 +377,7 @@ class _AddProductState extends State<AddProduct> {
                             controller: vendorBusinessEC,
                             hintText: "E.g Restaurant, Auto Dealer, etc",
                             dropdownMenuEntries:
-                                controller.businessesList.isEmpty &&
+                                controller.listOfBusinesses.isEmpty &&
                                         controller.isLoad.value
                                     ? [
                                         const DropdownMenuEntry(
@@ -386,7 +386,7 @@ class _AddProductState extends State<AddProduct> {
                                           enabled: false,
                                         )
                                       ]
-                                    : controller.businessesList
+                                    : controller.listOfBusinesses
                                         .map((item) => DropdownMenuEntry(
                                             value: item.id,
                                             label: item.shopName))
