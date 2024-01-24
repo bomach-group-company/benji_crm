@@ -6,7 +6,6 @@ import 'dart:io';
 
 import 'package:csc_picker/csc_picker.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -21,7 +20,7 @@ import '../../controller/form_controller.dart';
 import '../../controller/latlng_detail_controller.dart';
 import '../../controller/user_controller.dart';
 import '../../controller/withdraw_controller.dart';
-import '../../model/vendor_model.dart';
+import '../../model/my_vendor_model.dart';
 import '../../services/api_url.dart';
 import '../../services/helper.dart';
 import '../../src/components/appbar/my_appbar.dart';
@@ -42,8 +41,8 @@ import '../google_maps/get_location_on_map.dart';
 import '../withdrawal/select_bank.dart';
 
 class AddBusiness extends StatefulWidget {
-  final VendorModel? businessOwner;
-  const AddBusiness({super.key, this.businessOwner});
+  final MyVendorModel? vendor;
+  const AddBusiness({super.key, this.vendor});
 
   @override
   State<AddBusiness> createState() => _AddBusinessState();
@@ -54,6 +53,11 @@ class _AddBusinessState extends State<AddBusiness> {
   @override
   void initState() {
     super.initState();
+    var vendorId = widget.vendor!.id.toString();
+    var agentId = UserController.instance.user.value.id.toString();
+
+    log("Vendor ID: $vendorId");
+    log("Agent ID: $agentId");
     CategoryController.instance.getCategory();
     scrollController.addListener(_scrollListener);
   }
@@ -88,6 +92,7 @@ class _AddBusinessState extends State<AddBusiness> {
   //===================== BOOL VALUES =======================\\
   bool isScrollToTopBtnVisible = false;
   bool accountNumberFieldIsEnabled = false;
+  bool accountTypeFieldIsEnabled = false;
 
   //============================================== CONTROLLERS =================================================\\
   final scrollController = ScrollController();
@@ -241,6 +246,8 @@ class _AddBusinessState extends State<AddBusiness> {
 
   //========================== Save data ==================================\\
   Future<void> saveChanges() async {
+    log("accountType: ${accountTypeEC.text}");
+    log("shop_type: ${vendorBusinessTypeEC.text}");
     if (selectedLogoImage == null) {
       ApiProcessorController.errorSnack("Please select a shop image");
       return;
@@ -255,10 +262,14 @@ class _AddBusinessState extends State<AddBusiness> {
       ApiProcessorController.errorSnack("Please select a type of business");
       return;
     }
+    //  if (accountNameEC.text == "N/A") {
+    //   ApiProcessorController.errorSnack(
+    //     "Please enter a correct account number",
+    //   );
+    //   return;
+    // }
     if (countryValue.isEmpty) {
-      ApiProcessorController.errorSnack(
-        "Please choose a country",
-      );
+      ApiProcessorController.errorSnack("Please choose a country");
       return;
     }
     if (!stateValue.contains("Enugu")) {
@@ -266,21 +277,11 @@ class _AddBusinessState extends State<AddBusiness> {
       return;
     }
     if (stateValue.isEmpty) {
-      ApiProcessorController.errorSnack(
-        "Please choose a state",
-      );
+      ApiProcessorController.errorSnack("Please choose a state");
       return;
     }
     if (cityValue.isEmpty) {
-      ApiProcessorController.errorSnack(
-        "Please choose a city",
-      );
-      return;
-    }
-    if (accountNameEC.text == "N/A") {
-      ApiProcessorController.errorSnack(
-        "Please enter a correct account number",
-      );
+      ApiProcessorController.errorSnack("Please choose a city");
       return;
     }
 
@@ -307,36 +308,39 @@ class _AddBusinessState extends State<AddBusiness> {
       "businessBio": businessBioEC.text,
       "shop_type": vendorBusinessTypeEC.text,
     };
-    log("Business ID: ${widget.businessOwner!.id}");
 
     log("This is the data: $data");
 
     log("shop_image: ${selectedLogoImage?.path}");
     log("coverImage: ${selectedCoverImage?.path}");
 
-    var vendorId = widget.businessOwner!.id;
-    var agentId = UserController.instance.user.value.id;
+    var vendorId = widget.vendor?.id.toString();
+    var agentId = UserController.instance.user.value.id.toString();
 
-    String url = Api.baseUrl +
-        Api.agentCreateBusiness +
-        vendorId.toString() +
-        agentId.toString();
+    log("Vendor ID: $vendorId");
+    log("Agent ID: $agentId");
+
+    String url =
+        "${Api.baseUrl}${Api.agentCreateVendorBusiness}$vendorId/$agentId";
 
     log(url);
 
-    // await FormController.instance.postAuthstream(
-    //   url,
-    //   data,
-    //   {'shop_image': selectedLogoImage, 'coverImage': selectedCoverImage},
-    //   'changeVendorBusinessProfile',
-    // );
-    // if (FormController.instance.status.toString().startsWith('2')) {
-    //   // await PushNotificationController.showNotification(
-    //   //   title: "Success.",
-    //   //   body: "Your business profile has been successfully updated.",
-    //   // );
-    //   // Get.close(1);
-    // }
+    await FormController.instance.postAuthstream(
+      url,
+      data,
+      {
+        'shop_image': selectedLogoImage,
+        'coverImage': selectedCoverImage,
+      },
+      'agentCreateVendorBusiness',
+    );
+    if (FormController.instance.status.toString().startsWith('20')) {
+      // await PushNotificationController.showNotification(
+      //   title: "Success.",
+      //   body: "Your business profile has been successfully updated.",
+      // );
+      Get.close(1);
+    }
   }
 
   //=========================== WIDGETS ====================================\\
@@ -777,13 +781,13 @@ class _AddBusinessState extends State<AddBusiness> {
                       validator: (value) {
                         if (value == null || value!.isEmpty) {
                           businessNameFN.requestFocus();
-                          if (value < 2) {
-                            "Please enter a valid name";
-                          }
+
                           return "Field cannot be empty";
-                        } else {
-                          return null;
                         }
+                        if (value.toString().length < 2) {
+                          "Please enter a valid name";
+                        }
+                        return null;
                       },
                       textInputAction: TextInputAction.next,
                       focusNode: businessNameFN,
@@ -836,6 +840,7 @@ class _AddBusinessState extends State<AddBusiness> {
                         return MyDropDownMenu(
                           controller: vendorBusinessTypeEC,
                           hintText: "E.g Restaurant, Auto Dealer, etc",
+                          enableSearch: true,
                           dropdownMenuEntries:
                               controller.category.value.isEmpty &&
                                       controller.isLoad.value
@@ -847,8 +852,12 @@ class _AddBusinessState extends State<AddBusiness> {
                                       )
                                     ]
                                   : controller.category
-                                      .map((item) => DropdownMenuEntry(
-                                          value: item.id, label: item.name))
+                                      .map(
+                                        (item) => DropdownMenuEntry(
+                                          value: item.id,
+                                          label: item.name,
+                                        ),
+                                      )
                                       .toList(),
                         );
                       },
@@ -1082,6 +1091,7 @@ class _AddBusinessState extends State<AddBusiness> {
                                       controller.isLoad.value
                                   ? null
                                   : selectBank,
+                              borderRadius: BorderRadius.circular(20),
                               child: MyBlueTextFormField(
                                 controller: accountBankEC,
                                 isEnabled: false,
@@ -1099,7 +1109,9 @@ class _AddBusinessState extends State<AddBusiness> {
                                 ),
                                 textInputType: TextInputType.name,
                                 validator: (value) {
-                                  if (value == null || value!.isEmpty) {
+                                  if (value == null ||
+                                      value!.isEmpty ||
+                                      accountBankEC.text.isEmpty) {
                                     return "Select a bank";
                                   }
                                   return null;
@@ -1125,11 +1137,11 @@ class _AddBusinessState extends State<AddBusiness> {
                         NumberTextFormField(
                           controller: accountNumberEC,
                           focusNode: accountNumberFN,
+                          enabled: accountNumberFieldIsEnabled,
                           hintText: accountNumberFieldIsEnabled
                               ? "Enter the account number here"
                               : "Select a bank first",
                           textInputAction: TextInputAction.next,
-                          enabled: accountNumberFieldIsEnabled,
                           maxlength: 11,
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly
@@ -1140,19 +1152,23 @@ class _AddBusinessState extends State<AddBusiness> {
                                 accountNumberEC.text,
                                 bankCode,
                               );
+                              setState(() {
+                                accountTypeFieldIsEnabled = true;
+                              });
                             }
-                            setState(() {});
                           },
                           validator: (value) {
                             if (value == null || value!.isEmpty) {
                               accountNumberFN.requestFocus();
-                              return "Enter the account number";
+                              return "Enter your account number";
+                            }
+                            if (accountNumberEC.text.isNotEmpty &&
+                                accountNumberEC.text.length < 10) {
+                              return "Must be at least 10 characters";
                             }
                             return null;
                           },
-                          onSaved: (value) {
-                            accountNumberEC.text = value!;
-                          },
+                          onSaved: (value) {},
                         ),
                         GetBuilder<WithdrawController>(
                           builder: (controller) {
@@ -1171,7 +1187,7 @@ class _AddBusinessState extends State<AddBusiness> {
                             }
                             accountNameEC.text = WithdrawController.instance
                                 .validateAccount.value.responseBody.accountName;
-                            log(accountNameEC.text);
+                            log("This is the account name: ${accountNameEC.text}");
                             return Text(
                               controller.validateAccount.value.requestSuccessful
                                   ? controller.validateAccount.value
@@ -1187,6 +1203,43 @@ class _AddBusinessState extends State<AddBusiness> {
                             );
                           },
                         ),
+                        kSizedBox,
+                        const Text(
+                          "Account type",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        kSizedBox,
+                        MyDropDownMenu(
+                          controller: accountTypeEC,
+                          enabled: accountTypeFieldIsEnabled,
+                          hintText: !accountTypeFieldIsEnabled
+                              ? "Enter your account number"
+                              : "Savings, current, etc",
+                          dropdownMenuEntries: !accountTypeFieldIsEnabled
+                              ? const [
+                                  DropdownMenuEntry(
+                                    value: 'disabled',
+                                    label: 'Please enter your account number',
+                                    enabled: false,
+                                  ),
+                                ]
+                              : const [
+                                  DropdownMenuEntry(
+                                    value: 'savings',
+                                    label: 'Savings',
+                                    enabled: true,
+                                  ),
+                                  DropdownMenuEntry(
+                                    value: 'current',
+                                    label: 'Current',
+                                    enabled: true,
+                                  ),
+                                ],
+                        ),
+
                         kSizedBox,
 
                         //  Address and location
@@ -1234,13 +1287,13 @@ class _AddBusinessState extends State<AddBusiness> {
                           validator: (value) {
                             if (value == null || value!.isEmpty) {
                               businessLGAFN.requestFocus();
-                              if (value < 2) {
-                                "Please enter a valid value";
-                              }
+
                               return "Field cannot be empty";
-                            } else {
-                              return null;
                             }
+                            if (value.toString().length < 2) {
+                              "Please enter a valid value";
+                            }
+                            return null;
                           },
                           textInputAction: TextInputAction.next,
                           focusNode: businessLGAFN,
@@ -1283,10 +1336,10 @@ class _AddBusinessState extends State<AddBusiness> {
                                   selectedLocation.value = value;
                                   isTyping = true;
                                 });
-                                if (kDebugMode) {
-                                  print(
-                                      "ONCHANGED VALUE: ${selectedLocation.value}");
-                                }
+
+                                log(
+                                  "ONCHANGED VALUE: ${selectedLocation.value}",
+                                );
                               },
                               textInputAction: TextInputAction.done,
                               focusNode: addressFN,

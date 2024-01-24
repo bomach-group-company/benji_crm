@@ -40,10 +40,11 @@ class _MyBusinessDetailPageState extends State<MyBusinessDetailPage>
   @override
   void initState() {
     super.initState();
+
     BusinessController.instance.getBusinesses(widget.vendor.id.toString());
     BusinessController.instance
         .getTotalNumberOfBusinesses(widget.vendor.id.toString());
-    log("User ID: ${widget.vendor.id} Longitude: ${widget.vendor.longitude}Latitude: ${widget.vendor.latitude}");
+    log("Vendor ID: ${widget.vendor.id} Longitude: ${widget.vendor.longitude} Latitude: ${widget.vendor.latitude}");
     scrollController.addListener(_scrollListener);
     _tabBarController = TabController(length: 2, vsync: this);
   }
@@ -181,7 +182,7 @@ class _MyBusinessDetailPageState extends State<MyBusinessDetailPage>
 
   //===================== Navigation ==========================\\
   void addBusiness() => Get.to(
-        () => const AddBusiness(),
+        () => AddBusiness(vendor: widget.vendor),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
