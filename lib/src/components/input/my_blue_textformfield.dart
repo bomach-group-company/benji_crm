@@ -22,6 +22,7 @@ class MyBlueTextFormField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final int maxlines;
   final bool? readOnly;
+  final void Function(String)? onChanged;
 
   const MyBlueTextFormField({
     Key? key,
@@ -38,6 +39,7 @@ class MyBlueTextFormField extends StatelessWidget {
     this.inputFormatters,
     this.maxlines = 1,
     this.readOnly,
+    this.onChanged,
   }) : super(key: key);
 
   @override
@@ -48,6 +50,7 @@ class MyBlueTextFormField extends StatelessWidget {
       focusNode: focusNode,
       controller: controller,
       validator: validator,
+      onChanged: onChanged,
       onSaved: onSaved,
       textInputAction: textInputAction,
       textAlign: TextAlign.start,

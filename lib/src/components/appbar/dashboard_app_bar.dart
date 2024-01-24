@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:benji_aggregator/app/others/notifications.dart';
+import 'package:benji_aggregator/app/profile/personal_info.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/src/components/image/my_image.dart';
 import 'package:benji_aggregator/src/responsive/responsive_constant.dart';
@@ -8,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-import '../../../app/overview/overview.dart';
 import '../../../theme/colors.dart';
 import '../../providers/constants.dart';
 import 'dashboard_app_bar_aggregator.dart';
@@ -27,11 +27,11 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
 
 //======================================== FUNCTIONS ==============================================\\
   void toProfilePage() => Get.to(
-        () => const OverView(currentIndex: 3),
+        () => const PersonalInfo(),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "Profile",
+        routeName: "PersonalInfo",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.downToUp,

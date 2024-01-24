@@ -87,6 +87,7 @@ class _AddBusinessState extends State<AddBusiness> {
 
   //===================== BOOL VALUES =======================\\
   bool isScrollToTopBtnVisible = false;
+  bool accountNumberFieldIsEnabled = false;
 
   //============================================== CONTROLLERS =================================================\\
   final scrollController = ScrollController();
@@ -175,7 +176,7 @@ class _AddBusinessState extends State<AddBusiness> {
 
 // select bank
   selectBank() async {
-    WithdrawController.instance.listBanks();
+    await WithdrawController.instance.listBanks();
     final result = await Get.to(
       () => const SelectBank(),
       routeName: 'SelectBank',
@@ -193,6 +194,7 @@ class _AddBusinessState extends State<AddBusiness> {
       setState(() {
         accountBankEC.text = newBankName;
         bankCode = newBankCode;
+        accountNumberFieldIsEnabled = true;
       });
     }
   }
@@ -253,10 +255,35 @@ class _AddBusinessState extends State<AddBusiness> {
       ApiProcessorController.errorSnack("Please select a type of business");
       return;
     }
+    if (countryValue.isEmpty) {
+      ApiProcessorController.errorSnack(
+        "Please choose a country",
+      );
+      return;
+    }
     if (!stateValue.contains("Enugu")) {
       ApiProcessorController.errorSnack("We are only available in Enugu State");
       return;
     }
+    if (stateValue.isEmpty) {
+      ApiProcessorController.errorSnack(
+        "Please choose a state",
+      );
+      return;
+    }
+    if (cityValue.isEmpty) {
+      ApiProcessorController.errorSnack(
+        "Please choose a city",
+      );
+      return;
+    }
+    if (accountNameEC.text == "N/A") {
+      ApiProcessorController.errorSnack(
+        "Please enter a correct account number",
+      );
+      return;
+    }
+
     Map data = {
       "address": addressEC.text,
       "latitude": latitude,
@@ -777,14 +804,16 @@ class _AddBusinessState extends State<AddBusiness> {
                       validator: (value) {
                         if (value == null || value!.isEmpty) {
                           return "Field cannot be empty";
-                        } else if (value.toString().length > 14) {
-                          return "Enter a valid value";
+                        } else if (value.toString().length < 14) {
+                          return "Must be 14 characters";
                         }
                         return null;
                       },
-                      maxlength: 11,
+                      maxlength: 14,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                      onSaved: (value) {},
+                      onSaved: (value) {
+                        businessIdEC.text = value!;
+                      },
                       textInputAction: TextInputAction.next,
                       focusNode: businessIdFN,
                       hintText: "Enter your registered business number",
@@ -1058,6 +1087,7 @@ class _AddBusinessState extends State<AddBusiness> {
                                 isEnabled: false,
                                 textInputAction: TextInputAction.next,
                                 focusNode: accountBankFN,
+                                onChanged: (value) {},
                                 hintText: controller.listOfBanks.isEmpty &&
                                         controller.isLoad.value
                                     ? "Loading..."
@@ -1095,8 +1125,11 @@ class _AddBusinessState extends State<AddBusiness> {
                         NumberTextFormField(
                           controller: accountNumberEC,
                           focusNode: accountNumberFN,
-                          hintText: "Enter the account number here",
+                          hintText: accountNumberFieldIsEnabled
+                              ? "Enter the account number here"
+                              : "Select a bank first",
                           textInputAction: TextInputAction.next,
+                          enabled: accountNumberFieldIsEnabled,
                           maxlength: 11,
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly
@@ -1211,7 +1244,7 @@ class _AddBusinessState extends State<AddBusiness> {
                           },
                           textInputAction: TextInputAction.next,
                           focusNode: businessLGAFN,
-                          hintText: "Name of the business",
+                          hintText: "Enter the LGA",
                           textInputType: TextInputType.text,
                         ),
                         kSizedBox,

@@ -15,6 +15,7 @@ class NumberTextFormField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final dynamic maxlength;
   final dynamic onChanged;
+  final bool? enabled;
 
   const NumberTextFormField({
     super.key,
@@ -27,12 +28,14 @@ class NumberTextFormField extends StatelessWidget {
     required this.hintText,
     this.inputFormatters,
     this.onChanged,
+    this.enabled,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       // onTap: onTap,
+      enabled: enabled ?? true,
       focusNode: focusNode,
       controller: controller,
       validator: validator,
