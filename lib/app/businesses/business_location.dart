@@ -408,15 +408,14 @@ class _BusinessLocationState extends State<BusinessLocation> {
                               size: 17,
                             ),
                             const SizedBox(width: 5),
-                            Text(
-                              '${(widget.business.vendorOwner.averageRating).toPrecision(1)}',
-                              style: const TextStyle(
-                                color: kBlackColor,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                letterSpacing: -0.28,
-                              ),
-                            ),
+                            // Text(
+                            //   '${(widget.business.vendorOwner.averageRating).toPrecision(1)}',
+                            //   style: const TextStyle(
+                            //     color: kBlackColor,
+                            //     fontSize: 14,
+                            //     fontWeight: FontWeight.w400,
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),
@@ -443,7 +442,6 @@ class _BusinessLocationState extends State<BusinessLocation> {
                                     : kAccentColor,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
-                                letterSpacing: -0.36,
                               ),
                             ),
                             const SizedBox(width: 5),
@@ -463,8 +461,10 @@ class _BusinessLocationState extends State<BusinessLocation> {
           AnimatedPositioned(
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeIn,
-            bottom: _isExpanded ? 180 : 40,
-            left: media.width / 2.7,
+            bottom: _isExpanded ? 160 : 20,
+            left: deviceType(media.width) > 2
+                ? (media.width / 2) - (126 / 2)
+                : (media.width / 2) - (100 / 2),
             child: SizedBox(
               width: deviceType(media.width) > 2 ? 126 : 100,
               height: deviceType(media.width) > 2 ? 126 : 100,
