@@ -241,21 +241,24 @@ class _LoginState extends State<Login> {
                       ],
                     ),
                     kSizedBox,
-                    GetBuilder<LoginController>(builder: (controller) {
-                      return MyElevatedButton(
-                        title: "LOG IN",
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            SendLogin data = SendLogin(
+                    GetBuilder<LoginController>(
+                      builder: (controller) {
+                        return MyElevatedButton(
+                          title: "LOG IN",
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              SendLogin data = SendLogin(
                                 password: passwordController.text,
-                                username: emailController.text);
+                                username: emailController.text,
+                              );
 
-                            await controller.login(data);
-                          }
-                        },
-                        isLoading: controller.isLoad.value,
-                      );
-                    }),
+                              await controller.login(data);
+                            }
+                          },
+                          isLoading: controller.isLoad.value,
+                        );
+                      },
+                    ),
                     kHalfSizedBox,
                   ],
                 ),

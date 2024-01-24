@@ -2,7 +2,7 @@
 
 import 'dart:convert';
 
-import 'package:benji_aggregator/app/auth_screens/login.dart';
+import 'package:benji_aggregator/app/auth/login.dart';
 import 'package:benji_aggregator/controller/api_processor_controller.dart';
 import 'package:benji_aggregator/main.dart';
 import 'package:benji_aggregator/model/user_model.dart';

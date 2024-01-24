@@ -3,7 +3,7 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:benji_aggregator/app/auth_screens/login.dart';
+import 'package:benji_aggregator/app/auth/login.dart';
 import 'package:benji_aggregator/services/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

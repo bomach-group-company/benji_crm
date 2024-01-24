@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-import '../app/auth_screens/login.dart';
+import '../app/auth/login.dart';
 
 class ProfileController extends GetxController {
   static ProfileController get instance {

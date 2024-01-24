@@ -11,7 +11,7 @@ import '../../src/components/section/my_liquid_refresh.dart';
 import '../../src/components/section/profile_first_half.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
-import '../auth_screens/login.dart';
+import '../auth/login.dart';
 import '../packages/packages.dart';
 import 'personal_info.dart';
 import 'settings.dart';
