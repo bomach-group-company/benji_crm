@@ -17,6 +17,7 @@ import '../../theme/colors.dart';
 import '../business_products/add_product.dart';
 import '../business_products/business_products.dart';
 import 'about_business.dart';
+import 'business_location.dart';
 
 class BusinessDetailScreen extends StatefulWidget {
   final BusinessModel business;
@@ -62,7 +63,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
     });
   }
 
-  _toBusinessLocation() {
+  toBusinessLocation() {
     double latitude;
     double longitude;
     if (kIsWeb) {
@@ -87,16 +88,16 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
       );
       return;
     }
-    // Get.to(
-    //   () => BusinessLocation(business: widget.business),
-    //   routeName: 'BusinessLocation',
-    //   duration: const Duration(milliseconds: 300),
-    //   fullscreenDialog: true,
-    //   curve: Curves.easeIn,
-    //   preventDuplicates: true,
-    //   popGesture: true,
-    //   transition: Transition.rightToLeft,
-    // );
+    Get.to(
+      () => BusinessLocation(business: widget.business),
+      routeName: 'BusinessLocation',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
   }
 
 //==========================================================================================\\
@@ -302,13 +303,18 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                                           size: 15,
                                         ),
                                         kHalfWidthSizedBox,
-                                        Text(
-                                          widget.business.address,
-                                          textAlign: TextAlign.center,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
+                                        SizedBox(
+                                          width: deviceType(media.width) >= 2
+                                              ? media.width - 850
+                                              : media.width - 220,
+                                          child: Text(
+                                            widget.business.address,
+                                            textAlign: TextAlign.center,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                            ),
                                           ),
                                         ),
                                       ],
@@ -318,7 +324,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                                   InkWell(
                                     onTap: widget.business.address.isEmpty
                                         ? null
-                                        : _toBusinessLocation,
+                                        : toBusinessLocation,
                                     borderRadius: BorderRadius.circular(10),
                                     child: Container(
                                       padding: const EdgeInsets.all(
@@ -448,7 +454,6 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                             child: Center(
                               child: MyImage(
                                 url: widget.business.shopImage,
-                                imageHeight: 30,
                               ),
                             ),
                           ),

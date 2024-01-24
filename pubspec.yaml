@@ -18,7 +18,7 @@ dependencies:
   csc_picker: ^0.2.7
   image_picker: ^1.0.1
   flutter_spinkit: ^5.2.0
-  google_fonts: ^5.1.0
+  google_fonts:
   google_maps_flutter: ^2.4.0
   hexcolor: ^3.0.1
   provider: ^5.0.0
@@ -36,7 +36,7 @@ dependencies:
   flutter_layout_grid:
   lottie:
   flutter_polyline_points:
-  google_maps_flutter_web: ^0.5.4+2
+  google_maps_flutter_web:
   geolocator: ^9.0.2
   geocoding:
   path:

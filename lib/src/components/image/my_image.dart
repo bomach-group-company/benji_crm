@@ -20,6 +20,8 @@ class MyImage extends StatelessWidget {
             : url!.startsWith("https")
                 ? url!
                 : baseImage + url!,
+        fadeInCurve: Curves.easeIn,
+        fadeOutCurve: Curves.easeInOut,
         filterQuality: FilterQuality.high,
         fit: BoxFit.cover,
         progressIndicatorBuilder: (context, url, downloadProgress) =>
