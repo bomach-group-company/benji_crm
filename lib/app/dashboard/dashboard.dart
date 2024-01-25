@@ -211,7 +211,6 @@ class _DashboardState extends State<Dashboard>
               children: [
                 const AvailableBalanceCard(),
                 kSizedBox,
-
                 GetBuilder<VendorController>(
                   init: VendorController(),
                   initState: (state) async {
@@ -229,14 +228,6 @@ class _DashboardState extends State<Dashboard>
                   },
                 ),
                 kSizedBox,
-                // DashboardContainer(
-                //   onTap: toSeeAllBusinesses,
-                //   number: "0",
-                //   typeOf: "Businesses",
-                //   onlineStatus: "Online",
-                //   // : "$allOnlineRiders Online",
-                // ),
-                // kSizedBox,
                 GetBuilder<RiderController>(initState: (state) async {
                   await RiderController.instance.getRiders();
                 }, builder: (rider) {
@@ -252,7 +243,6 @@ class _DashboardState extends State<Dashboard>
                     // : "$allOnlineRiders Online",
                   );
                 }),
-
                 kSizedBox,
                 Container(
                   padding: const EdgeInsets.all(10),
