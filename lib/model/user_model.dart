@@ -12,8 +12,10 @@ String userModelToJson(UserModel data) => json.encode(data.toJson());
 
 class UserModel {
   int id;
-  String code;
+  String image;
+  double balance;
   String email;
+  String code;
   String phone;
   String username;
   String firstName;
@@ -32,8 +34,6 @@ class UserModel {
   String phoneNumberOfSpouse;
   String license;
   String token;
-  String image;
-  double balance;
   bool isVisibleCash;
   String latitude;
   String longitude;

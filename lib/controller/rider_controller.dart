@@ -27,7 +27,7 @@ class RiderController extends GetxController {
   var isLoadAssign = false.obs;
   var riderList = <RiderItem>[].obs;
   var rider = RiderItem.fromJson(null).obs;
-  var total = 0.obs;
+  var totalRiders = 0.obs;
 
   Future getRiders() async {
     late String token;
@@ -49,7 +49,7 @@ class RiderController extends GetxController {
         return;
       }
 
-      total.value = jsonDecode(responseData)['total'];
+      totalRiders.value = jsonDecode(responseData)['total'];
       List<RiderItem> val = (jsonDecode(responseData)['items'] as List)
           .map((e) => RiderItem.fromJson(e))
           .toList();

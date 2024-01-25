@@ -421,16 +421,16 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                                               size: 17,
                                             ),
                                             const SizedBox(width: 5),
-                                            // Text(
-                                            //   doubleFormattedText(
-                                            //     (widget.business.avgRating),
-                                            //   ),
-                                            //   style: const TextStyle(
-                                            //     color: kBlackColor,
-                                            //     fontSize: 14,
-                                            //     fontWeight: FontWeight.w400,
-                                            //   ),
-                                            // ),
+                                            Text(
+                                              doubleFormattedText(
+                                                (widget.business.averageRating),
+                                              ),
+                                              style: const TextStyle(
+                                                color: kBlackColor,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ),

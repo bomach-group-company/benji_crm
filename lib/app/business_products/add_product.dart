@@ -1,16 +1,16 @@
 // ignore_for_file: file_names, prefer_typing_uninitialized_variables
 
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../controller/api_processor_controller.dart';
-import '../../controller/business_controller.dart';
 import '../../controller/form_controller.dart';
-import '../../controller/product_controller.dart';
 import '../../controller/user_controller.dart';
 import '../../model/business_model.dart';
 import '../../model/product_model.dart';
@@ -20,6 +20,7 @@ import '../../services/api_url.dart';
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/button/my_elevatedButton.dart';
 import '../../src/components/input/message_textformfield.dart';
+import '../../src/components/input/my_blue_textformfield.dart';
 import '../../src/components/input/my_dropdown_menu.dart';
 import '../../src/components/input/my_textformfield.dart';
 import '../../src/providers/constants.dart';
@@ -81,9 +82,7 @@ class _AddProductState extends State<AddProduct> {
   List<ProductTypeModel>? productType;
   var product = ProductModel;
 
-  bool isChecked = false;
-  bool isChecked2 = false;
-  bool isChecked3 = false;
+  bool isAvailable = false;
   // bool categorySelected = false;
   var isToggled;
 
@@ -92,11 +91,11 @@ class _AddProductState extends State<AddProduct> {
   //=========================== IMAGE PICKER ====================================\\
 
   final ImagePicker _picker = ImagePicker();
-  File? selectedImages;
+  File? selectedImage;
 
   //================================== FUNCTIONS ====================================\\
   Future<void> submit() async {
-    if (selectedImages == null) {
+    if (selectedImage == null) {
       ApiProcessorController.errorSnack("Please select product images");
       return;
     }
@@ -108,6 +107,12 @@ class _AddProductState extends State<AddProduct> {
       ApiProcessorController.errorSnack("Please select a category");
       return;
     }
+
+    if (productQuantityEC.text.isEmpty) {
+      ApiProcessorController.errorSnack("Please enter the quantity");
+      return;
+    }
+
     Map data = {
       'name': productNameEC.text,
       'description': productDescriptionEC.text,
@@ -115,25 +120,25 @@ class _AddProductState extends State<AddProduct> {
       'quantity_available': productQuantityEC.text,
       'sub_category_id': productSubCategoryEC.text,
       'product_type': productTypeEC.text,
-      'vendor_id': widget.business.id,
-      'business_id': vendorBusinessEC.text,
-      'is_available': true,
-      'is_recommended': true,
-      'is_trending': true,
+      'vendor_id': widget.business.vendorOwner.id,
+      'business_id': widget.business.id,
+      'is_available': isAvailable,
     };
+
+    log("This is the data: $data");
     await FormController.instance.postAuthstream(
-      Api.baseUrl + Api.addProduct,
+      Api.baseUrl + Api.agentAddProductToVendorBusiness,
       data,
-      {'product_image': selectedImages},
+      {'product_image': selectedImage},
       'addProduct',
     );
-    if (FormController.instance.status.toString().startsWith('2')) {
-      await ProductController.instance.reset();
+    if (FormController.instance.status.toString().startsWith('20')) {
+      // await ProductController.instance.reset();
       // await PushNotificationController.showNotification(
       //   title: "Success",
       //   body: "${productNameEC.text} has been added to your products",
       // );
-      Get.close(1);
+      // Get.close(1);
       // Get.offAll(
       //   () => const OverView(currentIndex: 2),
       //   routeName: 'OverView',
@@ -151,7 +156,7 @@ class _AddProductState extends State<AddProduct> {
       source: source,
     );
     if (image != null) {
-      selectedImages = File(image.path);
+      selectedImage = File(image.path);
       setState(() {});
     }
   }
@@ -305,17 +310,17 @@ class _AddProductState extends State<AddProduct> {
                         ),
                         child: Align(
                           alignment: Alignment.center,
-                          child: selectedImages == null
+                          child: selectedImage == null
                               ? Image.asset(
                                   "assets/icons/image-upload.png",
                                 )
-                              : selectedImages == null
+                              : selectedImage == null
                                   ? const SizedBox()
                                   : GridTile(
                                       child: Container(
                                         decoration: BoxDecoration(
                                           image: DecorationImage(
-                                            image: FileImage(selectedImages!),
+                                            image: FileImage(selectedImage!),
                                           ),
                                         ),
                                       ),
@@ -349,7 +354,7 @@ class _AddProductState extends State<AddProduct> {
                           child: Container(
                             padding: const EdgeInsets.all(10),
                             child: Text(
-                              'Upload product images',
+                              'Upload product image',
                               style: TextStyle(
                                 color: kAccentColor,
                                 fontSize: 16,
@@ -358,45 +363,6 @@ class _AddProductState extends State<AddProduct> {
                             ),
                           ),
                         ),
-                      ),
-                      kSizedBox,
-                      const Text(
-                        'Businesses',
-                        style: TextStyle(
-                          color: kTextBlackColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: -0.32,
-                        ),
-                      ),
-                      kHalfSizedBox,
-                      GetBuilder<BusinessController>(
-                        initState: (state) {
-                          BusinessController.instance.getBusinesses(
-                              widget.business.vendorOwner.id.toString(),
-                              agentId);
-                        },
-                        builder: (controller) {
-                          return MyDropDownMenu(
-                            controller: vendorBusinessEC,
-                            hintText: "E.g Restaurant, Auto Dealer, etc",
-                            dropdownMenuEntries:
-                                controller.listOfBusinesses.isEmpty &&
-                                        controller.isLoad.value
-                                    ? [
-                                        const DropdownMenuEntry(
-                                          value: 'Loading...',
-                                          label: 'Loading...',
-                                          enabled: false,
-                                        )
-                                      ]
-                                    : controller.listOfBusinesses
-                                        .map((item) => DropdownMenuEntry(
-                                            value: item.id,
-                                            label: item.shopName))
-                                        .toList(),
-                          );
-                        },
                       ),
                       kSizedBox,
                       const Text(
@@ -516,6 +482,33 @@ class _AddProductState extends State<AddProduct> {
                         },
                       ),
                       kSizedBox,
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Checkbox(
+                            value: isAvailable,
+                            activeColor: kAccentColor,
+                            checkColor: kPrimaryColor,
+                            mouseCursor: SystemMouseCursors.click,
+                            onChanged: (value) {
+                              setState(() {
+                                isAvailable = !isAvailable;
+                              });
+                            },
+                          ),
+                          Text(
+                            "This product is available",
+                            style: TextStyle(
+                              color:
+                                  isAvailable ? kSuccessColor : kTextBlackColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          )
+                        ],
+                      ),
+                      kSizedBox,
                       const Text(
                         'Quantity',
                         style: TextStyle(
@@ -526,13 +519,18 @@ class _AddProductState extends State<AddProduct> {
                         ),
                       ),
                       kHalfSizedBox,
-                      MyTextFormField(
+                      MyBlueTextFormField(
                         controller: productQuantityEC,
                         focusNode: productQuantityFN,
-                        hintText: "Enter the quantity here",
+                        hintText: isAvailable
+                            ? "Enter the quantity here"
+                            : "Disabled",
                         textInputAction: TextInputAction.next,
                         textInputType: TextInputType.number,
-                        textCapitalization: TextCapitalization.sentences,
+                        isEnabled: isAvailable,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
                         validator: (value) {
                           const quantityPattern = r'^[1-9]\d*$';
 

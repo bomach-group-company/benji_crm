@@ -65,7 +65,7 @@ class MyBlueTextFormField extends StatelessWidget {
       inputFormatters: inputFormatters,
       style: TextStyle(
         color: kSecondaryColor,
-        fontSize: 14,
+        fontSize: 20,
         fontWeight: FontWeight.w400,
       ),
       decoration: InputDecoration(

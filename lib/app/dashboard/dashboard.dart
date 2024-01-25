@@ -216,12 +216,13 @@ class _DashboardState extends State<Dashboard>
                   initState: (state) async {
                     await VendorController.instance.getTotalNumberOfMyVendors();
                   },
-                  builder: (vendor) {
-                    final allVendor = vendor.allMyVendorList.toList();
-
+                  builder: (controller) {
+                    final allVendor = controller.allMyVendorList.toList();
                     return DashboardContainer(
                       onTap: _toSeeMyVendors,
-                      number: intFormattedText(allVendor.length),
+                      number: controller.isLoad.value
+                          ? "Loading..."
+                          : intFormattedText(allVendor.length),
                       typeOf: "My Vendors",
                       onlineStatus: "Online",
                     );
@@ -230,17 +231,14 @@ class _DashboardState extends State<Dashboard>
                 kSizedBox,
                 GetBuilder<RiderController>(initState: (state) async {
                   await RiderController.instance.getRiders();
-                }, builder: (rider) {
-                  final allRider = rider.riderList.toList();
-                  // final allOnlineRiders = rider.riderList
-                  //     .where((p0) => p0.isOnline == true)
-                  //     .toList();
+                }, builder: (controller) {
                   return DashboardContainer(
                     onTap: _toSeeAllRiders,
-                    number: rider.total.value.toString(),
+                    number: controller.isLoad.value
+                        ? "Loading..."
+                        : controller.totalRiders.value.toString(),
                     typeOf: "Riders",
                     onlineStatus: "Online",
-                    // : "$allOnlineRiders Online",
                   );
                 }),
                 kSizedBox,

@@ -3,35 +3,39 @@ import 'dart:developer';
 import '../src/providers/constants.dart';
 import 'business_type_model.dart';
 import 'country_model.dart';
+import 'user_model.dart';
 import 'vendor_model.dart';
 
 class BusinessModel {
   String id;
+  VendorModel vendorOwner;
   CountryModel country;
   String state;
   String city;
-  String address;
   String lga;
-  String shopName;
-  dynamic shopImage;
-  dynamic coverImage;
-  BusinessType shopType;
   String weekOpeningHours;
   String weekClosingHours;
   String satOpeningHours;
   String satClosingHours;
   String sunWeekOpeningHours;
   String sunWeekClosingHours;
-  VendorModel vendorOwner;
-  String latitude;
+  String address;
+  String shopName;
+  BusinessType shopType;
+  dynamic shopImage;
+  dynamic coverImage;
   String longitude;
+  String latitude;
   String businessId;
   String businessBio;
   String accountName;
   String accountNumber;
   String accountType;
   String accountBank;
-  dynamic agent;
+  double averageRating;
+  int numberOfClientsReactions;
+  UserModel agent;
+  dynamic popularity;
 
   BusinessModel({
     required this.id,
@@ -59,7 +63,10 @@ class BusinessModel {
     required this.accountNumber,
     required this.accountType,
     required this.accountBank,
+    required this.averageRating,
+    required this.numberOfClientsReactions,
     required this.agent,
+    required this.popularity,
   });
 
   factory BusinessModel.fromJson(Map<String, dynamic>? json) {
@@ -79,8 +86,8 @@ class BusinessModel {
       coverImage: json['coverImage'] == null || json['coverImage'] == ""
           ? 'https://ibb.co/9NqtrPt'
           : json['coverImage'],
-      shopType: BusinessType.fromJson(json["shop_type"]),
-      vendorOwner: VendorModel.fromJson(json['vendor_owner']),
+      shopType: BusinessType.fromJson(json["shop_type"] ?? {}),
+      vendorOwner: VendorModel.fromJson(json['vendor_owner'] ?? {}),
       weekOpeningHours: json["weekOpeningHours"] ?? notAvailable,
       weekClosingHours: json["weekClosingHours"] ?? notAvailable,
       satOpeningHours: json["satOpeningHours"] ?? notAvailable,
@@ -95,7 +102,10 @@ class BusinessModel {
       accountNumber: json["accountNumber"] ?? notAvailable,
       accountType: json["accountType"] ?? notAvailable,
       accountBank: json["accountBank"] ?? notAvailable,
-      agent: json['agent'],
+      averageRating: json["average_rating"] ?? 0.0,
+      numberOfClientsReactions: json["number_of_clients_reactions"] ?? 0,
+      agent: UserModel.fromJson(json['agent'] ?? {}),
+      popularity: json['popularity'],
     );
   }
 
@@ -125,6 +135,9 @@ class BusinessModel {
         "accountNumber": accountNumber,
         "accountType": accountType,
         "accountBank": accountBank,
-        "agent": agent,
+        "average_rating": averageRating,
+        "number_of_clients_reactions": numberOfClientsReactions,
+        "agent": agent.toJson(),
+        "popularity": popularity,
       };
 }
