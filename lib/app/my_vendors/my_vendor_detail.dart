@@ -1,5 +1,3 @@
-// ignore_for_file: unused_local_variable, unused_element
-
 import 'dart:developer';
 
 import 'package:benji_aggregator/app/businesses/add_business.dart';
@@ -105,7 +103,7 @@ class _MyBusinessDetailPageState extends State<MyBusinessDetailPage>
     });
   }
 
-  void _clickOnTabBarOption(value) async {
+  void clickOnTabBarOption(value) async {
     setState(() {
       tabBar = value;
     });
@@ -131,8 +129,8 @@ class _MyBusinessDetailPageState extends State<MyBusinessDetailPage>
   //=================================== Show Popup Menu =====================================\\
   //Show popup menu
   void showPopupMenu(BuildContext context) {
-    final RenderBox overlay =
-        Overlay.of(context).context.findRenderObject() as RenderBox;
+    // final RenderBox overlay =
+    //     Overlay.of(context).context.findRenderObject() as RenderBox;
     const position = RelativeRect.fromLTRB(10, 60, 0, 0);
 
     showMenu<String>(
@@ -197,11 +195,8 @@ class _MyBusinessDetailPageState extends State<MyBusinessDetailPage>
 
   @override
   Widget build(BuildContext context) {
-    DateTime now = DateTime.now();
-    String formattedDateAndTime = formatDateAndTime(now);
     var media = MediaQuery.of(context).size;
-    double subtotalPrice = calculateSubtotal();
-//==========================================================================\\
+
     return MyLiquidRefresh(
       onRefresh: handleRefresh,
       child: Scaffold(
@@ -579,7 +574,7 @@ class _MyBusinessDetailPageState extends State<MyBusinessDetailPage>
                 //           padding: const EdgeInsets.all(5.0),
                 //           child: TabBar(
                 //             controller: _tabBarController,
-                //             onTap: _clickOnTabBarOption,
+                //             onTap: clickOnTabBarOption,
                 //             splashBorderRadius: BorderRadius.circular(50),
                 //             enableFeedback: true,
                 //             mouseCursor: SystemMouseCursors.click,

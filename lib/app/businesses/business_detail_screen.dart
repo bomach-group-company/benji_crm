@@ -1,3 +1,4 @@
+import 'package:benji_aggregator/app/businesses/edit_business.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -154,6 +155,44 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
     });
   }
 
+  //=================================== Show Popup Menu =====================================\\
+  //Show popup menu
+  void showPopupMenu(BuildContext context) {
+    // final RenderBox overlay =
+    //     Overlay.of(context).context.findRenderObject() as RenderBox;
+    const position = RelativeRect.fromLTRB(10, 60, 0, 0);
+
+    showMenu<String>(
+      context: context,
+      position: position,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      items: [
+        const PopupMenuItem<String>(
+          value: 'edit',
+          child: Text("Edit Business"),
+        ),
+      ],
+    ).then((value) {
+      // Handle the selected value from the popup menu
+      if (value != null) {
+        switch (value) {
+          case 'edit':
+            Get.to(
+              () => EditBusiness(business: widget.business),
+              duration: const Duration(milliseconds: 300),
+              fullscreenDialog: true,
+              curve: Curves.easeIn,
+              routeName: "EditBusiness",
+              preventDuplicates: true,
+              popGesture: true,
+              transition: Transition.rightToLeft,
+            );
+            break;
+        }
+      }
+    });
+  }
+
 //=================================== Navigation =====================================\\
 
   addProduct() => Get.to(
@@ -180,7 +219,15 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
               : "Business Details",
           elevation: 0.0,
           backgroundColor: kPrimaryColor,
-          actions: const [],
+          actions: [
+            IconButton(
+              onPressed: () => showPopupMenu(context),
+              icon: FaIcon(
+                FontAwesomeIcons.ellipsisVertical,
+                color: kAccentColor,
+              ),
+            ),
+          ],
         ),
         floatingActionButton: isScrollToTopBtnVisible
             ? FloatingActionButton(
