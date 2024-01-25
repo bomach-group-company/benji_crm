@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
+import '../../controller/user_controller.dart';
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/container/business_container.dart';
 import '../../src/components/section/dashboard_businesses_display_controller.dart';
@@ -41,9 +42,10 @@ class _MyBusinessDetailPageState extends State<MyBusinessDetailPage>
   void initState() {
     super.initState();
 
-    BusinessController.instance.getBusinesses(widget.vendor.id.toString());
     BusinessController.instance
-        .getTotalNumberOfBusinesses(widget.vendor.id.toString());
+        .getBusinesses(widget.vendor.id.toString(), agentId);
+    BusinessController.instance
+        .getTotalNumberOfBusinesses(widget.vendor.id.toString(), agentId);
     log("Vendor ID: ${widget.vendor.id} Longitude: ${widget.vendor.longitude} Latitude: ${widget.vendor.latitude}");
     scrollController.addListener(_scrollListener);
     _tabBarController = TabController(length: 2, vsync: this);
@@ -63,6 +65,7 @@ class _MyBusinessDetailPageState extends State<MyBusinessDetailPage>
   bool isScrollToTopBtnVisible = false;
   bool showBusinesses = true;
   int tabBar = 0;
+  var agentId = UserController.instance.user.value.id;
 
   //=================================== Orders =======================================\\
   final int _orderQuantity = 2;
@@ -94,9 +97,9 @@ class _MyBusinessDetailPageState extends State<MyBusinessDetailPage>
     });
 
     await BusinessController.instance
-        .getBusinesses(widget.vendor.id.toString());
+        .getBusinesses(widget.vendor.id.toString(), agentId);
     await BusinessController.instance
-        .getTotalNumberOfBusinesses(widget.vendor.id.toString());
+        .getTotalNumberOfBusinesses(widget.vendor.id.toString(), agentId);
     setState(() {
       loadingScreen = false;
     });

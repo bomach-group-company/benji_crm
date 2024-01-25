@@ -25,7 +25,8 @@ class BusinessController extends GetxController {
   var loadedAllBusinesses = false.obs;
   var isLoadMoreBusinesses = false.obs;
 
-  Future<void> scrollListenerMyVendor(scrollController, String vendorId) async {
+  Future<void> scrollListenerMyVendor(
+      scrollController, String vendorId, agentId) async {
     if (BusinessController.instance.loadedAllBusinesses.value) {
       return;
     }
@@ -34,17 +35,18 @@ class BusinessController extends GetxController {
         !scrollController.position.outOfRange) {
       BusinessController.instance.isLoadMoreBusinesses.value = true;
       update();
-      await BusinessController.instance.getBusinesses(vendorId);
+      await BusinessController.instance.getBusinesses(vendorId, agentId);
     }
   }
 
-  Future getBusinesses(String vendorId) async {
+  Future getBusinesses(String vendorId, agentId) async {
     isLoad.value = true;
 
     late String token;
     token = UserController.instance.user.value.token;
 
-    var url = Api.baseUrl + Api.getVendorBusinesses + vendorId;
+    var url = "${Api.baseUrl}${Api.getVendorBusinesses}$vendorId/$agentId";
+    log(url);
     loadNumBusinesses.value += 10;
 
     List<BusinessModel> data = [];
@@ -76,13 +78,14 @@ class BusinessController extends GetxController {
     update();
   }
 
-  Future getTotalNumberOfBusinesses(String vendorId) async {
+  Future getTotalNumberOfBusinesses(String vendorId, agentId) async {
     isLoad.value = true;
 
     late String token;
     token = UserController.instance.user.value.token;
 
-    var url = Api.baseUrl + Api.getVendorBusinesses + vendorId;
+    var url = "${Api.baseUrl}${Api.getVendorBusinesses}$vendorId/$agentId";
+
     loadNumBusinesses.value += 10;
 
     List<BusinessModel> data = [];

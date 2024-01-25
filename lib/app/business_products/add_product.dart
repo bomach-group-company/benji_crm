@@ -11,6 +11,7 @@ import '../../controller/api_processor_controller.dart';
 import '../../controller/business_controller.dart';
 import '../../controller/form_controller.dart';
 import '../../controller/product_controller.dart';
+import '../../controller/user_controller.dart';
 import '../../model/business_model.dart';
 import '../../model/product_model.dart';
 import '../../model/product_type_model.dart';
@@ -48,7 +49,9 @@ class _AddProductState extends State<AddProduct> {
       setState(() {});
     });
   }
+
   //============================= ALL VARIABLES =====================================\\
+  var agentId = UserController.instance.user.value.id;
 
   //===================== GLOBAL KEYS =======================\\
   final formKey = GlobalKey<FormState>();
@@ -370,7 +373,8 @@ class _AddProductState extends State<AddProduct> {
                       GetBuilder<BusinessController>(
                         initState: (state) {
                           BusinessController.instance.getBusinesses(
-                              widget.business.vendorOwner.id.toString());
+                              widget.business.vendorOwner.id.toString(),
+                              agentId);
                         },
                         builder: (controller) {
                           return MyDropDownMenu(

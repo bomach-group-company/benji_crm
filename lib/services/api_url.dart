@@ -39,7 +39,7 @@ class Api {
   static const createThirdPartyVendor = "/agents/agentCreateThirdPartyVendor/";
 
   //Businesses
-  static const getVendorBusinesses = "/vendors/getVendorBusinesses/";
+  static const getVendorBusinesses = "/agents/getVendorBusinesses/";
   static const agentCreateVendorBusiness = "/agents/agentCreateVendorBusiness/";
 
   //Products
