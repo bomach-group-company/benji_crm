@@ -1,6 +1,8 @@
 // ignore_for_file: empty_catches
 
 import 'dart:convert';
+import 'dart:developer';
+import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -30,7 +32,7 @@ class ProductController extends GetxController {
     loadNum.value = 10;
   }
 
-  Future<void> scrollListener(scrollController) async {
+  Future<void> scrollListener(scrollController, businessId) async {
     if (ProductController.instance.loadedAll.value) {
       return;
     }
@@ -39,7 +41,7 @@ class ProductController extends GetxController {
         !scrollController.position.outOfRange) {
       ProductController.instance.isLoadMore.value = true;
       update();
-      await ProductController.instance.getBusinessProducts();
+      await ProductController.instance.getBusinessProducts(businessId);
     }
   }
 
@@ -50,14 +52,14 @@ class ProductController extends GetxController {
     update();
   }
 
-  refreshData() {
+  refreshData(businessId) {
     loadedAll.value = false;
     loadNum.value = 10;
     products.value = [];
-    getBusinessProducts();
+    getBusinessProducts(businessId);
   }
 
-  Future<void> getBusinessProducts() async {
+  Future<void> getBusinessProducts(String businessId) async {
     if (loadedAll.value) {
       return;
     }
@@ -65,9 +67,13 @@ class ProductController extends GetxController {
     isLoad.value = true;
 
     late String token;
-    String id = UserController.instance.user.value.id.toString();
+    String id = businessId;
+    log("Got here!");
+
     var url =
-        "${Api.baseUrl}/vendors/$id/listMyProducts?start=${loadNum.value - 10}&end=${loadNum.value}";
+        "${Api.baseUrl}/vendors/$id/listMyBusinessProducts?start=${loadNum.value - 10}&end=${loadNum.value}";
+    log(url);
+    log("Got here!!");
     loadNum.value += 10;
     token = UserController.instance.user.value.token;
     http.Response? response = await HandleData.getApi(url, token);
@@ -85,7 +91,10 @@ class ProductController extends GetxController {
           .map((e) => ProductModel.fromJson(e))
           .toList();
       consoleLog(data.toString());
-      products.value += data;
+      products.value = data;
+    } on SocketException {
+      ApiProcessorController.errorSnack("Please connect to the internet");
+      getBusinessProducts(businessId);
     } catch (e) {
       consoleLog(e.toString());
     }

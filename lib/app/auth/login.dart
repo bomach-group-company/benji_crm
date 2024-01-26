@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, use_build_context_synchronously
 
 import 'package:benji_aggregator/controller/login_controller.dart';
-import 'package:benji_aggregator/src/components/button/my_elevatedButton.dart';
+import 'package:benji_aggregator/src/components/button/my_elevatedbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:get/get.dart';

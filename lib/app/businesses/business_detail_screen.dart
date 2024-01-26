@@ -17,6 +17,7 @@ import '../../src/responsive/responsive_constant.dart';
 import '../../theme/colors.dart';
 import '../business_products/add_product.dart';
 import '../business_products/business_products.dart';
+import '../orders/orders.dart';
 import 'about_business.dart';
 import 'business_location.dart';
 
@@ -38,6 +39,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
   @override
   void initState() {
     super.initState();
+
     scrollController.addListener(scrollListener);
     _tabBarController = TabController(length: 3, vsync: this);
   }
@@ -56,7 +58,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
     setState(() {
       refreshing = true;
     });
-    await ProductController.instance.getBusinessProducts();
+    await ProductController.instance.getBusinessProducts(widget.business.id);
     await OrderController.instance.getOrders();
     await ReviewsController.instance.getReviews();
     setState(() {
@@ -561,8 +563,9 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                 refreshing
                     ? Center(
                         child: CircularProgressIndicator(
-                        color: kAccentColor,
-                      ))
+                          color: kAccentColor,
+                        ),
+                      )
                     : Container(
                         padding: deviceType(media.width) > 2
                             ? const EdgeInsets.symmetric(horizontal: 20)
@@ -572,7 +575,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                                 business: widget.business,
                               )
                             : selectedtabbar == 1
-                                ? const SizedBox()
+                                ? const Orders()
                                 : AboutBusiness(
                                     business: widget.business,
                                   ),

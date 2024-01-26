@@ -33,8 +33,6 @@ class Api {
   static const createVendor = "/agents/agentCreateVendor/";
   static const createVendorOtherBusiness =
       "/vendors/createVendorOtherBusiness/";
-
-//Vendor
   static const agentAddProductToVendor = '/agents/agentAddProductToVendor';
   static const createThirdPartyVendor = "/agents/agentCreateThirdPartyVendor/";
 
@@ -50,6 +48,8 @@ class Api {
 
   //order
   static const orderList = "/agents/getTotalNumberOfMyVendorsOrders/";
+  static const changeOrderStatus = "/orders/vendorChangeStatus";
+  static const vendorsOrderList = "/vendors/";
 
   //Rider
   static const riderList = "/agents/listAllRiders";

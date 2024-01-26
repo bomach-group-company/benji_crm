@@ -26,6 +26,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app/splash_screens/splash_screen.dart';
 import 'controller/login_controller.dart';
+import 'controller/reviews_controller.dart';
 import 'controller/user_controller.dart';
 import 'theme/app theme.dart';
 
@@ -61,6 +62,7 @@ void main() async {
   Get.put(UrlLaunchController());
   Get.put(SendPackageController());
   Get.put(CategoryController());
+  Get.put(ReviewsController());
 
   runApp(const MyApp());
 }

@@ -221,7 +221,7 @@ class _DashboardState extends State<Dashboard>
                     return DashboardContainer(
                       onTap: _toSeeMyVendors,
                       number: controller.isLoad.value
-                          ? "Loading..."
+                          ? "..."
                           : intFormattedText(allVendor.length),
                       typeOf: "My Vendors",
                       onlineStatus: "Online",
@@ -235,7 +235,7 @@ class _DashboardState extends State<Dashboard>
                   return DashboardContainer(
                     onTap: _toSeeAllRiders,
                     number: controller.isLoad.value
-                        ? "Loading..."
+                        ? "..."
                         : controller.totalRiders.value.toString(),
                     typeOf: "Riders",
                     onlineStatus: "Online",

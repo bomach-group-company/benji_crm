@@ -23,7 +23,7 @@ import '../../../src/providers/constants.dart';
 import '../../controller/latlng_detail_controller.dart';
 import '../../controller/vendor_controller.dart';
 import '../../model/create_vendor_model.dart';
-import '../../src/components/button/my_elevatedButton.dart';
+import '../../src/components/button/my_elevatedbutton.dart';
 import '../../src/components/input/my_blue_textformfield.dart';
 import '../../src/components/input/my_intl_phonefield.dart';
 import '../../src/components/input/my_maps_textformfield.dart';

@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../controller/api_processor_controller.dart';
 import '../../controller/form_controller.dart';
+import '../../controller/product_controller.dart';
 import '../../controller/user_controller.dart';
 import '../../model/business_model.dart';
 import '../../model/product_model.dart';
@@ -18,7 +19,7 @@ import '../../model/product_type_model.dart';
 import '../../model/sub_category.dart';
 import '../../services/api_url.dart';
 import '../../src/components/appbar/my_appbar.dart';
-import '../../src/components/button/my_elevatedButton.dart';
+import '../../src/components/button/my_elevatedbutton.dart';
 import '../../src/components/input/message_textformfield.dart';
 import '../../src/components/input/my_blue_textformfield.dart';
 import '../../src/components/input/my_dropdown_menu.dart';
@@ -133,21 +134,12 @@ class _AddProductState extends State<AddProduct> {
       'addProduct',
     );
     if (FormController.instance.status.toString().startsWith('20')) {
-      // await ProductController.instance.reset();
+      await ProductController.instance.refreshData(widget.business.id);
       // await PushNotificationController.showNotification(
       //   title: "Success",
       //   body: "${productNameEC.text} has been added to your products",
       // );
-      // Get.close(1);
-      // Get.offAll(
-      //   () => const OverView(currentIndex: 2),
-      //   routeName: 'OverView',
-      //   duration: const Duration(milliseconds: 300),
-      //   fullscreenDialog: true,
-      //   curve: Curves.easeIn,
-      //   popGesture: true,
-      //   transition: Transition.rightToLeft,
-      // );
+      Get.close(1);
     }
   }
 
@@ -562,14 +554,18 @@ class _AddProductState extends State<AddProduct> {
                         controller: productDescriptionEC,
                         focusNode: productDescriptionFN,
                         hintText: "Enter the description here",
-                        textInputAction: TextInputAction.done,
-                        keyboardType: TextInputType.text,
+                        textInputAction: TextInputAction.newline,
+                        keyboardType: TextInputType.multiline,
                         maxLines: 10,
                         maxLength: 1000,
                         validator: (value) {
                           if (value == null || value!.isEmpty) {
                             productDescriptionFN.requestFocus();
                             return "Enter the product name";
+                          }
+                          if (productDescriptionEC.text.length < 3) {
+                            productDescriptionFN.requestFocus();
+                            return "The description is too short";
                           }
                           return null;
                         },

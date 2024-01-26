@@ -24,26 +24,34 @@ class AuthController extends GetxController {
   }
 
   Future checkAuth() async {
-    if (await isAuthorized()) {
-      Get.offAll(
-        () => const OverView(),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "OverView",
-        predicate: (route) => false,
-        popGesture: false,
-        transition: Transition.cupertinoDialog,
-      );
-    } else {
-      Get.offAll(
-        () => const Login(),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "Login",
-        predicate: (route) => false,
-        popGesture: false,
-        transition: Transition.cupertinoDialog,
-      );
+    try {
+      if (await isAuthorized()) {
+        Get.offAll(
+          () => const OverView(),
+          fullscreenDialog: true,
+          curve: Curves.easeIn,
+          routeName: "OverView",
+          predicate: (route) => false,
+          popGesture: false,
+          transition: Transition.cupertinoDialog,
+        );
+      } else {
+        Get.offAll(
+          () => const Login(),
+          fullscreenDialog: true,
+          curve: Curves.easeIn,
+          routeName: "Login",
+          predicate: (route) => false,
+          popGesture: false,
+          transition: Transition.cupertinoDialog,
+        );
+      }
+    } on SocketException {
+      ApiProcessorController.errorSnack("Please connect to the internet");
+      checkAuth;
+    } catch (e) {
+      log(e.toString());
+      ApiProcessorController.errorSnack("Error: $e");
     }
   }
 

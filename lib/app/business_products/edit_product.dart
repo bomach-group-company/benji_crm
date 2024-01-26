@@ -18,14 +18,13 @@ import '../../model/product_type_model.dart';
 import '../../model/sub_category.dart';
 import '../../services/api_url.dart';
 import '../../src/components/appbar/my_appbar.dart';
-import '../../src/components/button/my_elevatedButton.dart';
+import '../../src/components/button/my_elevatedbutton.dart';
 import '../../src/components/image/my_image.dart';
 import '../../src/components/input/message_textformfield.dart';
 import '../../src/components/input/my_dropdown_menu.dart';
 import '../../src/components/input/my_textformfield.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
-import '../overview/overview.dart';
 
 class EditProduct extends StatefulWidget {
   final ProductModel product;
@@ -94,12 +93,12 @@ class _EditProductState extends State<EditProduct> {
   //=========================== IMAGE PICKER ====================================\\
 
   final ImagePicker picker = ImagePicker();
-  File? selectedImages;
+  File? selectedImage;
   String? productImages;
 
   //================================== FUNCTIONS ====================================\\
   Future<void> submit() async {
-    // if (selectedImages == null && productImages!.isEmpty) {
+    // if (selectedImage == null && productImages!.isEmpty) {
     //   ApiProcessorController.errorSnack("Please select product images");
     // }
     if (subCategoryEC.text.isEmpty) {
@@ -117,31 +116,23 @@ class _EditProductState extends State<EditProduct> {
     // await FormController.instance.postAuthstream(
     //   Api.baseUrl + Api.changeProduct + widget.product.id,
     //   data,
-    //   {'product_image': selectedImages},
+    //   {'product_image': selectedImage},
     //   'editProduct',
     // );
     await FormController.instance.postAuthstream(
       Api.baseUrl + Api.changeProduct + widget.product.id,
       {'data': jsonEncode(data)}, // Wrap 'data' in a Map
-      {'product_image': selectedImages},
+      {'product_image': selectedImage},
       'editProduct',
     );
     if (FormController.instance.status.toString().startsWith('2')) {
-      ProductController.instance.refreshData();
+      ProductController.instance.refreshData(widget.product.business.id);
       // await PushNotificationController.showNotification(
       //   title: "Success.",
       //   body: "${productNameEC.text} has been been successfully updated.",
       // );
 
-      Get.offAll(
-        () => const OverView(currentIndex: 2),
-        routeName: 'OverView',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+      Get.close(1);
     }
   }
 
@@ -150,7 +141,7 @@ class _EditProductState extends State<EditProduct> {
       source: source,
     );
     if (image != null) {
-      selectedImages = File(image.path);
+      selectedImage = File(image.path);
       setState(() {});
     }
   }
@@ -166,7 +157,7 @@ class _EditProductState extends State<EditProduct> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           const Text(
-            "Upload Product Images",
+            "Upload Product Image",
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
@@ -254,7 +245,7 @@ class _EditProductState extends State<EditProduct> {
       child: Scaffold(
         backgroundColor: kPrimaryColor,
         appBar: MyAppBar(
-          title: "Edit Product ",
+          title: "Edit Product",
           backgroundColor: kPrimaryColor,
           elevation: 0,
           actions: const [],
@@ -286,7 +277,7 @@ class _EditProductState extends State<EditProduct> {
             children: [
               Column(
                 children: [
-                  selectedImages == null
+                  selectedImage == null
                       ? Container(
                           width: media.width,
                           height: 144,
@@ -315,7 +306,7 @@ class _EditProductState extends State<EditProduct> {
                               height: 144,
                               decoration: BoxDecoration(
                                 image: DecorationImage(
-                                  image: FileImage(selectedImages!),
+                                  image: FileImage(selectedImage!),
                                 ),
                               ),
                             ),

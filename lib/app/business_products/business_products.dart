@@ -27,7 +27,6 @@ class BusinessProducts extends StatefulWidget {
 class _BusinessProductsState extends State<BusinessProducts> {
   @override
   void initState() {
-    ProductController.instance.getBusinessProducts();
     super.initState();
   }
 
@@ -70,6 +69,9 @@ class _BusinessProductsState extends State<BusinessProducts> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           GetBuilder<ProductController>(
+            init: ProductController(),
+            initState: (state) => ProductController.instance
+                .getBusinessProducts(widget.business.id),
             builder: (controller) {
               if (controller.isLoad.value) {
                 return Center(

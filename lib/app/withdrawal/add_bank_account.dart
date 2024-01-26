@@ -4,7 +4,7 @@ import 'package:benji_aggregator/controller/withdraw_controller.dart';
 import 'package:benji_aggregator/model/validate_bank_account.dart';
 import 'package:benji_aggregator/services/api_url.dart';
 import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
-import 'package:benji_aggregator/src/components/button/my_elevatedButton.dart';
+import 'package:benji_aggregator/src/components/button/my_elevatedbutton.dart';
 import 'package:benji_aggregator/src/components/input/my_blue_textformfield.dart';
 import 'package:benji_aggregator/src/components/input/my_textformfield.dart';
 import 'package:flutter/material.dart';

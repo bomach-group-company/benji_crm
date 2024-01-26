@@ -23,7 +23,7 @@ import '../../model/business_model.dart';
 import '../../services/api_url.dart';
 import '../../services/helper.dart';
 import '../../src/components/appbar/my_appbar.dart';
-import '../../src/components/button/my_elevatedButton.dart';
+import '../../src/components/button/my_elevatedbutton.dart';
 import '../../src/components/image/my_image.dart';
 import '../../src/components/input/message_textformfield.dart';
 import '../../src/components/input/my_blue_textformfield.dart';
@@ -595,6 +595,8 @@ class _EditBusinessState extends State<EditBusiness> {
                   children: [
                     selectedLogoImage == null
                         ? Container(
+                            width: 120,
+                            height: 120,
                             padding: const EdgeInsets.all(kDefaultPadding),
                             decoration: const ShapeDecoration(
                               shape: CircleBorder(
@@ -612,7 +614,7 @@ class _EditBusinessState extends State<EditBusiness> {
                             decoration: ShapeDecoration(
                               image: DecorationImage(
                                 image: FileImage(selectedLogoImage!),
-                                fit: BoxFit.cover,
+                                fit: BoxFit.contain,
                               ),
                               shape: RoundedRectangleBorder(
                                 side: const BorderSide(
@@ -661,7 +663,7 @@ class _EditBusinessState extends State<EditBusiness> {
                     selectedCoverImage == null
                         ? Container(
                             padding: const EdgeInsets.all(20),
-                            height: deviceType(media.width) > 2 ? 200 : 120,
+                            height: deviceType(media.width) > 2 ? 220 : 180,
                             decoration: ShapeDecoration(
                               shape: RoundedRectangleBorder(
                                 side: const BorderSide(

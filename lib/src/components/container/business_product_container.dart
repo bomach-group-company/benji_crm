@@ -31,7 +31,6 @@ class _BusinessProductContainerState extends State<BusinessProductContainer> {
       onTap: widget.onTap,
       borderRadius: BorderRadius.circular(12),
       child: Container(
-        margin: const EdgeInsets.symmetric(vertical: kDefaultPadding / 2.5),
         width: media.width,
         decoration: ShapeDecoration(
           color: kPrimaryColor,

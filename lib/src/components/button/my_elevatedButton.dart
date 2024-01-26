@@ -2,25 +2,31 @@
 
 import 'package:flutter/material.dart';
 
-import '../../../theme/colors.dart';
+import '../../../../theme/colors.dart';
 
 class MyElevatedButton extends StatelessWidget {
   final String title;
   final Function()? onPressed;
   final bool isLoading;
+  final bool disable;
 
   const MyElevatedButton({
     super.key,
     required this.title,
     required this.onPressed,
     this.isLoading = false,
+    this.disable = false,
   });
 
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
     return ElevatedButton(
-      onPressed: isLoading ? null : onPressed,
+      onPressed: disable
+          ? null
+          : isLoading
+              ? null
+              : onPressed,
       style: ElevatedButton.styleFrom(
         disabledBackgroundColor: kAccentColor.withOpacity(0.5),
         backgroundColor: kAccentColor,

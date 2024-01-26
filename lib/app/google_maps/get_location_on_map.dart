@@ -14,7 +14,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../controller/latlng_detail_controller.dart';
 import '../../src/components/appbar/my_appbar.dart';
-import '../../src/components/button/my_elevatedButton.dart';
+import '../../src/components/button/my_elevatedbutton.dart';
 import '../../src/components/input/my_textformfield.dart';
 import '../../src/googleMaps/location_service.dart';
 import '../../src/providers/constants.dart';
