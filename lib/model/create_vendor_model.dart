@@ -1,48 +1,34 @@
 import 'dart:io';
 
 class SendCreateModel {
-  File? coverImage;
   File? profileImage;
-  String? personaId;
-  String? businessId;
-  String? businessName;
-  String? businessType;
-  String? businessEmail;
-  String? businessPhone;
-  String? bussinessAddress;
+  String? email;
+  String? phoneNumber;
+  String? personalID;
+  String? address;
   String? country;
   String? state;
   String? city;
-  String? openHours;
-  String? closeHours;
-  String? satOpenHours;
-  String? satCloseHours;
-  String? sunOpenHours;
-  String? sunCloseHours;
-  String? businessBio;
   String? latitude;
   String? longitude;
+  String? firstName;
+  String? lastName;
+  String? lga;
+  String? gender;
   SendCreateModel({
-    this.coverImage,
-    this.businessBio,
     this.profileImage,
-    this.personaId,
-    this.businessId,
-    this.businessName,
-    this.businessType,
-    this.businessEmail,
-    this.businessPhone,
-    this.bussinessAddress,
+    this.email,
+    this.phoneNumber,
+    this.personalID,
+    this.address,
     this.country,
     this.state,
     this.city,
-    this.openHours,
-    this.closeHours,
-    this.satOpenHours,
-    this.satCloseHours,
-    this.sunOpenHours,
-    this.sunCloseHours,
+    this.gender,
     this.latitude,
     this.longitude,
+    this.firstName,
+    this.lastName,
+    this.lga,
   });
 }

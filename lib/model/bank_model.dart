@@ -1,42 +1,41 @@
-import '../src/providers/constants.dart';
+import 'package:benji_aggregator/src/providers/constants.dart';
 
 class BankModel {
   String name;
-  String bankCode;
-  String cbnCode;
-  String bankShortName;
-  String ussdCode;
-  String logo;
+  String code;
+  String ussdTemplate;
+  String baseUssdCode;
+  String transferUssdTemplate;
+  // String logo;
 
   BankModel({
     required this.name,
-    required this.bankCode,
-    required this.cbnCode,
-    required this.bankShortName,
-    required this.ussdCode,
-    required this.logo,
+    required this.code,
+    required this.ussdTemplate,
+    required this.baseUssdCode,
+    required this.transferUssdTemplate,
+    // required this.logo,
   });
 
   factory BankModel.fromJson(Map<String, dynamic>? json) {
     json ??= {};
     return BankModel(
       name: json['name'] ?? notAvailable,
-      bankCode: json['bank_code'] ?? notAvailable,
-      cbnCode: json['cbn_code'] ?? notAvailable,
-      ussdCode: json['ussd_code'] ?? notAvailable,
-      logo: json['logo'] ?? notAvailable,
-      bankShortName: json['bank_short_name'] ?? notAvailable,
+      code: json['code'] ?? notAvailable,
+      ussdTemplate: json['ussdTemplate'] ?? notAvailable,
+      baseUssdCode: json['baseUssdCode'] ?? notAvailable,
+      // logo: json['logo'] ?? notAvailable,
+      transferUssdTemplate: json['transferUssdTemplate'] ?? notAvailable,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'name': name,
-      'bank_code': bankCode,
-      'cbn_code': cbnCode,
-      'logo': logo,
-      'bank_short_name': bankShortName,
-      'ussd_code': ussdCode,
+      'code': code,
+      'ussdTemplate': ussdTemplate,
+      'baseUssdCode': baseUssdCode,
+      'transferUssdTemplate': transferUssdTemplate,
     };
   }
 

@@ -1,40 +1,18 @@
-import 'package:benji_aggregator/controller/category_controller.dart';
-import 'package:benji_aggregator/controller/form_controller.dart';
-import 'package:benji_aggregator/controller/latlng_detail_controller.dart';
-import 'package:benji_aggregator/controller/order_controller.dart';
-import 'package:benji_aggregator/controller/rider_history_controller.dart';
+import 'package:benji_aggregator/controller/account_controller.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
 
-import '../../controller/notification_controller.dart';
-import '../../controller/profile_controller.dart';
-import '../../controller/rider_controller.dart';
-import '../../controller/user_controller.dart';
-import '../../controller/withdraw_controller.dart';
 import '../../theme/colors.dart';
 import '../dashboard/dashboard.dart';
+import '../my_vendors/my_vendors.dart';
 import '../profile/profile.dart';
 import '../riders/riders.dart';
-import '../vendors/vendors.dart';
 
 class OverView extends StatefulWidget {
-  final user = Get.put(UserController());
-  final userProfile = Get.put(ProfileController());
-  final vendor = Get.put(VendorController());
-  final notiication = Get.put(NotificationController());
-  final ride = Get.put(RiderController());
-  final order = Get.put(OrderController());
-  final category = Get.put(CategoryController());
-  final riderHistory = Get.put(RiderHistoryController());
-  final location = Get.put(LatLngDetailController());
-  final form = Get.put(FormController());
-  final banks = Get.put(WithdrawController());
-
   final int currentIndex;
 
-  OverView({super.key, this.currentIndex = 0});
+  const OverView({super.key, this.currentIndex = 0});
 
   @override
   State<OverView> createState() => _OverViewState();
@@ -49,7 +27,8 @@ class _OverViewState extends State<OverView> {
   @override
   void initState() {
     _currentIndex = widget.currentIndex;
-
+    AccountController().getAccounts();
+    VendorController().getMyVendors();
     super.initState();
   }
 
@@ -72,7 +51,7 @@ class _OverViewState extends State<OverView> {
     //===================================== PAGINATION =================================================\\
     final List<Widget> pages = [
       Dashboard(showNavigation: showNav, hideNavigation: hideNav),
-      Vendors(showNavigation: showNav, hideNavigation: hideNav),
+      MyVendors(showNavigation: showNav, hideNavigation: hideNav),
       Riders(showNavigation: showNav, hideNavigation: hideNav),
       const Profile(),
     ];

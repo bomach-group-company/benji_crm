@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:path/path.dart';
 
 import '../model/create_vendor_model.dart';
 
@@ -18,10 +19,10 @@ class Api {
   static const user = "/auth/";
   static const notification = "/agents/getAgentNotifications/";
   static const changePassword = "/auth/changeNewPassword/";
+  static const validateBankNumber = "/payments/validateBankNumbers/";
 
 //Vendor
-  static const vendorList = "/agents/listAllMyVendors";
-  static const vendorMyList = "/agents/listThirdPartyMyVendor";
+  static const vendorMyList = "/agents/listAllMyVendors";
   static const agentCreateVendor = "/agents/agentCreateVendor";
   static const getSpecificVendor = "/agents/getVendor/";
   static const getVendorProducts = "/agents/listVendorProducts/";
@@ -32,14 +33,23 @@ class Api {
   static const createVendor = "/agents/agentCreateVendor/";
   static const createVendorOtherBusiness =
       "/vendors/createVendorOtherBusiness/";
-
   static const agentAddProductToVendor = '/agents/agentAddProductToVendor';
+  static const createThirdPartyVendor = "/agents/agentCreateThirdPartyVendor/";
 
-  static const createThirdPartyVendor =
-      "/api/v1/agents/agentCreateThirdPartyVendor/";
+  //Businesses
+  static const getVendorBusinesses = "/agents/getVendorBusinesses/";
+  static const agentCreateVendorBusiness = "/agents/agentCreateVendorBusiness/";
+
+  //Products
+  static const agentAddProductToVendorBusiness =
+      "/agents/agentAddProductToVendorBusiness";
+  static const changeProduct = "/products/changeProduct/";
+  static const deleteProduct = "/products/deleteProduct/";
 
   //order
-  static const orderList = "/agents/getAllMyVendorsOrders/";
+  static const orderList = "/agents/getTotalNumberOfMyVendorsOrders/";
+  static const changeOrderStatus = "/orders/vendorChangeStatus";
+  static const vendorsOrderList = "/vendors/";
 
   //Rider
   static const riderList = "/agents/listAllRiders";
@@ -53,10 +63,20 @@ class Api {
   static const businessType = "/categories/list";
 
   //Wallet
-  static const listBanks = "/wallet/list_banks";
+  static const listBanks = "/payments/list_banks/";
   static const withdrawalHistory = "/wallet/withdrawalHistory/";
   static const listWithdrawalHistories =
       "/withdrawalhistory/listWithdrawalHistories/";
+
+  //Item Packages
+  static const getPackageCategory = "/sendPackage/getPackageCategory/";
+  static const getPackageWeight = "/sendPackage/getPackageWeight/";
+  static const createItemPackage = "/sendPackage/createItemPackage/";
+  static const dispatchPackage = "/sendPackage/changePackageStatus";
+  static const reportPackage = "/clients/clientReportPackage/";
+
+  //Payments
+  static const getDeliveryFee = "/payments/getdeliveryfee/";
 }
 
 String header = "application/json";
@@ -128,7 +148,7 @@ class HandleData {
       url, token, SendCreateModel data, bool vendorClassifier) async {
     http.StreamedResponse? response;
 
-    //  final filePhotoName = basename(data.image!.path);
+    final filePhotoName = basename(data.profileImage!.path);
 
     var request = http.MultipartRequest("POST", Uri.parse(url));
     Map<String, String> headers = {
@@ -137,34 +157,29 @@ class HandleData {
       'authorization': 'Bearer $token',
     };
 
-    // var file = await http.MultipartFile.fromPath('image', data.image!.path,
-    //     filename: filePhotoName);
+    var file = await http.MultipartFile.fromPath(
+        'image', data.profileImage!.path,
+        filename: filePhotoName);
 
     request.headers.addAll(headers);
 
-    request.fields["email"] = data.businessEmail!.toString();
-    request.fields["phone"] = data.businessPhone!.toString();
-    request.fields["address"] = data.bussinessAddress!.toString();
-    request.fields["shop_name"] = data.businessName!.toString();
+    request.fields["email"] = data.email!.toString();
+    request.fields["phone"] = data.phoneNumber!.toString();
+    request.fields["address"] = data.address!.toString();
 
-    request.fields["shop_type"] = data.businessType!.toString();
-    request.fields["weekOpeningHours"] = data.openHours!.toString();
-    request.fields["weekClosingHours"] = data.closeHours!.toString();
-    request.fields["satOpeningHours"] = data.satOpenHours!.toString();
-    request.fields["satClosingHours"] = data.satCloseHours!.toString();
-    request.fields["sunWeekOpeningHours"] = data.sunOpenHours!.toString();
-
-    request.fields["sunWeekClosingHours"] = data.sunCloseHours!.toString();
-
-    request.fields["personalId"] = data.personaId!.toString();
-    request.fields["businessId"] = data.businessId!.toString();
-    request.fields["businessBio"] = data.businessBio!.toString();
     request.fields["city"] = data.city!.toString();
 
+    request.fields["first_name"] = data.firstName!.toString();
+    request.fields["last_name"] = data.lastName!.toString();
+    request.fields["gender"] = data.gender!.toString();
+    request.fields["lga"] = data.lga!.toString();
+    request.fields["personalId"] = data.personalID!.toString();
     request.fields["state"] = data.state!.toString();
     request.fields["country"] = data.country!.toString();
+    request.fields["latitude"] = data.latitude!.toString();
+    request.fields["longitude"] = data.longitude!.toString();
     request.fields["vendorClassifier"] = vendorClassifier.toString();
-    //  request.files.add(file);
+    request.files.add(file);
     try {
       response = await request.send();
     } catch (e) {
@@ -192,22 +207,9 @@ class HandleData {
 
     request.headers.addAll(headers);
 
-    request.fields["email"] = data.businessEmail!.toString();
-    request.fields["phone"] = data.businessPhone!.toString();
-    request.fields["address"] = data.bussinessAddress!.toString();
-    request.fields["shop_name"] = data.businessName!.toString();
-
-    request.fields["shop_type"] = data.businessType!.toString();
-    request.fields["weekOpeningHours"] = data.openHours!.toString();
-    request.fields["weekClosingHours"] = data.closeHours!.toString();
-    request.fields["satOpeningHours"] = data.satOpenHours!.toString();
-    request.fields["satClosingHours"] = data.satCloseHours!.toString();
-    request.fields["sunWeekOpeningHours"] = data.sunOpenHours!.toString();
-    request.fields["sunWeekClosingHours"] = data.sunCloseHours!.toString();
-
-    request.fields["personalId"] = data.personaId!.toString();
-    request.fields["businessId"] = data.businessId!.toString();
-    request.fields["businessBio"] = data.businessBio!.toString();
+    request.fields["email"] = data.email!.toString();
+    request.fields["phone"] = data.phoneNumber!.toString();
+    request.fields["address"] = data.address!.toString();
 
     request.fields["city"] = data.city!.toString();
     request.fields["state"] = data.state!.toString();
@@ -242,23 +244,12 @@ class HandleData {
 
     request.headers.addAll(headers);
 
-    request.fields["email"] = data.businessEmail!.toString();
-    request.fields["phone"] = data.businessPhone!.toString();
-    request.fields["address"] = data.bussinessAddress!.toString();
-    request.fields["shop_name"] = data.businessName!.toString();
+    request.fields["email"] = data.email!.toString();
+    request.fields["phone"] = data.phoneNumber!.toString();
+    request.fields["address"] = data.address!.toString();
 
-    request.fields["shop_type"] = data.businessType!.toString();
-    request.fields["weekOpeningHours"] = data.openHours!.toString();
-    request.fields["weekClosingHours"] = data.closeHours!.toString();
-    request.fields["satOpeningHours"] = data.satOpenHours!.toString();
-    request.fields["satClosingHours"] = data.satCloseHours!.toString();
-    request.fields["sunWeekOpeningHours"] = data.sunOpenHours!.toString();
-
-    request.fields["sunWeekClosingHours"] = data.sunCloseHours!.toString();
-
-    request.fields["personalId"] = data.personaId!.toString();
-    request.fields["businessId"] = data.businessId!.toString();
-    request.fields["businessBio"] = data.businessBio!.toString();
+    // request.fields["personalId"] = data.personaId!.toString();
+    // request.fields["businessId"] = data.businessId!.toString();
     request.fields["city"] = data.city!.toString();
 
     request.fields["state"] = data.state!.toString();

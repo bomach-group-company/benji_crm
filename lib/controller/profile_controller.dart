@@ -3,7 +3,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:benji_aggregator/controller/error_controller.dart';
+import 'package:benji_aggregator/controller/api_processor_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/model/user_model.dart';
 import 'package:benji_aggregator/services/api_url.dart';
@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-import '../app/auth_screens/login.dart';
+import '../app/auth/login.dart';
 
 class ProfileController extends GetxController {
   static ProfileController get instance {

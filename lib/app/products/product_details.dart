@@ -19,7 +19,7 @@ class ProductDetails extends StatefulWidget {
   final String productName;
   final String productDescription;
   final double productPrice;
-  final Product product;
+  final ProductModel product;
 
   const ProductDetails(
       {super.key,
@@ -105,7 +105,7 @@ class _ProductDetailsState extends State<ProductDetails> {
       showChildOpacityTransition: false,
       child: Scaffold(
         appBar: MyAppBar(
-          title: "Product Details",
+          title: "ProductModel Details",
           elevation: 10.0,
           backgroundColor: kPrimaryColor,
           actions: const [],
@@ -113,7 +113,6 @@ class _ProductDetailsState extends State<ProductDetails> {
         extendBodyBehindAppBar: true,
         backgroundColor: kPrimaryColor,
         body: SafeArea(
-          maintainBottomViewPadding: true,
           child: Scrollbar(
             controller: scrollController,
             radius: const Radius.circular(10),

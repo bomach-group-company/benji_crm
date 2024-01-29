@@ -82,7 +82,6 @@ class _ChangePasswordState extends State<ChangePassword> {
         extendBody: true,
         extendBodyBehindAppBar: true,
         body: SafeArea(
-          maintainBottomViewPadding: true,
           child: LayoutGrid(
             columnSizes: breakPointDynamic(
               media.size.width,

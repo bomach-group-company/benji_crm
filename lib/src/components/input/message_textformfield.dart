@@ -40,6 +40,7 @@ class MyMessageTextFormField extends StatelessWidget {
       autocorrect: true,
       maxLines: maxLines,
       enableSuggestions: true,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: keyboardType,
       maxLengthEnforcement: MaxLengthEnforcement.enforced,
       maxLength: maxLength,
@@ -47,7 +48,7 @@ class MyMessageTextFormField extends StatelessWidget {
       textCapitalization: TextCapitalization.sentences,
       style: TextStyle(
         color: kSecondaryColor,
-        fontSize: 14,
+        fontSize: 20,
         fontWeight: FontWeight.w400,
       ),
       decoration: InputDecoration(

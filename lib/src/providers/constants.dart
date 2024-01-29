@@ -73,7 +73,7 @@ int createUniqueId() {
 
 //===================== Number format ==========================\\
 String doubleFormattedText(double value) {
-  final numberFormat = NumberFormat('#,##0.00');
+  final numberFormat = NumberFormat('#,##0.0');
   return numberFormat.format(value);
 }
 

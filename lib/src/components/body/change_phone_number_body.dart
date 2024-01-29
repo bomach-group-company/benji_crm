@@ -1,13 +1,13 @@
-import 'package:benji_aggregator/app/auth_screens/otp_reset_password.dart';
-import 'package:benji_aggregator/src/components/button/my_elevatedButton.dart';
+import 'package:benji_aggregator/app/auth/otp_reset_password.dart';
+import 'package:benji_aggregator/src/components/button/my_elevatedbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../../main.dart';
-import '../input/my_intl_phonefield.dart';
-import '../../providers/constants.dart';
 import '../../../theme/colors.dart';
+import '../../providers/constants.dart';
+import '../input/my_intl_phonefield.dart';
 
 class ChangePhoneNumberBody extends StatefulWidget {
   const ChangePhoneNumberBody({Key? key}) : super(key: key);

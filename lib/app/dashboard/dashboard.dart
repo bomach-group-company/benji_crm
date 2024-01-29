@@ -2,28 +2,23 @@
 
 import 'dart:async';
 
-import 'package:benji_aggregator/app/my_orders/all_orders.dart';
 import 'package:benji_aggregator/controller/notification_controller.dart';
-import 'package:benji_aggregator/controller/order_controller.dart';
 import 'package:benji_aggregator/controller/rider_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
-import 'package:benji_aggregator/model/order.dart';
 import 'package:benji_aggregator/src/components/appbar/dashboard_app_bar.dart';
-import 'package:benji_aggregator/src/components/container/dashboard_all_orders_container.dart';
+import 'package:benji_aggregator/src/components/container/available_balance_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-import '../../src/components/container/dashboard_orders_container.dart';
-import '../../src/components/container/dashboard_rider_vendor_container.dart';
+import '../../src/components/container/dashboard_container.dart';
 import '../../src/providers/constants.dart';
 import '../../src/responsive/responsive_constant.dart';
 import '../../theme/colors.dart';
-import '../my_orders/active_orders.dart';
-import '../my_orders/pending_orders.dart';
 import '../overview/overview.dart';
+import '../packages/send_package.dart';
 
 class Dashboard extends StatefulWidget {
   final VoidCallback showNavigation;
@@ -63,6 +58,7 @@ class _DashboardState extends State<Dashboard>
     super.dispose();
     _animationController.dispose();
     scrollController.dispose();
+    handleRefresh().ignore();
     scrollController.removeListener(() {
       if (scrollController.position.userScrollDirection ==
           ScrollDirection.forward) {
@@ -103,22 +99,20 @@ class _DashboardState extends State<Dashboard>
 
 //===================== Handle refresh ==========================\\
 
-  Future<void> _handleRefresh() async {
+  Future<void> handleRefresh() async {
     setState(() {
       loadingScreen = true;
     });
-    RiderController.instance.getRiders();
-    OrderController.instance.getOrders();
-    VendorController.instance.getVendors();
-    VendorController.instance.getMyVendors();
-    NotificationController.instance.runTask();
+    await VendorController.instance.getMyVendors();
+    await VendorController.instance.getTotalNumberOfMyVendors();
+    await NotificationController.instance.runTask();
     setState(() {
       loadingScreen = false;
     });
   }
 
 //============================= Scroll to Top ======================================//
-  void _scrollToTop() {
+  void scrollToTop() {
     _animationController.reverse();
     scrollController.animateTo(0,
         duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn);
@@ -138,62 +132,40 @@ class _DashboardState extends State<Dashboard>
   }
 
 //=================================== Navigation =====================================\\
-  void _toSeeAllVendors() => Get.to(
-        () => OverView(currentIndex: 1),
+  void _toSeeMyVendors() => Get.to(
+        () => const OverView(currentIndex: 1),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "Vendors",
+        routeName: "OverView",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.downToUp,
       );
 
   void _toSeeAllRiders() => Get.to(
-        () => OverView(currentIndex: 2),
+        () => const OverView(currentIndex: 2),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "Riders",
+        routeName: "OverView",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.downToUp,
       );
 
-  void _toSeeAllCompletedOrders(List<Order> completed) => Get.to(
-        () => AllCompletedOrders(completed: completed),
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "AllCompletedOrders",
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.downToUp,
-      );
-
-  void _toSeeAllPendingOrders(List<Order> orderList) => Get.to(
-        () => PendingOrders(orderList: orderList),
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "PendingOrders",
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.downToUp,
-      );
-
-  void _toSeeAllActiveOrders(List<Order> orderList) => Get.to(
-        () => ActiveOrders(
-          orderList: orderList,
-        ),
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "ActiveOrders",
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.downToUp,
-      );
+  toSendPackage() {
+    Get.to(
+      () => const SendPackage(),
+      routeName: 'SendPackage',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -212,7 +184,7 @@ class _DashboardState extends State<Dashboard>
       ),
       floatingActionButton: _isScrollToTopBtnVisible
           ? FloatingActionButton(
-              onPressed: _scrollToTop,
+              onPressed: scrollToTop,
               mini: deviceType(media.width) > 2 ? false : true,
               backgroundColor: kAccentColor,
               enableFeedback: true,
@@ -220,111 +192,93 @@ class _DashboardState extends State<Dashboard>
               tooltip: "Scroll to top",
               hoverColor: kAccentColor,
               hoverElevation: 50.0,
-              child: const FaIcon(FontAwesomeIcons.chevronUp, size: 18),
+              child: FaIcon(
+                FontAwesomeIcons.chevronUp,
+                size: 18,
+                color: kPrimaryColor,
+              ),
             )
           : const SizedBox(),
       body: SafeArea(
-        maintainBottomViewPadding: true,
         child: RefreshIndicator(
-          onRefresh: _handleRefresh,
+          onRefresh: handleRefresh,
           color: kAccentColor,
           child: Scrollbar(
-            controller: scrollController,
             child: ListView(
               controller: scrollController,
               physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.all(kDefaultPadding),
               children: [
-                GetBuilder<OrderController>(initState: (state) async {
-                  await OrderController.instance.getOrders();
-                }, builder: (order) {
-                  final active = order.orderList
-                      .where((p0) =>
-                          !p0.deliveryStatus
-                              .toLowerCase()
-                              .contains("COMP".toLowerCase()) &&
-                          p0.assignedStatus
-                              .toLowerCase()
-                              .contains("ASSG".toLowerCase()))
-                      .toList();
-                  final pending = order.orderList
-                      .where((p0) =>
-                          !p0.deliveryStatus
-                              .toLowerCase()
-                              .contains("COMP".toLowerCase()) &&
-                          p0.assignedStatus
-                              .toLowerCase()
-                              .contains("PEND".toLowerCase()))
-                      .toList();
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      OrdersContainer(
-                        containerColor: kPrimaryColor,
-                        typeOfOrderColor: kTextGreyColor,
-                        iconColor: kLightGreyColor,
-                        numberOfOrders: intFormattedText(active.length),
-                        typeOfOrders: "Active",
-                        onTap: () => _toSeeAllActiveOrders(active),
-                      ),
-                      OrdersContainer(
-                        containerColor:
-                            // Colors.red.shade200,
-                            kAccentColor.withOpacity(0.4),
-                        typeOfOrderColor: kAccentColor,
-                        iconColor: kAccentColor,
-                        numberOfOrders: intFormattedText(pending.length),
-                        typeOfOrders: "Pending",
-                        onTap: () => _toSeeAllPendingOrders(pending),
-                      ),
-                    ],
-                  );
-                }),
+                const AvailableBalanceCard(),
                 kSizedBox,
-                GetBuilder<OrderController>(builder: (order) {
-                  final orders = order.orderList.toList();
-
-                  return DasboardAllCompletedOrdersContainer(
-                    onTap: () => _toSeeAllCompletedOrders(orders),
-                    number: intFormattedText(orders.length),
-                    typeOf: "Orders",
-                  );
-                }),
-                kSizedBox,
-                GetBuilder<VendorController>(initState: (state) async {
-                  await VendorController.instance.getVendors();
-                }, builder: (vendor) {
-                  final allVendor = vendor.vendorList.toList();
-                  final allOnlineVendor = vendor.vendorList
-                      .where((p0) => p0.isOnline == true)
-                      .toList();
-                  return RiderVendorContainer(
-                    onTap: _toSeeAllVendors,
-                    number: intFormattedText(allVendor.length),
-                    typeOf: "Vendors",
-                    onlineStatus: vendor.isLoad.value
-                        ? "Loading..."
-                        : "${intFormattedText(allOnlineVendor.length)} Online",
-                  );
-                }),
+                GetBuilder<VendorController>(
+                  init: VendorController(),
+                  initState: (state) async {
+                    await VendorController.instance.getTotalNumberOfMyVendors();
+                  },
+                  builder: (controller) {
+                    final allVendor = controller.allMyVendorList.toList();
+                    return DashboardContainer(
+                      onTap: _toSeeMyVendors,
+                      number: controller.isLoad.value
+                          ? "..."
+                          : intFormattedText(allVendor.length),
+                      typeOf: "My Vendors",
+                      onlineStatus: "Online",
+                    );
+                  },
+                ),
                 kSizedBox,
                 GetBuilder<RiderController>(initState: (state) async {
                   await RiderController.instance.getRiders();
-                }, builder: (rider) {
-                  final allRider = rider.riderList.toList();
-                  // final allOnlineRiders = rider.riderList
-                  //     .where((p0) => p0.isOnline == true)
-                  //     .toList();
-                  return RiderVendorContainer(
+                }, builder: (controller) {
+                  return DashboardContainer(
                     onTap: _toSeeAllRiders,
-                    number: rider.total.value.toString(),
+                    number: controller.isLoad.value
+                        ? "..."
+                        : controller.totalRiders.value.toString(),
                     typeOf: "Riders",
-                    onlineStatus: rider.isLoad.value ? "Loading..." : "Online",
-                    // : "$allOnlineRiders Online",
+                    onlineStatus: "Online",
                   );
                 }),
-                const SizedBox(height: kDefaultPadding * 2),
                 kSizedBox,
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: ShapeDecoration(
+                    color: kPrimaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    shadows: const [
+                      BoxShadow(
+                        color: Color(0x0F000000),
+                        blurRadius: 24,
+                        offset: Offset(0, 4),
+                        spreadRadius: 0,
+                      ),
+                    ],
+                  ),
+                  child: ListTile(
+                    onTap: toSendPackage,
+                    leading: FaIcon(
+                      FontAwesomeIcons.bicycle,
+                      color: kAccentColor,
+                    ),
+                    title: const Text(
+                      'Send a Package',
+                      style: TextStyle(
+                        color: kTextBlackColor,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    trailing: const FaIcon(FontAwesomeIcons.chevronRight),
+                  ),
+                ),
+                kSizedBox,
+                deviceType(media.width) >= 2
+                    ? const SizedBox(height: kDefaultPadding * 2)
+                    : const SizedBox(),
               ],
             ),
           ),

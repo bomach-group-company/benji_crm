@@ -16,7 +16,6 @@ class ChangePhoneNumber extends StatelessWidget {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
       body: const SafeArea(
-        maintainBottomViewPadding: true,
         child: ChangePhoneNumberBody(),
       ),
     );

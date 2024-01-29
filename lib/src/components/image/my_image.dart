@@ -6,20 +6,29 @@ import 'package:flutter/material.dart';
 
 class MyImage extends StatelessWidget {
   final String? url;
-  final String? defaultUrl;
-
-  const MyImage({super.key, this.url, this.defaultUrl = ""});
+  final double imageHeight;
+  final double radius;
+  const MyImage({super.key, this.url, this.imageHeight = 90, this.radius = 10});
 
   @override
   Widget build(BuildContext context) {
-    return CachedNetworkImage(
-      imageUrl: url == null || url!.isEmpty ? defaultUrl! : "$baseImage$url",
-      fit: BoxFit.cover,
-      progressIndicatorBuilder: (context, url, downloadProgress) => Center(
-        child: CupertinoActivityIndicator(color: kAccentColor),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(radius),
+      child: CachedNetworkImage(
+        imageUrl: url == null
+            ? ''
+            : url!.startsWith("https")
+                ? url!
+                : baseImage + url!,
+        fadeInCurve: Curves.easeIn,
+        fadeOutCurve: Curves.easeInOut,
+        filterQuality: FilterQuality.high,
+        fit: BoxFit.cover,
+        progressIndicatorBuilder: (context, url, downloadProgress) =>
+            Center(child: CupertinoActivityIndicator(color: kAccentColor)),
+        errorWidget: (context, url, error) =>
+            Icon(Icons.error, color: kAccentColor),
       ),
-      errorWidget: (context, url, error) =>
-          Icon(Icons.error, color: kAccentColor),
     );
   }
 }

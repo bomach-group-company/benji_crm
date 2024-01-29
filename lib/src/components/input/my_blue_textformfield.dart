@@ -1,8 +1,10 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore_for_file: file_names,
 
 import 'package:benji_aggregator/src/responsive/responsive_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../theme/colors.dart';
 
@@ -18,43 +20,52 @@ class MyBlueTextFormField extends StatelessWidget {
   final VoidCallback? click;
   final Widget? suffixIcon;
   final List<TextInputFormatter>? inputFormatters;
+  final int maxlines;
+  final bool? readOnly;
+  final void Function(String)? onChanged;
 
   const MyBlueTextFormField({
-    super.key,
+    Key? key,
+    required this.hintText,
+    required this.textInputType,
     required this.controller,
     required this.validator,
     this.onSaved,
     required this.textInputAction,
     required this.focusNode,
-    required this.hintText,
-    required this.textInputType,
     this.isEnabled,
     this.click,
     this.suffixIcon,
     this.inputFormatters,
-  });
+    this.maxlines = 1,
+    this.readOnly,
+    this.onChanged,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
     return TextFormField(
+      readOnly: readOnly ?? false,
       focusNode: focusNode,
       controller: controller,
       validator: validator,
+      onChanged: onChanged,
       onSaved: onSaved,
       textInputAction: textInputAction,
       textAlign: TextAlign.start,
       cursorColor: kSecondaryColor,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       autocorrect: true,
       enableSuggestions: true,
       keyboardType: textInputType,
-      maxLines: 1,
+      maxLines: maxlines,
       enabled: isEnabled ?? true,
       onTap: click,
       inputFormatters: inputFormatters,
       style: TextStyle(
         color: kSecondaryColor,
-        fontSize: 14,
+        fontSize: 20,
         fontWeight: FontWeight.w400,
       ),
       decoration: InputDecoration(
@@ -64,7 +75,7 @@ class MyBlueTextFormField extends StatelessWidget {
             alignment: Alignment.centerRight,
             padding: const EdgeInsets.all(10),
             width: deviceType(media.width) >= 2 ? 50 : 30,
-            child: suffixIcon ?? const Icon(null)),
+            child: suffixIcon ?? const FaIcon(null)),
         filled: true,
         fillColor: Colors.blue.shade50,
         focusColor: Colors.blue.shade50,

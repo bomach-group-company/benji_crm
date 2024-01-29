@@ -13,7 +13,7 @@ class MyIntlPhoneField extends StatelessWidget {
   final IconPosition dropdownIconPosition;
   final bool showCountryFlag;
   final bool showDropdownIcon;
-  final Icon dropdownIcon;
+  final dynamic dropdownIcon;
   final TextInputAction textInputAction;
   final FocusNode focusNode;
   final dynamic onSaved;

@@ -40,20 +40,14 @@ class _RidersDetailState extends State<RidersDetail> {
 
   //============================ ALL VARIABLES =============================\\
   late bool _loadingScreen;
-  final int _numberOfOrders = 10;
-  bool _deliveryStatus = true;
-  bool _loadingDeliveryStatus = false;
-  String get message => _deliveryStatus
-      ? "This item has been delivered"
-      : "This item is being delivered";
-  Color get messageColor => _deliveryStatus ? kSuccessColor : kLoadingColor;
-  bool _isScrollToTopBtnVisible = false;
+
+  bool isScrollToTopBtnVisible = false;
 
   //============================================== CONTROLLERS =================================================\\
   final ScrollController scrollController = ScrollController();
 
   //============================ FUNCTIONS =============================\\
-  void _scrollToTop() {
+  void scrollToTop() {
     scrollController.animateTo(
       0,
       duration: const Duration(milliseconds: 500),
@@ -63,15 +57,15 @@ class _RidersDetailState extends State<RidersDetail> {
 
   Future<void> _scrollListener() async {
     if (scrollController.position.pixels >= 200 &&
-        _isScrollToTopBtnVisible != true) {
+        isScrollToTopBtnVisible != true) {
       setState(() {
-        _isScrollToTopBtnVisible = true;
+        isScrollToTopBtnVisible = true;
       });
     }
     if (scrollController.position.pixels < 200 &&
-        _isScrollToTopBtnVisible == true) {
+        isScrollToTopBtnVisible == true) {
       setState(() {
-        _isScrollToTopBtnVisible = false;
+        isScrollToTopBtnVisible = false;
       });
     }
 
@@ -87,7 +81,7 @@ class _RidersDetailState extends State<RidersDetail> {
 
 //===================== Handle refresh ==========================\\
 
-  Future<void> _handleRefresh() async {
+  Future<void> handleRefresh() async {
     RiderHistoryController.instance.emptyRiderHistoryList();
     await RiderHistoryController.instance.riderHistory(widget.rider.id);
   }
@@ -95,7 +89,7 @@ class _RidersDetailState extends State<RidersDetail> {
 
 //=========================================== Navigation ===============================================\\
 
-  void _toSuspendRider() => Get.to(
+  void toReportRider() => Get.to(
         () => ReportRider(rider: widget.rider),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
@@ -107,19 +101,6 @@ class _RidersDetailState extends State<RidersDetail> {
       );
 
 //=====================================================================================\\
-  void clickOnDelivered() async {
-    setState(() {
-      _loadingDeliveryStatus = false;
-      _deliveryStatus = true;
-    });
-  }
-
-  void clickOnPending() async {
-    setState(() {
-      _loadingDeliveryStatus = false;
-      _deliveryStatus = false;
-    });
-  }
 
   //=================================== Show Popup Menu =====================================\\
   //Show popup menu
@@ -143,7 +124,7 @@ class _RidersDetailState extends State<RidersDetail> {
       if (value != null) {
         switch (value) {
           case 'report':
-            _toSuspendRider();
+            toReportRider();
             break;
         }
       }
@@ -186,10 +167,12 @@ class _RidersDetailState extends State<RidersDetail> {
 
     //====================================================================\\
     return MyLiquidRefresh(
-      onRefresh: _handleRefresh,
+      onRefresh: handleRefresh,
       child: Scaffold(
         appBar: MyAppBar(
-          title: "Riders Details",
+          title: isScrollToTopBtnVisible
+              ? "${widget.rider.firstName} ${widget.rider.lastName}"
+              : "Riders Details",
           elevation: 0,
           actions: [
             IconButton(
@@ -202,11 +185,12 @@ class _RidersDetailState extends State<RidersDetail> {
           ],
           backgroundColor: kPrimaryColor,
         ),
-        floatingActionButton: _isScrollToTopBtnVisible
+        floatingActionButton: isScrollToTopBtnVisible
             ? FloatingActionButton(
-                onPressed: _scrollToTop,
+                onPressed: scrollToTop,
                 mini: true,
                 backgroundColor: kAccentColor,
+                foregroundColor: kPrimaryColor,
                 enableFeedback: true,
                 mouseCursor: SystemMouseCursors.click,
                 tooltip: "Scroll to top",
@@ -216,28 +200,20 @@ class _RidersDetailState extends State<RidersDetail> {
               )
             : const SizedBox(),
         body: SafeArea(
-          maintainBottomViewPadding: true,
           child: GetBuilder<RiderHistoryController>(initState: (state) async {
             await RiderHistoryController.instance.riderHistory(widget.rider.id);
           }, builder: (riderController) {
             return Scrollbar(
-              controller: scrollController,
-              radius: const Radius.circular(10),
               child: ListView(
                 controller: scrollController,
                 physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsets.only(
-                  top: kDefaultPadding / 4,
-                  bottom: kDefaultPadding,
-                  left: kDefaultPadding,
-                  right: kDefaultPadding,
-                ),
+                padding: const EdgeInsets.all(kDefaultPadding),
                 children: [
                   kSizedBox,
                   Container(
                     padding: const EdgeInsets.all(kDefaultPadding),
                     decoration: ShapeDecoration(
-                      color: Colors.white,
+                      color: kPrimaryColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
@@ -256,7 +232,7 @@ class _RidersDetailState extends State<RidersDetail> {
                           children: [
                             CircleAvatar(
                               radius: 60,
-                              backgroundColor: kGreyColor1,
+                              backgroundColor: kLightGreyColor,
                               child: ClipOval(
                                 child: MyImage(url: widget.rider.image),
                               ),
@@ -286,8 +262,8 @@ class _RidersDetailState extends State<RidersDetail> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Icon(
-                                    Icons.phone,
+                                  FaIcon(
+                                    FontAwesomeIcons.phone,
                                     color: kAccentColor,
                                     size: 18,
                                   ),
@@ -312,8 +288,8 @@ class _RidersDetailState extends State<RidersDetail> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Icon(
-                                    Icons.route,
+                                  FaIcon(
+                                    FontAwesomeIcons.route,
                                     color: kAccentColor,
                                     size: 18,
                                   ),
@@ -335,12 +311,13 @@ class _RidersDetailState extends State<RidersDetail> {
                               MyOutlinedElevatedButton(
                                 onPressed: () =>
                                     UrlLaunchController.makePhoneCall(
-                                        widget.rider.phone),
+                                  widget.rider.phone,
+                                ),
                                 circularBorderRadius: 16,
-                                minimumSizeWidth: 100,
-                                minimumSizeHeight: 30,
-                                maximumSizeWidth: 100,
-                                maximumSizeHeight: 30,
+                                // minimumSizeWidth: 100,
+                                // minimumSizeHeight: 30,
+                                // maximumSizeWidth: 100,
+                                // maximumSizeHeight: 30,
                                 buttonTitle: "Call",
                                 titleFontSize: 14,
                                 elevation: 10.0,
@@ -353,7 +330,7 @@ class _RidersDetailState extends State<RidersDetail> {
                   ),
                   const SizedBox(height: kDefaultPadding),
                   const Text(
-                    "Shipping History",
+                    "Delivery History",
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
@@ -394,13 +371,13 @@ class _RidersDetailState extends State<RidersDetail> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                          CrossAxisAlignment.center,
                                       children: [
                                         Expanded(
                                           flex: 1,
                                           child: Container(
                                             // width: 110,
-                                            height: 119,
+                                            height: 120,
                                             decoration: const ShapeDecoration(
                                               shape: RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.only(
@@ -411,7 +388,8 @@ class _RidersDetailState extends State<RidersDetail> {
                                               ),
                                             ),
                                             child: MyImage(
-                                                url: widget.rider.image),
+                                              url: widget.rider.image,
+                                            ),
                                           ),
                                         ),
                                         Expanded(
@@ -422,10 +400,10 @@ class _RidersDetailState extends State<RidersDetail> {
                                               horizontal: 12,
                                             ),
                                             child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                              // mainAxisAlignment:
+                                              //     MainAxisAlignment.start,
+                                              // crossAxisAlignment:
+                                              //     CrossAxisAlignment.center,
                                               children: [
                                                 Row(
                                                   mainAxisAlignment:
@@ -433,12 +411,10 @@ class _RidersDetailState extends State<RidersDetail> {
                                                           .spaceBetween,
                                                   children: [
                                                     Text(
-                                                      'ID ${riderController.historyList[index].order.code}',
+                                                      'ID: ${riderController.historyList[index].order.code}',
                                                       style: const TextStyle(
-                                                        color:
-                                                            Color(0xFF454545),
+                                                        color: kTextBlackColor,
                                                         fontSize: 12,
-                                                        fontFamily: 'Sen',
                                                         fontWeight:
                                                             FontWeight.w700,
                                                       ),
@@ -466,8 +442,6 @@ class _RidersDetailState extends State<RidersDetail> {
                                                         ),
                                                       ),
                                                       child: SizedBox(
-                                                        width: 54,
-                                                        height: 10,
                                                         child: Text(
                                                           riderController
                                                               .historyList[
@@ -476,10 +450,22 @@ class _RidersDetailState extends State<RidersDetail> {
                                                           textAlign:
                                                               TextAlign.center,
                                                           style: TextStyle(
-                                                            color: kAccentColor,
+                                                            color: riderController
+                                                                    .historyList[
+                                                                        index]
+                                                                    .deliveryStatus
+                                                                    .contains(
+                                                                        "delivered")
+                                                                ? kSuccessColor
+                                                                : riderController
+                                                                        .historyList[
+                                                                            index]
+                                                                        .deliveryStatus
+                                                                        .contains(
+                                                                            "processing")
+                                                                    ? kAccentColor
+                                                                    : kSecondaryColor,
                                                             fontSize: 10,
-                                                            fontFamily:
-                                                                'Overpass',
                                                             fontWeight:
                                                                 FontWeight.w400,
                                                           ),
@@ -488,109 +474,103 @@ class _RidersDetailState extends State<RidersDetail> {
                                                     )
                                                   ],
                                                 ),
-                                                Text(
-                                                  'Food',
-                                                  style: TextStyle(
-                                                    color: kTextGreyColor,
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  height: 5,
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          height: 12,
-                                                          width: 12,
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(2),
-                                                          decoration:
-                                                              ShapeDecoration(
-                                                            shape: OvalBorder(
-                                                              side: BorderSide(
-                                                                width: 1,
-                                                                color:
-                                                                    kAccentColor,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          child: Container(
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color:
-                                                                  kAccentColor,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          8),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          color: kAccentColor,
-                                                          height: 10,
-                                                          width: 1.5,
-                                                        ),
-                                                        Icon(
-                                                          Icons
-                                                              .location_on_sharp,
-                                                          size: 12,
-                                                          color: kAccentColor,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 10,
-                                                    ),
-                                                    const Expanded(
-                                                      child: Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Text(
-                                                            '21 Bartus Street, Abuja Nigeria',
-                                                            style: TextStyle(
-                                                              color: Color(
-                                                                  0xFF454545),
-                                                              fontSize: 10,
-                                                              height: 2,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                            ),
-                                                          ),
-                                                          Text(
-                                                            '3 Edwins Close, Wuse, Abuja',
-                                                            style: TextStyle(
-                                                              color: Color(
-                                                                  0xFF454545),
-                                                              fontSize: 10,
-                                                              height: 2,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                const SizedBox(
-                                                  width: 22,
-                                                ),
+                                                // Text(
+                                                //   ,
+                                                //   style: TextStyle(
+                                                //     color: kTextGreyColor,
+                                                //     fontSize: 12,
+                                                //     fontWeight: FontWeight.w400,
+                                                //   ),
+                                                // ),
+                                                kHalfSizedBox,
+                                                // Row(
+                                                //   children: [
+                                                //     Column(
+                                                //       mainAxisAlignment:
+                                                //           MainAxisAlignment
+                                                //               .center,
+                                                //       children: [
+                                                //         Container(
+                                                //           height: 12,
+                                                //           width: 12,
+                                                //           padding:
+                                                //               const EdgeInsets
+                                                //                   .all(2),
+                                                //           decoration:
+                                                //               ShapeDecoration(
+                                                //             shape: OvalBorder(
+                                                //               side: BorderSide(
+                                                //                 width: 1,
+                                                //                 color:
+                                                //                     kAccentColor,
+                                                //               ),
+                                                //             ),
+                                                //           ),
+                                                //           child: Container(
+                                                //             decoration:
+                                                //                 BoxDecoration(
+                                                //               color:
+                                                //                   kAccentColor,
+                                                //               borderRadius:
+                                                //                   BorderRadius
+                                                //                       .circular(
+                                                //                           8),
+                                                //             ),
+                                                //           ),
+                                                //         ),
+                                                //         Container(
+                                                //           color: kAccentColor,
+                                                //           height: 10,
+                                                //           width: 1.5,
+                                                //         ),
+                                                //         FaIcon(
+                                                //           FontAwesomeIcons
+                                                //               .locationDot,
+                                                //           size: 12,
+                                                //           color: kAccentColor,
+                                                //         ),
+                                                //       ],
+                                                //     ),
+                                                //     kHalfWidthSizedBox,
+                                                // Expanded(
+                                                //   child: Column(
+                                                //     mainAxisAlignment:
+                                                //         MainAxisAlignment
+                                                //             .start,
+                                                //     crossAxisAlignment:
+                                                //         CrossAxisAlignment
+                                                //             .start,
+                                                //     children: [
+                                                //       Text(
+                                                //         '21 Bartus Street, Abuja Nigeria',
+                                                //         style: TextStyle(
+                                                //           color:
+                                                //               kTextGreyColor,
+                                                //           fontSize: 10,
+                                                //           height: 2,
+                                                //           fontWeight:
+                                                //               FontWeight
+                                                //                   .w400,
+                                                //         ),
+                                                //       ),
+                                                //       Text(
+                                                //         '3 Edwins Close, Wuse, Abuja',
+                                                //         style: TextStyle(
+                                                //           color:
+                                                //               kTextGreyColor,
+                                                //           fontSize: 10,
+                                                //           height: 2,
+                                                //           fontWeight:
+                                                //               FontWeight
+                                                //                   .w400,
+                                                //         ),
+                                                //       ),
+                                                //     ],
+                                                //   ),
+                                                // ),
+                                                // ],
+                                                // ),
+                                                const SizedBox(width: 22),
                                                 Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
@@ -605,23 +585,18 @@ class _RidersDetailState extends State<RidersDetail> {
                                                           color:
                                                               Color(0xFF929292),
                                                           fontSize: 10,
-                                                          fontFamily:
-                                                              'Overpass',
-                                                          height: 1.5,
                                                           fontWeight:
                                                               FontWeight.w600,
                                                         ),
                                                       ),
                                                     ),
-                                                    const SizedBox(
+                                                    SizedBox(
                                                       child: Text(
-                                                        '\u20A6 65,000',
+                                                        '\u20A6 ${doubleFormattedText(riderController.historyList[index].order.totalPrice)}',
                                                         style: TextStyle(
-                                                          color:
-                                                              Color(0xFF454545),
+                                                          color: kTextGreyColor,
                                                           fontSize: 10,
                                                           fontFamily: 'sen',
-                                                          height: 1.5,
                                                           fontWeight:
                                                               FontWeight.w600,
                                                         ),

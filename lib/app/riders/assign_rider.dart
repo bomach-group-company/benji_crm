@@ -2,7 +2,7 @@
 
 import 'package:benji_aggregator/controller/rider_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
-import 'package:benji_aggregator/model/order.dart';
+import 'package:benji_aggregator/model/business_order_model.dart';
 import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
 import 'package:benji_aggregator/src/components/button/my_outlined_elevatedButton.dart';
 import 'package:benji_aggregator/src/providers/custom_show_search.dart';
@@ -21,7 +21,7 @@ import '../../src/skeletons/assign_rider_page_skeleton.dart';
 import 'riders_detail.dart';
 
 class AssignRider extends StatefulWidget {
-  final Order? item;
+  final BusinessOrderModel? item;
   const AssignRider({super.key, required this.item});
 
   @override
@@ -152,7 +152,6 @@ class _AssignRiderState extends State<AssignRider> {
           backgroundColor: kPrimaryColor,
         ),
         body: SafeArea(
-          maintainBottomViewPadding: true,
           child: Scrollbar(
             controller: scrollController,
             radius: const Radius.circular(10),
@@ -367,14 +366,14 @@ class _AssignRiderState extends State<AssignRider> {
                                                                     rider.id),
                                                             circularBorderRadius:
                                                                 24,
-                                                            minimumSizeWidth:
-                                                                80,
-                                                            minimumSizeHeight:
-                                                                30,
-                                                            maximumSizeWidth:
-                                                                80,
-                                                            maximumSizeHeight:
-                                                                30,
+                                                            // minimumSizeWidth:
+                                                            //     80,
+                                                            // minimumSizeHeight:
+                                                            //     30,
+                                                            // maximumSizeWidth:
+                                                            //     80,
+                                                            // maximumSizeHeight:
+                                                            //     30,
                                                             buttonTitle:
                                                                 "Assign",
                                                             titleFontSize: 12,

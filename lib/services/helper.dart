@@ -5,6 +5,8 @@ import 'package:benji_aggregator/services/api_url.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
+import '../app/orders/orders.dart';
+
 const String userBalance = "userBalance";
 
 bool rememberBalance() {
@@ -39,6 +41,26 @@ Map<String, String> authHeader([String? authToken, String? contentType]) {
     res['Content-Type'] = contentType;
   }
   return res;
+}
+
+String statusTypeConverter(StatusType statusType) {
+  if (statusType == StatusType.delivered) {
+    return "COMP";
+  }
+  if (statusType == StatusType.processing) {
+    return "processing";
+  }
+  if (statusType == StatusType.pending) {
+    return "PEND";
+  }
+  if (statusType == StatusType.cancelled) {
+    return "cancelled";
+  }
+  if (statusType == StatusType.dispatched) {
+    return "dispatched";
+  }
+
+  return "PEND";
 }
 
 class UppercaseTextInputFormatter extends TextInputFormatter {

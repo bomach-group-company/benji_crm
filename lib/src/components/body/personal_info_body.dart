@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member
 
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:benji_aggregator/controller/form_controller.dart';
@@ -18,14 +19,15 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../../app/google_maps/get_location_on_map.dart';
 import '../../../controller/latlng_detail_controller.dart';
-import '../../../services/keys.dart';
 import '../../../theme/colors.dart';
 import '../../googleMaps/autocomplete_prediction.dart';
 import '../../googleMaps/places_autocomplete_response.dart';
 import '../../providers/constants.dart';
+import '../../providers/keys.dart';
 import '../../responsive/responsive_constant.dart';
 import '../../utils/network_utils.dart';
-import '../button/my_elevatedButton.dart';
+import '../button/my_elevatedbutton.dart';
+import '../input/my_blue_textformfield.dart';
 import '../input/my_intl_phonefield.dart';
 import '../input/my_maps_textformfield.dart';
 import '../input/name_textformfield.dart';
@@ -49,7 +51,9 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
     userNameEC.text = UserController.instance.user.value.username;
     firstNameEC.text = UserController.instance.user.value.firstName;
     lastNameEC.text = UserController.instance.user.value.lastName;
-    phoneNumberEC.text = UserController.instance.user.value.phone;
+    genderEC.text = UserController.instance.user.value.gender;
+    phoneNumberEC.text =
+        UserController.instance.user.value.phone.replaceFirst("+234", '');
     mapsLocationEC.text = UserController.instance.user.value.address;
   }
 
@@ -63,7 +67,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
 //==========================================================================================\\
 
 //======================================== ALL VARIABLES ==============================================\\
-  final String countryDialCode = '234';
+  final String countryDialCode = '+234';
   String? userCode;
   String? latitude;
   String? longitude;
@@ -83,6 +87,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
   final userNameEC = TextEditingController();
   final firstNameEC = TextEditingController();
   final lastNameEC = TextEditingController();
+  final genderEC = TextEditingController();
   final phoneNumberEC = TextEditingController();
   final mapsLocationEC = TextEditingController();
 
@@ -93,6 +98,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
   final userNameFN = FocusNode();
   final firstNameFN = FocusNode();
   final lastNameFN = FocusNode();
+  final genderFN = FocusNode();
   final phoneNumberFN = FocusNode();
   final mapsLocationFN = FocusNode();
 
@@ -205,7 +211,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
       setState(() {});
       // User? user = await getUser();
       // final url =
-      //     Uri.parse('$baseURL/clients/changeClientProfileImage/${user!.id}');
+      //     Uri.parse('$baseURL/clients/changeClientbusinessLogo/${user!.id}');
 
       // Create a multipart request
       // final request = http.MultipartRequest('PUT', url);
@@ -278,7 +284,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
   }
 
   void _toGetLocationOnMap() async {
-    await Get.to(
+    var result = await Get.to(
       () => const GetLocationOnMap(),
       routeName: 'GetLocationOnMap',
       duration: const Duration(milliseconds: 300),
@@ -288,14 +294,14 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
       popGesture: true,
       transition: Transition.rightToLeft,
     );
-    latitude = latLngDetailController.latLngDetail.value[0];
-    longitude = latLngDetailController.latLngDetail.value[1];
-    mapsLocationEC.text = latLngDetailController.latLngDetail.value[2];
-    latLngDetailController.setEmpty();
-    if (kDebugMode) {
-      print("LATLNG: $latitude,$longitude");
-      print(mapsLocationEC.text);
+    if (result != null) {
+      mapsLocationEC.text = result["mapsLocation"];
+      latitude = result["latitude"];
+      longitude = result["longitude"];
     }
+    log(
+      "Received Data - Maps Location: ${mapsLocationEC.text}, Latitude: $latitude, Longitude: $longitude",
+    );
   }
 
   Future<void> updateData() async {
@@ -321,11 +327,11 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
       "address": mapsLocationEC.text,
       "latitude": latitude,
       "longitude": longitude,
-      "phone": phoneNumberEC.text
+      "phone": countryDialCode + phoneNumberEC.text
     };
-    await FormController.instance.postAuthstream(
-        url, {'data': data}, {'image': selectedImage}, 'editProfile');
-
+    await FormController.instance
+        .postAuthstream(url, data, {'image': selectedImage}, 'editProfile');
+    UserController.instance.getUser();
     setState(() {
       _isLoading = false;
     });
@@ -352,9 +358,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
     return SafeArea(
-      maintainBottomViewPadding: true,
       child: Scrollbar(
-        controller: scrollController,
         child: ListView(
           controller: scrollController,
           padding: const EdgeInsets.all(10),
@@ -403,9 +407,8 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                                               BorderRadius.circular(100),
                                         ),
                                       ),
+                                      padding: const EdgeInsets.all(10),
                                       child: MyImage(
-                                        defaultUrl:
-                                            "assets/images/profile/avatar-image.jpg",
                                         url: UserController
                                             .instance.user.value.image,
                                       ),
@@ -419,15 +422,13 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                                           : 150,
                                       decoration: ShapeDecoration(
                                         color: kPageSkeletonColor,
-                                        image: DecorationImage(
-                                          image: FileImage(selectedImage!),
-                                          fit: BoxFit.cover,
-                                        ),
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(100),
                                         ),
                                       ),
+                                      padding: const EdgeInsets.all(10),
+                                      child: Image.file(selectedImage!),
                                     ),
                               Positioned(
                                 bottom: 0,
@@ -534,7 +535,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                                   tooltip: "Copy ID",
                                   mouseCursor: SystemMouseCursors.click,
                                   icon: FaIcon(
-                                    FontAwesomeIcons.copy,
+                                    FontAwesomeIcons.solidCopy,
                                     size: 16,
                                     color: kAccentColor,
                                   ),
@@ -629,6 +630,26 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                         ),
                         kSizedBox,
                         Text(
+                          "Gender".toUpperCase(),
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        kHalfSizedBox,
+                        MyBlueTextFormField(
+                          controller: genderEC,
+                          isEnabled: false,
+                          validator: (value) {
+                            return null;
+                          },
+                          textInputAction: TextInputAction.next,
+                          focusNode: genderFN,
+                          hintText: genderEC.text,
+                          textInputType: TextInputType.text,
+                        ),
+                        kHalfSizedBox,
+                        Text(
                           "Phone Number".toUpperCase(),
                           style: const TextStyle(
                             fontSize: 14,
@@ -643,8 +664,8 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                           dropdownIconPosition: IconPosition.trailing,
                           showCountryFlag: true,
                           showDropdownIcon: true,
-                          dropdownIcon: Icon(Icons.arrow_drop_down_rounded,
-                              color: kAccentColor),
+                          dropdownIcon: FaIcon(FontAwesomeIcons.caretDown,
+                              color: kAccentColor, size: 14),
                           textInputAction: TextInputAction.next,
                           focusNode: phoneNumberFN,
                           validator: (value) {
@@ -781,21 +802,23 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                     );
                   }),
             ),
-            _isLoading
-                ? Center(
-                    child: CircularProgressIndicator(color: kAccentColor),
-                  )
-                : Padding(
-                    padding: const EdgeInsets.all(kDefaultPadding),
-                    child: MyElevatedButton(
-                      onPressed: (() async {
-                        if (_formKey.currentState!.validate()) {
-                          updateData();
-                        }
-                      }),
-                      title: "Save",
-                    ),
-                  ),
+            // _isLoading
+            //     ? Center(
+            //         child: CircularProgressIndicator(color: kAccentColor),
+            //       )
+            //     :
+            Padding(
+              padding: const EdgeInsets.all(kDefaultPadding),
+              child: MyElevatedButton(
+                onPressed: (() async {
+                  if (_formKey.currentState!.validate()) {
+                    updateData();
+                  }
+                }),
+                isLoading: _isLoading,
+                title: "Save",
+              ),
+            ),
           ],
         ),
       ),

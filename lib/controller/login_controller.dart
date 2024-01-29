@@ -3,7 +3,7 @@
 import 'dart:convert';
 
 import 'package:benji_aggregator/app/overview/overview.dart';
-import 'package:benji_aggregator/controller/error_controller.dart';
+import 'package:benji_aggregator/controller/api_processor_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/model/login_model.dart';
 import 'package:benji_aggregator/services/api_url.dart';
@@ -71,13 +71,16 @@ class LoginController extends GetxController {
           return;
         }
 
-        UserController.instance
+        await UserController.instance
             .saveUser(responseUserData.body, jsonData["token"]);
 
         ApiProcessorController.successSnack("Login Successful");
 
+        isLoad.value = false;
+        update();
+
         Get.offAll(
-          () => OverView(),
+          () => const OverView(),
           fullscreenDialog: true,
           curve: Curves.easeIn,
           routeName: "OverView",

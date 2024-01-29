@@ -3,7 +3,7 @@ import 'package:benji_aggregator/src/components/body/select_bank_body.dart';
 import 'package:flutter/material.dart';
 
 class SelectBank extends StatelessWidget {
-  const SelectBank({Key? key}) : super(key: key);
+  const SelectBank({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class SelectBank extends StatelessWidget {
           title: "Select a bank",
           elevation: 0,
           actions: const [],
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          backgroundColor: Theme.of(context).colorScheme.background,
         ),
         body: SelectBankBody(),
       ),

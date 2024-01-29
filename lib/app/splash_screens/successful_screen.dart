@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../../src/components/button/my_elevatedButton.dart';
+import '../../src/components/button/my_elevatedbutton.dart';
 import '../../src/providers/constants.dart';
 
 class SuccessfulScreen extends StatelessWidget {
@@ -22,7 +22,6 @@ class SuccessfulScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        maintainBottomViewPadding: true,
         child: Container(
           margin: const EdgeInsets.only(
             top: kDefaultPadding,

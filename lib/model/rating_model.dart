@@ -6,14 +6,14 @@ import 'package:benji_aggregator/services/helper.dart';
 import 'package:benji_aggregator/src/providers/constants.dart';
 import 'package:http/http.dart' as http;
 
-class Ratings {
+class RatingModel {
   final String id;
   final double ratingValue;
   final String comment;
   final DateTime created;
   final UserModel client;
 
-  Ratings({
+  RatingModel({
     required this.id,
     required this.ratingValue,
     required this.comment,
@@ -21,9 +21,9 @@ class Ratings {
     required this.client,
   });
 
-  factory Ratings.fromJson(Map<String, dynamic>? json) {
+  factory RatingModel.fromJson(Map<String, dynamic>? json) {
     json ??= {};
-    return Ratings(
+    return RatingModel(
       id: json['id'] ?? notAvailable,
       ratingValue: json['rating_value'] ?? 0.0,
       comment: json['comment'] ?? notAvailable,
@@ -35,7 +35,7 @@ class Ratings {
   }
 }
 
-Future<List<Ratings>> getRatingsByVendorId(int id,
+Future<List<RatingModel>> getRatingsByVendorId(int id,
     {start = 0, end = 10}) async {
   // url to be changed to agent endpoint
   final response = await http.get(
@@ -43,18 +43,18 @@ Future<List<Ratings>> getRatingsByVendorId(int id,
     headers: authHeader(),
   );
   (jsonDecode(response.body)['items'] as List)
-      .map((item) => Ratings.fromJson(item))
+      .map((item) => RatingModel.fromJson(item))
       .toList();
   if (response.statusCode == 200) {
     return (jsonDecode(response.body)['items'] as List)
-        .map((item) => Ratings.fromJson(item))
+        .map((item) => RatingModel.fromJson(item))
         .toList();
   } else {
     return [];
   }
 }
 
-Future<List<Ratings>> getRatingsByVendorIdAndRating(int id, int rating,
+Future<List<RatingModel>> getRatingsByVendorIdAndRating(int id, int rating,
     {start = 0, end = 10}) async {
   // url to be changed to agent endpoint
 
@@ -66,7 +66,7 @@ Future<List<Ratings>> getRatingsByVendorIdAndRating(int id, int rating,
 
   if (response.statusCode == 200) {
     return (jsonDecode(response.body) as List)
-        .map((item) => Ratings.fromJson(item))
+        .map((item) => RatingModel.fromJson(item))
         .toList();
   } else {
     return [];

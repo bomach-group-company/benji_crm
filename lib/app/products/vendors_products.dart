@@ -138,7 +138,6 @@ class _VendorsProductsPageState extends State<VendorsProductsPage>
           ],
         ),
         body: SafeArea(
-          maintainBottomViewPadding: true,
           child: FutureBuilder(
               future: null,
               builder: (context, snapshot) {

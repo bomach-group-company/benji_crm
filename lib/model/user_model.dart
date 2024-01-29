@@ -12,8 +12,10 @@ String userModelToJson(UserModel data) => json.encode(data.toJson());
 
 class UserModel {
   int id;
-  String code;
+  String image;
+  double balance;
   String email;
+  String code;
   String phone;
   String username;
   String firstName;
@@ -32,7 +34,10 @@ class UserModel {
   String phoneNumberOfSpouse;
   String license;
   String token;
-  String image;
+  bool isVisibleCash;
+  String latitude;
+  String longitude;
+  String referralCode;
 
   UserModel({
     required this.id,
@@ -57,6 +62,11 @@ class UserModel {
     required this.license,
     required this.token,
     required this.image,
+    required this.balance,
+    required this.isVisibleCash,
+    required this.latitude,
+    required this.longitude,
+    required this.referralCode,
   });
   factory UserModel.fromJson(Map<String, dynamic>? json) {
     json ??= {};
@@ -82,7 +92,14 @@ class UserModel {
       phoneNumberOfSpouse: json['phoneNumberOfSpouse'] ?? notAvailable,
       license: json['license'] ?? notAvailable,
       token: json['token'] ?? '',
-      image: json['image'] ?? '',
+      image: json['image'] == null || json['image'] == ""
+          ? 'https://img.freepik.com/free-psd/3d-icon-social-media-app_23-2150049569.jpg'
+          : json['image'],
+      balance: json['balance'] ?? 0.0,
+      isVisibleCash: json['isVisibleCash'] ?? true,
+      latitude: json['latitude'] ?? notAvailable,
+      longitude: json['longitude'] ?? notAvailable,
+      referralCode: json['referralCode'] ?? notAvailable,
     );
   }
 
@@ -109,5 +126,9 @@ class UserModel {
         "license": license,
         "token": token,
         "image": image,
+        "balance": balance,
+        "referralCode": referralCode,
+        "latitude": latitude,
+        "longitude": longitude,
       };
 }

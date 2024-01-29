@@ -1,11 +1,11 @@
-import 'package:benji_aggregator/model/rating_model.dart';
 import 'package:flutter/material.dart';
 
+import '../../../model/rating_model.dart';
 import '../../../theme/colors.dart';
 import '../../providers/constants.dart';
 
 class CostumerReviewCard extends StatelessWidget {
-  final Ratings rating;
+  final RatingModel rating;
   const CostumerReviewCard({
     super.key,
     required this.rating,

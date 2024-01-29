@@ -3,7 +3,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:benji_aggregator/controller/error_controller.dart';
+import 'package:benji_aggregator/controller/api_processor_controller.dart';
 import 'package:benji_aggregator/controller/order_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/services/api_url.dart';
@@ -27,68 +27,72 @@ class RiderController extends GetxController {
   var isLoadAssign = false.obs;
   var riderList = <RiderItem>[].obs;
   var rider = RiderItem.fromJson(null).obs;
-  var total = 0.obs;
+  var totalRiders = 0.obs;
 
   Future getRiders() async {
     late String token;
     isLoad.value = true;
-    update();
-    var url = "${Api.baseUrl}${Api.riderList}?start=0&end=10";
-    token = UserController.instance.user.value.token;
-    try {
-      http.Response? response = await HandleData.getApi(url, token);
-
-      var responseData =
-          await ApiProcessorController.errorState(response, isFirst ?? true);
-      log(responseData);
-      if (responseData == null) {
-        return;
-      }
-
-      total.value = jsonDecode(responseData)['total'];
-      riderList.value = (jsonDecode(responseData)['items'] as List)
-          .map((e) => RiderItem.fromJson(e))
-          .toList();
-      update();
-    } catch (e) {
-      consoleLog("$e");
-    }
-    isLoad.value = false;
-    moreNum.value += 10;
-    loadedAll.value = false;
-    update();
-  }
-
-  Future loadMore() async {
-    late String token;
     isLoadMore.value = true;
+
+    update();
     var url =
         "${Api.baseUrl}${Api.riderList}?start=${moreNum.value - 10}&end=${moreNum.value}";
-    token = UserController.instance.user.value.token;
-    consoleLog('$url $moreNum chai');
+
     moreNum.value += 10;
+    token = UserController.instance.user.value.token;
     try {
       http.Response? response = await HandleData.getApi(url, token);
 
-      var responseData =
-          await ApiProcessorController.errorState(response, isFirst ?? true);
+      var responseData = await ApiProcessorController.errorState(response);
       log(responseData);
       if (responseData == null) {
-        update();
         return;
       }
+
+      totalRiders.value = jsonDecode(responseData)['total'];
       List<RiderItem> val = (jsonDecode(responseData)['items'] as List)
           .map((e) => RiderItem.fromJson(e))
           .toList();
       riderList.value += val;
       loadedAll.value = val.isEmpty;
-      update();
     } catch (e) {
       consoleLog("$e");
     }
+    isLoad.value = false;
     isLoadMore.value = false;
+
     update();
   }
+
+  // Future loadMore() async {
+  //   late String token;
+  //   isLoadMore.value = true;
+  //   var url =
+  //       "${Api.baseUrl}${Api.riderList}?start=${moreNum.value - 10}&end=${moreNum.value}";
+  //   token = UserController.instance.user.value.token;
+  //   consoleLog('$url $moreNum chai');
+  //   moreNum.value += 10;
+  //   try {
+  //     http.Response? response = await HandleData.getApi(url, token);
+
+  //     var responseData = await ApiProcessorController.errorState(response);
+  //     log(responseData);
+  //     if (responseData == null) {
+  //       update();
+  //       return;
+  //     }
+  //     List<RiderItem> val = (jsonDecode(responseData)['items'] as List)
+  //         .map((e) => RiderItem.fromJson(e))
+  //         .toList();
+  //     riderList.value += val;
+  //     loadedAll.value = val.isEmpty;
+  //     update();
+  //   } catch (e) {
+  //     consoleLog("$e");
+  //   }
+  //   isLoadMore.value = false;
+  //   update();
+  // }
 
   emptyRiderList() {
     riderList.value = [];
