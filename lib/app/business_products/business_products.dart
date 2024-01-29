@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:get/get.dart';
@@ -12,40 +14,14 @@ import '../../src/responsive/responsive_constant.dart';
 import '../../theme/colors.dart';
 import 'view_product.dart';
 
-class BusinessProducts extends StatefulWidget {
+class BusinessProducts extends StatelessWidget {
   final BusinessModel business;
 
-  const BusinessProducts({
-    super.key,
-    required this.business,
-  });
-
-  @override
-  State<BusinessProducts> createState() => _BusinessProductsState();
-}
-
-class _BusinessProductsState extends State<BusinessProducts> {
-  @override
-  void initState() {
-    super.initState();
-  }
+  BusinessProducts({super.key, required this.business});
 
   late Future<Map<String, List<ProductModel>>> productAndSubCategoryName;
 
   // _getData() async {
-  //   Map<String, List<Product>> productAndSubCategoryName =
-  //       await getVendorProductsAndSubCategoryName(widget.vendor.id);
-  //   try {
-  //     activeCategory = productAndSubCategoryName.keys.toList()[0];
-  //     // ignore: empty_catches
-  //   } catch (e) {}
-
-  //   setState(() {
-  //     snapshot.data = productAndSubCategoryName;
-  //   });
-  // }
-
-//=================================== Navigation =====================================\\
   viewProduct(ProductModel product) {
     Get.to(
       () => ViewProduct(product: product),
@@ -58,8 +34,8 @@ class _BusinessProductsState extends State<BusinessProducts> {
       transition: Transition.rightToLeft,
     );
   }
-//=================================== END =====================================\\
 
+//=================================== END =====================================\\
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
@@ -70,10 +46,10 @@ class _BusinessProductsState extends State<BusinessProducts> {
         children: [
           GetBuilder<ProductController>(
             init: ProductController(),
-            initState: (state) => ProductController.instance
-                .getBusinessProducts(widget.business.id),
+            initState: (state) =>
+                ProductController.instance.getBusinessProducts(business.id),
             builder: (controller) {
-              if (controller.isLoad.value) {
+              if (controller.products.isEmpty && controller.isLoad.value) {
                 return Center(
                   child: CircularProgressIndicator(
                     color: kAccentColor,

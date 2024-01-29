@@ -259,7 +259,7 @@ class _AboutBusinessState extends State<AboutBusiness> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  "Reviews View & Ratings",
+                  "Customer Ratings & Reviews",
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
@@ -348,8 +348,10 @@ class _AboutBusinessState extends State<AboutBusiness> {
                                       child: Row(
                                         children: [
                                           FaIcon(
-                                            FontAwesomeIcons.solidStar,
-                                            size: 20,
+                                            active == item
+                                                ? FontAwesomeIcons.solidStar
+                                                : FontAwesomeIcons.star,
+                                            size: 18,
                                             color: kStarColor,
                                           ),
                                           const SizedBox(
@@ -387,6 +389,7 @@ class _AboutBusinessState extends State<AboutBusiness> {
               : _ratings!.isEmpty
                   ? const EmptyCard(
                       showButton: false,
+                      emptyCardMessage: "There are no customer reviews",
                     )
                   : Column(
                       children: [

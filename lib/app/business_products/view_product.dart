@@ -38,6 +38,7 @@ class _ViewProductState extends State<ViewProduct> {
     super.initState();
     scrollController.addListener(scrollListener);
     log(widget.product.productImage);
+    log("Product id: ${widget.product.id}");
   }
 
   @override

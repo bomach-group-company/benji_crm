@@ -106,7 +106,7 @@ class _MyVendorsState extends State<MyVendors> {
 //===================== Navigation ==========================\\
 
   void toBusinessDetailPage(MyVendorModel data) => Get.to(
-        () => MyBusinessDetailPage(vendor: data),
+        () => MyVendorDetailPage(vendor: data),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,

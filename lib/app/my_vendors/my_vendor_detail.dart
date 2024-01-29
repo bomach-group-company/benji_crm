@@ -22,18 +22,18 @@ import '../businesses/business_detail_screen.dart';
 import 'about_my_vendor.dart';
 import 'report_my_vendor.dart';
 
-class MyBusinessDetailPage extends StatefulWidget {
+class MyVendorDetailPage extends StatefulWidget {
   final MyVendorModel vendor;
-  const MyBusinessDetailPage({
+  const MyVendorDetailPage({
     super.key,
     required this.vendor,
   });
 
   @override
-  State<MyBusinessDetailPage> createState() => _MyBusinessDetailPageState();
+  State<MyVendorDetailPage> createState() => _MyVendorDetailPageState();
 }
 
-class _MyBusinessDetailPageState extends State<MyBusinessDetailPage>
+class _MyVendorDetailPageState extends State<MyVendorDetailPage>
     with SingleTickerProviderStateMixin {
   //======================================= INITIAL AND DISPOSE ===============================================\\
   @override
@@ -472,16 +472,19 @@ class _MyBusinessDetailPageState extends State<MyBusinessDetailPage>
                 GetBuilder<BusinessController>(
                   init: BusinessController(),
                   builder: (controller) {
-                    return DashboardDisplayBusinessesController(
-                      refreshing: loadingScreen,
-                      showBusinesses: showBusinesses,
-                      onTap: () {
-                        setState(() {
-                          showBusinesses = !showBusinesses;
-                        });
-                      },
-                      numberOfBusinesses:
-                          controller.totalNumberOfBusiness.length.toString(),
+                    return Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: DashboardDisplayBusinessesController(
+                        refreshing: loadingScreen,
+                        showBusinesses: showBusinesses,
+                        onTap: () {
+                          setState(() {
+                            showBusinesses = !showBusinesses;
+                          });
+                        },
+                        numberOfBusinesses:
+                            controller.listOfBusinesses.length.toString(),
+                      ),
                     );
                   },
                 ),
