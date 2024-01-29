@@ -95,7 +95,7 @@ class UserModel {
       image: json['image'] == null || json['image'] == ""
           ? 'https://img.freepik.com/free-psd/3d-icon-social-media-app_23-2150049569.jpg'
           : json['image'],
-      balance: json['balance'] ?? 0.0,
+      balance: double.parse((json['balance'] ?? 0.0).toString()),
       isVisibleCash: json['isVisibleCash'] ?? true,
       latitude: json['latitude'] ?? notAvailable,
       longitude: json['longitude'] ?? notAvailable,

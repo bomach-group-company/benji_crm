@@ -19,6 +19,7 @@ import 'package:benji_aggregator/controller/url_launch_controller.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:benji_aggregator/controller/withdraw_controller.dart';
 import 'package:benji_aggregator/theme/colors.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -74,6 +75,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    if (kIsWeb) {
+      return GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        defaultTransition: Transition.rightToLeft,
+        title: "Benji CRM",
+        color: kPrimaryColor,
+        themeMode: ThemeMode.light,
+        darkTheme: AppTheme.darkTheme,
+        theme: AppTheme.lightTheme,
+        home: const SplashScreen(),
+      );
+    }
     if (Platform.isIOS) {
       return GetCupertinoApp(
         debugShowCheckedModeBanner: false,

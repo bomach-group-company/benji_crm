@@ -365,6 +365,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
           physics: const BouncingScrollPhysics(),
           children: [
             GetBuilder<UserController>(
+              init: UserController(),
               builder: (controller) {
                 return Container(
                   width: media.width,
@@ -517,7 +518,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                                 Container(
                                   margin: const EdgeInsets.only(top: 11),
                                   child: Text(
-                                    userCode!,
+                                    controller.user.value.code,
                                     softWrap: true,
                                     style: const TextStyle(
                                       color: kTextBlackColor,
@@ -528,7 +529,8 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                                 ),
                                 IconButton(
                                   onPressed: () {
-                                    _copyToClipboard(context, userCode!);
+                                    _copyToClipboard(
+                                        context, controller.user.value.code);
                                   },
                                   tooltip: "Copy ID",
                                   mouseCursor: SystemMouseCursors.click,
