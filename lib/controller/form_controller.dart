@@ -228,4 +228,65 @@ class FormController extends GetxController {
     update([tag]);
     return;
   }
+
+  Future uploadImage(String url, Map<String, File?> files, String tag,
+      [String errorMsg = "An error occurred",
+      String successMsg = "Submitted successfully"]) async {
+    http.StreamedResponse? response;
+
+    isLoad.value = true;
+    update();
+    update([tag]);
+
+    var request = http.MultipartRequest("POST", Uri.parse(url));
+    Map<String, String> headers = authHeader();
+
+    for (String key in files.keys) {
+      if (files[key] == null) {
+        continue;
+      }
+      request.files
+          .add(await http.MultipartFile.fromPath(key, files[key]!.path));
+    }
+
+    request.headers.addAll(headers);
+
+    log('first stream response: $response');
+    try {
+      response = await request.send();
+      log('second stream response body: ${response.statusCode}');
+      final normalResp = await http.Response.fromStream(response);
+      log('third stream response body: ${normalResp.body}');
+      status.value = response.statusCode;
+      if (response.statusCode == 200) {
+        ApiProcessorController.successSnack(successMsg);
+        log('Got here!');
+        isLoad.value = false;
+        update();
+        update([tag]);
+        return;
+      } else {
+        ApiProcessorController.errorSnack(errorMsg);
+      }
+    } on SocketException {
+      ApiProcessorController.errorSnack("Please connect to the internet");
+      isLoad.value = false;
+      update();
+      update([tag]);
+      return;
+    } catch (e) {
+      ApiProcessorController.errorSnack("An error occured. \nERROR: $e");
+      log("An error occured. \nERROR: $e");
+      response = null;
+      isLoad.value = false;
+      update();
+      update([tag]);
+      return;
+    }
+
+    ApiProcessorController.errorSnack(errorMsg);
+    isLoad.value = false;
+    update([tag]);
+    return;
+  }
 }

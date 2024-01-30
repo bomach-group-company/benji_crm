@@ -22,6 +22,7 @@ import '../../src/components/sheet/showModalBottomSheetTitleWithIcon.dart';
 import '../../src/providers/constants.dart';
 import '../../src/responsive/responsive_constant.dart';
 import '../../theme/colors.dart';
+import 'change_product_image.dart';
 import 'edit_product.dart';
 
 class ViewProduct extends StatefulWidget {
@@ -39,6 +40,7 @@ class _ViewProductState extends State<ViewProduct> {
     scrollController.addListener(scrollListener);
     log(widget.product.productImage);
     log("Product id: ${widget.product.id}");
+    log("Sub category id: ${widget.product.subCategory.id}");
   }
 
   @override
@@ -169,10 +171,24 @@ class _ViewProductState extends State<ViewProduct> {
     // );
   }
 
-  editProduct() {
-    Get.to(
+  editProduct() async {
+    Navigator.pop(context);
+    await Get.to(
       () => EditProduct(product: widget.product),
       routeName: 'EditProduct',
+      duration: const Duration(milliseconds: 300),
+      fullscreenDialog: true,
+      curve: Curves.easeIn,
+      preventDuplicates: true,
+      popGesture: true,
+      transition: Transition.rightToLeft,
+    );
+  }
+
+  changeProductImage() {
+    Get.to(
+      () => ChangeProductImage(product: widget.product),
+      routeName: 'ChangeProductImage',
       duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,
       curve: Curves.easeIn,
@@ -194,7 +210,8 @@ class _ViewProductState extends State<ViewProduct> {
             kSizedBox,
             ListTile(
               onTap: editProduct,
-              leading: FaIcon(FontAwesomeIcons.pen, color: kAccentColor),
+              leading:
+                  FaIcon(FontAwesomeIcons.pen, color: kAccentColor, size: 16),
               title: Text(
                 'Edit',
                 style: TextStyle(
@@ -207,8 +224,8 @@ class _ViewProductState extends State<ViewProduct> {
             ),
             ListTile(
               onTap: deleteModal,
-              leading:
-                  FaIcon(FontAwesomeIcons.solidTrashCan, color: kAccentColor),
+              leading: FaIcon(FontAwesomeIcons.solidTrashCan,
+                  color: kAccentColor, size: 16),
               title: Text(
                 'Delete',
                 style: TextStyle(
@@ -250,7 +267,7 @@ class _ViewProductState extends State<ViewProduct> {
                 );
               },
               icon: FaIcon(
-                FontAwesomeIcons.ellipsis,
+                FontAwesomeIcons.ellipsisVertical,
                 color: kAccentColor,
                 size: 18,
               ),
@@ -326,6 +343,16 @@ class _ViewProductState extends State<ViewProduct> {
                           borderRadius: BorderRadius.all(Radius.circular(20))),
                     ),
                     child: MyImage(url: widget.product.productImage),
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: changeProductImage,
+                child: Text(
+                  "Change product image",
+                  style: TextStyle(
+                    color: kAccentColor,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),

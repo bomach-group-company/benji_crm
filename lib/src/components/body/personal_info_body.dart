@@ -664,8 +664,8 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                           dropdownIconPosition: IconPosition.trailing,
                           showCountryFlag: true,
                           showDropdownIcon: true,
-                          dropdownIcon: FaIcon(FontAwesomeIcons.caretDown,
-                              color: kAccentColor, size: 14),
+                          dropdownIcon: Icon(Icons.arrow_drop_down_rounded,
+                              color: kAccentColor),
                           textInputAction: TextInputAction.next,
                           focusNode: phoneNumberFN,
                           validator: (value) {

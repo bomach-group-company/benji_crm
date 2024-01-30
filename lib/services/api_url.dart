@@ -44,6 +44,7 @@ class Api {
   static const agentAddProductToVendorBusiness =
       "/agents/agentAddProductToVendorBusiness";
   static const changeProduct = "/products/changeProduct/";
+  static const changeProductImage = "/products/updateProductImage/";
   static const deleteProduct = "/products/deleteProduct/";
 
   //order

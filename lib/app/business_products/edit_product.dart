@@ -2,13 +2,9 @@
 
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
 
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../controller/api_processor_controller.dart';
 import '../../controller/form_controller.dart';
@@ -19,7 +15,6 @@ import '../../model/sub_category.dart';
 import '../../services/api_url.dart';
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/button/my_elevatedbutton.dart';
-import '../../src/components/image/my_image.dart';
 import '../../src/components/input/message_textformfield.dart';
 import '../../src/components/input/my_dropdown_menu.dart';
 import '../../src/components/input/my_textformfield.dart';
@@ -41,8 +36,8 @@ class _EditProductState extends State<EditProduct> {
     isToggled = true;
     // productTypeEC.text = widget.product.name;
     subCategoryEC.text = widget.product.subCategory.name;
-    productImages = widget.product.productImage;
-    subCategoryEC.text = widget.product.subCategory.id;
+
+    // subCategoryEC.text = widget.product.subCategory.id;
     productNameEC.text = widget.product.name;
     productDescriptionEC.text = widget.product.description;
     productPriceEC.text = widget.product.price.toString();
@@ -90,12 +85,6 @@ class _EditProductState extends State<EditProduct> {
 
   int? selectedCategory;
 
-  //=========================== IMAGE PICKER ====================================\\
-
-  final ImagePicker picker = ImagePicker();
-  File? selectedImage;
-  String? productImages;
-
   //================================== FUNCTIONS ====================================\\
   Future<void> submit() async {
     // if (selectedImage == null && productImages!.isEmpty) {
@@ -119,10 +108,10 @@ class _EditProductState extends State<EditProduct> {
     //   {'product_image': selectedImage},
     //   'editProduct',
     // );
-    await FormController.instance.postAuthstream(
+    await FormController.instance.patchAuth(
       Api.baseUrl + Api.changeProduct + widget.product.id,
       {'data': jsonEncode(data)}, // Wrap 'data' in a Map
-      {'product_image': selectedImage},
+      // {'product_image': selectedImage},
       'editProduct',
     );
     if (FormController.instance.status.toString().startsWith('2')) {
@@ -132,114 +121,12 @@ class _EditProductState extends State<EditProduct> {
       //   body: "${productNameEC.text} has been been successfully updated.",
       // );
 
-      Get.close(1);
+      Get.close(2);
     }
-  }
-
-  pickProductImages(ImageSource source) async {
-    final XFile? image = await picker.pickImage(
-      source: source,
-    );
-    if (image != null) {
-      selectedImage = File(image.path);
-      setState(() {});
-    }
-  }
-
-  //=========================== WIDGETS ====================================\\
-  Widget uploadProductImages() {
-    return Container(
-      height: 160,
-      width: MediaQuery.of(context).size.width,
-      padding: const EdgeInsets.all(10),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          const Text(
-            "Upload Product Image",
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          kSizedBox,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Column(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      pickProductImages(ImageSource.camera);
-                    },
-                    borderRadius: BorderRadius.circular(100),
-                    child: Container(
-                      height: 60,
-                      width: 60,
-                      decoration: ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(100),
-                          side: const BorderSide(
-                            width: 0.5,
-                            color: kGreyColor1,
-                          ),
-                        ),
-                      ),
-                      child: Center(
-                        child: FaIcon(
-                          FontAwesomeIcons.camera,
-                          color: kAccentColor,
-                        ),
-                      ),
-                    ),
-                  ),
-                  kHalfSizedBox,
-                  const Text("Camera"),
-                ],
-              ),
-              kWidthSizedBox,
-              Column(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      pickProductImages(ImageSource.gallery);
-                    },
-                    borderRadius: BorderRadius.circular(100),
-                    child: Container(
-                      height: 60,
-                      width: 60,
-                      decoration: ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(100),
-                          side: const BorderSide(
-                            width: 0.5,
-                            color: kGreyColor1,
-                          ),
-                        ),
-                      ),
-                      child: Center(
-                        child: FaIcon(
-                          FontAwesomeIcons.solidImages,
-                          color: kAccentColor,
-                        ),
-                      ),
-                    ),
-                  ),
-                  kHalfSizedBox,
-                  const Text("Gallery"),
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
@@ -275,85 +162,11 @@ class _EditProductState extends State<EditProduct> {
             physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.all(kDefaultPadding),
             children: [
-              Column(
-                children: [
-                  selectedImage == null
-                      ? Container(
-                          width: media.width,
-                          height: 144,
-                          decoration: ShapeDecoration(
-                            shape: RoundedRectangleBorder(
-                              side: const BorderSide(
-                                width: 0.50,
-                                color: Color(0xFFE6E6E6),
-                              ),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          child: Center(
-                            child: MyImage(url: productImages!),
-                          ),
-                        )
-                      : GridTile(
-                          child: DottedBorder(
-                            color: kLightGreyColor,
-                            borderPadding: const EdgeInsets.all(3),
-                            padding: const EdgeInsets.all(kDefaultPadding / 2),
-                            borderType: BorderType.RRect,
-                            radius: const Radius.circular(20),
-                            child: Container(
-                              width: media.width,
-                              height: 144,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: FileImage(selectedImage!),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                  kHalfSizedBox,
-                  InkWell(
-                    onTap: () {
-                      showModalBottomSheet(
-                        context: context,
-                        elevation: 20,
-                        barrierColor: kBlackColor.withOpacity(0.8),
-                        showDragHandle: true,
-                        useSafeArea: true,
-                        isDismissible: true,
-                        isScrollControlled: true,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(kDefaultPadding),
-                          ),
-                        ),
-                        enableDrag: true,
-                        builder: ((builder) => uploadProductImages()),
-                      );
-                    },
-                    splashColor: kAccentColor.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(16),
-                    child: Container(
-                      padding: const EdgeInsets.all(10),
-                      child: Text(
-                        'Upload product images',
-                        style: TextStyle(
-                          color: kAccentColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
               Form(
                 key: formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    kSizedBox,
                     // const Text(
                     //   'Product Type',
                     //   style: TextStyle(
@@ -380,7 +193,7 @@ class _EditProductState extends State<EditProduct> {
                     //               value: item.id, label: item.name))
                     //           .toList(),
                     // ),
-                    kSizedBox,
+
                     const Text(
                       'Product Category',
                       style: TextStyle(
@@ -403,8 +216,12 @@ class _EditProductState extends State<EditProduct> {
                               )
                             ]
                           : subCategory!
-                              .map((item) => DropdownMenuEntry(
-                                  value: item.id, label: item.name))
+                              .map(
+                                (item) => DropdownMenuEntry(
+                                  value: item.id,
+                                  label: item.name,
+                                ),
+                              )
                               .toList(),
                     ),
                     kSizedBox,
@@ -485,7 +302,7 @@ class _EditProductState extends State<EditProduct> {
                       controller: productQuantityEC,
                       focusNode: productQuantityFN,
                       hintText: "Enter the quantity here",
-                      textInputAction: TextInputAction.done,
+                      textInputAction: TextInputAction.next,
                       textInputType: TextInputType.number,
                       textCapitalization: TextCapitalization.characters,
                       validator: (value) {
@@ -519,14 +336,14 @@ class _EditProductState extends State<EditProduct> {
                       controller: productDescriptionEC,
                       focusNode: productDescriptionFN,
                       hintText: "Enter the description here",
-                      textInputAction: TextInputAction.next,
-                      keyboardType: TextInputType.text,
+                      textInputAction: TextInputAction.newline,
+                      keyboardType: TextInputType.multiline,
                       maxLines: 10,
                       maxLength: 1000,
                       validator: (value) {
                         if (value == null || value!.isEmpty) {
                           productDescriptionFN.requestFocus();
-                          return "Enter the product name";
+                          return "Enter the product description";
                         }
                         return null;
                       },

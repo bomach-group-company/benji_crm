@@ -671,9 +671,8 @@ class _RegisterVendorState extends State<RegisterVendor> {
                             showCountryFlag: true,
                             showDropdownIcon: true,
                             dropdownIcon: Icon(
-                              FontAwesomeIcons.caretDown,
+                              Icons.arrow_drop_down_rounded,
                               color: kAccentColor,
-                              size: 14,
                             ),
                             textInputAction: TextInputAction.next,
                             focusNode: vendorPhoneNumberFN,
