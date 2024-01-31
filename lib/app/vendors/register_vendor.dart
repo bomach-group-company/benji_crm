@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:benji_aggregator/controller/api_processor_controller.dart';
+import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:csc_picker/csc_picker.dart';
@@ -47,11 +48,20 @@ class _RegisterVendorState extends State<RegisterVendor> {
   //==========================================================================================\\
   @override
   void initState() {
-    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-    //   CategoryController.instance.category;
-    //   CategoryController.instance.getCategory();
-    // });
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      vendorFirstNameEC.text = UserController.instance.user.value.firstName;
+      vendorLastNameEC.text = UserController.instance.user.value.lastName;
+      vendorPhoneNumberEC.text =
+          UserController.instance.user.value.phone.replaceAll("+234", "");
+      // vendorEmailEC.text = UserController.instance.user.value.email;
+      mapsLocationEC.text = UserController.instance.user.value.address;
+      defaultGender = UserController.instance.user.value.gender == "male"
+          ? "Male"
+          : "Female";
+      vendorLGAEC.text = UserController.instance.user.value.lga;
+    });
+
     scrollController.addListener(_scrollListener);
   }
 
@@ -72,6 +82,8 @@ class _RegisterVendorState extends State<RegisterVendor> {
   final selectedLocation = ValueNotifier<String?>(null);
   String defaultGender = "Male";
   final List<String> genders = <String>["Male", "Female"];
+  String initialVendorClassifier = "True";
+  final List<String> vendorClassifierLabels = <String>['True', 'False'];
 
   //======================================== GLOBAL KEYS ==============================================\\
   final _formKey = GlobalKey<FormState>();
@@ -80,6 +92,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
   //===================== BOOL VALUES =======================\\
   bool _isScrollToTopBtnVisible = false;
   bool _typing = false;
+  bool vendorClassified = true;
 
   //============================================== CONTROLLERS =================================================\\
   final scrollController = ScrollController();
@@ -88,7 +101,6 @@ class _RegisterVendorState extends State<RegisterVendor> {
   final vendorNameEC = TextEditingController();
   final vendorEmailEC = TextEditingController();
   final vendorPhoneNumberEC = TextEditingController();
-  final vendorAddressEC = TextEditingController();
   final vendorvendorTypeEC = TextEditingController();
   final vendorvendorBioEC = TextEditingController();
   final vendorFirstNameEC = TextEditingController();
@@ -108,7 +120,6 @@ class _RegisterVendorState extends State<RegisterVendor> {
   final vendorNameFN = FocusNode();
   final vendorEmailFN = FocusNode();
   final vendorPhoneNumberFN = FocusNode();
-  final vendorAddressFN = FocusNode();
   final vendorvendorTypeFN = FocusNode();
   final vendorvendorBioFN = FocusNode();
   final vendorFirstnameFN = FocusNode();
@@ -210,7 +221,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
   }
 
   //========================== Save data ==================================\\
-  Future<void> saveChanges() async {
+  Future<void> saveChangesAsVendor() async {
     if (selectedLogoImage == null) {
       ApiProcessorController.errorSnack("Please add a profile picture");
       return;
@@ -246,7 +257,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
       personalID: personalIdEC.text,
       country: country!.contains("Nigeria") ? "NG" : "",
       state: state ?? "",
-      gender: defaultGender.contains("Male") ? "M" : "F",
+      gender: defaultGender == "Male" ? "male" : "female",
       city: city ?? "",
       latitude: latitude ?? "",
       longitude: longitude ?? "",
@@ -257,8 +268,32 @@ class _RegisterVendorState extends State<RegisterVendor> {
       // sunCloseHours: vendorSunClosingHoursEC.text,
       profileImage: selectedLogoImage,
     );
+    log(data.toString());
+    log(vendorClassified.toString());
 
-    VendorController.instance.createVendor(data, true);
+    VendorController.instance.createVendor(data, vendorClassified);
+  }
+
+  Future<void> saveChangesAsThirdPartyVendor() async {
+    log(vendorClassified.toString());
+
+    if (defaultGender.isEmpty || defaultGender == "") {
+      ApiProcessorController.errorSnack("Please choose a gender");
+    }
+    log("First got here!");
+
+    SendCreateModel data = SendCreateModel(
+      phoneNumber: countryDialCode + vendorPhoneNumberEC.text,
+      address: mapsLocationEC.text,
+      email: vendorEmailEC.text,
+      gender: defaultGender == "Male" ? "male" : "female",
+      firstName: vendorFirstNameEC.text,
+      lastName: vendorLastNameEC.text,
+      // sunOpenHours: vendorSunOpeningHoursEC.text,
+      // sunCloseHours: vendorSunClosingHoursEC.text,
+    );
+    VendorController.instance.createThirdPartyVendor(data, vendorClassified);
+    log("Last got here!!");
   }
 
   //=========================== WIDGETS ====================================\\
@@ -396,7 +431,9 @@ class _RegisterVendorState extends State<RegisterVendor> {
               onPressed: (() async {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
-                  saveChanges();
+                  !vendorClassified
+                      ? saveChangesAsVendor()
+                      : saveChangesAsThirdPartyVendor();
                 }
               }),
               isLoading: sending.isLoadCreate.value,
@@ -428,28 +465,25 @@ class _RegisterVendorState extends State<RegisterVendor> {
             physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.all(kDefaultPadding),
             children: [
-              DottedBorder(
-                color: kLightGreyColor,
-                borderPadding: const EdgeInsets.all(3),
-                padding: const EdgeInsets.all(kDefaultPadding / 2),
-                borderType: BorderType.RRect,
-                radius: const Radius.circular(20),
-                child: Center(
-                  child: Column(
-                    children: [
-                      Column(
+              !vendorClassified
+                  ? DottedBorder(
+                      color: kLightGreyColor,
+                      borderPadding: const EdgeInsets.all(3),
+                      padding: const EdgeInsets.all(kDefaultPadding / 2),
+                      borderType: BorderType.RRect,
+                      radius: const Radius.circular(20),
+                      child: Column(
                         children: [
                           selectedLogoImage == null
                               ? Container(
                                   width: media.width,
-                                  height: 144,
-                                  decoration: ShapeDecoration(
-                                    shape: RoundedRectangleBorder(
-                                      side: const BorderSide(
+                                  height: 200,
+                                  decoration: const ShapeDecoration(
+                                    shape: CircleBorder(
+                                      side: BorderSide(
                                         width: 0.50,
                                         color: Color(0xFFE6E6E6),
                                       ),
-                                      borderRadius: BorderRadius.circular(20),
                                     ),
                                   ),
                                   child: Center(
@@ -514,9 +548,33 @@ class _RegisterVendorState extends State<RegisterVendor> {
                           ),
                         ],
                       ),
-                    ],
-                  ),
+                    )
+                  : const SizedBox(),
+              !vendorClassified ? kSizedBox : const SizedBox(),
+              const Text(
+                "This is my vendor (3rd party vendor)",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
                 ),
+              ),
+              kSizedBox,
+              RadioGroup<String>.builder(
+                groupValue: initialVendorClassifier,
+                onChanged: (value) => setState(() {
+                  initialVendorClassifier = value ?? "True";
+                  log(initialVendorClassifier);
+
+                  setState(() {
+                    vendorClassified = !vendorClassified;
+                  });
+                  log("This is my vendor: $vendorClassified");
+                }),
+                items: vendorClassifierLabels,
+                itemBuilder: (item) => RadioButtonBuilder(item),
+                direction: Axis.horizontal,
+                horizontalAlignment: MainAxisAlignment.start,
+                activeColor: kAccentColor,
               ),
               kSizedBox,
               Form(
@@ -600,35 +658,39 @@ class _RegisterVendorState extends State<RegisterVendor> {
                             textInputType: TextInputType.emailAddress,
                           ),
                           kSizedBox,
-                          const Text(
-                            "National Identification Number (NIN)",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
+                          !vendorClassified
+                              ? const Text(
+                                  "National Identification Number (NIN)",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                )
+                              : const SizedBox(),
                           kSizedBox,
-                          NumberTextFormField(
-                            controller: personalIdEC,
-                            validator: (value) {
-                              if (value == null || value!.isEmpty) {
-                                return "Field cannot be empty";
-                              } else if (value.toString().length > 16) {
-                                return "Enter a valid value";
-                              }
-                              return null;
-                            },
-                            maxlength: 11,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly,
-                            ],
-                            onSaved: (value) {},
-                            textInputAction: TextInputAction.next,
-                            focusNode: personalIdFN,
-                            hintText:
-                                "Enter National Identification Number (NIN)",
-                          ),
-                          kSizedBox,
+                          !vendorClassified
+                              ? NumberTextFormField(
+                                  controller: personalIdEC,
+                                  validator: (value) {
+                                    if (value == null || value!.isEmpty) {
+                                      return "Field cannot be empty";
+                                    } else if (value.toString().length > 16) {
+                                      return "Enter a valid value";
+                                    }
+                                    return null;
+                                  },
+                                  maxlength: 11,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly,
+                                  ],
+                                  onSaved: (value) {},
+                                  textInputAction: TextInputAction.next,
+                                  focusNode: personalIdFN,
+                                  hintText:
+                                      "Enter National Identification Number (NIN)",
+                                )
+                              : const SizedBox(),
+                          !vendorClassified ? kSizedBox : const SizedBox(),
                           const Text(
                             "Gender",
                             style: TextStyle(
@@ -807,68 +869,76 @@ class _RegisterVendorState extends State<RegisterVendor> {
                             ],
                           ),
                           kSizedBox,
-                          const Text(
-                            "Localization",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
+                          !vendorClassified
+                              ? const Text(
+                                  "Localization",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                )
+                              : const SizedBox(),
                           kSizedBox,
-                          CSCPicker(
-                            key: _cscPickerKey,
-                            layout: Layout.vertical,
-                            countryFilter: const [CscCountry.Nigeria],
-                            countryDropdownLabel: "Select country",
-                            stateDropdownLabel: "Select state",
-                            cityDropdownLabel: "Select city",
-                            onCountryChanged: (value) {
-                              if (value.isNotEmpty) {
-                                setState(() {
-                                  country = value;
-                                });
-                              }
-                            },
-                            onStateChanged: (value) {
-                              if (value != null) {
-                                setState(() {
-                                  state = value;
-                                });
-                              }
-                            },
-                            onCityChanged: (value) {
-                              if (value != null) {
-                                setState(() {
-                                  city = value;
-                                });
-                              }
-                            },
-                          ),
+                          !vendorClassified
+                              ? CSCPicker(
+                                  key: _cscPickerKey,
+                                  layout: Layout.vertical,
+                                  countryFilter: const [CscCountry.Nigeria],
+                                  countryDropdownLabel: "Select country",
+                                  stateDropdownLabel: "Select state",
+                                  cityDropdownLabel: "Select city",
+                                  onCountryChanged: (value) {
+                                    if (value.isNotEmpty) {
+                                      setState(() {
+                                        country = value;
+                                      });
+                                    }
+                                  },
+                                  onStateChanged: (value) {
+                                    if (value != null) {
+                                      setState(() {
+                                        state = value;
+                                      });
+                                    }
+                                  },
+                                  onCityChanged: (value) {
+                                    if (value != null) {
+                                      setState(() {
+                                        city = value;
+                                      });
+                                    }
+                                  },
+                                )
+                              : const SizedBox(),
+                          !vendorClassified ? kSizedBox : const SizedBox(),
+                          !vendorClassified
+                              ? const Text(
+                                  "Local Government Area",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                )
+                              : const SizedBox(),
                           kSizedBox,
-                          const Text(
-                            "Local Government Area",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          kSizedBox,
-                          MyBlueTextFormField(
-                            controller: vendorLGAEC,
-                            validator: (value) {
-                              if (value == null || value!.isEmpty) {
-                                return "Field cannot be empty";
-                              } else {
-                                return null;
-                              }
-                            },
-                            onSaved: (value) {},
-                            textInputAction: TextInputAction.done,
-                            focusNode: vendorLGAFN,
-                            hintText: "Enter the LGA",
-                            textInputType: TextInputType.text,
-                          ),
-                          kSizedBox,
+                          !vendorClassified
+                              ? MyBlueTextFormField(
+                                  controller: vendorLGAEC,
+                                  validator: (value) {
+                                    if (value == null || value!.isEmpty) {
+                                      return "Field cannot be empty";
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                  onSaved: (value) {},
+                                  textInputAction: TextInputAction.done,
+                                  focusNode: vendorLGAFN,
+                                  hintText: "Enter the LGA",
+                                  textInputType: TextInputType.text,
+                                )
+                              : const SizedBox(),
+                          !vendorClassified ? kSizedBox : const SizedBox(),
 
                           // MyDropDownMenu(
                           //   controller: vendorLGAEC,

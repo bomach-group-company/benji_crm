@@ -5,9 +5,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../theme/colors.dart';
 import '../dashboard/dashboard.dart';
-import '../my_vendors/my_vendors.dart';
 import '../profile/profile.dart';
 import '../riders/riders.dart';
+import '../vendors/vendors.dart';
 
 class OverView extends StatefulWidget {
   final int currentIndex;
@@ -51,7 +51,7 @@ class _OverViewState extends State<OverView> {
     //===================================== PAGINATION =================================================\\
     final List<Widget> pages = [
       Dashboard(showNavigation: showNav, hideNavigation: hideNav),
-      MyVendors(showNavigation: showNav, hideNavigation: hideNav),
+      Vendors(showNavigation: showNav, hideNavigation: hideNav),
       Riders(showNavigation: showNav, hideNavigation: hideNav),
       const Profile(),
     ];

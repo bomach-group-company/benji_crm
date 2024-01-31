@@ -1,6 +1,7 @@
 import 'dart:async';
 
-import 'package:benji_aggregator/app/my_vendors/my_vendor_detail.dart';
+import 'package:benji_aggregator/app/vendors/my_vendor_detail.dart';
+import 'package:benji_aggregator/app/vendors/my_vendors.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:benji_aggregator/model/my_vendor_model.dart';
 import 'package:benji_aggregator/src/components/container/myvendor_container.dart';
@@ -16,25 +17,27 @@ import '../../src/responsive/responsive_constant.dart';
 import '../../theme/colors.dart';
 import 'register_vendor.dart';
 
-class MyVendors extends StatefulWidget {
+class Vendors extends StatefulWidget {
   final VoidCallback showNavigation;
   final VoidCallback hideNavigation;
-  const MyVendors({
+  const Vendors({
     required this.showNavigation,
     required this.hideNavigation,
     super.key,
   });
 
   @override
-  State<MyVendors> createState() => _MyVendorsState();
+  State<Vendors> createState() => _VendorsState();
 }
 
-class _MyVendorsState extends State<MyVendors> {
+class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
   //=======================================================================\\
   @override
   void initState() {
     super.initState();
     scrollController.addListener(_scrollListener);
+
+    _tabBarController = TabController(length: 2, vsync: this);
     scrollController.addListener(() =>
         VendorController.instance.scrollListenerMyVendor(scrollController));
     VendorController.instance.getMyVendors();
@@ -53,6 +56,8 @@ class _MyVendorsState extends State<MyVendors> {
   void dispose() {
     super.dispose();
     // _animationController.dispose();
+    _tabBarController.dispose();
+
     scrollController.dispose();
     scrollController.removeListener(() {
       if (scrollController.position.userScrollDirection ==
@@ -70,9 +75,17 @@ class _MyVendorsState extends State<MyVendors> {
   bool _isScrollToTopBtnVisible = false;
 
 //============================================== CONTROLLERS =================================================\\
+  late TabController _tabBarController;
   final scrollController = ScrollController();
 
 //============================================== FUNCTIONS =================================================\\
+  int selectedtabbar = 0;
+
+  void _clickOnTabBarOption(value) async {
+    setState(() {
+      selectedtabbar = value;
+    });
+  }
 
 //===================== Handle refresh ==========================\\
 
@@ -185,6 +198,67 @@ class _MyVendorsState extends State<MyVendors> {
                   physics: const BouncingScrollPhysics(),
                   padding: const EdgeInsets.all(kDefaultPadding),
                   children: [
+                    Padding(
+                      padding: deviceType(media.width) > 2
+                          ? const EdgeInsets.symmetric(
+                              horizontal: kDefaultPadding * 6)
+                          : const EdgeInsets.symmetric(
+                              horizontal: kDefaultPadding * 1.5),
+                      child: Container(
+                        width: media.width,
+                        decoration: BoxDecoration(
+                          color: kDefaultCategoryBackgroundColor,
+                          borderRadius: BorderRadius.circular(50),
+                          border: Border.all(
+                            color: kLightGreyColor,
+                            style: BorderStyle.solid,
+                            strokeAlign: BorderSide.strokeAlignOutside,
+                          ),
+                        ),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: TabBar(
+                                controller: _tabBarController,
+                                onTap: (value) => _clickOnTabBarOption(value),
+                                splashBorderRadius: BorderRadius.circular(50),
+                                enableFeedback: true,
+                                mouseCursor: SystemMouseCursors.click,
+                                indicatorSize: TabBarIndicatorSize.tab,
+                                dividerColor: kTransparentColor,
+                                automaticIndicatorColorAdjustment: true,
+                                labelColor: kPrimaryColor,
+                                unselectedLabelColor: kTextGreyColor,
+                                indicator: BoxDecoration(
+                                  color: kAccentColor,
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                                tabs: const [
+                                  Tab(text: "All Vendors"),
+                                  Tab(text: "My Vendors"),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    kSizedBox,
+                    loadingScreen
+                        ? Center(
+                            child: CircularProgressIndicator(
+                              color: kAccentColor,
+                            ),
+                          )
+                        : Container(
+                            padding: deviceType(media.width) > 2
+                                ? const EdgeInsets.symmetric(horizontal: 20)
+                                : const EdgeInsets.symmetric(horizontal: 10),
+                            child: selectedtabbar == 0
+                                ? const SizedBox()
+                                : const MyVendors(),
+                          ),
                     loadingScreen
                         ? const VendorsListSkeleton()
                         : controller.isLoad.value &&

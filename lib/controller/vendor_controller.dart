@@ -142,7 +142,7 @@ class VendorController extends GetxController {
       //     .toList();
       vendorMyList.value += data;
     } catch (e) {
-      consoleLog("ERROR loggg: ${e.toString()}");
+      log("ERROR loggg: ${e.toString()}");
       ApiProcessorController.errorSnack(
         "An error occurred in fetching vendors. Please try again later.\n ERROR: $e",
       );
@@ -238,11 +238,16 @@ class VendorController extends GetxController {
     update();
     var url = Api.baseUrl + Api.createVendor + id;
     token = UserController.instance.user.value.token;
+    log(url);
+    log(token);
+    log("Got here!");
 
     try {
+      log("Got here!!");
       http.StreamedResponse? response =
           await HandleData.streamAddVendor(url, token, data, classify);
 
+      log("Got here!!!");
       // if (kDebugMode) {
       //   final res = await http.Response.fromStream(response!);
       //   print("This is the response body: ${jsonDecode(res.body)}");
@@ -255,6 +260,7 @@ class VendorController extends GetxController {
           "You have successfully added a vendor",
         );
 
+        log("Got here!!!!");
         isLoadCreate.value = false;
         Get.close(1);
       } else {
@@ -266,6 +272,7 @@ class VendorController extends GetxController {
         isLoadCreate.value = false;
       }
       isLoadCreate.value = false;
+      log("We Got here!!!!!");
 
       update();
     } on SocketException {
@@ -279,25 +286,30 @@ class VendorController extends GetxController {
     update();
   }
 
-  Future createThirdPartyVendor(SendCreateModel data) async {
+  Future createThirdPartyVendor(SendCreateModel data, bool classify) async {
     isLoadCreate.value = true;
     late String token;
-    String agentId = UserController.instance.user.value.id.toString();
+    String id = UserController.instance.user.value.id.toString();
     update();
-    var url = Api.baseUrl + Api.createThirdPartyVendor + agentId;
+    var url = Api.baseUrl + Api.createVendor + id;
     token = UserController.instance.user.value.token;
 
-    consoleLog(url);
+    log(url);
 
     try {
       http.StreamedResponse? response =
-          await HandleData.streamAddThirdPartyVendor(url, token, data);
-      if (response == null) {
-        isLoadCreate.value = false;
-      } else if (response.statusCode == 200) {
-        final res = await http.Response.fromStream(response);
-        var jsonData = jsonDecode(res.body);
-        ApiProcessorController.successSnack(jsonData);
+          await HandleData.streamAddThirdPartyVendor(
+              url, token, data, classify);
+
+      log(response!.statusCode.toString());
+      final res = await http.Response.fromStream(response);
+      var jsonData = jsonDecode(res.body);
+      log('${jsonData}heoollll');
+      if (response.statusCode == 200) {
+        // final res = await http.Response.fromStream(response);
+        // var jsonData = jsonDecode(res.body);
+        // log('${jsonData}heoollll');
+        ApiProcessorController.successSnack(jsonData["message"]);
         isLoadCreate.value = false;
         Get.close(1);
       } else {
@@ -306,14 +318,14 @@ class VendorController extends GetxController {
         isLoadCreate.value = false;
       }
       isLoadCreate.value = false;
-      consoleLog("Got here, 2nd response: $response");
+      log("Got here, 2nd response: $response");
 
       update();
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet");
     } catch (e) {
       ApiProcessorController.errorSnack("An error occurred. ERROR: $e");
-      consoleLog("An error occurred. ERROR: $e");
+      log("An error occurred. ERROR: $e");
     }
     isLoadCreate.value = false;
     update();
@@ -325,7 +337,7 @@ class VendorController extends GetxController {
     update();
     var url = "${Api.baseUrl}${Api.createVendorOtherBusiness}$vendorId";
     token = UserController.instance.user.value.token;
-    consoleLog(url);
+    log(url);
 
     try {
       http.StreamedResponse? response =
@@ -342,7 +354,7 @@ class VendorController extends GetxController {
         final res = await http.Response.fromStream(response);
         var jsonData = jsonDecode(res.body);
         isLoadCreate.value = false;
-        consoleLog("res: $res");
+        log("res: $res");
       }
       isLoadCreate.value = false;
 
@@ -351,7 +363,7 @@ class VendorController extends GetxController {
       ApiProcessorController.errorSnack("Please connect to the internet");
     } catch (e) {
       ApiProcessorController.errorSnack("An error occurred. \nERROR: $e");
-      consoleLog("An error occured. ERROR: $e");
+      log("An error occured. ERROR: $e");
     }
     isLoadCreate.value = false;
     update();

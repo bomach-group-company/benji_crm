@@ -191,7 +191,7 @@ class HandleData {
   }
 
   static Future<http.StreamedResponse?> streamAddThirdPartyVendor(
-      url, token, SendCreateModel data) async {
+      url, token, SendCreateModel data, bool vendorClassifier) async {
     http.StreamedResponse? response;
 
     //  final filePhotoName = basename(data.image!.path);
@@ -212,11 +212,10 @@ class HandleData {
     request.fields["phone"] = data.phoneNumber!.toString();
     request.fields["address"] = data.address!.toString();
 
-    request.fields["city"] = data.city!.toString();
-    request.fields["state"] = data.state!.toString();
-    request.fields["country"] = data.country!.toString();
-    request.fields["latitude"] = data.latitude!.toString();
-    request.fields["longitude"] = data.longitude!.toString();
+    request.fields["first_name"] = data.firstName!.toString();
+    request.fields["last_name"] = data.lastName!.toString();
+    request.fields["gender"] = data.gender!.toString();
+    request.fields["vendorClassifier"] = vendorClassifier.toString();
     //  request.files.add(file);
     try {
       response = await request.send();
