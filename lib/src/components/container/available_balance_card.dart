@@ -124,9 +124,9 @@ class _AvailableBalanceCardState extends State<AvailableBalanceCard> {
               IconButton(
                 icon: const FaIcon(FontAwesomeIcons.arrowsRotate),
                 onPressed: () async {
-                  await VendorController.instance.getMyVendors();
-                  await RiderController.instance.getRiders();
-                  await UserController.instance.getUser();
+                  UserController.instance.getUser();
+                  VendorController.instance.getMyVendors();
+                  RiderController.instance.getRiders();
                 },
                 mouseCursor: SystemMouseCursors.click,
                 color: kGreyColor,

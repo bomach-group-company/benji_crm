@@ -28,7 +28,7 @@ class VendorController extends GetxController {
   var isLoadCreate = false.obs;
   var vendorList = <VendorModel>[].obs;
   var vendorMyList = <MyVendorModel>[].obs;
-  var allMyVendorList = <MyVendorModel>[].obs;
+  var allMyVendorList = 0;
   // var businessType = <BusinessType>[].obs;
   var vendorProductList = <ProductModel>[].obs;
   var vendorOrderList = <BusinessOrderModel>[].obs;
@@ -131,6 +131,8 @@ class VendorController extends GetxController {
       var responseData =
           await ApiProcessorController.errorState(response, isFirst ?? true);
 
+      allMyVendorList = jsonDecode(responseData)['total'];
+      log(allMyVendorList.toString());
       var data = (jsonDecode(responseData ?? '{}')['items'] as List)
           .map((e) => MyVendorModel.fromJson(e))
           .toList();
@@ -147,44 +149,6 @@ class VendorController extends GetxController {
     }
     loadedAllMyVendor.value = data.isEmpty;
     isLoadMoreMyVendor.value = false;
-
-    isLoad.value = false;
-    update();
-  }
-
-  Future getTotalNumberOfMyVendors() async {
-    isLoad.value = true;
-    late String token;
-    String id = UserController.instance.user.value.id.toString();
-    var url = "${Api.baseUrl}${Api.vendorMyList}?agent_id=$id&start=0&end=1000";
-
-    log(url);
-
-    token = UserController.instance.user.value.token;
-    List<MyVendorModel> data = [];
-
-    try {
-      http.Response? response = await HandleData.getApi(url, token);
-      // log(response!.body);
-      var responseData =
-          await ApiProcessorController.errorState(response, isFirst ?? true);
-
-      data = (jsonDecode(responseData ?? '{}')['items'] as List)
-          .map((e) => MyVendorModel.fromJson(e))
-          .toList();
-
-      // data = (jsonDecode(response.body)["items"] as List)
-      //     .map((e) => MyVendorModel.fromJson(e))
-      //     .toList();
-      allMyVendorList.value = data;
-    } on SocketException {
-      ApiProcessorController.errorSnack("Please connect to the internet.");
-    } catch (e) {
-      consoleLog("ERROR log: ${e.toString()}");
-      ApiProcessorController.errorSnack(
-        "An unexpected error occurred in fetching all the vendors. Please try again later.\n ERROR: $e",
-      );
-    }
 
     isLoad.value = false;
     update();

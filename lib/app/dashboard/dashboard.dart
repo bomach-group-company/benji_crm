@@ -104,7 +104,6 @@ class _DashboardState extends State<Dashboard>
       loadingScreen = true;
     });
     await VendorController.instance.getMyVendors();
-    await VendorController.instance.getTotalNumberOfMyVendors();
     await NotificationController.instance.runTask();
     setState(() {
       loadingScreen = false;
@@ -214,17 +213,16 @@ class _DashboardState extends State<Dashboard>
                 GetBuilder<VendorController>(
                   init: VendorController(),
                   initState: (state) async {
-                    await VendorController.instance.getTotalNumberOfMyVendors();
+                    await VendorController.instance.getMyVendors();
                   },
                   builder: (controller) {
-                    final allVendor = controller.allMyVendorList.toList();
                     return DashboardContainer(
                       onTap: _toSeeMyVendors,
                       number: controller.isLoad.value
                           ? "..."
-                          : intFormattedText(allVendor.length),
+                          : intFormattedText(controller.allMyVendorList),
                       typeOf: "My Vendors",
-                      onlineStatus: "Online",
+                      onlineStatus: "",
                     );
                   },
                 ),
@@ -238,7 +236,7 @@ class _DashboardState extends State<Dashboard>
                         ? "..."
                         : controller.totalRiders.value.toString(),
                     typeOf: "Riders",
-                    onlineStatus: "Online",
+                    onlineStatus: "",
                   );
                 }),
                 kSizedBox,
