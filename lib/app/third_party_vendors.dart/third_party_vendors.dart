@@ -1,26 +1,26 @@
-import 'package:benji_aggregator/app/vendors/my_vendor_detail.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
-import 'package:benji_aggregator/model/my_vendor_model.dart';
-import 'package:benji_aggregator/src/components/container/my_vendor_container.dart';
 import 'package:benji_aggregator/src/skeletons/vendors_list_skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../model/third_party_vendor_model.dart';
+import '../../src/components/container/third_party_vendor_container.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
-import 'register_vendor.dart';
+import '../vendors/register_vendor.dart';
+import 'third_party_vendor_detail_screen.dart';
 
-class MyVendors extends StatelessWidget {
-  const MyVendors({super.key});
+class ThirdPartyVendors extends StatelessWidget {
+  const ThirdPartyVendors({super.key});
 
 //===================== Navigation ==========================\\
 
-  void toVendorDetailPage(MyVendorModel data) => Get.to(
-        () => MyVendorDetailPage(vendor: data),
+  void toVendorDetailPage(ThirdPartyVendorModel data) => Get.to(
+        () => ThirdPartyVendorDetailPage(vendor: data),
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
-        routeName: "VendorDetails",
+        routeName: "MyVendorDetailPage",
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.downToUp,
@@ -43,11 +43,11 @@ class MyVendors extends StatelessWidget {
         return SizedBox(
           child: Column(
             children: [
-              controller.isLoad.value && controller.vendorMyList.isEmpty
+              controller.isLoad.value && controller.thirdPartyVendorList.isEmpty
                   ? const VendorsListSkeleton()
                   : ListView.separated(
                       separatorBuilder: (context, index) => kHalfSizedBox,
-                      itemCount: controller.vendorMyList.length,
+                      itemCount: controller.thirdPartyVendorList.length,
                       addAutomaticKeepAlives: true,
                       physics: const BouncingScrollPhysics(),
                       shrinkWrap: true,
@@ -68,11 +68,11 @@ class MyVendors extends StatelessWidget {
                               ),
                             ],
                           ),
-                          child: MyVendorContainer(
+                          child: ThirdPartyVendorContainer(
                             onTap: () => toVendorDetailPage(
-                              controller.vendorMyList[index],
+                              controller.thirdPartyVendorList[index],
                             ),
-                            vendor: controller.vendorMyList[index],
+                            vendor: controller.thirdPartyVendorList[index],
                           ),
                         ),
                       ),

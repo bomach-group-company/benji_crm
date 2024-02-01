@@ -4,11 +4,11 @@ import 'country_model.dart';
 
 // final myvendorModel = myvendorModelFromJson(jsonString);
 
-// List<MyVendorModel> myVendorModelFromJson(String str) =>
-//     List<MyVendorModel>.from(
-//         json.decode(str).map((x) => MyVendorModel.fromJson(x)));
+// List<ThirdPartyVendorModel> myVendorModelFromJson(String str) =>
+//     List<ThirdPartyVendorModel>.from(
+//         json.decode(str).map((x) => ThirdPartyVendorModel.fromJson(x)));
 
-class MyVendorModel {
+class ThirdPartyVendorModel {
   int id;
   String email;
   String phone;
@@ -28,7 +28,7 @@ class MyVendorModel {
 
   bool isOnline;
 
-  MyVendorModel({
+  ThirdPartyVendorModel({
     required this.id,
     required this.email,
     required this.country,
@@ -48,10 +48,10 @@ class MyVendorModel {
     required this.latitude,
   });
 
-  factory MyVendorModel.fromJson(Map<String, dynamic>? json) {
+  factory ThirdPartyVendorModel.fromJson(Map<String, dynamic>? json) {
     json ??= {'vendor': {}};
 
-    return MyVendorModel(
+    return ThirdPartyVendorModel(
       id: json["id"] ?? 0,
       username: json["username"] ?? notAvailable,
       code: json["code"] ?? notAvailable,

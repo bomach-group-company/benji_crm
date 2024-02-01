@@ -14,4 +14,9 @@ class CountryModel {
       code: json['code'] ?? '',
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "code": code,
+      };
 }

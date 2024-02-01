@@ -221,7 +221,7 @@ class _DashboardState extends State<Dashboard>
                       number: controller.isLoad.value
                           ? "..."
                           : intFormattedText(controller.allMyVendorList),
-                      typeOf: "My Vendors",
+                      typeOf: " Vendors",
                       onlineStatus: "",
                     );
                   },

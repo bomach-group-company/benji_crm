@@ -8,13 +8,13 @@ import 'package:benji_aggregator/controller/api_processor_controller.dart';
 import 'package:benji_aggregator/model/business_order_model.dart';
 import 'package:benji_aggregator/model/my_vendor_model.dart';
 import 'package:benji_aggregator/model/product_model.dart';
-import 'package:benji_aggregator/model/vendor_model.dart';
 import 'package:benji_aggregator/services/api_url.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 import '../model/create_vendor_model.dart';
+import '../model/third_party_vendor_model.dart';
 import 'user_controller.dart';
 
 class VendorController extends GetxController {
@@ -26,9 +26,10 @@ class VendorController extends GetxController {
   VendorController({this.isFirst});
   var isLoad = false.obs;
   var isLoadCreate = false.obs;
-  var vendorList = <VendorModel>[].obs;
   var vendorMyList = <MyVendorModel>[].obs;
+  var thirdPartyVendorList = <ThirdPartyVendorModel>[].obs;
   var allMyVendorList = 0;
+  var allMyThirdPartyVendorList = 0;
   // var businessType = <BusinessType>[].obs;
   var vendorProductList = <ProductModel>[].obs;
   var vendorOrderList = <BusinessOrderModel>[].obs;
@@ -87,32 +88,6 @@ class VendorController extends GetxController {
     }
   }
 
-  // Future getVendors() async {
-  //   isLoad.value = true;
-  //   late String token;
-  //   String id = UserController.instance.user.value.id.toString();
-  //   var url =
-  //       "${Api.baseUrl}${Api.vendorList}?agent_id=$id&start=${loadNumVendor.value - 10}&end=${loadNumVendor.value}";
-  //   loadNumVendor.value += 10;
-
-  //   token = UserController.instance.user.value.token;
-  //   List<VendorModel> data = [];
-  //   try {
-  //     http.Response? response = await HandleData.getApi(url, token);
-  //     var responseData =
-  //         await ApiProcessorController.errorState(response, isFirst ?? true);
-  //     data = (jsonDecode(response!.body)['items'] as List)
-  //         .map((e) => VendorModel.fromJson(e))
-  //         .toList();
-  //     vendorList.value += data;
-  //   } catch (e) {}
-  //   isLoad.value = false;
-  //   isLoadMoreVendor.value = false;
-  //   loadedAllVendor.value = data.isEmpty;
-
-  //   update();
-  // }
-
   Future getMyVendors() async {
     isLoad.value = true;
     late String token;
@@ -141,6 +116,48 @@ class VendorController extends GetxController {
       //     .map((e) => MyVendorModel.fromJson(e))
       //     .toList();
       vendorMyList.value += data;
+    } catch (e) {
+      log("ERROR log: ${e.toString()}");
+      ApiProcessorController.errorSnack(
+        "An error occurred in fetching vendors. Please try again later.\n ERROR: $e",
+      );
+    }
+    loadedAllMyVendor.value = data.isEmpty;
+    isLoadMoreMyVendor.value = false;
+
+    isLoad.value = false;
+    update();
+  }
+
+  Future getThirdPartyVendors() async {
+    isLoad.value = true;
+    late String token;
+    String id = UserController.instance.user.value.id.toString();
+    var url =
+        "${Api.baseUrl}${Api.thirdPartyMyVendorList}?agent_id=$id&start=${loadNumMyVendor.value - 10}&end=${loadNumMyVendor.value}";
+    loadNumMyVendor.value += 10;
+    log(url);
+
+    token = UserController.instance.user.value.token;
+    List<MyVendorModel> data = [];
+
+    try {
+      http.Response? response = await HandleData.getApi(url, token);
+
+      log("Thirdparty vendors: ${response!.body}");
+      var responseData =
+          await ApiProcessorController.errorState(response, isFirst ?? true);
+
+      allMyThirdPartyVendorList = jsonDecode(responseData)['total'];
+      log(allMyThirdPartyVendorList.toString());
+      var data = (jsonDecode(responseData ?? '{}')['items'] as List)
+          .map((e) => ThirdPartyVendorModel.fromJson(e))
+          .toList();
+
+      // data = (jsonDecode(response.body)["items"] as List)
+      //     .map((e) => MyVendorModel.fromJson(e))
+      //     .toList();
+      thirdPartyVendorList.value += data;
     } catch (e) {
       log("ERROR loggg: ${e.toString()}");
       ApiProcessorController.errorSnack(

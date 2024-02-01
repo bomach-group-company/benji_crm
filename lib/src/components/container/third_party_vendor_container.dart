@@ -1,16 +1,17 @@
 // ignore_for_file: file_names
 
-import 'package:benji_aggregator/model/vendor_model.dart';
 import 'package:benji_aggregator/src/components/image/my_image.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../model/third_party_vendor_model.dart';
 import '../../../theme/colors.dart';
 import '../../providers/constants.dart';
 
-class VendorContainer extends StatelessWidget {
+class ThirdPartyVendorContainer extends StatelessWidget {
   final Function() onTap;
-  final VendorModel vendor;
-  const VendorContainer({
+  final ThirdPartyVendorModel vendor;
+  const ThirdPartyVendorContainer({
     super.key,
     required this.onTap,
     required this.vendor,
@@ -18,6 +19,7 @@ class VendorContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var media = MediaQuery.of(context).size;
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(16),
@@ -43,21 +45,70 @@ class VendorContainer extends StatelessWidget {
             ),
             kHalfWidthSizedBox,
             Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
+                  width: media.width - 200,
                   child: Text(
-                    vendor.username,
+                    "${vendor.firstName} ${vendor.lastName}",
+                    textAlign: TextAlign.start,
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       color: kTextBlackColor,
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
-                      letterSpacing: -0.36,
+                    ),
+                  ),
+                ),
+                kHalfSizedBox,
+                SizedBox(
+                  width: media.width - 200,
+                  child: Text(
+                    vendor.email,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: kAccentColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w300,
                     ),
                   ),
                 ),
                 kSizedBox,
+                SizedBox(
+                  width: media.width - 250,
+                  child: Row(
+                    children: [
+                      FaIcon(
+                        FontAwesomeIcons.solidUser,
+                        color: kAccentColor,
+                        size: 16,
+                      ),
+                      kHalfWidthSizedBox,
+                      Text.rich(
+                        TextSpan(
+                          children: [
+                            const TextSpan(
+                              text: "ID: ",
+                              style: TextStyle(
+                                color: kTextBlackColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                            TextSpan(
+                              text: vendor.code,
+                              style: const TextStyle(
+                                color: kTextBlackColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 // Row(
                 //   mainAxisSize: MainAxisSize.min,
                 //   mainAxisAlignment: MainAxisAlignment.start,

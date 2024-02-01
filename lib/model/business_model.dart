@@ -3,12 +3,12 @@ import 'dart:developer';
 import '../src/providers/constants.dart';
 import 'business_type_model.dart';
 import 'country_model.dart';
+import 'my_vendor_model.dart';
 import 'user_model.dart';
-import 'vendor_model.dart';
 
 class BusinessModel {
   String id;
-  VendorModel vendorOwner;
+  MyVendorModel vendorOwner;
   CountryModel country;
   String state;
   String city;
@@ -87,7 +87,7 @@ class BusinessModel {
           ? 'https://ibb.co/9NqtrPt'
           : json['coverImage'],
       shopType: BusinessType.fromJson(json["shop_type"] ?? {}),
-      vendorOwner: VendorModel.fromJson(json['vendor_owner'] ?? {}),
+      vendorOwner: MyVendorModel.fromJson(json['vendor_owner'] ?? {}),
       weekOpeningHours: json["weekOpeningHours"] ?? notAvailable,
       weekClosingHours: json["weekClosingHours"] ?? notAvailable,
       satOpeningHours: json["satOpeningHours"] ?? notAvailable,
