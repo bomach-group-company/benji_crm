@@ -17,8 +17,8 @@ import '../../src/components/section/my_liquid_refresh.dart';
 import '../../src/responsive/responsive_constant.dart';
 import '../../src/skeletons/vendors_list_skeleton.dart';
 import '../../theme/colors.dart';
-import '../businesses/business_detail_screen.dart';
 import '../third_party_businesses/add_third_party_business.dart';
+import '../third_party_businesses/third_party_business_detail_screen.dart';
 import 'about_third_party_vendor.dart';
 import 'report_third_party_vendor.dart';
 
@@ -529,7 +529,8 @@ class _ThirdPartyVendorDetailPageState extends State<ThirdPartyVendorDetailPage>
                                           return BusinessContainer(
                                             onTap: () {
                                               Get.to(
-                                                () => BusinessDetailScreen(
+                                                () =>
+                                                    ThirdPartyBusinessDetailScreen(
                                                   business: controller
                                                       .listOfBusinesses[index],
                                                 ),
@@ -538,7 +539,7 @@ class _ThirdPartyVendorDetailPageState extends State<ThirdPartyVendorDetailPage>
                                                 fullscreenDialog: true,
                                                 curve: Curves.easeIn,
                                                 routeName:
-                                                    "BusinessDetailScreen",
+                                                    "ThirdPartyBusinessDetailScreen",
                                                 preventDuplicates: true,
                                                 popGesture: false,
                                                 transition:

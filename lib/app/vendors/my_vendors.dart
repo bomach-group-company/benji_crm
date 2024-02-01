@@ -8,7 +8,6 @@ import 'package:get/get.dart';
 
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
-import 'register_vendor.dart';
 
 class MyVendors extends StatelessWidget {
   const MyVendors({super.key});
@@ -24,16 +23,6 @@ class MyVendors extends StatelessWidget {
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.downToUp,
-      );
-  void toAddVendor() => Get.to(
-        () => const RegisterVendor(),
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "RegisterVendor",
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
       );
 
   @override

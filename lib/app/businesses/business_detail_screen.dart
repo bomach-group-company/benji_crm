@@ -15,9 +15,9 @@ import '../../src/components/section/my_liquid_refresh.dart';
 import '../../src/providers/constants.dart';
 import '../../src/responsive/responsive_constant.dart';
 import '../../theme/colors.dart';
+import '../business_orders/orders.dart';
 import '../business_products/add_product.dart';
 import '../business_products/business_products.dart';
-import '../orders/orders.dart';
 import 'about_business.dart';
 import 'business_location.dart';
 
@@ -249,7 +249,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                 elevation: 20.0,
                 backgroundColor: kAccentColor,
                 foregroundColor: kPrimaryColor,
-                tooltip: "Add a business",
+                tooltip: "Add a product",
                 enableFeedback: true,
                 mouseCursor: SystemMouseCursors.click,
                 child: const FaIcon(FontAwesomeIcons.plus),

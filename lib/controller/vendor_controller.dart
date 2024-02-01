@@ -150,14 +150,14 @@ class VendorController extends GetxController {
 
       allMyThirdPartyVendorList = jsonDecode(responseData)['total'];
       log(allMyThirdPartyVendorList.toString());
-      var data = (jsonDecode(responseData ?? '{}')['items'] as List)
-          .map((e) => ThirdPartyVendorModel.fromJson(e))
-          .toList();
+      var data = (jsonDecode(responseData ?? '{}')['items'] as List);
 
-      // data = (jsonDecode(response.body)["items"] as List)
-      //     .map((e) => MyVendorModel.fromJson(e))
-      //     .toList();
-      thirdPartyVendorList.value += data;
+      var vendors = data.map((item) {
+        var vendorData = item['vendor'] ?? {};
+        return ThirdPartyVendorModel.fromJson(vendorData);
+      }).toList();
+
+      thirdPartyVendorList.value += vendors;
     } catch (e) {
       log("ERROR loggg: ${e.toString()}");
       ApiProcessorController.errorSnack(

@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:benji_aggregator/app/businesses/add_business.dart';
 import 'package:benji_aggregator/controller/business_controller.dart';
 import 'package:benji_aggregator/model/my_vendor_model.dart';
 import 'package:benji_aggregator/src/components/card/empty.dart';
@@ -24,10 +23,7 @@ import 'report_my_vendor.dart';
 
 class MyVendorDetailPage extends StatefulWidget {
   final MyVendorModel vendor;
-  const MyVendorDetailPage({
-    super.key,
-    required this.vendor,
-  });
+  const MyVendorDetailPage({super.key, required this.vendor});
 
   @override
   State<MyVendorDetailPage> createState() => _MyVendorDetailPageState();
@@ -182,16 +178,6 @@ class _MyVendorDetailPageState extends State<MyVendorDetailPage>
   }
 
   //===================== Navigation ==========================\\
-  void addBusiness() => Get.to(
-        () => AddBusiness(vendor: widget.vendor),
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "AddBusiness",
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.downToUp,
-      );
 
   @override
   Widget build(BuildContext context) {
@@ -216,15 +202,7 @@ class _MyVendorDetailPageState extends State<MyVendorDetailPage>
                   color: kPrimaryColor,
                 ),
               )
-            : FloatingActionButton(
-                onPressed: addBusiness,
-                elevation: 20.0,
-                mouseCursor: SystemMouseCursors.click,
-                tooltip: "Add Business",
-                backgroundColor: kAccentColor,
-                foregroundColor: kPrimaryColor,
-                child: const FaIcon(FontAwesomeIcons.plus),
-              ),
+            : const SizedBox(),
         appBar: MyAppBar(
           title: isScrollToTopBtnVisible
               ? "${widget.vendor.firstName} ${widget.vendor.lastName}"

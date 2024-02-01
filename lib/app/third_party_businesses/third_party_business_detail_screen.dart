@@ -15,9 +15,9 @@ import '../../src/components/section/my_liquid_refresh.dart';
 import '../../src/providers/constants.dart';
 import '../../src/responsive/responsive_constant.dart';
 import '../../theme/colors.dart';
-import '../business_products/add_product.dart';
-import '../business_products/business_products.dart';
-import '../orders/orders.dart';
+import '../business_orders/orders.dart';
+import '../third_party_business_products/add_third_party_product.dart';
+import '../third_party_business_products/third_party_business_products.dart';
 import 'about_third_party_business.dart';
 import 'third_party_business_location.dart';
 
@@ -200,8 +200,8 @@ class _ThirdPartyBusinessDetailScreenState
 //=================================== Navigation =====================================\\
 
   addProduct() => Get.to(
-        () => AddProduct(business: widget.business),
-        routeName: 'AddProduct',
+        () => AddThirdPartyBusinessProduct(business: widget.business),
+        routeName: 'AddThirdPartyBusinessProduct',
         duration: const Duration(milliseconds: 300),
         fullscreenDialog: true,
         curve: Curves.easeIn,
@@ -251,7 +251,7 @@ class _ThirdPartyBusinessDetailScreenState
                 elevation: 20.0,
                 backgroundColor: kAccentColor,
                 foregroundColor: kPrimaryColor,
-                tooltip: "Add a business",
+                tooltip: "Add a product",
                 enableFeedback: true,
                 mouseCursor: SystemMouseCursors.click,
                 child: const FaIcon(FontAwesomeIcons.plus),
@@ -573,7 +573,7 @@ class _ThirdPartyBusinessDetailScreenState
                             ? const EdgeInsets.symmetric(horizontal: 20)
                             : const EdgeInsets.symmetric(horizontal: 10),
                         child: selectedtabbar == 0
-                            ? BusinessProducts(
+                            ? ThirdPartyBusinessProducts(
                                 business: widget.business,
                               )
                             : selectedtabbar == 1

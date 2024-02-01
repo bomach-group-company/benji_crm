@@ -10,7 +10,8 @@ import 'package:benji_aggregator/services/api_url.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-import '../app/orders/orders.dart';
+import '../app/business_orders/orders.dart';
+import '../app/third_party_business_orders/third_party_orders.dart';
 import '../services/helper.dart';
 
 class OrderController extends GetxController {
@@ -28,6 +29,7 @@ class OrderController extends GetxController {
   var loadNum = 10.obs;
   var total = 0.obs;
   var status = StatusType.pending.obs;
+  var thirdpartyorderstatus = ThirdPartyBusinessStatusType.pending.obs;
 
   resetOrders() async {
     orderList.value = <BusinessOrderModel>[];
@@ -36,7 +38,19 @@ class OrderController extends GetxController {
     loadNum.value = 10;
     total.value = 0;
     status.value = StatusType.pending;
+
     setStatus();
+  }
+
+  resetThirdPartyOrders() async {
+    orderList.value = <BusinessOrderModel>[];
+    loadedAll.value = false;
+    isLoadMore.value = false;
+    loadNum.value = 10;
+    total.value = 0;
+
+    thirdpartyorderstatus.value = ThirdPartyBusinessStatusType.pending;
+    setThirdPartyStatus();
   }
 
   Future<void> scrollListener(scrollController) async {
@@ -54,6 +68,25 @@ class OrderController extends GetxController {
 
   setStatus([StatusType newStatus = StatusType.pending]) async {
     status.value = newStatus;
+    // if (newStatus == StatusType.pending) {
+    //   orderList.value = vendorPendingOrders;
+    // } else if (newStatus == StatusType.dispatched) {
+    //   orderList.value = vendorDispatchedOrders;
+    // } else if (newStatus == StatusType.delivered) {
+    //   orderList.value = vendorDeliveredOrders;
+    // } else {
+    // }
+    orderList.value = [];
+    loadNum.value = 10;
+    loadedAll.value = false;
+    update();
+    await getOrdersByStatus();
+  }
+
+  setThirdPartyStatus(
+      [ThirdPartyBusinessStatusType newStatus =
+          ThirdPartyBusinessStatusType.pending]) async {
+    thirdpartyorderstatus.value = newStatus;
     // if (newStatus == StatusType.pending) {
     //   orderList.value = vendorPendingOrders;
     // } else if (newStatus == StatusType.dispatched) {

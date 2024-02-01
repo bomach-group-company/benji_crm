@@ -7,7 +7,6 @@ import '../../model/third_party_vendor_model.dart';
 import '../../src/components/container/third_party_vendor_container.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
-import '../vendors/register_vendor.dart';
 import 'third_party_vendor_detail_screen.dart';
 
 class ThirdPartyVendors extends StatelessWidget {
@@ -24,16 +23,6 @@ class ThirdPartyVendors extends StatelessWidget {
         preventDuplicates: true,
         popGesture: true,
         transition: Transition.downToUp,
-      );
-  void toAddVendor() => Get.to(
-        () => const RegisterVendor(),
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        routeName: "RegisterVendor",
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
       );
 
   @override

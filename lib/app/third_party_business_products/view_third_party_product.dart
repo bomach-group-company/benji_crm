@@ -17,22 +17,23 @@ import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/button/my_elevatedbutton.dart';
 import '../../src/components/image/my_image.dart';
 import '../../src/components/responsive_widgets/padding.dart';
+import '../../src/components/sheet/showModalBottomSheet.dart';
 import '../../src/components/sheet/showModalBottomSheetTitleWithIcon.dart';
 import '../../src/providers/constants.dart';
 import '../../src/responsive/responsive_constant.dart';
 import '../../theme/colors.dart';
-import 'change_product_image.dart';
-import 'edit_product.dart';
+import 'change_third_party_product_image.dart';
+import 'edit_third_party_product.dart';
 
-class ViewProduct extends StatefulWidget {
+class ViewThirdPartyProduct extends StatefulWidget {
   final ProductModel product;
-  const ViewProduct({super.key, required this.product});
+  const ViewThirdPartyProduct({super.key, required this.product});
 
   @override
-  State<ViewProduct> createState() => _ViewProductState();
+  State<ViewThirdPartyProduct> createState() => _ViewThirdPartyProductState();
 }
 
-class _ViewProductState extends State<ViewProduct> {
+class _ViewThirdPartyProductState extends State<ViewThirdPartyProduct> {
   @override
   void initState() {
     super.initState();
@@ -173,8 +174,8 @@ class _ViewProductState extends State<ViewProduct> {
   editProduct() async {
     Navigator.pop(context);
     await Get.to(
-      () => EditProduct(product: widget.product),
-      routeName: 'EditProduct',
+      () => EditThirdPartyProduct(product: widget.product),
+      routeName: 'EditThirdPartyProduct',
       duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,
       curve: Curves.easeIn,
@@ -186,8 +187,8 @@ class _ViewProductState extends State<ViewProduct> {
 
   changeProductImage() {
     Get.to(
-      () => ChangeProductImage(product: widget.product),
-      routeName: 'ChangeProductImage',
+      () => ChangeThirdPartyProductImage(product: widget.product),
+      routeName: 'ChangeThirdPartyProductImage',
       duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,
       curve: Curves.easeIn,
@@ -250,27 +251,27 @@ class _ViewProductState extends State<ViewProduct> {
         appBar: MyAppBar(
           title: "Product Detail",
           elevation: 0,
-          actions: const [
-            // IconButton(
-            //   onPressed: () {
-            //     ShowModalBottomSheet(
-            //       context,
-            //       20.0,
-            //       deviceType(media.width) >= 2
-            //           ? media.height * 0.6
-            //           : media.height * 0.4,
-            //       deviceType(media.width) >= 2
-            //           ? media.height * 0.5
-            //           : media.height * 0.3,
-            //       productOptions(),
-            //     );
-            //   },
-            //   icon: FaIcon(
-            //     FontAwesomeIcons.ellipsisVertical,
-            //     color: kAccentColor,
-            //     size: 18,
-            //   ),
-            // ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                ShowModalBottomSheet(
+                  context,
+                  20.0,
+                  deviceType(media.width) >= 2
+                      ? media.height * 0.6
+                      : media.height * 0.4,
+                  deviceType(media.width) >= 2
+                      ? media.height * 0.5
+                      : media.height * 0.3,
+                  productOptions(),
+                );
+              },
+              icon: FaIcon(
+                FontAwesomeIcons.ellipsisVertical,
+                color: kAccentColor,
+                size: 18,
+              ),
+            ),
           ],
           backgroundColor: kPrimaryColor,
         ),
@@ -345,16 +346,16 @@ class _ViewProductState extends State<ViewProduct> {
                   ),
                 ),
               ),
-              // TextButton(
-              //   onPressed: changeProductImage,
-              //   child: Text(
-              //     "Change product image",
-              //     style: TextStyle(
-              //       color: kAccentColor,
-              //       fontWeight: FontWeight.w600,
-              //     ),
-              //   ),
-              // ),
+              TextButton(
+                onPressed: changeProductImage,
+                child: Text(
+                  "Change product image",
+                  style: TextStyle(
+                    color: kAccentColor,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
               kSizedBox,
               Padding(
                 padding: const EdgeInsets.all(kDefaultPadding / 2),
