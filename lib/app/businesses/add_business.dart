@@ -181,7 +181,7 @@ class _AddBusinessState extends State<AddBusiness> {
 
 // select bank
   selectBank() async {
-    await WithdrawController.instance.listBanks();
+    await WithdrawController.instance.getBanks();
     final result = await Get.to(
       () => const SelectBank(),
       routeName: 'SelectBank',

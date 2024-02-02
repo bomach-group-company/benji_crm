@@ -26,6 +26,7 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
 //===================================== INITIAL STATE =========================================\\
   @override
   void initState() {
+    WithdrawController.instance.getBanks();
     super.initState();
   }
 
@@ -113,34 +114,35 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
           actions: const [],
           backgroundColor: kPrimaryColor,
         ),
-        bottomNavigationBar:
-            GetBuilder<WithdrawController>(builder: (controller) {
-          return Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(boxShadow: [
-              BoxShadow(
-                color: kAccentColor.withOpacity(0.08),
-                offset: const Offset(3, 0),
-                blurRadius: 32,
+        bottomNavigationBar: GetBuilder<WithdrawController>(
+          builder: (controller) {
+            return Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(boxShadow: [
+                BoxShadow(
+                  color: kAccentColor.withOpacity(0.08),
+                  offset: const Offset(3, 0),
+                  blurRadius: 32,
+                ),
+              ]),
+              child: Obx(
+                () => MyElevatedButton(
+                  title: "Save Account",
+                  onPressed: !controller
+                              .validateAccount.value.requestSuccessful ||
+                          accountNumberEC.text.length < 10
+                      ? null
+                      : () async {
+                          if (formKey.currentState!.validate()) {
+                            await saveAccount(controller.validateAccount.value);
+                          }
+                        },
+                  isLoading: FormController.instance.isLoad.value,
+                ),
               ),
-            ]),
-            child: Obx(
-              () => MyElevatedButton(
-                title: "Save Account",
-                onPressed: !controller
-                            .validateAccount.value.requestSuccessful ||
-                        accountNumberEC.text.length < 10
-                    ? null
-                    : () async {
-                        if (formKey.currentState!.validate()) {
-                          await saveAccount(controller.validateAccount.value);
-                        }
-                      },
-                isLoading: FormController.instance.isLoad.value,
-              ),
-            ),
-          );
-        }),
+            );
+          },
+        ),
         body: SafeArea(
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(kDefaultPadding),
@@ -222,32 +224,34 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
                     },
                   ),
                   kSizedBox,
-                  GetBuilder<WithdrawController>(builder: (controller) {
-                    if (controller.isLoadValidateAccount.value) {
+                  GetBuilder<WithdrawController>(
+                    builder: (controller) {
+                      if (controller.isLoadValidateAccount.value) {
+                        return Text(
+                          'Loading...',
+                          style: TextStyle(
+                            color: kAccentColor.withOpacity(0.8),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        );
+                      }
+                      if (accountNumberEC.text.length < 10) {
+                        return const Text('');
+                      }
                       return Text(
-                        'Loading...',
+                        controller.validateAccount.value.requestSuccessful
+                            ? controller
+                                .validateAccount.value.responseBody.accountName
+                            : 'Bank details not found',
                         style: TextStyle(
-                          color: kAccentColor.withOpacity(0.8),
+                          color: kAccentColor,
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                         ),
                       );
-                    }
-                    if (accountNumberEC.text.length < 10) {
-                      return const Text('');
-                    }
-                    return Text(
-                      controller.validateAccount.value.requestSuccessful
-                          ? controller
-                              .validateAccount.value.responseBody.accountName
-                          : 'Bank details not found',
-                      style: TextStyle(
-                        color: kAccentColor,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    );
-                  })
+                    },
+                  ),
                 ],
               ),
             ),

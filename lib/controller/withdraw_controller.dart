@@ -37,7 +37,7 @@ class WithdrawController extends GetxController {
     update();
   }
 
-  listBanks() async {
+  Future<void> getBanks() async {
     var url = Api.baseUrl + Api.listBanks;
     isLoad.value = true;
     update();

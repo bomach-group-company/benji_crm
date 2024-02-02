@@ -58,7 +58,7 @@ class _SelectBankState extends State<SelectBank> {
   }
 
   Future<void> handleRefresh() async {
-    await WithdrawController.instance.listBanks();
+    await WithdrawController.instance.getBanks();
   }
 
   @override

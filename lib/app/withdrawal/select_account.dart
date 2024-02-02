@@ -157,10 +157,7 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
               controller: scrollController,
               physics: const BouncingScrollPhysics(),
               children: [
-                GetBuilder<AccountController>(
-                    // initState: (state) =>
-                    //     AccountController.instance.getAccounts(),
-                    builder: (controller) {
+                GetBuilder<AccountController>(builder: (controller) {
                   if (controller.isLoad.value && controller.accounts.isEmpty) {
                     return Center(
                       child: CircularProgressIndicator(color: kAccentColor),
