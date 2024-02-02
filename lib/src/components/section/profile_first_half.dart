@@ -88,8 +88,8 @@ class _ProfileFirstHalfState extends State<ProfileFirstHalf> {
                       onPressed: toggleVisibleCash,
                       icon: FaIcon(
                         controller.user.value.isVisibleCash
-                            ? FontAwesomeIcons.solidEye
-                            : FontAwesomeIcons.solidEyeSlash,
+                            ? FontAwesomeIcons.eye
+                            : FontAwesomeIcons.eyeSlash,
                         color: kPrimaryColor,
                       ),
                     ),

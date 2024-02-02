@@ -186,15 +186,15 @@ class _DashboardState extends State<Dashboard>
               onPressed: scrollToTop,
               mini: deviceType(media.width) > 2 ? false : true,
               backgroundColor: kAccentColor,
+              foregroundColor: kPrimaryColor,
               enableFeedback: true,
               mouseCursor: SystemMouseCursors.click,
               tooltip: "Scroll to top",
               hoverColor: kAccentColor,
               hoverElevation: 50.0,
-              child: FaIcon(
+              child: const FaIcon(
                 FontAwesomeIcons.chevronUp,
                 size: 18,
-                color: kPrimaryColor,
               ),
             )
           : const SizedBox(),

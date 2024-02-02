@@ -37,18 +37,33 @@ class WithdrawController extends GetxController {
     update();
   }
 
-  Future<void> getBanks() async {
+  getBanks() async {
     var url = Api.baseUrl + Api.listBanks;
+    log(url);
     isLoad.value = true;
     update();
     try {
       final response = await http.get(Uri.parse(url), headers: authHeader());
-
       if (response.statusCode == 200) {
         dynamic jsonResponse = jsonDecode(response.body);
         log(jsonResponse.toString());
-        listOfBanks.value = BankModel.listFromJson(jsonResponse);
-        listOfBanksSearch = listOfBanks;
+        if (jsonResponse is List) {
+          listOfBanks.value =
+              BankModel.listFromJson(jsonResponse.cast<Map<String, dynamic>>());
+          listOfBanksSearch = listOfBanks;
+        } else if (jsonResponse is Map) {
+          if (jsonResponse.containsKey('responseBody')) {
+            listOfBanks.value = BankModel.listFromJson(
+                jsonResponse['responseBody'].cast<Map<String, dynamic>>());
+            listOfBanksSearch = listOfBanks;
+          } else {
+            listOfBanks.value = [];
+            listOfBanksSearch.value = [];
+          }
+        } else {
+          listOfBanks.value = [];
+          listOfBanksSearch.value = [];
+        }
       } else {
         listOfBanks.value = [];
         listOfBanksSearch.value = [];

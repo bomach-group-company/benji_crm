@@ -1,11 +1,9 @@
 import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
-import 'package:benji_aggregator/src/components/card/empty.dart';
 import 'package:benji_aggregator/src/components/section/bank_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/route_manager.dart';
 
-import '../../../theme/colors.dart';
 import '../../controller/withdraw_controller.dart';
 import '../../src/providers/constants.dart';
 
@@ -19,7 +17,6 @@ class SelectBank extends StatefulWidget {
 class _SelectBankState extends State<SelectBank> {
   @override
   void initState() {
-    // WithdrawController.instance.listBanks();
     super.initState();
   }
 
@@ -63,6 +60,8 @@ class _SelectBankState extends State<SelectBank> {
 
   @override
   Widget build(BuildContext context) {
+    // WithdrawController.instance.getBanks();
+
     return GestureDetector(
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
@@ -107,39 +106,39 @@ class _SelectBankState extends State<SelectBank> {
                       //   ),
                       // ),
 
-                      controller.listOfBanks.isEmpty || controller.isLoad.value
-                          ? Center(
-                              child: CircularProgressIndicator(
-                                color: kAccentColor,
-                              ),
-                            )
-                          : controller.listOfBanks.isEmpty
-                              ? const EmptyCard(
-                                  emptyCardMessage:
-                                      "There are no banks listed right now",
-                                )
-                              : ListView.separated(
-                                  shrinkWrap: true,
-                                  physics: const BouncingScrollPhysics(),
-                                  itemCount: controller.listOfBanks.length,
-                                  separatorBuilder: (context, index) =>
-                                      kSizedBox,
-                                  itemBuilder: (context, index) {
-                                    final bankName =
-                                        controller.listOfBanks[index].name;
-                                    // Check if the bankName contains the search query
-                                    if (bankName.toLowerCase().contains(
-                                        bankQueryEC.text.toLowerCase())) {
-                                      return BankListTile(
-                                        onTap: () => selectBank(index),
-                                        bank: bankName,
-                                      );
-                                    } else {
-                                      // Return an empty container for controller that do not match the search
-                                      return Container();
-                                    }
-                                  },
-                                ),
+                      // controller.listOfBanks.isEmpty || controller.isLoad.value
+                      //     ? Center(
+                      //         child: CircularProgressIndicator(
+                      //           color: kAccentColor,
+                      //         ),
+                      //       )
+                      //     : controller.listOfBanks.isEmpty
+                      //         ? const EmptyCard(
+                      //             emptyCardMessage:
+                      //                 "There are no banks listed right now",
+                      //           )
+                      //         :
+                      ListView.separated(
+                        shrinkWrap: true,
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: controller.listOfBanks.length,
+                        separatorBuilder: (context, index) => kSizedBox,
+                        itemBuilder: (context, index) {
+                          final bankName = controller.listOfBanks[index].name;
+                          // Check if the bankName contains the search query
+                          if (bankName
+                              .toLowerCase()
+                              .contains(bankQueryEC.text.toLowerCase())) {
+                            return BankListTile(
+                              onTap: () => selectBank(index),
+                              bank: bankName,
+                            );
+                          } else {
+                            // Return an empty container for controller that do not match the search
+                            return Container();
+                          }
+                        },
+                      ),
                     ],
                   );
                 },

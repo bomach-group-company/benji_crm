@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:benji_aggregator/controller/form_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/controller/withdraw_controller.dart';
@@ -33,6 +35,7 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
   @override
   void dispose() {
     super.dispose();
+
     scrollController.dispose();
   }
 
@@ -58,13 +61,11 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
   //================================== FUNCTION ====================================\\
 
   //=================================== Navigation ============================\\
-  selectBank() async {
-    WithdrawController.instance.getBanks();
-
+  goToSelectBank() async {
     final result = await Get.to(
       () => const SelectBank(),
       routeName: 'SelectBank',
-      duration: const Duration(milliseconds: 300),
+      // duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,
       curve: Curves.easeIn,
       preventDuplicates: true,
@@ -80,6 +81,11 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
         bankCode = newBankCode;
       });
     }
+    log("BankName: ${bankNameEC.text}, bankCode: $bankCode");
+  }
+
+  Future<void> handleRefresh() async {
+    await WithdrawController.instance.getBanks();
   }
 
   saveAccount(ValidateBankAccountModel data) async {
@@ -150,6 +156,8 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
             padding: const EdgeInsets.all(kDefaultPadding),
             physics: const BouncingScrollPhysics(),
             child: GetBuilder<WithdrawController>(
+              init: WithdrawController(),
+              initState: (state) => WithdrawController.instance.getBanks(),
               builder: (controller) {
                 return Form(
                   key: formKey,
@@ -167,13 +175,17 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
                       ),
                       kHalfSizedBox,
                       InkWell(
-                        onTap: controller.isLoad.value ? null : selectBank,
+                        onTap: controller.listOfBanks.isEmpty ||
+                                controller.isLoad.value
+                            ? null
+                            : goToSelectBank,
                         child: MyBlueTextFormField(
                           controller: bankNameEC,
                           isEnabled: false,
                           textInputAction: TextInputAction.next,
                           focusNode: bankNameFN,
-                          hintText: controller.isLoad.value
+                          hintText: controller.listOfBanks.isEmpty ||
+                                  controller.isLoad.value
                               ? "Loading..."
                               : "Select a bank",
                           suffixIcon: FaIcon(
@@ -232,29 +244,33 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
                         },
                       ),
                       kSizedBox,
-                      controller.isLoadValidateAccount.value
-                          ? Text(
-                              'Loading...',
-                              style: TextStyle(
-                                color: kAccentColor.withOpacity(0.8),
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            )
-                          : accountNumberEC.text.length < 10
-                              ? const Text('')
-                              : Text(
-                                  controller.validateAccount.value
-                                          .requestSuccessful
-                                      ? controller.validateAccount.value
-                                          .responseBody.accountName
-                                      : 'Bank details not found',
-                                  style: TextStyle(
-                                    color: kAccentColor,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
+                      () {
+                        if (accountNumberEC.text.length < 10) {
+                          return const Text("");
+                        }
+                        if (controller.isLoadValidateAccount.value) {
+                          return Text(
+                            '...',
+                            style: TextStyle(
+                              color: kAccentColor.withOpacity(0.8),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          );
+                        } else {
+                          return Text(
+                            controller.validateAccount.value.requestSuccessful
+                                ? controller.validateAccount.value.responseBody
+                                    .accountName
+                                : 'Bank details not found',
+                            style: TextStyle(
+                              color: kAccentColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          );
+                        }
+                      }(),
                     ],
                   ),
                 );
