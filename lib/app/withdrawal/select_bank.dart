@@ -77,7 +77,7 @@ class _SelectBankState extends State<SelectBank> {
           child: SafeArea(
             child: Scrollbar(
               child: GetBuilder<WithdrawController>(
-                // initState: (state) => WithdrawController.instance.listBanks(),
+                // initState: (state) => WithdrawController.instance.getBanks(),
                 builder: (controller) {
                   return ListView(
                     physics: const BouncingScrollPhysics(),
@@ -116,7 +116,7 @@ class _SelectBankState extends State<SelectBank> {
                           : controller.listOfBanks.isEmpty
                               ? const EmptyCard(
                                   emptyCardMessage:
-                                      "There are no controller listed right now",
+                                      "There are no banks listed right now",
                                 )
                               : ListView.separated(
                                   shrinkWrap: true,

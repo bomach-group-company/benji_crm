@@ -46,9 +46,8 @@ class WithdrawController extends GetxController {
 
       if (response.statusCode == 200) {
         dynamic jsonResponse = jsonDecode(response.body);
-        log(jsonResponse);
-        listOfBanks.value =
-            BankModel.listFromJson(jsonResponse.cast<Map<String, dynamic>>());
+        log(jsonResponse.toString());
+        listOfBanks.value = BankModel.listFromJson(jsonResponse);
         listOfBanksSearch = listOfBanks;
       } else {
         listOfBanks.value = [];
