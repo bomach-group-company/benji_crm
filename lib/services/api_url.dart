@@ -19,7 +19,6 @@ class Api {
   static const user = "/auth/";
   static const notification = "/agents/getAgentNotifications/";
   static const changePassword = "/auth/changeNewPassword/";
-  static const validateBankNumber = "/payments/validateBankNumbers/";
 
 //Vendor
   static const vendorMyList = "/agents/listAllMyVendors";
@@ -69,6 +68,8 @@ class Api {
   static const withdrawalHistory = "/wallet/withdrawalHistory/";
   static const listWithdrawalHistories =
       "/withdrawalhistory/listWithdrawalHistories/";
+  static const validateBankNumber = "/payments/validateBankNumbers/";
+  static const saveBankDetails = "/payments/saveBankDetails";
 
   //Item Packages
   static const getPackageCategory = "/sendPackage/getPackageCategory/";

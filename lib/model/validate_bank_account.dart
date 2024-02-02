@@ -19,7 +19,8 @@ class ValidateBankAccountModel {
       requestSuccessful: json['requestSuccessful'] ?? false,
       responseMessage: json['responseMessage'] ?? notAvailable,
       responseCode: json['responseCode'] ?? notAvailable,
-      responseBody: BankDetailModel.fromJson(json['responseBody']),
+      responseBody: BankDetailModel.fromJson(
+          json['responseBody'] as Map<String, dynamic>?),
     );
   }
 }

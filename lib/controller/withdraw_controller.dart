@@ -80,20 +80,32 @@ class WithdrawController extends GetxController {
   Future<void> validateBankNumbers(
       String accountNumber, String bankCode) async {
     var url =
-        "${Api.baseUrl}${Api.validateBankNumber}?account_number=$accountNumber&bank_code=$bankCode";
+        "${Api.baseUrl}${Api.validateBankNumber}$accountNumber/$bankCode/monnify";
     isLoadValidateAccount.value = true;
     update();
 
     try {
       final response = await http.get(Uri.parse(url), headers: authHeader());
+      log(url);
 
-      if (response.statusCode != 200) {
-        validateAccount.value = ValidateBankAccountModel.fromJson(null);
-        return;
+      if (response.statusCode == 200) {
+        var responseData = jsonDecode(response.body);
+        log(responseData.toString());
+
+        var responseBody = responseData["responseBody"];
+        validateAccount.value = ValidateBankAccountModel.fromJson(
+          responseData as Map<String, dynamic>,
+        );
+        log(responseBody.toString());
+
+        // validateAccount.value = ValidateBankAccountModel.fromJson(
+        //     responseData as Map<String, dynamic>);
+        isLoadValidateAccount.value = false;
+        update();
       }
-      var responseData = jsonDecode(response.body);
-      validateAccount.value = ValidateBankAccountModel.fromJson(
-          responseData as Map<String, dynamic>);
+
+      validateAccount.value = ValidateBankAccountModel.fromJson(null);
+      return;
       // responseData.map((item) => ValidateBankAccountModel.fromJson(item));
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet");

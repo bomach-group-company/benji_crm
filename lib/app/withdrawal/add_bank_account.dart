@@ -8,11 +8,12 @@ import 'package:benji_aggregator/services/api_url.dart';
 import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
 import 'package:benji_aggregator/src/components/button/my_elevatedbutton.dart';
 import 'package:benji_aggregator/src/components/input/my_blue_textformfield.dart';
-import 'package:benji_aggregator/src/components/input/my_textformfield.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
+import '../../src/components/input/number_textformfield.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
 import 'select_bank.dart';
@@ -65,7 +66,7 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
     final result = await Get.to(
       () => const SelectBank(),
       routeName: 'SelectBank',
-      // duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,
       curve: Curves.easeIn,
       preventDuplicates: true,
@@ -97,13 +98,15 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
       'account_number': data.responseBody.accountNumber,
     };
 
+    String url = Api.baseUrl + Api.saveBankDetails;
     await FormController.instance.postAuth(
-        '${Api.baseUrl}/payments/saveBankDetails',
-        body,
-        'saveBankDetails',
-        'Error occured',
-        'Added successfully',
-        false);
+      url,
+      body,
+      'saveBankDetails',
+      'An error occured, try again',
+      'Added successfully',
+      false,
+    );
 
     if (FormController.instance.status.value == 200) {
       Get.close(1);
@@ -217,15 +220,19 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
                         ),
                       ),
                       kHalfSizedBox,
-                      MyTextFormField(
+                      NumberTextFormField(
                         controller: accountNumberEC,
                         focusNode: accountNumberFN,
                         hintText: "Enter the account number here",
                         textInputAction: TextInputAction.next,
-                        textInputType: TextInputType.name,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                        maxlength: 11,
                         onChanged: (value) {
-                          if (value.length >= 10) {
-                            controller.validateBankNumbers(
+                          if (value.length >= 10 ||
+                              accountNumberEC.text.length >= 10) {
+                            WithdrawController.instance.validateBankNumbers(
                               accountNumberEC.text,
                               bankCode,
                             );
@@ -249,25 +256,47 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
                           return const Text("");
                         }
                         if (controller.isLoadValidateAccount.value) {
+                          log(
+                            controller.validateAccount.value.requestSuccessful
+                                ? controller.validateAccount.value.responseBody
+                                    .accountName
+                                : 'Invalid account number',
+                          );
                           return Text(
-                            '...',
+                            'Loading...',
                             style: TextStyle(
-                              color: kAccentColor.withOpacity(0.8),
-                              fontSize: 14,
+                              color: kAccentColor,
+                              fontSize: 16,
                               fontWeight: FontWeight.w500,
                             ),
                           );
                         } else {
-                          return Text(
-                            controller.validateAccount.value.requestSuccessful
-                                ? controller.validateAccount.value.responseBody
-                                    .accountName
-                                : 'Bank details not found',
-                            style: TextStyle(
-                              color: kAccentColor,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            ),
+                          return Row(
+                            children: [
+                              Text(
+                                'Account Name: ',
+                                style: TextStyle(
+                                  color: kTextGreyColor,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              Text(
+                                controller
+                                        .validateAccount.value.requestSuccessful
+                                    ? controller.validateAccount.value
+                                        .responseBody.accountName
+                                    : 'Invalid account number',
+                                style: TextStyle(
+                                  color: controller.validateAccount.value
+                                          .requestSuccessful
+                                      ? kSuccessColor
+                                      : kAccentColor,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              )
+                            ],
                           );
                         }
                       }(),
