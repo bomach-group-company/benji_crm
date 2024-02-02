@@ -486,7 +486,7 @@ class _MyVendorDetailPageState extends State<MyVendorDetailPage>
                                 ? const Center(
                                     child: EmptyCard(
                                       emptyCardMessage:
-                                          "You haven't added any business to this vendor",
+                                          "This vendor doesn't have any businesses",
                                       animation:
                                           "assets/animations/empty/frame_4.json",
                                     ),

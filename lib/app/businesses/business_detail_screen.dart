@@ -221,14 +221,14 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
               : "Business Details",
           elevation: 0.0,
           backgroundColor: kPrimaryColor,
-          actions: [
-            IconButton(
-              onPressed: () => showPopupMenu(context),
-              icon: FaIcon(
-                FontAwesomeIcons.ellipsisVertical,
-                color: kAccentColor,
-              ),
-            ),
+          actions: const [
+            // IconButton(
+            //   onPressed: () => showPopupMenu(context),
+            //   icon: FaIcon(
+            //     FontAwesomeIcons.ellipsisVertical,
+            //     color: kAccentColor,
+            //   ),
+            // ),
           ],
         ),
         floatingActionButton: isScrollToTopBtnVisible

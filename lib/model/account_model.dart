@@ -46,3 +46,36 @@ class AccountModel {
     return jsonList.map((json) => AccountModel.fromJson(json)).toList();
   }
 }
+
+class Bank {
+  final String name;
+  final String code;
+  final String? ussdTemplate;
+  final String? baseUssdCode;
+  final String? transferUssdTemplate;
+  final String? bankId;
+  final String nipBankCode;
+
+  Bank({
+    required this.name,
+    required this.code,
+    this.ussdTemplate,
+    this.baseUssdCode,
+    this.transferUssdTemplate,
+    this.bankId,
+    required this.nipBankCode,
+  });
+
+  factory Bank.fromJson(Map<String, dynamic>? json) {
+    json = {};
+    return Bank(
+      name: json['name'] ?? '',
+      code: json['code'] ?? '',
+      ussdTemplate: json['ussdTemplate'],
+      baseUssdCode: json['baseUssdCode'],
+      transferUssdTemplate: json['transferUssdTemplate'],
+      bankId: json['bankId'],
+      nipBankCode: json['nipBankCode'] ?? '',
+    );
+  }
+}

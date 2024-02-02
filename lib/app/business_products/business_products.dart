@@ -58,7 +58,7 @@ class BusinessProducts extends StatelessWidget {
               }
               if (controller.products.isEmpty) {
                 return const EmptyCard(
-                  emptyCardMessage: "You don't have any products",
+                  emptyCardMessage: "This vendor doesn't have any products",
                 );
               }
               return LayoutGrid(

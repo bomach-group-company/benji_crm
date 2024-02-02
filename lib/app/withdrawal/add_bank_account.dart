@@ -66,7 +66,7 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
       curve: Curves.easeIn,
       preventDuplicates: true,
       popGesture: true,
-      transition: Transition.downToUp,
+      transition: Transition.rightToLeft,
     );
     if (result != null) {
       final newBankName = result['name'];
@@ -160,42 +160,32 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
                     ),
                   ),
                   kHalfSizedBox,
-                  GetBuilder<WithdrawController>(
-                    builder: (controller) {
-                      return InkWell(
-                        onTap: controller.listOfBanks.isEmpty &&
-                                controller.isLoad.value
-                            ? null
-                            : selectBank,
-                        child: MyBlueTextFormField(
-                          controller: bankNameEC,
-                          isEnabled: false,
-                          textInputAction: TextInputAction.next,
-                          focusNode: bankNameFN,
-                          hintText: controller.listOfBanks.isEmpty &&
-                                  controller.isLoad.value
-                              ? "Loading..."
-                              : "Select a bank",
-                          suffixIcon: FaIcon(
-                            FontAwesomeIcons.chevronDown,
-                            size: 20,
-                            color: kAccentColor,
-                          ),
-                          textInputType: TextInputType.name,
-                          validator: (value) {
-                            if (value == null || value!.isEmpty) {
-                              return "Select a bank";
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            setState(() {
-                              bankNameEC.text = value!;
-                            });
-                          },
-                        ),
-                      );
-                    },
+                  InkWell(
+                    onTap: selectBank,
+                    child: MyBlueTextFormField(
+                      controller: bankNameEC,
+                      isEnabled: false,
+                      textInputAction: TextInputAction.next,
+                      focusNode: bankNameFN,
+                      hintText: "Select a bank",
+                      suffixIcon: FaIcon(
+                        FontAwesomeIcons.chevronDown,
+                        size: 20,
+                        color: kAccentColor,
+                      ),
+                      textInputType: TextInputType.name,
+                      validator: (value) {
+                        if (value == null || value!.isEmpty) {
+                          return "Select a bank";
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        setState(() {
+                          bankNameEC.text = value!;
+                        });
+                      },
+                    ),
                   ),
                   kSizedBox,
                   Text(

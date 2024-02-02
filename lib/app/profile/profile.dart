@@ -49,9 +49,8 @@ class _ProfileState extends State<Profile> {
     setState(() {
       loadingScreen = true;
     });
-    await Future.delayed(const Duration(milliseconds: 500));
-    // await OrderController.instance.getOrders();
-    OrderController.instance.loadNum();
+
+    UserController.instance.getUser();
 
     setState(() {
       loadingScreen = false;

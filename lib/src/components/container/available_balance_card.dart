@@ -123,7 +123,7 @@ class _AvailableBalanceCardState extends State<AvailableBalanceCard> {
               kSizedBox,
               IconButton(
                 icon: const FaIcon(FontAwesomeIcons.arrowsRotate),
-                onPressed: () async {
+                onPressed: () {
                   UserController.instance.getUser();
                   VendorController.instance.getMyVendors();
                   RiderController.instance.getRiders();

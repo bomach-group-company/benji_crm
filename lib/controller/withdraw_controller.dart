@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:benji_aggregator/controller/api_processor_controller.dart';
@@ -37,13 +38,15 @@ class WithdrawController extends GetxController {
   }
 
   listBanks() async {
-    var url = "${Api.baseUrl}${Api.listBanks}";
+    var url = Api.baseUrl + Api.listBanks;
     isLoad.value = true;
-    // update();
+    update();
     try {
       final response = await http.get(Uri.parse(url), headers: authHeader());
+
       if (response.statusCode == 200) {
         dynamic jsonResponse = jsonDecode(response.body);
+        log(jsonResponse);
         listOfBanks.value =
             BankModel.listFromJson(jsonResponse.cast<Map<String, dynamic>>());
         listOfBanksSearch = listOfBanks;
@@ -53,6 +56,8 @@ class WithdrawController extends GetxController {
       }
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet");
+    } catch (e) {
+      log(e.toString());
     }
     isLoad.value = false;
     update();
