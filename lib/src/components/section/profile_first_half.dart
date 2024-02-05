@@ -22,6 +22,9 @@ class _ProfileFirstHalfState extends State<ProfileFirstHalf> {
 //======================================================= INITIAL STATE ================================================\\
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      UserController.instance.getUser();
+    });
     super.initState();
   }
 
@@ -155,7 +158,7 @@ class _ProfileFirstHalfState extends State<ProfileFirstHalf> {
                 ),
                 kSizedBox,
                 InkWell(
-                  onTap: toSelectAccount,
+                  onTap: controller.isLoading.value ? null : toSelectAccount,
                   child: Container(
                     width: media.width - 200,
                     height: 50,

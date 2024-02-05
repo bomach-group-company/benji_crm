@@ -27,6 +27,9 @@ class _ProfileState extends State<Profile> {
   //===================================== INITIAL STATE AND DISPOSE =========================================\\
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      UserController.instance.getUser();
+    });
     super.initState();
   }
 

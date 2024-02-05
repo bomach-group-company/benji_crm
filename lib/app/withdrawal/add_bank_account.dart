@@ -104,14 +104,14 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
       url,
       body,
       'saveBankDetails',
-      'An error occured, try again',
+      'An error occured, please try again later',
       'Added successfully',
       false,
     );
 
     if (FormController.instance.status.value == 200) {
       log("This is the status code for saving the account details: ${FormController.instance.status.value.toString()}");
-      await AccountController.instance.getAccounts();
+      await AccountController.instance.refreshBankAccountsData();
       Get.close(1);
     }
   }

@@ -109,7 +109,11 @@ class _WithdrawalHistoryPageState extends State<WithdrawalHistoryPage> {
                 );
               }
               if (controller.listOfWithdrawals.isEmpty) {
-                return const Center(child: EmptyCard());
+                return const Center(
+                  child: EmptyCard(
+                    emptyCardMessage: "You haven't made any withdrawals",
+                  ),
+                );
               }
 
               return ListView.separated(

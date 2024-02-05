@@ -19,14 +19,25 @@ class WithdrawController extends GetxController {
 
   var isLoadWithdraw = false.obs;
   var isLoad = false.obs;
+
   var loadNum = 10.obs;
+  var loadedAll = false.obs;
+  var isLoadMore = false.obs;
   var isLoadValidateAccount = false.obs;
+
   var userId = UserController.instance.user.value.id;
   var listOfBanks = <BankModel>[].obs;
   var listOfBanksSearch = <BankModel>[].obs;
   var validateAccount = ValidateBankAccountModel.fromJson(null).obs;
   var noWithdrawalHistory = "".obs;
   var listOfWithdrawals = <WithdrawalHistoryModel>[].obs;
+
+  refreshBanksData() {
+    loadedAll.value = false;
+    loadNum.value = 10;
+    listOfBanks.value = [];
+    getBanks();
+  }
 
   searchBanks(String search) {
     listOfBanksSearch = listOfBanks;

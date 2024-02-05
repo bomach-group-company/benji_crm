@@ -15,7 +15,19 @@ class AccountController extends GetxController {
   }
 
   var isLoad = false.obs;
+
+  var loadNum = 10.obs;
+  var loadedAll = false.obs;
+  var isLoadMore = false.obs;
+
   var accounts = <AccountModel>[].obs;
+
+  refreshBankAccountsData() async {
+    loadedAll.value = false;
+    loadNum.value = 10;
+    accounts.value = [];
+    getAccounts();
+  }
 
   getAccounts() async {
     var userId = UserController.instance.user.value.id;

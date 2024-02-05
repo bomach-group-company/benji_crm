@@ -7,7 +7,6 @@ import 'package:benji_aggregator/controller/rider_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:benji_aggregator/src/components/appbar/dashboard_app_bar.dart';
-import 'package:benji_aggregator/src/components/container/available_balance_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -38,7 +37,9 @@ class _DashboardState extends State<Dashboard>
   @override
   void initState() {
     super.initState();
-    UserController.instance.getUser();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      UserController.instance.getUser();
+    });
     _animationController =
         AnimationController(vsync: this, duration: const Duration(seconds: 1));
     scrollController.addListener(_scrollListener);
@@ -209,7 +210,7 @@ class _DashboardState extends State<Dashboard>
               physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.all(kDefaultPadding),
               children: [
-                const AvailableBalanceCard(),
+                // const AvailableBalanceCard(),
                 kSizedBox,
                 GetBuilder<VendorController>(
                   init: VendorController(),

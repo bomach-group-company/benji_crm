@@ -27,7 +27,9 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
   @override
   void initState() {
     super.initState();
-    AccountController.instance.getAccounts();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      AccountController.instance.getAccounts();
+    });
     scrollController.addListener(_scrollListener);
   }
 
