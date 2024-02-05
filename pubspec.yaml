@@ -47,6 +47,10 @@ dependencies:
   pdf: ^3.10.4
   screenshot: ^2.1.0
   share_plus: ^7.1.0
+  awesome_notifications:
+  awesome_notifications_core:
+  awesome_notifications_fcm:
+  firebase_messaging:
 
 dev_dependencies:
   flutter_test:

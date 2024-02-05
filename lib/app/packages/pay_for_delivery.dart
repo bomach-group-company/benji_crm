@@ -10,9 +10,9 @@ import '../../controller/api_processor_controller.dart';
 import '../../controller/auth_controller.dart';
 import '../../controller/payment_controller.dart';
 import '../../controller/user_controller.dart';
-import '../../services/payment/alatpay.dart';
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/button/my_elevatedbutton.dart';
+import '../../src/components/payment/monnify.dart';
 import '../../src/providers/constants.dart';
 import '../../src/providers/keys.dart';
 import '../../theme/colors.dart';
@@ -57,9 +57,9 @@ class _PayForDeliveryState extends State<PayForDelivery> {
     super.initState();
     getUserData();
     getTotalPrice();
-    callGetDeliveryFee();
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    // });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      callGetDeliveryFee();
+    });
     packageData = <String>[
       widget.senderName,
       "$countryDialCode ${widget.senderPhoneNumber}",
@@ -134,8 +134,8 @@ class _PayForDeliveryState extends State<PayForDelivery> {
 
 //======== Place Order =======\\
   void placeOrder() {
-    String apiKey = alatPayPrimaryKey;
-    String businessId = alatPayBuinessId;
+    String apiKey = monnifyAPIkey;
+    String contractCode = contractCodeKey;
     String email = UserController.instance.user.value.email;
     String phone = UserController.instance.user.value.phone;
     String firstName = UserController.instance.user.value.firstName;
@@ -143,16 +143,17 @@ class _PayForDeliveryState extends State<PayForDelivery> {
     String currency = 'NGN';
     String amount = (deliveryFee).toString();
     Map meta = {
-      "client_id": UserController.instance.user.value.id,
-      "the_package_id": widget.packageId
+      "the_item_id": widget.packageId,
+      'the_item_type': 'package',
+      "client_id": UserController.instance.user.value.id
     };
     try {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) {
-          return AlatPayWidget(
+          return MonnifyWidget(
             apiKey: apiKey,
-            businessId: businessId,
+            contractCode: contractCode,
             email: email,
             phone: phone,
             firstName: firstName,
@@ -161,7 +162,7 @@ class _PayForDeliveryState extends State<PayForDelivery> {
             amount: amount,
             metaData: meta,
             onTransaction: (response) {
-              consoleLog('the response from my alatpay $response');
+              consoleLog('the response from my monnify $response');
               if (response != null) {
                 toPackages();
               }
@@ -171,21 +172,11 @@ class _PayForDeliveryState extends State<PayForDelivery> {
       );
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet");
+      placeOrder();
     } catch (e) {
       consoleLog(e.toString());
     }
   }
-
-  void toPackages() => Get.off(
-        () => const Packages(),
-        routeName: 'Packages',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
 
   String generateRandomString(int len) {
     const chars =
@@ -198,6 +189,17 @@ class _PayForDeliveryState extends State<PayForDelivery> {
       ),
     );
   }
+
+  void toPackages() => Get.off(
+        () => const Packages(),
+        routeName: 'Packages',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
 
   getUserData() async {
     AuthController.instance.checkIfAuthorized();
