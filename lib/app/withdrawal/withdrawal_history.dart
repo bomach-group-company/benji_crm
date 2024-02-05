@@ -39,14 +39,7 @@ class _WithdrawalHistoryPageState extends State<WithdrawalHistoryPage> {
 //===================== Handle refresh ==========================\\
 
   Future<void> handleRefresh() async {
-    scrollController.addListener(_scrollListener);
-    setState(() {
-      loadingScreen = true;
-    });
     await WithdrawController.instance.withdrawalHistory();
-    setState(() {
-      loadingScreen = false;
-    });
   }
 
   //===================== Scroll to Top ==========================\\
@@ -106,15 +99,16 @@ class _WithdrawalHistoryPageState extends State<WithdrawalHistoryPage> {
           child: GetBuilder<WithdrawController>(
             initState: (state) =>
                 WithdrawController.instance.withdrawalHistory(),
-            builder: (detail) {
-              if (detail.listOfWithdrawals.isEmpty && detail.isLoad.value) {
+            builder: (controller) {
+              if (controller.listOfWithdrawals.isEmpty &&
+                  controller.isLoad.value) {
                 return Center(
                   child: CircularProgressIndicator(
                     color: kAccentColor,
                   ),
                 );
               }
-              if (detail.listOfWithdrawals.isEmpty) {
+              if (controller.listOfWithdrawals.isEmpty) {
                 return const Center(child: EmptyCard());
               }
 
@@ -122,12 +116,12 @@ class _WithdrawalHistoryPageState extends State<WithdrawalHistoryPage> {
                 controller: scrollController,
                 physics: const BouncingScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: detail.listOfWithdrawals.length,
+                itemCount: controller.listOfWithdrawals.length,
                 padding: const EdgeInsets.all(30),
                 separatorBuilder: (context, index) => kSizedBox,
                 itemBuilder: (context, index) {
                   return WithdrawalDetailCard(
-                    withdrawalDetail: detail.listOfWithdrawals[index],
+                    withdrawalDetail: controller.listOfWithdrawals[index],
                   );
                 },
               );

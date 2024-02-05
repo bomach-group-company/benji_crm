@@ -19,6 +19,7 @@ class WithdrawController extends GetxController {
 
   var isLoadWithdraw = false.obs;
   var isLoad = false.obs;
+  var loadNum = 10.obs;
   var isLoadValidateAccount = false.obs;
   var userId = UserController.instance.user.value.id;
   var listOfBanks = <BankModel>[].obs;
@@ -82,14 +83,16 @@ class WithdrawController extends GetxController {
     var userId = UserController.instance.user.value.id;
 
     var url =
-        "${Api.baseUrl}${Api.withdrawalHistory}?user_id=$userId&start=0&end=100";
+        "${Api.baseUrl}${Api.withdrawalHistory}?user_id=$userId&start=${loadNum.value - 10}&end=${loadNum.value}";
     isLoad.value = true;
     update();
 
+    log(url);
     try {
       final response = await http.get(Uri.parse(url), headers: authHeader());
-
+      log(response.statusCode.toString());
       if (response.statusCode == 200) {
+        log("Withdrawal History: ${jsonDecode(response.body)['items'] as List}");
         try {
           List<WithdrawalHistoryModel> withdrawalHistoryList =
               (jsonDecode(response.body)['items'] as List)
@@ -108,6 +111,7 @@ class WithdrawController extends GetxController {
       }
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet");
+      withdrawalHistory();
     } catch (e) {
       ApiProcessorController.errorSnack(
           "An unexpected error occurred. \nERROR: $e");
