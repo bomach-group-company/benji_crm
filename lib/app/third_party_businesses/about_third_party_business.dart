@@ -1,3 +1,4 @@
+import 'package:benji_aggregator/src/components/card/available_cashback_card.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -70,6 +71,8 @@ class _AboutThirdPartyBusinessState extends State<AboutThirdPartyBusiness> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          AvailableCashbackCard(business: widget.business),
+          kSizedBox,
           const Text(
             "About This Business",
             style: TextStyle(

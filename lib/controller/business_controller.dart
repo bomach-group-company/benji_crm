@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:benji_aggregator/services/helper.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -17,6 +18,9 @@ class BusinessController extends GetxController {
 
   bool? isFirst;
   BusinessController({this.isFirst});
+  var isLoadBalance = false.obs;
+  var balance = 0.0.obs;
+
   var isLoad = false.obs;
   var listOfBusinesses = <BusinessModel>[].obs;
   var totalNumberOfBusiness = <BusinessModel>[].obs;
@@ -76,6 +80,58 @@ class BusinessController extends GetxController {
 
     isLoad.value = false;
     update();
+  }
+
+  Future getVendorBusinessBalance(String id) async {
+    isLoadBalance.value = true;
+
+    try {
+      String url = '${Api.baseUrl}/wallet/getvendorbusinessbalance/$id';
+      var parsedURL = Uri.parse(url);
+
+      final result = await http.get(
+        parsedURL,
+        headers: authHeader(),
+      );
+      if (result.statusCode != 200) {
+        ApiProcessorController.errorSnack("Something went wrong");
+        return;
+      }
+      balance.value =
+          double.parse(jsonDecode(result.body)['balance'].toString());
+      isLoadBalance.value = false;
+      update();
+    } on SocketException {
+      ApiProcessorController.errorSnack("Please connect to the internet");
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  Future<http.Response?> getVendorBusinessWithdraw(BusinessModel business,
+      {double shopReward = 0.0}) async {
+    String url = '${Api.baseUrl}/wallet/requestVendorRewardWithdrawal';
+
+    try {
+      final body = {
+        "business_id": business.id,
+        "amount_to_withdraw": shopReward,
+        // "bank_details_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+      };
+      // print(body);
+      final response = await http.post(
+        Uri.parse(url),
+        body: jsonEncode(body),
+        headers: authHeader(),
+      );
+      log('value of type what');
+      return response;
+    } on SocketException {
+      ApiProcessorController.errorSnack("Please connect to the internet");
+    } catch (e) {
+      log(e.toString());
+    }
+    return null;
   }
 
   Future getTotalNumberOfBusinesses(String vendorId, agentId) async {
