@@ -1196,7 +1196,10 @@ class _AddBusinessState extends State<AddBusiness> {
                                   //     .responseBody.accountName,
                                   : 'Bank Name not found',
                               style: TextStyle(
-                                color: kAccentColor,
+                                color: controller
+                                        .validateAccount.value.requestSuccessful
+                                    ? kSuccessColor
+                                    : kAccentColor,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w700,
                               ),

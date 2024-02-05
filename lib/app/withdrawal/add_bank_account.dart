@@ -13,6 +13,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
+import '../../controller/account_controller.dart';
 import '../../src/components/input/number_textformfield.dart';
 import '../../src/providers/constants.dart';
 import '../../theme/colors.dart';
@@ -109,12 +110,15 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
     );
 
     if (FormController.instance.status.value == 200) {
+      log("This is the status code for saving the account details: ${FormController.instance.status.value.toString()}");
+      await AccountController.instance.getAccounts();
       Get.close(1);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    var media = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
@@ -271,32 +275,24 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
                             ),
                           );
                         } else {
-                          return Row(
-                            children: [
-                              Text(
-                                'Account Name: ',
-                                style: TextStyle(
-                                  color: kTextGreyColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              Text(
-                                controller
+                          return SizedBox(
+                            width: media.width - 100,
+                            child: Text(
+                              controller.validateAccount.value.requestSuccessful
+                                  ? controller.validateAccount.value
+                                      .responseBody.accountName
+                                  : 'Invalid account number',
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                              style: TextStyle(
+                                color: controller
                                         .validateAccount.value.requestSuccessful
-                                    ? controller.validateAccount.value
-                                        .responseBody.accountName
-                                    : 'Invalid account number',
-                                style: TextStyle(
-                                  color: controller.validateAccount.value
-                                          .requestSuccessful
-                                      ? kSuccessColor
-                                      : kAccentColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              )
-                            ],
+                                    ? kSuccessColor
+                                    : kAccentColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
                           );
                         }
                       }(),

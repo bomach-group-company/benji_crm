@@ -38,7 +38,7 @@ class _DashboardState extends State<Dashboard>
   @override
   void initState() {
     super.initState();
-
+    UserController.instance.getUser();
     _animationController =
         AnimationController(vsync: this, duration: const Duration(seconds: 1));
     scrollController.addListener(_scrollListener);
@@ -103,7 +103,8 @@ class _DashboardState extends State<Dashboard>
     setState(() {
       loadingScreen = true;
     });
-    await VendorController.instance.getMyVendors();
+    UserController.instance.getUser();
+    await await VendorController.instance.getMyVendors();
     await NotificationController.instance.runTask();
     setState(() {
       loadingScreen = false;

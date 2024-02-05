@@ -28,18 +28,13 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
   void initState() {
     super.initState();
     AccountController.instance.getAccounts();
-    loadingScreen = true;
     scrollController.addListener(_scrollListener);
-    _timer = Timer(const Duration(milliseconds: 1000), () {
-      setState(() => loadingScreen = false);
-    });
   }
 
   @override
   void dispose() {
     _handleRefresh().ignore();
     scrollController.dispose();
-    _timer.cancel();
     super.dispose();
   }
 
@@ -47,7 +42,6 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
   final scrollController = ScrollController();
 
 //=============================================== ALL VARIABLES ======================================================\\
-  late Timer _timer;
 
 //=============================================== BOOL VALUES ======================================================\\
   late bool loadingScreen;
@@ -85,12 +79,7 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
 //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
-    loadingScreen = true;
-    _timer = Timer(const Duration(milliseconds: 1000), () {
-      scrollController.addListener(_scrollListener);
-
-      setState(() => loadingScreen = false);
-    });
+    await AccountController.instance.getAccounts();
   }
 
   void _goToWithdraw(String bankDetailId) {
@@ -138,6 +127,7 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
               onPressed: _scrollToTop,
               mini: deviceType(media.width) > 2 ? false : true,
               backgroundColor: kAccentColor,
+              foregroundColor: kPrimaryColor,
               enableFeedback: true,
               mouseCursor: SystemMouseCursors.click,
               tooltip: "Scroll to top",
@@ -157,102 +147,105 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
               controller: scrollController,
               physics: const BouncingScrollPhysics(),
               children: [
-                GetBuilder<AccountController>(builder: (controller) {
-                  if (controller.isLoad.value && controller.accounts.isEmpty) {
-                    return Center(
-                      child: CircularProgressIndicator(color: kAccentColor),
-                    );
-                  }
-                  if (controller.accounts.isEmpty) {
-                    return const Center(
-                      child: Column(
-                        children: [
-                          EmptyCard(
-                            animation: "assets/animations/empty/frame_4.json",
-                            emptyCardMessage: "Please add an account",
-                          ),
-                          kSizedBox,
-                        ],
-                      ),
-                    );
-                  }
-                  return ListView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: controller.accounts.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return InkWell(
-                        onTap: () =>
-                            _goToWithdraw(controller.accounts[index].id),
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(
-                            horizontal: kDefaultPadding,
-                            vertical: kDefaultPadding / 2,
-                          ),
-                          decoration: BoxDecoration(
-                            color: kPrimaryColor,
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: 2,
-                                color: Colors.grey.shade400,
-                                spreadRadius: 1,
-                                offset: const Offset(0, 1),
-                              ),
-                            ],
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          padding: const EdgeInsets.all(kDefaultPadding),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      FaIcon(
-                                        FontAwesomeIcons.buildingColumns,
-                                        color: kAccentColor,
-                                      ),
-                                      kHalfWidthSizedBox,
-                                      Text(
-                                        controller.accounts[index].bankName,
-                                        style: TextStyle(
-                                          color: kTextGreyColor,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  // IconButton(
-                                  //   onPressed: () {
-                                  //     showBottomSheet(context);
-                                  //   },
-                                  //   icon: FaIcon(
-                                  //     FontAwesomeIcons.ellipsis,
-                                  //     color: kAccentColor,
-                                  //   ),
-                                  // )
-                                ],
-                              ),
-                              kSizedBox,
-                              Text(
-                                '${controller.accounts[index].accountHolder}....${controller.accounts[index].accountNumber.substring(max(controller.accounts[index].accountNumber.length - 5, 0))}',
-                                style: const TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ],
-                          ),
+                GetBuilder<AccountController>(
+                  builder: (controller) {
+                    if (controller.isLoad.value ||
+                        controller.accounts.isEmpty) {
+                      return Center(
+                        child: CircularProgressIndicator(color: kAccentColor),
+                      );
+                    }
+                    if (controller.accounts.isEmpty) {
+                      return const Center(
+                        child: Column(
+                          children: [
+                            EmptyCard(
+                              animation: "assets/animations/empty/frame_4.json",
+                              emptyCardMessage: "Please add an account",
+                            ),
+                            kSizedBox,
+                          ],
                         ),
                       );
-                    },
-                  );
-                }),
+                    }
+                    return ListView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: controller.accounts.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return InkWell(
+                          onTap: () =>
+                              _goToWithdraw(controller.accounts[index].id),
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(
+                              horizontal: kDefaultPadding,
+                              vertical: kDefaultPadding / 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: kPrimaryColor,
+                              boxShadow: [
+                                BoxShadow(
+                                  blurRadius: 2,
+                                  color: Colors.grey.shade400,
+                                  spreadRadius: 1,
+                                  offset: const Offset(0, 1),
+                                ),
+                              ],
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            padding: const EdgeInsets.all(kDefaultPadding),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        FaIcon(
+                                          FontAwesomeIcons.buildingColumns,
+                                          color: kAccentColor,
+                                        ),
+                                        kHalfWidthSizedBox,
+                                        Text(
+                                          controller.accounts[index].bankName,
+                                          style: TextStyle(
+                                            color: kTextGreyColor,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    // IconButton(
+                                    //   onPressed: () {
+                                    //     showBottomSheet(context);
+                                    //   },
+                                    //   icon: FaIcon(
+                                    //     FontAwesomeIcons.ellipsis,
+                                    //     color: kAccentColor,
+                                    //   ),
+                                    // )
+                                  ],
+                                ),
+                                kSizedBox,
+                                Text(
+                                  '${controller.accounts[index].accountHolder}....${controller.accounts[index].accountNumber.substring(max(controller.accounts[index].accountNumber.length - 5, 0))}',
+                                  style: const TextStyle(
+                                    color: kTextBlackColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
                 kSizedBox,
               ],
             ),

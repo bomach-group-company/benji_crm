@@ -1,4 +1,4 @@
-import 'package:benji_aggregator/src/providers/constants.dart';
+import '../src/providers/constants.dart';
 
 class ValidateBankAccountModel {
   bool requestSuccessful;
@@ -19,8 +19,7 @@ class ValidateBankAccountModel {
       requestSuccessful: json['requestSuccessful'] ?? false,
       responseMessage: json['responseMessage'] ?? notAvailable,
       responseCode: json['responseCode'] ?? notAvailable,
-      responseBody: BankDetailModel.fromJson(
-          json['responseBody'] as Map<String, dynamic>?),
+      responseBody: BankDetailModel.fromJson(json['responseBody']),
     );
   }
 }

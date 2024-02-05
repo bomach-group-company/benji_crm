@@ -64,7 +64,7 @@ class Api {
   static const businessType = "/categories/list";
 
   //Wallet
-  static const listBanks = "/payments/list_banks/";
+  static const getBanks = "/payments/list_banks/";
   static const withdrawalHistory = "/wallet/withdrawalHistory/";
   static const listWithdrawalHistories =
       "/withdrawalhistory/listWithdrawalHistories/";

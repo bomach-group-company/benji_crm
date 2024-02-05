@@ -1,12 +1,14 @@
 import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
 import 'package:benji_aggregator/src/components/section/bank_list_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/route_manager.dart';
 
 import '../../controller/withdraw_controller.dart';
 import '../../src/components/card/empty.dart';
 import '../../src/providers/constants.dart';
+import '../../src/responsive/responsive_constant.dart';
 import '../../theme/colors.dart';
 
 class SelectBank extends StatefulWidget {
@@ -20,12 +22,14 @@ class _SelectBankState extends State<SelectBank> {
   @override
   void initState() {
     super.initState();
+    scrollController.addListener(_scrollListener);
   }
 
   @override
   void dispose() {
     super.dispose();
     selectedBankName.dispose();
+    scrollController.dispose();
   }
 
   //==================  CONTROLLERS ==================\\
@@ -37,7 +41,8 @@ class _SelectBankState extends State<SelectBank> {
   final selectedBankCode = ValueNotifier<String?>(null);
 
   //================== BOOL VALUES ==================\\
-  bool isTyping = false;
+
+  bool _isScrollToTopBtnVisible = false;
   bool refreshing = false;
 
   //================== FUNCTIONS ==================\\
@@ -60,8 +65,43 @@ class _SelectBankState extends State<SelectBank> {
     await WithdrawController.instance.getBanks();
   }
 
+  //===================== Scroll to Top ==========================\\
+  Future<void> _scrollToTop() async {
+    await scrollController.animateTo(
+      0.0,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
+    setState(() {
+      _isScrollToTopBtnVisible = false;
+    });
+  }
+
+  Future<void> _scrollListener() async {
+    if (scrollController.position.pixels >= 100 &&
+        _isScrollToTopBtnVisible != true) {
+      setState(() {
+        _isScrollToTopBtnVisible = true;
+      });
+    }
+    if (scrollController.position.pixels < 100 &&
+        _isScrollToTopBtnVisible == true) {
+      setState(() {
+        _isScrollToTopBtnVisible = false;
+      });
+    }
+  }
+
+  onChanged(value) async {
+    setState(() {
+      selectedBankName.value = value;
+    });
+    WithdrawController.instance.searchBanks(value);
+  }
+
   @override
   Widget build(BuildContext context) {
+    var media = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
@@ -71,6 +111,20 @@ class _SelectBankState extends State<SelectBank> {
           actions: const [],
           backgroundColor: Theme.of(context).colorScheme.background,
         ),
+        floatingActionButton: _isScrollToTopBtnVisible
+            ? FloatingActionButton(
+                onPressed: _scrollToTop,
+                mini: deviceType(media.width) > 2 ? false : true,
+                backgroundColor: kAccentColor,
+                foregroundColor: kPrimaryColor,
+                enableFeedback: true,
+                mouseCursor: SystemMouseCursors.click,
+                tooltip: "Scroll to top",
+                hoverColor: kAccentColor,
+                hoverElevation: 50.0,
+                child: const FaIcon(FontAwesomeIcons.chevronUp, size: 18),
+              )
+            : const SizedBox(),
         body: RefreshIndicator(
           onRefresh: handleRefresh,
           child: SafeArea(
@@ -96,16 +150,17 @@ class _SelectBankState extends State<SelectBank> {
                       //       color: kAccentColor,
                       //       size: 20,
                       //     ),
-                      //     // onChanged: onChanged,
-                      //     padding: const MaterialStatePropertyAll(EdgeInsets.all(10)),
-                      //     shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                      //     onChanged: onChanged,
+                      //     padding: const MaterialStatePropertyAll(
+                      //         EdgeInsets.all(10)),
+                      //     shape:
+                      //         MaterialStatePropertyAll(RoundedRectangleBorder(
                       //       borderRadius: BorderRadius.circular(10),
                       //     )),
-                      //     side:
-                      //         MaterialStatePropertyAll(BorderSide(color: kLightGreyColor)),
+                      //     side: MaterialStatePropertyAll(
+                      //         BorderSide(color: kLightGreyColor)),
                       //   ),
                       // ),
-
                       controller.listOfBanks.isEmpty || controller.isLoad.value
                           ? Center(
                               child: CircularProgressIndicator(
