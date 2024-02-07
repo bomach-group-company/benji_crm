@@ -90,7 +90,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     if (kIsWeb) {
       return GetMaterialApp(
-        debugShowCheckedModeBanner: false,
+        debugShowCheckedModeBann er: false,
         defaultTransition: Transition.rightToLeft,
         title: "Benji CRM",
         color: kPrimaryColor,
