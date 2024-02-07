@@ -19,6 +19,8 @@ import 'package:benji_aggregator/controller/url_launch_controller.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:benji_aggregator/controller/withdraw_controller.dart';
 import 'package:benji_aggregator/theme/colors.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,9 +28,12 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app/splash_screens/splash_screen.dart';
+import 'controller/fcm_messaging_controller.dart';
 import 'controller/login_controller.dart';
+import 'controller/push_notifications_controller.dart';
 import 'controller/reviews_controller.dart';
 import 'controller/user_controller.dart';
+import 'firebase_options.dart';
 import 'theme/app theme.dart';
 
 late SharedPreferences prefs;
@@ -40,6 +45,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
   // await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  Get.put(PushNotificationController());
+  Get.put(FcmMessagingController());
+
   Get.put(UserController());
   Get.put(LoginController());
   Get.put(AuthController());
@@ -65,6 +73,16 @@ void main() async {
   Get.put(CategoryController());
   Get.put(ReviewsController());
 
+  if (!kIsWeb) {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    await FirebaseMessaging.instance.setAutoInitEnabled(true);
+    await PushNotificationController.initializeNotification();
+
+    await FcmMessagingController.instance.handleFCM();
+  }
+
   runApp(const MyApp());
 }
 
@@ -80,6 +98,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         defaultTransition: Transition.rightToLeft,
         title: "Benji CRM",
+        key: Get.key,
         color: kPrimaryColor,
         themeMode: ThemeMode.light,
         darkTheme: AppTheme.darkTheme,
@@ -92,6 +111,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         defaultTransition: Transition.rightToLeft,
         title: "Benji CRM",
+        key: Get.key,
         color: kPrimaryColor,
         theme: AppTheme.iOSDarkTheme,
         home: const SplashScreen(),
@@ -101,6 +121,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         defaultTransition: Transition.rightToLeft,
         title: "Benji CRM",
+        key: Get.key,
         color: kPrimaryColor,
         themeMode: ThemeMode.light,
         darkTheme: AppTheme.darkTheme,
@@ -114,6 +135,7 @@ class MyApp extends StatelessWidget {
       defaultTransition: Transition.rightToLeft,
       title: "Benji CRM",
       color: kPrimaryColor,
+      key: Get.key,
       themeMode: ThemeMode.light,
       darkTheme: AppTheme.darkTheme,
       theme: AppTheme.lightTheme,

@@ -1,4 +1,6 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.benji.crm">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.benji.crm">
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -52,7 +54,9 @@
         android:label="Benji CRM"
         android:name="${applicationName}"
         android:enableOnBackInvokedCallback="true"
-        android:icon="@mipmap/launcher_icon">
+        android:icon="@mipmap/launcher_icon"
+        tools:targetApi="tiramisu"
+        tools:ignore="UnusedAttribute">
         <activity
             android:name="com.benji.crm.MainActivity"
             android:exported="true"

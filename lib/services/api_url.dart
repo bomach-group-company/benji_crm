@@ -80,6 +80,9 @@ class Api {
 
   //Payments
   static const getDeliveryFee = "/payments/getdeliveryfee/";
+
+  //Push Notification
+  static const createPushNotification = "/notifier/create_push_notification";
 }
 
 String header = "application/json";
