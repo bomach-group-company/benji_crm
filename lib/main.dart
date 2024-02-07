@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:benji_aggregator/controller/account_controller.dart';
 import 'package:benji_aggregator/controller/api_processor_controller.dart';
-import 'package:benji_aggregator/controller/auth_controller.dart';
 import 'package:benji_aggregator/controller/business_controller.dart';
 import 'package:benji_aggregator/controller/category_controller.dart';
 import 'package:benji_aggregator/controller/form_controller.dart';
@@ -45,10 +44,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
   // await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  Get.put(FcmMessagingController());
 
   Get.put(UserController());
   Get.put(LoginController());
-  Get.put(AuthController());
   Get.put(NotificationController());
   Get.put(AccountController());
   Get.put(ProfileController());
@@ -70,7 +69,6 @@ void main() async {
   Get.put(SendPackageController());
   Get.put(CategoryController());
   Get.put(ReviewsController());
-  Get.put(FcmMessagingController());
 
   if (!kIsWeb) {
     await Firebase.initializeApp(
@@ -96,35 +94,35 @@ class MyApp extends StatelessWidget {
         defaultTransition: Transition.rightToLeft,
         title: "Benji CRM",
         color: kPrimaryColor,
-        key: Get.key,
+        navigatorKey: Get.key,
         themeMode: ThemeMode.light,
         darkTheme: AppTheme.darkTheme,
         theme: AppTheme.lightTheme,
-        home: const SplashScreen(),
+        home: SplashScreen(),
       );
     }
     if (Platform.isIOS) {
       return GetCupertinoApp(
         debugShowCheckedModeBanner: false,
         defaultTransition: Transition.rightToLeft,
-        key: Get.key,
+        navigatorKey: Get.key,
         title: "Benji CRM",
         color: kPrimaryColor,
         theme: AppTheme.iOSDarkTheme,
-        home: const SplashScreen(),
+        home: SplashScreen(),
       );
     }
 
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       defaultTransition: Transition.rightToLeft,
-      key: Get.key,
+      navigatorKey: Get.key,
       title: "Benji CRM",
       color: kPrimaryColor,
       themeMode: ThemeMode.light,
       darkTheme: AppTheme.darkTheme,
       theme: AppTheme.lightTheme,
-      home: const SplashScreen(),
+      home: SplashScreen(),
     );
   }
 }

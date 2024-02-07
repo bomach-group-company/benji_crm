@@ -54,7 +54,9 @@ class AuthController extends GetxController {
       checkAuth();
     } catch (e) {
       log(e.toString());
-      ApiProcessorController.errorSnack("Error: $e");
+      ApiProcessorController.errorSnack(
+        "An error occured, please try again later",
+      );
     }
   }
 

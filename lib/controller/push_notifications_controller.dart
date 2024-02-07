@@ -74,7 +74,7 @@ class PushNotificationController extends GetxController {
       ReceivedAction receivedAction) async {
     Get.key.currentState?.push(
       MaterialPageRoute(
-        builder: (_) => const SplashScreen(),
+        builder: (_) => SplashScreen(),
       ),
     );
     debugPrint("onActionReceiveMethod");
@@ -82,7 +82,7 @@ class PushNotificationController extends GetxController {
     if (payload["navigate"] == "true") {
       Get.key.currentState?.push(
         MaterialPageRoute(
-          builder: (_) => const SplashScreen(),
+          builder: (_) => SplashScreen(),
         ),
       );
     }
