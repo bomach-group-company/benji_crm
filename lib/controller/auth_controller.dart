@@ -36,6 +36,9 @@ class AuthController extends GetxController {
           transition: Transition.cupertinoDialog,
         );
       } else {
+        ApiProcessorController.errorSnack(
+          "User is not authorized, Please log in.",
+        );
         Get.offAll(
           () => const Login(),
           fullscreenDialog: true,
@@ -48,7 +51,7 @@ class AuthController extends GetxController {
       }
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet");
-      checkAuth;
+      checkAuth();
     } catch (e) {
       log(e.toString());
       ApiProcessorController.errorSnack("Error: $e");

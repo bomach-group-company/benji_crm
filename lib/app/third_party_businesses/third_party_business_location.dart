@@ -26,9 +26,9 @@ import '../../theme/colors.dart';
 class BusinessLocation extends StatefulWidget {
   final BusinessModel business;
   const BusinessLocation({
-    Key? key,
+    super.key,
     required this.business,
-  }) : super(key: key);
+  });
 
   @override
   State<BusinessLocation> createState() => _BusinessLocationState();

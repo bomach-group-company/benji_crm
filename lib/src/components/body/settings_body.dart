@@ -7,7 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
 class SettingsBody extends StatefulWidget {
-  const SettingsBody({Key? key}) : super(key: key);
+  const SettingsBody({super.key});
 
   @override
   State<SettingsBody> createState() => _SettingsBodyState();

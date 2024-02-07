@@ -25,7 +25,7 @@ class MyBlueTextFormField extends StatelessWidget {
   final void Function(String)? onChanged;
 
   const MyBlueTextFormField({
-    Key? key,
+    super.key,
     required this.hintText,
     required this.textInputType,
     required this.controller,
@@ -40,7 +40,7 @@ class MyBlueTextFormField extends StatelessWidget {
     this.maxlines = 1,
     this.readOnly,
     this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

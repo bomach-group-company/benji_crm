@@ -35,7 +35,7 @@ import '../section/location_list_tile.dart';
 import '../snackbar/my_floating_snackbar.dart';
 
 class PersonalInfoBody extends StatefulWidget {
-  const PersonalInfoBody({Key? key}) : super(key: key);
+  const PersonalInfoBody({super.key});
 
   @override
   State<PersonalInfoBody> createState() => _PersonalInfoBodyState();

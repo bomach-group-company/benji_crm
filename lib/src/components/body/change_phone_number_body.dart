@@ -10,7 +10,7 @@ import '../../providers/constants.dart';
 import '../input/my_intl_phonefield.dart';
 
 class ChangePhoneNumberBody extends StatefulWidget {
-  const ChangePhoneNumberBody({Key? key}) : super(key: key);
+  const ChangePhoneNumberBody({super.key});
 
   @override
   State<ChangePhoneNumberBody> createState() => _ChangePhoneNumberBodyState();

@@ -132,7 +132,7 @@ class MonnifyWidgetState extends State<MonnifyWidget> {
           width: media.width,
           height: media.height,
           initialContent: html,
-          initialSourceType: SourceType.HTML,
+          initialSourceType: SourceType.html,
           onWebViewCreated: (controller) {
             webviewController = controller;
           }),
