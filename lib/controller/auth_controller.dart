@@ -51,11 +51,28 @@ class AuthController extends GetxController {
       }
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet");
-      checkAuth();
+      Get.offAll(
+        () => const Login(),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "Login",
+        predicate: (route) => false,
+        popGesture: false,
+        transition: Transition.cupertinoDialog,
+      );
     } catch (e) {
       log(e.toString());
       ApiProcessorController.errorSnack(
-        "An error occured, please try again later",
+        "An error occured, please try again",
+      );
+      Get.offAll(
+        () => const Login(),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "Login",
+        predicate: (route) => false,
+        popGesture: false,
+        transition: Transition.cupertinoDialog,
       );
     }
   }
@@ -83,8 +100,29 @@ class AuthController extends GetxController {
       }
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet");
+      Get.offAll(
+        () => const Login(),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "Login",
+        predicate: (route) => false,
+        popGesture: false,
+        transition: Transition.cupertinoDialog,
+      );
     } catch (e) {
+      ApiProcessorController.errorSnack(
+        "An error occured, please try again",
+      );
       log(e.toString());
+      Get.offAll(
+        () => const Login(),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "Login",
+        predicate: (route) => false,
+        popGesture: false,
+        transition: Transition.cupertinoDialog,
+      );
     }
   }
 }
