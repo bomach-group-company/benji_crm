@@ -151,7 +151,7 @@ class _SelectAccountPageState extends State<SelectAccountPage> {
               children: [
                 GetBuilder<AccountController>(
                   builder: (controller) {
-                    if (controller.isLoad.value ||
+                    if (controller.isLoad.value &&
                         controller.accounts.isEmpty) {
                       return Center(
                         child: CircularProgressIndicator(color: kAccentColor),
