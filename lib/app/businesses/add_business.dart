@@ -116,9 +116,9 @@ class _AddBusinessState extends State<AddBusiness> {
 
   final businessIdEC = TextEditingController();
 
-  TextEditingController countryEC = TextEditingController();
-  TextEditingController stateEC = TextEditingController();
-  TextEditingController cityEC = TextEditingController();
+  final countryEC = TextEditingController();
+  final stateEC = TextEditingController();
+  final cityEC = TextEditingController();
 
   //=================================== FOCUS NODES ====================================\\
   final businessNameFN = FocusNode();

@@ -8,7 +8,6 @@ import 'package:benji_aggregator/controller/api_processor_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
 import 'package:benji_aggregator/theme/colors.dart';
-import 'package:csc_picker/csc_picker.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -22,11 +21,13 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../../src/providers/constants.dart';
 import '../../controller/latlng_detail_controller.dart';
+import '../../controller/shopping_location_controller.dart';
 import '../../controller/vendor_controller.dart';
 import '../../model/create_vendor_model.dart';
 import '../../src/components/button/my_elevatedbutton.dart';
 import '../../src/components/input/my_blue_textformfield.dart';
 import '../../src/components/input/my_intl_phonefield.dart';
+import '../../src/components/input/my_item_drop_down_menu.dart';
 import '../../src/components/input/my_maps_textformfield.dart';
 import '../../src/components/input/number_textformfield.dart';
 import '../../src/components/section/location_list_tile.dart';
@@ -87,7 +88,6 @@ class _RegisterVendorState extends State<RegisterVendor> {
 
   //======================================== GLOBAL KEYS ==============================================\\
   final _formKey = GlobalKey<FormState>();
-  final _cscPickerKey = GlobalKey<CSCPickerState>();
 
   //===================== BOOL VALUES =======================\\
   bool _isScrollToTopBtnVisible = false;
@@ -105,6 +105,10 @@ class _RegisterVendorState extends State<RegisterVendor> {
   final vendorvendorBioEC = TextEditingController();
   final vendorFirstNameEC = TextEditingController();
   final vendorLastNameEC = TextEditingController();
+
+  final countryEC = TextEditingController();
+  final stateEC = TextEditingController();
+  final cityEC = TextEditingController();
 
   final vendorLGAEC = TextEditingController();
   // final vendorSunOpeningHoursEC = TextEditingController();
@@ -192,9 +196,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
   final ImagePicker _picker = ImagePicker();
   File? selectedCoverImage;
   File? selectedLogoImage;
-  String? country;
-  String? state;
-  String? city;
+
   String? shopType;
   String? shopTypeHint;
   //================================== function ====================================\\
@@ -229,19 +231,16 @@ class _RegisterVendorState extends State<RegisterVendor> {
     if (defaultGender.isEmpty || defaultGender == "") {
       ApiProcessorController.errorSnack("Please choose a gender");
     }
-    if (country == null || country!.isEmpty || country == "") {
+    if (countryEC.text.isEmpty || countryEC.text == "") {
       ApiProcessorController.errorSnack("Please select a country");
       return;
     }
-    if (state == null || state!.isEmpty || state == "") {
+    if (stateEC.text.isEmpty || stateEC.text == "") {
       ApiProcessorController.errorSnack("Please select a state");
       return;
     }
-    if (!state!.contains("Enugu")) {
-      ApiProcessorController.errorSnack("We are only available in Enugu state");
-      return;
-    }
-    if (city == null || city!.isEmpty || city == "") {
+
+    if (cityEC.text.isEmpty || cityEC.text == "") {
       ApiProcessorController.errorSnack("Please select a city");
       return;
     }
@@ -255,10 +254,10 @@ class _RegisterVendorState extends State<RegisterVendor> {
       address: mapsLocationEC.text,
       email: vendorEmailEC.text,
       personalID: personalIdEC.text,
-      country: country!.contains("Nigeria") ? "NG" : "",
-      state: state ?? "",
+      country: countryEC.text,
+      state: stateEC.text,
       gender: defaultGender == "Male" ? "male" : "female",
-      city: city ?? "",
+      city: cityEC.text,
       latitude: latitude ?? "",
       longitude: longitude ?? "",
       firstName: vendorFirstNameEC.text,
@@ -415,8 +414,6 @@ class _RegisterVendorState extends State<RegisterVendor> {
     return GestureDetector(
       onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
       child: Scaffold(
-        extendBody: true,
-        extendBodyBehindAppBar: true,
         appBar: MyAppBar(
           title: "Register a vendor",
           elevation: 0,
@@ -494,24 +491,26 @@ class _RegisterVendorState extends State<RegisterVendor> {
                                     ),
                                   ),
                                 )
-                              : SizedBox(
-                                  height: 200,
-                                  width: 200,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Center(
-                                      child: Image.file(selectedLogoImage!),
+                              : Center(
+                                  child: SizedBox(
+                                    height: 200,
+                                    width: 200,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Center(
+                                        child: Image.file(selectedLogoImage!),
+                                      ),
                                     ),
+                                    // decoration: ShapeDecoration(
+                                    //   shape: const OvalBorder(),
+                                    //   image: DecorationImage(
+                                    //     image: FileImage(
+                                    //       selectedLogoImage!,
+                                    //     ),
+                                    //     fit: BoxFit.cover,
+                                    //   ),
+                                    // ),
                                   ),
-                                  // decoration: ShapeDecoration(
-                                  //   shape: const OvalBorder(),
-                                  //   image: DecorationImage(
-                                  //     image: FileImage(
-                                  //       selectedLogoImage!,
-                                  //     ),
-                                  //     fit: BoxFit.cover,
-                                  //   ),
-                                  // ),
                                 ),
                           InkWell(
                             onTap: () {
@@ -869,77 +868,182 @@ class _RegisterVendorState extends State<RegisterVendor> {
                             ],
                           ),
                           kSizedBox,
-                          !vendorClassified
-                              ? const Text(
-                                  "Localization",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                )
-                              : const SizedBox(),
-                          kSizedBox,
-                          !vendorClassified
-                              ? CSCPicker(
-                                  key: _cscPickerKey,
-                                  layout: Layout.vertical,
-                                  countryFilter: const [CscCountry.Nigeria],
-                                  countryDropdownLabel: "Select country",
-                                  stateDropdownLabel: "Select state",
-                                  cityDropdownLabel: "Select city",
-                                  onCountryChanged: (value) {
-                                    if (value.isNotEmpty) {
-                                      setState(() {
-                                        country = value;
-                                      });
-                                    }
-                                  },
-                                  onStateChanged: (value) {
-                                    if (value != null) {
-                                      setState(() {
-                                        state = value;
-                                      });
-                                    }
-                                  },
-                                  onCityChanged: (value) {
-                                    if (value != null) {
-                                      setState(() {
-                                        city = value;
-                                      });
-                                    }
-                                  },
-                                )
-                              : const SizedBox(),
-                          !vendorClassified ? kSizedBox : const SizedBox(),
-                          !vendorClassified
-                              ? const Text(
-                                  "Local Government Area",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                )
-                              : const SizedBox(),
-                          kSizedBox,
-                          !vendorClassified
-                              ? MyBlueTextFormField(
-                                  controller: vendorLGAEC,
-                                  validator: (value) {
-                                    if (value == null || value!.isEmpty) {
-                                      return "Field cannot be empty";
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                  onSaved: (value) {},
-                                  textInputAction: TextInputAction.done,
-                                  focusNode: vendorLGAFN,
-                                  hintText: "Enter the LGA",
-                                  textInputType: TextInputType.text,
-                                )
-                              : const SizedBox(),
-                          !vendorClassified ? kSizedBox : const SizedBox(),
+                          const Text(
+                            'Country',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
 
+                          kSizedBox,
+                          //  Address and location
+
+                          GetBuilder<ShoppingLocationController>(
+                            initState: (state) => ShoppingLocationController
+                                .instance
+                                .getShoppingLocationCountries(),
+                            builder: (controller) => ItemDropDownMenu(
+                              onSelected: (value) {
+                                controller.getShoppingLocationState(value);
+                                countryEC.text = value!.toString();
+                                setState(() {});
+                              },
+                              itemEC: countryEC,
+                              hintText: "Choose country",
+                              dropdownMenuEntries:
+                                  controller.isLoadCountry.value &&
+                                          controller.country.isEmpty
+                                      ? [
+                                          const DropdownMenuEntry(
+                                              value: 'Loading...',
+                                              label: 'Loading...',
+                                              enabled: false),
+                                        ]
+                                      : controller.country.isEmpty
+                                          ? [
+                                              const DropdownMenuEntry(
+                                                  value: 'EMPTY',
+                                                  label: 'EMPTY',
+                                                  enabled: false),
+                                            ]
+                                          : controller.country
+                                              .map(
+                                                (item) => DropdownMenuEntry(
+                                                  value: item.countryCode,
+                                                  label: item.countryName,
+                                                ),
+                                              )
+                                              .toList(),
+                            ),
+                          ),
+
+                          kSizedBox,
+                          const Text(
+                            "Select state",
+                            style: TextStyle(
+                              fontSize: 17.6,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          kHalfSizedBox,
+                          GetBuilder<ShoppingLocationController>(
+                            builder: (controller) => ItemDropDownMenu(
+                              onSelected: (value) {
+                                stateEC.text = value!.toString();
+                                controller.getShoppingLocationCity(value);
+                                setState(() {});
+                              },
+                              itemEC: stateEC,
+                              hintText: "Choose state",
+                              dropdownMenuEntries: countryEC.text.isEmpty
+                                  ? [
+                                      const DropdownMenuEntry(
+                                          value: 'Select Country',
+                                          label: 'Select Country',
+                                          enabled: false),
+                                    ]
+                                  : controller.isLoadState.value &&
+                                          controller.state.isEmpty
+                                      ? [
+                                          const DropdownMenuEntry(
+                                              value: 'Loading...',
+                                              label: 'Loading...',
+                                              enabled: false),
+                                        ]
+                                      : controller.state.isEmpty
+                                          ? [
+                                              const DropdownMenuEntry(
+                                                  value: 'EMPTY',
+                                                  label: 'EMPTY',
+                                                  enabled: false),
+                                            ]
+                                          : controller.state
+                                              .map(
+                                                (item) => DropdownMenuEntry(
+                                                  value: item.stateCode,
+                                                  label: item.stateName,
+                                                ),
+                                              )
+                                              .toList(),
+                            ),
+                          ),
+                          kSizedBox,
+                          const Text(
+                            "Select city",
+                            style: TextStyle(
+                              fontSize: 17.6,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          kHalfSizedBox,
+                          GetBuilder<ShoppingLocationController>(
+                            builder: (controller) => ItemDropDownMenu(
+                              onSelected: (value) {
+                                cityEC.text = value!.toString();
+                                setState(() {});
+                              },
+                              itemEC: cityEC,
+                              hintText: "Choose city",
+                              dropdownMenuEntries: stateEC.text.isEmpty
+                                  ? [
+                                      const DropdownMenuEntry(
+                                          value: 'Select State',
+                                          label: 'Select State',
+                                          enabled: false),
+                                    ]
+                                  : controller.isLoadCity.value &&
+                                          controller.city.isEmpty
+                                      ? [
+                                          const DropdownMenuEntry(
+                                              value: 'Loading...',
+                                              label: 'Loading...',
+                                              enabled: false),
+                                        ]
+                                      : controller.city.isEmpty
+                                          ? [
+                                              const DropdownMenuEntry(
+                                                  value: 'EMPTY',
+                                                  label: 'EMPTY',
+                                                  enabled: false),
+                                            ]
+                                          : controller.city
+                                              .map(
+                                                (item) => DropdownMenuEntry(
+                                                  value: item.cityCode,
+                                                  label: item.cityName,
+                                                ),
+                                              )
+                                              .toList(),
+                            ),
+                          ),
+                          kSizedBox,
+
+                          const Text(
+                            "Local Government Area",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+
+                          kSizedBox,
+                          MyBlueTextFormField(
+                            controller: vendorLGAEC,
+                            validator: (value) {
+                              if (value == null || value!.isEmpty) {
+                                return "Field cannot be empty";
+                              } else {
+                                return null;
+                              }
+                            },
+                            onSaved: (value) {},
+                            textInputAction: TextInputAction.done,
+                            focusNode: vendorLGAFN,
+                            hintText: "Enter the LGA",
+                            textInputType: TextInputType.text,
+                          ),
+                          kSizedBox,
                           // MyDropDownMenu(
                           //   controller: vendorLGAEC,
                           //   hintText: "Select your LGA",

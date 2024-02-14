@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:benji_aggregator/src/components/input/my_dropdown_menu.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -593,38 +594,45 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                 radius: const Radius.circular(20),
                 child: Column(
                   children: [
-                    selectedLogoImage == null
-                        ? Container(
-                            width: 120,
-                            height: 120,
-                            padding: const EdgeInsets.all(kDefaultPadding),
-                            decoration: const ShapeDecoration(
-                              shape: CircleBorder(
-                                side: BorderSide(
-                                  width: 0.50,
-                                  color: kGreyColor1,
-                                ),
-                              ),
-                            ),
-                            child: Center(
-                              child: MyImage(url: businessLogo),
-                            ),
-                          )
-                        : Container(
-                            decoration: ShapeDecoration(
-                              image: DecorationImage(
-                                image: FileImage(selectedLogoImage!),
-                                fit: BoxFit.contain,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                side: const BorderSide(
-                                  width: 0.50,
-                                  color: Color(0xFFE6E6E6),
-                                ),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            ),
+                    Container(
+                      padding: const EdgeInsets.all(kDefaultPadding),
+                      decoration: const ShapeDecoration(
+                        shape: CircleBorder(
+                          side: BorderSide(
+                            width: 0.50,
+                            color: kGreyColor1,
                           ),
+                        ),
+                      ),
+                      child: CircleAvatar(
+                        radius: 60,
+                        child: ClipOval(
+                          child: Center(
+                            child: selectedLogoImage == null
+                                ? MyImage(
+                                    height: 120,
+                                    width: 120,
+                                    url: businessLogo,
+                                    fit: BoxFit.fill,
+                                  )
+                                : kIsWeb
+                                    ? Image.network(
+                                        selectedLogoImage!.path,
+                                        height: 120,
+                                        width: 120,
+                                      )
+                                    : Image.file(
+                                        height: 120,
+                                        width: 120,
+                                        fit: BoxFit.fill,
+                                        File(
+                                          selectedLogoImage!.path,
+                                        ),
+                                      ),
+                          ),
+                        ),
+                      ),
+                    ),
                     InkWell(
                       onTap: () {
                         showModalBottomSheet(
@@ -660,40 +668,44 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                       ),
                     ),
                     kSizedBox,
-                    selectedCoverImage == null
-                        ? Container(
-                            padding: const EdgeInsets.all(20),
-                            height: deviceType(media.width) > 2 ? 220 : 180,
-                            decoration: ShapeDecoration(
-                              shape: RoundedRectangleBorder(
-                                side: const BorderSide(
-                                  width: 0.50,
-                                  color: Color(0xFFE6E6E6),
-                                ),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            child: Center(
-                              child: MyImage(
-                                url: businessCoverImage,
-                              ),
-                            ),
-                          )
-                        : Container(
-                            decoration: ShapeDecoration(
-                              image: DecorationImage(
-                                image: FileImage(selectedCoverImage!),
-                                fit: BoxFit.cover,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                side: const BorderSide(
-                                  width: 0.50,
-                                  color: Color(0xFFE6E6E6),
-                                ),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            ),
+                    Container(
+                      height: 200,
+                      width: media.width - 100,
+                      padding: const EdgeInsets.all(20),
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                          side: const BorderSide(
+                            width: 0.50,
+                            color: Color(0xFFE6E6E6),
                           ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: selectedCoverImage == null
+                            ? MyImage(
+                                height: 120,
+                                width: 120,
+                                url: businessCoverImage,
+                                fit: BoxFit.fill,
+                              )
+                            : kIsWeb
+                                ? Image.network(
+                                    selectedCoverImage!.path,
+                                    height: 120,
+                                    width: 120,
+                                  )
+                                : Image.file(
+                                    height: 120,
+                                    width: 120,
+                                    fit: BoxFit.fill,
+                                    File(
+                                      selectedCoverImage!.path,
+                                    ),
+                                  ),
+                      ),
+                    ),
                     InkWell(
                       onTap: () {
                         showModalBottomSheet(
@@ -710,7 +722,7 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                             ),
                           ),
                           enableDrag: true,
-                          builder: ((builder) => uploadBusinessLogo()),
+                          builder: ((builder) => uploadBusinessCoverImage()),
                         );
                       },
                       splashColor: kAccentColor.withOpacity(0.1),
@@ -718,7 +730,7 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                       child: Container(
                         padding: const EdgeInsets.all(10),
                         child: Text(
-                          'Upload business logo',
+                          'Upload cover image',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: kAccentColor,
@@ -739,7 +751,7 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      "Shop Name",
+                      "Business Name",
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
@@ -758,7 +770,7 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                       },
                       textInputAction: TextInputAction.next,
                       focusNode: shopNameFN,
-                      hintText: "Name of shop",
+                      hintText: "Name of business",
                       textInputType: TextInputType.text,
                     ),
                     kSizedBox,
@@ -1121,175 +1133,7 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                           },
                         ),
                         kSizedBox,
-                        // const Text(
-                        //   'Country',
-                        //   style: TextStyle(
-                        //     fontSize: 16,
-                        //     fontWeight: FontWeight.w700,
-                        //   ),
-                        // ),
-                        // kSizedBox,
-                        // CSCPicker(
-                        //   layout: Layout.vertical,
-                        //   countryFilter: const [CscCountry.Nigeria],
-                        //   countryDropdownLabel: "Select a Country",
-                        //   stateDropdownLabel: "Select a State",
-                        //   cityDropdownLabel: "Select a City",
-                        //   onCountryChanged: (value) {
-                        //     setState(() {
-                        //       countryValue = value;
-                        //     });
-                        //   },
-                        //   onStateChanged: (value) {
-                        //     setState(() {
-                        //       stateValue = value ?? "";
-                        //     });
-                        //   },
-                        //   onCityChanged: (value) {
-                        //     setState(() {
-                        //       cityValue = value ?? "";
-                        //     });
-                        //   },
-                        // ),
-                        // kSizedBox,
-                        // const Text(
-                        //   "Local Government Area",
-                        //   style: TextStyle(
-                        //     fontSize: 16,
-                        //     fontWeight: FontWeight.w700,
-                        //   ),
-                        // ),
-                        // kSizedBox,
-                        // MyBlueTextFormField(
-                        //   controller: vendorLGAEC,
-                        //   validator: (value) {
-                        //     if (value == null || value!.isEmpty) {
-                        //       return "Field cannot be empty";
-                        //     } else {
-                        //       return null;
-                        //     }
-                        //   },
-                        //   onSaved: (value) {},
-                        //   textInputAction: TextInputAction.done,
-                        //   focusNode: vendorLGAFN,
-                        //   hintText: "Enter the LGA",
-                        //   textInputType: TextInputType.text,
-                        // ),
-                        // kSizedBox,
-                        // const Text(
-                        //   "Address",
-                        //   style: TextStyle(
-                        //     fontSize: 16,
-                        //     fontWeight: FontWeight.w700,
-                        //   ),
-                        // ),
-                        // kHalfSizedBox,
-                        // Column(
-                        //   crossAxisAlignment: CrossAxisAlignment.start,
-                        //   children: [
-                        // const Text(
-                        //   'Address',
-                        //   style: TextStyle(
-                        //     color: kTextBlackColor,
-                        //     fontSize: 14,
-                        //     fontWeight: FontWeight.w500,
-                        //   ),
-                        // ),
-                        // kHalfSizedBox,
-                        // MyMapsTextFormField(
-                        //   controller: mapsLocationEC,
-                        //   validator: (value) {
-                        //     if (value == null) {
-                        //       addressFN.requestFocus();
-                        //       "Enter a location";
-                        //     }
-                        //     return null;
-                        //   },
-                        //   onChanged: (value) {
-                        //     placeAutoComplete(value);
-                        //     setState(() {
-                        //       selectedLocation.value = value;
-                        //       isTyping = true;
-                        //     });
-                        //   },
-                        //   textInputAction: TextInputAction.done,
-                        //   focusNode: addressFN,
-                        //   hintText: "Search a location",
-                        //   textInputType: TextInputType.text,
-                        //   prefixIcon: Padding(
-                        //     padding: const EdgeInsets.all(kDefaultPadding),
-                        //     child: FaIcon(
-                        //       FontAwesomeIcons.locationDot,
-                        //       color: kAccentColor,
-                        //       size: 18,
-                        //     ),
-                        //   ),
-                        // ),
-                        // kSizedBox,
-                        // Divider(
-                        //   height: 10,
-                        //   thickness: 2,
-                        //   color: kLightGreyColor,
-                        // ),
-                        // ElevatedButton.icon(
-                        //   onPressed: getLocationOnMap,
-                        //   icon: FaIcon(
-                        //     FontAwesomeIcons.locationArrow,
-                        //     color: kAccentColor,
-                        //     size: 18,
-                        //   ),
-                        //   label: const Text("Locate on map"),
-                        //   style: ElevatedButton.styleFrom(
-                        //     elevation: 0,
-                        //     backgroundColor: kLightGreyColor,
-                        //     foregroundColor: kTextBlackColor,
-                        //     fixedSize: Size(media.width, 40),
-                        //     shape: RoundedRectangleBorder(
-                        //       borderRadius: BorderRadius.circular(10),
-                        //     ),
-                        //   ),
-                        // ),
-                        // Divider(
-                        //   height: 10,
-                        //   thickness: 2,
-                        //   color: kLightGreyColor,
-                        // ),
-                        // const Text(
-                        //   "Suggestions:",
-                        //   style: TextStyle(
-                        //     color: kTextBlackColor,
-                        //     fontSize: 16,
-                        //     fontWeight: FontWeight.w700,
-                        //   ),
-                        // ),
-                        // kHalfSizedBox,
-                        // SizedBox(
-                        //   height: () {
-                        //     if (isTyping == false) {
-                        //       return 0.0;
-                        //     }
-                        //     if (isTyping == true) {
-                        //       return 150.0;
-                        //     }
-                        //   }(),
-                        //   child: Scrollbar(
-                        //     controller: scrollController,
-                        //     child: ListView.builder(
-                        //       physics: const BouncingScrollPhysics(),
-                        //       shrinkWrap: true,
-                        //       itemCount: placePredictions.length,
-                        //       itemBuilder: (context, index) =>
-                        //           LocationListTile(
-                        //         onTap: () => setLocation(index),
-                        //         location:
-                        //             placePredictions[index].description ??
-                        //                 '',
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                        // ],
-                        // ),
+
                         kSizedBox,
 
                         // business bio
