@@ -43,7 +43,6 @@ dependencies:
   path_provider:
   group_radio_button:
   flutter_carousel_widget:
-  webviewx:
   pdf: ^3.10.4
   screenshot: ^2.1.0
   share_plus: ^7.1.0
