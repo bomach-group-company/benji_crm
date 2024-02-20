@@ -244,16 +244,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                 child: FaIcon(FontAwesomeIcons.chevronUp,
                     size: 18, color: kPrimaryColor),
               )
-            : FloatingActionButton(
-                onPressed: addProduct,
-                elevation: 20.0,
-                backgroundColor: kAccentColor,
-                foregroundColor: kPrimaryColor,
-                tooltip: "Add a product",
-                enableFeedback: true,
-                mouseCursor: SystemMouseCursors.click,
-                child: const FaIcon(FontAwesomeIcons.plus),
-              ),
+            : const SizedBox(),
         body: SafeArea(
           maintainBottomViewPadding: true,
           child: Scrollbar(

@@ -1,4 +1,3 @@
-import 'package:benji_aggregator/app/businesses/edit_business.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -19,6 +18,7 @@ import '../business_orders/orders.dart';
 import '../third_party_business_products/add_third_party_product.dart';
 import '../third_party_business_products/third_party_business_products.dart';
 import 'about_third_party_business.dart';
+import 'edit_third_party_business.dart';
 import 'third_party_business_location.dart';
 
 class ThirdPartyBusinessDetailScreen extends StatefulWidget {
@@ -182,7 +182,7 @@ class _ThirdPartyBusinessDetailScreenState
         switch (value) {
           case 'edit':
             Get.to(
-              () => EditBusiness(business: widget.business),
+              () => EditThirdPartyBusiness(business: widget.business),
               duration: const Duration(milliseconds: 300),
               fullscreenDialog: true,
               curve: Curves.easeIn,
@@ -284,10 +284,8 @@ class _ThirdPartyBusinessDetailScreenState
                                   ? media.height * 0.415
                                   : media.height * 0.28,
                           decoration: BoxDecoration(color: kLightGreyColor),
-                          child: Center(
-                            child: MyImage(
-                              url: widget.business.coverImage,
-                            ),
+                          child: MyImage(
+                            url: widget.business.coverImage,
                           ),
                         ),
                       ),
@@ -501,10 +499,15 @@ class _ThirdPartyBusinessDetailScreenState
                           height: deviceType(media.width) > 2 ? 126 : 100,
                           child: CircleAvatar(
                             backgroundColor: kLightGreyColor,
-                            radius: 30,
                             child: Center(
-                              child: MyImage(
-                                url: widget.business.shopImage,
+                              child: ClipOval(
+                                child: MyImage(
+                                  url: widget.business.shopImage,
+                                  width:
+                                      deviceType(media.width) > 2 ? 126 : 100,
+                                  height:
+                                      deviceType(media.width) > 2 ? 126 : 100,
+                                ),
                               ),
                             ),
                           ),

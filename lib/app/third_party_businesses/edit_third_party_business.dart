@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/src/components/input/my_dropdown_menu.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
@@ -16,9 +17,11 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../src/providers/constants.dart';
 import '../../controller/api_processor_controller.dart';
+import '../../controller/business_controller.dart';
 import '../../controller/category_controller.dart';
 import '../../controller/form_controller.dart';
 import '../../controller/latlng_detail_controller.dart';
+import '../../controller/push_notifications_controller.dart';
 import '../../controller/withdraw_controller.dart';
 import '../../model/business_model.dart';
 import '../../services/api_url.dart';
@@ -276,18 +279,38 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
       ApiProcessorController.errorSnack("Please select a type of business");
       return;
     }
+    if (selectedCoverImage != null) {
+      await FormController.instance.uploadImage(
+        '${Api.baseUrl}/vendors/changeVendorbusinessimages/${widget.business!.vendorOwner.id}/${widget.business!.id}?type=cover',
+        {'image': selectedCoverImage},
+        'editBusinessImageCover',
+      );
+    }
+    if (selectedLogoImage != null) {
+      await FormController.instance.uploadImage(
+        '${Api.baseUrl}/vendors/changeVendorbusinessimages/${widget.business!.vendorOwner.id}/${widget.business!.id}?type=shop',
+        {'image': selectedLogoImage},
+        'editBusinessImageLogo',
+      );
+    }
+    if (shopType == null &&
+        vendorBusinessTypeEC.text.isEmpty &&
+        shopType!.isEmpty) {
+      ApiProcessorController.errorSnack("Please select a type of business");
+      return;
+    }
     Map data = {
-      "address": mapsLocationEC.text,
-      "latitude": latitude,
-      "longitude": longitude,
-      "accountBank": accountBankEC.text,
-      "accountName": accountNameEC.text,
-      "accountNumber": accountNumberEC.text,
-      "accountType": accountTypeEC.text,
+      // "address": mapsLocationEC.text,
+      // "latitude": latitude,
+      // "longitude": longitude,
+      // "accountBank": accountBankEC.text,
+      // "accountName": accountNameEC.text,
+      // "accountNumber": accountNumberEC.text,
+      // "accountType": accountTypeEC.text,
       // "country": countryValue,
       // "state": stateValue,
       // "city": cityValue,
-      "businessId": businessIdEC.text,
+      // "businessId": businessIdEC.text,
       "shop_name": shopNameEC.text,
       "weekOpeningHours": vendorMonToFriOpeningHoursEC.text,
       "weekClosingHours": vendorMonToFriClosingHoursEC.text,
@@ -298,22 +321,64 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
       "businessBio": businessBioEC.text,
       "shop_type": vendorBusinessTypeEC.text,
     };
-    log("This is the data: $data");
+    consoleLog("This is the data: $data");
 
-    log("shop_image: ${selectedLogoImage?.path}");
-    await FormController.instance.postAuthstream(
-      '${Api.baseUrl}/vendors/createVendorBusiness/${widget.business!.id.toString()}',
-      data,
-      {'shop_image': selectedLogoImage},
-      'changeVendorBusinessProfile',
-    );
+    consoleLog("shop_image: ${selectedLogoImage?.path}");
+    log('${Api.baseUrl}/vendors/changeVendorbusinessprofile/${widget.business!.vendorOwner.id}/${widget.business!.id}');
+
+    await FormController.instance.postAuth(
+        '${Api.baseUrl}/vendors/changeVendorbusinessprofile/${widget.business!.vendorOwner.id}/${widget.business!.id}',
+        data,
+        'changeVendorBusinessProfile');
     if (FormController.instance.status.toString().startsWith('2')) {
-      // await PushNotificationController.showNotification(
-      //   title: "Success.",
-      //   body: "Your business profile has been successfully updated.",
-      // );
-      Get.close(1);
+      await PushNotificationController.showNotification(
+        title: "Success.",
+        body: "Your business profile has been successfully updated.",
+      );
+      // reload
+      BusinessController.instance.refreshData(
+          widget.business!.vendorOwner.id.toString(),
+          UserController.instance.user.value.id);
+      Get.close(2);
     }
+    // Map data = {
+    //   "address": mapsLocationEC.text,
+    //   "latitude": latitude,
+    //   "longitude": longitude,
+    //   "accountBank": accountBankEC.text,
+    //   "accountName": accountNameEC.text,
+    //   "accountNumber": accountNumberEC.text,
+    //   "accountType": accountTypeEC.text,
+    //   // "country": countryValue,
+    //   // "state": stateValue,
+    //   // "city": cityValue,
+    //   "businessId": businessIdEC.text,
+    //   "shop_name": shopNameEC.text,
+    //   "weekOpeningHours": vendorMonToFriOpeningHoursEC.text,
+    //   "weekClosingHours": vendorMonToFriClosingHoursEC.text,
+    //   "satOpeningHours": vendorSatOpeningHoursEC.text,
+    //   "satClosingHours": vendorSatClosingHoursEC.text,
+    //   "sunWeekOpeningHours": vendorSunOpeningHoursEC.text,
+    //   "sunWeekClosingHours": vendorSunClosingHoursEC.text,
+    //   "businessBio": businessBioEC.text,
+    //   "shop_type": vendorBusinessTypeEC.text,
+    // };
+    // log("This is the data: $data");
+
+    // log("shop_image: ${selectedLogoImage?.path}");
+    // await FormController.instance.postAuthstream(
+    //   '${Api.baseUrl}/vendors/createVendorBusiness/${widget.business!.id.toString()}',
+    //   data,
+    //   {'shop_image': widget.business!.shopImage ?? selectedLogoImage},
+    //   'changeVendorBusinessProfile',
+    // );
+    // if (FormController.instance.status.toString().startsWith('2')) {
+    //   await PushNotificationController.showNotification(
+    //     title: "Success.",
+    //     body: "Your business profile has been successfully updated.",
+    //   );
+    //   Get.close(1);
+    // }
   }
 
   //=========================== WIDGETS ====================================\\
@@ -321,7 +386,7 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           const Text(
-            "Upload Cover Image",
+            "Upload Logo Image",
             textAlign: TextAlign.left,
             style: TextStyle(
               fontSize: 18,
@@ -593,6 +658,7 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                 borderType: BorderType.RRect,
                 radius: const Radius.circular(20),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
                       padding: const EdgeInsets.all(kDefaultPadding),
@@ -607,62 +673,62 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                       child: CircleAvatar(
                         radius: 60,
                         child: ClipOval(
-                          child: Center(
-                            child: selectedLogoImage == null
-                                ? MyImage(
-                                    height: 120,
-                                    width: 120,
-                                    url: businessLogo,
-                                    fit: BoxFit.fill,
-                                  )
-                                : kIsWeb
-                                    ? Image.network(
+                          child: selectedLogoImage == null
+                              ? MyImage(
+                                  url: businessLogo,
+                                  fit: BoxFit.cover,
+                                  height: 120,
+                                  width: 120,
+                                )
+                              : kIsWeb
+                                  ? Image.network(
+                                      selectedLogoImage!.path,
+                                      height: 120,
+                                      width: 120,
+                                    )
+                                  : Image.file(
+                                      height: 120,
+                                      width: 120,
+                                      fit: BoxFit.fill,
+                                      File(
                                         selectedLogoImage!.path,
-                                        height: 120,
-                                        width: 120,
-                                      )
-                                    : Image.file(
-                                        height: 120,
-                                        width: 120,
-                                        fit: BoxFit.fill,
-                                        File(
-                                          selectedLogoImage!.path,
-                                        ),
                                       ),
-                          ),
+                                    ),
                         ),
                       ),
                     ),
-                    InkWell(
-                      onTap: () {
-                        showModalBottomSheet(
-                          context: context,
-                          elevation: 20,
-                          barrierColor: kBlackColor.withOpacity(0.8),
-                          showDragHandle: true,
-                          useSafeArea: true,
-                          isDismissible: true,
-                          isScrollControlled: true,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(kDefaultPadding),
+                    Center(
+                      child: InkWell(
+                        onTap: () {
+                          showModalBottomSheet(
+                            context: context,
+                            elevation: 20,
+                            barrierColor: kBlackColor.withOpacity(0.8),
+                            showDragHandle: true,
+                            useSafeArea: true,
+                            isDismissible: true,
+                            isScrollControlled: true,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(kDefaultPadding),
+                              ),
                             ),
-                          ),
-                          enableDrag: true,
-                          builder: ((builder) => uploadBusinessLogo()),
-                        );
-                      },
-                      splashColor: kAccentColor.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(10),
-                      child: Container(
-                        padding: const EdgeInsets.all(10),
-                        child: Text(
-                          'Upload business logo',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: kAccentColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
+                            enableDrag: true,
+                            builder: ((builder) => uploadBusinessLogo()),
+                          );
+                        },
+                        splashColor: kAccentColor.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(10),
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          child: Text(
+                            'Upload business logo',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: kAccentColor,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         ),
                       ),
@@ -1125,7 +1191,10 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                       .responseBody.accountName
                                   : 'Bank details not found',
                               style: TextStyle(
-                                color: kAccentColor,
+                                color: controller
+                                        .validateAccount.value.requestSuccessful
+                                    ? kSuccessColor
+                                    : kAccentColor,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
                               ),

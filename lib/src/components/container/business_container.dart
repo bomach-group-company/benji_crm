@@ -32,6 +32,7 @@ class _BusinessContainerState extends State<BusinessContainer> {
       onTap: widget.onTap,
       borderRadius: BorderRadius.circular(20),
       child: Container(
+        padding: const EdgeInsets.all(20),
         decoration: ShapeDecoration(
           color: kPrimaryColor,
           shape: RoundedRectangleBorder(
@@ -48,23 +49,35 @@ class _BusinessContainerState extends State<BusinessContainer> {
         ),
         child: Row(
           children: [
-            Container(
-              height: deviceType(media.width) > 2 ? 180 : 100,
-              width: deviceType(media.width) > 2 ? 180 : 100,
-              margin: const EdgeInsets.all(10),
-              decoration: ShapeDecoration(
-                color: kLightGreyColor,
-                shape: const CircleBorder(),
-              ),
-              child: Center(
-                child: CircleAvatar(
-                  radius: deviceType(media.width) > 2 ? 50 : 35,
-                  child: MyImage(
-                    url: widget.business.shopImage,
+            SizedBox(
+              width: deviceType(media.width) > 2 ? 126 : 100,
+              height: deviceType(media.width) > 2 ? 126 : 100,
+              child: CircleAvatar(
+                backgroundColor: kLightGreyColor,
+                child: ClipOval(
+                  child: Center(
+                    child: MyImage(
+                      url: widget.business.shopImage,
+                      width: deviceType(media.width) > 2 ? 126 : 100,
+                      height: deviceType(media.width) > 2 ? 126 : 100,
+                    ),
                   ),
                 ),
               ),
             ),
+            // CircleAvatar(
+            //   backgroundColor: kLightGreyColor,
+            //   radius: deviceType(media.width) > 2 ? 60 : 45,
+            //   child: ClipOval(
+            //     child: Center(
+            //       child: MyImage(
+            //         url: widget.business.shopImage,
+            //         height: 90,
+            //         width: 90,
+            //       ),
+            //     ),
+            //   ),
+            // ),
             kHalfWidthSizedBox,
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -96,8 +96,8 @@ class VendorController extends GetxController {
     late String token;
     String id = UserController.instance.user.value.id.toString();
     var url =
-        "${Api.baseUrl}${Api.vendorMyList}?agent_id=$id&start=${loadNumMyVendor.value - 10}&end=${loadNumMyVendor.value}";
-    loadNumMyVendor.value += 10;
+        "${Api.baseUrl}${Api.vendorMyList}?agent_id=$id&start=${loadNumVendor.value - 10}&end=${loadNumVendor.value}";
+    loadNumVendor.value += 10;
     log(url);
 
     token = UserController.instance.user.value.token;
@@ -126,8 +126,8 @@ class VendorController extends GetxController {
         "An error occurred in fetching vendors.",
       );
     }
-    loadedAllMyVendor.value = data.isEmpty;
-    isLoadMoreMyVendor.value = false;
+    loadedAllVendor.value = data.isEmpty;
+    isLoadMoreVendor.value = false;
 
     isLoad.value = false;
     update();

@@ -457,14 +457,17 @@ class _ThirdPartyVendorDetailPageState extends State<ThirdPartyVendorDetailPage>
                         left: deviceType(media.width) > 2
                             ? (media.width / 2) - (126 / 2)
                             : (media.width / 2) - (100 / 2),
-                        child: Container(
+                        child: SizedBox(
                           width: deviceType(media.width) > 2 ? 126 : 100,
                           height: deviceType(media.width) > 2 ? 126 : 100,
-                          decoration: ShapeDecoration(
-                            color: kPageSkeletonColor,
-                            shape: const OvalBorder(),
+                          child: CircleAvatar(
+                            backgroundColor: kLightGreyColor,
+                            child: Center(
+                              child: ClipOval(
+                                child: MyImage(url: widget.vendor.profileLogo),
+                              ),
+                            ),
                           ),
-                          child: MyImage(url: widget.vendor.profileLogo),
                         ),
                       ),
                     ],

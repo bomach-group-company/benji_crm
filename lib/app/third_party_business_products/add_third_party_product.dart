@@ -12,6 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../controller/api_processor_controller.dart';
 import '../../controller/form_controller.dart';
 import '../../controller/product_controller.dart';
+import '../../controller/push_notifications_controller.dart';
 import '../../controller/user_controller.dart';
 import '../../model/business_model.dart';
 import '../../model/product_model.dart';
@@ -137,10 +138,10 @@ class _AddThirdPartyBusinessProductState
     );
     if (FormController.instance.status.toString().startsWith('20')) {
       await ProductController.instance.refreshData(widget.business.id);
-      // await PushNotificationController.showNotification(
-      //   title: "Success",
-      //   body: "${productNameEC.text} has been added to your products",
-      // );
+      await PushNotificationController.showNotification(
+        title: "Success",
+        body: "${productNameEC.text} has been added to your products",
+      );
       Get.close(1);
     }
   }
@@ -272,6 +273,7 @@ class _AddThirdPartyBusinessProductState
                 },
                 isLoading: saving.isLoad.value,
                 title: "Save",
+                disable: !isAvailable,
               );
             },
           ),

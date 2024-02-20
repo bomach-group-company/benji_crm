@@ -370,7 +370,7 @@ class _BusinessLocationState extends State<BusinessLocation> {
                         SizedBox(
                           width: deviceType(media.width) >= 2
                               ? media.width - 850
-                              : media.width - 150,
+                              : media.width - 220,
                           child: Text(
                             widget.business.address,
                             overflow: TextOverflow.ellipsis,

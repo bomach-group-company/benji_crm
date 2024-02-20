@@ -29,7 +29,15 @@ class BusinessController extends GetxController {
   var loadedAllBusinesses = false.obs;
   var isLoadMoreBusinesses = false.obs;
 
-  Future<void> scrollListenerMyVendor(
+  refreshData(String vendorId, agentId) {
+    loadNumBusinesses.value = 10;
+    loadedAllBusinesses.value = false;
+    isLoadMoreBusinesses.value = false;
+
+    getBusinesses(vendorId, agentId);
+  }
+
+  Future<void> scrollListenerBusiness(
       scrollController, String vendorId, agentId) async {
     if (BusinessController.instance.loadedAllBusinesses.value) {
       return;
@@ -61,18 +69,24 @@ class BusinessController extends GetxController {
       var responseData =
           await ApiProcessorController.errorState(response, isFirst ?? true);
 
-      data = (jsonDecode(responseData) as List)
-          .map((e) => BusinessModel.fromJson(e))
-          .toList();
-      log("Got here!");
+      if (response.statusCode == 200) {
+        data = (jsonDecode(responseData) as List)
+            .map((e) => BusinessModel.fromJson(e))
+            .toList();
+        log("Got here!");
+      } else {
+        ApiProcessorController.errorSnack(
+          "An error occurred in fetching businesses.",
+        );
+      }
 
       listOfBusinesses.value = data;
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet.");
     } catch (e) {
-      consoleLog("ERROR log: ${e.toString()}");
+      log("ERROR log: ${e.toString()}");
       ApiProcessorController.errorSnack(
-        "An error occurred in fetching the businesses. Please try again later.\n ERROR: $e",
+        "An error occurred in fetching the businesses. Please try again later.",
       );
     }
     loadedAllBusinesses.value = data.isEmpty;

@@ -16,9 +16,11 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../src/providers/constants.dart';
 import '../../controller/api_processor_controller.dart';
+import '../../controller/business_controller.dart';
 import '../../controller/category_controller.dart';
 import '../../controller/form_controller.dart';
 import '../../controller/latlng_detail_controller.dart';
+import '../../controller/push_notifications_controller.dart';
 import '../../controller/user_controller.dart';
 import '../../controller/withdraw_controller.dart';
 import '../../model/third_party_vendor_model.dart';
@@ -83,9 +85,6 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
   String? latitude;
   String? longitude;
   bool isTyping = false;
-  String countryValue = "";
-  String stateValue = "";
-  String cityValue = "";
 
   //======================================== GLOBAL KEYS ==============================================\\
   final _formKey = GlobalKey<FormState>();
@@ -267,25 +266,15 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
       ApiProcessorController.errorSnack("Please select a type of business");
       return;
     }
-    //  if (accountNameEC.text == "N/A") {
-    //   ApiProcessorController.errorSnack(
-    //     "Please enter a correct account number",
-    //   );
-    //   return;
-    // }
-    if (countryValue.isEmpty) {
+    if (countryEC.text.isEmpty) {
       ApiProcessorController.errorSnack("Please choose a country");
       return;
     }
-    if (!stateValue.contains("Enugu")) {
-      ApiProcessorController.errorSnack("We are only available in Enugu State");
-      return;
-    }
-    if (stateValue.isEmpty) {
+    if (stateEC.text.isEmpty) {
       ApiProcessorController.errorSnack("Please choose a state");
       return;
     }
-    if (cityValue.isEmpty) {
+    if (cityEC.text.isEmpty) {
       ApiProcessorController.errorSnack("Please choose a city");
       return;
     }
@@ -341,10 +330,12 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
       'agentCreateVendorBusiness',
     );
     if (FormController.instance.status.toString().startsWith('20')) {
-      // await PushNotificationController.showNotification(
-      //   title: "Success.",
-      //   body: "Your business profile has been successfully updated.",
-      // );
+      await BusinessController.instance.refreshData(vendorId!, agentId);
+      await PushNotificationController.showNotification(
+        title: "Success.",
+        body: "Your business profile has been successfully updated.",
+      );
+
       Get.close(1);
     }
   }
@@ -1148,7 +1139,7 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
                               ? "Enter the account number here"
                               : "Select a bank first",
                           textInputAction: TextInputAction.next,
-                          maxlength: 11,
+                          maxlength: 10,
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly
                           ],

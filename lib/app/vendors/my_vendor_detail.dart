@@ -37,7 +37,10 @@ class _MyVendorDetailPageState extends State<MyVendorDetailPage>
     super.initState();
 
     BusinessController.instance
-        .getBusinesses(widget.vendor.id.toString(), agentId);
+        .refreshData(widget.vendor.id.toString(), agentId);
+
+    // BusinessController.instance
+    //     .getBusinesses(widget.vendor.id.toString(), agentId);
     BusinessController.instance
         .getTotalNumberOfBusinesses(widget.vendor.id.toString(), agentId);
     log("Vendor ID: ${widget.vendor.id} Longitude: ${widget.vendor.longitude} Latitude: ${widget.vendor.latitude}");
@@ -434,14 +437,17 @@ class _MyVendorDetailPageState extends State<MyVendorDetailPage>
                         left: deviceType(media.width) > 2
                             ? (media.width / 2) - (126 / 2)
                             : (media.width / 2) - (100 / 2),
-                        child: Container(
+                        child: SizedBox(
                           width: deviceType(media.width) > 2 ? 126 : 100,
                           height: deviceType(media.width) > 2 ? 126 : 100,
-                          decoration: ShapeDecoration(
-                            color: kPageSkeletonColor,
-                            shape: const OvalBorder(),
+                          child: CircleAvatar(
+                            backgroundColor: kPageSkeletonColor,
+                            child: Center(
+                              child: ClipOval(
+                                child: MyImage(url: widget.vendor.profileLogo),
+                              ),
+                            ),
                           ),
-                          child: MyImage(url: widget.vendor.profileLogo),
                         ),
                       ),
                     ],
