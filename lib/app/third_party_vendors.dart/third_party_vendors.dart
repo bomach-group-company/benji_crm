@@ -67,29 +67,6 @@ class ThirdPartyVendors extends StatelessWidget {
                       ),
                     ),
               kSizedBox,
-              GetBuilder<VendorController>(
-                builder: (controller) => Column(
-                  children: [
-                    controller.isLoadMoreMyVendor.value
-                        ? Center(
-                            child: CircularProgressIndicator(
-                              color: kAccentColor,
-                            ),
-                          )
-                        : const SizedBox(),
-                    controller.loadedAllMyVendor.value
-                        ? Container(
-                            margin: const EdgeInsets.only(top: 20, bottom: 20),
-                            height: 10,
-                            width: 10,
-                            decoration: ShapeDecoration(
-                                shape: const CircleBorder(),
-                                color: kPageSkeletonColor),
-                          )
-                        : const SizedBox(),
-                  ],
-                ),
-              )
             ],
           ),
         );

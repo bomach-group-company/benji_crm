@@ -10,7 +10,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../../controller/user_controller.dart';
-import '../../model/notificatin_model.dart';
+import '../../model/notification_model.dart';
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/section/my_liquid_refresh.dart';
 import '../../src/providers/constants.dart';

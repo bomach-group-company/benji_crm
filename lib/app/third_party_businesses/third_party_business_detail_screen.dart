@@ -94,8 +94,8 @@ class _ThirdPartyBusinessDetailScreenState
       return;
     }
     Get.to(
-      () => BusinessLocation(business: widget.business),
-      routeName: 'BusinessLocation',
+      () => ThirdPartyBusinessLocation(business: widget.business),
+      routeName: 'ThirdPartyBusinessLocation',
       duration: const Duration(milliseconds: 300),
       fullscreenDialog: true,
       curve: Curves.easeIn,

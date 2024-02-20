@@ -43,6 +43,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
 
     scrollController.addListener(
         () => VendorController.instance.scrollListenerVendor(scrollController));
+
     scrollController.addListener(() => VendorController.instance
         .scrollListenerThirdPartyVendor(scrollController));
 
@@ -254,6 +255,57 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
                                 ? const MyVendors()
                                 : const ThirdPartyVendors(),
                           ),
+                    selectedtabbar == 0
+                        ? GetBuilder<VendorController>(
+                            builder: (controller) => Column(
+                              children: [
+                                controller.isLoadMoreVendor.value
+                                    ? Center(
+                                        child: CircularProgressIndicator(
+                                          color: kAccentColor,
+                                        ),
+                                      )
+                                    : const SizedBox(),
+                                controller.loadedAllVendor.value
+                                    ? Container(
+                                        margin: const EdgeInsets.only(
+                                            top: 20, bottom: 20),
+                                        height: 5,
+                                        width: 5,
+                                        decoration: ShapeDecoration(
+                                          shape: const CircleBorder(),
+                                          color: kPageSkeletonColor,
+                                        ),
+                                      )
+                                    : const SizedBox(),
+                              ],
+                            ),
+                          )
+                        : GetBuilder<VendorController>(
+                            builder: (controller) => Column(
+                              children: [
+                                controller.isLoadMoreMyVendor.value
+                                    ? Center(
+                                        child: CircularProgressIndicator(
+                                          color: kAccentColor,
+                                        ),
+                                      )
+                                    : const SizedBox(),
+                                controller.loadedAllMyVendor.value
+                                    ? Container(
+                                        margin: const EdgeInsets.only(
+                                            top: 20, bottom: 20),
+                                        height: 5,
+                                        width: 5,
+                                        decoration: ShapeDecoration(
+                                          shape: const CircleBorder(),
+                                          color: kPageSkeletonColor,
+                                        ),
+                                      )
+                                    : const SizedBox(),
+                              ],
+                            ),
+                          )
                   ],
                 ),
               );

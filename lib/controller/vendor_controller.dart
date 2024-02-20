@@ -63,6 +63,8 @@ class VendorController extends GetxController {
 
     if (scrollController.offset >= scrollController.position.maxScrollExtent &&
         !scrollController.position.outOfRange) {
+      log("Gotten to the end");
+
       VendorController.instance.isLoadMoreVendor.value = true;
       update();
       await VendorController.instance.getMyVendors();
@@ -73,9 +75,9 @@ class VendorController extends GetxController {
     if (VendorController.instance.loadedAllMyVendor.value) {
       return;
     }
-
     if (scrollController.offset >= scrollController.position.maxScrollExtent &&
         !scrollController.position.outOfRange) {
+      log("Gotten to the end");
       VendorController.instance.isLoadMoreMyVendor.value = true;
       update();
       await VendorController.instance.getThirdPartyVendors();

@@ -23,18 +23,20 @@ import '../../src/responsive/responsive_constant.dart';
 import '../../src/utils/network_utils.dart';
 import '../../theme/colors.dart';
 
-class BusinessLocation extends StatefulWidget {
+class ThirdPartyBusinessLocation extends StatefulWidget {
   final BusinessModel business;
-  const BusinessLocation({
+  const ThirdPartyBusinessLocation({
     super.key,
     required this.business,
   });
 
   @override
-  State<BusinessLocation> createState() => _BusinessLocationState();
+  State<ThirdPartyBusinessLocation> createState() =>
+      _ThirdPartyBusinessLocationState();
 }
 
-class _BusinessLocationState extends State<BusinessLocation> {
+class _ThirdPartyBusinessLocationState
+    extends State<ThirdPartyBusinessLocation> {
   //============================================================== INITIAL STATE ====================================================================\\
   @override
   void initState() {
@@ -131,10 +133,10 @@ class _BusinessLocationState extends State<BusinessLocation> {
     );
 
     LatLng latLngPosition =
-        LatLng(userLocation.latitude, userLocation.longitude);
+        LatLng(_userPosition!.latitude, _userPosition!.longitude);
 
     CameraPosition cameraPosition =
-        CameraPosition(target: latLngPosition, zoom: 16);
+        CameraPosition(target: latLngPosition, zoom: 14);
 
     _newGoogleMapController?.animateCamera(
       CameraUpdate.newCameraPosition(cameraPosition),
@@ -267,8 +269,10 @@ class _BusinessLocationState extends State<BusinessLocation> {
                   onMapCreated: _onMapCreated,
                   initialCameraPosition: CameraPosition(
                     target: LatLng(
-                        _userPosition!.latitude, _userPosition!.longitude),
-                    zoom: 16,
+                      businessLocation.latitude,
+                      businessLocation.longitude,
+                    ),
+                    zoom: 14,
                   ),
                   markers: Set.of(_markers),
                   polylines: {
@@ -470,10 +474,12 @@ class _BusinessLocationState extends State<BusinessLocation> {
               height: deviceType(media.width) > 2 ? 126 : 100,
               child: CircleAvatar(
                 backgroundColor: kLightGreyColor,
-                radius: 30,
-                child: Center(
+                child: ClipOval(
                   child: MyImage(
                     url: widget.business.shopImage,
+                    fit: BoxFit.cover,
+                    width: deviceType(media.width) > 2 ? 126 : 100,
+                    height: deviceType(media.width) > 2 ? 126 : 100,
                   ),
                 ),
               ),
