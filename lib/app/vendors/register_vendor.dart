@@ -224,12 +224,19 @@ class _RegisterVendorState extends State<RegisterVendor> {
 
   //========================== Save data ==================================\\
   Future<void> saveChangesAsVendor() async {
+    log("Saving as vendor");
+    log(vendorClassified.toString());
+
     if (selectedLogoImage == null) {
       ApiProcessorController.errorSnack("Please add a profile picture");
       return;
     }
     if (defaultGender.isEmpty || defaultGender == "") {
       ApiProcessorController.errorSnack("Please choose a gender");
+    }
+    if (vendorPhoneNumberEC.text.isEmpty || vendorPhoneNumberEC.text == "") {
+      ApiProcessorController.errorSnack("Please enter a phone number");
+      return;
     }
     if (countryEC.text.isEmpty || countryEC.text == "") {
       ApiProcessorController.errorSnack("Please select a country");
@@ -263,8 +270,6 @@ class _RegisterVendorState extends State<RegisterVendor> {
       firstName: vendorFirstNameEC.text,
       lastName: vendorLastNameEC.text,
       lga: vendorLGAEC.text,
-      // sunOpenHours: vendorSunOpeningHoursEC.text,
-      // sunCloseHours: vendorSunClosingHoursEC.text,
       profileImage: selectedLogoImage,
     );
     log(data.toString());
@@ -274,10 +279,35 @@ class _RegisterVendorState extends State<RegisterVendor> {
   }
 
   Future<void> saveChangesAsThirdPartyVendor() async {
+    var user = UserController.instance.user.value;
+
+    log("Saving as third party vendor");
+
     log(vendorClassified.toString());
 
     if (defaultGender.isEmpty || defaultGender == "") {
       ApiProcessorController.errorSnack("Please choose a gender");
+    }
+    if (vendorPhoneNumberEC.text.isEmpty || vendorPhoneNumberEC.text == "") {
+      ApiProcessorController.errorSnack("Please enter a phone number");
+      return;
+    }
+    if (countryEC.text.isEmpty || countryEC.text == "") {
+      ApiProcessorController.errorSnack("Please select a country");
+      return;
+    }
+    if (stateEC.text.isEmpty || stateEC.text == "") {
+      ApiProcessorController.errorSnack("Please select a state");
+      return;
+    }
+
+    if (cityEC.text.isEmpty || cityEC.text == "") {
+      ApiProcessorController.errorSnack("Please select a city");
+      return;
+    }
+    if (vendorLGAEC.isBlank! || vendorLGAEC.text == "") {
+      ApiProcessorController.errorSnack("Please select an LGA");
+      return;
     }
     log("First got here!");
 
@@ -288,10 +318,16 @@ class _RegisterVendorState extends State<RegisterVendor> {
       gender: defaultGender == "Male" ? "male" : "female",
       firstName: vendorFirstNameEC.text,
       lastName: vendorLastNameEC.text,
-      // sunOpenHours: vendorSunOpeningHoursEC.text,
-      // sunCloseHours: vendorSunClosingHoursEC.text,
+      personalID: user.license,
+      country: countryEC.text,
+      state: stateEC.text,
+      city: cityEC.text,
+      latitude: user.latitude,
+      longitude: user.longitude,
+      lga: vendorLGAEC.text,
     );
     VendorController.instance.createThirdPartyVendor(data, vendorClassified);
+
     log("Last got here!!");
   }
 
@@ -420,24 +456,26 @@ class _RegisterVendorState extends State<RegisterVendor> {
           actions: const [],
           backgroundColor: kPrimaryColor,
         ),
-        bottomNavigationBar: GetBuilder<VendorController>(builder: (sending) {
-          return Container(
-            color: kPrimaryColor,
-            padding: const EdgeInsets.all(kDefaultPadding),
-            child: MyElevatedButton(
-              onPressed: (() async {
-                if (_formKey.currentState!.validate()) {
-                  _formKey.currentState!.save();
-                  !vendorClassified
-                      ? saveChangesAsVendor()
-                      : saveChangesAsThirdPartyVendor();
-                }
-              }),
-              isLoading: sending.isLoadCreate.value,
-              title: "Save",
-            ),
-          );
-        }),
+        bottomNavigationBar: GetBuilder<VendorController>(
+          builder: (sending) {
+            return Container(
+              color: kPrimaryColor,
+              padding: const EdgeInsets.all(kDefaultPadding),
+              child: MyElevatedButton(
+                onPressed: (() async {
+                  if (_formKey.currentState!.validate()) {
+                    _formKey.currentState!.save();
+                    !vendorClassified
+                        ? saveChangesAsVendor()
+                        : saveChangesAsThirdPartyVendor();
+                  }
+                }),
+                isLoading: sending.isLoadCreate.value,
+                title: "Save",
+              ),
+            );
+          },
+        ),
         floatingActionButton: _isScrollToTopBtnVisible
             ? FloatingActionButton(
                 onPressed: scrollToTop,
@@ -657,39 +695,36 @@ class _RegisterVendorState extends State<RegisterVendor> {
                             textInputType: TextInputType.emailAddress,
                           ),
                           kSizedBox,
-                          !vendorClassified
-                              ? const Text(
-                                  "National Identification Number (NIN)",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                )
-                              : const SizedBox(),
+                          const Text(
+                            "National Identification Number (NIN)",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+
                           kSizedBox,
-                          !vendorClassified
-                              ? NumberTextFormField(
-                                  controller: personalIdEC,
-                                  validator: (value) {
-                                    if (value == null || value!.isEmpty) {
-                                      return "Field cannot be empty";
-                                    } else if (value.toString().length > 16) {
-                                      return "Enter a valid value";
-                                    }
-                                    return null;
-                                  },
-                                  maxlength: 11,
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.digitsOnly,
-                                  ],
-                                  onSaved: (value) {},
-                                  textInputAction: TextInputAction.next,
-                                  focusNode: personalIdFN,
-                                  hintText:
-                                      "Enter National Identification Number (NIN)",
-                                )
-                              : const SizedBox(),
-                          !vendorClassified ? kSizedBox : const SizedBox(),
+                          NumberTextFormField(
+                            controller: personalIdEC,
+                            validator: (value) {
+                              if (value == null || value!.isEmpty) {
+                                return "Field cannot be empty";
+                              } else if (value.toString().length > 16) {
+                                return "Enter a valid value";
+                              }
+                              return null;
+                            },
+                            maxlength: 11,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                            onSaved: (value) {},
+                            textInputAction: TextInputAction.next,
+                            focusNode: personalIdFN,
+                            hintText:
+                                "Enter National Identification Number (NIN)",
+                          ),
+                          kSizedBox,
                           const Text(
                             "Gender",
                             style: TextStyle(
@@ -726,6 +761,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                           kSizedBox,
                           MyIntlPhoneField(
                             controller: vendorPhoneNumberEC,
+                            enabled: !vendorClassified,
                             initialCountryCode: "NG",
                             invalidNumberMessage: "Invalid phone number",
                             dropdownIconPosition: IconPosition.trailing,
@@ -769,6 +805,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                               kHalfSizedBox,
                               MyMapsTextFormField(
                                 controller: mapsLocationEC,
+                                readOnly: vendorClassified,
                                 validator: (value) {
                                   if (value == null || value!.isEmpty) {
                                     mapsLocationFN.requestFocus();
@@ -802,43 +839,54 @@ class _RegisterVendorState extends State<RegisterVendor> {
                                 ),
                               ),
                               kSizedBox,
-                              Divider(
-                                height: 10,
-                                thickness: 2,
-                                color: kLightGreyColor,
-                              ),
-                              ElevatedButton.icon(
-                                onPressed: getLocationOnMap,
-                                icon: FaIcon(
-                                  FontAwesomeIcons.locationArrow,
-                                  color: kAccentColor,
-                                  size: 18,
-                                ),
-                                label: const Text("Locate on map"),
-                                style: ElevatedButton.styleFrom(
-                                  elevation: 0,
-                                  backgroundColor: kLightGreyColor,
-                                  foregroundColor: kTextBlackColor,
-                                  fixedSize: Size(media.width, 40),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                              ),
-                              Divider(
-                                height: 10,
-                                thickness: 2,
-                                color: kLightGreyColor,
-                              ),
-                              const Text(
-                                "Suggestions:",
-                                style: TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              kHalfSizedBox,
+                              !vendorClassified
+                                  ? Divider(
+                                      height: 10,
+                                      thickness: 2,
+                                      color: kLightGreyColor,
+                                    )
+                                  : const SizedBox(),
+                              !vendorClassified
+                                  ? ElevatedButton.icon(
+                                      onPressed: getLocationOnMap,
+                                      icon: FaIcon(
+                                        FontAwesomeIcons.locationArrow,
+                                        color: kAccentColor,
+                                        size: 18,
+                                      ),
+                                      label: const Text("Locate on map"),
+                                      style: ElevatedButton.styleFrom(
+                                        elevation: 0,
+                                        backgroundColor: kLightGreyColor,
+                                        foregroundColor: kTextBlackColor,
+                                        fixedSize: Size(media.width, 40),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                    )
+                                  : const SizedBox(),
+                              !vendorClassified
+                                  ? Divider(
+                                      height: 10,
+                                      thickness: 2,
+                                      color: kLightGreyColor,
+                                    )
+                                  : const SizedBox(),
+                              !vendorClassified
+                                  ? const Text(
+                                      "Suggestions:",
+                                      style: TextStyle(
+                                        color: kTextBlackColor,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    )
+                                  : const SizedBox(),
+                              !vendorClassified
+                                  ? kHalfSizedBox
+                                  : const SizedBox(),
                               SizedBox(
                                 height: () {
                                   if (_typing == false) {
@@ -1044,16 +1092,6 @@ class _RegisterVendorState extends State<RegisterVendor> {
                             textInputType: TextInputType.text,
                           ),
                           kSizedBox,
-                          // MyDropDownMenu(
-                          //   controller: vendorLGAEC,
-                          //   hintText: "Select your LGA",
-                          //   dropdownMenuEntries: const [
-                          //     DropdownMenuEntry(
-                          //       value: "1",
-                          //       label: "Enugu North",
-                          //     ),
-                          //   ],
-                          // ),
                         ],
                       );
                     }),

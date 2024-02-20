@@ -29,16 +29,15 @@ class _NotificationsState extends State<Notifications> {
   @override
   void initState() {
     super.initState();
-    _loadingScreen = true;
+
     scrollController.addListener(_scrollListener);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       NotificationController.instance.runTask();
     });
-    _loadingScreen = false;
   }
 
   //=================================== ALL VARIABLES =====================================\\
-  late bool _loadingScreen;
+
   bool _isScrollToTopBtnVisible = false;
 
   //============================================== CONTROLLERS =================================================\\
@@ -49,14 +48,8 @@ class _NotificationsState extends State<Notifications> {
   //===================== Handle refresh ==========================\\
 
   Future<void> _handleRefresh() async {
-    setState(() {
-      _loadingScreen = true;
-    });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       NotificationController.instance.runTask();
-    });
-    setState(() {
-      _loadingScreen = false;
     });
   }
 
@@ -113,12 +106,13 @@ class _NotificationsState extends State<Notifications> {
               return notifications.isLoad.value
                   ? const NotificationsPageSkeleton()
                   : notifications.notification.isEmpty
-                      ? const EmptyCard()
+                      ? const EmptyCard(
+                          emptyCardMessage: "You have no notifications",
+                        )
                       : Scrollbar(
                           radius: const Radius.circular(10),
                           child: ListView(
                             controller: scrollController,
-                            physics: const BouncingScrollPhysics(),
                             scrollDirection: Axis.vertical,
                             children: [
                               ListView.separated(

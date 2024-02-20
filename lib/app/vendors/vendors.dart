@@ -37,8 +37,10 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
     scrollController.addListener(_scrollListener);
 
     _tabBarController = TabController(length: 2, vsync: this);
-    scrollController.addListener(() =>
-        VendorController.instance.scrollListenerMyVendor(scrollController));
+    scrollController.addListener(
+        () => VendorController.instance.scrollListenerVendor(scrollController));
+    scrollController.addListener(() => VendorController.instance
+        .scrollListenerThirdPartyVendor(scrollController));
     VendorController.instance.getMyVendors();
     VendorController.instance.getThirdPartyVendors();
     scrollController.addListener(() {

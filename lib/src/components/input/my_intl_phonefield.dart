@@ -18,6 +18,7 @@ class MyIntlPhoneField extends StatelessWidget {
   final FocusNode focusNode;
   final dynamic onSaved;
   final dynamic validator;
+  final bool? enabled;
   const MyIntlPhoneField({
     super.key,
     required this.controller,
@@ -31,12 +32,14 @@ class MyIntlPhoneField extends StatelessWidget {
     required this.focusNode,
     this.onSaved,
     this.validator,
+    this.enabled,
   });
 
   @override
   Widget build(BuildContext context) {
     return IntlPhoneField(
       controller: controller,
+      enabled: enabled ?? true,
       initialCountryCode: initialCountryCode,
       invalidNumberMessage: invalidNumberMessage,
       dropdownIconPosition: dropdownIconPosition,

@@ -9,7 +9,6 @@ import 'package:benji_aggregator/model/business_order_model.dart';
 import 'package:benji_aggregator/model/my_vendor_model.dart';
 import 'package:benji_aggregator/model/product_model.dart';
 import 'package:benji_aggregator/services/api_url.dart';
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -26,6 +25,7 @@ class VendorController extends GetxController {
   VendorController({this.isFirst});
   var isLoad = false.obs;
   var isLoadCreate = false.obs;
+  var statusCode = 0.obs;
   var vendorMyList = <MyVendorModel>[].obs;
   var thirdPartyVendorList = <ThirdPartyVendorModel>[].obs;
   var allMyVendorList = 0;
@@ -49,20 +49,36 @@ class VendorController extends GetxController {
   var isLoadMoreProduct = false.obs;
   var loadNumProduct = 10.obs;
 
-  // Future<void> scrollListenerVendor(scrollController) async {
-  //   if (VendorController.instance.loadedAllVendor.value) {
-  //     return;
-  //   }
+  refreshData() {
+    vendorMyList.value = [];
+    thirdPartyVendorList.value = [];
 
-  //   if (scrollController.offset >= scrollController.position.maxScrollExtent &&
-  //       !scrollController.position.outOfRange) {
-  //     VendorController.instance.isLoadMoreVendor.value = true;
-  //     update();
-  //     await VendorController.instance.getVendors();
-  //   }
-  // }
+    // vendor pagination
+    loadNumVendor.value = 10;
+    loadedAllVendor.value = false;
 
-  Future<void> scrollListenerMyVendor(scrollController) async {
+    // my vendor pagination
+    loadNumMyVendor.value = 10;
+    loadedAllMyVendor.value = false;
+    isLoadMoreMyVendor.value = false;
+    getMyVendors();
+    getThirdPartyVendors();
+  }
+
+  Future<void> scrollListenerVendor(scrollController) async {
+    if (VendorController.instance.loadedAllVendor.value) {
+      return;
+    }
+
+    if (scrollController.offset >= scrollController.position.maxScrollExtent &&
+        !scrollController.position.outOfRange) {
+      VendorController.instance.isLoadMoreVendor.value = true;
+      update();
+      await VendorController.instance.getMyVendors();
+    }
+  }
+
+  Future<void> scrollListenerThirdPartyVendor(scrollController) async {
     if (VendorController.instance.loadedAllMyVendor.value) {
       return;
     }
@@ -72,19 +88,6 @@ class VendorController extends GetxController {
       VendorController.instance.isLoadMoreMyVendor.value = true;
       update();
       await VendorController.instance.getMyVendors();
-    }
-  }
-
-  Future<void> scrollListenerProduct(scrollController, vendorId) async {
-    if (VendorController.instance.loadedAllProduct.value) {
-      return;
-    }
-
-    if (scrollController.offset >= scrollController.position.maxScrollExtent &&
-        !scrollController.position.outOfRange) {
-      VendorController.instance.isLoadMoreProduct.value = true;
-      update();
-      await VendorController.instance.getVendorProduct(vendorId, more: true);
     }
   }
 
@@ -117,9 +120,10 @@ class VendorController extends GetxController {
       //     .toList();
       vendorMyList.value += data;
     } catch (e) {
-      log("ERROR log: ${e.toString()}");
+      log("An error occurred. ERROR: $e");
+
       ApiProcessorController.errorSnack(
-        "An error occurred in fetching vendors. Please try again later.\n ERROR: $e",
+        "An error occurred in fetching vendors.",
       );
     }
     loadedAllMyVendor.value = data.isEmpty;
@@ -159,9 +163,9 @@ class VendorController extends GetxController {
 
       thirdPartyVendorList.value += vendors;
     } catch (e) {
-      log("ERROR loggg: ${e.toString()}");
+      log("An error occurred in fetching vendors. ERROR: $e");
       ApiProcessorController.errorSnack(
-        "An error occurred in fetching vendors. Please try again later.\n ERROR: $e",
+        "An error occurred in fetching vendors. Please try again later.",
       );
     }
     loadedAllMyVendor.value = data.isEmpty;
@@ -169,83 +173,6 @@ class VendorController extends GetxController {
 
     isLoad.value = false;
     update();
-  }
-
-  Future getVendorProduct(
-    id, {
-    bool more = false,
-  }) async {
-    if (!more) {
-      vendorProductList.value = [];
-      loadedAllProduct.value = false;
-      loadNumProduct.value = 10;
-    }
-    if (loadedAllProduct.value) {
-      return;
-    }
-
-    isLoadMoreProduct.value = true;
-
-    isLoad.value = true;
-
-    var url =
-        "${Api.baseUrl}${Api.getVendorProducts}$id?start=${loadNumProduct.value - 10}&end=${loadNumProduct.value}";
-    loadNumProduct.value += 10;
-    String token = UserController.instance.user.value.token;
-    http.Response? response = await HandleData.getApi(url, token);
-    var responseData = await ApiProcessorController.errorState(response);
-    if (responseData == null) {
-      isLoad.value = false;
-      isLoadMoreProduct.value = false;
-
-      update();
-      return;
-    }
-
-    List<ProductModel> data = [];
-    try {
-      data = (jsonDecode(response!.body)['items'] as List)
-          .map((e) => ProductModel.fromJson(e))
-          .toList();
-      vendorProductList.value = data;
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-    loadedAllProduct.value = data.isEmpty && more;
-    isLoad.value = false;
-    isLoadMoreProduct.value = false;
-
-    update();
-  }
-
-  Future listVendorOrder(id, [int? end]) async {
-    Future filterProductBySubCat(vendorId, subCatId) async {
-      isLoad.value = true;
-      late String token;
-      update();
-      var url =
-          "${Api.baseUrl}${Api.listVendorOrders}$id?start=1&end=${end ?? 1}";
-      token = UserController.instance.user.value.token;
-
-      try {
-        http.Response? response = await HandleData.getApi(url, token);
-        var responseData = await ApiProcessorController.errorState(response);
-        if (responseData == null) {
-          return;
-        }
-        try {
-          var save = (jsonDecode(responseData)['items'] as List)
-              .map((e) => BusinessOrderModel.fromJson(e));
-        } catch (e) {
-          if (kDebugMode) {
-            print(e);
-          }
-        }
-        update();
-      } catch (e) {}
-      isLoad.value = false;
-      update();
-    }
   }
 
   Future createVendor(SendCreateModel data, bool classify) async {
@@ -270,7 +197,9 @@ class VendorController extends GetxController {
       //   print("This is the response body: ${jsonDecode(res.body)}");
       //   print("This is the status code: ${response.statusCode.toString()}");
       // }
+
       if (response!.statusCode == 200) {
+        statusCode.value == response.statusCode;
         final res = await http.Response.fromStream(response);
         var jsonData = jsonDecode(res.body);
         ApiProcessorController.successSnack(
@@ -279,6 +208,7 @@ class VendorController extends GetxController {
 
         log("Got here!!!!");
         isLoadCreate.value = false;
+        refreshData();
         Get.close(1);
       } else {
         final res = await http.Response.fromStream(response);
@@ -295,9 +225,8 @@ class VendorController extends GetxController {
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet");
     } catch (e) {
-      ApiProcessorController.errorSnack(
-        "An unexpected error occurred.\nERROR $e",
-      );
+      ApiProcessorController.errorSnack("An unexpected error occurred.\nERROR");
+      log("An error occurred. ERROR: $e");
     }
     isLoadCreate.value = false;
     update();
@@ -322,12 +251,16 @@ class VendorController extends GetxController {
       final res = await http.Response.fromStream(response);
       var jsonData = jsonDecode(res.body);
       log('${jsonData}heoollll');
+
       if (response.statusCode == 200) {
+        statusCode.value == response.statusCode;
+
         // final res = await http.Response.fromStream(response);
         // var jsonData = jsonDecode(res.body);
         // log('${jsonData}heoollll');
         ApiProcessorController.successSnack(jsonData["message"]);
         isLoadCreate.value = false;
+        refreshData();
         Get.close(1);
       } else {
         final res = await http.Response.fromStream(response);
@@ -341,46 +274,8 @@ class VendorController extends GetxController {
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet");
     } catch (e) {
-      ApiProcessorController.errorSnack("An error occurred. ERROR: $e");
+      ApiProcessorController.errorSnack("An unexpected error occurred.");
       log("An error occurred. ERROR: $e");
-    }
-    isLoadCreate.value = false;
-    update();
-  }
-
-  Future addToAVendor(SendCreateModel data, int vendorId) async {
-    isLoadCreate.value = true;
-    late String token;
-    update();
-    var url = "${Api.baseUrl}${Api.createVendorOtherBusiness}$vendorId";
-    token = UserController.instance.user.value.token;
-    log(url);
-
-    try {
-      http.StreamedResponse? response =
-          await HandleData.streamAddToVendor(url, token, data);
-      if (response == null) {
-        isLoadCreate.value = false;
-      } else if (response.statusCode == 200) {
-        final res = await http.Response.fromStream(response);
-        var jsonData = jsonDecode(res.body);
-        ApiProcessorController.successSnack(jsonData);
-        isLoadCreate.value = false;
-        Get.close(1);
-      } else {
-        final res = await http.Response.fromStream(response);
-        var jsonData = jsonDecode(res.body);
-        isLoadCreate.value = false;
-        log("res: $res");
-      }
-      isLoadCreate.value = false;
-
-      update();
-    } on SocketException {
-      ApiProcessorController.errorSnack("Please connect to the internet");
-    } catch (e) {
-      ApiProcessorController.errorSnack("An error occurred. \nERROR: $e");
-      log("An error occured. ERROR: $e");
     }
     isLoadCreate.value = false;
     update();
