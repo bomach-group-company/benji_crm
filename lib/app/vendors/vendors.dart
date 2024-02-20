@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 
 import '../../src/providers/constants.dart';
 import '../../src/responsive/responsive_constant.dart';
+import '../../src/skeletons/vendors_list_skeleton.dart';
 import '../../theme/colors.dart';
 import '../third_party_vendors.dart/third_party_vendors.dart';
 import 'my_vendors.dart';
@@ -245,11 +246,9 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
                     ),
                     kSizedBox,
                     loadingScreen
-                        ? Center(
-                            child: CircularProgressIndicator(
-                              color: kAccentColor,
-                            ),
-                          )
+                        ? selectedtabbar == 0
+                            ? const VendorsListSkeleton()
+                            : const VendorsListSkeleton()
                         : Container(
                             child: selectedtabbar == 0
                                 ? const MyVendors()

@@ -15,6 +15,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import '../../controller/api_processor_controller.dart';
 import '../../controller/form_controller.dart';
 import '../../controller/latlng_detail_controller.dart';
+import '../../controller/push_notifications_controller.dart';
 import '../../controller/send_package_controller.dart';
 import '../../controller/user_controller.dart';
 import '../../services/api_url.dart';
@@ -212,14 +213,14 @@ class _SendPackageState extends State<SendPackage> {
       transition: Transition.rightToLeft,
     );
     if (result != null) {
-      String pinnedLocation = result['pinnedLocation'];
+      String pinnedLocation = result['mapsLocation'];
       String latitude = result['latitude'];
       String longitude = result['longitude'];
 
       double latitudeValue = double.parse(latitude);
       double longitudeValue = double.parse(longitude);
       log(
-        "Received Data - Maps Location: $pinnedLocation, Latitude: $latitude, Longitude: $longitude",
+        "Received Data - Maps Location: $pinnedLocation, Latitude: $latitudeValue, Longitude: $longitudeValue",
       );
       setState(() {
         pickupEC.text = pinnedLocation;
@@ -231,10 +232,9 @@ class _SendPackageState extends State<SendPackage> {
     // longitudePick = latLngDetailController.latLngDetail.value[1];
     // pickupEC.text = latLngDetailController.latLngDetail.value[2];
     // latLngDetailController.setEmpty();
-    if (kDebugMode) {
-      print("LATLNG: $latitudePick,$longitudePick");
-      print("pickup text : ${pickupEC.text}");
-    }
+
+    log("LATLNG: $latitudePick,$longitudePick");
+    log("pickup text : ${pickupEC.text}");
   }
 
   void toGetLocationOnMapDrop() async {
@@ -250,7 +250,7 @@ class _SendPackageState extends State<SendPackage> {
     );
 
     if (result != null) {
-      String pinnedLocation = result['pinnedLocation'];
+      String pinnedLocation = result['mapsLocation'];
       String latitude = result['latitude'];
       String longitude = result['longitude'];
 
@@ -268,10 +268,9 @@ class _SendPackageState extends State<SendPackage> {
     // longitudeDrop = latLngDetailController.latLngDetail.value[1];
     // dropOffEC.text = latLngDetailController.latLngDetail.value[2];
     // latLngDetailController.setEmpty();
-    if (kDebugMode) {
-      print("LATLNG: $latitudeDrop,$longitudeDrop");
-      print("dropOff text : ${dropOffEC.text}");
-    }
+
+    log("LATLNG: $latitudeDrop,$longitudeDrop");
+    log("dropOff text : ${dropOffEC.text}");
   }
 
   //===================== Scroll to Top ==========================\\
@@ -382,12 +381,12 @@ class _SendPackageState extends State<SendPackage> {
               ? FormController.instance.responseObject['package_id']
               : null; // or provide a default value if needed
       consoleLog("This is the package ID: $packageId");
-      // await PushNotificationController.showNotification(
-      //   title: "Success",
-      //   body: "Your package form has been successfully submitted.",
-      //   summary: "Package Delivery",
-      //   largeIcon: "asset://assets/icons/package.png",
-      // );
+      await PushNotificationController.showNotification(
+        title: "Success",
+        body: "Your package form has been successfully submitted.",
+        summary: "Package Delivery",
+        largeIcon: "asset://assets/icons/package.png",
+      );
       Get.to(
         () => PayForDelivery(
           packageId: packageId,
@@ -553,7 +552,6 @@ class _SendPackageState extends State<SendPackage> {
             ),
           ),
           content: Column(
-            // mainAxisAlignment: MainAxis,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
@@ -584,9 +582,8 @@ class _SendPackageState extends State<SendPackage> {
                     selectedLocationPick.value = value;
                     isTyping = true;
                   });
-                  if (kDebugMode) {
-                    print("ONCHANGED VALUE: ${selectedLocationPick.value}");
-                  }
+
+                  log("ONCHANGED VALUE: ${selectedLocationPick.value}");
                 },
                 onSaved: (value) {
                   pickupEC.text = value;
@@ -628,12 +625,12 @@ class _SendPackageState extends State<SendPackage> {
                   ),
                 ),
               ),
-              kSizedBox,
               Divider(
                 height: 10,
                 thickness: 2,
                 color: kLightGreyColor,
               ),
+              kHalfSizedBox,
               const Text(
                 "Suggestions:",
                 style: TextStyle(
@@ -822,12 +819,12 @@ class _SendPackageState extends State<SendPackage> {
                   ),
                 ),
               ),
-              kHalfSizedBox,
               Divider(
                 height: 10,
                 thickness: 2,
                 color: kLightGreyColor,
               ),
+              kHalfSizedBox,
               const Text(
                 "Suggestions:",
                 style: TextStyle(

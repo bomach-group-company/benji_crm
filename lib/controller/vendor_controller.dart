@@ -5,9 +5,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:benji_aggregator/controller/api_processor_controller.dart';
-import 'package:benji_aggregator/model/business_order_model.dart';
 import 'package:benji_aggregator/model/my_vendor_model.dart';
-import 'package:benji_aggregator/model/product_model.dart';
 import 'package:benji_aggregator/services/api_url.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -28,11 +26,9 @@ class VendorController extends GetxController {
   var statusCode = 0.obs;
   var vendorMyList = <MyVendorModel>[].obs;
   var thirdPartyVendorList = <ThirdPartyVendorModel>[].obs;
+
   var allMyVendorList = 0;
   var allMyThirdPartyVendorList = 0;
-  // var businessType = <BusinessType>[].obs;
-  var vendorProductList = <ProductModel>[].obs;
-  var vendorOrderList = <BusinessOrderModel>[].obs;
 
   // vendor pagination
   var loadNumVendor = 10.obs;
@@ -43,11 +39,6 @@ class VendorController extends GetxController {
   var loadNumMyVendor = 10.obs;
   var loadedAllMyVendor = false.obs;
   var isLoadMoreMyVendor = false.obs;
-
-  // product pagination
-  var loadedAllProduct = false.obs;
-  var isLoadMoreProduct = false.obs;
-  var loadNumProduct = 10.obs;
 
   refreshData() {
     vendorMyList.value = [];
@@ -87,7 +78,7 @@ class VendorController extends GetxController {
         !scrollController.position.outOfRange) {
       VendorController.instance.isLoadMoreMyVendor.value = true;
       update();
-      await VendorController.instance.getMyVendors();
+      await VendorController.instance.getThirdPartyVendors();
     }
   }
 

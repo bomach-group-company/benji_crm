@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/route_manager.dart';
 
 import '../../../../theme/colors.dart';
 import '../../providers/constants.dart';
@@ -27,7 +26,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
 //========================================= FUNCTIONS ============================================\\
 
 //========================================= Navigation ============================================\\
-  void _popContext() => Get.back();
+  // void _popContext() => Get.back();
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +40,9 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         children: [
           InkWell(
             borderRadius: BorderRadius.circular(24),
-            onTap: _popContext,
+            onTap: () {
+              Navigator.pop(context);
+            },
             mouseCursor: SystemMouseCursors.click,
             child: Container(
               width: 40,

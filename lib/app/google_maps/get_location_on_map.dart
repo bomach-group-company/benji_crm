@@ -1,6 +1,7 @@
 // ignore_for_file: unused_field, library_prefixes
 
 import 'dart:async';
+import 'dart:developer';
 import 'dart:ui' as ui; // Import the ui library with an alias
 
 import 'package:flutter/foundation.dart';
@@ -9,7 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:get/get.dart';
+import 'package:get/route_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../controller/latlng_detail_controller.dart';
@@ -259,6 +260,7 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
       'latitude': latitude, // Replace with actual latitude
       'longitude': longitude, // Replace with actual longitude
     };
+    log("Maps location: $pinnedLocation, Latitude: $latitude, Longitude: $longitude");
     Get.back(result: data);
   }
 

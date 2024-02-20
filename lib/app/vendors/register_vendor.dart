@@ -588,13 +588,21 @@ class _RegisterVendorState extends State<RegisterVendor> {
                     )
                   : const SizedBox(),
               !vendorClassified ? kSizedBox : const SizedBox(),
-              const Text(
-                "This is my vendor (3rd party vendor)",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
+              !vendorClassified
+                  ? const Text(
+                      "You are registering a vendor account",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    )
+                  : const Text(
+                      "You are creating a 3rd party vendor",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
               kSizedBox,
               RadioGroup<String>.builder(
                 groupValue: initialVendorClassifier,

@@ -1,141 +1,183 @@
-// // ignore_for_file: unused_local_variable
+import 'dart:convert';
+import 'dart:developer';
 
-// import 'dart:convert';
-// import 'dart:developer';
+import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
+import 'package:flutter/material.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+// #docregion platform_imports
+// Import for Android features.
+import 'package:webview_flutter_android/webview_flutter_android.dart';
+// Import for iOS features.
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
-// import 'package:flutter/material.dart';
-// import 'package:webviewx/webviewx.dart';
+import '../../../theme/colors.dart';
 
-// class MonnifyWidget extends StatefulWidget {
-//   final String apiKey;
-//   final String contractCode;
-//   final Map? metaData;
-//   final String email;
-//   final String phone;
-//   final String firstName;
-//   final String lastName;
-//   final String currency;
-//   final String amount;
-//   final Function(dynamic response) onTransaction;
-//   final Function()? onClose;
-//   const MonnifyWidget({
-//     super.key,
-//     required this.apiKey,
-//     required this.contractCode,
-//     this.metaData,
-//     required this.email,
-//     this.phone = '',
-//     this.firstName = '',
-//     this.lastName = '',
-//     this.currency = 'NGN',
-//     required this.amount,
-//     required this.onTransaction,
-//     this.onClose,
-//   });
+class MonnifyWidget extends StatefulWidget {
+  final String apiKey;
+  final String contractCode;
+  final Map? metaData;
+  final String email;
+  final String phone;
+  final String firstName;
+  final String lastName;
+  final String currency;
+  final String amount;
+  final Function(dynamic response) onTransaction;
+  final Function()? onClose;
+  const MonnifyWidget({
+    super.key,
+    required this.apiKey,
+    required this.contractCode,
+    this.metaData,
+    required this.email,
+    this.phone = '',
+    this.firstName = '',
+    this.lastName = '',
+    this.currency = 'NGN',
+    required this.amount,
+    required this.onTransaction,
+    this.onClose,
+  });
 
-//   @override
-//   MonnifyWidgetState createState() => MonnifyWidgetState();
-// }
+  @override
+  MonnifyWidgetState createState() => MonnifyWidgetState();
+}
 
-// class MonnifyWidgetState extends State<MonnifyWidget> {
-//   late WebViewXController webviewController;
-//   String html = "";
-//   @override
-//   void initState() {
-//     super.initState();
+class MonnifyWidgetState extends State<MonnifyWidget> {
+  late final WebViewController _controller;
 
-//     String metaData =
-//         widget.metaData == null ? 'null' : jsonEncode(widget.metaData);
-//     String apiKey = '"${widget.apiKey}"';
-//     String contractCode = '"${widget.contractCode}"';
-//     String email = '"${widget.email}"';
-//     String phone = '"${widget.phone}"';
-//     String fullname = '"${widget.firstName} ${widget.lastName}"';
-//     String currency = '"${widget.currency}"';
-//     String amount = widget.amount;
+  String html = "";
 
-//     html = """
-// <html>
-// <head>
-//     <script type="text/javascript" src="https://sdk.monnify.com/plugin/monnify.js"></script>
-//     <script>
-//         function payWithMonnify() {
-//             MonnifySDK.initialize({
-//                 amount: $amount,
-//                 currency: $currency,
-//                 reference: new String((new Date()).getTime()),
-//                 customerFullName: $fullname,
-//                 customerEmail: $email,
-//                 apiKey: $apiKey,
-//                 contractCode: $contractCode,
-//                 paymentDescription: "Order Payment",
-//                 metadata: $metaData,
-//                 incomeSplitConfig: [],
-//                 onLoadStart: () => {
-//                     console.log("loading has started");
-//                 },
-//                 onLoadComplete: () => {
-//                     console.log("SDK is UP");
-//                 },
-//                 onComplete: function(response) {
-//                     //Implement what happens when the transaction is completed.
-//                     console.log(response);
-//                     paymentsuccess(JSON.stringify(response));
-//                 },
-//                 onClose: function(data) {
-//                     //Implement what should happen when the modal is closed here
-//                     console.log(data);
-//                     paymentcancel("payment cancel");
-//                 }
-//             });
-//         }
-//         payWithMonnify();
-//     </script>
-// </head>
-// <body>
-//      <!-- <div>
-//         <button type="button" onclick="payWithMonnify()">Pay With Monnify</button>
-//     </div> -->
-// </body>
-// </html>
-// """;
-//   }
+  late String metaData;
+  late String apiKey;
+  late String contractCode;
+  late String email;
+  late String phone;
+  late String fullname;
+  late String currency;
+  late String amount;
 
-//   @override
-//   Widget build(BuildContext context) {
-//     final media = MediaQuery.of(context).size;
-//     return Scaffold(
-//         body: Center(
-//       // Look here!
-//       child: WebViewX(
-//           dartCallBacks: <DartCallback>{
-//             DartCallback(
-//               name: 'paymentsuccess',
-//               callBack: (message) {
-//                 log('message success gotten $message');
-//                 dynamic resp = jsonDecode(message);
-//                 log('the resp $resp');
-//                 widget.onTransaction(resp);
-//               },
-//             ),
-//             DartCallback(
-//               name: 'paymentcancel',
-//               callBack: (message) {
-//                 if (widget.onClose == null) {
-//                   Navigator.pop(context);
-//                 } else {
-//                   widget.onClose!();
-//                 }
-//               },
-//             ),
-//           },
-//           width: media.width,
-//           height: media.height,
-//           initialContent: html,
-//           initialSourceType: SourceType.html,
-//           onWebViewCreated: (controller) {
-//             webviewController = controller;
-//           }),
-//     ));
-//   }
-// }
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(
+      const Duration(seconds: 1),
+      () => _controller.runJavaScript('''
+MonnifySDK.initialize({
+                amount: $amount,
+                currency: $currency,
+                reference: new String((new Date()).getTime()),
+                customerFullName: $fullname,
+                customerEmail: $email,
+                apiKey: $apiKey,
+                contractCode: $contractCode,
+                paymentDescription: "Order Payment",
+                metadata: $metaData,
+                incomeSplitConfig: [],
+                onLoadStart: () => {
+                    console.log("loading has started");
+                },
+                onLoadComplete: () => {
+                    console.log("SDK is UP");
+                },
+                onComplete: function(response) {
+                    //Implement what happens when the transaction is completed.
+                    console.log(response);
+                    paymentsuccess.postMessage(JSON.stringify(response));
+                },
+                onClose: function(data) {
+                    //Implement what should happen when the modal is closed here
+                    console.log(data);
+                    paymentcancel.postMessage("payment cancel");
+                }
+            });
+'''),
+    );
+
+    metaData = widget.metaData == null ? 'null' : jsonEncode(widget.metaData);
+    apiKey = '"${widget.apiKey}"';
+    contractCode = '"${widget.contractCode}"';
+    email = '"${widget.email}"';
+    phone = '"${widget.phone}"';
+    fullname = '"${widget.firstName} ${widget.lastName}"';
+    currency = '"${widget.currency}"';
+    amount = widget.amount;
+
+    html = """
+<html>
+<head>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="https://sdk.monnify.com/plugin/monnify.js"></script>
+
+</head>
+<body>
+   
+</body>
+</html>
+""";
+
+    // #docregion platform_features
+    late final PlatformWebViewControllerCreationParams params;
+    if (WebViewPlatform.instance is WebKitWebViewPlatform) {
+      params = WebKitWebViewControllerCreationParams(
+        allowsInlineMediaPlayback: true,
+        mediaTypesRequiringUserAction: const <PlaybackMediaTypes>{},
+      );
+    } else {
+      params = const PlatformWebViewControllerCreationParams();
+    }
+
+    final WebViewController controller =
+        WebViewController.fromPlatformCreationParams(params);
+    // #enddocregion platform_features
+
+    controller
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..addJavaScriptChannel(
+        'paymentsuccess',
+        onMessageReceived: (JavaScriptMessage message) {
+          log('Payment success: ${message.message}');
+          dynamic resp = jsonDecode(message.message);
+          widget.onTransaction(resp);
+        },
+      )
+      ..addJavaScriptChannel(
+        'paymentcancel',
+        onMessageReceived: (JavaScriptMessage message) {
+          log('Payment canceled: ${message.message}');
+          if (widget.onClose == null) {
+            Navigator.pop(context);
+          } else {
+            widget.onClose!();
+          }
+        },
+      )
+      ..loadHtmlString(html);
+
+    // #docregion platform_features
+    if (controller.platform is AndroidWebViewController) {
+      AndroidWebViewController.enableDebugging(true);
+      (controller.platform as AndroidWebViewController)
+          .setMediaPlaybackRequiresUserGesture(false);
+    }
+    // #enddocregion platform_features
+    _controller = controller;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: MyAppBar(
+        elevation: 0.0,
+        backgroundColor: kPrimaryColor,
+        title: "Pay with Monnify",
+        actions: const [],
+      ),
+      body: Center(
+        // Look here!
+        child: WebViewWidget(controller: _controller),
+      ),
+    );
+  }
+}

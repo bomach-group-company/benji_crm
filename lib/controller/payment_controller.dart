@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:get/get.dart';
@@ -33,7 +34,7 @@ class PaymentController extends GetxController {
       if (response.statusCode == 200) {
         final dynamic decodedBody = jsonDecode(response.body);
         responseObject.value = (decodedBody as Map);
-        // consoleLog(responseObject.value.toString());
+        log(responseObject.value.toString());
       } else {
         throw Exception(
             'Failed to fetch data. Status code: ${response.statusCode}');

@@ -9,12 +9,14 @@ import 'package:lottie/lottie.dart';
 import '../../controller/api_processor_controller.dart';
 import '../../controller/auth_controller.dart';
 import '../../controller/payment_controller.dart';
+import '../../controller/push_notifications_controller.dart';
 import '../../controller/user_controller.dart';
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/button/my_elevatedbutton.dart';
+import '../../src/components/payment/monnify.dart';
 import '../../src/providers/constants.dart';
+import '../../src/providers/keys.dart';
 import '../../theme/colors.dart';
-import 'packages.dart';
 
 class PayForDelivery extends StatefulWidget {
   final String packageId,
@@ -83,7 +85,7 @@ class _PayForDeliveryState extends State<PayForDelivery> {
   String countryDialCode = '+234';
   // final double subTotal = 0
   double totalPrice = 0;
-  int deliveryFee =
+  double deliveryFee =
       PaymentController.instance.responseObject.containsKey('delivery_fee')
           ? PaymentController.instance.responseObject['delivery_fee']
           : 0;
@@ -132,42 +134,51 @@ class _PayForDeliveryState extends State<PayForDelivery> {
 
 //======== Place Order =======\\
   void placeOrder() {
-    // String apiKey = monnifyAPIkey;
-    // String contractCode = contractCodeKey;
-    // String email = UserController.instance.user.value.email;
-    // String phone = UserController.instance.user.value.phone;
-    // String firstName = UserController.instance.user.value.firstName;
-    // String lastName = UserController.instance.user.value.lastName;
-    // String currency = 'NGN';
-    // String amount = (deliveryFee).toString();
-    // Map meta = {
-    //   "the_item_id": widget.packageId,
-    //   'the_item_type': 'package',
-    //   "client_id": UserController.instance.user.value.id
-    // };
+    String apiKey = monnifyAPIkey;
+    String contractCode = contractCodeKey;
+    String email = UserController.instance.user.value.email;
+    String phone = UserController.instance.user.value.phone;
+    String firstName = UserController.instance.user.value.firstName;
+    String lastName = UserController.instance.user.value.lastName;
+    String currency = 'NGN';
+    String amount = (deliveryFee).toString();
+    Map meta = {
+      "the_item_id": widget.packageId,
+      'the_item_type': 'package',
+      "client_id": UserController.instance.user.value.id
+    };
     try {
-      //   Navigator.push(
-      //     context,
-      //     MaterialPageRoute(builder: (context) {
-      //       return MonnifyWidget(
-      //         apiKey: apiKey,
-      //         contractCode: contractCode,
-      //         email: email,
-      //         phone: phone,
-      //         firstName: firstName,
-      //         lastName: lastName,
-      //         currency: currency,
-      //         amount: amount,
-      //         metaData: meta,
-      //         onTransaction: (response) {
-      //           consoleLog('the response from my monnify $response');
-      //           if (response != null) {
-      //             toPackages();
-      //           }
-      //         },
-      //       );
-      //     }),
-      //   );
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) {
+          return MonnifyWidget(
+            apiKey: apiKey,
+            contractCode: contractCode,
+            email: email,
+            phone: phone,
+            firstName: firstName,
+            lastName: lastName,
+            currency: currency,
+            amount: amount,
+            metaData: meta,
+            onClose: () {
+              Get.back();
+            },
+            onTransaction: (response) async {
+              consoleLog("the response from my monnify $response");
+              if (response != null) {
+                toPackages();
+                await PushNotificationController.showNotification(
+                  title: "Success",
+                  body: "This package will be delivered soon",
+                  summary: "Payment Successful",
+                  largeIcon: "asset://assets/icons/package.png",
+                );
+              }
+            },
+          );
+        }),
+      );
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet");
       placeOrder();
@@ -188,16 +199,7 @@ class _PayForDeliveryState extends State<PayForDelivery> {
     );
   }
 
-  void toPackages() => Get.off(
-        () => const Packages(),
-        routeName: 'Packages',
-        duration: const Duration(milliseconds: 300),
-        fullscreenDialog: true,
-        curve: Curves.easeIn,
-        preventDuplicates: true,
-        popGesture: true,
-        transition: Transition.rightToLeft,
-      );
+  void toPackages() => Get.close(2);
 
   getUserData() async {
     AuthController.instance.checkIfAuthorized();
@@ -360,7 +362,7 @@ class _PayForDeliveryState extends State<PayForDelivery> {
                                 ),
                               ),
                               Text(
-                                '₦${intFormattedText(deliveryFee)}',
+                                '₦${doubleFormattedText(deliveryFee)}',
                                 style: TextStyle(
                                   color: kTextGreyColor,
                                   fontSize: 16,
