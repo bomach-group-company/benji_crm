@@ -2,7 +2,6 @@ import 'package:benji_aggregator/services/api_url.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 class MyImage extends StatelessWidget {
   final String? url;
@@ -37,10 +36,8 @@ class MyImage extends StatelessWidget {
           child: CupertinoActivityIndicator(
         color: kAccentColor,
       )),
-      errorWidget: (context, url, error) => Icon(
-        Icons.error,
-        color: kAccentColor,
-      ),
+      errorWidget: (context, url, error) =>
+          Image.asset('assets/images/products/placeholder_image.png'),
     );
   }
 }
