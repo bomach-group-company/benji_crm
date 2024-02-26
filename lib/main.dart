@@ -97,7 +97,7 @@ class MyApp extends StatelessWidget {
         title: "Benji CRM",
         color: kPrimaryColor,
         navigatorKey: Get.key,
-        themeMode: ThemeMode.system,
+        themeMode: ThemeMode.light,
         darkTheme: AppTheme.darkTheme,
         theme: AppTheme.lightTheme,
         home: SplashScreen(),

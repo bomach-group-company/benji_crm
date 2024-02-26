@@ -226,7 +226,10 @@ class _RegisterVendorState extends State<RegisterVendor> {
   Future<void> saveChangesAsVendor() async {
     log("Saving as vendor");
     log(vendorClassified.toString());
-
+    if (await checkXFileSize(selectedLogoImage)) {
+      ApiProcessorController.errorSnack('Profile picture too large');
+      return;
+    }
     if (selectedLogoImage == null) {
       ApiProcessorController.errorSnack("Please add a profile picture");
       return;

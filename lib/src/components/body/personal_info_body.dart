@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:benji_aggregator/controller/api_processor_controller.dart';
 import 'package:benji_aggregator/controller/form_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/services/api_url.dart';
@@ -305,6 +306,10 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
   }
 
   Future<void> updateData() async {
+    if (await checkXFileSize(selectedImage)) {
+      ApiProcessorController.errorSnack('Profile picture too large');
+      return;
+    }
     setState(() {
       _isLoading = true;
     });
