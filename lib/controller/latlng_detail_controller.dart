@@ -7,9 +7,7 @@ class LatLngDetailController extends GetxController {
 
   var latLngDetail = [].obs;
   setLatLngdetail(List latLngDetailList) {
-    for (var i in latLngDetailList) {
-      latLngDetail.add(i ?? '');
-    }
+    latLngDetail.value = latLngDetailList;
     update();
   }
 

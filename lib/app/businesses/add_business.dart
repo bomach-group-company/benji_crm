@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:benji_aggregator/controller/shopping_location_controller.dart';
 import 'package:benji_aggregator/src/components/input/my_item_drop_down_menu.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -239,14 +240,23 @@ class _AddBusinessState extends State<AddBusiness> {
       popGesture: true,
       transition: Transition.rightToLeft,
     );
-    if (result != null) {
-      latitude = result["latitude"];
-      longitude = result["longitude"];
-      addressEC.text = result["mapsLocation"];
-    }
 
-    log("LATLNG: $latitude,$longitude");
-    log(addressEC.text);
+    latitude = latLngDetailController.latLngDetail.value[0];
+    longitude = latLngDetailController.latLngDetail.value[1];
+    addressEC.text = latLngDetailController.latLngDetail.value[2];
+    latLngDetailController.setEmpty();
+    if (kDebugMode) {
+      print("LATLNG: $latitude,$longitude");
+      print(addressEC.text);
+    }
+    // if (result != null) {
+    //   latitude = result["latitude"];
+    //   longitude = result["longitude"];
+    //   addressEC.text = result["mapsLocation"];
+    // }
+
+    // log("LATLNG: $latitude,$longitude");
+    // log(addressEC.text);
   }
 
   //========================== Save data ==================================\\
