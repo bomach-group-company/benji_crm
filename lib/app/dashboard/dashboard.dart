@@ -7,6 +7,7 @@ import 'package:benji_aggregator/controller/rider_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:benji_aggregator/src/components/appbar/dashboard_app_bar.dart';
+import 'package:benji_aggregator/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -273,6 +274,25 @@ class _DashboardState extends State<Dashboard>
                       ),
                     ),
                     trailing: const FaIcon(FontAwesomeIcons.chevronRight),
+                  ),
+                ),
+                kSizedBox,
+                Container(
+                  alignment: Alignment.center,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 25, horizontal: 40),
+                        backgroundColor: kAccentColor),
+                    onPressed: launchDownloadLinkAndroid,
+                    child: const Text(
+                      'Download APK',
+                      style: TextStyle(
+                        color: kTextWhiteColor,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
                   ),
                 ),
                 kSizedBox,

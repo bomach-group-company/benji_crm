@@ -238,10 +238,16 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
       popGesture: true,
       transition: Transition.rightToLeft,
     );
-    if (result != null) {
-      latitude = result["latitude"];
-      longitude = result["longitude"];
-      addressEC.text = result["mapsLocation"];
+    final LatLngDetailController latLngDetailController =
+        LatLngDetailController.instance;
+
+    if (latLngDetailController.isNotEmpty()) {
+      setState(() {
+        latitude = latLngDetailController.latLngDetail.value[0];
+        longitude = latLngDetailController.latLngDetail.value[1];
+        addressEC.text = latLngDetailController.latLngDetail.value[2];
+        latLngDetailController.setEmpty();
+      });
     }
 
     log("LATLNG: $latitude,$longitude");
