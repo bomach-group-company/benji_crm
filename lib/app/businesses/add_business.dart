@@ -79,8 +79,7 @@ class _AddBusinessState extends State<AddBusiness> {
   String bankCode = "";
   List<AutocompletePrediction> placePredictions = [];
   final selectedLocation = ValueNotifier<String?>(null);
-  final LatLngDetailController latLngDetailController =
-      LatLngDetailController.instance;
+
   String? latitude;
   String? longitude;
   bool isTyping = false;
@@ -241,10 +240,18 @@ class _AddBusinessState extends State<AddBusiness> {
       transition: Transition.rightToLeft,
     );
 
-    latitude = latLngDetailController.latLngDetail.value[0];
-    longitude = latLngDetailController.latLngDetail.value[1];
-    addressEC.text = latLngDetailController.latLngDetail.value[2];
-    latLngDetailController.setEmpty();
+    final LatLngDetailController latLngDetailController =
+        LatLngDetailController.instance;
+
+    if (latLngDetailController.isNotEmpty()) {
+      setState(() {
+        latitude = latLngDetailController.latLngDetail.value[0];
+        longitude = latLngDetailController.latLngDetail.value[1];
+        addressEC.text = latLngDetailController.latLngDetail.value[2];
+        latLngDetailController.setEmpty();
+      });
+    }
+
     if (kDebugMode) {
       print("LATLNG: $latitude,$longitude");
       print(addressEC.text);

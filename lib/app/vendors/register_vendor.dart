@@ -116,7 +116,6 @@ class _RegisterVendorState extends State<RegisterVendor> {
   // final vendorSatClosingHoursEC = TextEditingController();
   // final vendorSunClosingHoursEC = TextEditingController();
   final mapsLocationEC = TextEditingController();
-  final latLngDetailController = LatLngDetailController.instance;
 
   //=================================== FOCUS NODES ====================================\\
   final personalIdFN = FocusNode();
@@ -181,10 +180,16 @@ class _RegisterVendorState extends State<RegisterVendor> {
       popGesture: true,
       transition: Transition.rightToLeft,
     );
-    if (result != null) {
-      mapsLocationEC.text = result["mapsLocation"];
-      latitude = result["latitude"];
-      longitude = result["longitude"];
+    final LatLngDetailController latLngDetailController =
+        LatLngDetailController.instance;
+
+    if (latLngDetailController.isNotEmpty()) {
+      setState(() {
+        latitude = latLngDetailController.latLngDetail.value[0];
+        longitude = latLngDetailController.latLngDetail.value[1];
+        mapsLocationEC.text = latLngDetailController.latLngDetail.value[2];
+        latLngDetailController.setEmpty();
+      });
     }
     log(
       "Received Data - Maps Location: ${mapsLocationEC.text}, Latitude: $latitude, Longitude: $longitude",

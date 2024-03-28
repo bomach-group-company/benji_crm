@@ -16,4 +16,13 @@ class LatLngDetailController extends GetxController {
     latLngDetail.addAll(['', '', '']);
     update();
   }
+
+  isNotEmpty() {
+    for (var i = 0; i < latLngDetail.length; i++) {
+      if ((latLngDetail[i] as String).isNotEmpty) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
