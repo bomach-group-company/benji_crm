@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import 'package:path/path.dart';
 
 import '../model/create_vendor_model.dart';
@@ -163,9 +164,17 @@ class HandleData {
       'authorization': 'Bearer $token',
     };
 
-    var file = await http.MultipartFile.fromPath(
-        'image', data.profileImage!.path,
-        filename: filePhotoName);
+    request.files.add(http.MultipartFile(
+      'image',
+      data.profileImage!.readAsBytes().asStream(),
+      await data.profileImage!.length(),
+      filename: 'image.jpg',
+      contentType: MediaType('image', 'jpeg'), // Adjust content type as needed
+    ));
+
+    // var file = await http.MultipartFile.fromPath(
+    //     'image', data.profileImage!.path,
+    //     filename: filePhotoName);
 
     request.headers.addAll(headers);
 
@@ -185,7 +194,7 @@ class HandleData {
     request.fields["latitude"] = data.latitude!.toString();
     request.fields["longitude"] = data.longitude!.toString();
     request.fields["vendorClassifier"] = vendorClassifier.toString();
-    request.files.add(file);
+    // request.files.add(file);
     try {
       response = await request.send();
     } catch (e) {
