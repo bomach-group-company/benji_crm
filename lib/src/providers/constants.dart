@@ -1,7 +1,6 @@
 //default value
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../theme/colors.dart';
@@ -10,7 +9,7 @@ import '../../theme/colors.dart';
 
 const int maxImageSize = 5 * 1024 * 1024; // 5 MB
 
-Future<bool> checkXFileSize(File? image) async {
+Future<bool> checkXFileSize(XFile? image) async {
   if (image == null) {
     return false;
   }

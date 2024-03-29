@@ -145,16 +145,16 @@ class _AddBusinessState extends State<AddBusiness> {
 //=========================== IMAGE PICKER ====================================\\
 
   final ImagePicker _picker = ImagePicker();
-  File? selectedLogoImage;
-  File? selectedCoverImage;
+  XFile? selectedLogoImage;
+  XFile? selectedCoverImage;
   //================================== function ====================================\\
   pickLogoImage(ImageSource source) async {
     final XFile? image = await _picker.pickImage(
       source: source,
     );
     if (image != null) {
-      selectedLogoImage = File(image.path);
-      Get.back();
+      selectedLogoImage = image;
+      // Get.back();
       setState(() {});
     }
   }
@@ -164,8 +164,8 @@ class _AddBusinessState extends State<AddBusiness> {
       source: source,
     );
     if (image != null) {
-      selectedCoverImage = File(image.path);
-      Get.back();
+      selectedCoverImage = image;
+      // Get.back();
       setState(() {});
     }
   }
@@ -356,7 +356,7 @@ class _AddBusinessState extends State<AddBusiness> {
 
     log(url);
 
-    await FormController.instance.postAuthstream(
+    await FormController.instance.postAuthstream2(
       url,
       data,
       {
@@ -674,15 +674,21 @@ class _AddBusinessState extends State<AddBusiness> {
                             backgroundColor: kTransparentColor,
                             radius: 60,
                             child: Center(
-                              child: SizedBox(
-                                height: 120,
-                                width: 120,
-                                child: Image.file(
-                                  selectedLogoImage!,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
+                                child: SizedBox(
+                              height: 120,
+                              width: 120,
+                              child: kIsWeb
+                                  ? Image.network(
+                                      selectedLogoImage!.path,
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Image.file(
+                                      fit: BoxFit.cover,
+                                      File(
+                                        selectedLogoImage!.path,
+                                      ),
+                                    ),
+                            )),
                           ),
                     InkWell(
                       onTap: () {
@@ -742,10 +748,10 @@ class _AddBusinessState extends State<AddBusiness> {
                         : Container(
                             height: 200,
                             decoration: ShapeDecoration(
-                              image: DecorationImage(
-                                image: FileImage(selectedCoverImage!),
-                                fit: BoxFit.cover,
-                              ),
+                              // image: DecorationImage(
+                              //   image: FileImage(selectedCoverImage!),
+                              //   fit: BoxFit.cover,
+                              // ),
                               shape: RoundedRectangleBorder(
                                 side: const BorderSide(
                                   width: 0.50,
@@ -754,6 +760,17 @@ class _AddBusinessState extends State<AddBusiness> {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                             ),
+                            child: kIsWeb
+                                ? Image.network(
+                                    selectedLogoImage!.path,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.file(
+                                    fit: BoxFit.cover,
+                                    File(
+                                      selectedLogoImage!.path,
+                                    ),
+                                  ),
                           ),
                     InkWell(
                       onTap: () {

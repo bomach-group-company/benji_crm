@@ -199,19 +199,20 @@ class _RegisterVendorState extends State<RegisterVendor> {
 //=========================== IMAGE PICKER ====================================\\
 
   final ImagePicker _picker = ImagePicker();
-  File? selectedCoverImage;
-  File? selectedLogoImage;
+  final ImagePicker _pickerCover = ImagePicker();
+  XFile? selectedCoverImage;
+  XFile? selectedLogoImage;
 
   String? shopType;
   String? shopTypeHint;
   //================================== function ====================================\\
   pickCoverImage(ImageSource source) async {
-    final XFile? image = await _picker.pickImage(
+    final XFile? image = await _pickerCover.pickImage(
       source: source,
     );
     if (image != null) {
-      selectedCoverImage = File(image.path);
-      Get.back();
+      selectedCoverImage = image;
+      // Get.back();
       setState(() {});
     }
   }
@@ -221,8 +222,8 @@ class _RegisterVendorState extends State<RegisterVendor> {
       source: source,
     );
     if (image != null) {
-      selectedLogoImage = File(image.path);
-      Get.back();
+      selectedLogoImage = image;
+      // Get.back();
       setState(() {});
     }
   }
@@ -544,7 +545,21 @@ class _RegisterVendorState extends State<RegisterVendor> {
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Center(
-                                        child: Image.file(selectedLogoImage!),
+                                        child: kIsWeb
+                                            ? Image.network(
+                                                selectedLogoImage!.path,
+                                                fit: BoxFit.fill,
+                                                height: 120,
+                                                width: 120,
+                                              )
+                                            : Image.file(
+                                                height: 120,
+                                                width: 120,
+                                                fit: BoxFit.fill,
+                                                File(
+                                                  selectedLogoImage!.path,
+                                                ),
+                                              ),
                                       ),
                                     ),
                                     // decoration: ShapeDecoration(

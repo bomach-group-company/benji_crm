@@ -53,6 +53,7 @@ dependencies:
   webview_flutter: ^4.7.0
   webview_flutter_web: ^0.2.2+4
   webview_flutter_platform_interface: ^2.10.0
+  http_parser: ^4.0.2
 
 dev_dependencies:
   flutter_test:

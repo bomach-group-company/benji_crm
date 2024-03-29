@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:benji_aggregator/controller/shopping_location_controller.dart';
 import 'package:benji_aggregator/src/components/input/my_item_drop_down_menu.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -144,27 +145,28 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
 //=========================== IMAGE PICKER ====================================\\
 
   final ImagePicker _picker = ImagePicker();
-  File? selectedLogoImage;
-  File? selectedCoverImage;
+  final ImagePicker _pickerCover = ImagePicker();
+  XFile? selectedLogoImage;
+  XFile? selectedCoverImage;
   //================================== function ====================================\\
   pickLogoImage(ImageSource source) async {
     final XFile? image = await _picker.pickImage(
       source: source,
     );
     if (image != null) {
-      selectedLogoImage = File(image.path);
-      Get.back();
+      selectedLogoImage = image;
+      // Get.back();
       setState(() {});
     }
   }
 
   pickCoverImage(ImageSource source) async {
-    final XFile? image = await _picker.pickImage(
+    final XFile? image = await _pickerCover.pickImage(
       source: source,
     );
     if (image != null) {
-      selectedCoverImage = File(image.path);
-      Get.back();
+      selectedCoverImage = image;
+      // Get.back();
       setState(() {});
     }
   }
@@ -334,7 +336,7 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
 
     log(url);
 
-    await FormController.instance.postAuthstream(
+    await FormController.instance.postAuthstream2(
       url,
       data,
       {
@@ -657,10 +659,17 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
                               child: SizedBox(
                                 height: 120,
                                 width: 120,
-                                child: Image.file(
-                                  selectedLogoImage!,
-                                  fit: BoxFit.cover,
-                                ),
+                                child: kIsWeb
+                                    ? Image.network(
+                                        selectedLogoImage!.path,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : Image.file(
+                                        fit: BoxFit.cover,
+                                        File(
+                                          selectedLogoImage!.path,
+                                        ),
+                                      ),
                               ),
                             ),
                           ),
@@ -713,28 +722,46 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
                               ),
                             ),
                             child: Center(
-                              child: FaIcon(
-                                FontAwesomeIcons.solidImages,
-                                color: kAccentColor,
+                              child: Image.asset(
+                                "assets/icons/image-upload.png",
                               ),
                             ),
                           )
-                        : Container(
-                            height: 200,
-                            decoration: ShapeDecoration(
-                              image: DecorationImage(
-                                image: FileImage(selectedCoverImage!),
-                                fit: BoxFit.cover,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                side: const BorderSide(
-                                  width: 0.50,
-                                  color: Color(0xFFE6E6E6),
+                        : kIsWeb
+                            ? Container(
+                                padding: const EdgeInsets.all(20),
+                                height: deviceType(media.width) > 2 ? 200 : 120,
+                                decoration: ShapeDecoration(
+                                  shape: RoundedRectangleBorder(
+                                    side: const BorderSide(
+                                      width: 0.50,
+                                      color: Color(0xFFE6E6E6),
+                                    ),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                                 ),
-                                borderRadius: BorderRadius.circular(20),
+                                child: Center(
+                                  child:
+                                      Image.network(selectedCoverImage!.path),
+                                ),
+                              )
+                            : Container(
+                                height: 200,
+                                decoration: ShapeDecoration(
+                                  image: DecorationImage(
+                                    image: FileImage(
+                                        File(selectedCoverImage!.path)),
+                                    fit: BoxFit.cover,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    side: const BorderSide(
+                                      width: 0.50,
+                                      color: Color(0xFFE6E6E6),
+                                    ),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
                     InkWell(
                       onTap: () {
                         showModalBottomSheet(

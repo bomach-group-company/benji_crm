@@ -103,7 +103,18 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
   //=========================== IMAGE PICKER ====================================\\
 
   final ImagePicker _picker = ImagePicker();
-  File? selectedImage;
+  XFile? selectedLogoImage;
+
+  pickLogoImage(ImageSource source) async {
+    final XFile? image = await _picker.pickImage(
+      source: source,
+    );
+    if (image != null) {
+      selectedLogoImage = image;
+      // Get.back();
+      setState(() {});
+    }
+  }
 
   //=========================== WIDGETS ====================================\\
   Widget profilePicBottomSheet() {
@@ -205,7 +216,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
   uploadProfilePic(ImageSource source) async {
     final XFile? image = await _picker.pickImage(source: source);
     if (image != null) {
-      selectedImage = File(image.path);
+      selectedLogoImage = image;
       setState(() {});
       // User? user = await getUser();
       // final url =
@@ -309,7 +320,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
   }
 
   Future<void> updateData() async {
-    if (await checkXFileSize(selectedImage)) {
+    if (await checkXFileSize(selectedLogoImage)) {
       ApiProcessorController.errorSnack('Profile picture too large');
       return;
     }
@@ -337,8 +348,8 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
       "longitude": longitude,
       "phone": countryDialCode + phoneNumberEC.text
     };
-    await FormController.instance
-        .postAuthstream(url, data, {'image': selectedImage}, 'editProfile');
+    await FormController.instance.postAuthstream2(
+        url, data, {'image': selectedLogoImage}, 'editProfile');
     UserController.instance.getUser();
     setState(() {
       _isLoading = false;
@@ -400,44 +411,36 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                         children: [
                           Stack(
                             children: [
-                              selectedImage == null
-                                  ? Container(
-                                      height: deviceType(media.width) == 1
-                                          ? 100
-                                          : 150,
-                                      width: deviceType(media.width) == 1
-                                          ? 100
-                                          : 150,
-                                      decoration: ShapeDecoration(
-                                        color: kPageSkeletonColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(100),
-                                        ),
-                                      ),
-                                      padding: const EdgeInsets.all(10),
-                                      child: MyImage(
-                                        url: UserController
-                                            .instance.user.value.image,
-                                      ),
-                                    )
-                                  : Container(
-                                      height: deviceType(media.width) == 1
-                                          ? 100
-                                          : 150,
-                                      width: deviceType(media.width) == 1
-                                          ? 100
-                                          : 150,
-                                      decoration: ShapeDecoration(
-                                        color: kPageSkeletonColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(100),
-                                        ),
-                                      ),
-                                      padding: const EdgeInsets.all(10),
-                                      child: Image.file(selectedImage!),
-                                    ),
+                              CircleAvatar(
+                                radius: 60,
+                                child: ClipOval(
+                                  child: Center(
+                                    child: selectedLogoImage == null
+                                        ? MyImage(
+                                            height: 120,
+                                            width: 120,
+                                            url: UserController
+                                                .instance.user.value.image,
+                                            fit: BoxFit.fill,
+                                          )
+                                        : kIsWeb
+                                            ? Image.network(
+                                                selectedLogoImage!.path,
+                                                fit: BoxFit.fill,
+                                                height: 120,
+                                                width: 120,
+                                              )
+                                            : Image.file(
+                                                height: 120,
+                                                width: 120,
+                                                fit: BoxFit.fill,
+                                                File(
+                                                  selectedLogoImage!.path,
+                                                ),
+                                              ),
+                                  ),
+                                ),
+                              ),
                               Positioned(
                                 bottom: 0,
                                 right: 5,
