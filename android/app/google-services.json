@@ -1,32 +1,13 @@
 {
   "project_info": {
-    "project_number": "912983858748",
-    "project_id": "keen-tokenizer-400311",
-    "storage_bucket": "keen-tokenizer-400311.appspot.com"
+    "project_number": "432859725374",
+    "project_id": "benji-crm",
+    "storage_bucket": "benji-crm.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:912983858748:android:02e0e68cc91264960bad39",
-        "android_client_info": {
-          "package_name": "com.benji.benjiexpress"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDFliG30yK5Kni1TDp8R0aCSxN-7tDyqg8"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:912983858748:android:a42f8ba284a81bb20bad39",
+        "mobilesdk_app_id": "1:432859725374:android:4eba048ab417eb51ad5b6f",
         "android_client_info": {
           "package_name": "com.benji.crm"
         }
@@ -34,26 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDFliG30yK5Kni1TDp8R0aCSxN-7tDyqg8"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:912983858748:android:ba497fbe4464b2a60bad39",
-        "android_client_info": {
-          "package_name": "com.benji.vendor"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDFliG30yK5Kni1TDp8R0aCSxN-7tDyqg8"
+          "current_key": "AIzaSyAuC_kqSIQXoB2_rMY6cxYhAfkEPq3TT9Q"
         }
       ],
       "services": {
