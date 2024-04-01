@@ -296,6 +296,7 @@ class _DashboardState extends State<Dashboard>
                   ),
                 ),
                 kSizedBox,
+                media.width < 500 ? kSizedBox : const SizedBox(),
                 deviceType(media.width) >= 2
                     ? const SizedBox(height: kDefaultPadding * 2)
                     : const SizedBox(),
