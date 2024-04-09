@@ -220,7 +220,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
                                 borderRadius: BorderRadius.circular(50),
                               ),
                               tabs: const [
-                                Tab(text: "All Vendors"),
+                                Tab(text: "Registered Vendors"),
                                 Tab(text: "Third Party Vendors"),
                               ],
                             ),

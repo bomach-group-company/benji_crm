@@ -8,9 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
+import '../../../services/api_url.dart';
 import '../../../theme/colors.dart';
 import '../../providers/constants.dart';
-import '../image/my_image.dart';
 import 'dashboard_app_bar_aggregator.dart';
 
 class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -77,20 +77,25 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
                       decoration: ShapeDecoration(
                         color: kLightGreyColor,
                         shape: const CircleBorder(),
-                        // image: image!.isEmpty
-                        //     ? const DecorationImage(
-                        //         image: NetworkImage(
-                        //           "https://img.freepik.com/free-psd/3d-icon-social-media-app_23-2150049569.jpg",
-                        //         ),
-                        //       )
-                        //     : DecorationImage(
-                        //         image: NetworkImage(baseImage + image!),
-                        //         fit: BoxFit.contain,
-                        //         filterQuality: FilterQuality.high,
-                        //       ),
+                        image: image!.isEmpty
+                            ? const DecorationImage(
+                                image: NetworkImage(
+                                  "https://img.freepik.com/free-psd/3d-icon-social-media-app_23-2150049569.jpg",
+                                ),
+                              )
+                            : DecorationImage(
+                                image: NetworkImage(baseImage + image!),
+                                fit: BoxFit.cover,
+                                filterQuality: FilterQuality.high,
+                              ),
                       ),
-                      padding: const EdgeInsets.all(5),
-                      child: Center(child: MyImage(url: image)),
+                      // padding: const EdgeInsets.all(5),
+                      // child: Center(
+                      //   child: MyImage(
+                      //     url: image,
+                      //     fit: BoxFit.cover,
+                      //   ),
+                      // ),
                     ),
                   ),
                 ),

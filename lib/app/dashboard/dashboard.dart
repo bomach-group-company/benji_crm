@@ -226,7 +226,7 @@ class _DashboardState extends State<Dashboard> {
                   child: ListTile(
                     onTap: toSendPackage,
                     leading: FaIcon(
-                      FontAwesomeIcons.bicycle,
+                      FontAwesomeIcons.personBiking,
                       color: kAccentColor,
                     ),
                     title: const Text(
@@ -237,7 +237,10 @@ class _DashboardState extends State<Dashboard> {
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                    trailing: const FaIcon(FontAwesomeIcons.chevronRight),
+                    trailing: FaIcon(
+                      FontAwesomeIcons.chevronRight,
+                      color: kAccentColor,
+                    ),
                   ),
                 ),
                 kSizedBox,

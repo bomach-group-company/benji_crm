@@ -1,5 +1,3 @@
-import 'package:benji_aggregator/controller/account_controller.dart';
-import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -26,8 +24,7 @@ class _OverViewState extends State<OverView> {
   @override
   void initState() {
     _currentIndex = widget.currentIndex;
-    AccountController().getAccounts();
-    VendorController().getMyVendors();
+
     super.initState();
   }
 

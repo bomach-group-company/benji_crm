@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../app/overview/overview.dart';
+import 'account_controller.dart';
 import 'api_processor_controller.dart';
 import 'fcm_messaging_controller.dart';
 import 'notification_controller.dart';
@@ -34,6 +35,7 @@ class AuthController extends GetxController {
 
         //Get user profile
         await UserController.instance.getUser();
+        await AccountController().getAccounts();
 
         await NotificationController.instance.runTask();
         await VendorController.instance.getMyVendors();

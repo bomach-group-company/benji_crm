@@ -8,7 +8,6 @@ import 'package:benji_aggregator/controller/api_processor_controller.dart';
 import 'package:benji_aggregator/controller/form_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/services/api_url.dart';
-import 'package:benji_aggregator/src/components/image/my_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,7 +24,6 @@ import '../../googleMaps/autocomplete_prediction.dart';
 import '../../googleMaps/places_autocomplete_response.dart';
 import '../../providers/constants.dart';
 import '../../providers/keys.dart';
-import '../../responsive/responsive_constant.dart';
 import '../../utils/network_utils.dart';
 import '../button/my_elevatedbutton.dart';
 import '../input/my_blue_textformfield.dart';
@@ -143,6 +141,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                 children: [
                   InkWell(
                     onTap: () {
+                      Get.back();
                       uploadProfilePic(ImageSource.camera);
                     },
                     borderRadius: BorderRadius.circular(100),
@@ -175,6 +174,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                 children: [
                   InkWell(
                     onTap: () {
+                      Get.back();
                       uploadProfilePic(ImageSource.gallery);
                     },
                     borderRadius: BorderRadius.circular(100),
@@ -416,24 +416,42 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                                 child: ClipOval(
                                   child: Center(
                                     child: selectedLogoImage == null
-                                        ? MyImage(
-                                            height: 120,
-                                            width: 120,
-                                            url: UserController
-                                                .instance.user.value.image,
-                                            fit: BoxFit.fill,
+                                        ? Container(
+                                            decoration: BoxDecoration(
+                                              color: kLightGreyColor,
+                                              image: UserController.instance
+                                                      .user.value.image.isEmpty
+                                                  ? const DecorationImage(
+                                                      image: NetworkImage(
+                                                        "https://img.freepik.com/free-psd/3d-icon-social-media-app_23-2150049569.jpg",
+                                                      ),
+                                                    )
+                                                  : DecorationImage(
+                                                      image: NetworkImage(
+                                                        baseImage +
+                                                            UserController
+                                                                .instance
+                                                                .user
+                                                                .value
+                                                                .image,
+                                                      ),
+                                                      fit: BoxFit.cover,
+                                                      filterQuality:
+                                                          FilterQuality.high,
+                                                    ),
+                                            ),
                                           )
                                         : kIsWeb
                                             ? Image.network(
                                                 selectedLogoImage!.path,
-                                                fit: BoxFit.fill,
+                                                fit: BoxFit.cover,
                                                 height: 120,
                                                 width: 120,
                                               )
                                             : Image.file(
                                                 height: 120,
                                                 width: 120,
-                                                fit: BoxFit.fill,
+                                                fit: BoxFit.cover,
                                                 File(
                                                   selectedLogoImage!.path,
                                                 ),
@@ -469,10 +487,8 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                                   },
                                   borderRadius: BorderRadius.circular(100),
                                   child: Container(
-                                    height:
-                                        deviceType(media.width) == 1 ? 35 : 50,
-                                    width:
-                                        deviceType(media.width) == 1 ? 35 : 50,
+                                    height: 30,
+                                    width: 30,
                                     decoration: ShapeDecoration(
                                       color: kAccentColor,
                                       shape: RoundedRectangleBorder(
@@ -482,8 +498,8 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                                     ),
                                     child: Center(
                                       child: FaIcon(
-                                        FontAwesomeIcons.pencil,
-                                        size: 18,
+                                        FontAwesomeIcons.pen,
+                                        size: 14,
                                         color: kPrimaryColor,
                                       ),
                                     ),
@@ -509,7 +525,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                               style: const TextStyle(
                                 color: kTextBlackColor,
                                 fontSize: 18,
-                                fontWeight: FontWeight.w700,
+                                fontWeight: FontWeight.w800,
                               ),
                             ),
                             Text(
@@ -541,7 +557,9 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                                 IconButton(
                                   onPressed: () {
                                     _copyToClipboard(
-                                        context, controller.user.value.code);
+                                      context,
+                                      controller.user.value.code,
+                                    );
                                   },
                                   tooltip: "Copy ID",
                                   mouseCursor: SystemMouseCursors.click,
