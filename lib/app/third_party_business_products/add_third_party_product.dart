@@ -3,6 +3,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -95,7 +96,7 @@ class _AddThirdPartyBusinessProductState
   //=========================== IMAGE PICKER ====================================\\
 
   final ImagePicker _picker = ImagePicker();
-  File? selectedImage;
+  XFile? selectedImage;
 
   //================================== FUNCTIONS ====================================\\
   Future<void> submit() async {
@@ -130,7 +131,7 @@ class _AddThirdPartyBusinessProductState
     };
 
     log("This is the data: $data");
-    await FormController.instance.postAuthstream(
+    await FormController.instance.postAuthstream2(
       Api.baseUrl + Api.agentAddProductToVendorBusiness,
       data,
       {'product_image': selectedImage},
@@ -151,7 +152,7 @@ class _AddThirdPartyBusinessProductState
       source: source,
     );
     if (image != null) {
-      selectedImage = File(image.path);
+      selectedImage = image;
       setState(() {});
     }
   }
@@ -310,13 +311,24 @@ class _AddThirdPartyBusinessProductState
                               ? Image.asset(
                                   "assets/icons/image-upload.png",
                                 )
-                              : selectedImage == null
-                                  ? const SizedBox()
+                              : kIsWeb
+                                  ? GridTile(
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            image: Image.network(
+                                                    selectedImage!.path)
+                                                .image,
+                                          ),
+                                        ),
+                                      ),
+                                    )
                                   : GridTile(
                                       child: Container(
                                         decoration: BoxDecoration(
                                           image: DecorationImage(
-                                            image: FileImage(selectedImage!),
+                                            image: FileImage(
+                                                File(selectedImage!.path)),
                                           ),
                                         ),
                                       ),

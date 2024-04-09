@@ -28,6 +28,7 @@ class MyVendors extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<VendorController>(
+      initState: (state) => VendorController.instance.getMyVendors(),
       builder: (controller) {
         return SizedBox(
           child: Column(

@@ -90,7 +90,6 @@ class _SendPackageState extends State<SendPackage> {
 
   final itemValueEC = TextEditingController();
 
-  final latLngDetailController = LatLngDetailController.instance;
   //=============================== FOCUS NODES ==================================\\
   final pickupFN = FocusNode();
   final senderNameFN = FocusNode();
@@ -212,26 +211,25 @@ class _SendPackageState extends State<SendPackage> {
       popGesture: true,
       transition: Transition.rightToLeft,
     );
-    if (result != null) {
-      String pinnedLocation = result['mapsLocation'];
-      String latitude = result['latitude'];
-      String longitude = result['longitude'];
 
-      double latitudeValue = double.parse(latitude);
-      double longitudeValue = double.parse(longitude);
+    final LatLngDetailController latLngDetailController =
+        LatLngDetailController.instance;
+
+    if (latLngDetailController.isNotEmpty()) {
+      String latitude = latLngDetailController.latLngDetail.value[0];
+      String longitude = latLngDetailController.latLngDetail.value[1];
+      String pinnedLocation = latLngDetailController.latLngDetail.value[2];
+      latLngDetailController.setEmpty();
+
       log(
-        "Received Data - Maps Location: $pinnedLocation, Latitude: $latitudeValue, Longitude: $longitudeValue",
+        "Received Data - Maps Location: $pinnedLocation, Latitude: $latitude, Longitude: $longitude",
       );
       setState(() {
         pickupEC.text = pinnedLocation;
-        latitudePick = latitudeValue.toString();
-        longitudePick = longitudeValue.toString();
+        latitudePick = latitude;
+        longitudePick = longitude;
       });
     }
-    // latitudePick = latLngDetailController.latLngDetail.value[0];
-    // longitudePick = latLngDetailController.latLngDetail.value[1];
-    // pickupEC.text = latLngDetailController.latLngDetail.value[2];
-    // latLngDetailController.setEmpty();
 
     log("LATLNG: $latitudePick,$longitudePick");
     log("pickup text : ${pickupEC.text}");
@@ -249,25 +247,21 @@ class _SendPackageState extends State<SendPackage> {
       transition: Transition.rightToLeft,
     );
 
-    if (result != null) {
-      String pinnedLocation = result['mapsLocation'];
-      String latitude = result['latitude'];
-      String longitude = result['longitude'];
+    final LatLngDetailController latLngDetailController =
+        LatLngDetailController.instance;
 
-      double latitudeValue = double.parse(latitude);
-      double longitudeValue = double.parse(longitude);
+    if (latLngDetailController.isNotEmpty()) {
+      String latitude = latLngDetailController.latLngDetail.value[0];
+      String longitude = latLngDetailController.latLngDetail.value[1];
+      String pinnedLocation = latLngDetailController.latLngDetail.value[2];
+      latLngDetailController.setEmpty();
 
       setState(() {
         dropOffEC.text = pinnedLocation;
-        latitudeDrop = latitudeValue.toString();
-        longitudeDrop = longitudeValue.toString();
+        latitudeDrop = latitude;
+        longitudeDrop = longitude;
       });
     }
-
-    // latitudeDrop = latLngDetailController.latLngDetail.value[0];
-    // longitudeDrop = latLngDetailController.latLngDetail.value[1];
-    // dropOffEC.text = latLngDetailController.latLngDetail.value[2];
-    // latLngDetailController.setEmpty();
 
     log("LATLNG: $latitudeDrop,$longitudeDrop");
     log("dropOff text : ${dropOffEC.text}");

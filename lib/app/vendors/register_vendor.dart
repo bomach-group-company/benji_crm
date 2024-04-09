@@ -116,7 +116,6 @@ class _RegisterVendorState extends State<RegisterVendor> {
   // final vendorSatClosingHoursEC = TextEditingController();
   // final vendorSunClosingHoursEC = TextEditingController();
   final mapsLocationEC = TextEditingController();
-  final latLngDetailController = LatLngDetailController.instance;
 
   //=================================== FOCUS NODES ====================================\\
   final personalIdFN = FocusNode();
@@ -181,10 +180,16 @@ class _RegisterVendorState extends State<RegisterVendor> {
       popGesture: true,
       transition: Transition.rightToLeft,
     );
-    if (result != null) {
-      mapsLocationEC.text = result["mapsLocation"];
-      latitude = result["latitude"];
-      longitude = result["longitude"];
+    final LatLngDetailController latLngDetailController =
+        LatLngDetailController.instance;
+
+    if (latLngDetailController.isNotEmpty()) {
+      setState(() {
+        latitude = latLngDetailController.latLngDetail.value[0];
+        longitude = latLngDetailController.latLngDetail.value[1];
+        mapsLocationEC.text = latLngDetailController.latLngDetail.value[2];
+        latLngDetailController.setEmpty();
+      });
     }
     log(
       "Received Data - Maps Location: ${mapsLocationEC.text}, Latitude: $latitude, Longitude: $longitude",
@@ -194,19 +199,20 @@ class _RegisterVendorState extends State<RegisterVendor> {
 //=========================== IMAGE PICKER ====================================\\
 
   final ImagePicker _picker = ImagePicker();
-  File? selectedCoverImage;
-  File? selectedLogoImage;
+  final ImagePicker _pickerCover = ImagePicker();
+  XFile? selectedCoverImage;
+  XFile? selectedLogoImage;
 
   String? shopType;
   String? shopTypeHint;
   //================================== function ====================================\\
   pickCoverImage(ImageSource source) async {
-    final XFile? image = await _picker.pickImage(
+    final XFile? image = await _pickerCover.pickImage(
       source: source,
     );
     if (image != null) {
-      selectedCoverImage = File(image.path);
-      Get.back();
+      selectedCoverImage = image;
+      // Get.back();
       setState(() {});
     }
   }
@@ -216,8 +222,8 @@ class _RegisterVendorState extends State<RegisterVendor> {
       source: source,
     );
     if (image != null) {
-      selectedLogoImage = File(image.path);
-      Get.back();
+      selectedLogoImage = image;
+      // Get.back();
       setState(() {});
     }
   }
@@ -539,7 +545,21 @@ class _RegisterVendorState extends State<RegisterVendor> {
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Center(
-                                        child: Image.file(selectedLogoImage!),
+                                        child: kIsWeb
+                                            ? Image.network(
+                                                selectedLogoImage!.path,
+                                                fit: BoxFit.fill,
+                                                height: 120,
+                                                width: 120,
+                                              )
+                                            : Image.file(
+                                                height: 120,
+                                                width: 120,
+                                                fit: BoxFit.fill,
+                                                File(
+                                                  selectedLogoImage!.path,
+                                                ),
+                                              ),
                                       ),
                                     ),
                                     // decoration: ShapeDecoration(

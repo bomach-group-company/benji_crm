@@ -1,7 +1,7 @@
-import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 class SendCreateModel {
-  File? profileImage;
+  XFile? profileImage;
   String? email;
   String? phoneNumber;
   String? personalID;

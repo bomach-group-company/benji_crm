@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:benji_aggregator/controller/shopping_location_controller.dart';
 import 'package:benji_aggregator/src/components/input/my_item_drop_down_menu.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -78,8 +79,7 @@ class _AddBusinessState extends State<AddBusiness> {
   String bankCode = "";
   List<AutocompletePrediction> placePredictions = [];
   final selectedLocation = ValueNotifier<String?>(null);
-  final LatLngDetailController latLngDetailController =
-      LatLngDetailController.instance;
+
   String? latitude;
   String? longitude;
   bool isTyping = false;
@@ -145,16 +145,16 @@ class _AddBusinessState extends State<AddBusiness> {
 //=========================== IMAGE PICKER ====================================\\
 
   final ImagePicker _picker = ImagePicker();
-  File? selectedLogoImage;
-  File? selectedCoverImage;
+  XFile? selectedLogoImage;
+  XFile? selectedCoverImage;
   //================================== function ====================================\\
   pickLogoImage(ImageSource source) async {
     final XFile? image = await _picker.pickImage(
       source: source,
     );
     if (image != null) {
-      selectedLogoImage = File(image.path);
-      Get.back();
+      selectedLogoImage = image;
+      // Get.back();
       setState(() {});
     }
   }
@@ -164,8 +164,8 @@ class _AddBusinessState extends State<AddBusiness> {
       source: source,
     );
     if (image != null) {
-      selectedCoverImage = File(image.path);
-      Get.back();
+      selectedCoverImage = image;
+      // Get.back();
       setState(() {});
     }
   }
@@ -239,14 +239,31 @@ class _AddBusinessState extends State<AddBusiness> {
       popGesture: true,
       transition: Transition.rightToLeft,
     );
-    if (result != null) {
-      latitude = result["latitude"];
-      longitude = result["longitude"];
-      addressEC.text = result["mapsLocation"];
+
+    final LatLngDetailController latLngDetailController =
+        LatLngDetailController.instance;
+
+    if (latLngDetailController.isNotEmpty()) {
+      setState(() {
+        latitude = latLngDetailController.latLngDetail.value[0];
+        longitude = latLngDetailController.latLngDetail.value[1];
+        addressEC.text = latLngDetailController.latLngDetail.value[2];
+        latLngDetailController.setEmpty();
+      });
     }
 
-    log("LATLNG: $latitude,$longitude");
-    log(addressEC.text);
+    if (kDebugMode) {
+      print("LATLNG: $latitude,$longitude");
+      print(addressEC.text);
+    }
+    // if (result != null) {
+    //   latitude = result["latitude"];
+    //   longitude = result["longitude"];
+    //   addressEC.text = result["mapsLocation"];
+    // }
+
+    // log("LATLNG: $latitude,$longitude");
+    // log(addressEC.text);
   }
 
   //========================== Save data ==================================\\
@@ -339,7 +356,7 @@ class _AddBusinessState extends State<AddBusiness> {
 
     log(url);
 
-    await FormController.instance.postAuthstream(
+    await FormController.instance.postAuthstream2(
       url,
       data,
       {
@@ -657,15 +674,21 @@ class _AddBusinessState extends State<AddBusiness> {
                             backgroundColor: kTransparentColor,
                             radius: 60,
                             child: Center(
-                              child: SizedBox(
-                                height: 120,
-                                width: 120,
-                                child: Image.file(
-                                  selectedLogoImage!,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
+                                child: SizedBox(
+                              height: 120,
+                              width: 120,
+                              child: kIsWeb
+                                  ? Image.network(
+                                      selectedLogoImage!.path,
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Image.file(
+                                      fit: BoxFit.cover,
+                                      File(
+                                        selectedLogoImage!.path,
+                                      ),
+                                    ),
+                            )),
                           ),
                     InkWell(
                       onTap: () {
@@ -725,10 +748,10 @@ class _AddBusinessState extends State<AddBusiness> {
                         : Container(
                             height: 200,
                             decoration: ShapeDecoration(
-                              image: DecorationImage(
-                                image: FileImage(selectedCoverImage!),
-                                fit: BoxFit.cover,
-                              ),
+                              // image: DecorationImage(
+                              //   image: FileImage(selectedCoverImage!),
+                              //   fit: BoxFit.cover,
+                              // ),
                               shape: RoundedRectangleBorder(
                                 side: const BorderSide(
                                   width: 0.50,
@@ -737,6 +760,17 @@ class _AddBusinessState extends State<AddBusiness> {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                             ),
+                            child: kIsWeb
+                                ? Image.network(
+                                    selectedLogoImage!.path,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.file(
+                                    fit: BoxFit.cover,
+                                    File(
+                                      selectedLogoImage!.path,
+                                    ),
+                                  ),
                           ),
                     InkWell(
                       onTap: () {
