@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 
 import '../app/overview/overview.dart';
 import 'api_processor_controller.dart';
+import 'fcm_messaging_controller.dart';
 import 'notification_controller.dart';
 import 'user_controller.dart';
 import 'vendor_controller.dart';
@@ -28,7 +29,12 @@ class AuthController extends GetxController {
   Future checkAuth() async {
     try {
       if (await isAuthorized()) {
+        //upload fcm token
+        await FcmMessagingController.instance.handleFCM();
+
+        //Get user profile
         await UserController.instance.getUser();
+
         await NotificationController.instance.runTask();
         await VendorController.instance.getMyVendors();
         await VendorController.instance.getThirdPartyVendors();

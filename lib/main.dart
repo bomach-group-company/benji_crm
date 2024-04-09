@@ -78,7 +78,6 @@ void main() async {
     );
     await FirebaseMessaging.instance.setAutoInitEnabled(true);
     await PushNotificationController.initializeNotification();
-    await FcmMessagingController.instance.handleFCM();
   }
 
   runApp(const MyApp());

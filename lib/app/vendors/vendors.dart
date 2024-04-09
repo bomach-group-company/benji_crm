@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:benji_aggregator/app/vendors/my_vendor_detail.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:benji_aggregator/model/my_vendor_model.dart';
-import 'package:benji_aggregator/src/components/section/my_liquid_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -133,8 +132,9 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
-    return MyLiquidRefresh(
+    return RefreshIndicator(
       onRefresh: handleRefresh,
+      color: kAccentColor,
       child: Scaffold(
         floatingActionButton: _isScrollToTopBtnVisible
             ? FloatingActionButton(
@@ -186,6 +186,9 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
                   physics: const BouncingScrollPhysics(),
                   padding: const EdgeInsets.all(kDefaultPadding),
                   children: [
+                    loadingScreen
+                        ? LinearProgressIndicator(color: kAccentColor)
+                        : const SizedBox(),
                     Container(
                       width: media.width,
                       decoration: BoxDecoration(

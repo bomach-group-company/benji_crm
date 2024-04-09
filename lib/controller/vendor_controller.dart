@@ -103,7 +103,7 @@ class VendorController extends GetxController {
           await ApiProcessorController.errorState(response, isFirst ?? true);
 
       allMyVendorList = jsonDecode(responseData)['total'];
-      log(allMyVendorList.toString());
+
       var data = (jsonDecode(responseData ?? '{}')['items'] as List)
           .map((e) => MyVendorModel.fromJson(e))
           .toList();
@@ -141,12 +141,11 @@ class VendorController extends GetxController {
     try {
       http.Response? response = await HandleData.getApi(url, token);
 
-      log("Thirdparty vendors: ${response!.body}");
       var responseData =
           await ApiProcessorController.errorState(response, isFirst ?? true);
 
       allMyThirdPartyVendorList = jsonDecode(responseData)['total'];
-      log(allMyThirdPartyVendorList.toString());
+
       var data = (jsonDecode(responseData ?? '{}')['items'] as List);
 
       var vendors = data.map((item) {
@@ -180,11 +179,9 @@ class VendorController extends GetxController {
     log("Got here!");
 
     try {
-      log("Got here!!");
       http.StreamedResponse? response =
           await HandleData.streamAddVendor(url, token, data, classify);
 
-      log("Got here!!!");
       // if (kDebugMode) {
       //   final res = await http.Response.fromStream(response!);
       //   print("This is the response body: ${jsonDecode(res.body)}");
@@ -243,7 +240,6 @@ class VendorController extends GetxController {
       log(response!.statusCode.toString());
       final res = await http.Response.fromStream(response);
       var jsonData = jsonDecode(res.body);
-      log('${jsonData}heoollll');
 
       if (response.statusCode == 200) {
         statusCode.value == response.statusCode;
@@ -261,7 +257,6 @@ class VendorController extends GetxController {
         isLoadCreate.value = false;
       }
       isLoadCreate.value = false;
-      log("Got here, 2nd response: $response");
 
       update();
     } on SocketException {
