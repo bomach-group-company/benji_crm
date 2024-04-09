@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:benji_aggregator/src/providers/keys.dart';
+import 'package:benji_aggregator/src/utils/keys.dart';
 import 'package:flutter/foundation.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:http/http.dart' as http;

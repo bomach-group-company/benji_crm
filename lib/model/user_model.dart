@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import '../src/providers/constants.dart';
+import '../src/utils/constants.dart';
 
 UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
 

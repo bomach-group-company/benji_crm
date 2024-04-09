@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:ui' as ui; // Import the ui library with an alias
 
 import 'package:benji_aggregator/controller/latlng_detail_controller.dart';
@@ -205,7 +206,7 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
 
     _goToSpecifiedLocation(LatLng(lat, lng), 20);
     if (kDebugMode) {
-      print(LatLng(lat, lng));
+      log("${LatLng(lat, lng)}");
     }
     // _markers.add(
     //   Marker(
@@ -275,7 +276,7 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
     String addressStr =
         "${address.name} ${address.street},${address.locality}, ${address.country}";
     if (kDebugMode) {
-      print(LatLng(position.latitude, position.longitude));
+      log("${LatLng(position.latitude, position.longitude)}");
     }
     setState(() {
       pinnedLocation = addressStr;
@@ -298,8 +299,8 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
   _saveFunc() async {
     await _getPlaceMark(draggedLatLng);
     if (kDebugMode) {
-      print("draggedLatLng: $draggedLatLng");
-      print("PinnedLocation: $pinnedLocation");
+      log("draggedLatLng: $draggedLatLng");
+      log("PinnedLocation: $pinnedLocation");
     }
     String latitude = draggedLatLng.latitude.toString();
     String longitude = draggedLatLng.longitude.toString();
@@ -380,7 +381,7 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
                             textCapitalization: TextCapitalization.words,
                             onChanged: (value) {
                               if (kDebugMode) {
-                                print(value);
+                                log(value);
                               }
                             },
                           ),

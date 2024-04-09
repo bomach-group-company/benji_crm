@@ -293,7 +293,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
   }
 
   void _toGetLocationOnMap() async {
-    var result = await Get.to(
+    Get.to(
       () => const GetLocationOnMap(),
       routeName: 'GetLocationOnMap',
       duration: const Duration(milliseconds: 300),
@@ -303,8 +303,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
       popGesture: true,
       transition: Transition.rightToLeft,
     );
-    final LatLngDetailController latLngDetailController =
-        LatLngDetailController.instance;
+    final latLngDetailController = LatLngDetailController.instance;
 
     if (latLngDetailController.isNotEmpty()) {
       setState(() {

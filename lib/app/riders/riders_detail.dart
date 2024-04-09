@@ -13,7 +13,7 @@ import '../../controller/url_launch_controller.dart';
 import '../../model/rider_model.dart';
 import '../../src/components/button/my_outlined_elevatedButton.dart';
 import '../../src/components/section/my_liquid_refresh.dart';
-import '../../src/providers/constants.dart';
+import '../../src/utils/constants.dart';
 import 'report_rider.dart';
 
 class RidersDetail extends StatefulWidget {

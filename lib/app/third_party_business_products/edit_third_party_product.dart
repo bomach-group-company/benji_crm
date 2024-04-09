@@ -18,7 +18,7 @@ import '../../src/components/button/my_elevatedbutton.dart';
 import '../../src/components/input/message_textformfield.dart';
 import '../../src/components/input/my_dropdown_menu.dart';
 import '../../src/components/input/my_textformfield.dart';
-import '../../src/providers/constants.dart';
+import '../../src/utils/constants.dart';
 import '../../theme/colors.dart';
 
 class EditThirdPartyProduct extends StatefulWidget {

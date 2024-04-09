@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../../src/providers/constants.dart';
+import '../../src/utils/constants.dart';
 import '../../theme/colors.dart';
 
 class WithdrawPage extends StatefulWidget {

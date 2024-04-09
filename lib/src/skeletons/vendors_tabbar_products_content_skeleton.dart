@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../theme/colors.dart';
-import '../providers/constants.dart';
+import '../utils/constants.dart';
 import 'page_skeleton.dart';
 
 class VendorsTabBarProductsContentSkeleton extends StatelessWidget {
