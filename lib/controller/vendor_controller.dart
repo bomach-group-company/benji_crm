@@ -40,7 +40,7 @@ class VendorController extends GetxController {
   var loadedAllMyVendor = false.obs;
   var isLoadMoreMyVendor = false.obs;
 
-  refreshData() {
+  refreshData() async {
     vendorMyList.value = [];
     thirdPartyVendorList.value = [];
 
@@ -52,8 +52,8 @@ class VendorController extends GetxController {
     loadNumMyVendor.value = 10;
     loadedAllMyVendor.value = false;
     isLoadMoreMyVendor.value = false;
-    getMyVendors();
-    getThirdPartyVendors();
+    await getMyVendors();
+    await getThirdPartyVendors();
   }
 
   Future<void> scrollListenerVendor(scrollController) async {

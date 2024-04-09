@@ -1,5 +1,4 @@
 import 'package:benji_aggregator/controller/vendor_controller.dart';
-import 'package:benji_aggregator/src/skeletons/vendors_list_skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -33,40 +32,42 @@ class ThirdPartyVendors extends StatelessWidget {
         return SizedBox(
           child: Column(
             children: [
-              controller.isLoad.value && controller.thirdPartyVendorList.isEmpty
-                  ? const VendorsListSkeleton()
-                  : ListView.separated(
-                      separatorBuilder: (context, index) => kHalfSizedBox,
-                      itemCount: controller.thirdPartyVendorList.length,
-                      addAutomaticKeepAlives: true,
-                      physics: const BouncingScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) => InkWell(
+              // controller.isLoad.value && controller.thirdPartyVendorList.isEmpty
+              //     ? const VendorsListSkeleton()
+              //     :
+
+              ListView.separated(
+                separatorBuilder: (context, index) => kHalfSizedBox,
+                itemCount: controller.thirdPartyVendorList.length,
+                addAutomaticKeepAlives: true,
+                physics: const BouncingScrollPhysics(),
+                shrinkWrap: true,
+                itemBuilder: (context, index) => InkWell(
+                  borderRadius: BorderRadius.circular(16),
+                  child: Container(
+                    decoration: ShapeDecoration(
+                      color: kPrimaryColor,
+                      shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
-                        child: Container(
-                          decoration: ShapeDecoration(
-                            color: kPrimaryColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            shadows: const [
-                              BoxShadow(
-                                color: Color(0x0F000000),
-                                blurRadius: 24,
-                                offset: Offset(0, 4),
-                                spreadRadius: 0,
-                              ),
-                            ],
-                          ),
-                          child: ThirdPartyVendorContainer(
-                            onTap: () => toVendorDetailPage(
-                              controller.thirdPartyVendorList[index],
-                            ),
-                            vendor: controller.thirdPartyVendorList[index],
-                          ),
-                        ),
                       ),
+                      shadows: const [
+                        BoxShadow(
+                          color: Color(0x0F000000),
+                          blurRadius: 24,
+                          offset: Offset(0, 4),
+                          spreadRadius: 0,
+                        ),
+                      ],
                     ),
+                    child: ThirdPartyVendorContainer(
+                      onTap: () => toVendorDetailPage(
+                        controller.thirdPartyVendorList[index],
+                      ),
+                      vendor: controller.thirdPartyVendorList[index],
+                    ),
+                  ),
+                ),
+              ),
               kSizedBox,
             ],
           ),
