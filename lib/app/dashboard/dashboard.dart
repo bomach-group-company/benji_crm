@@ -8,8 +8,8 @@ import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:benji_aggregator/src/components/appbar/dashboard_app_bar.dart';
 import 'package:benji_aggregator/src/utils/utils.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
@@ -21,10 +21,9 @@ import '../overview/overview.dart';
 import '../packages/send_package.dart';
 
 class Dashboard extends StatefulWidget {
-  final VoidCallback showNavigation;
-  final VoidCallback hideNavigation;
-  const Dashboard(
-      {super.key, required this.showNavigation, required this.hideNavigation});
+  const Dashboard({
+    super.key,
+  });
 
   @override
   State<Dashboard> createState() => _DashboardState();
@@ -32,81 +31,49 @@ class Dashboard extends StatefulWidget {
 
 typedef ModalContentBuilder = Widget Function(BuildContext);
 
-class _DashboardState extends State<Dashboard>
-    with SingleTickerProviderStateMixin {
+class _DashboardState extends State<Dashboard> {
   //===================== Initial State ==========================\\
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      UserController.instance.getUser();
+    loadingScreen = false;
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await UserController.instance.getUser();
+      await await VendorController.instance.getMyVendors();
+      await NotificationController.instance.runTask();
     });
-    _animationController =
-        AnimationController(vsync: this, duration: const Duration(seconds: 1));
+
     scrollController.addListener(_scrollListener);
-    scrollController.addListener(() {
-      if (scrollController.position.userScrollDirection ==
-              ScrollDirection.forward ||
-          scrollController.position.pixels < 100) {
-        widget.showNavigation();
-      } else {
-        widget.hideNavigation();
-      }
-    });
   }
 
   @override
   void dispose() {
     super.dispose();
-    _animationController.dispose();
+
     scrollController.dispose();
     handleRefresh().ignore();
-    scrollController.removeListener(() {
-      if (scrollController.position.userScrollDirection ==
-          ScrollDirection.forward) {
-        widget.showNavigation();
-      } else {
-        widget.hideNavigation();
-      }
-    });
   }
 
 //==========================================================================================\\
 
 //=================================== ALL VARIABLES =====================================\\
   final notifications = NotificationController.instance.notification.length;
-  late Timer timer;
+
   bool _isScrollToTopBtnVisible = false;
-  int incrementOrderID = 2 + 2;
-  late int orderID;
-  String orderOrder = "Jollof Rice and Chicken";
-  String customerAddress = "21 Odogwu Street, New Haven";
-  int itemQuantity = 2;
-  double price = 2500;
-  double itemPrice = 2500;
-  String orderImage = "chizzy's-food";
-  String customerName = "Mercy Luke";
 
   late bool loadingScreen;
 
 //============================================== CONTROLLERS =================================================\\
   final scrollController = ScrollController();
-  late AnimationController _animationController;
 
 //=================================== FUNCTIONS =====================================\\
-
-  double calculateSubtotal() {
-    return itemPrice * itemQuantity;
-  }
-
 //===================== Handle refresh ==========================\\
 
   Future<void> handleRefresh() async {
     setState(() {
       loadingScreen = true;
     });
-    UserController.instance.getUser();
-    await await VendorController.instance.getMyVendors();
+    await UserController.instance.getUser();
     await NotificationController.instance.runTask();
     setState(() {
       loadingScreen = false;
@@ -115,7 +82,6 @@ class _DashboardState extends State<Dashboard>
 
 //============================= Scroll to Top ======================================//
   void scrollToTop() {
-    _animationController.reverse();
     scrollController.animateTo(0,
         duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn);
   }
@@ -123,12 +89,10 @@ class _DashboardState extends State<Dashboard>
   void _scrollListener() {
     //========= Show action button ========//
     if (scrollController.position.pixels >= 100) {
-      _animationController.forward();
       setState(() => _isScrollToTopBtnVisible = true);
     }
     //========= Hide action button ========//
     else if (scrollController.position.pixels < 100) {
-      _animationController.reverse();
       setState(() => _isScrollToTopBtnVisible = false);
     }
   }
@@ -171,40 +135,37 @@ class _DashboardState extends State<Dashboard>
 
   @override
   Widget build(BuildContext context) {
-    DateTime now = DateTime.now();
-    String formattedDateAndTime = formatDateAndTime(now);
     var media = MediaQuery.of(context).size;
-
-    double subtotalPrice = calculateSubtotal();
 
 //====================================================================================\\
 
-    return Scaffold(
-      appBar: DashboardAppBar(
-        numberOfNotifications: notifications,
-        image: UserController.instance.user.value.image,
-      ),
-      floatingActionButton: _isScrollToTopBtnVisible
-          ? FloatingActionButton(
-              onPressed: scrollToTop,
-              mini: deviceType(media.width) > 2 ? false : true,
-              backgroundColor: kAccentColor,
-              foregroundColor: kPrimaryColor,
-              enableFeedback: true,
-              mouseCursor: SystemMouseCursors.click,
-              tooltip: "Scroll to top",
-              hoverColor: kAccentColor,
-              hoverElevation: 50.0,
-              child: const FaIcon(
-                FontAwesomeIcons.chevronUp,
-                size: 18,
-              ),
-            )
-          : const SizedBox(),
-      body: SafeArea(
-        child: RefreshIndicator(
-          onRefresh: handleRefresh,
-          color: kAccentColor,
+    return RefreshIndicator(
+      onRefresh: handleRefresh,
+      color: kAccentColor,
+      triggerMode: RefreshIndicatorTriggerMode.anywhere,
+      child: Scaffold(
+        appBar: DashboardAppBar(
+          numberOfNotifications: notifications,
+          image: UserController.instance.user.value.image,
+        ),
+        floatingActionButton: _isScrollToTopBtnVisible
+            ? FloatingActionButton(
+                onPressed: scrollToTop,
+                mini: deviceType(media.width) > 2 ? false : true,
+                backgroundColor: kAccentColor,
+                foregroundColor: kPrimaryColor,
+                enableFeedback: true,
+                mouseCursor: SystemMouseCursors.click,
+                tooltip: "Scroll to top",
+                hoverColor: kAccentColor,
+                hoverElevation: 50.0,
+                child: const FaIcon(
+                  FontAwesomeIcons.chevronUp,
+                  size: 18,
+                ),
+              )
+            : const SizedBox(),
+        body: SafeArea(
           child: Scrollbar(
             child: ListView(
               controller: scrollController,
@@ -212,6 +173,9 @@ class _DashboardState extends State<Dashboard>
               padding: const EdgeInsets.all(kDefaultPadding),
               children: [
                 // const AvailableBalanceCard(),
+                loadingScreen
+                    ? LinearProgressIndicator(color: kAccentColor)
+                    : const SizedBox(),
                 kSizedBox,
                 GetBuilder<VendorController>(
                   init: VendorController(),
@@ -277,24 +241,26 @@ class _DashboardState extends State<Dashboard>
                   ),
                 ),
                 kSizedBox,
-                Container(
-                  alignment: Alignment.center,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 25, horizontal: 40),
-                        backgroundColor: kAccentColor),
-                    onPressed: launchDownloadLinkAndroid,
-                    child: const Text(
-                      'Download APK',
-                      style: TextStyle(
-                        color: kTextWhiteColor,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ),
-                ),
+                kIsWeb
+                    ? Center(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 25, horizontal: 40),
+                              backgroundColor: kAccentColor),
+                          onPressed: launchDownloadLinkAndroid,
+                          child: const Text(
+                            'Download APK',
+                            style: TextStyle(
+                              color: kTextWhiteColor,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      )
+                    : const SizedBox(),
+
                 kSizedBox,
                 media.width < 500 ? kSizedBox : const SizedBox(),
                 deviceType(media.width) >= 2

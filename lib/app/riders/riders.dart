@@ -4,7 +4,6 @@ import 'package:benji_aggregator/src/components/image/my_image.dart';
 import 'package:benji_aggregator/src/components/section/my_liquid_refresh.dart';
 import 'package:benji_aggregator/src/skeletons/riders_list_skeleton.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
@@ -15,44 +14,26 @@ import '../../theme/colors.dart';
 import 'riders_detail.dart';
 
 class Riders extends StatefulWidget {
-  final VoidCallback showNavigation;
-  final VoidCallback hideNavigation;
-
   const Riders({
     super.key,
-    required this.showNavigation,
-    required this.hideNavigation,
   });
 
   @override
   State<Riders> createState() => _RidersState();
 }
 
-class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
+class _RidersState extends State<Riders> {
   //===================== Initial State ==========================\\
 
   @override
   void initState() {
     super.initState();
 
-    _animationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 300));
     scrollController.addListener(scrollListener);
-    scrollController.addListener(() {
-      if (scrollController.position.userScrollDirection ==
-              ScrollDirection.forward ||
-          scrollController.position.pixels < 100) {
-        widget.showNavigation();
-      } else {
-        widget.hideNavigation();
-      }
-    });
   }
 
   @override
   void dispose() {
-    _animationController.dispose();
-    handleRefresh().ignore();
     scrollController.dispose();
     super.dispose();
   }
@@ -63,7 +44,6 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
 
   //============================================== CONTROLLERS =================================================\\
   final ScrollController scrollController = ScrollController();
-  late AnimationController _animationController;
 
   //================================= FUNCTIONS ==========================================\\
 
@@ -82,7 +62,6 @@ class _RidersState extends State<Riders> with SingleTickerProviderStateMixin {
 
 //============================= Scroll to Top ======================================//
   void scrollToTop() {
-    _animationController.reverse();
     scrollController.animateTo(
       0,
       duration: const Duration(milliseconds: 500),

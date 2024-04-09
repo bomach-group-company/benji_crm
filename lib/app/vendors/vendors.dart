@@ -5,7 +5,6 @@ import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:benji_aggregator/model/my_vendor_model.dart';
 import 'package:benji_aggregator/src/components/section/my_liquid_refresh.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
@@ -18,11 +17,7 @@ import 'my_vendors.dart';
 import 'register_vendor.dart';
 
 class Vendors extends StatefulWidget {
-  final VoidCallback showNavigation;
-  final VoidCallback hideNavigation;
   const Vendors({
-    required this.showNavigation,
-    required this.hideNavigation,
     super.key,
   });
 
@@ -37,7 +32,10 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
     super.initState();
     _tabBarController = TabController(length: 2, vsync: this);
 
-    VendorController.instance.refreshData();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await VendorController.instance.getMyVendors();
+      await VendorController.instance.getThirdPartyVendors();
+    });
 
     scrollController.addListener(_scrollListener);
 
@@ -46,33 +44,16 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
 
     scrollController.addListener(() => VendorController.instance
         .scrollListenerThirdPartyVendor(scrollController));
-
-    scrollController.addListener(() {
-      if (scrollController.position.userScrollDirection ==
-              ScrollDirection.forward ||
-          scrollController.position.pixels < 100) {
-        widget.showNavigation();
-      } else {
-        widget.hideNavigation();
-      }
-    });
   }
 
   @override
   void dispose() {
     super.dispose();
-    // _animationController.dispose();
+
     _tabBarController.dispose();
 
     scrollController.dispose();
-    scrollController.removeListener(() {
-      if (scrollController.position.userScrollDirection ==
-          ScrollDirection.forward) {
-        widget.showNavigation();
-      } else {
-        widget.hideNavigation();
-      }
-    });
+
     handleRefresh().ignore();
   }
 
@@ -99,8 +80,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
     setState(() {
       loadingScreen = true;
     });
-    await VendorController.instance.getMyVendors();
-    await VendorController.instance.getThirdPartyVendors();
+    await VendorController.instance.refreshData();
 
     setState(() {
       loadingScreen = false;

@@ -3,7 +3,6 @@
 import 'package:benji_aggregator/app/others/notifications.dart';
 import 'package:benji_aggregator/app/profile/personal_info.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
-import 'package:benji_aggregator/src/components/image/my_image.dart';
 import 'package:benji_aggregator/src/responsive/responsive_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,6 +10,7 @@ import 'package:get/get.dart';
 
 import '../../../theme/colors.dart';
 import '../../providers/constants.dart';
+import '../image/my_image.dart';
 import 'dashboard_app_bar_aggregator.dart';
 
 class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -77,10 +77,20 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
                       decoration: ShapeDecoration(
                         color: kLightGreyColor,
                         shape: const CircleBorder(),
+                        // image: image!.isEmpty
+                        //     ? const DecorationImage(
+                        //         image: NetworkImage(
+                        //           "https://img.freepik.com/free-psd/3d-icon-social-media-app_23-2150049569.jpg",
+                        //         ),
+                        //       )
+                        //     : DecorationImage(
+                        //         image: NetworkImage(baseImage + image!),
+                        //         fit: BoxFit.contain,
+                        //         filterQuality: FilterQuality.high,
+                        //       ),
                       ),
                       padding: const EdgeInsets.all(5),
-                      child:
-                          Center(child: ClipOval(child: MyImage(url: image))),
+                      child: Center(child: MyImage(url: image)),
                     ),
                   ),
                 ),

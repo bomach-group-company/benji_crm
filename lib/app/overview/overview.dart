@@ -21,7 +21,6 @@ class OverView extends StatefulWidget {
 class _OverViewState extends State<OverView> {
 //===================================== ALL VARAIBLES =================================================\\
 
-  bool _bottomNavBarIsVisible = true;
   late int _currentIndex;
 
   @override
@@ -34,25 +33,13 @@ class _OverViewState extends State<OverView> {
 
 //===================================== FUNCTIONS =================================================\\
 
-  void showNav() {
-    setState(() {
-      _bottomNavBarIsVisible = true;
-    });
-  }
-
-  void hideNav() {
-    setState(() {
-      _bottomNavBarIsVisible = false;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     //===================================== PAGINATION =================================================\\
     final List<Widget> pages = [
-      Dashboard(showNavigation: showNav, hideNavigation: hideNav),
-      Vendors(showNavigation: showNav, hideNavigation: hideNav),
-      Riders(showNavigation: showNav, hideNavigation: hideNav),
+      const Dashboard(),
+      const Vendors(),
+      const Riders(),
       const Profile(),
     ];
 
@@ -68,7 +55,7 @@ class _OverViewState extends State<OverView> {
       bottomNavigationBar: AnimatedContainer(
         duration: const Duration(milliseconds: 500),
         curve: Curves.fastOutSlowIn,
-        height: _bottomNavBarIsVisible ? kBottomNavigationBarHeight : 0,
+        height: kBottomNavigationBarHeight,
         child: Wrap(
           children: [
             BottomNavigationBar(
