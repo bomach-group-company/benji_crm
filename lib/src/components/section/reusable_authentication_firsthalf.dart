@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../theme/colors.dart';
-import '../../providers/constants.dart';
+import '../../utils/constants.dart';
 
 class ReusableAuthenticationFirstHalf extends StatelessWidget {
   final String title;

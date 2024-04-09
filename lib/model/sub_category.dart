@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:benji_aggregator/model/category.dart';
 import 'package:benji_aggregator/services/api_url.dart';
 import 'package:benji_aggregator/services/helper.dart';
-import 'package:benji_aggregator/src/providers/constants.dart';
+import 'package:benji_aggregator/src/utils/constants.dart';
 import 'package:http/http.dart' as http;
 
 class SubCategory {

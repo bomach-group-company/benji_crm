@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import '../src/providers/constants.dart';
+import '../src/utils/constants.dart';
 import 'business_type_model.dart';
 import 'country_model.dart';
 import 'my_vendor_model.dart';

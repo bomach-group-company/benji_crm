@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../theme/colors.dart';
-import '../providers/constants.dart';
+import '../utils/constants.dart';
 
 class PageSkeleton extends StatelessWidget {
   const PageSkeleton({

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../theme/colors.dart';
-import '../providers/constants.dart';
+import '../utils/constants.dart';
 
 class AssignRiderPageSkeleton extends StatefulWidget {
   const AssignRiderPageSkeleton({super.key});

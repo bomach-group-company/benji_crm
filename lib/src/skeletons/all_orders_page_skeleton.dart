@@ -1,7 +1,7 @@
 import 'package:benji_aggregator/src/skeletons/dashboard_orders_list_skeleton.dart';
 import 'package:flutter/material.dart';
 
-import '../providers/constants.dart';
+import '../utils/constants.dart';
 
 class AllCompletedOrdersPageskeleton extends StatelessWidget {
   const AllCompletedOrdersPageskeleton({super.key});

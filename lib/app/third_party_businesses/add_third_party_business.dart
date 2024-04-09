@@ -15,7 +15,6 @@ import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../src/providers/constants.dart';
 import '../../controller/api_processor_controller.dart';
 import '../../controller/business_controller.dart';
 import '../../controller/category_controller.dart';
@@ -37,8 +36,9 @@ import '../../src/components/input/number_textformfield.dart';
 import '../../src/components/section/location_list_tile.dart';
 import '../../src/googleMaps/autocomplete_prediction.dart';
 import '../../src/googleMaps/places_autocomplete_response.dart';
-import '../../src/providers/keys.dart';
 import '../../src/responsive/responsive_constant.dart';
+import '../../src/utils/constants.dart';
+import '../../src/utils/keys.dart';
 import '../../src/utils/network_utils.dart';
 import '../../theme/colors.dart';
 import '../google_maps/get_location_on_map.dart';

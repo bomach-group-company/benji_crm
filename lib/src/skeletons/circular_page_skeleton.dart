@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../theme/colors.dart';
-import '../providers/constants.dart';
+import '../utils/constants.dart';
 
 class CircularPageSkeleton extends StatelessWidget {
   final double height;

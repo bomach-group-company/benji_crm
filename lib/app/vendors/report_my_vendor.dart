@@ -12,7 +12,7 @@ import 'package:get/get.dart';
 import '../../controller/form_controller.dart';
 import '../../model/my_vendor_model.dart';
 import '../../src/components/button/my_elevatedbutton.dart';
-import '../../src/providers/constants.dart';
+import '../../src/utils/constants.dart';
 
 class ReportMyVendor extends StatefulWidget {
   final MyVendorModel vendor;

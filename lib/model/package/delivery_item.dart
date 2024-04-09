@@ -7,7 +7,7 @@ import '../../controller/api_processor_controller.dart';
 import '../../controller/user_controller.dart';
 import '../../services/api_url.dart';
 import '../../services/helper.dart';
-import '../../src/providers/constants.dart';
+import '../../src/utils/constants.dart';
 import '../item_weight.dart';
 import '../user_model.dart';
 import 'item_category.dart';

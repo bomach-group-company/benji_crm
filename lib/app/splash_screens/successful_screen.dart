@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 
 import '../../src/components/button/my_elevatedbutton.dart';
-import '../../src/providers/constants.dart';
+import '../../src/utils/constants.dart';
 
 class SuccessfulScreen extends StatelessWidget {
   final String text;

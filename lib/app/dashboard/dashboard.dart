@@ -14,8 +14,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../../src/components/container/dashboard_container.dart';
-import '../../src/providers/constants.dart';
 import '../../src/responsive/responsive_constant.dart';
+import '../../src/utils/constants.dart';
 import '../../theme/colors.dart';
 import '../overview/overview.dart';
 import '../packages/send_package.dart';

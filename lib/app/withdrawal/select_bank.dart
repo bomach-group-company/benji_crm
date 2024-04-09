@@ -7,8 +7,8 @@ import 'package:get/route_manager.dart';
 
 import '../../controller/withdraw_controller.dart';
 import '../../src/components/card/empty.dart';
-import '../../src/providers/constants.dart';
 import '../../src/responsive/responsive_constant.dart';
+import '../../src/utils/constants.dart';
 import '../../theme/colors.dart';
 
 class SelectBank extends StatefulWidget {

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../../main.dart';
 import '../../theme/colors.dart';
 import '../app/splash_screens/splash_screen.dart';
-import '../src/providers/constants.dart';
+import '../src/utils/constants.dart';
 
 class PushNotificationController extends GetxController {
   static PushNotificationController get instance {

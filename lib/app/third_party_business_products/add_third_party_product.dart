@@ -26,8 +26,8 @@ import '../../src/components/input/message_textformfield.dart';
 import '../../src/components/input/my_blue_textformfield.dart';
 import '../../src/components/input/my_dropdown_menu.dart';
 import '../../src/components/input/my_textformfield.dart';
-import '../../src/providers/constants.dart';
 import '../../src/responsive/responsive_constant.dart';
+import '../../src/utils/constants.dart';
 import '../../theme/colors.dart';
 
 class AddThirdPartyBusinessProduct extends StatefulWidget {

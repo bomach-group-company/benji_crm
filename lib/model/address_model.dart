@@ -1,4 +1,4 @@
-import 'package:benji_aggregator/src/providers/constants.dart';
+import 'package:benji_aggregator/src/utils/constants.dart';
 
 class DeliveryAddress {
   String id;

@@ -10,8 +10,8 @@ import '../../model/login_model.dart';
 import '../../src/components/input/email_textformfield.dart';
 import '../../src/components/input/password_textformfield.dart';
 import '../../src/components/section/reusable_authentication_firsthalf.dart';
-import '../../src/providers/constants.dart';
 import '../../src/responsive/responsive_constant.dart';
+import '../../src/utils/constants.dart';
 import '../../theme/colors.dart';
 import 'forgot_password.dart';
 

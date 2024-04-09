@@ -1,5 +1,5 @@
 import 'package:benji_aggregator/model/sub_category.dart';
-import 'package:benji_aggregator/src/providers/constants.dart';
+import 'package:benji_aggregator/src/utils/constants.dart';
 
 import 'business_model.dart';
 

@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../src/components/button/my_elevatedbutton.dart';
-import '../../src/providers/constants.dart';
+import '../../src/utils/constants.dart';
 
 class ReportRider extends StatefulWidget {
   final RiderItem rider;

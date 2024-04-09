@@ -12,8 +12,8 @@ import '../../controller/user_controller.dart';
 import '../../model/notification_model.dart';
 import '../../services/api_url.dart';
 import '../../src/components/appbar/my_appbar.dart';
-import '../../src/providers/constants.dart';
 import '../../src/responsive/responsive_constant.dart';
+import '../../src/utils/constants.dart';
 import '../../theme/colors.dart';
 
 class Notifications extends StatefulWidget {

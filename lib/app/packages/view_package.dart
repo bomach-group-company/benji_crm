@@ -15,8 +15,8 @@ import '../../model/package/delivery_item.dart';
 import '../../services/api_url.dart';
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/button/my_elevatedbutton.dart';
-import '../../src/providers/constants.dart';
 import '../../src/responsive/responsive_constant.dart';
+import '../../src/utils/constants.dart';
 import '../../theme/colors.dart';
 import 'report_package.dart';
 

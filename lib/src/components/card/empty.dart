@@ -1,5 +1,5 @@
 import 'package:benji_aggregator/app/overview/overview.dart';
-import 'package:benji_aggregator/src/providers/constants.dart';
+import 'package:benji_aggregator/src/utils/constants.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';

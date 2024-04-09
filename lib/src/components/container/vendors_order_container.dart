@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../theme/colors.dart';
-import '../../providers/constants.dart';
+import '../../utils/constants.dart';
 
 class VendorsOrderContainer extends StatelessWidget {
   final BusinessOrderModel order;

@@ -1,6 +1,6 @@
 import 'package:benji_aggregator/model/client_model.dart';
 import 'package:benji_aggregator/model/product_model.dart';
-import 'package:benji_aggregator/src/providers/constants.dart';
+import 'package:benji_aggregator/src/utils/constants.dart';
 
 import 'address_model.dart';
 

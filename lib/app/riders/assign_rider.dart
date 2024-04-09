@@ -5,7 +5,7 @@ import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/model/business_order_model.dart';
 import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
 import 'package:benji_aggregator/src/components/button/my_outlined_elevatedButton.dart';
-import 'package:benji_aggregator/src/providers/custom_show_search.dart';
+import 'package:benji_aggregator/src/utils/custom_show_search.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,8 +16,8 @@ import 'package:get/get.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../model/rider_model.dart';
-import '../../src/providers/constants.dart';
 import '../../src/skeletons/assign_rider_page_skeleton.dart';
+import '../../src/utils/constants.dart';
 import 'riders_detail.dart';
 
 class AssignRider extends StatefulWidget {

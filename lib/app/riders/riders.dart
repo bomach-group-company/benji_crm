@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 
 import '../../controller/rider_controller.dart';
 import '../../model/rider_model.dart';
-import '../../src/providers/constants.dart';
+import '../../src/utils/constants.dart';
 import '../../theme/colors.dart';
 import 'riders_detail.dart';
 

@@ -17,9 +17,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../model/business_model.dart';
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/image/my_image.dart';
-import '../../src/providers/constants.dart';
-import '../../src/providers/keys.dart';
 import '../../src/responsive/responsive_constant.dart';
+import '../../src/utils/constants.dart';
+import '../../src/utils/keys.dart';
 import '../../src/utils/network_utils.dart';
 import '../../theme/colors.dart';
 

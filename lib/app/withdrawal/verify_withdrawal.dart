@@ -12,7 +12,7 @@ import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
-import '../../src/providers/constants.dart';
+import '../../src/utils/constants.dart';
 import '../../theme/colors.dart';
 import '../splash_screens/successful_screen.dart';
 

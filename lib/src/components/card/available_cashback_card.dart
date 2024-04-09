@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../theme/colors.dart';
-import '../../providers/constants.dart';
+import '../../utils/constants.dart';
 
 class AvailableCashbackCard extends StatefulWidget {
   const AvailableCashbackCard({super.key, required this.business});

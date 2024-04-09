@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 
 import '../../../services/api_url.dart';
 import '../../../theme/colors.dart';
-import '../../providers/constants.dart';
+import '../../utils/constants.dart';
 import 'dashboard_app_bar_aggregator.dart';
 
 class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {

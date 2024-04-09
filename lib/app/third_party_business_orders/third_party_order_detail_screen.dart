@@ -13,7 +13,7 @@ import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/button/my_elevatedbutton.dart';
 import '../../src/components/image/my_image.dart';
 import '../../src/components/responsive_widgets/padding.dart';
-import '../../src/providers/constants.dart';
+import '../../src/utils/constants.dart';
 import '../../theme/colors.dart';
 
 class ThirdPartyOrderDetails extends StatefulWidget {

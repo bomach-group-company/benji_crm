@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../../providers/constants.dart';
+import '../../utils/constants.dart';
 import 'category_button.dart';
 
 class CategoryButtonSection extends StatelessWidget {

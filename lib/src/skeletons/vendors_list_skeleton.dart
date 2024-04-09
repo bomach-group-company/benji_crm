@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../theme/colors.dart';
-import '../providers/constants.dart';
+import '../utils/constants.dart';
 
 class VendorsListSkeleton extends StatelessWidget {
   const VendorsListSkeleton({

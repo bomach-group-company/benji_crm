@@ -5,7 +5,7 @@ import '../../controller/auth_controller.dart';
 import '../../controller/order_controller.dart';
 import '../../src/components/card/empty.dart';
 import '../../src/components/container/business_orders_container.dart';
-import '../../src/providers/constants.dart';
+import '../../src/utils/constants.dart';
 import '../../theme/colors.dart';
 
 enum StatusType {

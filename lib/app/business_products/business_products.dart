@@ -9,8 +9,8 @@ import '../../model/business_model.dart';
 import '../../model/product_model.dart';
 import '../../src/components/card/empty.dart';
 import '../../src/components/container/business_product_container.dart';
-import '../../src/providers/constants.dart';
 import '../../src/responsive/responsive_constant.dart';
+import '../../src/utils/constants.dart';
 import '../../theme/colors.dart';
 import 'view_product.dart';
 

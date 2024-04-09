@@ -12,8 +12,8 @@ import 'package:readmore/readmore.dart';
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/input/my_textformfield2.dart';
 import '../../src/components/sheet/showModalBottomSheetTitleWithIcon.dart';
-import '../../src/providers/constants.dart';
 import '../../src/skeletons/product_details_page_skeleton.dart';
+import '../../src/utils/constants.dart';
 import '../../theme/colors.dart';
 
 class MyProductDetails extends StatefulWidget {

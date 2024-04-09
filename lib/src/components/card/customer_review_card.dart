@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../model/rating_model.dart';
 import '../../../theme/colors.dart';
-import '../../providers/constants.dart';
+import '../../utils/constants.dart';
 
 class CostumerReviewCard extends StatelessWidget {
   final RatingModel rating;

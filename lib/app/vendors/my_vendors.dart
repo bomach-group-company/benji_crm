@@ -6,7 +6,7 @@ import 'package:benji_aggregator/src/skeletons/vendors_list_skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../src/providers/constants.dart';
+import '../../src/utils/constants.dart';
 import '../../theme/colors.dart';
 
 class MyVendors extends StatelessWidget {

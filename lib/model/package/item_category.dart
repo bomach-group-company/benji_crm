@@ -1,4 +1,4 @@
-import '../../src/providers/constants.dart';
+import '../../src/utils/constants.dart';
 
 class ItemCategory {
   final String id;

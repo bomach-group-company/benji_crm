@@ -7,8 +7,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/input/password_textformfield.dart';
 import '../../src/components/section/reusable_authentication_firsthalf.dart';
-import '../../src/providers/constants.dart';
 import '../../src/responsive/responsive_constant.dart';
+import '../../src/utils/constants.dart';
 import '../../theme/colors.dart';
 
 class ChangePassword extends StatefulWidget {

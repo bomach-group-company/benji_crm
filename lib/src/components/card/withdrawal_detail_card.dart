@@ -2,7 +2,7 @@ import 'package:benji_aggregator/model/withdrawal_history_model.dart';
 import 'package:flutter/material.dart';
 
 import '../../../theme/colors.dart';
-import '../../providers/constants.dart';
+import '../../utils/constants.dart';
 
 class WithdrawalDetailCard extends StatelessWidget {
   const WithdrawalDetailCard({

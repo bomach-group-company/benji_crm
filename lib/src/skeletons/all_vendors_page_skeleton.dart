@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../providers/constants.dart';
+
+import '../utils/constants.dart';
 import 'page_skeleton.dart';
 import 'vendors_list_skeleton.dart';
 

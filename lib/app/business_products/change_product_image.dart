@@ -15,7 +15,7 @@ import '../../model/product_model.dart';
 import '../../services/api_url.dart';
 import '../../src/components/button/my_elevatedbutton.dart';
 import '../../src/components/image/my_image.dart';
-import '../../src/providers/constants.dart';
+import '../../src/utils/constants.dart';
 import '../../theme/colors.dart';
 
 class ChangeProductImage extends StatefulWidget {

@@ -9,7 +9,7 @@ import '../../controller/order_controller.dart';
 import '../../controller/user_controller.dart';
 import '../../src/components/section/my_liquid_refresh.dart';
 import '../../src/components/section/profile_first_half.dart';
-import '../../src/providers/constants.dart';
+import '../../src/utils/constants.dart';
 import '../../theme/colors.dart';
 import '../auth/login.dart';
 import '../packages/packages.dart';

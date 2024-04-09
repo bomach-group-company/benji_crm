@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../../../model/product_model.dart';
 import '../../../theme/colors.dart';
-import '../../providers/constants.dart';
 import '../../responsive/responsive_constant.dart';
+import '../../utils/constants.dart';
 import '../image/my_image.dart';
 
 class BusinessProductContainer extends StatefulWidget {

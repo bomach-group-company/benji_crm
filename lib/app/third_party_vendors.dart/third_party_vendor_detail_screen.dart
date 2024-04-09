@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:benji_aggregator/controller/business_controller.dart';
 import 'package:benji_aggregator/src/components/card/empty.dart';
 import 'package:benji_aggregator/src/components/image/my_image.dart';
-import 'package:benji_aggregator/src/providers/constants.dart';
+import 'package:benji_aggregator/src/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';

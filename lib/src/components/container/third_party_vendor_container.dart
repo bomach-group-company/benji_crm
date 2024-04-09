@@ -6,7 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../model/third_party_vendor_model.dart';
 import '../../../theme/colors.dart';
-import '../../providers/constants.dart';
+import '../../utils/constants.dart';
 
 class ThirdPartyVendorContainer extends StatelessWidget {
   final Function() onTap;

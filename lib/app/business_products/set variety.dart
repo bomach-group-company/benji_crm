@@ -6,7 +6,7 @@ import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/button/my_elevatedbutton.dart';
 import '../../src/components/button/my_outlined_elevatedButton.dart';
 import '../../src/components/input/my_textformfield2.dart';
-import '../../src/providers/constants.dart';
+import '../../src/utils/constants.dart';
 import '../../theme/colors.dart';
 
 class SetVariety extends StatefulWidget {

@@ -6,7 +6,7 @@ import '../../controller/reviews_controller.dart';
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/card/customer_review_card.dart';
 import '../../src/components/card/empty.dart';
-import '../../src/providers/constants.dart';
+import '../../src/utils/constants.dart';
 import '../../theme/colors.dart';
 
 class ThirdPartyUserReviewsPage extends StatefulWidget {

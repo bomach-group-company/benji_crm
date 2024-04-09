@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../theme/colors.dart';
-import '../../providers/constants.dart';
 import '../../responsive/responsive_constant.dart';
+import '../../utils/constants.dart';
 
 class DasboardAllCompletedOrdersContainer extends StatelessWidget {
   final Function() onTap;

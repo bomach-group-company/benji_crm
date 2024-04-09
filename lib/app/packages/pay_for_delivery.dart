@@ -14,8 +14,8 @@ import '../../controller/user_controller.dart';
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/button/my_elevatedbutton.dart';
 import '../../src/components/payment/monnify.dart';
-import '../../src/providers/constants.dart';
-import '../../src/providers/keys.dart';
+import '../../src/utils/constants.dart';
+import '../../src/utils/keys.dart';
 import '../../theme/colors.dart';
 
 class PayForDelivery extends StatefulWidget {

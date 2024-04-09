@@ -15,7 +15,7 @@ import 'package:get/get.dart';
 
 import '../../controller/account_controller.dart';
 import '../../src/components/input/number_textformfield.dart';
-import '../../src/providers/constants.dart';
+import '../../src/utils/constants.dart';
 import '../../theme/colors.dart';
 import 'select_bank.dart';
 

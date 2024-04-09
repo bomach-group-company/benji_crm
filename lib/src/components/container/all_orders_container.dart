@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 import '../../../model/business_order_model.dart';
 import '../../../theme/colors.dart';
-import '../../providers/constants.dart';
+import '../../utils/constants.dart';
 
 class AllCompletedOrdersContainer extends StatelessWidget {
   const AllCompletedOrdersContainer({

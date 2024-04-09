@@ -19,7 +19,6 @@ import 'package:group_radio_button/group_radio_button.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
-import '../../../src/providers/constants.dart';
 import '../../controller/latlng_detail_controller.dart';
 import '../../controller/shopping_location_controller.dart';
 import '../../controller/vendor_controller.dart';
@@ -33,8 +32,9 @@ import '../../src/components/input/number_textformfield.dart';
 import '../../src/components/section/location_list_tile.dart';
 import '../../src/googleMaps/autocomplete_prediction.dart';
 import '../../src/googleMaps/places_autocomplete_response.dart';
-import '../../src/providers/keys.dart';
 import '../../src/responsive/responsive_constant.dart';
+import '../../src/utils/constants.dart';
+import '../../src/utils/keys.dart';
 import '../../src/utils/network_utils.dart';
 import '../google_maps/get_location_on_map.dart';
 

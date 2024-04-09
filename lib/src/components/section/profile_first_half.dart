@@ -9,7 +9,7 @@ import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:get/route_manager.dart';
 
 import '../../../theme/colors.dart';
-import '../../providers/constants.dart';
+import '../../utils/constants.dart';
 
 class ProfileFirstHalf extends StatefulWidget {
   const ProfileFirstHalf({super.key});

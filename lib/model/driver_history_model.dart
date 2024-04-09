@@ -1,6 +1,6 @@
 import 'package:benji_aggregator/model/business_order_model.dart';
 import 'package:benji_aggregator/model/rider_model.dart';
-import 'package:benji_aggregator/src/providers/constants.dart';
+import 'package:benji_aggregator/src/utils/constants.dart';
 
 class RiderHistory {
   String id;

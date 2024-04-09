@@ -8,8 +8,8 @@ import '../../model/my_vendor_model.dart';
 import '../../src/components/image/my_image.dart';
 import '../../src/components/input/my_blue_textformfield.dart';
 import '../../src/components/section/my_liquid_refresh.dart';
-import '../../src/providers/constants.dart';
 import '../../src/responsive/responsive_constant.dart';
+import '../../src/utils/constants.dart';
 
 class AboutMyVendor extends StatefulWidget {
   final MyVendorModel vendor;

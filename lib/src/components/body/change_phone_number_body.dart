@@ -6,7 +6,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../../main.dart';
 import '../../../theme/colors.dart';
-import '../../providers/constants.dart';
+import '../../utils/constants.dart';
 import '../input/my_intl_phonefield.dart';
 
 class ChangePhoneNumberBody extends StatefulWidget {

@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../theme/colors.dart';
-import '../../providers/constants.dart';
 import '../../responsive/responsive_constant.dart';
+import '../../utils/constants.dart';
 
 void mySnackBar(
   BuildContext context,

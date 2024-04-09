@@ -8,8 +8,8 @@ import 'dart:ui' as ui; // Import the ui library with an alias
 import 'package:benji_aggregator/controller/latlng_detail_controller.dart';
 import 'package:benji_aggregator/src/components/input/my_textformfield.dart';
 import 'package:benji_aggregator/src/googleMaps/location_service.dart';
-import 'package:benji_aggregator/src/providers/constants.dart';
-import 'package:benji_aggregator/src/providers/keys.dart';
+import 'package:benji_aggregator/src/utils/constants.dart';
+import 'package:benji_aggregator/src/utils/keys.dart';
 import 'package:benji_aggregator/src/utils/web_map.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

@@ -3,13 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../src/providers/constants.dart';
 import '../../controller/form_controller.dart';
 import '../../model/package/delivery_item.dart';
 import '../../services/api_url.dart';
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/button/my_elevatedbutton.dart';
 import '../../src/components/input/message_textformfield.dart';
+import '../../src/utils/constants.dart';
 import '../../theme/colors.dart';
 
 class ReportPackage extends StatefulWidget {

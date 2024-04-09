@@ -1,5 +1,5 @@
-import 'package:benji_aggregator/src/providers/constants.dart';
 import 'package:benji_aggregator/src/skeletons/page_skeleton.dart';
+import 'package:benji_aggregator/src/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 

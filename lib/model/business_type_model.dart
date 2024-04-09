@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:benji_aggregator/src/providers/constants.dart';
+import 'package:benji_aggregator/src/utils/constants.dart';
 
 List<BusinessType> businessTypeFromJson(String str) => List<BusinessType>.from(
     json.decode(str).map((x) => BusinessType.fromJson(x)));
