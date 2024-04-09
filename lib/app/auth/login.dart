@@ -101,7 +101,7 @@ class _LoginState extends State<Login> {
                   Expanded(
                     child: ReusableAuthenticationFirstHalf(
                       title: "Log In",
-                      subtitle: "Please log in to your existing account",
+                      subtitle: "Please log into your existing account",
                       curves: Curves.easeInOut,
                       duration: const Duration(milliseconds: 300),
                       containerChild: Center(
@@ -109,7 +109,7 @@ class _LoginState extends State<Login> {
                       ),
                       decoration: ShapeDecoration(
                         color: kPrimaryColor,
-                        shape: const OvalBorder(),
+                        shape: const CircleBorder(),
                       ),
                       imageContainerHeight:
                           deviceType(media.width) > 2 ? 200 : 120,
@@ -228,17 +228,25 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                     kHalfSizedBox,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        TextButton(
-                          onPressed: toForgotPasswordPage,
-                          child: Text(
-                            "Forgot Password",
-                            style: myAccentFontStyle,
-                          ),
-                        ),
-                      ],
+                    GetBuilder<LoginController>(
+                      builder: (controller) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            TextButton(
+                              onPressed: controller.isLoad.value
+                                  ? null
+                                  : toForgotPasswordPage,
+                              child: Text(
+                                "Forgot Password",
+                                style: controller.isLoad.value
+                                    ? TextStyle(color: kGreyColor)
+                                    : myAccentFontStyle,
+                              ),
+                            ),
+                          ],
+                        );
+                      },
                     ),
                     kSizedBox,
                     GetBuilder<LoginController>(

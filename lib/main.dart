@@ -34,7 +34,7 @@ import 'controller/push_notifications_controller.dart';
 import 'controller/reviews_controller.dart';
 import 'controller/user_controller.dart';
 import 'firebase_options.dart';
-import 'theme/app theme.dart';
+import 'theme/app_theme.dart';
 
 late SharedPreferences prefs;
 
