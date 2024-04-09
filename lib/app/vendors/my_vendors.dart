@@ -5,6 +5,7 @@ import 'package:benji_aggregator/src/components/container/my_vendor_container.da
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../src/skeletons/vendors_list_skeleton.dart';
 import '../../src/utils/constants.dart';
 import '../../theme/colors.dart';
 
@@ -32,41 +33,40 @@ class MyVendors extends StatelessWidget {
         return SizedBox(
           child: Column(
             children: [
-              // controller.isLoad.value && controller.vendorMyList.isEmpty
-              //     ? const VendorsListSkeleton()
-              //     :
-              ListView.separated(
-                separatorBuilder: (context, index) => kHalfSizedBox,
-                itemCount: controller.vendorMyList.length,
-                addAutomaticKeepAlives: true,
-                physics: const BouncingScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (context, index) => InkWell(
-                  borderRadius: BorderRadius.circular(16),
-                  child: Container(
-                    decoration: ShapeDecoration(
-                      color: kPrimaryColor,
-                      shape: RoundedRectangleBorder(
+              controller.isLoad.value && controller.vendorMyList.isEmpty
+                  ? const VendorsListSkeleton()
+                  : ListView.separated(
+                      separatorBuilder: (context, index) => kHalfSizedBox,
+                      itemCount: controller.vendorMyList.length,
+                      addAutomaticKeepAlives: true,
+                      physics: const BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) => InkWell(
                         borderRadius: BorderRadius.circular(16),
-                      ),
-                      shadows: const [
-                        BoxShadow(
-                          color: Color(0x0F000000),
-                          blurRadius: 24,
-                          offset: Offset(0, 4),
-                          spreadRadius: 0,
+                        child: Container(
+                          decoration: ShapeDecoration(
+                            color: kPrimaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            shadows: const [
+                              BoxShadow(
+                                color: Color(0x0F000000),
+                                blurRadius: 24,
+                                offset: Offset(0, 4),
+                                spreadRadius: 0,
+                              ),
+                            ],
+                          ),
+                          child: MyVendorContainer(
+                            onTap: () => toVendorDetailPage(
+                              controller.vendorMyList[index],
+                            ),
+                            vendor: controller.vendorMyList[index],
+                          ),
                         ),
-                      ],
-                    ),
-                    child: MyVendorContainer(
-                      onTap: () => toVendorDetailPage(
-                        controller.vendorMyList[index],
                       ),
-                      vendor: controller.vendorMyList[index],
                     ),
-                  ),
-                ),
-              ),
               kSizedBox,
             ],
           ),
