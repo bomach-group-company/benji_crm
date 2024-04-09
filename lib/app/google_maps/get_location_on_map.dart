@@ -221,7 +221,7 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
     // );
   }
 
-  void _searchPlaceFunc() async {
+  void searchPlaceFunc() async {
     setState(() {
       locationPinIsVisible = false;
     });
@@ -284,19 +284,19 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
   }
 
 //==================== Select Location using ===============\\
-  void _selectLocation() async {
+  void selectLocation() async {
     await _getPlaceMark(draggedLatLng);
   }
 
 //============================================== Create Google Maps ==================================================\\
 
-  void _onMapCreated(GoogleMapController controller) {
+  void onMapCreated(GoogleMapController controller) {
     _googleMapController.complete(controller);
     _newGoogleMapController = controller;
   }
 
 //========================================================== Save Function =============================================================\\
-  _saveFunc() async {
+  saveData() async {
     await _getPlaceMark(draggedLatLng);
     if (kDebugMode) {
       log("draggedLatLng: $draggedLatLng");
@@ -321,10 +321,10 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
           actions: const [],
           backgroundColor: kPrimaryColor,
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
         floatingActionButton: FloatingActionButton(
-          onPressed: _selectLocation,
+          onPressed: selectLocation,
           backgroundColor: kAccentColor,
+          foregroundColor: kPrimaryColor,
           tooltip: "Pin Location",
           mouseCursor: SystemMouseCursors.click,
           child: const FaIcon(
@@ -340,19 +340,21 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text.rich(TextSpan(children: [
-                const TextSpan(
-                  text: "Pinned Location: ",
-                  style: TextStyle(
-                    color: kTextBlackColor,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
+              Text.rich(
+                TextSpan(children: [
+                  const TextSpan(
+                    text: "Pinned Location: ",
+                    style: TextStyle(
+                      color: kTextBlackColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
-                ),
-                TextSpan(text: pinnedLocation!),
-              ])),
+                  TextSpan(text: pinnedLocation!),
+                ]),
+              ),
               kHalfSizedBox,
-              MyElevatedButton(title: "Save", onPressed: _saveFunc),
+              MyElevatedButton(title: "Save", onPressed: saveData),
             ],
           ),
         ),
@@ -380,14 +382,12 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
                             textInputAction: TextInputAction.search,
                             textCapitalization: TextCapitalization.words,
                             onChanged: (value) {
-                              if (kDebugMode) {
-                                log(value);
-                              }
+                              log(value);
                             },
                           ),
                         ),
                         IconButton(
-                          onPressed: _searchPlaceFunc,
+                          onPressed: searchPlaceFunc,
                           icon: FaIcon(
                             FontAwesomeIcons.magnifyingGlass,
                             size: 18,
@@ -401,7 +401,7 @@ class _GetLocationOnMapState extends State<GetLocationOnMap> {
                         children: [
                           GoogleMap(
                             mapType: MapType.normal,
-                            onMapCreated: _onMapCreated,
+                            onMapCreated: onMapCreated,
                             initialCameraPosition: CameraPosition(
                               target: LatLng(
                                 _userPosition!.latitude,

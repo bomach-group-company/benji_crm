@@ -46,6 +46,10 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await UserController.instance.getUser();
+    });
+    userImage = UserController.instance.user.value.image;
     userCode = UserController.instance.user.value.code;
     userNameEC.text = UserController.instance.user.value.username;
     firstNameEC.text = UserController.instance.user.value.firstName;
@@ -53,6 +57,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
     genderEC.text = UserController.instance.user.value.gender;
     phoneNumberEC.text =
         UserController.instance.user.value.phone.replaceFirst("+234", '');
+
     mapsLocationEC.text = UserController.instance.user.value.address;
   }
 
@@ -67,6 +72,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
 
 //======================================== ALL VARIABLES ==============================================\\
   final String countryDialCode = '+234';
+  String? userImage;
   String? userCode;
   String? latitude;
   String? longitude;
@@ -259,6 +265,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
 
   //========================================================================\\
   //=========================== FUNCTIONS ====================================\\
+
   //Google Maps
   _setLocation(index) async {
     final newLocation = placePredictions[index].description!;
@@ -380,7 +387,6 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
         child: ListView(
           controller: scrollController,
           padding: const EdgeInsets.all(10),
-          physics: const BouncingScrollPhysics(),
           children: [
             GetBuilder<UserController>(
               init: UserController(),
@@ -427,12 +433,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                                                     )
                                                   : DecorationImage(
                                                       image: NetworkImage(
-                                                        baseImage +
-                                                            UserController
-                                                                .instance
-                                                                .user
-                                                                .value
-                                                                .image,
+                                                        baseImage + userImage!,
                                                       ),
                                                       fit: BoxFit.cover,
                                                       filterQuality:

@@ -1,6 +1,7 @@
 // ignore_for_file: empty_catches
 
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:benji_aggregator/app/auth/login.dart';
 import 'package:benji_aggregator/controller/api_processor_controller.dart';
@@ -83,7 +84,7 @@ class UserController extends GetxController {
       update();
       return;
     }
-
+    log("User profile retrieved");
     UserController.instance.saveUser(responseUserData!.body, user.token);
     isLoading.value = false;
     update();

@@ -188,7 +188,7 @@ class _DashboardState extends State<Dashboard> {
                       number: controller.isLoad.value
                           ? "..."
                           : intFormattedText(controller.allMyVendorList),
-                      typeOf: " Vendors",
+                      typeOf: "Registered vendors",
                       onlineStatus: "",
                     );
                   },
@@ -201,7 +201,7 @@ class _DashboardState extends State<Dashboard> {
                     onTap: _toSeeAllRiders,
                     number: controller.isLoad.value
                         ? "..."
-                        : controller.totalRiders.value.toString(),
+                        : intFormattedText(controller.totalRiders.value),
                     typeOf: "Riders",
                     onlineStatus: "",
                   );
