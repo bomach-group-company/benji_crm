@@ -355,8 +355,19 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
       "phone": countryDialCode + phoneNumberEC.text
     };
     await FormController.instance.postAuthstream2(
-        url, data, {'image': selectedLogoImage}, 'editProfile');
-    UserController.instance.getUser();
+      url,
+      data,
+      {'image': selectedLogoImage},
+      'editProfile',
+    );
+    if (FormController.instance.status.value == 200) {
+      await UserController.instance.getUser();
+      await Future.delayed(const Duration(seconds: 2));
+      setState(() {
+        _isLoading = false;
+      });
+      Get.back();
+    }
     setState(() {
       _isLoading = false;
     });

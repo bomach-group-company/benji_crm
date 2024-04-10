@@ -249,8 +249,8 @@ class FormController extends GetxController {
 
     var request = http.MultipartRequest("POST", Uri.parse(url));
     Map<String, String> headers = authHeader();
-    consoleLog("This is the url: ${url.toString()}");
-    consoleLog("This is the image: ${files.toString()}");
+    log("This is the url: ${url.toString()}");
+    log("This is the image: ${files.toString()}");
     try {
       for (String key in files.keys) {
         if (files[key] == null) {
@@ -270,7 +270,7 @@ class FormController extends GetxController {
         //     key, files[key]!.path,
         //     filename: files[key]!.path.split('/').last));
       }
-      consoleLog("${request.files.map((e) => [
+      log("${request.files.map((e) => [
             e.filename,
             e.field,
             e.contentType
@@ -281,17 +281,17 @@ class FormController extends GetxController {
       data.forEach((key, value) {
         request.fields[key] = value.toString();
       });
-      consoleLog('request.fields ${request.fields}');
-      consoleLog('stream response emma $response');
+      log('request.fields ${request.fields}');
+      log('stream response emma $response');
       // try {
       response = await request.send();
-      consoleLog('pass 1 $response');
+      log('pass 1 $response');
       status.value = response.statusCode;
-      consoleLog('pass 2');
+      log('pass 2');
       final normalResp = await http.Response.fromStream(response);
-      consoleLog('pass 3 ${response.statusCode}');
-      consoleLog('resp response $normalResp');
-      consoleLog('stream response ${normalResp.body}');
+      log('pass 3 ${response.statusCode}');
+      log('resp response $normalResp');
+      log('stream response ${normalResp.body}');
       if (response.statusCode == 200) {
         ApiProcessorController.successSnack(successMsg);
         isLoad.value = false;
