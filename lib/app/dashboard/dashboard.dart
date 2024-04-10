@@ -120,18 +120,16 @@ class _DashboardState extends State<Dashboard> {
         transition: Transition.downToUp,
       );
 
-  toSendPackage() {
-    Get.to(
-      () => const SendPackage(),
-      routeName: 'SendPackage',
-      duration: const Duration(milliseconds: 300),
-      fullscreenDialog: true,
-      curve: Curves.easeIn,
-      preventDuplicates: true,
-      popGesture: true,
-      transition: Transition.rightToLeft,
-    );
-  }
+  toSendPackage() => Get.to(
+        () => const SendPackage(),
+        routeName: 'SendPackage',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.rightToLeft,
+      );
 
   @override
   Widget build(BuildContext context) {
