@@ -1,5 +1,6 @@
 // ignore_for_file: unrelated_type_equality_checks
 
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:benji_aggregator/app/overview/overview.dart';
@@ -19,6 +20,8 @@ class LoginController extends GetxController {
   var isLoad = false.obs;
 
   Future<void> login(SendLogin data) async {
+    print('be smart');
+
     try {
       UserController.instance;
       isLoad.value = true;
@@ -32,17 +35,15 @@ class LoginController extends GetxController {
       http.Response? response =
           await HandleData.postApi(Api.baseUrl + Api.login, null, finalData);
 
-      if (response == null || response.statusCode != 200) {
-        ApiProcessorController.errorSnack(
-            "Invalid email or password. Try again");
+      if (response == null) {
+        ApiProcessorController.errorSnack("Please check your internet");
         isLoad.value = false;
         update();
         return;
       }
-
       var jsonData = jsonDecode(response.body);
 
-      if (jsonData["token"] == false) {
+      if (response.statusCode != 200 || jsonData["token"] == false) {
         ApiProcessorController.errorSnack(
             "Invalid email or password. Try again");
         isLoad.value = false;
@@ -94,7 +95,8 @@ class LoginController extends GetxController {
       isLoad.value = false;
       update();
     } catch (e) {
-      ApiProcessorController.errorSnack("Invalid email or password. Try again");
+      ApiProcessorController.errorSnack("Something went wrong");
+
       isLoad.value = false;
       update();
     }

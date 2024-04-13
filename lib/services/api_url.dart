@@ -140,7 +140,7 @@ class HandleData {
           HttpHeaders.contentTypeHeader: header,
           HttpHeaders.authorizationHeader: "Bearer $token",
         },
-      );
+      ).timeout(const Duration(seconds: 20));
     } catch (e) {
       response = null;
       consoleLog(e.toString());
