@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:benji_aggregator/controller/account_controller.dart';
 import 'package:benji_aggregator/controller/api_processor_controller.dart';
 import 'package:benji_aggregator/controller/business_controller.dart';
@@ -89,30 +87,30 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    if (kIsWeb) {
-      return GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        defaultTransition: Transition.rightToLeft,
-        title: "Benji CRM",
-        color: kPrimaryColor,
-        navigatorKey: Get.key,
-        themeMode: ThemeMode.light,
-        darkTheme: AppTheme.darkTheme,
-        theme: AppTheme.lightTheme,
-        home: SplashScreen(),
-      );
-    }
-    if (Platform.isIOS) {
-      return GetCupertinoApp(
-        debugShowCheckedModeBanner: false,
-        defaultTransition: Transition.rightToLeft,
-        navigatorKey: Get.key,
-        title: "Benji CRM",
-        color: kPrimaryColor,
-        theme: AppTheme.iOSDarkTheme,
-        home: SplashScreen(),
-      );
-    }
+    // if (kIsWeb) {
+    //   return GetMaterialApp(
+    //     debugShowCheckedModeBanner: false,
+    //     defaultTransition: Transition.rightToLeft,
+    //     title: "Benji CRM",
+    //     color: kPrimaryColor,
+    //     navigatorKey: Get.key,
+    //     themeMode: ThemeMode.light,
+    //     darkTheme: AppTheme.darkTheme,
+    //     theme: AppTheme.lightTheme,
+    //     home: SplashScreen(),
+    //   );
+    // }
+    // if (Platform.isIOS) {
+    //   return GetCupertinoApp(
+    //     debugShowCheckedModeBanner: false,
+    //     defaultTransition: Transition.rightToLeft,
+    //     navigatorKey: Get.key,
+    //     title: "Benji CRM",
+    //     color: kPrimaryColor,
+    //     theme: AppTheme.iOSDarkTheme,
+    //     home: SplashScreen(),
+    //   );
+    // }
 
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
@@ -120,7 +118,7 @@ class MyApp extends StatelessWidget {
       navigatorKey: Get.key,
       title: "Benji CRM",
       color: kPrimaryColor,
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.light,
       darkTheme: AppTheme.darkTheme,
       theme: AppTheme.lightTheme,
       home: SplashScreen(),
