@@ -1,11 +1,12 @@
 // ignore_for_file: file_names, unused_local_variable
+
+import 'package:benji_aggregator/model/product_model.dart';
+import 'package:benji_aggregator/src/components/image/my_image.dart';
+import 'package:benji_aggregator/src/responsive/responsive_constant.dart';
+import 'package:benji_aggregator/src/utils/constants.dart';
 import 'package:flutter/material.dart';
 
-import '../../../model/product_model.dart';
 import '../../../theme/colors.dart';
-import '../../responsive/responsive_constant.dart';
-import '../../utils/constants.dart';
-import '../image/my_image.dart';
 
 class BusinessProductContainer extends StatefulWidget {
   final Function() onTap;
@@ -31,7 +32,6 @@ class _BusinessProductContainerState extends State<BusinessProductContainer> {
       onTap: widget.onTap,
       borderRadius: BorderRadius.circular(12),
       child: Container(
-        width: media.width,
         decoration: ShapeDecoration(
           color: kPrimaryColor,
           shape: RoundedRectangleBorder(
@@ -50,9 +50,7 @@ class _BusinessProductContainerState extends State<BusinessProductContainer> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              width: deviceType(media.width) >= 2
-                  ? media.width - 250
-                  : media.width - 300,
+              width: (media.width - 50) / 3,
               height: deviceType(media.width) >= 2 ? 150 : 100,
               decoration: ShapeDecoration(
                 color: kPageSkeletonColor,
@@ -60,23 +58,28 @@ class _BusinessProductContainerState extends State<BusinessProductContainer> {
                   borderRadius: BorderRadius.all(Radius.circular(20)),
                 ),
               ),
-              child: MyImage(url: widget.product.productImage),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: MyImage(url: widget.product.productImage)),
             ),
             kHalfWidthSizedBox,
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  widget.product.name,
-                  style: const TextStyle(
-                    color: kTextBlackColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
+                SizedBox(
+                  width: ((media.width - 110) / 3) * 2,
+                  child: Text(
+                    widget.product.name,
+                    style: const TextStyle(
+                      color: kTextBlackColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
                 SizedBox(
-                  width: media.width - 250,
+                  width: ((media.width - 110) / 3) * 2,
                   child: Text(
                     widget.product.description,
                     overflow: TextOverflow.ellipsis,
@@ -93,7 +96,7 @@ class _BusinessProductContainerState extends State<BusinessProductContainer> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(
-                      width: media.width - 300,
+                      width: (media.width - 110) / 3,
                       child: Text(
                         '₦${convertToCurrency(widget.product.price.toString())}',
                         style: const TextStyle(
@@ -104,8 +107,9 @@ class _BusinessProductContainerState extends State<BusinessProductContainer> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      width: media.width - 300,
+                    Container(
+                      alignment: Alignment.centerRight,
+                      width: (media.width - 110) / 3,
                       child: Text(
                         'Qty: ${widget.product.quantityAvailable}',
                         textAlign: TextAlign.right,

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:lottie/lottie.dart';
 
-import '../button/my_elevatedbutton.dart';
+import '../button/my_elevatedButton.dart';
 
 class EmptyCard extends StatelessWidget {
   final String emptyCardMessage;

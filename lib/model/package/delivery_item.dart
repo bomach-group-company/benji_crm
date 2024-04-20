@@ -28,6 +28,7 @@ class DeliveryItem {
   final int itemValue;
   final String? itemImage;
   final double prices;
+  final double deliveryFee;
   final String status;
 
   DeliveryItem({
@@ -46,6 +47,7 @@ class DeliveryItem {
     required this.itemValue,
     required this.itemImage,
     required this.prices,
+    required this.deliveryFee,
     required this.status,
   });
 
@@ -66,7 +68,8 @@ class DeliveryItem {
       itemQuantity: json['itemQuantity'] ?? 0,
       itemValue: json['itemValue'] ?? 0,
       itemImage: json['itemImage'],
-      prices: json['prices'] ?? 0.0,
+      prices: double.parse((json['prices'] ?? 0).toString()),
+      deliveryFee: double.parse((json['delivery_fee'] ?? 0).toString()),
       status: json['status'] ?? notAvailable,
     );
   }

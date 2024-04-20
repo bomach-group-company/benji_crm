@@ -2,7 +2,7 @@ import 'package:benji_aggregator/controller/api_processor_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/controller/withdraw_controller.dart';
 import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
-import 'package:benji_aggregator/src/components/button/my_elevatedbutton.dart';
+import 'package:benji_aggregator/src/components/button/my_elevatedButton.dart';
 import 'package:benji_aggregator/src/components/input/number_textformfield.dart';
 import 'package:benji_aggregator/src/responsive/my_reponsive_width.dart';
 import 'package:flutter/material.dart';

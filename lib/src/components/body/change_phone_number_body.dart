@@ -1,5 +1,6 @@
 import 'package:benji_aggregator/app/auth/otp_reset_password.dart';
-import 'package:benji_aggregator/src/components/button/my_elevatedbutton.dart';
+import 'package:benji_aggregator/src/components/button/my_elevatedButton.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';

@@ -1,15 +1,15 @@
+import 'package:benji_aggregator/app/packages/send_package.dart';
+import 'package:benji_aggregator/model/package/delivery_item.dart';
+import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
+import 'package:benji_aggregator/src/components/card/empty.dart';
+import 'package:benji_aggregator/src/components/section/my_liquid_refresh.dart';
+import 'package:benji_aggregator/src/responsive/responsive_constant.dart';
+import 'package:benji_aggregator/src/utils/constants.dart';
+import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
-import '../../model/package/delivery_item.dart';
-import '../../src/components/appbar/my_appbar.dart';
-import '../../src/components/card/empty.dart';
-import '../../src/components/section/my_liquid_refresh.dart';
-import '../../src/responsive/responsive_constant.dart';
-import '../../src/utils/constants.dart';
-import '../../theme/colors.dart';
-import 'send_package.dart';
 import 'view_package.dart';
 
 class Packages extends StatefulWidget {
@@ -326,12 +326,13 @@ class _PackagesState extends State<Packages>
                                                     TextSpan(
                                                       children: [
                                                         const TextSpan(
-                                                            text: "Price:"),
+                                                            text:
+                                                                "Delivery fee:"),
                                                         const TextSpan(
                                                             text: " "),
                                                         TextSpan(
                                                           text:
-                                                              "₦${doubleFormattedText(snapshot.data![index].prices)}",
+                                                              "₦${doubleFormattedText(snapshot.data![index].deliveryFee)}",
                                                           style:
                                                               const TextStyle(
                                                             fontWeight:
@@ -421,12 +422,13 @@ class _PackagesState extends State<Packages>
                                                         TextSpan(
                                                           children: [
                                                             const TextSpan(
-                                                                text: "Price:"),
+                                                                text:
+                                                                    "Delivery fee:"),
                                                             const TextSpan(
                                                                 text: " "),
                                                             TextSpan(
                                                               text:
-                                                                  "₦${doubleFormattedText(snapshot.data![index].prices)}",
+                                                                  "₦${doubleFormattedText(snapshot.data![index].deliveryFee)}",
                                                               style:
                                                                   const TextStyle(
                                                                 fontWeight:
@@ -517,12 +519,13 @@ class _PackagesState extends State<Packages>
                                                         TextSpan(
                                                           children: [
                                                             const TextSpan(
-                                                                text: "Price:"),
+                                                                text:
+                                                                    "Delivery fee:"),
                                                             const TextSpan(
                                                                 text: " "),
                                                             TextSpan(
                                                               text:
-                                                                  "₦${doubleFormattedText(snapshot.data![index].prices)}",
+                                                                  "₦${doubleFormattedText(snapshot.data![index].deliveryFee)}",
                                                               style:
                                                                   const TextStyle(
                                                                 fontWeight:

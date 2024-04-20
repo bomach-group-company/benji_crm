@@ -1,6 +1,15 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:benji_aggregator/controller/form_controller.dart';
+import 'package:benji_aggregator/controller/push_notifications_controller.dart';
+import 'package:benji_aggregator/model/package/delivery_item.dart';
+import 'package:benji_aggregator/services/api_url.dart';
+import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
+import 'package:benji_aggregator/src/components/button/my_elevatedButton.dart';
+import 'package:benji_aggregator/src/responsive/responsive_constant.dart';
+import 'package:benji_aggregator/src/utils/constants.dart';
+import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -10,14 +19,6 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../../controller/form_controller.dart';
-import '../../model/package/delivery_item.dart';
-import '../../services/api_url.dart';
-import '../../src/components/appbar/my_appbar.dart';
-import '../../src/components/button/my_elevatedbutton.dart';
-import '../../src/responsive/responsive_constant.dart';
-import '../../src/utils/constants.dart';
-import '../../theme/colors.dart';
 import 'report_package.dart';
 
 class ViewPackage extends StatefulWidget {
@@ -233,12 +234,12 @@ class _ViewPackageState extends State<ViewPackage> {
     consoleLog(data.toString());
     await FormController.instance.patchAuth(url, data, 'dispatchPackage');
     if (FormController.instance.status.toString().startsWith('2')) {
-      // await PushNotificationController.showNotification(
-      //   title: "Success",
-      //   body: dispatchMessage,
-      //   summary: "Package Delivery",
-      //   largeIcon: "asset://assets/icons/package.png",
-      // );
+      await PushNotificationController.showNotification(
+        title: "Success",
+        body: dispatchMessage,
+        summary: "Package Delivery",
+        largeIcon: "asset://assets/icons/package.png",
+      );
       setState(() {
         isDispatched = true;
       });
@@ -246,7 +247,7 @@ class _ViewPackageState extends State<ViewPackage> {
         getDeliveryItemsByClientAndStatus('pending');
         getDeliveryItemsByClientAndStatus('dispatched');
         getDeliveryItemsByClientAndStatus('completed');
-        Get.close(2);
+        Get.close(1);
       });
     }
   }

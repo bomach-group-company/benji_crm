@@ -22,7 +22,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 
 import '../../src/components/appbar/my_appbar.dart';
-import '../../src/components/button/my_elevatedbutton.dart';
+import '../../src/components/button/my_elevatedButton.dart';
 import '../../theme/colors.dart';
 
 class GetLocationOnMap extends StatefulWidget {

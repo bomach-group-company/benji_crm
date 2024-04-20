@@ -1,6 +1,6 @@
 // ignore_for_file: file_names, prefer_typing_uninitialized_variables, use_build_context_synchronously, unused_field
 
-import 'package:benji_aggregator/src/components/button/my_elevatedbutton.dart';
+import 'package:benji_aggregator/src/components/button/my_elevatedButton.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';

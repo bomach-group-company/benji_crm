@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../src/components/appbar/my_appbar.dart';
-import '../../src/components/button/my_elevatedbutton.dart';
+import '../../src/components/button/my_elevatedButton.dart';
 import '../../src/utils/constants.dart';
 import '../../theme/colors.dart';
 

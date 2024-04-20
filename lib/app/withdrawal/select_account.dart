@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:benji_aggregator/controller/account_controller.dart';
 import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
-import 'package:benji_aggregator/src/components/button/my_elevatedbutton.dart';
+import 'package:benji_aggregator/src/components/button/my_elevatedButton.dart';
 import 'package:benji_aggregator/src/components/card/empty.dart';
 import 'package:benji_aggregator/src/responsive/responsive_constant.dart';
 import 'package:flutter/material.dart';

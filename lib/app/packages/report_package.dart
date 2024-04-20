@@ -1,15 +1,15 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:benji_aggregator/controller/form_controller.dart';
+import 'package:benji_aggregator/model/package/delivery_item.dart';
+import 'package:benji_aggregator/services/api_url.dart';
+import 'package:benji_aggregator/src/components/button/my_elevatedButton.dart';
+import 'package:benji_aggregator/src/components/input/message_textformfield.dart';
+import 'package:benji_aggregator/src/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controller/form_controller.dart';
-import '../../model/package/delivery_item.dart';
-import '../../services/api_url.dart';
 import '../../src/components/appbar/my_appbar.dart';
-import '../../src/components/button/my_elevatedbutton.dart';
-import '../../src/components/input/message_textformfield.dart';
-import '../../src/utils/constants.dart';
 import '../../theme/colors.dart';
 
 class ReportPackage extends StatefulWidget {

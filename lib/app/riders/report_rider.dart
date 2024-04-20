@@ -9,7 +9,7 @@ import 'package:benji_aggregator/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../src/components/button/my_elevatedbutton.dart';
+import '../../src/components/button/my_elevatedButton.dart';
 import '../../src/utils/constants.dart';
 
 class ReportRider extends StatefulWidget {

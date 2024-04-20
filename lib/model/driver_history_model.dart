@@ -25,7 +25,7 @@ class RiderHistory {
     json ??= {};
     return RiderHistory(
         id: json["id"] ?? notAvailable,
-        order: BusinessOrderModel.fromJson(json["order"]),
+        order: BusinessOrderModel.fromJson(json["orders"]),
         driver: RiderItem.fromJson(json["driver"]),
         acceptanceStatus: json["acceptance_status"] ?? "PEND",
         deliveryStatus: json["delivery_status"] ?? "pending",

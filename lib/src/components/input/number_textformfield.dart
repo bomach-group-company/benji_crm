@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../../theme/colors.dart';
+import '../../../../theme/colors.dart';
 
 class NumberTextFormField extends StatelessWidget {
   final TextEditingController controller;
@@ -16,6 +16,7 @@ class NumberTextFormField extends StatelessWidget {
   final dynamic maxlength;
   final dynamic onChanged;
   final bool? enabled;
+  final List<TextInputFormatter>? inputFormatter;
 
   const NumberTextFormField({
     super.key,
@@ -29,12 +30,15 @@ class NumberTextFormField extends StatelessWidget {
     this.inputFormatters,
     this.onChanged,
     this.enabled,
+    this.inputFormatter,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       // onTap: onTap,
+      inputFormatters: inputFormatter,
+
       enabled: enabled ?? true,
       focusNode: focusNode,
       controller: controller,
@@ -47,7 +51,6 @@ class NumberTextFormField extends StatelessWidget {
       autocorrect: true,
       enableSuggestions: true,
       keyboardType: TextInputType.number,
-      inputFormatters: inputFormatters,
       maxLength: maxlength,
       maxLengthEnforcement: MaxLengthEnforcement.enforced,
       autovalidateMode: AutovalidateMode.onUserInteraction,
