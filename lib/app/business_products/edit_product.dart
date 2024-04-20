@@ -36,8 +36,7 @@ class _EditProductState extends State<EditProduct> {
     isToggled = true;
     // productTypeEC.text = widget.product.name;
     subCategoryEC.text = widget.product.subCategory.name;
-
-    // subCategoryEC.text = widget.product.subCategory.id;
+    subCategoryEC.text = widget.product.subCategory.id;
     productNameEC.text = widget.product.name;
     productDescriptionEC.text = widget.product.description;
     productPriceEC.text = widget.product.price.toString();
@@ -83,25 +82,31 @@ class _EditProductState extends State<EditProduct> {
   // bool categorySelected = false;
   var isToggled;
 
-  int? selectedCategory;
+  late String selectedCategory;
 
   //================================== FUNCTIONS ====================================\\
   Future<void> submit() async {
     // if (selectedImage == null && productImages!.isEmpty) {
     //   ApiProcessorController.errorSnack("Please select product images");
     // }
+
     if (subCategoryEC.text.isEmpty) {
       ApiProcessorController.errorSnack("Please select a category");
     }
+
     Map<String, dynamic> data = {
       'name': productNameEC.text,
       'description': productDescriptionEC.text,
       'price': productPriceEC.text,
       'quantity_available': productQuantityEC.text,
       'sub_category_id': subCategoryEC.text,
+      "address": "",
+      "latitude": "",
+      "longitude": ""
     };
 
-    log("This is the data : $data");
+    print(data);
+    print(Api.baseUrl + Api.changeProduct + widget.product.id);
     // await FormController.instance.postAuthstream(
     //   Api.baseUrl + Api.changeProduct + widget.product.id,
     //   data,
@@ -110,7 +115,7 @@ class _EditProductState extends State<EditProduct> {
     // );
     await FormController.instance.patchAuth(
       Api.baseUrl + Api.changeProduct + widget.product.id,
-      {'data': jsonEncode(data)}, // Wrap 'data' in a Map
+      data, // Wrap 'data' in a Map
       // {'product_image': selectedImage},
       'editProduct',
     );
@@ -146,8 +151,8 @@ class _EditProductState extends State<EditProduct> {
               return MyElevatedButton(
                 onPressed: () async {
                   if (formKey.currentState!.validate()) {
-                    formKey.currentState!.save();
                     submit();
+                    // formKey.currentState!.save();
                   }
                 },
                 isLoading: saving.isLoad.value,

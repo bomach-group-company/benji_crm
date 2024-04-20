@@ -5,7 +5,9 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:benji_aggregator/controller/api_processor_controller.dart';
+import 'package:benji_aggregator/controller/form_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
+import 'package:benji_aggregator/services/api_url.dart';
 import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -240,6 +242,15 @@ class _RegisterVendorState extends State<RegisterVendor> {
       ApiProcessorController.errorSnack("Please add a profile picture");
       return;
     }
+
+    if (await checkXFileSize(selectedCoverImage)) {
+      ApiProcessorController.errorSnack('Cover picture too large');
+      return;
+    }
+    if (selectedCoverImage == null) {
+      ApiProcessorController.errorSnack("Please add a cover picture");
+      return;
+    }
     if (defaultGender.isEmpty || defaultGender == "") {
       ApiProcessorController.errorSnack("Please choose a gender");
     }
@@ -265,82 +276,39 @@ class _RegisterVendorState extends State<RegisterVendor> {
       return;
     }
 
-    SendCreateModel data = SendCreateModel(
-      phoneNumber: countryDialCode + vendorPhoneNumberEC.text,
-      address: mapsLocationEC.text,
-      email: vendorEmailEC.text,
-      personalID: personalIdEC.text,
-      country: countryEC.text,
-      state: stateEC.text,
-      gender: defaultGender == "Male" ? "male" : "female",
-      city: cityEC.text,
-      latitude: latitude ?? "",
-      longitude: longitude ?? "",
-      firstName: vendorFirstNameEC.text,
-      lastName: vendorLastNameEC.text,
-      lga: vendorLGAEC.text,
-      profileImage: selectedLogoImage,
-    );
-    log(data.toString());
-    log(vendorClassified.toString());
+// will use formcontroller to post
+    Map data = {
+      "phone": countryDialCode + vendorPhoneNumberEC.text,
+      "address": mapsLocationEC.text,
+      "email": vendorEmailEC.text,
+      "personalId": personalIdEC.text,
+      "country": countryEC.text,
+      "state": stateEC.text,
+      // "gender": defaultGender == "Male" ? "male" : "female",
+      "city": cityEC.text,
+      "latitude": latitude ?? "",
+      "longitude": longitude ?? "",
+      "first_name": vendorFirstNameEC.text,
+      "last_name": vendorLastNameEC.text,
+      "lga": vendorLGAEC.text,
+      "vendorClassifier": vendorClassified,
+    };
+    print(data.toString());
+    print(vendorClassified.toString());
 
-    VendorController.instance.createVendor(data, vendorClassified);
+    await FormController.instance.postAuthstream2(
+        '$baseURL/agents/agentCreateVendor/${UserController.instance.user.value.id}',
+        data,
+        {
+          "profileLogo": selectedLogoImage,
+          "coverImage": selectedCoverImage,
+        },
+        'agentCreateVendor');
+    if (FormController.instance.status.toString().startsWith('2')) {
+      Get.close(1);
+    }
   }
-
-  Future<void> saveChangesAsThirdPartyVendor() async {
-    var user = UserController.instance.user.value;
-
-    log("Saving as third party vendor");
-
-    log(vendorClassified.toString());
-
-    if (defaultGender.isEmpty || defaultGender == "") {
-      ApiProcessorController.errorSnack("Please choose a gender");
-    }
-    if (vendorPhoneNumberEC.text.isEmpty || vendorPhoneNumberEC.text == "") {
-      ApiProcessorController.errorSnack("Please enter a phone number");
-      return;
-    }
-    if (countryEC.text.isEmpty || countryEC.text == "") {
-      ApiProcessorController.errorSnack("Please select a country");
-      return;
-    }
-    if (stateEC.text.isEmpty || stateEC.text == "") {
-      ApiProcessorController.errorSnack("Please select a state");
-      return;
-    }
-
-    if (cityEC.text.isEmpty || cityEC.text == "") {
-      ApiProcessorController.errorSnack("Please select a city");
-      return;
-    }
-    if (vendorLGAEC.isBlank! || vendorLGAEC.text == "") {
-      ApiProcessorController.errorSnack("Please select an LGA");
-      return;
-    }
-    log("First got here!");
-
-    SendCreateModel data = SendCreateModel(
-      phoneNumber: countryDialCode + vendorPhoneNumberEC.text,
-      address: mapsLocationEC.text,
-      email: vendorEmailEC.text,
-      gender: defaultGender == "Male" ? "male" : "female",
-      firstName: vendorFirstNameEC.text,
-      lastName: vendorLastNameEC.text,
-      personalID: user.license,
-      country: countryEC.text,
-      state: stateEC.text,
-      city: cityEC.text,
-      latitude: user.latitude,
-      longitude: user.longitude,
-      lga: vendorLGAEC.text,
-    );
-    VendorController.instance.createThirdPartyVendor(data, vendorClassified);
-
-    log("Last got here!!");
-  }
-
-  //=========================== WIDGETS ====================================\\
+//=========================== WIDGETS ====================================\\
 
   Widget uploadLogoImage() => Container(
         padding: const EdgeInsets.all(kDefaultPadding),
@@ -425,6 +393,92 @@ class _RegisterVendorState extends State<RegisterVendor> {
         ),
       );
 
+  Widget uploadBusinessCoverImage() => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          const Text(
+            "Upload Cover Image",
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          kSizedBox,
+          Padding(
+            padding: const EdgeInsets.only(left: 10, bottom: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        pickCoverImage(ImageSource.camera);
+                      },
+                      borderRadius: BorderRadius.circular(100),
+                      child: Container(
+                        height: 60,
+                        width: 60,
+                        decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100),
+                            side: const BorderSide(
+                              width: 0.5,
+                              color: kGreyColor1,
+                            ),
+                          ),
+                        ),
+                        child: Center(
+                          child: FaIcon(
+                            FontAwesomeIcons.camera,
+                            color: kAccentColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                    kHalfSizedBox,
+                    const Text("Camera"),
+                  ],
+                ),
+                kWidthSizedBox,
+                Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        pickCoverImage(ImageSource.gallery);
+                      },
+                      borderRadius: BorderRadius.circular(100),
+                      child: Container(
+                        height: 60,
+                        width: 60,
+                        decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100),
+                            side: const BorderSide(
+                              width: 0.5,
+                              color: kGreyColor1,
+                            ),
+                          ),
+                        ),
+                        child: Center(
+                          child: FaIcon(
+                            FontAwesomeIcons.image,
+                            color: kAccentColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                    kHalfSizedBox,
+                    const Text("Gallery"),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+
   //===================== Scroll to Top ==========================\\
   Future<void> scrollToTop() async {
     await scrollController.animateTo(
@@ -465,7 +519,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
           actions: const [],
           backgroundColor: kPrimaryColor,
         ),
-        bottomNavigationBar: GetBuilder<VendorController>(
+        bottomNavigationBar: GetBuilder<FormController>(
           builder: (sending) {
             return Container(
               color: kPrimaryColor,
@@ -474,12 +528,10 @@ class _RegisterVendorState extends State<RegisterVendor> {
                 onPressed: (() async {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
-                    !vendorClassified
-                        ? saveChangesAsVendor()
-                        : saveChangesAsThirdPartyVendor();
+                    saveChangesAsVendor();
                   }
                 }),
-                isLoading: sending.isLoadCreate.value,
+                isLoading: sending.isLoad.value,
                 title: "Save",
               ),
             );
@@ -509,110 +561,187 @@ class _RegisterVendorState extends State<RegisterVendor> {
             physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.all(kDefaultPadding),
             children: [
-              !vendorClassified
-                  ? DottedBorder(
-                      color: kLightGreyColor,
-                      borderPadding: const EdgeInsets.all(3),
-                      padding: const EdgeInsets.all(kDefaultPadding / 2),
-                      borderType: BorderType.RRect,
-                      radius: const Radius.circular(20),
-                      child: Column(
-                        children: [
-                          selectedLogoImage == null
-                              ? Container(
-                                  width: media.width,
-                                  height: 200,
-                                  decoration: const ShapeDecoration(
-                                    shape: CircleBorder(
-                                      side: BorderSide(
-                                        width: 0.50,
-                                        color: Color(0xFFE6E6E6),
-                                      ),
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: FaIcon(
-                                      FontAwesomeIcons.solidCircleUser,
-                                      color: kAccentColor,
-                                      size: 40,
-                                    ),
-                                  ),
-                                )
-                              : Center(
-                                  child: SizedBox(
-                                    height: 200,
-                                    width: 200,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Center(
-                                        child: kIsWeb
-                                            ? Image.network(
-                                                selectedLogoImage!.path,
-                                                fit: BoxFit.fill,
-                                                height: 120,
-                                                width: 120,
-                                              )
-                                            : Image.file(
-                                                height: 120,
-                                                width: 120,
-                                                fit: BoxFit.fill,
-                                                File(
-                                                  selectedLogoImage!.path,
-                                                ),
-                                              ),
-                                      ),
-                                    ),
-                                    // decoration: ShapeDecoration(
-                                    //   shape: const OvalBorder(),
-                                    //   image: DecorationImage(
-                                    //     image: FileImage(
-                                    //       selectedLogoImage!,
-                                    //     ),
-                                    //     fit: BoxFit.cover,
-                                    //   ),
-                                    // ),
-                                  ),
+              DottedBorder(
+                color: kLightGreyColor,
+                borderPadding: const EdgeInsets.all(3),
+                padding: const EdgeInsets.all(kDefaultPadding / 2),
+                borderType: BorderType.RRect,
+                radius: const Radius.circular(20),
+                child: Column(
+                  children: [
+                    selectedLogoImage == null
+                        ? Container(
+                            width: media.width,
+                            height: 200,
+                            decoration: const ShapeDecoration(
+                              shape: CircleBorder(
+                                side: BorderSide(
+                                  width: 0.50,
+                                  color: Color(0xFFE6E6E6),
                                 ),
-                          InkWell(
-                            onTap: () {
-                              showModalBottomSheet(
-                                context: context,
-                                elevation: 20,
-                                barrierColor: kBlackColor.withOpacity(0.8),
-                                showDragHandle: true,
-                                useSafeArea: true,
-                                isDismissible: true,
-                                isScrollControlled: true,
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(kDefaultPadding),
-                                  ),
-                                ),
-                                enableDrag: true,
-                                builder: ((builder) => uploadLogoImage()),
-                              );
-                            },
-                            splashColor: kAccentColor.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(10),
-                            child: Container(
-                              padding: const EdgeInsets.all(10),
-                              child: Text(
-                                'Upload profile picture',
-                                style: TextStyle(
-                                  color: kAccentColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            child: Center(
+                              child: FaIcon(
+                                FontAwesomeIcons.solidCircleUser,
+                                color: kAccentColor,
+                                size: 40,
+                              ),
+                            ),
+                          )
+                        : Center(
+                            child: SizedBox(
+                              height: 200,
+                              width: 200,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Center(
+                                  child: kIsWeb
+                                      ? Image.network(
+                                          selectedLogoImage!.path,
+                                          fit: BoxFit.fill,
+                                          height: 120,
+                                          width: 120,
+                                        )
+                                      : Image.file(
+                                          height: 120,
+                                          width: 120,
+                                          fit: BoxFit.fill,
+                                          File(
+                                            selectedLogoImage!.path,
+                                          ),
+                                        ),
                                 ),
                               ),
                             ),
                           ),
-                        ],
+                    InkWell(
+                      onTap: () {
+                        showModalBottomSheet(
+                          context: context,
+                          elevation: 20,
+                          barrierColor: kBlackColor.withOpacity(0.8),
+                          showDragHandle: true,
+                          useSafeArea: true,
+                          isDismissible: true,
+                          isScrollControlled: true,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(kDefaultPadding),
+                            ),
+                          ),
+                          enableDrag: true,
+                          builder: ((builder) => uploadLogoImage()),
+                        );
+                      },
+                      splashColor: kAccentColor.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(10),
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        child: Text(
+                          'Upload profile picture',
+                          style: TextStyle(
+                            color: kAccentColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
                       ),
-                    )
-                  : const SizedBox(),
-              !vendorClassified ? kSizedBox : const SizedBox(),
-              // !vendorClassified
-              //     ?
+                    ),
+                  ],
+                ),
+              ),
+              DottedBorder(
+                color: kLightGreyColor,
+                borderPadding: const EdgeInsets.all(3),
+                padding: const EdgeInsets.all(kDefaultPadding / 2),
+                borderType: BorderType.RRect,
+                radius: const Radius.circular(20),
+                child: Column(
+                  children: [
+                    selectedCoverImage == null
+                        ? Container(
+                            width: media.width,
+                            height: 200,
+                            decoration: const ShapeDecoration(
+                              shape: CircleBorder(
+                                side: BorderSide(
+                                  width: 0.50,
+                                  color: Color(0xFFE6E6E6),
+                                ),
+                              ),
+                            ),
+                            child: Center(
+                              child: FaIcon(
+                                FontAwesomeIcons.solidCircleUser,
+                                color: kAccentColor,
+                                size: 40,
+                              ),
+                            ),
+                          )
+                        : Center(
+                            child: SizedBox(
+                              height: 200,
+                              width: 200,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Center(
+                                  child: kIsWeb
+                                      ? Image.network(
+                                          selectedCoverImage!.path,
+                                          fit: BoxFit.fill,
+                                          height: 120,
+                                          width: 120,
+                                        )
+                                      : Image.file(
+                                          height: 120,
+                                          width: 120,
+                                          fit: BoxFit.fill,
+                                          File(
+                                            selectedCoverImage!.path,
+                                          ),
+                                        ),
+                                ),
+                              ),
+                            ),
+                          ),
+                    InkWell(
+                      onTap: () {
+                        showModalBottomSheet(
+                          context: context,
+                          elevation: 20,
+                          barrierColor: kBlackColor.withOpacity(0.8),
+                          showDragHandle: true,
+                          useSafeArea: true,
+                          isDismissible: true,
+                          isScrollControlled: true,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(kDefaultPadding),
+                            ),
+                          ),
+                          enableDrag: true,
+                          builder: ((builder) => uploadBusinessCoverImage()),
+                        );
+                      },
+                      splashColor: kAccentColor.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(10),
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        child: Text(
+                          'Upload cover image',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: kAccentColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               const Text(
                 "You are registering a vendor account",
                 style: TextStyle(
@@ -620,13 +749,6 @@ class _RegisterVendorState extends State<RegisterVendor> {
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              // : const Text(
-              //     "You are creating a 3rd party vendor",
-              //     style: TextStyle(
-              //       fontSize: 20,
-              //       fontWeight: FontWeight.w700,
-              //     ),
-              //   ),
               kSizedBox,
               RadioGroup<String>.builder(
                 groupValue: initialVendorClassifier,
@@ -793,7 +915,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                           kSizedBox,
                           MyIntlPhoneField(
                             controller: vendorPhoneNumberEC,
-                            enabled: !vendorClassified,
+                            // enabled: !vendorClassified,
                             initialCountryCode: "NG",
                             invalidNumberMessage: "Invalid phone number",
                             dropdownIconPosition: IconPosition.trailing,
@@ -837,7 +959,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                               kHalfSizedBox,
                               MyMapsTextFormField(
                                 controller: mapsLocationEC,
-                                readOnly: vendorClassified,
+                                // readOnly: vendorClassified,
                                 validator: (value) {
                                   if (value == null || value!.isEmpty) {
                                     mapsLocationFN.requestFocus();
@@ -871,54 +993,43 @@ class _RegisterVendorState extends State<RegisterVendor> {
                                 ),
                               ),
                               kSizedBox,
-                              !vendorClassified
-                                  ? Divider(
-                                      height: 10,
-                                      thickness: 2,
-                                      color: kLightGreyColor,
-                                    )
-                                  : const SizedBox(),
-                              !vendorClassified
-                                  ? ElevatedButton.icon(
-                                      onPressed: getLocationOnMap,
-                                      icon: FaIcon(
-                                        FontAwesomeIcons.locationArrow,
-                                        color: kAccentColor,
-                                        size: 18,
-                                      ),
-                                      label: const Text("Locate on map"),
-                                      style: ElevatedButton.styleFrom(
-                                        elevation: 0,
-                                        backgroundColor: kLightGreyColor,
-                                        foregroundColor: kTextBlackColor,
-                                        fixedSize: Size(media.width, 40),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                      ),
-                                    )
-                                  : const SizedBox(),
-                              !vendorClassified
-                                  ? Divider(
-                                      height: 10,
-                                      thickness: 2,
-                                      color: kLightGreyColor,
-                                    )
-                                  : const SizedBox(),
-                              !vendorClassified
-                                  ? const Text(
-                                      "Suggestions:",
-                                      style: TextStyle(
-                                        color: kTextBlackColor,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    )
-                                  : const SizedBox(),
-                              !vendorClassified
-                                  ? kHalfSizedBox
-                                  : const SizedBox(),
+                              Divider(
+                                height: 10,
+                                thickness: 2,
+                                color: kLightGreyColor,
+                              ),
+                              ElevatedButton.icon(
+                                onPressed: getLocationOnMap,
+                                icon: FaIcon(
+                                  FontAwesomeIcons.locationArrow,
+                                  color: kAccentColor,
+                                  size: 18,
+                                ),
+                                label: const Text("Locate on map"),
+                                style: ElevatedButton.styleFrom(
+                                  elevation: 0,
+                                  backgroundColor: kLightGreyColor,
+                                  foregroundColor: kTextBlackColor,
+                                  fixedSize: Size(media.width, 40),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                              ),
+                              Divider(
+                                height: 10,
+                                thickness: 2,
+                                color: kLightGreyColor,
+                              ),
+                              const Text(
+                                "Suggestions:",
+                                style: TextStyle(
+                                  color: kTextBlackColor,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              kHalfSizedBox,
                               SizedBox(
                                 height: () {
                                   if (_typing == false) {

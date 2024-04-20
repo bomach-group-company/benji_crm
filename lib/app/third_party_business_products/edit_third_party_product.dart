@@ -35,7 +35,7 @@ class _EditThirdPartyProductState extends State<EditThirdPartyProduct> {
     super.initState();
     isToggled = true;
     // productTypeEC.text = widget.product.name;
-    subCategoryEC.text = widget.product.subCategory.name;
+    subCategoryEC.text = widget.product.subCategory.id;
 
     // subCategoryEC.text = widget.product.subCategory.id;
     productNameEC.text = widget.product.name;
@@ -90,18 +90,24 @@ class _EditThirdPartyProductState extends State<EditThirdPartyProduct> {
     // if (selectedImage == null && productImages!.isEmpty) {
     //   ApiProcessorController.errorSnack("Please select product images");
     // }
+
     if (subCategoryEC.text.isEmpty) {
       ApiProcessorController.errorSnack("Please select a category");
     }
+
     Map<String, dynamic> data = {
       'name': productNameEC.text,
       'description': productDescriptionEC.text,
       'price': productPriceEC.text,
       'quantity_available': productQuantityEC.text,
       'sub_category_id': subCategoryEC.text,
+      "address": "",
+      "latitude": "",
+      "longitude": ""
     };
 
-    log("This is the data : $data");
+    print(data);
+    print(Api.baseUrl + Api.changeProduct + widget.product.id);
     // await FormController.instance.postAuthstream(
     //   Api.baseUrl + Api.changeProduct + widget.product.id,
     //   data,
@@ -110,7 +116,7 @@ class _EditThirdPartyProductState extends State<EditThirdPartyProduct> {
     // );
     await FormController.instance.patchAuth(
       Api.baseUrl + Api.changeProduct + widget.product.id,
-      {'data': jsonEncode(data)}, // Wrap 'data' in a Map
+      data, // Wrap 'data' in a Map
       // {'product_image': selectedImage},
       'editProduct',
     );

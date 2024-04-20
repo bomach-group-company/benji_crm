@@ -171,8 +171,7 @@ class WithdrawController extends GetxController {
     print(data);
 
     if (response.statusCode != 200) {
-      ApiProcessorController.errorSnack(
-          'An error occured, please try again later');
+      ApiProcessorController.errorSnack(jsonDecode(response.body)['message']);
       isLoadWithdraw.value = false;
       update();
       return response;

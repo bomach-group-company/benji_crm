@@ -36,9 +36,6 @@ class _MyVendorDetailPageState extends State<MyVendorDetailPage>
   void initState() {
     super.initState();
 
-    BusinessController.instance
-        .refreshData(widget.vendor.id.toString(), agentId);
-
     // BusinessController.instance
     //     .getBusinesses(widget.vendor.id.toString(), agentId);
     BusinessController.instance
@@ -454,6 +451,8 @@ class _MyVendorDetailPageState extends State<MyVendorDetailPage>
                   ),
                 ),
                 GetBuilder<BusinessController>(
+                  initState: (state) => BusinessController.instance
+                      .refreshData(widget.vendor.id.toString(), agentId),
                   init: BusinessController(),
                   builder: (controller) {
                     return Padding(
@@ -475,6 +474,8 @@ class _MyVendorDetailPageState extends State<MyVendorDetailPage>
                 kSizedBox,
 
                 GetBuilder<BusinessController>(
+                  initState: (state) => BusinessController.instance
+                      .refreshData(widget.vendor.id.toString(), agentId),
                   init: BusinessController(),
                   builder: (controller) {
                     return loadingScreen

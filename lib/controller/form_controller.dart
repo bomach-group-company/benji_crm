@@ -100,7 +100,7 @@ class FormController extends GetxController {
       String successMsg = "Submitted successfully"]) async {
     isLoad.value = true;
     update();
-    update([tag]);
+    // update([tag]);
     try {
       final response = await http.patch(
         Uri.parse(url),
@@ -108,27 +108,27 @@ class FormController extends GetxController {
         body: jsonEncode(data),
       );
       status.value = response.statusCode;
-      consoleLog(response.body);
+      print('${response.body} patch it');
       var responseBody = jsonDecode(response.body);
 
       if (response.statusCode != 200) {
         ApiProcessorController.errorSnack(errorMsg);
         isLoad.value = false;
         update();
-        update([tag]);
+        // update([tag]);
         return;
       } else {
         if (responseBody is String) {
           ApiProcessorController.successSnack(successMsg);
           isLoad.value = false;
           update();
-          update([tag]);
+          // update([tag]);
         } else if (responseBody is Map) {
           responseObject.value = (responseBody);
           ApiProcessorController.successSnack(successMsg);
           isLoad.value = false;
           update();
-          update([tag]);
+          // update([tag]);
         }
       }
     } on SocketException {
@@ -371,6 +371,74 @@ class FormController extends GetxController {
     ApiProcessorController.errorSnack(errorMsg);
     isLoad.value = false;
     update([tag]);
+    return;
+  }
+
+  Future uploadImage2(String url, Map<String, XFile?> files, String tag,
+      [String errorMsg = "An error occurred",
+      String successMsg = "Submitted successfully"]) async {
+    http.StreamedResponse? response;
+
+    isLoad.value = true;
+    update();
+    // update([tag]);
+
+    var request = http.MultipartRequest("POST", Uri.parse(url));
+    Map<String, String> headers = authHeader();
+
+    request.headers.addAll(headers);
+
+    for (String key in files.keys) {
+      if (files[key] == null) {
+        continue;
+      }
+
+      request.files.add(http.MultipartFile(
+        key,
+        files[key]!.readAsBytes().asStream(),
+        await files[key]!.length(),
+        filename: 'image.jpg',
+        contentType:
+            MediaType('image', 'jpeg'), // Adjust content type as needed
+      ));
+    }
+
+    log('first stream response: $response');
+    try {
+      response = await request.send();
+      log('second stream response body: ${response.statusCode}');
+      final normalResp = await http.Response.fromStream(response);
+      log('third stream response body: ${normalResp.body}');
+      status.value = response.statusCode;
+      if (response.statusCode == 200) {
+        // ApiProcessorController.successSnack(successMsg);
+        log('Got here!');
+        isLoad.value = false;
+        update();
+        // update([tag]);
+        return;
+      } else {
+        ApiProcessorController.errorSnack(errorMsg);
+      }
+    } on SocketException {
+      ApiProcessorController.errorSnack("Please connect to the internet");
+      isLoad.value = false;
+      update();
+      // update([tag]);
+      return;
+    } catch (e) {
+      ApiProcessorController.errorSnack("An error occured. \nERROR: $e");
+      log("An error occured. \nERROR: $e");
+      response = null;
+      isLoad.value = false;
+      update();
+      // update([tag]);
+      return;
+    }
+
+    ApiProcessorController.errorSnack(errorMsg);
+    isLoad.value = false;
+    // update([tag]);
     return;
   }
 }

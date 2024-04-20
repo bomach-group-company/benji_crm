@@ -144,6 +144,7 @@ class _ViewProductState extends State<ViewProduct> {
         'deleteProduct',
         'Error occured',
         'Deleted successfully');
+    Get.close(1);
     // final response = await http.delete(
     //   Uri.parse(Api.baseUrl + Api.deleteProduct + widget.product.id),
     //   headers: authHeader(),
