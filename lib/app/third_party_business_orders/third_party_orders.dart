@@ -248,7 +248,7 @@ class _ThirdPartyBusinessOrdersState extends State<ThirdPartyBusinessOrders> {
                                     orderStatus: controller.orderList[index]
                                                 .deliveryStatus ==
                                             "COMP"
-                                        ? "Completeds"
+                                        ? "Completed"
                                         : controller.orderList[index]
                                                     .deliveryStatus ==
                                                 "dispatched"
