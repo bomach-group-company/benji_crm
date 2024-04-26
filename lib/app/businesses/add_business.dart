@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:benji_aggregator/controller/shopping_location_controller.dart';
 import 'package:benji_aggregator/src/components/input/my_item_drop_down_menu.dart';
+import 'package:benji_aggregator/src/utils/web_map.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -179,9 +180,9 @@ class _AddBusinessState extends State<AddBusiness> {
       addressEC.text = newLocation;
     });
 
-    List<Location> location = await locationFromAddress(newLocation);
-    latitude = location[0].latitude.toString();
-    longitude = location[0].longitude.toString();
+    List location = await parseLatLng(newLocation);
+    latitude = location[0];
+    longitude = location[1];
   }
 
 // select bank

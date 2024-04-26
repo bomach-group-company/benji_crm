@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:benji_aggregator/src/components/input/my_dropdown_menu.dart';
+import 'package:benji_aggregator/src/utils/web_map.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -190,10 +191,9 @@ class _EditBusinessState extends State<EditBusiness> {
     setState(() {
       mapsLocationEC.text = newLocation;
     });
-
-    List<Location> location = await locationFromAddress(newLocation);
-    latitude = location[0].latitude.toString();
-    longitude = location[0].longitude.toString();
+    List location = await parseLatLng(newLocation);
+    latitude = location[0];
+    longitude = location[1];
   }
 
 // select bank

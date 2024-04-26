@@ -29,6 +29,7 @@ import 'package:benji_aggregator/src/responsive/responsive_constant.dart';
 import 'package:benji_aggregator/src/utils/constants.dart';
 import 'package:benji_aggregator/src/utils/keys.dart';
 import 'package:benji_aggregator/src/utils/network_utils.dart';
+import 'package:benji_aggregator/src/utils/web_map.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
@@ -191,10 +192,9 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
     setState(() {
       mapsLocationEC.text = newLocation;
     });
-
-    List<Location> location = await locationFromAddress(newLocation);
-    latitude = location[0].latitude.toString();
-    longitude = location[0].longitude.toString();
+    List location = await parseLatLng(newLocation);
+    latitude = location[0];
+    longitude = location[1];
   }
 
 // select bank

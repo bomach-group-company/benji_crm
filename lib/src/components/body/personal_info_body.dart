@@ -8,6 +8,7 @@ import 'package:benji_aggregator/controller/api_processor_controller.dart';
 import 'package:benji_aggregator/controller/form_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/services/api_url.dart';
+import 'package:benji_aggregator/src/utils/web_map.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -275,9 +276,9 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
       mapsLocationEC.text = newLocation;
     });
 
-    List<Location> location = await locationFromAddress(newLocation);
-    latitude = location[0].latitude.toString();
-    longitude = location[0].longitude.toString();
+    List location = await parseLatLng(newLocation);
+    latitude = location[0];
+    longitude = location[1];
   }
 
   void placeAutoComplete(String query) async {

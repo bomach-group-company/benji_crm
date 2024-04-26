@@ -9,6 +9,7 @@ import 'package:benji_aggregator/controller/form_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/services/api_url.dart';
 import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
+import 'package:benji_aggregator/src/utils/web_map.dart';
 import 'package:benji_aggregator/theme/colors.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
@@ -147,9 +148,9 @@ class _RegisterVendorState extends State<RegisterVendor> {
       mapsLocationEC.text = newLocation;
     });
 
-    List<Location> location = await locationFromAddress(newLocation);
-    latitude = location[0].latitude.toString();
-    longitude = location[0].longitude.toString();
+    List location = await parseLatLng(newLocation);
+    latitude = location[0];
+    longitude = location[1];
   }
 
   void placeAutoComplete(String query) async {
