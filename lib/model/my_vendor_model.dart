@@ -94,6 +94,7 @@ class MyVendorModel {
         "city": city,
         "lga": lga,
         "profileLogo": profileLogo,
+        "coverImage": coverImage,
         "is_online": isOnline,
       };
 }

@@ -285,7 +285,14 @@ class _ThirdPartyBusinessDetailScreenState
                                   : media.height * 0.28,
                           decoration: BoxDecoration(color: kLightGreyColor),
                           child: MyImage(
+                            height: deviceType(media.width) > 3 &&
+                                    deviceType(media.width) < 5
+                                ? media.height * 0.4
+                                : deviceType(media.width) > 2
+                                    ? media.height * 0.415
+                                    : media.height * 0.28,
                             url: widget.business.coverImage,
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),
@@ -507,6 +514,7 @@ class _ThirdPartyBusinessDetailScreenState
                                       deviceType(media.width) > 2 ? 126 : 100,
                                   height:
                                       deviceType(media.width) > 2 ? 126 : 100,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                             ),

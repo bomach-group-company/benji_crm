@@ -275,7 +275,14 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                           decoration: BoxDecoration(color: kLightGreyColor),
                           child: Center(
                             child: MyImage(
+                              height: deviceType(media.width) > 3 &&
+                                      deviceType(media.width) < 5
+                                  ? media.height * 0.4
+                                  : deviceType(media.width) > 2
+                                      ? media.height * 0.415
+                                      : media.height * 0.28,
                               url: widget.business.coverImage,
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
@@ -490,10 +497,16 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                           height: deviceType(media.width) > 2 ? 126 : 100,
                           child: CircleAvatar(
                             backgroundColor: kLightGreyColor,
-                            radius: 30,
                             child: Center(
-                              child: MyImage(
-                                url: widget.business.shopImage,
+                              child: ClipOval(
+                                child: MyImage(
+                                  width:
+                                      deviceType(media.width) > 2 ? 126 : 100,
+                                  height:
+                                      deviceType(media.width) > 2 ? 126 : 100,
+                                  url: widget.business.shopImage,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                           ),
