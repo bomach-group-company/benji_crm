@@ -25,6 +25,7 @@ class MyVendorModel {
   String city;
   String lga;
   String profileLogo;
+  String coverImage;
 
   bool isOnline;
 
@@ -44,6 +45,7 @@ class MyVendorModel {
     required this.isOnline,
     required this.address,
     required this.profileLogo,
+    required this.coverImage,
     required this.longitude,
     required this.latitude,
   });
@@ -69,6 +71,9 @@ class MyVendorModel {
       profileLogo: json["profileLogo"] == null || json["profileLogo"] == ""
           ? 'https://img.freepik.com/free-psd/3d-icon-social-media-app_23-2150049569.jpg'
           : json['profileLogo'],
+      coverImage: json["coverImage"] == null || json["coverImage"] == ""
+          ? 'https://img.freepik.com/free-psd/3d-icon-social-media-app_23-2150049569.jpg'
+          : json['coverImage'],
       longitude: json["longitude"] ?? '',
       latitude: json["latitude"] ?? '',
     );

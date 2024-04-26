@@ -1,5 +1,6 @@
 // ignorFontWeight_for_file: unused_local_variable,
 
+import 'package:benji_aggregator/src/components/card/empty.dart';
 import 'package:benji_aggregator/src/components/image/my_image.dart';
 import 'package:benji_aggregator/src/components/section/my_liquid_refresh.dart';
 import 'package:benji_aggregator/src/skeletons/riders_list_skeleton.dart';
@@ -174,113 +175,119 @@ class _RidersState extends State<Riders> {
                       : controller.isLoad.value && controller.riderList.isEmpty
                           // controller.isLoad.value
                           ? const RidersListSkeleton()
-                          : ListView.separated(
-                              separatorBuilder: (context, index) => kSizedBox,
-                              itemCount: controller.riderList.length,
-                              addAutomaticKeepAlives: true,
-                              physics: const BouncingScrollPhysics(),
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) => ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Container(
-                                  decoration: ShapeDecoration(
-                                    color: kPrimaryColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16),
-                                    ),
-                                    shadows: const [
-                                      BoxShadow(
-                                        color: Color(0x0F000000),
-                                        blurRadius: 24,
-                                        offset: Offset(0, 4),
-                                        spreadRadius: 0,
+                          : controller.riderList.isEmpty
+                              ? EmptyCard()
+                              : ListView.separated(
+                                  separatorBuilder: (context, index) =>
+                                      kSizedBox,
+                                  itemCount: controller.riderList.length,
+                                  addAutomaticKeepAlives: true,
+                                  physics: const BouncingScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) => ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Container(
+                                      decoration: ShapeDecoration(
+                                        color: kPrimaryColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                        ),
+                                        shadows: const [
+                                          BoxShadow(
+                                            color: Color(0x0F000000),
+                                            blurRadius: 24,
+                                            offset: Offset(0, 4),
+                                            spreadRadius: 0,
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                  child: ListTile(
-                                    contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 10,
-                                      horizontal: 16,
-                                    ),
-                                    onTap: () => toRidersDetailPage(
-                                        controller.riderList[index]),
-                                    leading: Stack(
-                                      children: [
-                                        CircleAvatar(
-                                          radius: 30,
-                                          backgroundColor: kGreyColor1,
-                                          child: ClipOval(
-                                            child: MyImage(
-                                              url: controller
-                                                  .riderList[index].image,
+                                      child: ListTile(
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                          vertical: 10,
+                                          horizontal: 16,
+                                        ),
+                                        onTap: () => toRidersDetailPage(
+                                            controller.riderList[index]),
+                                        leading: Stack(
+                                          children: [
+                                            CircleAvatar(
+                                              radius: 30,
+                                              backgroundColor: kGreyColor1,
+                                              child: ClipOval(
+                                                child: MyImage(
+                                                  url: controller
+                                                      .riderList[index].image,
+                                                ),
+                                              ),
                                             ),
-                                          ),
+                                            // Positioned(
+                                            //   right: 10,
+                                            //   bottom: 0,
+                                            //   child: Container(
+                                            //     height: 10,
+                                            //     width: 10,
+                                            //     decoration: const ShapeDecoration(
+                                            //       color: kSuccessColor,
+                                            //       shape: OvalBorder(),
+                                            //     ),
+                                            //   ),
+                                            // ),
+                                          ],
                                         ),
-                                        // Positioned(
-                                        //   right: 10,
-                                        //   bottom: 0,
-                                        //   child: Container(
-                                        //     height: 10,
-                                        //     width: 10,
-                                        //     decoration: const ShapeDecoration(
-                                        //       color: kSuccessColor,
-                                        //       shape: OvalBorder(),
-                                        //     ),
-                                        //   ),
-                                        // ),
-                                      ],
-                                    ),
-                                    title: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          '${controller.riderList[index].firstName} ${controller.riderList[index].lastName}',
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w700,
-                                          ),
+                                        title: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              '${controller.riderList[index].firstName} ${controller.riderList[index].lastName}',
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                            kHalfSizedBox,
+                                            Text(
+                                              "ID: ${controller.riderList[index].id.toString()}",
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        kHalfSizedBox,
-                                        Text(
-                                          "ID: ${controller.riderList[index].id.toString()}",
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                          ),
+                                        trailing: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            FaIcon(
+                                              FontAwesomeIcons.route,
+                                              color: kAccentColor,
+                                              size: 18,
+                                            ),
+                                            kHalfWidthSizedBox,
+                                            Text(
+                                              "${controller.riderList[index].tripCount} Trips Completed",
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: kTextGreyColor,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                    trailing: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        FaIcon(
-                                          FontAwesomeIcons.route,
-                                          color: kAccentColor,
-                                          size: 18,
-                                        ),
-                                        kHalfWidthSizedBox,
-                                        Text(
-                                          "${controller.riderList[index].tripCount} Trips Completed",
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            color: kTextGreyColor,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ],
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ),
                   kSizedBox,
                   RiderController.instance.isLoadMore.value
                       ? Center(

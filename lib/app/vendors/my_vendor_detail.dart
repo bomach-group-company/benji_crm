@@ -251,10 +251,16 @@ class _MyVendorDetailPageState extends State<MyVendorDetailPage>
                             padding: const EdgeInsets.all(kDefaultPadding),
                             child: Opacity(
                               opacity: 0.6,
-                              child: Image.asset(
-                                "assets/images/logo/benji_full_logo.png",
-                                filterQuality: FilterQuality.high,
-                                fit: BoxFit.contain,
+                              child: MyImage(
+                                height: deviceType(media.width) > 3 &&
+                                        deviceType(media.width) < 5
+                                    ? media.height * 0.3
+                                    : deviceType(media.width) > 2
+                                        ? media.height * 0.2
+                                        : media.height * 0.15,
+                                width: media.width,
+                                url: widget.vendor.coverImage,
+                                fit: BoxFit.cover,
                               ),
                             ),
                           ),
@@ -441,7 +447,14 @@ class _MyVendorDetailPageState extends State<MyVendorDetailPage>
                             backgroundColor: kPageSkeletonColor,
                             child: Center(
                               child: ClipOval(
-                                child: MyImage(url: widget.vendor.profileLogo),
+                                child: MyImage(
+                                  width:
+                                      deviceType(media.width) > 2 ? 126 : 100,
+                                  height:
+                                      deviceType(media.width) > 2 ? 126 : 100,
+                                  url: widget.vendor.profileLogo,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                           ),
