@@ -64,35 +64,13 @@ class RiderController extends GetxController {
     update();
   }
 
-  // Future loadMore() async {
-  //   late String token;
-  //   isLoadMore.value = true;
-  //   var url =
-  //       "${Api.baseUrl}${Api.riderList}?start=${moreNum.value - 10}&end=${moreNum.value}";
-  //   token = UserController.instance.user.value.token;
-  //   consoleLog('$url $moreNum chai');
-  //   moreNum.value += 10;
-  //   try {
-  //     http.Response? response = await HandleData.getApi(url, token);
-
-  //     var responseData = await ApiProcessorController.errorState(response);
-  //     log(responseData);
-  //     if (responseData == null) {
-  //       update();
-  //       return;
-  //     }
-  //     List<RiderItem> val = (jsonDecode(responseData)['items'] as List)
-  //         .map((e) => RiderItem.fromJson(e))
-  //         .toList();
-  //     riderList.value += val;
-  //     loadedAll.value = val.isEmpty;
-  //     update();
-  //   } catch (e) {
-  //     consoleLog("$e");
-  //   }
-  //   isLoadMore.value = false;
-  //   update();
-  // }
+  loadMore() async {
+    if (loadedAll.value || isLoadMore.value) {
+      return;
+    }
+    isLoadMore.value = true;
+    await RiderController.instance.getRiders();
+  }
 
   emptyRiderList() {
     riderList.value = [];

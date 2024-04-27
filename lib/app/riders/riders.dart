@@ -83,15 +83,6 @@ class _RidersState extends State<Riders> {
         isScrollToTopBtnVisible = false;
       });
     }
-
-    if (RiderController.instance.loadedAll.value) {
-      return;
-    }
-
-    if (scrollController.offset >= scrollController.position.maxScrollExtent &&
-        !scrollController.position.outOfRange) {
-      await RiderController.instance.getRiders();
-    }
   }
 
   //===================== Navigation ==========================\\
@@ -289,23 +280,27 @@ class _RidersState extends State<Riders> {
                                   ),
                                 ),
                   kSizedBox,
-                  RiderController.instance.isLoadMore.value
+                  controller.isLoadMore.value
                       ? Center(
                           child: CircularProgressIndicator(
                             color: kAccentColor,
                           ),
                         )
-                      : const SizedBox(),
-                  RiderController.instance.loadedAll.value
-                      ? Container(
-                          margin: const EdgeInsets.only(top: 20, bottom: 20),
-                          height: 10,
-                          width: 10,
-                          decoration: ShapeDecoration(
-                              shape: const CircleBorder(),
-                              color: kPageSkeletonColor),
-                        )
-                      : const SizedBox(),
+                      : controller.loadedAll.value
+                          ? Container(
+                              margin:
+                                  const EdgeInsets.only(top: 20, bottom: 20),
+                              height: 5,
+                              width: 5,
+                              decoration: ShapeDecoration(
+                                shape: const CircleBorder(),
+                                color: kPageSkeletonColor,
+                              ),
+                            )
+                          : InkWell(
+                              onTap: controller.loadMore,
+                              child: const Text('more'),
+                            ),
                   kSizedBox,
                 ],
               ),
