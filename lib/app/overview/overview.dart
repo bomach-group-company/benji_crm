@@ -9,8 +9,10 @@ import '../vendors/vendors.dart';
 
 class OverView extends StatefulWidget {
   final int currentIndex;
+  final int vendorSelectedtabbar;
 
-  const OverView({super.key, this.currentIndex = 0});
+  const OverView(
+      {super.key, this.currentIndex = 0, this.vendorSelectedtabbar = 0});
 
   @override
   State<OverView> createState() => _OverViewState();
@@ -35,7 +37,9 @@ class _OverViewState extends State<OverView> {
     //===================================== PAGINATION =================================================\\
     final List<Widget> pages = [
       const Dashboard(),
-      const Vendors(),
+      Vendors(
+        selectedtabbar: widget.vendorSelectedtabbar,
+      ),
       const Riders(),
       const Profile(),
     ];

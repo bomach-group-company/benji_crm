@@ -22,7 +22,7 @@ class Api {
   static const changePassword = "/auth/changeNewPassword/";
 
 //Vendor
-  static const vendorMyList = "/agents/listAllMyVendors";
+  static const vendorMyList = "/agents/listNoneThirdPartyMyVendors";
   static const thirdPartyMyVendorList = "/agents/listThirdPartyMyVendor";
   static const agentCreateVendor = "/agents/agentCreateVendor";
   static const getSpecificVendor = "/agents/getVendor/";

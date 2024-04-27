@@ -13,9 +13,8 @@ import 'my_vendors.dart';
 import 'register_vendor.dart';
 
 class Vendors extends StatefulWidget {
-  const Vendors({
-    super.key,
-  });
+  final int selectedtabbar;
+  const Vendors({super.key, this.selectedtabbar = 0});
 
   @override
   State<Vendors> createState() => _VendorsState();
@@ -26,7 +25,10 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _tabBarController = TabController(length: 2, vsync: this);
+    selectedtabbar = widget.selectedtabbar;
+    print('${widget.selectedtabbar} widget.selectedtabbar;');
+    _tabBarController = TabController(
+        length: 2, vsync: this, initialIndex: widget.selectedtabbar);
 
     scrollController.addListener(_scrollListener);
   }
@@ -50,7 +52,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
   final scrollController = ScrollController();
 
 //============================================== FUNCTIONS =================================================\\
-  int selectedtabbar = 0;
+  late int selectedtabbar;
 
   void _clickOnTabBarOption(value) async {
     setState(() {
@@ -189,7 +191,7 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
                           borderRadius: BorderRadius.circular(50),
                         ),
                         tabs: const [
-                          Tab(text: "Registered Vendors"),
+                          Tab(text: "Vendors"),
                           Tab(text: "Third Party Vendors"),
                         ],
                       ),

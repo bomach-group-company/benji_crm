@@ -109,6 +109,16 @@ class _DashboardState extends State<Dashboard> {
         transition: Transition.downToUp,
       );
 
+  void _toSeeThirdPartyVendors() => Get.to(
+        () => const OverView(currentIndex: 1, vendorSelectedtabbar: 1),
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        routeName: "MyVendors",
+        preventDuplicates: true,
+        popGesture: true,
+        transition: Transition.downToUp,
+      );
   void _toSeeAllRiders() => Get.to(
         () => const OverView(currentIndex: 2),
         duration: const Duration(milliseconds: 300),
@@ -176,7 +186,6 @@ class _DashboardState extends State<Dashboard> {
                     : const SizedBox(),
                 kSizedBox,
                 GetBuilder<VendorController>(
-                  // init: VendorController(),
                   initState: (state) async {
                     await VendorController.instance.getMyVendors();
                   },
@@ -186,7 +195,24 @@ class _DashboardState extends State<Dashboard> {
                       number: controller.isLoad.value
                           ? "..."
                           : intFormattedText(controller.allMyVendorList),
-                      typeOf: "Registered vendors",
+                      typeOf: "Vendors",
+                      onlineStatus: "",
+                    );
+                  },
+                ),
+                kSizedBox,
+                GetBuilder<VendorController>(
+                  initState: (state) async {
+                    await VendorController.instance.getThirdPartyVendors();
+                  },
+                  builder: (controller) {
+                    return DashboardContainer(
+                      onTap: _toSeeThirdPartyVendors,
+                      number: controller.isLoad.value
+                          ? "..."
+                          : intFormattedText(
+                              controller.allMyThirdPartyVendorList),
+                      typeOf: "Third party vendors",
                       onlineStatus: "",
                     );
                   },
