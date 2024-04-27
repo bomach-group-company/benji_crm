@@ -41,8 +41,8 @@ class AuthController extends GetxController {
         await AccountController().getAccounts();
 
         await NotificationController.instance.runTask();
-        await VendorController.instance.getMyVendors();
-        await VendorController.instance.getThirdPartyVendors();
+        // await VendorController.instance.getMyVendors();
+        // await VendorController.instance.getThirdPartyVendors();
         Get.offAll(
           () => const OverView(),
           fullscreenDialog: true,

@@ -496,8 +496,7 @@ class _MyVendorDetailPageState extends State<MyVendorDetailPage>
                             padding: EdgeInsets.symmetric(horizontal: 10),
                             child: VendorsListSkeleton(),
                           )
-                        : controller.isLoad.value &&
-                                controller.listOfBusinesses.isEmpty
+                        : controller.isLoad.value
                             ? const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 10),
                                 child: VendorsListSkeleton(),

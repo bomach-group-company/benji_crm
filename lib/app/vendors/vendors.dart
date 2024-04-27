@@ -28,24 +28,12 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
     super.initState();
     _tabBarController = TabController(length: 2, vsync: this);
 
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await VendorController.instance.getMyVendors();
-      await VendorController.instance.getThirdPartyVendors();
-    });
-
     scrollController.addListener(_scrollListener);
-
-    scrollController.addListener(
-        () => VendorController.instance.scrollListenerVendor(scrollController));
-
-    scrollController.addListener(() => VendorController.instance
-        .scrollListenerThirdPartyVendor(scrollController));
   }
 
   @override
   void dispose() {
     super.dispose();
-
     _tabBarController.dispose();
 
     scrollController.dispose();
@@ -116,9 +104,6 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
         transition: Transition.rightToLeft,
       );
 
-  // void showSearchField() =>
-  //     showSearch(context: context, delegate: CustomSearchDelegate());
-
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
@@ -168,121 +153,55 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
           actions: const [],
         ),
         body: SafeArea(
-          child: GetBuilder<VendorController>(
-            builder: (controller) {
-              return Scrollbar(
-                child: Stack(
+          child: ListView(
+            controller: scrollController,
+            shrinkWrap: true,
+            padding: const EdgeInsets.all(kDefaultPadding),
+            children: [
+              Container(
+                width: media.width,
+                decoration: BoxDecoration(
+                  color: kDefaultCategoryBackgroundColor,
+                  borderRadius: BorderRadius.circular(50),
+                  border: Border.all(
+                    color: kLightGreyColor,
+                    style: BorderStyle.solid,
+                    strokeAlign: BorderSide.strokeAlignOutside,
+                  ),
+                ),
+                child: Column(
                   children: [
-                    VendorController.instance.isLoad.value
-                        ? LinearProgressIndicator(color: kAccentColor)
-                        : const SizedBox(),
-                    VendorController.instance.isLoad.value
-                        ? kSizedBox
-                        : const SizedBox(),
-                    ListView(
-                      controller: scrollController,
-                      padding: const EdgeInsets.all(kDefaultPadding),
-                      children: [
-                        Container(
-                          width: media.width,
-                          decoration: BoxDecoration(
-                            color: kDefaultCategoryBackgroundColor,
-                            borderRadius: BorderRadius.circular(50),
-                            border: Border.all(
-                              color: kLightGreyColor,
-                              style: BorderStyle.solid,
-                              strokeAlign: BorderSide.strokeAlignOutside,
-                            ),
-                          ),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: TabBar(
-                                  controller: _tabBarController,
-                                  onTap: (value) => _clickOnTabBarOption(value),
-                                  splashBorderRadius: BorderRadius.circular(50),
-                                  enableFeedback: true,
-                                  mouseCursor: SystemMouseCursors.click,
-                                  indicatorSize: TabBarIndicatorSize.tab,
-                                  dividerColor: kTransparentColor,
-                                  automaticIndicatorColorAdjustment: true,
-                                  labelColor: kPrimaryColor,
-                                  unselectedLabelColor: kTextGreyColor,
-                                  indicator: BoxDecoration(
-                                    color: kAccentColor,
-                                    borderRadius: BorderRadius.circular(50),
-                                  ),
-                                  tabs: const [
-                                    Tab(text: "Registered Vendors"),
-                                    Tab(text: "Third Party Vendors"),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
+                    Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: TabBar(
+                        controller: _tabBarController,
+                        onTap: (value) => _clickOnTabBarOption(value),
+                        splashBorderRadius: BorderRadius.circular(50),
+                        enableFeedback: true,
+                        mouseCursor: SystemMouseCursors.click,
+                        indicatorSize: TabBarIndicatorSize.tab,
+                        dividerColor: kTransparentColor,
+                        automaticIndicatorColorAdjustment: true,
+                        labelColor: kPrimaryColor,
+                        unselectedLabelColor: kTextGreyColor,
+                        indicator: BoxDecoration(
+                          color: kAccentColor,
+                          borderRadius: BorderRadius.circular(50),
                         ),
-                        kSizedBox,
-                        selectedtabbar == 0
-                            ? const MyVendors()
-                            : const ThirdPartyVendors(),
-                        selectedtabbar == 0
-                            ? GetBuilder<VendorController>(
-                                builder: (controller) => Column(
-                                  children: [
-                                    controller.isLoadMoreVendor.value
-                                        ? Center(
-                                            child: CircularProgressIndicator(
-                                              color: kAccentColor,
-                                            ),
-                                          )
-                                        : const SizedBox(),
-                                    controller.loadedAllVendor.value
-                                        ? Container(
-                                            margin: const EdgeInsets.only(
-                                                top: 20, bottom: 20),
-                                            height: 5,
-                                            width: 5,
-                                            decoration: ShapeDecoration(
-                                              shape: const CircleBorder(),
-                                              color: kPageSkeletonColor,
-                                            ),
-                                          )
-                                        : const SizedBox(),
-                                  ],
-                                ),
-                              )
-                            : GetBuilder<VendorController>(
-                                builder: (controller) => Column(
-                                  children: [
-                                    controller.isLoadMoreMyVendor.value
-                                        ? Center(
-                                            child: CircularProgressIndicator(
-                                              color: kAccentColor,
-                                            ),
-                                          )
-                                        : const SizedBox(),
-                                    controller.loadedAllMyVendor.value
-                                        ? Container(
-                                            margin: const EdgeInsets.only(
-                                                top: 20, bottom: 20),
-                                            height: 5,
-                                            width: 5,
-                                            decoration: ShapeDecoration(
-                                              shape: const CircleBorder(),
-                                              color: kPageSkeletonColor,
-                                            ),
-                                          )
-                                        : const SizedBox(),
-                                  ],
-                                ),
-                              )
-                      ],
+                        tabs: const [
+                          Tab(text: "Registered Vendors"),
+                          Tab(text: "Third Party Vendors"),
+                        ],
+                      ),
                     ),
                   ],
                 ),
-              );
-            },
+              ),
+              kSizedBox,
+              selectedtabbar == 0
+                  ? const MyVendors()
+                  : const ThirdPartyVendors(),
+            ],
           ),
         ),
       ),

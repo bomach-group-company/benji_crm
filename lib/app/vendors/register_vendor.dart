@@ -53,18 +53,13 @@ class _RegisterVendorState extends State<RegisterVendor> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      vendorFirstNameEC.text = UserController.instance.user.value.firstName;
-      vendorLastNameEC.text = UserController.instance.user.value.lastName;
-      vendorPhoneNumberEC.text =
-          UserController.instance.user.value.phone.replaceAll("+234", "");
-      // vendorEmailEC.text = UserController.instance.user.value.email;
-      mapsLocationEC.text = UserController.instance.user.value.address;
-      defaultGender = UserController.instance.user.value.gender == "male"
-          ? "Male"
-          : "Female";
-      vendorLGAEC.text = UserController.instance.user.value.lga;
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   vendorFirstNameEC.text = UserController.instance.user.value.firstName;
+    //   vendorLastNameEC.text = UserController.instance.user.value.lastName;
+    //   vendorPhoneNumberEC.text =
+    //       UserController.instance.user.value.phone.replaceAll("+234", "");
+
+    // });
 
     scrollController.addListener(_scrollListener);
   }
@@ -84,8 +79,6 @@ class _RegisterVendorState extends State<RegisterVendor> {
   String countryDialCode = '+234';
   List<AutocompletePrediction> placePredictions = [];
   final selectedLocation = ValueNotifier<String?>(null);
-  String defaultGender = "Male";
-  final List<String> genders = <String>["Male", "Female"];
   String initialVendorClassifier = "True";
   final List<String> vendorClassifierLabels = <String>['True', 'False'];
 
@@ -252,9 +245,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
       ApiProcessorController.errorSnack("Please add a cover picture");
       return;
     }
-    if (defaultGender.isEmpty || defaultGender == "") {
-      ApiProcessorController.errorSnack("Please choose a gender");
-    }
+
     if (vendorPhoneNumberEC.text.isEmpty || vendorPhoneNumberEC.text == "") {
       ApiProcessorController.errorSnack("Please enter a phone number");
       return;
@@ -285,7 +276,6 @@ class _RegisterVendorState extends State<RegisterVendor> {
       "personalId": personalIdEC.text,
       "country": countryEC.text,
       "state": stateEC.text,
-      // "gender": defaultGender == "Male" ? "male" : "female",
       "city": cityEC.text,
       "latitude": latitude ?? "",
       "longitude": longitude ?? "",
@@ -306,6 +296,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
         },
         'agentCreateVendor');
     if (FormController.instance.status.toString().startsWith('2')) {
+      VendorController.instance.refreshData();
       Get.close(1);
     }
   }
@@ -744,7 +735,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                 ),
               ),
               const Text(
-                "You are registering a vendor account",
+                "Third party vendor account",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
@@ -879,31 +870,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                             hintText:
                                 "Enter National Identification Number (NIN)",
                           ),
-                          kSizedBox,
-                          const Text(
-                            "Gender",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          kSizedBox,
-                          RadioGroup<String>.builder(
-                            groupValue: defaultGender,
-                            onChanged: (value) => setState(() {
-                              defaultGender = value ?? "Male";
-                              log(defaultGender);
 
-                              // setState(() {
-                              //   selectedGender = value!;
-                              // });
-                            }),
-                            items: genders,
-                            itemBuilder: (item) => RadioButtonBuilder(item),
-                            direction: Axis.horizontal,
-                            horizontalAlignment: MainAxisAlignment.start,
-                            activeColor: kAccentColor,
-                          ),
                           kSizedBox,
 
                           const Text(

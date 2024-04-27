@@ -47,6 +47,7 @@ class VendorController extends GetxController {
     // vendor pagination
     loadNumVendor.value = 10;
     loadedAllVendor.value = false;
+    isLoadMoreVendor.value = false;
 
     // my vendor pagination
     loadNumMyVendor.value = 10;
@@ -56,32 +57,24 @@ class VendorController extends GetxController {
     await getThirdPartyVendors();
   }
 
-  Future<void> scrollListenerVendor(scrollController) async {
-    if (VendorController.instance.loadedAllVendor.value) {
+  Future<void> loadMoreVendor() async {
+    if (loadedAllVendor.value || isLoadMoreVendor.value) {
       return;
     }
 
-    if (scrollController.offset >= scrollController.position.maxScrollExtent &&
-        !scrollController.position.outOfRange) {
-      log("Gotten to the end");
-
-      VendorController.instance.isLoadMoreVendor.value = true;
-      update();
-      await VendorController.instance.getMyVendors();
-    }
+    isLoadMoreVendor.value = true;
+    update();
+    await getMyVendors();
   }
 
-  Future<void> scrollListenerThirdPartyVendor(scrollController) async {
-    if (VendorController.instance.loadedAllMyVendor.value) {
+  Future<void> loadMoreThirdPartyVendor() async {
+    if (loadedAllMyVendor.value || isLoadMoreMyVendor.value) {
       return;
     }
-    if (scrollController.offset >= scrollController.position.maxScrollExtent &&
-        !scrollController.position.outOfRange) {
-      log("Gotten to the end");
-      VendorController.instance.isLoadMoreMyVendor.value = true;
-      update();
-      await VendorController.instance.getThirdPartyVendors();
-    }
+
+    isLoadMoreMyVendor.value = true;
+    update();
+    await getThirdPartyVendors();
   }
 
   Future getMyVendors() async {
@@ -99,12 +92,11 @@ class VendorController extends GetxController {
     try {
       http.Response? response = await HandleData.getApi(url, token);
       // log(response!.body);
-      var responseData =
-          await ApiProcessorController.errorState(response, isFirst ?? true);
+      var responseData = await ApiProcessorController.errorState(response);
 
       allMyVendorList = jsonDecode(responseData)['total'];
 
-      var data = (jsonDecode(responseData ?? '{}')['items'] as List)
+      data = (jsonDecode(responseData ?? '{}')['items'] as List)
           .map((e) => MyVendorModel.fromJson(e))
           .toList();
 
@@ -136,24 +128,20 @@ class VendorController extends GetxController {
     log(url);
 
     token = UserController.instance.user.value.token;
-    List<MyVendorModel> data = [];
+    List<ThirdPartyVendorModel> data = [];
 
     try {
       http.Response? response = await HandleData.getApi(url, token);
 
-      var responseData =
-          await ApiProcessorController.errorState(response, isFirst ?? true);
+      var responseData = await ApiProcessorController.errorState(response);
 
       allMyThirdPartyVendorList = jsonDecode(responseData)['total'];
 
-      var data = (jsonDecode(responseData ?? '{}')['items'] as List);
+      data = (jsonDecode(responseData ?? '{}')['items'] as List)
+          .map((e) => ThirdPartyVendorModel.fromJson(e))
+          .toList();
 
-      var vendors = data.map((item) {
-        var vendorData = item['vendor'] ?? {};
-        return ThirdPartyVendorModel.fromJson(vendorData);
-      }).toList();
-
-      thirdPartyVendorList.value += vendors;
+      thirdPartyVendorList.value += data;
     } catch (e) {
       log("An error occurred in fetching vendors. ERROR: $e");
       ApiProcessorController.errorSnack(
@@ -164,108 +152,6 @@ class VendorController extends GetxController {
     isLoadMoreMyVendor.value = false;
 
     isLoad.value = false;
-    update();
-  }
-
-  Future createVendor(SendCreateModel data, bool classify) async {
-    isLoadCreate.value = true;
-    late String token;
-    String id = UserController.instance.user.value.id.toString();
-    update();
-    var url = Api.baseUrl + Api.createVendor + id;
-    token = UserController.instance.user.value.token;
-    log(url);
-    log(token);
-    log("Got here!");
-
-    try {
-      http.StreamedResponse? response =
-          await HandleData.streamAddVendor(url, token, data, classify);
-
-      // if (kDebugMode) {
-      //   final res = await http.Response.fromStream(response!);
-      //   print("This is the response body: ${jsonDecode(res.body)}");
-      //   print("This is the status code: ${response.statusCode.toString()}");
-      // }
-
-      if (response!.statusCode == 200) {
-        statusCode.value == response.statusCode;
-        final res = await http.Response.fromStream(response);
-        var jsonData = jsonDecode(res.body);
-        ApiProcessorController.successSnack(
-          "You have successfully added a vendor",
-        );
-
-        log("Got here!!!!");
-        isLoadCreate.value = false;
-        refreshData();
-        Get.close(1);
-      } else {
-        final res = await http.Response.fromStream(response);
-        var jsonData = jsonDecode(res.body);
-        ApiProcessorController.successSnack(
-          "An unexpected error occurred. Please try again later",
-        );
-        isLoadCreate.value = false;
-      }
-      isLoadCreate.value = false;
-      log("We Got here!!!!!");
-
-      update();
-    } on SocketException {
-      ApiProcessorController.errorSnack("Please connect to the internet");
-    } catch (e) {
-      ApiProcessorController.errorSnack("An unexpected error occurred.\nERROR");
-      log("An error occurred. ERROR: $e");
-    }
-    isLoadCreate.value = false;
-    update();
-  }
-
-  Future createThirdPartyVendor(SendCreateModel data, bool classify) async {
-    isLoadCreate.value = true;
-    late String token;
-    String id = UserController.instance.user.value.id.toString();
-    update();
-    var url = Api.baseUrl + Api.createVendor + id;
-    token = UserController.instance.user.value.token;
-
-    log(url);
-
-    try {
-      http.StreamedResponse? response =
-          await HandleData.streamAddThirdPartyVendor(
-              url, token, data, classify);
-
-      log(response!.statusCode.toString());
-      final res = await http.Response.fromStream(response);
-      var jsonData = jsonDecode(res.body);
-
-      if (response.statusCode == 200) {
-        statusCode.value == response.statusCode;
-
-        // final res = await http.Response.fromStream(response);
-        // var jsonData = jsonDecode(res.body);
-        // log('${jsonData}heoollll');
-        ApiProcessorController.successSnack(jsonData["message"]);
-        isLoadCreate.value = false;
-        refreshData();
-        Get.close(1);
-      } else {
-        final res = await http.Response.fromStream(response);
-        var jsonData = jsonDecode(res.body);
-        isLoadCreate.value = false;
-      }
-      isLoadCreate.value = false;
-
-      update();
-    } on SocketException {
-      ApiProcessorController.errorSnack("Please connect to the internet");
-    } catch (e) {
-      ApiProcessorController.errorSnack("An unexpected error occurred.");
-      log("An error occurred. ERROR: $e");
-    }
-    isLoadCreate.value = false;
     update();
   }
 }

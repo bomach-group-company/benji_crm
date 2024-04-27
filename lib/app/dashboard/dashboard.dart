@@ -37,11 +37,11 @@ class _DashboardState extends State<Dashboard> {
   void initState() {
     super.initState();
     loadingScreen = false;
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await UserController.instance.getUser();
-      await await VendorController.instance.getMyVendors();
-      await NotificationController.instance.runTask();
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+    //   await UserController.instance.getUser();
+    //   await await VendorController.instance.getMyVendors();
+    //   await NotificationController.instance.runTask();
+    // });
 
     scrollController.addListener(_scrollListener);
   }
@@ -176,7 +176,7 @@ class _DashboardState extends State<Dashboard> {
                     : const SizedBox(),
                 kSizedBox,
                 GetBuilder<VendorController>(
-                  init: VendorController(),
+                  // init: VendorController(),
                   initState: (state) async {
                     await VendorController.instance.getMyVendors();
                   },
