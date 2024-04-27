@@ -441,7 +441,7 @@ class _AddProductState extends State<AddProduct> {
                         textInputType: TextInputType.name,
                         textCapitalization: TextCapitalization.sentences,
                         validator: (value) {
-                          if (value == null || value!.isEmpty) {
+                          if (value == null || value == '') {
                             productNameFN.requestFocus();
                             return "Enter the product name";
                           }
@@ -471,7 +471,7 @@ class _AddProductState extends State<AddProduct> {
                         textCapitalization: TextCapitalization.sentences,
                         validator: (value) {
                           const pricePattern = r'^\d+(\.\d{2})?$';
-                          if (value == null || value!.isEmpty) {
+                          if (value == null || value == '') {
                             productPriceFN.requestFocus();
                             return "Enter the unit price";
                           }
@@ -538,7 +538,7 @@ class _AddProductState extends State<AddProduct> {
                         validator: (value) {
                           const quantityPattern = r'^[1-9]\d*$';
 
-                          if (value == null || value!.isEmpty) {
+                          if (value == null || value == '') {
                             productQuantityFN.requestFocus();
                             return "Enter the quantity";
                           }
@@ -571,7 +571,7 @@ class _AddProductState extends State<AddProduct> {
                         maxLines: 10,
                         maxLength: 1000,
                         validator: (value) {
-                          if (value == null || value!.isEmpty) {
+                          if (value == null || value == '') {
                             productDescriptionFN.requestFocus();
                             return "Enter the product name";
                           }

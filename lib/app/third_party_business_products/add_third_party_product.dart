@@ -445,7 +445,7 @@ class _AddThirdPartyBusinessProductState
                         textInputType: TextInputType.name,
                         textCapitalization: TextCapitalization.sentences,
                         validator: (value) {
-                          if (value == null || value!.isEmpty) {
+                          if (value == null || value == '') {
                             productNameFN.requestFocus();
                             return "Enter the product name";
                           }
@@ -475,7 +475,7 @@ class _AddThirdPartyBusinessProductState
                         textCapitalization: TextCapitalization.sentences,
                         validator: (value) {
                           const pricePattern = r'^\d+(\.\d{2})?$';
-                          if (value == null || value!.isEmpty) {
+                          if (value == null || value == '') {
                             productPriceFN.requestFocus();
                             return "Enter the unit price";
                           }
@@ -542,7 +542,7 @@ class _AddThirdPartyBusinessProductState
                         validator: (value) {
                           const quantityPattern = r'^[1-9]\d*$';
 
-                          if (value == null || value!.isEmpty) {
+                          if (value == null || value == '') {
                             productQuantityFN.requestFocus();
                             return "Enter the quantity";
                           }
@@ -575,7 +575,7 @@ class _AddThirdPartyBusinessProductState
                         maxLines: 10,
                         maxLength: 1000,
                         validator: (value) {
-                          if (value == null || value!.isEmpty) {
+                          if (value == null || value == '') {
                             productDescriptionFN.requestFocus();
                             return "Enter the product name";
                           }

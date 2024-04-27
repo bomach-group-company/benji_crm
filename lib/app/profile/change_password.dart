@@ -190,7 +190,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                             obscureText: isObscured,
                             textInputAction: TextInputAction.next,
                             validator: (value) {
-                              if (value == null || value!.isEmpty) {
+                              if (value == null || value == '') {
                                 userOldPasswordFN.requestFocus();
                                 return "Enter your current password";
                               }
@@ -228,7 +228,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                               RegExp passwordPattern = RegExp(
                                 r'^.{8,}$',
                               );
-                              if (value == null || value!.isEmpty) {
+                              if (value == null || value == '') {
                                 userNewPasswordFN.requestFocus();
                                 return "Enter your password";
                               } else if (!passwordPattern.hasMatch(value)) {
@@ -289,7 +289,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                               RegExp passwordPattern = RegExp(
                                 r'^.{8,}$',
                               );
-                              if (value == null || value!.isEmpty) {
+                              if (value == null || value == '') {
                                 confirmNewPasswordFN.requestFocus();
                                 return "Confirm your password";
                               }

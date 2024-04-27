@@ -111,7 +111,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                           hintText: "Enter the amount here",
                           textInputAction: TextInputAction.go,
                           validator: (value) {
-                            if (value == null || value!.isEmpty) {
+                            if (value == null || value == '') {
                               amountFN.requestFocus();
                               return "Enter the amount";
                             }

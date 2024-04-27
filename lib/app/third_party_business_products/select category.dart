@@ -193,7 +193,7 @@ class _SelectCategoryState extends State<SelectCategory> {
                               RegExp namePattern = RegExp(
                                 r'^.{3,}$', //Less than 3 characters
                               );
-                              if (value == null || value!.isEmpty) {
+                              if (value == null || value == '') {
                                 categoryNameFN.requestFocus();
                                 return "Enter a category";
                               } else if (!namePattern.hasMatch(value)) {

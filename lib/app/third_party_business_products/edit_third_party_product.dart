@@ -249,7 +249,7 @@ class _EditThirdPartyProductState extends State<EditThirdPartyProduct> {
                       textInputType: TextInputType.name,
                       textCapitalization: TextCapitalization.sentences,
                       validator: (value) {
-                        if (value == null || value!.isEmpty) {
+                        if (value == null || value == '') {
                           productNameFN.requestFocus();
                           return "Enter the product name";
                         }
@@ -279,7 +279,7 @@ class _EditThirdPartyProductState extends State<EditThirdPartyProduct> {
                       textCapitalization: TextCapitalization.sentences,
                       validator: (value) {
                         const pricePattern = r'^\d+(\.\d{1,2})?$';
-                        if (value == null || value!.isEmpty) {
+                        if (value == null || value == '') {
                           productPriceFN.requestFocus();
                           return "Enter the unit price";
                         }
@@ -314,7 +314,7 @@ class _EditThirdPartyProductState extends State<EditThirdPartyProduct> {
                       validator: (value) {
                         const quantityPattern = r'^[1-9]\d*$';
 
-                        if (value == null || value!.isEmpty) {
+                        if (value == null || value == '') {
                           productQuantityFN.requestFocus();
                           return "Enter the quantity";
                         }
@@ -347,7 +347,7 @@ class _EditThirdPartyProductState extends State<EditThirdPartyProduct> {
                       maxLines: 10,
                       maxLength: 1000,
                       validator: (value) {
-                        if (value == null || value!.isEmpty) {
+                        if (value == null || value == '') {
                           productDescriptionFN.requestFocus();
                           return "Enter the product description";
                         }

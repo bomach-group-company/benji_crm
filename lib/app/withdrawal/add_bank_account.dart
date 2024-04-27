@@ -203,7 +203,7 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
                           ),
                           textInputType: TextInputType.name,
                           validator: (value) {
-                            if (value == null || value!.isEmpty) {
+                            if (value == null || value == '') {
                               return "Select a bank";
                             }
                             return null;
@@ -245,7 +245,7 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
                           setState(() {});
                         },
                         validator: (value) {
-                          if (value == null || value!.isEmpty) {
+                          if (value == null || value == '') {
                             accountNumberFN.requestFocus();
                             return "Enter the account number";
                           }

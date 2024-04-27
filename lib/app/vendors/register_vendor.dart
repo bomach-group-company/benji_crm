@@ -780,7 +780,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                           MyBlueTextFormField(
                             controller: vendorFirstNameEC,
                             validator: (value) {
-                              if (value == null || value!.isEmpty) {
+                              if (value == null || value == '') {
                                 return "Field cannot be empty";
                               } else {
                                 return null;
@@ -804,7 +804,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                           MyBlueTextFormField(
                             controller: vendorLastNameEC,
                             validator: (value) {
-                              if (value == null || value!.isEmpty) {
+                              if (value == null || value == '') {
                                 return "Field cannot be empty";
                               } else {
                                 return null;
@@ -828,7 +828,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                           MyBlueTextFormField(
                             controller: vendorEmailEC,
                             validator: (value) {
-                              if (value == null || value!.isEmpty) {
+                              if (value == null || value == '') {
                                 return "Field cannot be empty";
                               } else {
                                 return null;
@@ -853,7 +853,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                           NumberTextFormField(
                             controller: personalIdEC,
                             validator: (value) {
-                              if (value == null || value!.isEmpty) {
+                              if (value == null || value == '') {
                                 return "Field cannot be empty";
                               } else if (value.toString().length > 16) {
                                 return "Enter a valid value";
@@ -896,7 +896,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                             textInputAction: TextInputAction.next,
                             focusNode: vendorPhoneNumberFN,
                             validator: (value) {
-                              if (value == null || value!.isEmpty) {
+                              if (value == null || value == '') {
                                 return "Field cannot be empty";
                               } else {
                                 return null;
@@ -929,7 +929,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                                 controller: mapsLocationEC,
                                 // readOnly: vendorClassified,
                                 validator: (value) {
-                                  if (value == null || value!.isEmpty) {
+                                  if (value == null || value == '') {
                                     mapsLocationFN.requestFocus();
                                     "Enter a location";
                                   }
@@ -1190,7 +1190,7 @@ class _RegisterVendorState extends State<RegisterVendor> {
                           MyBlueTextFormField(
                             controller: vendorLGAEC,
                             validator: (value) {
-                              if (value == null || value!.isEmpty) {
+                              if (value == null || value == '') {
                                 return "Field cannot be empty";
                               } else {
                                 return null;

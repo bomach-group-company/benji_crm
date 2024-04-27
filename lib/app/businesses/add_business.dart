@@ -828,7 +828,7 @@ class _AddBusinessState extends State<AddBusiness> {
                     MyBlueTextFormField(
                       controller: businessNameEC,
                       validator: (value) {
-                        if (value == null || value!.isEmpty) {
+                        if (value == null || value == '') {
                           businessNameFN.requestFocus();
 
                           return "Field cannot be empty";
@@ -855,7 +855,7 @@ class _AddBusinessState extends State<AddBusiness> {
                     NumberTextFormField(
                       controller: businessIdEC,
                       validator: (value) {
-                        if (value == null || value!.isEmpty) {
+                        if (value == null || value == '') {
                           return "Field cannot be empty";
                         } else if (value.toString().length < 14) {
                           return "Must be 14 characters";
@@ -947,7 +947,7 @@ class _AddBusinessState extends State<AddBusiness> {
                         MyBlueTextFormField(
                           controller: vendorMonToFriOpeningHoursEC,
                           validator: (value) {
-                            if (value == null || value!.isEmpty) {
+                            if (value == null || value == '') {
                               return "Field cannot be empty";
                             } else {
                               return null;
@@ -975,7 +975,7 @@ class _AddBusinessState extends State<AddBusiness> {
                         MyBlueTextFormField(
                           controller: vendorMonToFriClosingHoursEC,
                           validator: (value) {
-                            if (value == null || value!.isEmpty) {
+                            if (value == null || value == '') {
                               return "Field cannot be empty";
                             } else {
                               return null;
@@ -1013,7 +1013,7 @@ class _AddBusinessState extends State<AddBusiness> {
                         MyBlueTextFormField(
                           controller: vendorSatOpeningHoursEC,
                           validator: (value) {
-                            if (value == null || value!.isEmpty) {
+                            if (value == null || value == '') {
                               return "Field cannot be empty";
                             } else {
                               return null;
@@ -1041,7 +1041,7 @@ class _AddBusinessState extends State<AddBusiness> {
                         MyBlueTextFormField(
                           controller: vendorSatClosingHoursEC,
                           validator: (value) {
-                            if (value == null || value!.isEmpty) {
+                            if (value == null || value == '') {
                               return "Field cannot be empty";
                             } else {
                               return null;
@@ -1079,7 +1079,7 @@ class _AddBusinessState extends State<AddBusiness> {
                         MyBlueTextFormField(
                           controller: vendorSunOpeningHoursEC,
                           validator: (value) {
-                            if (value == null || value!.isEmpty) {
+                            if (value == null || value == '') {
                               return "Field cannot be empty";
                             } else {
                               return null;
@@ -1107,7 +1107,7 @@ class _AddBusinessState extends State<AddBusiness> {
                         MyBlueTextFormField(
                           controller: vendorSunClosingHoursEC,
                           validator: (value) {
-                            if (value == null || value!.isEmpty) {
+                            if (value == null || value == '') {
                               return "Field cannot be empty";
                             } else {
                               return null;
@@ -1207,7 +1207,7 @@ class _AddBusinessState extends State<AddBusiness> {
                             }
                           },
                           validator: (value) {
-                            if (value == null || value!.isEmpty) {
+                            if (value == null || value == '') {
                               accountNumberFN.requestFocus();
                               return "Enter your account number";
                             }
@@ -1452,7 +1452,7 @@ class _AddBusinessState extends State<AddBusiness> {
                         MyBlueTextFormField(
                           controller: businessLGAEC,
                           validator: (value) {
-                            if (value == null || value!.isEmpty) {
+                            if (value == null || value == '') {
                               businessLGAFN.requestFocus();
 
                               return "Field cannot be empty";
@@ -1600,7 +1600,7 @@ class _AddBusinessState extends State<AddBusiness> {
                         MyMessageTextFormField(
                           controller: businessBioEC,
                           validator: (value) {
-                            if (value == null || value!.isEmpty) {
+                            if (value == null || value == '') {
                               businessBioFN.requestFocus();
                               return "Field cannot be empty";
                             } else {
