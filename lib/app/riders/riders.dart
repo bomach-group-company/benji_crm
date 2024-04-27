@@ -163,7 +163,7 @@ class _RidersState extends State<Riders> {
                   kSizedBox,
                   loadingScreen
                       ? const RidersListSkeleton()
-                      : controller.isLoad.value && controller.riderList.isEmpty
+                      : controller.isLoad.value
                           // controller.isLoad.value
                           ? const RidersListSkeleton()
                           : controller.riderList.isEmpty

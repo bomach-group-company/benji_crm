@@ -334,15 +334,7 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
     setState(() {
       _isLoading = true;
     });
-    // await ProfileController.instance.updateProfile(
-    //   firstName: firstNameEC.text,
-    //   lastName: lastNameEC.text,
-    //   address: mapsLocationEC.text,
-    //   latitude: latitude,
-    //   longitude: longitude,
-    //   phoneNumber: phoneNumberEC.text,
 
-    // );
     int uuid = UserController.instance.user.value.id;
 
     var url = "${Api.baseUrl}/agents/changeAgent/$uuid";
@@ -363,11 +355,10 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
     );
     if (FormController.instance.status.value == 200) {
       await UserController.instance.getUser();
-      await Future.delayed(const Duration(seconds: 2));
       setState(() {
         _isLoading = false;
       });
-      Get.back();
+      Get.close(1);
     }
     setState(() {
       _isLoading = false;
