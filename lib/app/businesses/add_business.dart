@@ -58,6 +58,7 @@ class _AddBusinessState extends State<AddBusiness> {
     super.initState();
     var vendorId = widget.vendor!.id.toString();
     var agentId = UserController.instance.user.value.id.toString();
+    WithdrawController.instance.getBanks();
 
     log("Vendor ID: $vendorId");
     log("Agent ID: $agentId");
@@ -187,7 +188,6 @@ class _AddBusinessState extends State<AddBusiness> {
 
 // select bank
   selectBank() async {
-    await WithdrawController.instance.getBanks();
     final result = await Get.to(
       () => const SelectBank(),
       routeName: 'SelectBank',
@@ -1134,6 +1134,8 @@ class _AddBusinessState extends State<AddBusiness> {
                         ),
                         kHalfSizedBox,
                         GetBuilder<WithdrawController>(
+                          initState: (state) =>
+                              WithdrawController.instance.getBanks(),
                           builder: (controller) {
                             return InkWell(
                               onTap: controller.listOfBanks.isEmpty &&

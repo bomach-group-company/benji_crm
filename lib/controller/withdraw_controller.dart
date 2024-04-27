@@ -73,7 +73,7 @@ class WithdrawController extends GetxController {
       }
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet");
-      getBanks();
+      // getBanks();
     } catch (e) {
       log(e.toString());
     }
