@@ -245,7 +245,7 @@ class FormController extends GetxController {
 
     isLoad.value = true;
     update();
-    update([tag]);
+    // update([tag]);
 
     var request = http.MultipartRequest("POST", Uri.parse(url));
     Map<String, String> headers = authHeader();
@@ -296,7 +296,7 @@ class FormController extends GetxController {
         ApiProcessorController.successSnack(successMsg);
         isLoad.value = false;
         update();
-        update([tag]);
+        // update([tag]);
       }
     } on SocketException {
       ApiProcessorController.errorSnack(noInternetMsg);
@@ -309,7 +309,7 @@ class FormController extends GetxController {
 
     isLoad.value = false;
     update();
-    update([tag]);
+    // update([tag]);
     return;
   }
 
@@ -320,7 +320,7 @@ class FormController extends GetxController {
 
     isLoad.value = true;
     update();
-    update([tag]);
+    // update([tag]);
 
     var request = http.MultipartRequest("POST", Uri.parse(url));
     Map<String, String> headers = authHeader();
@@ -347,7 +347,7 @@ class FormController extends GetxController {
         log('Got here!');
         isLoad.value = false;
         update();
-        update([tag]);
+        // update([tag]);
         return;
       } else {
         ApiProcessorController.errorSnack(errorMsg);
@@ -356,7 +356,7 @@ class FormController extends GetxController {
       ApiProcessorController.errorSnack("Please connect to the internet");
       isLoad.value = false;
       update();
-      update([tag]);
+      // update([tag]);
       return;
     } catch (e) {
       ApiProcessorController.errorSnack("An error occured. \nERROR: $e");
@@ -364,7 +364,7 @@ class FormController extends GetxController {
       response = null;
       isLoad.value = false;
       update();
-      update([tag]);
+      // update([tag]);
       return;
     }
 
