@@ -14,10 +14,24 @@ import '../../src/utils/constants.dart';
 import '../../theme/colors.dart';
 import 'view_third_party_product.dart';
 
-class ThirdPartyBusinessProducts extends StatelessWidget {
+class ThirdPartyBusinessProducts extends StatefulWidget {
   final BusinessModel business;
 
-  ThirdPartyBusinessProducts({super.key, required this.business});
+  const ThirdPartyBusinessProducts({super.key, required this.business});
+
+  @override
+  State<ThirdPartyBusinessProducts> createState() =>
+      _ThirdPartyBusinessProductsState();
+}
+
+class _ThirdPartyBusinessProductsState
+    extends State<ThirdPartyBusinessProducts> {
+  @override
+  void initState() {
+    ProductController.instance.resetData();
+    // TODO: implement initState
+    super.initState();
+  }
 
   late Future<Map<String, List<ProductModel>>> productAndSubCategoryName;
 
@@ -45,9 +59,8 @@ class ThirdPartyBusinessProducts extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           GetBuilder<ProductController>(
-            init: ProductController(),
-            initState: (state) =>
-                ProductController.instance.getBusinessProducts(business.id),
+            initState: (state) => ProductController.instance
+                .getBusinessProducts(widget.business.id),
             builder: (controller) {
               if (controller.products.isEmpty && controller.isLoad.value) {
                 return Center(

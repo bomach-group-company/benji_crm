@@ -45,7 +45,7 @@ class ProductController extends GetxController {
     }
   }
 
-  reset() {
+  resetData() {
     loadedAll.value = false;
     loadNum.value = 10;
     products.value = [];
@@ -56,6 +56,8 @@ class ProductController extends GetxController {
     loadedAll.value = false;
     loadNum.value = 10;
     products.value = [];
+    update();
+
     getBusinessProducts(businessId);
   }
 
@@ -68,12 +70,9 @@ class ProductController extends GetxController {
 
     late String token;
     String id = businessId;
-    log("Got here!");
 
     var url =
         "${Api.baseUrl}/vendors/$id/listMyBusinessProducts?start=${loadNum.value - 10}&end=${loadNum.value}";
-    log(url);
-    log("Got here!!");
     loadNum.value += 10;
     token = UserController.instance.user.value.token;
     http.Response? response = await HandleData.getApi(url, token);
@@ -90,10 +89,9 @@ class ProductController extends GetxController {
       data = (jsonDecode(responseData)['items'] as List)
           .map((e) => ProductModel.fromJson(e))
           .toList();
-      products.value += data;
+      products.value = data;
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet");
-      getBusinessProducts(businessId);
     } catch (e) {
       consoleLog(e.toString());
     }

@@ -14,10 +14,21 @@ import '../../src/utils/constants.dart';
 import '../../theme/colors.dart';
 import 'view_product.dart';
 
-class BusinessProducts extends StatelessWidget {
+class BusinessProducts extends StatefulWidget {
   final BusinessModel business;
 
-  BusinessProducts({super.key, required this.business});
+  const BusinessProducts({super.key, required this.business});
+
+  @override
+  State<BusinessProducts> createState() => _BusinessProductsState();
+}
+
+class _BusinessProductsState extends State<BusinessProducts> {
+  @override
+  void initState() {
+    ProductController.instance.resetData();
+    super.initState();
+  }
 
   late Future<Map<String, List<ProductModel>>> productAndSubCategoryName;
 
@@ -45,11 +56,10 @@ class BusinessProducts extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           GetBuilder<ProductController>(
-            init: ProductController(),
-            initState: (state) =>
-                ProductController.instance.getBusinessProducts(business.id),
+            initState: (state) => ProductController.instance
+                .getBusinessProducts(widget.business.id),
             builder: (controller) {
-              if (controller.products.isEmpty && controller.isLoad.value) {
+              if (controller.isLoad.value) {
                 return Center(
                   child: CircularProgressIndicator(
                     color: kAccentColor,

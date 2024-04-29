@@ -158,7 +158,8 @@ class _ViewThirdPartyProductState extends State<ViewThirdPartyProduct> {
     if (status.value != 200) {
       return;
     }
-    ProductController.instance.reset();
+    ProductController.instance.refreshData(widget.product.business.id);
+
     Get.close(1);
     // Get.offAll(
     //   () => const OverView(currentIndex: 2),
