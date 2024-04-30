@@ -104,7 +104,7 @@ class _AboutBusinessState extends State<AboutBusiness> {
             child: Text(
               widget.business.shopType.isBlank == true
                   ? 'Not Available'
-                  : widget.business.shopType.description,
+                  : widget.business.businessBio,
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
