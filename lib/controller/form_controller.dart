@@ -296,8 +296,10 @@ class FormController extends GetxController {
         ApiProcessorController.successSnack(successMsg);
         isLoad.value = false;
         update();
+        return;
         // update([tag]);
       }
+      ApiProcessorController.errorSnack(errorMsg);
     } on SocketException {
       ApiProcessorController.errorSnack(noInternetMsg);
     } catch (e) {
