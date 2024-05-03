@@ -154,11 +154,11 @@ class _ThirdPartyVendorDetailPageState extends State<ThirdPartyVendorDetailPage>
         switch (value) {
           case 'about':
             Get.to(
-              () => AboutThirdPartyVendor(vendor: widget.vendor),
+              () => EditThirdPartyVendor(vendor: widget.vendor),
               duration: const Duration(milliseconds: 300),
               fullscreenDialog: true,
               curve: Curves.easeIn,
-              routeName: "AboutThirdPartyVendor",
+              routeName: "EditThirdPartyVendor",
               preventDuplicates: true,
               popGesture: true,
               transition: Transition.rightToLeft,

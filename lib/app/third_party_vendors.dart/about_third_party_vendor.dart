@@ -7,8 +7,10 @@ import 'dart:io';
 import 'package:benji_aggregator/app/google_maps/get_location_on_map.dart';
 import 'package:benji_aggregator/controller/api_processor_controller.dart';
 import 'package:benji_aggregator/controller/latlng_detail_controller.dart';
+import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:benji_aggregator/model/third_party_vendor_model.dart';
 import 'package:benji_aggregator/services/api_url.dart';
+import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
 import 'package:benji_aggregator/src/components/button/my_elevatedButton.dart';
 import 'package:benji_aggregator/src/components/image/my_image.dart';
 import 'package:benji_aggregator/src/components/input/my_intl_phonefield.dart';
@@ -24,7 +26,6 @@ import 'package:benji_aggregator/src/utils/web_map.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 import 'package:image_picker/image_picker.dart';
@@ -34,15 +35,15 @@ import '../../../theme/colors.dart';
 import '../../controller/form_controller.dart';
 import '../../controller/push_notifications_controller.dart';
 
-class AboutThirdPartyVendor extends StatefulWidget {
+class EditThirdPartyVendor extends StatefulWidget {
   final ThirdPartyVendorModel vendor;
-  const AboutThirdPartyVendor({super.key, required this.vendor});
+  const EditThirdPartyVendor({super.key, required this.vendor});
 
   @override
-  State<AboutThirdPartyVendor> createState() => _AboutThirdPartyVendorState();
+  State<EditThirdPartyVendor> createState() => _EditThirdPartyVendorState();
 }
 
-class _AboutThirdPartyVendorState extends State<AboutThirdPartyVendor> {
+class _EditThirdPartyVendorState extends State<EditThirdPartyVendor> {
   //==========================================================================================\\
   @override
   void initState() {
@@ -216,7 +217,8 @@ class _AboutThirdPartyVendorState extends State<AboutThirdPartyVendor> {
       title: "Success.",
       body: "Your personal profile has been successfully updated.",
     );
-    Get.close(1);
+    Get.close(2);
+    VendorController.instance.refreshData();
   }
 
   Widget uploadLogoImage() => Container(
@@ -308,342 +310,348 @@ class _AboutThirdPartyVendorState extends State<AboutThirdPartyVendor> {
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
-    return SafeArea(
-      maintainBottomViewPadding: true,
-      child: Scrollbar(
-        controller: scrollController,
-        child: ListView(
-          controller: scrollController,
-          padding: const EdgeInsets.all(kDefaultPadding),
-          physics: const BouncingScrollPhysics(),
-          children: [
-            Column(
-              children: [
-                CircleAvatar(
-                  radius: 60,
-                  child: ClipOval(
-                    child: Center(
-                      child: selectedLogoImage == null
-                          ? MyImage(
-                              height: 120,
-                              width: 120,
-                              url: profileLogo!,
-                              fit: BoxFit.fill,
-                            )
-                          : kIsWeb
-                              ? Image.network(
-                                  selectedLogoImage!.path,
-                                  fit: BoxFit.fill,
-                                  height: 120,
-                                  width: 120,
-                                )
-                              : Image.file(
-                                  height: 120,
-                                  width: 120,
-                                  fit: BoxFit.fill,
-                                  File(
+    return Scaffold(
+        appBar: MyAppBar(
+          title: "Edit third party vendor",
+          elevation: 0,
+          actions: const [],
+          backgroundColor: kPrimaryColor,
+        ),
+        body: SafeArea(
+          maintainBottomViewPadding: true,
+          child: ListView(
+            shrinkWrap: true,
+            controller: scrollController,
+            padding: const EdgeInsets.all(kDefaultPadding),
+            physics: const BouncingScrollPhysics(),
+            children: [
+              Column(
+                children: [
+                  CircleAvatar(
+                    radius: 60,
+                    child: ClipOval(
+                      child: Center(
+                        child: selectedLogoImage == null
+                            ? MyImage(
+                                height: 120,
+                                width: 120,
+                                url: profileLogo!,
+                                fit: BoxFit.fill,
+                              )
+                            : kIsWeb
+                                ? Image.network(
                                     selectedLogoImage!.path,
+                                    fit: BoxFit.fill,
+                                    height: 120,
+                                    width: 120,
+                                  )
+                                : Image.file(
+                                    height: 120,
+                                    width: 120,
+                                    fit: BoxFit.fill,
+                                    File(
+                                      selectedLogoImage!.path,
+                                    ),
+                                  ),
+                      ),
+                    ),
+                  ),
+                  kHalfSizedBox,
+                  InkWell(
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        elevation: 20,
+                        barrierColor: kBlackColor.withOpacity(0.8),
+                        showDragHandle: true,
+                        useSafeArea: true,
+                        isDismissible: true,
+                        isScrollControlled: true,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(kDefaultPadding),
+                          ),
+                        ),
+                        enableDrag: true,
+                        builder: ((builder) => uploadLogoImage()),
+                      );
+                    },
+                    onLongPress: null,
+                    splashColor: kAccentColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(10),
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      child: Text(
+                        'Upload your profile picture',
+                        style: TextStyle(
+                          color: kAccentColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              kSizedBox,
+              Form(
+                key: formKey,
+                child: ValueListenableBuilder(
+                    valueListenable: selectedLocation,
+                    builder: (context, selectedLocationValue, index) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          kSizedBox,
+                          Text(
+                            "First Name".toUpperCase(),
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          kHalfSizedBox,
+                          NameTextFormField(
+                            controller: firstNameEC,
+                            hintText: "Enter your first name",
+                            nameFocusNode: firstNameFN,
+                            textInputAction: TextInputAction.next,
+                            validator: (value) {
+                              RegExp namePattern =
+                                  RegExp(r'^.{3,}$'); //Min. of 3 characters
+                              if (value == null || value == '') {
+                                firstNameFN.requestFocus();
+                                return "Enter your first name";
+                              } else if (!namePattern.hasMatch(value)) {
+                                firstNameFN.requestFocus();
+                                return "Name must be at least 3 characters";
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              firstNameEC.text = value;
+                            },
+                          ),
+                          kSizedBox,
+                          Text(
+                            "Last Name".toUpperCase(),
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          kHalfSizedBox,
+                          NameTextFormField(
+                            controller: lastNameEC,
+                            hintText: "Enter your last name",
+                            nameFocusNode: lastNameFN,
+                            textInputAction: TextInputAction.next,
+                            validator: (value) {
+                              RegExp namePattern =
+                                  RegExp(r'^.{3,}$'); //Min. of 3 characters
+                              if (value == null || value == '') {
+                                lastNameFN.requestFocus();
+                                return "Enter your last name";
+                              } else if (!namePattern.hasMatch(value)) {
+                                lastNameFN.requestFocus();
+                                return "Name must be at least 3 characters";
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              lastNameEC.text = value;
+                            },
+                          ),
+                          kSizedBox,
+                          Text(
+                            "Gender".toUpperCase(),
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          kHalfSizedBox,
+                          RadioGroup<String>.builder(
+                            groupValue: horizontalGroupValue!.toLowerCase(),
+                            direction: Axis.horizontal,
+                            activeColor: kAccentColor,
+                            onChanged: (value) => setState(() {
+                              horizontalGroupValue = value!;
+                            }),
+                            items: genders,
+                            itemBuilder: (item) => RadioButtonBuilder(item),
+                          ),
+                          kSizedBox,
+                          Text(
+                            "Phone Number".toUpperCase(),
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          kHalfSizedBox,
+                          MyIntlPhoneField(
+                            controller: userPhoneNumberEC,
+                            initialCountryCode: "NG",
+                            invalidNumberMessage: "Invalid phone number",
+                            dropdownIconPosition: IconPosition.trailing,
+                            showCountryFlag: true,
+                            showDropdownIcon: true,
+                            dropdownIcon: Icon(Icons.arrow_drop_down_rounded,
+                                color: kAccentColor),
+                            textInputAction: TextInputAction.next,
+                            focusNode: userPhoneNumberFN,
+                            validator: (value) {
+                              if (value == null ||
+                                  userPhoneNumberEC.text.isEmpty) {
+                                return "Field cannot be empty";
+                              } else {
+                                return null;
+                              }
+                            },
+                            onSaved: (value) {
+                              userPhoneNumberEC.text = value!;
+                            },
+                          ),
+                          kSizedBox,
+                          Text(
+                            "Address".toUpperCase(),
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          kHalfSizedBox,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Location on Google maps',
+                                style: TextStyle(
+                                  color: kTextBlackColor,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              kHalfSizedBox,
+                              MyMapsTextFormField(
+                                controller: mapsLocationEC,
+                                validator: (value) {
+                                  if (value == null) {
+                                    mapsLocationFN.requestFocus();
+                                    "Enter a location";
+                                  }
+                                  return null;
+                                },
+                                onChanged: (value) {
+                                  placeAutoComplete(value);
+                                  setState(() {
+                                    selectedLocation.value = value;
+                                    isTyping = true;
+                                  });
+                                },
+                                textInputAction: TextInputAction.done,
+                                focusNode: mapsLocationFN,
+                                hintText: "Search a location",
+                                textInputType: TextInputType.text,
+                                prefixIcon: Padding(
+                                  padding:
+                                      const EdgeInsets.all(kDefaultPadding),
+                                  child: FaIcon(
+                                    FontAwesomeIcons.locationDot,
+                                    color: kAccentColor,
+                                    size: 18,
                                   ),
                                 ),
-                    ),
-                  ),
-                ),
-                kHalfSizedBox,
-                InkWell(
-                  onTap: () {
-                    showModalBottomSheet(
-                      context: context,
-                      elevation: 20,
-                      barrierColor: kBlackColor.withOpacity(0.8),
-                      showDragHandle: true,
-                      useSafeArea: true,
-                      isDismissible: true,
-                      isScrollControlled: true,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(kDefaultPadding),
-                        ),
-                      ),
-                      enableDrag: true,
-                      builder: ((builder) => uploadLogoImage()),
-                    );
-                  },
-                  onLongPress: null,
-                  splashColor: kAccentColor.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(10),
-                  child: Container(
-                    padding: const EdgeInsets.all(10),
-                    child: Text(
-                      'Upload your profile picture',
-                      style: TextStyle(
-                        color: kAccentColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            kSizedBox,
-            Form(
-              key: formKey,
-              child: ValueListenableBuilder(
-                  valueListenable: selectedLocation,
-                  builder: (context, selectedLocationValue, index) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        kSizedBox,
-                        Text(
-                          "First Name".toUpperCase(),
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        kHalfSizedBox,
-                        NameTextFormField(
-                          controller: firstNameEC,
-                          hintText: "Enter your first name",
-                          nameFocusNode: firstNameFN,
-                          textInputAction: TextInputAction.next,
-                          validator: (value) {
-                            RegExp namePattern =
-                                RegExp(r'^.{3,}$'); //Min. of 3 characters
-                            if (value == null || value == '') {
-                              firstNameFN.requestFocus();
-                              return "Enter your first name";
-                            } else if (!namePattern.hasMatch(value)) {
-                              firstNameFN.requestFocus();
-                              return "Name must be at least 3 characters";
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            firstNameEC.text = value;
-                          },
-                        ),
-                        kSizedBox,
-                        Text(
-                          "Last Name".toUpperCase(),
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        kHalfSizedBox,
-                        NameTextFormField(
-                          controller: lastNameEC,
-                          hintText: "Enter your last name",
-                          nameFocusNode: lastNameFN,
-                          textInputAction: TextInputAction.next,
-                          validator: (value) {
-                            RegExp namePattern =
-                                RegExp(r'^.{3,}$'); //Min. of 3 characters
-                            if (value == null || value == '') {
-                              lastNameFN.requestFocus();
-                              return "Enter your last name";
-                            } else if (!namePattern.hasMatch(value)) {
-                              lastNameFN.requestFocus();
-                              return "Name must be at least 3 characters";
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            lastNameEC.text = value;
-                          },
-                        ),
-                        kSizedBox,
-                        Text(
-                          "Gender".toUpperCase(),
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        kHalfSizedBox,
-                        RadioGroup<String>.builder(
-                          groupValue: horizontalGroupValue!.toLowerCase(),
-                          direction: Axis.horizontal,
-                          activeColor: kAccentColor,
-                          onChanged: (value) => setState(() {
-                            horizontalGroupValue = value!;
-                          }),
-                          items: genders,
-                          itemBuilder: (item) => RadioButtonBuilder(item),
-                        ),
-                        kSizedBox,
-                        Text(
-                          "Phone Number".toUpperCase(),
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        kHalfSizedBox,
-                        MyIntlPhoneField(
-                          controller: userPhoneNumberEC,
-                          initialCountryCode: "NG",
-                          invalidNumberMessage: "Invalid phone number",
-                          dropdownIconPosition: IconPosition.trailing,
-                          showCountryFlag: true,
-                          showDropdownIcon: true,
-                          dropdownIcon: Icon(Icons.arrow_drop_down_rounded,
-                              color: kAccentColor),
-                          textInputAction: TextInputAction.next,
-                          focusNode: userPhoneNumberFN,
-                          validator: (value) {
-                            if (value == null ||
-                                userPhoneNumberEC.text.isEmpty) {
-                              return "Field cannot be empty";
-                            } else {
-                              return null;
-                            }
-                          },
-                          onSaved: (value) {
-                            userPhoneNumberEC.text = value!;
-                          },
-                        ),
-                        kSizedBox,
-                        Text(
-                          "Address".toUpperCase(),
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        kHalfSizedBox,
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Location on Google maps',
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
                               ),
-                            ),
-                            kHalfSizedBox,
-                            MyMapsTextFormField(
-                              controller: mapsLocationEC,
-                              validator: (value) {
-                                if (value == null) {
-                                  mapsLocationFN.requestFocus();
-                                  "Enter a location";
-                                }
-                                return null;
-                              },
-                              onChanged: (value) {
-                                placeAutoComplete(value);
-                                setState(() {
-                                  selectedLocation.value = value;
-                                  isTyping = true;
-                                });
-                              },
-                              textInputAction: TextInputAction.done,
-                              focusNode: mapsLocationFN,
-                              hintText: "Search a location",
-                              textInputType: TextInputType.text,
-                              prefixIcon: Padding(
-                                padding: const EdgeInsets.all(kDefaultPadding),
-                                child: FaIcon(
-                                  FontAwesomeIcons.locationDot,
+                              kSizedBox,
+                              Divider(
+                                height: 10,
+                                thickness: 2,
+                                color: kLightGreyColor,
+                              ),
+                              ElevatedButton.icon(
+                                onPressed: getLocationOnMap,
+                                icon: FaIcon(
+                                  FontAwesomeIcons.locationArrow,
                                   color: kAccentColor,
                                   size: 18,
                                 ),
-                              ),
-                            ),
-                            kSizedBox,
-                            Divider(
-                              height: 10,
-                              thickness: 2,
-                              color: kLightGreyColor,
-                            ),
-                            ElevatedButton.icon(
-                              onPressed: getLocationOnMap,
-                              icon: FaIcon(
-                                FontAwesomeIcons.locationArrow,
-                                color: kAccentColor,
-                                size: 18,
-                              ),
-                              label: const Text("Locate on map"),
-                              style: ElevatedButton.styleFrom(
-                                elevation: 0,
-                                backgroundColor: kLightGreyColor,
-                                foregroundColor: kTextBlackColor,
-                                fixedSize: Size(media.width, 40),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                            ),
-                            Divider(
-                              height: 10,
-                              thickness: 2,
-                              color: kLightGreyColor,
-                            ),
-                            const Text(
-                              "Suggestions:",
-                              style: TextStyle(
-                                color: kTextBlackColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            kHalfSizedBox,
-                            SizedBox(
-                              height: () {
-                                if (isTyping == false) {
-                                  return 0.0;
-                                }
-                                if (isTyping == true) {
-                                  return 150.0;
-                                }
-                              }(),
-                              child: Scrollbar(
-                                controller: scrollController,
-                                child: ListView.builder(
-                                  physics: const BouncingScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: placePredictions.length,
-                                  itemBuilder: (context, index) =>
-                                      LocationListTile(
-                                    onTap: () => setLocation(index),
-                                    location:
-                                        placePredictions[index].description!,
+                                label: const Text("Locate on map"),
+                                style: ElevatedButton.styleFrom(
+                                  elevation: 0,
+                                  backgroundColor: kLightGreyColor,
+                                  foregroundColor: kTextBlackColor,
+                                  fixedSize: Size(media.width, 40),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        kSizedBox,
-                      ],
-                    );
-                  }),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(kDefaultPadding),
-              child: GetBuilder<FormController>(
-                init: FormController(),
-                builder: (saving) {
-                  return MyElevatedButton(
-                    onPressed: (() async {
-                      if (formKey.currentState!.validate()) {
-                        updateData();
-                      }
+                              Divider(
+                                height: 10,
+                                thickness: 2,
+                                color: kLightGreyColor,
+                              ),
+                              const Text(
+                                "Suggestions:",
+                                style: TextStyle(
+                                  color: kTextBlackColor,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              kHalfSizedBox,
+                              SizedBox(
+                                height: () {
+                                  if (isTyping == false) {
+                                    return 0.0;
+                                  }
+                                  if (isTyping == true) {
+                                    return 150.0;
+                                  }
+                                }(),
+                                child: Scrollbar(
+                                  controller: scrollController,
+                                  child: ListView.builder(
+                                    physics: const BouncingScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemCount: placePredictions.length,
+                                    itemBuilder: (context, index) =>
+                                        LocationListTile(
+                                      onTap: () => setLocation(index),
+                                      location:
+                                          placePredictions[index].description!,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          kSizedBox,
+                        ],
+                      );
                     }),
-                    isLoading: saving.isLoad.value,
-                    title: "Save",
-                  );
-                },
               ),
-            ),
-          ],
-        ),
-      ),
-    );
+              Padding(
+                padding: const EdgeInsets.all(kDefaultPadding),
+                child: GetBuilder<FormController>(
+                  init: FormController(),
+                  builder: (saving) {
+                    return MyElevatedButton(
+                      onPressed: (() async {
+                        if (formKey.currentState!.validate()) {
+                          updateData();
+                        }
+                      }),
+                      isLoading: saving.isLoad.value,
+                      title: "Save",
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 }

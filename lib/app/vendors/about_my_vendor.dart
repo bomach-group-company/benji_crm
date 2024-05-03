@@ -76,7 +76,7 @@ class _AboutMyVendorState extends State<AboutMyVendor> {
     setState(() {
       refreshing = true;
     });
-    await UserController.instance.getUser();
+
     setState(() {
       refreshing = false;
     });
