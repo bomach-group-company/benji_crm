@@ -1,16 +1,9 @@
 // ignore_for_file: file_names
 
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-import '../../controller/form_controller.dart';
-import '../../controller/order_controller.dart';
 import '../../model/business_order_model.dart';
-import '../../services/api_url.dart';
 import '../../src/components/appbar/my_appbar.dart';
-import '../../src/components/button/my_elevatedButton.dart';
 import '../../src/components/image/my_image.dart';
 import '../../src/components/responsive_widgets/padding.dart';
 import '../../src/utils/constants.dart';
@@ -38,31 +31,7 @@ class _OrderDetailsState extends State<OrderDetails> {
   }
 
 //============================== ALL VARIABLES ================================\\
-  bool isDispatched = false;
-  String dispatchMessage = "Your order has been dispatched";
-
 //============================== FUNCTIONS ================================\\
-  orderDispatched() async {
-    var url =
-        "${Api.baseUrl}${Api.changeOrderStatus}?order_id=${widget.order.id}";
-    log(url);
-    await FormController.instance.getAuth(url, 'dispatchOrder');
-    if (FormController.instance.status.toString().startsWith('2')) {
-      // await PushNotificationController.showNotification(
-      //   title: "Success",
-      //   body: dispatchMessage,
-      //   summary: "Package Delivery",
-      //   largeIcon: "asset://assets/icons/package.png",
-      // );
-      setState(() {
-        isDispatched = true;
-      });
-      await Future.delayed(const Duration(microseconds: 500), () {
-        OrderController.instance.resetOrders();
-        Get.close(1);
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,26 +43,6 @@ class _OrderDetailsState extends State<OrderDetails> {
           elevation: 0,
           actions: const [],
           backgroundColor: kPrimaryColor,
-        ),
-        bottomNavigationBar: Container(
-          padding: const EdgeInsets.all(kDefaultPadding),
-          child: isDispatched == false && widget.order.deliveryStatus == "PEND"
-              ? GetBuilder<FormController>(
-                  id: 'dispatchOrder',
-                  init: FormController(),
-                  builder: (controller) {
-                    return MyElevatedButton(
-                      title: "Dispatched",
-                      onPressed: orderDispatched,
-                      isLoading: controller.isLoad.value,
-                    );
-                  },
-                )
-              : MyElevatedButton(
-                  title: "Given to rider",
-                  onPressed: orderDispatched,
-                  disable: true,
-                ),
         ),
         body: ListView(
           physics: const BouncingScrollPhysics(),
@@ -159,7 +108,6 @@ class _OrderDetailsState extends State<OrderDetails> {
                             letterSpacing: -0.32,
                           ),
                         ),
-
                         Text(
                           widget.orderStatus,
                           textAlign: TextAlign.right,
@@ -170,53 +118,6 @@ class _OrderDetailsState extends State<OrderDetails> {
                             letterSpacing: -0.32,
                           ),
                         )
-                        // widget.order.deliveryStatus == "COMP"
-                        //     ? const Text(
-                        //         'Delivered',
-                        //         textAlign: TextAlign.right,
-                        //         style: TextStyle(
-                        //           color: kSuccessColor,
-                        //           fontSize: 16,
-                        //           fontWeight: FontWeight.w700,
-                        //           letterSpacing: -0.32,
-                        //         ),
-                        //       )
-                        //     : isDispatched == true &&
-                        //             widget.order.deliveryStatus == "dispatched"
-                        //         ? Text(
-                        //             'Dispatched',
-                        //             textAlign: TextAlign.right,
-                        //             style: TextStyle(
-                        //               color: kSecondaryColor,
-                        //               fontSize: 16,
-                        //               fontWeight: FontWeight.w700,
-                        //               letterSpacing: -0.32,
-                        //             ),
-                        //           )
-                        //         : isDispatched == false &&
-                        //                 widget.order.deliveryStatus == "PEND"
-                        //             ?
-                        //             Text(
-                        //                 'Canceled',
-                        //                 textAlign: TextAlign.right,
-                        //                 style: TextStyle(
-                        //                   color: kAccentColor,
-                        //                   fontSize: 16,
-                        //                   fontWeight: FontWeight.w700,
-                        //                   letterSpacing: -0.32,
-                        //                 ),
-                        //               )
-
-                        //             :  Text(
-                        //                 'Pending',
-                        //                 textAlign: TextAlign.right,
-                        //                 style: TextStyle(
-                        //                   color: kLoadingColor,
-                        //                   fontSize: 16,
-                        //                   fontWeight: FontWeight.w700,
-                        //                   letterSpacing: -0.32,
-                        //                 ),
-                        //               )
                       ],
                     ),
                   ],

@@ -95,33 +95,4 @@ class RiderController extends GetxController {
     isLoad.value = false;
     update();
   }
-
-  Future assignRiderTask(agentId, riderId, orderId) async {
-    late String token;
-    isLoadAssign.value = true;
-    update();
-    var url =
-        "${Api.baseUrl}${Api.assignRiderTask}?agent_id=$agentId&rider_id=$riderId";
-    var order = {
-      "orders": ["$orderId"]
-    };
-    consoleLog(order.toString());
-    var data = order;
-    token = UserController.instance.user.value.token;
-    try {
-      http.Response? response = await HandleData.postApi(url, token, data);
-      var responseData = await ApiProcessorController.errorState(response);
-      if (responseData == null) {
-        isLoadAssign.value = false;
-      } else {
-        OrderController.instance.getOrders();
-        isLoadAssign.value = false;
-        Get.close(3);
-      }
-
-      update();
-    } catch (e) {}
-    isLoadAssign.value = false;
-    update();
-  }
 }

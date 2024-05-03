@@ -1,3 +1,4 @@
+import 'package:benji_aggregator/model/business_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -19,7 +20,8 @@ enum ThirdPartyBusinessStatusType {
 }
 
 class ThirdPartyBusinessOrders extends StatefulWidget {
-  const ThirdPartyBusinessOrders({super.key});
+  final BusinessModel business;
+  const ThirdPartyBusinessOrders({super.key, required this.business});
 
   @override
   State<ThirdPartyBusinessOrders> createState() =>
@@ -33,9 +35,10 @@ class _ThirdPartyBusinessOrdersState extends State<ThirdPartyBusinessOrders> {
   void initState() {
     super.initState();
     AuthController.instance.checkIfAuthorized();
-    scrollController.addListener(
-        () => OrderController.instance.scrollListener(scrollController));
+    // scrollController.addListener(
+    //     () => OrderController.instance.scrollListener(scrollController));
     scrollController.addListener(_scrollListener);
+    clickPending();
   }
 
   @override
@@ -46,23 +49,23 @@ class _ThirdPartyBusinessOrdersState extends State<ThirdPartyBusinessOrders> {
   }
 
   void clickPending() async {
-    await OrderController.instance
-        .setThirdPartyStatus(ThirdPartyBusinessStatusType.pending);
+    await OrderController.instance.setThirdPartyStatus(
+        widget.business.id, ThirdPartyBusinessStatusType.pending);
   }
 
   void clickDispatched() async {
-    await OrderController.instance
-        .setThirdPartyStatus(ThirdPartyBusinessStatusType.dispatched);
+    await OrderController.instance.setThirdPartyStatus(
+        widget.business.id, ThirdPartyBusinessStatusType.dispatched);
   }
 
   void clickDelivered() async {
-    await OrderController.instance
-        .setThirdPartyStatus(ThirdPartyBusinessStatusType.delivered);
+    await OrderController.instance.setThirdPartyStatus(
+        widget.business.id, ThirdPartyBusinessStatusType.delivered);
   }
 
   void clickCancelled() async {
-    await OrderController.instance
-        .setThirdPartyStatus(ThirdPartyBusinessStatusType.cancelled);
+    await OrderController.instance.setThirdPartyStatus(
+        widget.business.id, ThirdPartyBusinessStatusType.cancelled);
   }
 
   bool checkStatus(ThirdPartyBusinessStatusType? theStatus,
@@ -244,6 +247,7 @@ class _ThirdPartyBusinessOrdersState extends State<ThirdPartyBusinessOrders> {
                               onTap: () {
                                 Get.to(
                                   () => ThirdPartyOrderDetails(
+                                    business: widget.business,
                                     order: controller.orderList[index],
                                     orderStatus: controller.orderList[index]
                                                 .deliveryStatus ==

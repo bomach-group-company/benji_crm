@@ -37,6 +37,8 @@ class _MyVendorDetailPageState extends State<MyVendorDetailPage>
     super.initState();
 
     BusinessController.instance
+        .getBusinesses(widget.vendor.id.toString(), agentId);
+    BusinessController.instance
         .getTotalNumberOfBusinesses(widget.vendor.id.toString(), agentId);
     log("Vendor ID: ${widget.vendor.id} Longitude: ${widget.vendor.longitude} Latitude: ${widget.vendor.latitude}");
     scrollController.addListener(_scrollListener);

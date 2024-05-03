@@ -130,7 +130,7 @@ class BusinessOrderModel {
       longitude: json["longitude"] ?? notAvailable,
       deliveryAddress: DeliveryAddress.fromJson(json["delivery_address"]),
       message: json["message"] ?? notAvailable,
-      created: json["created"] ?? notAvailable,
+      created: json["created_at"] ?? notAvailable,
     );
   }
   Map<String, dynamic> toJson() => {

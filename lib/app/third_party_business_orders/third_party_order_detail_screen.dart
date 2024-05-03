@@ -2,6 +2,7 @@
 
 import 'dart:developer';
 
+import 'package:benji_aggregator/model/business_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -17,6 +18,7 @@ import '../../src/utils/constants.dart';
 import '../../theme/colors.dart';
 
 class ThirdPartyOrderDetails extends StatefulWidget {
+  final BusinessModel business;
   final BusinessOrderModel order;
   final String orderStatus;
   final Color orderStatusColor;
@@ -24,6 +26,7 @@ class ThirdPartyOrderDetails extends StatefulWidget {
   const ThirdPartyOrderDetails(
       {super.key,
       required this.order,
+      required this.business,
       required this.orderStatus,
       required this.orderStatusColor});
 
@@ -58,7 +61,7 @@ class _ThirdPartyOrderDetailsState extends State<ThirdPartyOrderDetails> {
         isDispatched = true;
       });
       await Future.delayed(const Duration(microseconds: 500), () {
-        OrderController.instance.resetOrders();
+        OrderController.instance.resetOrders(widget.business.id);
         Get.close(1);
       });
     }

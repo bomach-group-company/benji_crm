@@ -1,10 +1,10 @@
+import 'package:benji_aggregator/app/third_party_business_orders/third_party_orders.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
 import '../../controller/api_processor_controller.dart';
-import '../../controller/order_controller.dart';
 import '../../controller/product_controller.dart';
 import '../../controller/reviews_controller.dart';
 import '../../model/business_model.dart';
@@ -14,7 +14,6 @@ import '../../src/components/section/my_liquid_refresh.dart';
 import '../../src/responsive/responsive_constant.dart';
 import '../../src/utils/constants.dart';
 import '../../theme/colors.dart';
-import '../business_orders/orders.dart';
 import '../third_party_business_products/add_third_party_product.dart';
 import '../third_party_business_products/third_party_business_products.dart';
 import 'about_third_party_business.dart';
@@ -61,7 +60,6 @@ class _ThirdPartyBusinessDetailScreenState
       refreshing = true;
     });
     await ProductController.instance.getBusinessProducts(widget.business.id);
-    await OrderController.instance.getOrders();
     await ReviewsController.instance.getReviews();
     setState(() {
       refreshing = false;
@@ -588,7 +586,9 @@ class _ThirdPartyBusinessDetailScreenState
                                 business: widget.business,
                               )
                             : selectedtabbar == 1
-                                ? const Orders()
+                                ? ThirdPartyBusinessOrders(
+                                    business: widget.business,
+                                  )
                                 : AboutThirdPartyBusiness(
                                     business: widget.business,
                                   ),

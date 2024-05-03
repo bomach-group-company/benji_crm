@@ -69,7 +69,7 @@ class BusinessOrderContainer extends StatelessWidget {
                 alignment: WrapAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                    width: media.width - 200,
+                    width: media.width - 300,
                     // color: kAccentColor,
                     child: Text(
                       order.deliveryStatus == "CANC"

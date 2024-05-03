@@ -1,3 +1,5 @@
+import 'package:benji_aggregator/app/business_orders/order_details.dart';
+import 'package:benji_aggregator/model/business_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,7 +20,8 @@ enum StatusType {
 }
 
 class Orders extends StatefulWidget {
-  const Orders({super.key});
+  final BusinessModel business;
+  const Orders({super.key, required this.business});
 
   @override
   State<Orders> createState() => _OrdersState();
@@ -31,9 +34,10 @@ class _OrdersState extends State<Orders> {
   void initState() {
     super.initState();
     AuthController.instance.checkIfAuthorized();
-    scrollController.addListener(
-        () => OrderController.instance.scrollListener(scrollController));
+    // scrollController.addListener(
+    //     () => OrderController.instance.scrollListener(scrollController));
     scrollController.addListener(_scrollListener);
+    clickPending();
   }
 
   @override
@@ -44,19 +48,23 @@ class _OrdersState extends State<Orders> {
   }
 
   void clickPending() async {
-    await OrderController.instance.setStatus(StatusType.pending);
+    await OrderController.instance
+        .setStatus(widget.business.id, StatusType.pending);
   }
 
   void clickDispatched() async {
-    await OrderController.instance.setStatus(StatusType.dispatched);
+    await OrderController.instance
+        .setStatus(widget.business.id, StatusType.dispatched);
   }
 
   void clickDelivered() async {
-    await OrderController.instance.setStatus(StatusType.delivered);
+    await OrderController.instance
+        .setStatus(widget.business.id, StatusType.delivered);
   }
 
   void clickCancelled() async {
-    await OrderController.instance.setStatus(StatusType.cancelled);
+    await OrderController.instance
+        .setStatus(widget.business.id, StatusType.cancelled);
   }
 
   bool checkStatus(StatusType? theStatus, StatusType currentStatus) =>
@@ -232,45 +240,45 @@ class _OrdersState extends State<Orders> {
                           itemBuilder: (context, index) {
                             return InkWell(
                               onTap: () {
-                                // Get.to(
-                                //   () => OrderDetails(
-                                //     order: controller.orderList[index],
-                                //     orderStatus: controller.orderList[index]
-                                //                 .deliveryStatus ==
-                                //             "COMP"
-                                //         ? "Completeds"
-                                //         : controller.orderList[index]
-                                //                     .deliveryStatus ==
-                                //                 "dispatched"
-                                //             ? "Dispatched"
-                                //             : controller.orderList[index]
-                                //                         .deliveryStatus ==
-                                //                     "PEND"
-                                //                 ? "Pending"
-                                //                 : "Completed",
-                                //     orderStatusColor: controller
-                                //                 .orderList[index]
-                                //                 .deliveryStatus ==
-                                //             "CANC"
-                                //         ? kAccentColor
-                                //         : controller.orderList[index]
-                                //                     .deliveryStatus ==
-                                //                 "dispatched"
-                                //             ? kSecondaryColor
-                                //             : controller.orderList[index]
-                                //                         .deliveryStatus ==
-                                //                     "PEND"
-                                //                 ? kLoadingColor
-                                //                 : kSuccessColor,
-                                //   ),
-                                //   routeName: 'OrderDetails',
-                                //   duration: const Duration(milliseconds: 300),
-                                //   fullscreenDialog: true,
-                                //   curve: Curves.easeIn,
-                                //   preventDuplicates: true,
-                                //   popGesture: true,
-                                //   transition: Transition.rightToLeft,
-                                // );
+                                Get.to(
+                                  () => OrderDetails(
+                                    order: controller.orderList[index],
+                                    orderStatus: controller.orderList[index]
+                                                .deliveryStatus ==
+                                            "COMP"
+                                        ? "Completeds"
+                                        : controller.orderList[index]
+                                                    .deliveryStatus ==
+                                                "dispatched"
+                                            ? "Dispatched"
+                                            : controller.orderList[index]
+                                                        .deliveryStatus ==
+                                                    "PEND"
+                                                ? "Pending"
+                                                : "Completed",
+                                    orderStatusColor: controller
+                                                .orderList[index]
+                                                .deliveryStatus ==
+                                            "CANC"
+                                        ? kAccentColor
+                                        : controller.orderList[index]
+                                                    .deliveryStatus ==
+                                                "dispatched"
+                                            ? kSecondaryColor
+                                            : controller.orderList[index]
+                                                        .deliveryStatus ==
+                                                    "PEND"
+                                                ? kLoadingColor
+                                                : kSuccessColor,
+                                  ),
+                                  routeName: 'OrderDetails',
+                                  duration: const Duration(milliseconds: 300),
+                                  fullscreenDialog: true,
+                                  curve: Curves.easeIn,
+                                  preventDuplicates: true,
+                                  popGesture: true,
+                                  transition: Transition.rightToLeft,
+                                );
                               },
                               borderRadius: BorderRadius.circular(12),
                               mouseCursor: SystemMouseCursors.click,

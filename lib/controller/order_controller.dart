@@ -31,7 +31,7 @@ class OrderController extends GetxController {
   var status = StatusType.pending.obs;
   var thirdpartyorderstatus = ThirdPartyBusinessStatusType.pending.obs;
 
-  resetOrders() async {
+  resetOrders(String businessId) async {
     orderList.value = <BusinessOrderModel>[];
     loadedAll.value = false;
     isLoadMore.value = false;
@@ -39,10 +39,10 @@ class OrderController extends GetxController {
     total.value = 0;
     status.value = StatusType.pending;
 
-    setStatus();
+    setStatus(businessId);
   }
 
-  resetThirdPartyOrders() async {
+  resetThirdPartyOrders(String businessId) async {
     orderList.value = <BusinessOrderModel>[];
     loadedAll.value = false;
     isLoadMore.value = false;
@@ -50,23 +50,24 @@ class OrderController extends GetxController {
     total.value = 0;
 
     thirdpartyorderstatus.value = ThirdPartyBusinessStatusType.pending;
-    setThirdPartyStatus();
+    setThirdPartyStatus(businessId);
   }
 
-  Future<void> scrollListener(scrollController) async {
-    if (OrderController.instance.loadedAll.value) {
-      return;
-    }
+  // Future<void> scrollListener(scrollController) async {
+  //   if (OrderController.instance.loadedAll.value) {
+  //     return;
+  //   }
 
-    if (scrollController.offset >= scrollController.position.maxScrollExtent &&
-        !scrollController.position.outOfRange) {
-      OrderController.instance.isLoadMore.value = true;
-      update();
-      await OrderController.instance.getOrders();
-    }
-  }
+  //   if (scrollController.offset >= scrollController.position.maxScrollExtent &&
+  //       !scrollController.position.outOfRange) {
+  //     OrderController.instance.isLoadMore.value = true;
+  //     update();
+  //     await OrderController.instance.getOrders();
+  //   }
+  // }
 
-  setStatus([StatusType newStatus = StatusType.pending]) async {
+  setStatus(String businessId,
+      [StatusType newStatus = StatusType.pending]) async {
     status.value = newStatus;
     // if (newStatus == StatusType.pending) {
     //   orderList.value = vendorPendingOrders;
@@ -80,10 +81,10 @@ class OrderController extends GetxController {
     loadNum.value = 10;
     loadedAll.value = false;
     update();
-    await getOrdersByStatus();
+    await getOrdersByStatus(businessId);
   }
 
-  setThirdPartyStatus(
+  setThirdPartyStatus(String businessId,
       [ThirdPartyBusinessStatusType newStatus =
           ThirdPartyBusinessStatusType.pending]) async {
     thirdpartyorderstatus.value = newStatus;
@@ -99,17 +100,16 @@ class OrderController extends GetxController {
     loadNum.value = 10;
     loadedAll.value = false;
     update();
-    await getOrdersByStatus();
+    await getOrdersByStatus(businessId);
   }
 
-  Future getOrdersByStatus() async {
+  Future getOrdersByStatus(String businessId) async {
     if (loadedAll.value) {
       return;
     }
     isLoad.value = true;
-    String id = UserController.instance.user.value.id.toString();
     var url =
-        "${Api.baseUrl}${Api.vendorsOrderList}$id/listMyOrdersByStatus?start=${loadNum.value - 10}&end=${loadNum.value}&status=${statusTypeConverter(status.value)}";
+        "${Api.baseUrl}/orders/filterBusinessOrdersByStatus/$businessId?status=${statusTypeConverter(status.value)}";
 
     consoleLog(url);
     loadNum.value += 10;
@@ -141,53 +141,6 @@ class OrderController extends GetxController {
       // }
     } on SocketException {
       ApiProcessorController.errorSnack("Please connect to the internet");
-    } catch (e) {
-      consoleLog(e.toString());
-    }
-    loadedAll.value = data.isEmpty;
-    isLoad.value = false;
-    isLoadMore.value = false;
-    update();
-  }
-
-  Future getOrders({
-    bool first = false,
-  }) async {
-    if (first) {
-      loadNum.value = 10;
-    }
-    if (loadedAll.value) {
-      return;
-    }
-    if (!first) {
-      isLoadMore.value = true;
-    }
-    isLoad.value = true;
-    if (loadedAll.value) {
-      return;
-    }
-    late String token;
-    String id = UserController.instance.user.value.id.toString();
-    var url =
-        "${Api.baseUrl}${Api.orderList}$id/?start=${loadNum.value - 10}&end=${loadNum.value}";
-    loadNum.value += 10;
-    token = UserController.instance.user.value.token;
-    http.Response? response = await HandleData.getApi(url, token);
-    var responseData =
-        await ApiProcessorController.errorState(response, isFirst ?? true);
-    if (responseData == null) {
-      if (!first) {
-        isLoadMore.value = false;
-      }
-      isLoad.value = false;
-      return;
-    }
-    List<BusinessOrderModel> data = [];
-    try {
-      data = (jsonDecode(responseData)['items'] as List)
-          .map((e) => BusinessOrderModel.fromJson(e))
-          .toList();
-      orderList.value += data;
     } catch (e) {
       consoleLog(e.toString());
     }

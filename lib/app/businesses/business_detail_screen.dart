@@ -59,7 +59,6 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
       refreshing = true;
     });
     await ProductController.instance.getBusinessProducts(widget.business.id);
-    await OrderController.instance.getOrders();
     await ReviewsController.instance.getReviews();
     setState(() {
       refreshing = false;
@@ -579,7 +578,9 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                                 business: widget.business,
                               )
                             : selectedtabbar == 1
-                                ? const Orders()
+                                ? Orders(
+                                    business: widget.business,
+                                  )
                                 : AboutBusiness(
                                     business: widget.business,
                                   ),
