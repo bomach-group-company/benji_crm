@@ -301,8 +301,12 @@ class FormController extends GetxController {
       }
       ApiProcessorController.errorSnack(errorMsg);
     } on SocketException {
+      status = 0.obs;
+      responseObject = {}.obs;
       ApiProcessorController.errorSnack(noInternetMsg);
     } catch (e) {
+      status = 0.obs;
+      responseObject = {}.obs;
       ApiProcessorController.errorSnack(errorMsg);
     }
     // } catch (e) {
