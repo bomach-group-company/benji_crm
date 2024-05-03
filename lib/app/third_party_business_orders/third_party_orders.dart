@@ -10,15 +10,6 @@ import '../../src/utils/constants.dart';
 import '../../theme/colors.dart';
 import 'third_party_order_detail_screen.dart';
 
-enum ThirdPartyBusinessStatusType {
-  pending,
-  dispatched,
-  processing,
-  confirmed,
-  delivered,
-  cancelled
-}
-
 class ThirdPartyBusinessOrders extends StatefulWidget {
   final BusinessModel business;
   const ThirdPartyBusinessOrders({super.key, required this.business});
@@ -49,27 +40,26 @@ class _ThirdPartyBusinessOrdersState extends State<ThirdPartyBusinessOrders> {
   }
 
   void clickPending() async {
-    await OrderController.instance.setThirdPartyStatus(
-        widget.business.id, ThirdPartyBusinessStatusType.pending);
+    await OrderController.instance
+        .setThirdPartyStatus(widget.business.id, StatusType.pending);
   }
 
   void clickDispatched() async {
-    await OrderController.instance.setThirdPartyStatus(
-        widget.business.id, ThirdPartyBusinessStatusType.dispatched);
+    await OrderController.instance
+        .setThirdPartyStatus(widget.business.id, StatusType.dispatched);
   }
 
   void clickDelivered() async {
-    await OrderController.instance.setThirdPartyStatus(
-        widget.business.id, ThirdPartyBusinessStatusType.delivered);
+    await OrderController.instance
+        .setThirdPartyStatus(widget.business.id, StatusType.delivered);
   }
 
   void clickCancelled() async {
-    await OrderController.instance.setThirdPartyStatus(
-        widget.business.id, ThirdPartyBusinessStatusType.cancelled);
+    await OrderController.instance
+        .setThirdPartyStatus(widget.business.id, StatusType.cancelled);
   }
 
-  bool checkStatus(ThirdPartyBusinessStatusType? theStatus,
-          ThirdPartyBusinessStatusType currentStatus) =>
+  bool checkStatus(StatusType? theStatus, StatusType currentStatus) =>
       theStatus == currentStatus;
 
   //========= variables ==========//
@@ -122,11 +112,10 @@ class _ThirdPartyBusinessOrdersState extends State<ThirdPartyBusinessOrders> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: checkStatus(
-                            controller.thirdpartyorderstatus.value,
-                            ThirdPartyBusinessStatusType.pending)
-                        ? kAccentColor
-                        : const Color(0xFFF2F2F2),
+                    backgroundColor:
+                        checkStatus(controller.status.value, StatusType.pending)
+                            ? kAccentColor
+                            : const Color(0xFFF2F2F2),
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(16))),
                   ),
@@ -135,8 +124,8 @@ class _ThirdPartyBusinessOrdersState extends State<ThirdPartyBusinessOrders> {
                     'Pending',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: checkStatus(controller.thirdpartyorderstatus.value,
-                              ThirdPartyBusinessStatusType.pending)
+                      color: checkStatus(
+                              controller.status.value, StatusType.pending)
                           ? kPrimaryColor
                           : kGreyColor2,
                       fontSize: 14,
@@ -148,8 +137,7 @@ class _ThirdPartyBusinessOrdersState extends State<ThirdPartyBusinessOrders> {
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: checkStatus(
-                            controller.thirdpartyorderstatus.value,
-                            ThirdPartyBusinessStatusType.dispatched)
+                            controller.status.value, StatusType.dispatched)
                         ? kAccentColor
                         : const Color(0xFFF2F2F2),
                     shape: const RoundedRectangleBorder(
@@ -160,8 +148,8 @@ class _ThirdPartyBusinessOrdersState extends State<ThirdPartyBusinessOrders> {
                     'Dispatched',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: checkStatus(controller.thirdpartyorderstatus.value,
-                              ThirdPartyBusinessStatusType.dispatched)
+                      color: checkStatus(
+                              controller.status.value, StatusType.dispatched)
                           ? kPrimaryColor
                           : kGreyColor2,
                       fontSize: 14,
@@ -173,8 +161,7 @@ class _ThirdPartyBusinessOrdersState extends State<ThirdPartyBusinessOrders> {
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: checkStatus(
-                            controller.thirdpartyorderstatus.value,
-                            ThirdPartyBusinessStatusType.delivered)
+                            controller.status.value, StatusType.delivered)
                         ? kAccentColor
                         : const Color(0xFFF2F2F2),
                     shape: const RoundedRectangleBorder(
@@ -185,8 +172,8 @@ class _ThirdPartyBusinessOrdersState extends State<ThirdPartyBusinessOrders> {
                     'Delivered',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: checkStatus(controller.thirdpartyorderstatus.value,
-                              ThirdPartyBusinessStatusType.delivered)
+                      color: checkStatus(
+                              controller.status.value, StatusType.delivered)
                           ? kPrimaryColor
                           : kGreyColor2,
                       fontSize: 14,
@@ -200,7 +187,7 @@ class _ThirdPartyBusinessOrdersState extends State<ThirdPartyBusinessOrders> {
                 // ElevatedButton(
                 //   style: ElevatedButton.styleFrom(
                 //     backgroundColor: checkStatus(
-                //             controller.thirdpartyorderstatus.value, ThirdPartyBusinessStatusType.cancelled)
+                //             controller.status.value, StatusType.cancelled)
                 //         ? kAccentColor
                 //         : kDefaultCategoryBackgroundColor,
                 //     shape: const RoundedRectangleBorder(
@@ -214,8 +201,8 @@ class _ThirdPartyBusinessOrdersState extends State<ThirdPartyBusinessOrders> {
                 //     'Cancelled',
                 //     textAlign: TextAlign.center,
                 //     style: TextStyle(
-                //       color: checkStatus(controller.thirdpartyorderstatus.value,
-                //               ThirdPartyBusinessStatusType.cancelled)
+                //       color: checkStatus(controller.status.value,
+                //               StatusType.cancelled)
                 //           ? kPrimaryColor
                 //           : kGreyColor2,
                 //       fontSize: 14,

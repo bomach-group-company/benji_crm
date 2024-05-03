@@ -14,6 +14,15 @@ import '../app/business_orders/orders.dart';
 import '../app/third_party_business_orders/third_party_orders.dart';
 import '../services/helper.dart';
 
+enum StatusType {
+  pending,
+  dispatched,
+  processing,
+  confirmed,
+  delivered,
+  cancelled
+}
+
 class OrderController extends GetxController {
   static OrderController get instance {
     return Get.find<OrderController>();
@@ -29,7 +38,7 @@ class OrderController extends GetxController {
   var loadNum = 10.obs;
   var total = 0.obs;
   var status = StatusType.pending.obs;
-  var thirdpartyorderstatus = ThirdPartyBusinessStatusType.pending.obs;
+  var thirdpartyorderstatus = StatusType.pending.obs;
 
   resetOrders(String businessId) async {
     orderList.value = <BusinessOrderModel>[];
@@ -49,7 +58,7 @@ class OrderController extends GetxController {
     loadNum.value = 10;
     total.value = 0;
 
-    thirdpartyorderstatus.value = ThirdPartyBusinessStatusType.pending;
+    thirdpartyorderstatus.value = StatusType.pending;
     setThirdPartyStatus(businessId);
   }
 
@@ -85,9 +94,8 @@ class OrderController extends GetxController {
   }
 
   setThirdPartyStatus(String businessId,
-      [ThirdPartyBusinessStatusType newStatus =
-          ThirdPartyBusinessStatusType.pending]) async {
-    thirdpartyorderstatus.value = newStatus;
+      [StatusType newStatus = StatusType.pending]) async {
+    status.value = newStatus;
     // if (newStatus == StatusType.pending) {
     //   orderList.value = vendorPendingOrders;
     // } else if (newStatus == StatusType.dispatched) {

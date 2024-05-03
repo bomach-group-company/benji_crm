@@ -267,26 +267,26 @@ class _DashboardState extends State<Dashboard> {
                     ),
                   ),
                 ),
-                kSizedBox,
-                kIsWeb
-                    ? Center(
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 25, horizontal: 40),
-                              backgroundColor: kAccentColor),
-                          onPressed: launchDownloadLinkAndroid,
-                          child: const Text(
-                            'Download APK',
-                            style: TextStyle(
-                              color: kTextWhiteColor,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                      )
-                    : const SizedBox(),
+                // kSizedBox,
+                // kIsWeb
+                //     ? Center(
+                //         child: ElevatedButton(
+                //           style: ElevatedButton.styleFrom(
+                //               padding: const EdgeInsets.symmetric(
+                //                   vertical: 25, horizontal: 40),
+                //               backgroundColor: kAccentColor),
+                //           onPressed: launchDownloadLinkAndroid,
+                //           child: const Text(
+                //             'Download APK',
+                //             style: TextStyle(
+                //               color: kTextWhiteColor,
+                //               fontSize: 15,
+                //               fontWeight: FontWeight.w400,
+                //             ),
+                //           ),
+                //         ),
+                //       )
+                //     : const SizedBox(),
 
                 kSizedBox,
                 media.width < 500 ? kSizedBox : const SizedBox(),
