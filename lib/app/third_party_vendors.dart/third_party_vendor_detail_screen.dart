@@ -515,8 +515,7 @@ class _ThirdPartyVendorDetailPageState extends State<ThirdPartyVendorDetailPage>
                             padding: EdgeInsets.symmetric(horizontal: 10),
                             child: VendorsListSkeleton(),
                           )
-                        : controller.isLoad.value &&
-                                controller.listOfBusinesses.isEmpty
+                        : controller.isLoad.value
                             ? const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 10),
                                 child: VendorsListSkeleton(),

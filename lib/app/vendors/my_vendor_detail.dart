@@ -36,8 +36,6 @@ class _MyVendorDetailPageState extends State<MyVendorDetailPage>
   void initState() {
     super.initState();
 
-    // BusinessController.instance
-    //     .getBusinesses(widget.vendor.id.toString(), agentId);
     BusinessController.instance
         .getTotalNumberOfBusinesses(widget.vendor.id.toString(), agentId);
     log("Vendor ID: ${widget.vendor.id} Longitude: ${widget.vendor.longitude} Latitude: ${widget.vendor.latitude}");
@@ -464,8 +462,6 @@ class _MyVendorDetailPageState extends State<MyVendorDetailPage>
                   ),
                 ),
                 GetBuilder<BusinessController>(
-                  initState: (state) => BusinessController.instance
-                      .refreshData(widget.vendor.id.toString(), agentId),
                   init: BusinessController(),
                   builder: (controller) {
                     return Padding(
@@ -487,8 +483,6 @@ class _MyVendorDetailPageState extends State<MyVendorDetailPage>
                 kSizedBox,
 
                 GetBuilder<BusinessController>(
-                  initState: (state) => BusinessController.instance
-                      .refreshData(widget.vendor.id.toString(), agentId),
                   init: BusinessController(),
                   builder: (controller) {
                     return loadingScreen
