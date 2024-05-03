@@ -64,7 +64,7 @@ class VendorController extends GetxController {
 
     isLoadMoreVendor.value = true;
     update();
-    await getMyVendors();
+    await getMyVendors(notMore: false);
   }
 
   Future<void> loadMoreThirdPartyVendor() async {
@@ -74,11 +74,13 @@ class VendorController extends GetxController {
 
     isLoadMoreMyVendor.value = true;
     update();
-    await getThirdPartyVendors();
+    await getThirdPartyVendors(notMore: false);
   }
 
-  Future getMyVendors() async {
-    isLoad.value = true;
+  Future getMyVendors({bool notMore = true}) async {
+    if (notMore) {
+      isLoad.value = true;
+    }
     late String token;
     String id = UserController.instance.user.value.id.toString();
     var url =
@@ -118,8 +120,10 @@ class VendorController extends GetxController {
     update();
   }
 
-  Future getThirdPartyVendors() async {
-    isLoad.value = true;
+  Future getThirdPartyVendors({bool notMore = true}) async {
+    if (notMore) {
+      isLoad.value = true;
+    }
     late String token;
     String id = UserController.instance.user.value.id.toString();
     var url =

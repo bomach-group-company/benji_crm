@@ -29,6 +29,7 @@ class _AboutMyVendorState extends State<AboutMyVendor> {
     vendorFirstNameEC.text = widget.vendor.firstName;
     vendorLastNameEC.text = widget.vendor.lastName;
     vendorEmailEC.text = widget.vendor.email;
+    vendorPhoneEC.text = widget.vendor.phone;
     vendorAddressEC.text = widget.vendor.address;
     vendorCountryEC.text = widget.vendor.country.name;
     vendorStateEC.text = widget.vendor.state;
@@ -45,6 +46,7 @@ class _AboutMyVendorState extends State<AboutMyVendor> {
   final vendorFirstNameEC = TextEditingController();
   final vendorLastNameEC = TextEditingController();
   final vendorEmailEC = TextEditingController();
+  final vendorPhoneEC = TextEditingController();
   final vendorAddressEC = TextEditingController();
   final vendorCountryEC = TextEditingController();
   final vendorStateEC = TextEditingController();
@@ -56,6 +58,7 @@ class _AboutMyVendorState extends State<AboutMyVendor> {
   final vendorFirstNameFN = FocusNode();
   final vendorLastNameFN = FocusNode();
   final vendorEmailFN = FocusNode();
+  final vendorPhoneFN = FocusNode();
   final vendorAddressFN = FocusNode();
   final vendorCountryFN = FocusNode();
   final vendorStateFN = FocusNode();
@@ -337,6 +340,28 @@ class _AboutMyVendorState extends State<AboutMyVendor> {
                 onSaved: (value) {},
                 textInputAction: TextInputAction.done,
                 focusNode: vendorLastNameFN,
+                hintText: "",
+                textInputType: TextInputType.text,
+              ),
+              kSizedBox,
+              const Text(
+                "Phone",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              kSizedBox,
+              MyBlueTextFormField(
+                isEnabled: false,
+                readOnly: true,
+                controller: vendorPhoneEC,
+                validator: (value) {
+                  return null;
+                },
+                onSaved: (value) {},
+                textInputAction: TextInputAction.done,
+                focusNode: vendorPhoneFN,
                 hintText: "",
                 textInputType: TextInputType.text,
               ),

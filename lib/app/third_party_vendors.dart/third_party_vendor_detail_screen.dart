@@ -141,7 +141,7 @@ class _ThirdPartyVendorDetailPageState extends State<ThirdPartyVendorDetailPage>
       items: [
         const PopupMenuItem<String>(
           value: 'about',
-          child: Text("About vendor"),
+          child: Text("Edit vendor"),
         ),
         const PopupMenuItem<String>(
           value: 'report',
