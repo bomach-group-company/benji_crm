@@ -13,7 +13,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -735,9 +734,13 @@ class _PersonalInfoBodyState extends State<PersonalInfoBody> {
                             MyMapsTextFormField(
                               controller: mapsLocationEC,
                               validator: (value) {
-                                if (value == null) {
+                                if (value == null || value == "") {
                                   mapsLocationFN.requestFocus();
-                                  "Enter a location";
+                                  return "Enter a location";
+                                }
+                                if (latitude == null || longitude == null) {
+                                  mapsLocationFN.requestFocus();
+                                  return "Please select a location so we can get the coordinates";
                                 }
                                 return null;
                               },

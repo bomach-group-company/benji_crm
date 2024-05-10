@@ -12,7 +12,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -1481,9 +1480,13 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
                             MyMapsTextFormField(
                               controller: addressEC,
                               validator: (value) {
-                                if (value == null) {
+                                if (value == null || value == "") {
                                   addressFN.requestFocus();
-                                  "Enter a location";
+                                  return "Enter a location";
+                                }
+                                if (latitude == null || longitude == null) {
+                                  addressFN.requestFocus();
+                                  return "Please select a location so we can get the coordinates";
                                 }
                                 return null;
                               },

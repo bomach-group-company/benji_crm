@@ -926,10 +926,15 @@ class _RegisterVendorState extends State<RegisterVendor> {
                               MyMapsTextFormField(
                                 controller: mapsLocationEC,
                                 // readOnly: vendorClassified,
+
                                 validator: (value) {
-                                  if (value == null || value == '') {
+                                  if (value == null || value == "") {
                                     mapsLocationFN.requestFocus();
-                                    "Enter a location";
+                                    return "Enter a location";
+                                  }
+                                  if (latitude == null || longitude == null) {
+                                    mapsLocationFN.requestFocus();
+                                    return "Please select a location so we can get the coordinates";
                                   }
                                   return null;
                                 },
