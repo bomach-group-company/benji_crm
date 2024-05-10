@@ -309,7 +309,9 @@ class _SendPackageState extends State<SendPackage> {
   }
 
   submitForm() async {
-    if (pickupEC.text.isEmpty) {
+    if (pickupEC.text.isEmpty ||
+        latitudePick == null ||
+        longitudePick == null) {
       ApiProcessorController.errorSnack("Please fill in a pickup address");
       return;
     }
@@ -321,7 +323,9 @@ class _SendPackageState extends State<SendPackage> {
       ApiProcessorController.errorSnack("Please fill in your phone number");
       return;
     }
-    if (dropOffEC.text.isEmpty) {
+    if (dropOffEC.text.isEmpty ||
+        latitudeDrop == null ||
+        longitudeDrop == null) {
       ApiProcessorController.errorSnack("Please select a drop-off location");
       return;
     }
