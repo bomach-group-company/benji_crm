@@ -8,8 +8,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 
 import '../../../../theme/colors.dart';
-import '../../../controller/rider_controller.dart';
-import '../../../controller/vendor_controller.dart';
 import '../../utils/constants.dart';
 
 class AvailableBalanceCard extends StatefulWidget {

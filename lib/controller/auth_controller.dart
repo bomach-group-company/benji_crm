@@ -15,7 +15,6 @@ import 'api_processor_controller.dart';
 import 'fcm_messaging_controller.dart';
 import 'notification_controller.dart';
 import 'user_controller.dart';
-import 'vendor_controller.dart';
 
 class AuthController extends GetxController {
   static AuthController get instance {
