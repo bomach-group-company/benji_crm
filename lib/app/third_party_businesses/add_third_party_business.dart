@@ -1480,9 +1480,13 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
                             MyMapsTextFormField(
                               controller: addressEC,
                               validator: (value) {
-                                if (value == null) {
+                                if (value == null || value == "") {
                                   addressFN.requestFocus();
-                                  "Enter a location";
+                                  return "Enter a location";
+                                }
+                                if (latitude == null || longitude == null) {
+                                  addressFN.requestFocus();
+                                  return "Please select a location so we can get the coordinates";
                                 }
                                 return null;
                               },

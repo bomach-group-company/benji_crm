@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member
 
 import 'dart:io';
+
 import 'package:benji_aggregator/app/google_maps/get_location_on_map.dart';
 import 'package:benji_aggregator/app/packages/packages.dart';
 import 'package:benji_aggregator/controller/api_processor_controller.dart';
@@ -308,7 +309,9 @@ class _SendPackageState extends State<SendPackage> {
   }
 
   submitForm() async {
-    if (pickupEC.text.isEmpty) {
+    if (pickupEC.text.isEmpty ||
+        latitudePick == null ||
+        longitudePick == null) {
       ApiProcessorController.errorSnack("Please fill in a pickup address");
       return;
     }
@@ -320,7 +323,9 @@ class _SendPackageState extends State<SendPackage> {
       ApiProcessorController.errorSnack("Please fill in your phone number");
       return;
     }
-    if (dropOffEC.text.isEmpty) {
+    if (dropOffEC.text.isEmpty ||
+        latitudeDrop == null ||
+        longitudeDrop == null) {
       ApiProcessorController.errorSnack("Please select a drop-off location");
       return;
     }
@@ -542,13 +547,13 @@ class _SendPackageState extends State<SendPackage> {
                 // readOnly: true,
                 controller: pickupEC,
                 validator: (value) {
-                  RegExp pickupAddress = RegExp(r'^\d+\s+[a-zA-Z0-9\s.-]+$');
                   if (value == null || value == "") {
                     pickupFN.requestFocus();
-                    return "Enter pickup location";
-                  } else if (!pickupAddress.hasMatch(value)) {
+                    return "Enter a location";
+                  }
+                  if (latitudePick == null || longitudePick == null) {
                     pickupFN.requestFocus();
-                    return "Enter a valid address (must have a street number)";
+                    return "Please select a location so we can get the coordinates";
                   }
                   return null;
                 },
@@ -736,13 +741,13 @@ class _SendPackageState extends State<SendPackage> {
                 // readOnly: true,
                 controller: dropOffEC,
                 validator: (value) {
-                  RegExp dropoffAddress = RegExp(r'^\d+\s+[a-zA-Z0-9\s.-]+$');
                   if (value == null || value == "") {
                     dropOffFN.requestFocus();
-                    return "Enter drop-off location";
-                  } else if (!dropoffAddress.hasMatch(value)) {
+                    return "Enter a location";
+                  }
+                  if (latitudeDrop == null || longitudeDrop == null) {
                     dropOffFN.requestFocus();
-                    return "Enter a valid address (must have a street number)";
+                    return "Please select a location so we can get the coordinates";
                   }
                   return null;
                 },

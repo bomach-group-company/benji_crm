@@ -1197,13 +1197,17 @@ class _EditBusinessState extends State<EditBusiness> {
                         // kHalfSizedBox,
                         // MyMapsTextFormField(
                         //   controller: mapsLocationEC,
-                        //   validator: (value) {
-                        //     if (value == null) {
-                        //       addressFN.requestFocus();
-                        //       "Enter a location";
-                        //     }
-                        //     return null;
-                        //   },
+                        // validator: (value) {
+                        //         if (value == null || value == "") {
+                        //           addressFN.requestFocus();
+                        //           return "Enter a location";
+                        //         }
+                        //         if (latitude == null || longitude == null) {
+                        //           addressFN.requestFocus();
+                        //           return "Please select a location so we can get the coordinates";
+                        //         }
+                        //         return null;
+                        //       },
                         //   onChanged: (value) {
                         //     placeAutoComplete(value);
                         //     setState(() {
