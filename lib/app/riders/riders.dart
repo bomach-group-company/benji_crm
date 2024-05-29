@@ -167,7 +167,7 @@ class _RidersState extends State<Riders> {
                           // controller.isLoad.value
                           ? const RidersListSkeleton()
                           : controller.riderList.isEmpty
-                              ? EmptyCard()
+                              ? const EmptyCard()
                               : ListView.separated(
                                   separatorBuilder: (context, index) =>
                                       kSizedBox,

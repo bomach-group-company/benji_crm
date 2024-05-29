@@ -41,7 +41,7 @@ class _MyVendorsState extends State<MyVendors> {
               controller.isLoad.value
                   ? const VendorsListSkeleton()
                   : controller.vendorMyList.isEmpty
-                      ? EmptyCard()
+                      ? const EmptyCard()
                       : Column(
                           children: [
                             ListView.separated(

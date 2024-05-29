@@ -51,7 +51,7 @@ class _ThirdPartyVendorsState extends State<ThirdPartyVendors> {
               controller.isLoad.value
                   ? const VendorsListSkeleton()
                   : controller.thirdPartyVendorList.isEmpty
-                      ? EmptyCard()
+                      ? const EmptyCard()
                       : Column(
                           children: [
                             ListView.separated(

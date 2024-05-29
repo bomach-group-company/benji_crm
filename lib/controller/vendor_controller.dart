@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:benji_aggregator/controller/api_processor_controller.dart';
 import 'package:benji_aggregator/model/my_vendor_model.dart';
@@ -10,7 +9,6 @@ import 'package:benji_aggregator/services/api_url.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-import '../model/create_vendor_model.dart';
 import '../model/third_party_vendor_model.dart';
 import 'user_controller.dart';
 
