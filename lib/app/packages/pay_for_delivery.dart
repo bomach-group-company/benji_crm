@@ -172,7 +172,7 @@ class _PayForDeliveryState extends State<PayForDelivery> {
               amount: amount,
               metaData: meta,
               onTransaction: (response) async {
-                print('the response from my monnify $response');
+                // print('the response from my monnify $response');
                 if (response != null && response['status'] == "SUCCESS") {
                   await Future.delayed(const Duration(seconds: 1));
                   toPackages();
