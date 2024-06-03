@@ -120,6 +120,7 @@ class _ThirdPartyBusinessDetailScreenState
 
 //===================== BOOL VALUES =======================\\
   bool isScrollToTopBtnVisible = false;
+  bool isOpen = false;
 
 //================================================= FUNCTIONS ===================================================\\
 
@@ -442,7 +443,7 @@ class _ThirdPartyBusinessDetailScreenState
                                         ),
                                       ),
                                       Container(
-                                        width: media.width * 0.28,
+                                        // width: media.width * 0.32,
                                         // height: 57,
                                         padding: const EdgeInsets.all(
                                             kDefaultPadding),
@@ -457,27 +458,41 @@ class _ThirdPartyBusinessDetailScreenState
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
+                                            Switch(
+                                              value: isOpen,
+                                              mouseCursor:
+                                                  SystemMouseCursors.click,
+                                              hoverColor: kAccentColor,
+                                              activeColor: kSuccessColor,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  isOpen = !isOpen;
+                                                });
+                                              },
+                                            ),
                                             Text(
                                               widget.business.vendorOwner
                                                       .isOnline
-                                                  ? "Online"
-                                                  : 'Offline',
+                                                  // isOpen
+                                                  ? "Open".toUpperCase()
+                                                  : 'Closed'.toUpperCase(),
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                 color: widget.business
                                                         .vendorOwner.isOnline
+                                                    // isOpen
                                                     ? kSuccessColor
                                                     : kAccentColor,
                                                 fontSize: 14,
-                                                fontWeight: FontWeight.w400,
+                                                fontWeight: FontWeight.w800,
                                                 letterSpacing: -0.36,
                                               ),
                                             ),
                                             const SizedBox(width: 5),
-                                            FaIcon(
-                                              Icons.info,
-                                              color: kAccentColor,
-                                            ),
+                                            // FaIcon(
+                                            //   Icons.info,
+                                            //   color: kAccentColor,
+                                            // ),
                                           ],
                                         ),
                                       ),

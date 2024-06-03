@@ -97,7 +97,7 @@ class _MyVendorsState extends State<MyVendors> {
                                       )
                                     : InkWell(
                                         onTap: controller.loadMoreVendor,
-                                        child: const Text('more'),
+                                        child: const Text('Load more'),
                                       )
                           ],
                         ),

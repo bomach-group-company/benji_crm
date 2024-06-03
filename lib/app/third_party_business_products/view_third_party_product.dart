@@ -296,6 +296,7 @@ class _ViewThirdPartyProductState extends State<ViewThirdPartyProduct> {
             dragStartBehavior: DragStartBehavior.down,
             children: [
               FlutterCarousel.builder(
+                itemCount: widget.product.productImage.length,
                 options: CarouselOptions(
                   height:
                       deviceType(media.width) > 3 && deviceType(media.width) < 5
@@ -304,7 +305,7 @@ class _ViewThirdPartyProductState extends State<ViewThirdPartyProduct> {
                   viewportFraction: 1.0,
                   initialPage: 0,
                   enableInfiniteScroll: true,
-                  autoPlay: true,
+                  autoPlay: false,
                   autoPlayInterval: const Duration(seconds: 2),
                   autoPlayAnimationDuration: const Duration(milliseconds: 800),
                   autoPlayCurve: Curves.easeInOut,
@@ -322,8 +323,8 @@ class _ViewThirdPartyProductState extends State<ViewThirdPartyProduct> {
                   pauseAutoPlayInFiniteScroll: false,
                   enlargeStrategy: CenterPageEnlargeStrategy.scale,
                   disableCenter: false,
-                  showIndicator: true,
-                  floatingIndicator: true,
+                  showIndicator: false,
+                  floatingIndicator: false,
                   slideIndicator: CircularSlideIndicator(
                     alignment: Alignment.bottomCenter,
                     currentIndicatorColor: kAccentColor,
@@ -332,7 +333,6 @@ class _ViewThirdPartyProductState extends State<ViewThirdPartyProduct> {
                     padding: const EdgeInsets.all(10),
                   ),
                 ),
-                itemCount: widget.product.productImage.length,
                 itemBuilder:
                     (BuildContext context, int itemIndex, int pageViewIndex) =>
                         Padding(
