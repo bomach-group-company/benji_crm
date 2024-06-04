@@ -26,9 +26,11 @@ class _VendorsState extends State<Vendors> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     selectedtabbar = widget.selectedtabbar;
-    print('${widget.selectedtabbar} widget.selectedtabbar;');
     _tabBarController = TabController(
-        length: 2, vsync: this, initialIndex: widget.selectedtabbar);
+      length: 2,
+      vsync: this,
+      initialIndex: widget.selectedtabbar,
+    );
 
     scrollController.addListener(_scrollListener);
   }

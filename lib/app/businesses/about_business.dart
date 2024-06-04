@@ -148,32 +148,32 @@ class _AboutBusinessState extends State<AboutBusiness> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        const Text(
-                          "Mon. - Fri.",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        kHalfWidthSizedBox,
-                        const Text(
-                          " - ",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        Text(
-                          "${widget.business.weekOpeningHours} - ${widget.business.weekClosingHours}",
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
+                    // Row(
+                    //   children: [
+                    //     const Text(
+                    //       "Mon. - Fri.",
+                    //       style: TextStyle(
+                    //         fontSize: 14,
+                    //         fontWeight: FontWeight.w400,
+                    //       ),
+                    //     ),
+                    //     kHalfWidthSizedBox,
+                    //     const Text(
+                    //       " - ",
+                    //       style: TextStyle(
+                    //         fontSize: 16,
+                    //         fontWeight: FontWeight.w700,
+                    //       ),
+                    //     ),
+                    // Text(
+                    //   "${widget.business.weekOpeningHours} - ${widget.business.weekClosingHours}",
+                    //   style: const TextStyle(
+                    //     fontSize: 16,
+                    //     fontWeight: FontWeight.w700,
+                    //   ),
+                    // ),
+                    //   ],
+                    // ),
                     kHalfSizedBox,
                     Row(
                       children: [
