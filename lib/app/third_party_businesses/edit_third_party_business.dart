@@ -334,9 +334,6 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
       body: data,
     );
 
-    print(response.body);
-    print(response.statusCode);
-
     if (response.statusCode.toString().startsWith('2')) {
       await PushNotificationController.showNotification(
         title: "Success.",

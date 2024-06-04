@@ -22,12 +22,20 @@ class BusinessController extends GetxController {
   var balance = 0.0.obs;
 
   var isLoad = false.obs;
+  var isLoadBusinessStatus = false.obs;
+  var isBusinessOpen = false.obs;
+  var isLoadBusinessInfo = false.obs;
   var listOfBusinesses = <BusinessModel>[].obs;
   var totalNumberOfBusiness = <BusinessModel>[].obs;
   // vendor pagination
   var loadNumBusinesses = 10.obs;
   var loadedAllBusinesses = false.obs;
   var isLoadMoreBusinesses = false.obs;
+
+  setBusiness(value) {
+    isBusinessOpen.value = value;
+    update();
+  }
 
   refreshData(String vendorId, agentId) {
     loadNumBusinesses.value = 10;
@@ -51,6 +59,53 @@ class BusinessController extends GetxController {
     }
   }
 
+  Future setBusinessOnlineStatus(
+    String businessId,
+    bool status,
+  ) async {
+    var url = Api.baseUrl + Api.setBusinessOnlineStatus(businessId, status);
+
+    log(businessId);
+    log(url);
+
+    isLoadBusinessStatus.value = true;
+    update();
+
+    try {
+      var response = await http.get(Uri.parse(url), headers: authHeader());
+
+      if (response.statusCode == 200) {
+        log("This is the response body of the business status: ${response.body}");
+        var responseJson = jsonDecode(response.body);
+        print(responseJson["is_online"]);
+
+        isBusinessOpen.value = responseJson["is_online"] ?? false;
+      }
+    } on SocketException {
+      ApiProcessorController.errorSnack("Please connect to the internet.");
+    }
+    isLoadBusinessStatus.value = false;
+    update();
+  }
+
+  Future getBusinessInfo(String businessId) async {
+    var url = Api.baseUrl + Api.getMyBusinessInfo(businessId);
+    isLoadBusinessInfo.value = true;
+    update();
+
+    try {
+      var response = await http.get(Uri.parse(url), headers: authHeader());
+
+      if (response.statusCode == 200) {
+        log("This is the response body of business info: ${response.body}");
+      }
+    } on SocketException {
+      ApiProcessorController.errorSnack("Please connect to the internet.");
+    }
+    isLoadBusinessInfo.value = false;
+    update();
+  }
+
   Future getBusinesses(String vendorId, agentId) async {
     isLoad.value = true;
 
@@ -58,7 +113,7 @@ class BusinessController extends GetxController {
     token = UserController.instance.user.value.token;
 
     var url = "${Api.baseUrl}${Api.getVendorBusinesses}$vendorId/$agentId";
-    log(url);
+
     loadNumBusinesses.value += 10;
 
     List<BusinessModel> data = [];
