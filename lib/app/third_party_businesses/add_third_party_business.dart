@@ -652,6 +652,7 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
             : const SizedBox(),
         body: SafeArea(
             child: Scrollbar(
+          controller: scrollController,
           child: ListView(
             controller: scrollController,
             physics: const BouncingScrollPhysics(),

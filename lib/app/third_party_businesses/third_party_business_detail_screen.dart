@@ -2,9 +2,10 @@ import 'package:benji_aggregator/app/third_party_business_orders/third_party_ord
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 
 import '../../controller/api_processor_controller.dart';
+import '../../controller/business_controller.dart';
 import '../../controller/product_controller.dart';
 import '../../controller/reviews_controller.dart';
 import '../../model/business_model.dart';
@@ -40,7 +41,7 @@ class _ThirdPartyBusinessDetailScreenState
   @override
   void initState() {
     super.initState();
-
+    loadPage();
     scrollController.addListener(scrollListener);
     _tabBarController = TabController(length: 3, vsync: this);
   }
@@ -55,12 +56,14 @@ class _ThirdPartyBusinessDetailScreenState
   //========================= VARIABLES =========================\\
   bool refreshing = false;
 
-  Future<void> _handleRefresh() async {
+  Future<void> loadPage() async {
     setState(() {
       refreshing = true;
     });
     await ProductController.instance.getBusinessProducts(widget.business.id);
     await ReviewsController.instance.getReviews();
+    await BusinessController.instance.setBusiness(widget.business.isOnline);
+
     setState(() {
       refreshing = false;
     });
@@ -120,7 +123,6 @@ class _ThirdPartyBusinessDetailScreenState
 
 //===================== BOOL VALUES =======================\\
   bool isScrollToTopBtnVisible = false;
-  bool isOpen = false;
 
 //================================================= FUNCTIONS ===================================================\\
 
@@ -214,7 +216,7 @@ class _ThirdPartyBusinessDetailScreenState
     var media = MediaQuery.of(context).size;
 
     return MyLiquidRefresh(
-      onRefresh: _handleRefresh,
+      onRefresh: loadPage,
       child: Scaffold(
         appBar: MyAppBar(
           title: isScrollToTopBtnVisible
@@ -442,59 +444,69 @@ class _ThirdPartyBusinessDetailScreenState
                                           ],
                                         ),
                                       ),
-                                      Container(
-                                        // width: media.width * 0.32,
-                                        // height: 57,
-                                        padding: const EdgeInsets.all(
-                                            kDefaultPadding),
-                                        decoration: ShapeDecoration(
-                                          color: kPrimaryColor,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(19),
-                                          ),
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Switch(
-                                              value: isOpen,
-                                              mouseCursor:
-                                                  SystemMouseCursors.click,
-                                              hoverColor: kAccentColor,
-                                              activeColor: kSuccessColor,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  isOpen = !isOpen;
-                                                });
-                                              },
-                                            ),
-                                            Text(
-                                              widget.business.vendorOwner
-                                                      .isOnline
-                                                  // isOpen
-                                                  ? "Open".toUpperCase()
-                                                  : 'Closed'.toUpperCase(),
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                color: widget.business
-                                                        .vendorOwner.isOnline
-                                                    // isOpen
-                                                    ? kSuccessColor
-                                                    : kAccentColor,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w800,
-                                                letterSpacing: -0.36,
+                                      GetBuilder<BusinessController>(
+                                        builder: (controller) {
+                                          return Container(
+                                            // width: media.width * 0.32,
+                                            // height: 57,
+
+                                            decoration: ShapeDecoration(
+                                              color: kPrimaryColor,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(19),
                                               ),
                                             ),
-                                            const SizedBox(width: 5),
-                                            // FaIcon(
-                                            //   Icons.info,
-                                            //   color: kAccentColor,
-                                            // ),
-                                          ],
-                                        ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Switch(
+                                                  value: controller
+                                                      .isBusinessOpen.value,
+                                                  mouseCursor:
+                                                      SystemMouseCursors.click,
+                                                  activeColor: kSuccessColor,
+                                                  onChanged: controller
+                                                          .isLoadBusinessStatus
+                                                          .value
+                                                      ? null
+                                                      : (value) {
+                                                          controller
+                                                              .setBusinessOnlineStatus(
+                                                            widget.business.id,
+                                                            !controller
+                                                                .isBusinessOpen
+                                                                .value,
+                                                          );
+                                                        },
+                                                ),
+                                                Text(
+                                                  controller
+                                                          .isBusinessOpen.value
+                                                      ? "Open".toUpperCase()
+                                                      : 'Closed'.toUpperCase(),
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    color: controller
+                                                            .isBusinessOpen
+                                                            .value
+                                                        ? kSuccessColor
+                                                        : kAccentColor,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w800,
+                                                    letterSpacing: -0.36,
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 5),
+                                                // FaIcon(
+                                                //   Icons.info,
+                                                //   color: kAccentColor,
+                                                // ),
+                                              ],
+                                            ),
+                                          );
+                                        },
                                       ),
                                     ],
                                   )

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import '../src/utils/constants.dart';
 import 'business_type_model.dart';
 import 'country_model.dart';
@@ -44,6 +42,7 @@ class BusinessModel {
   int numberOfClientsReactions;
   UserModel agent;
   dynamic popularity;
+  bool isOnline;
 
   BusinessModel({
     required this.id,
@@ -83,10 +82,11 @@ class BusinessModel {
     required this.numberOfClientsReactions,
     required this.agent,
     required this.popularity,
+    required this.isOnline,
   });
 
   factory BusinessModel.fromJson(Map<String, dynamic>? json) {
-    log("Business JSON: $json");
+    // log("Business JSON: $json");
     json ??= {};
     return BusinessModel(
       id: json["id"] ?? '',
@@ -130,6 +130,7 @@ class BusinessModel {
       numberOfClientsReactions: json["number_of_clients_reactions"] ?? 0,
       agent: UserModel.fromJson(json['agent'] ?? {}),
       popularity: json['popularity'],
+      isOnline: json["is_online"] ?? false,
     );
   }
 
@@ -171,5 +172,6 @@ class BusinessModel {
         "number_of_clients_reactions": numberOfClientsReactions,
         "agent": agent.toJson(),
         "popularity": popularity,
+        "is_online": isOnline,
       };
 }

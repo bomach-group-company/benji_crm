@@ -42,6 +42,11 @@ class Api {
   //Businesses
   static const getVendorBusinesses = "/agents/getVendorBusinesses/";
   static const agentCreateVendorBusiness = "/agents/agentCreateVendorBusiness/";
+  static setBusinessOnlineStatus(id, status) =>
+      "/vendors/setBusinessOnlineStatus/$id/?status=$status";
+
+  static getMyBusinessInfo(businessId) =>
+      "/vendors/$businessId/getMybusinessInfo";
 
   //Products
   static const agentAddProductToVendorBusiness =
@@ -148,9 +153,6 @@ class HandleData {
     }
     return response;
   }
-
-  static Future put() async {}
-  static Future delete() async {}
 
   static Future<http.StreamedResponse?> streamAddVendor(
       url, token, SendCreateModel data, bool vendorClassifier) async {
