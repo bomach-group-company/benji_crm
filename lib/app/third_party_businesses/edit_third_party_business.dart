@@ -34,7 +34,6 @@ import 'package:benji_aggregator/theme/colors.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -71,10 +70,10 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
     businessCoverImage = widget.business.coverImage;
     shopNameEC.text = widget.business.shopName;
 
-    saturdayOpeningTimeOfDay = widget.business.satOpeningHours;
-    vendorSatClosingHoursEC.text = widget.business.satClosingHours;
-    vendorSunOpeningHoursEC.text = widget.business.sunWeekOpeningHours;
-    vendorSunClosingHoursEC.text = widget.business.sunWeekClosingHours;
+    // saturdayOpeningTime = widget.business.satOpeningHours;
+    // vendorSatClosingHoursEC.text = widget.business.satClosingHours;
+    // vendorSunOpeningHoursEC.text = widget.business.sunWeekOpeningHours;
+    // vendorSunClosingHoursEC.text = widget.business.sunWeekClosingHours;
     businessBioEC.text = widget.business.businessBio;
     vendorBusinessTypeEC.text = widget.business.shopType.name;
     shopType = widget.business.shopType.id;
