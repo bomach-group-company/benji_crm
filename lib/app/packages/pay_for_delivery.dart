@@ -3,6 +3,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:benji_aggregator/app/assign/assign_rider.dart';
 import 'package:benji_aggregator/app/packages/packages.dart';
 import 'package:benji_aggregator/controller/api_processor_controller.dart';
 import 'package:benji_aggregator/controller/payment_controller.dart';
@@ -175,7 +176,16 @@ class _PayForDeliveryState extends State<PayForDelivery> {
                 // print('the response from my monnify $response');
                 if (response != null && response['status'] == "SUCCESS") {
                   await Future.delayed(const Duration(seconds: 1));
-                  toPackages();
+                  Get.to(
+                    () => AssignRiderMap(
+                        itemId: widget.packageId, itemType: 'package'),
+                    routeName: 'AssignRiderMap',
+                    duration: const Duration(milliseconds: 300),
+                    fullscreenDialog: true,
+                    curve: Curves.easeIn,
+                    popGesture: false,
+                    transition: Transition.rightToLeft,
+                  );
                 }
               },
               onClose: () {
