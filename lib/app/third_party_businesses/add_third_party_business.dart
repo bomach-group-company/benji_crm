@@ -16,11 +16,9 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../controller/api_processor_controller.dart';
-import '../../controller/business_controller.dart';
 import '../../controller/category_controller.dart';
 import '../../controller/form_controller.dart';
 import '../../controller/latlng_detail_controller.dart';
-import '../../controller/push_notifications_controller.dart';
 import '../../controller/user_controller.dart';
 import '../../controller/withdraw_controller.dart';
 import '../../model/third_party_vendor_model.dart';
@@ -85,6 +83,20 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
   String? latitude;
   String? longitude;
   bool isTyping = false;
+  // var sundayOpeningTime = "CLOSED";
+  // var sundayClosingTime = "CLOSED";
+  // var mondayOpeningTime = "CLOSED";
+  // var mondayClosingTime = "CLOSED";
+  // var tuesdayOpeningTime = "CLOSED";
+  // var tuesdayClosingTime = "CLOSED";
+  // var wednesdayOpeningTime = "CLOSED";
+  // var wednesdayClosingTime = "CLOSED";
+  // var thursdayOpeningTime = "CLOSED";
+  // var thursdayClosingTime = "CLOSED";
+  // var fridayOpeningTime = "CLOSED";
+  // var fridayClosingTime = "CLOSED";
+  // var saturdayOpeningTime = "CLOSED";
+  // var saturdayClosingTime = "CLOSED";
 
   //======================================== GLOBAL KEYS ==============================================\\
   final _formKey = GlobalKey<FormState>();
@@ -104,40 +116,24 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
   //============================================== CONTROLLERS =================================================\\
   final scrollController = ScrollController();
   final businessNameEC = TextEditingController();
-  final vendorMonToFriOpeningHoursEC = TextEditingController();
-  final vendorSatOpeningHoursEC = TextEditingController();
-  final vendorSunOpeningHoursEC = TextEditingController();
-  final vendorMonToFriClosingHoursEC = TextEditingController();
-  final vendorSatClosingHoursEC = TextEditingController();
-  final vendorSunClosingHoursEC = TextEditingController();
   final businessBioEC = TextEditingController();
   final vendorBusinessTypeEC = TextEditingController();
   final addressEC = TextEditingController();
   final businessLGAEC = TextEditingController();
-
   final accountNameEC = TextEditingController();
   final accountNumberEC = TextEditingController();
   final accountTypeEC = TextEditingController();
   final accountBankEC = TextEditingController();
-
   final businessIdEC = TextEditingController();
-
   final countryEC = TextEditingController();
   final stateEC = TextEditingController();
   final cityEC = TextEditingController();
 
   //=================================== FOCUS NODES ====================================\\
   final businessNameFN = FocusNode();
-  final vendorMonToFriOpeningHoursFN = FocusNode();
-  final vendorSatOpeningHoursFN = FocusNode();
-  final vendorSunOpeningHoursFN = FocusNode();
-  final vendorMonToFriClosingHoursFN = FocusNode();
-  final vendorSatClosingHoursFN = FocusNode();
-  final vendorSunClosingHoursFN = FocusNode();
   final businessBioFN = FocusNode();
   final vendorBusinessTypeFN = FocusNode();
   final businessLGAFN = FocusNode();
-
   final addressFN = FocusNode();
   final accountNameFN = FocusNode();
   final accountNumberFN = FocusNode();
@@ -265,21 +261,21 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
   //========================== Save data ==================================\\
   Future<void> saveChanges() async {
     if (await checkXFileSize(selectedLogoImage)) {
-      ApiProcessorController.errorSnack('Business logo image too large');
+      ApiProcessorController.errorSnack('Business logo image is too large');
       return;
     }
     if (await checkXFileSize(selectedCoverImage)) {
-      ApiProcessorController.errorSnack('Business cover image too large');
+      ApiProcessorController.errorSnack('Business cover image is too large');
       return;
     }
     log("accountType: ${accountTypeEC.text}");
     log("shop_type: ${vendorBusinessTypeEC.text}");
     if (selectedLogoImage == null) {
-      ApiProcessorController.errorSnack("Please select a shop image");
+      ApiProcessorController.errorSnack("Please select a business logo");
       return;
     }
     if (selectedCoverImage == null) {
-      ApiProcessorController.errorSnack("Please select a shop image");
+      ApiProcessorController.errorSnack("Please select a cover image");
       return;
     }
     if (shopType == null &&
@@ -316,12 +312,40 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
       "lga": businessLGAEC.text,
       "businessId": businessIdEC.text,
       "shop_name": businessNameEC.text,
-      "weekOpeningHours": vendorMonToFriOpeningHoursEC.text,
-      "weekClosingHours": vendorMonToFriClosingHoursEC.text,
-      "satOpeningHours": vendorSatOpeningHoursEC.text,
-      "satClosingHours": vendorSatClosingHoursEC.text,
-      "sunWeekOpeningHours": vendorSunOpeningHoursEC.text,
-      "sunWeekClosingHours": vendorSunClosingHoursEC.text,
+      "monOpeningHours":
+          isOpenOnMonday ? mondayOpeningTimeOfDay.format(context) : "CLOSED",
+      "monClosingHours":
+          isOpenOnMonday ? mondayClosingTimeOfDay.format(context) : "CLOSED",
+      "tueOpeningHours":
+          isOpenOnTuesday ? tuesdayOpeningTimeOfDay.format(context) : "CLOSED",
+      "tueClosingHours":
+          isOpenOnTuesday ? tuesdayClosingTimeOfDay.format(context) : "CLOSED",
+      "wedOpeningHours": isOpenOnWednesday
+          ? "CLOSED"
+          : wednesdayOpeningTimeOfDay.format(context),
+      "wedClosingHours": isOpenOnWednesday
+          ? wednesdayClosingTimeOfDay.format(context)
+          : "CLOSED",
+      "thursOpeningHours": isOpenOnThursday
+          ? thursdayOpeningTimeOfDay.format(context)
+          : "CLOSED",
+      "thursClosingHours": isOpenOnThursday
+          ? thursdayClosingTimeOfDay.format(context)
+          : "CLOSED",
+      "friOpeningHours":
+          isOpenOnFriday ? fridayOpeningTimeOfDay.format(context) : "CLOSED",
+      "friClosingHours":
+          isOpenOnFriday ? fridayClosingTimeOfDay.format(context) : "CLOSED",
+      "satOpeningHours": isOpenOnSaturday
+          ? saturdayOpeningTimeOfDay.format(context)
+          : "CLOSED",
+      "satClosingHours": isOpenOnSaturday
+          ? saturdayClosingTimeOfDay.format(context)
+          : "CLOSED",
+      "sunWeekOpeningHours":
+          isOpenOnSunday ? sundayOpeningTimeOfDay.format(context) : "CLOSED",
+      "sunWeekClosingHours":
+          isOpenOnSunday ? sundayClosingTimeOfDay.format(context) : "CLOSED",
       "businessBio": businessBioEC.text,
       "shop_type": vendorBusinessTypeEC.text,
     };
@@ -342,24 +366,24 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
 
     log(url);
 
-    await FormController.instance.postAuthstream2(
-      url,
-      data,
-      {
-        'shop_image': selectedLogoImage,
-        'coverImage': selectedCoverImage,
-      },
-      'agentCreateVendorBusiness',
-    );
-    if (FormController.instance.status.toString().startsWith('20')) {
-      await BusinessController.instance.refreshData(vendorId!, agentId);
-      await PushNotificationController.showNotification(
-        title: "Success.",
-        body: "Your business profile has been successfully updated.",
-      );
+    // await FormController.instance.postAuthstream2(
+    //   url,
+    //   data,
+    //   {
+    //     'shop_image': selectedLogoImage,
+    //     'coverImage': selectedCoverImage,
+    //   },
+    //   'agentCreateVendorBusiness',
+    // );
+    // if (FormController.instance.status.toString().startsWith('20')) {
+    //   await BusinessController.instance.refreshData(vendorId!, agentId);
+    //   await PushNotificationController.showNotification(
+    //     title: "Success.",
+    //     body: "Your business profile has been successfully updated.",
+    //   );
 
-      Get.close(1);
-    }
+    //   Get.close(1);
+    // }
   }
 
   //=========================== WIDGETS ====================================\\
@@ -562,25 +586,24 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
     }
   }
 
-  //===================== Time of day functions ==========================\\
   //Time of Day variables
   //Opening Time
-  TimeOfDay sundayOpeningTime = const TimeOfDay(hour: 08, minute: 00);
-  TimeOfDay mondayOpeningTime = const TimeOfDay(hour: 08, minute: 00);
-  TimeOfDay tuesdayOpeningTime = const TimeOfDay(hour: 08, minute: 00);
-  TimeOfDay wednesdayOpeningTime = const TimeOfDay(hour: 08, minute: 00);
-  TimeOfDay thursdayOpeningTime = const TimeOfDay(hour: 08, minute: 00);
-  TimeOfDay fridayOpeningTime = const TimeOfDay(hour: 08, minute: 00);
-  TimeOfDay saturdayOpeningTime = const TimeOfDay(hour: 08, minute: 00);
+  TimeOfDay sundayOpeningTimeOfDay = const TimeOfDay(hour: 08, minute: 00);
+  TimeOfDay mondayOpeningTimeOfDay = const TimeOfDay(hour: 08, minute: 00);
+  TimeOfDay tuesdayOpeningTimeOfDay = const TimeOfDay(hour: 08, minute: 00);
+  TimeOfDay wednesdayOpeningTimeOfDay = const TimeOfDay(hour: 08, minute: 00);
+  TimeOfDay thursdayOpeningTimeOfDay = const TimeOfDay(hour: 08, minute: 00);
+  TimeOfDay fridayOpeningTimeOfDay = const TimeOfDay(hour: 08, minute: 00);
+  TimeOfDay saturdayOpeningTimeOfDay = const TimeOfDay(hour: 08, minute: 00);
 
   //Closing time
-  TimeOfDay sundayClosingTime = const TimeOfDay(hour: 17, minute: 00);
-  TimeOfDay mondayClosingTime = const TimeOfDay(hour: 17, minute: 00);
-  TimeOfDay tuesdayClosingTime = const TimeOfDay(hour: 17, minute: 00);
-  TimeOfDay wednesdayClosingTime = const TimeOfDay(hour: 17, minute: 00);
-  TimeOfDay thursdayClosingTime = const TimeOfDay(hour: 17, minute: 00);
-  TimeOfDay fridayClosingTime = const TimeOfDay(hour: 17, minute: 00);
-  TimeOfDay saturdayClosingTime = const TimeOfDay(hour: 17, minute: 00);
+  TimeOfDay sundayClosingTimeOfDay = const TimeOfDay(hour: 17, minute: 00);
+  TimeOfDay mondayClosingTimeOfDay = const TimeOfDay(hour: 17, minute: 00);
+  TimeOfDay tuesdayClosingTimeOfDay = const TimeOfDay(hour: 17, minute: 00);
+  TimeOfDay wednesdayClosingTimeOfDay = const TimeOfDay(hour: 17, minute: 00);
+  TimeOfDay thursdayClosingTimeOfDay = const TimeOfDay(hour: 17, minute: 00);
+  TimeOfDay fridayClosingTimeOfDay = const TimeOfDay(hour: 17, minute: 00);
+  TimeOfDay saturdayClosingTimeOfDay = const TimeOfDay(hour: 17, minute: 00);
 
   @override
   Widget build(BuildContext context) {
@@ -941,24 +964,7 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
                           ),
                         ),
                         kSizedBox,
-                        // const Center(
-                        //   child: Text(
-                        //     "Mondays to Fridays",
-                        //     style: TextStyle(
-                        //       fontSize: 18,
-                        //       fontWeight: FontWeight.w700,
-                        //     ),
-                        //   ),
-                        // ),
-                        // kSizedBox,
-                        // const Text(
-                        //   "Opening hours",
-                        //   style: TextStyle(
-                        //     fontSize: 16,
-                        //     fontWeight: FontWeight.w700,
-                        //   ),
-                        // ),
-                        // kSizedBox,
+
                         const Text(
                           "Sunday",
                           style: TextStyle(
@@ -1001,7 +1007,7 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        sundayOpeningTime
+                                        sundayOpeningTimeOfDay
                                             .format(context)
                                             .toString(),
                                         textAlign: TextAlign.start,
@@ -1020,12 +1026,11 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
                                               minute: 00,
                                             ),
                                           ).then((value) {
-                                            setState(() {
-                                              sundayOpeningTime = value!;
-                                            });
-                                            vendorSunOpeningHoursEC.text =
-                                                sundayOpeningTime
-                                                    .format(context);
+                                            if (value != null) {
+                                              setState(() {
+                                                sundayOpeningTimeOfDay = value;
+                                              });
+                                            }
                                           });
                                         },
                                         style: TextButton.styleFrom(
@@ -1057,7 +1062,7 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        sundayClosingTime
+                                        sundayClosingTimeOfDay
                                             .format(context)
                                             .toString(),
                                         textAlign: TextAlign.start,
@@ -1076,12 +1081,11 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
                                               minute: 00,
                                             ),
                                           ).then((value) {
-                                            setState(() {
-                                              sundayClosingTime = value!;
-                                            });
-                                            vendorSunClosingHoursEC.text =
-                                                sundayClosingTime
-                                                    .format(context);
+                                            if (value != null) {
+                                              setState(() {
+                                                sundayClosingTimeOfDay = value;
+                                              });
+                                            }
                                           });
                                         },
                                         style: TextButton.styleFrom(
@@ -1144,7 +1148,7 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        mondayOpeningTime
+                                        mondayOpeningTimeOfDay
                                             .format(context)
                                             .toString(),
                                         textAlign: TextAlign.start,
@@ -1163,9 +1167,11 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
                                               minute: 00,
                                             ),
                                           ).then((value) {
-                                            setState(() {
-                                              mondayOpeningTime = value!;
-                                            });
+                                            if (value != null) {
+                                              setState(() {
+                                                mondayOpeningTimeOfDay = value;
+                                              });
+                                            }
                                           });
                                         },
                                         style: TextButton.styleFrom(
@@ -1197,7 +1203,7 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        sundayClosingTime
+                                        mondayClosingTimeOfDay
                                             .format(context)
                                             .toString(),
                                         textAlign: TextAlign.start,
@@ -1216,13 +1222,11 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
                                               minute: 00,
                                             ),
                                           ).then((value) {
-                                            setState(() {
-                                              sundayClosingTime = value!;
-                                            });
-                                            vendorSunOpeningHoursEC.text =
-                                                sundayClosingTime
-                                                    .format(context);
-                                            log("Closing Time of Day: ${vendorSunOpeningHoursEC.text}");
+                                            if (value != null) {
+                                              setState(() {
+                                                mondayClosingTimeOfDay = value;
+                                              });
+                                            }
                                           });
                                         },
                                         style: TextButton.styleFrom(
@@ -1273,6 +1277,115 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
                             ),
                           ],
                         ),
+                        isOpenOnTuesday ? kHalfSizedBox : const SizedBox(),
+                        isOpenOnTuesday
+                            ? Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        tuesdayOpeningTimeOfDay
+                                            .format(context)
+                                            .toString(),
+                                        textAlign: TextAlign.start,
+                                        style: const TextStyle(
+                                          color: kTextBlackColor,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          showTimePicker(
+                                            context: context,
+                                            initialTime: const TimeOfDay(
+                                              hour: 08,
+                                              minute: 00,
+                                            ),
+                                          ).then((value) {
+                                            if (value != null) {
+                                              setState(() {
+                                                tuesdayOpeningTimeOfDay = value;
+                                              });
+                                            }
+                                          });
+                                        },
+                                        style: TextButton.styleFrom(
+                                          padding: const EdgeInsets.all(2),
+                                        ),
+                                        child: Text(
+                                          "Change",
+                                          style: TextStyle(
+                                            color: kAccentColor,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w800,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  kHalfWidthSizedBox,
+                                  const Text(
+                                    "to",
+                                    style: TextStyle(
+                                      color: kTextBlackColor,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  kHalfWidthSizedBox,
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        tuesdayClosingTimeOfDay
+                                            .format(context)
+                                            .toString(),
+                                        textAlign: TextAlign.start,
+                                        style: const TextStyle(
+                                          color: kTextBlackColor,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          showTimePicker(
+                                            context: context,
+                                            initialTime: const TimeOfDay(
+                                              hour: 17,
+                                              minute: 00,
+                                            ),
+                                          ).then((value) {
+                                            if (value != null) {
+                                              setState(() {
+                                                tuesdayClosingTimeOfDay = value;
+                                              });
+                                            }
+                                          });
+                                        },
+                                        style: TextButton.styleFrom(
+                                          padding: const EdgeInsets.all(2),
+                                        ),
+                                        child: Text(
+                                          "Change",
+                                          style: TextStyle(
+                                            color: kAccentColor,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w800,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              )
+                            : const SizedBox(),
                         const Text(
                           "Wednesday",
                           style: TextStyle(
@@ -1304,6 +1417,117 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
                             ),
                           ],
                         ),
+                        isOpenOnWednesday ? kHalfSizedBox : const SizedBox(),
+                        isOpenOnWednesday
+                            ? Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        wednesdayOpeningTimeOfDay
+                                            .format(context)
+                                            .toString(),
+                                        textAlign: TextAlign.start,
+                                        style: const TextStyle(
+                                          color: kTextBlackColor,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          showTimePicker(
+                                            context: context,
+                                            initialTime: const TimeOfDay(
+                                              hour: 08,
+                                              minute: 00,
+                                            ),
+                                          ).then((value) {
+                                            if (value != null) {
+                                              setState(() {
+                                                wednesdayOpeningTimeOfDay =
+                                                    value;
+                                              });
+                                            }
+                                          });
+                                        },
+                                        style: TextButton.styleFrom(
+                                          padding: const EdgeInsets.all(2),
+                                        ),
+                                        child: Text(
+                                          "Change",
+                                          style: TextStyle(
+                                            color: kAccentColor,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w800,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  kHalfWidthSizedBox,
+                                  const Text(
+                                    "to",
+                                    style: TextStyle(
+                                      color: kTextBlackColor,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  kHalfWidthSizedBox,
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        wednesdayClosingTimeOfDay
+                                            .format(context)
+                                            .toString(),
+                                        textAlign: TextAlign.start,
+                                        style: const TextStyle(
+                                          color: kTextBlackColor,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          showTimePicker(
+                                            context: context,
+                                            initialTime: const TimeOfDay(
+                                              hour: 17,
+                                              minute: 00,
+                                            ),
+                                          ).then((value) {
+                                            if (value != null) {
+                                              setState(() {
+                                                wednesdayClosingTimeOfDay =
+                                                    value;
+                                              });
+                                            }
+                                          });
+                                        },
+                                        style: TextButton.styleFrom(
+                                          padding: const EdgeInsets.all(2),
+                                        ),
+                                        child: Text(
+                                          "Change",
+                                          style: TextStyle(
+                                            color: kAccentColor,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w800,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              )
+                            : const SizedBox(),
                         const Text(
                           "Thursday",
                           style: TextStyle(
@@ -1335,6 +1559,257 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
                             ),
                           ],
                         ),
+                        isOpenOnThursday ? kHalfSizedBox : const SizedBox(),
+                        isOpenOnThursday
+                            ? Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        thursdayOpeningTimeOfDay
+                                            .format(context)
+                                            .toString(),
+                                        textAlign: TextAlign.start,
+                                        style: const TextStyle(
+                                          color: kTextBlackColor,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          showTimePicker(
+                                            context: context,
+                                            initialTime: const TimeOfDay(
+                                              hour: 08,
+                                              minute: 00,
+                                            ),
+                                          ).then((value) {
+                                            if (value != null) {
+                                              setState(() {
+                                                thursdayOpeningTimeOfDay =
+                                                    value;
+                                              });
+                                            }
+                                          });
+                                        },
+                                        style: TextButton.styleFrom(
+                                          padding: const EdgeInsets.all(2),
+                                        ),
+                                        child: Text(
+                                          "Change",
+                                          style: TextStyle(
+                                            color: kAccentColor,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w800,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  kHalfWidthSizedBox,
+                                  const Text(
+                                    "to",
+                                    style: TextStyle(
+                                      color: kTextBlackColor,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  kHalfWidthSizedBox,
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        thursdayClosingTimeOfDay
+                                            .format(context)
+                                            .toString(),
+                                        textAlign: TextAlign.start,
+                                        style: const TextStyle(
+                                          color: kTextBlackColor,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          showTimePicker(
+                                            context: context,
+                                            initialTime: const TimeOfDay(
+                                              hour: 17,
+                                              minute: 00,
+                                            ),
+                                          ).then((value) {
+                                            if (value != null) {
+                                              setState(() {
+                                                thursdayClosingTimeOfDay =
+                                                    value;
+                                              });
+                                            }
+                                          });
+                                        },
+                                        style: TextButton.styleFrom(
+                                          padding: const EdgeInsets.all(2),
+                                        ),
+                                        child: Text(
+                                          "Change",
+                                          style: TextStyle(
+                                            color: kAccentColor,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w800,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              )
+                            : const SizedBox(),
+                        const Text(
+                          "Friday",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              isOpenOnFriday
+                                  ? "Open".toUpperCase()
+                                  : "Closed".toUpperCase(),
+                              style: const TextStyle(
+                                color: kTextBlackColor,
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                            kHalfWidthSizedBox,
+                            Switch(
+                              value: isOpenOnFriday,
+                              activeColor: kSuccessColor,
+                              onChanged: (value) {
+                                setState(() {
+                                  isOpenOnFriday = !isOpenOnFriday;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                        isOpenOnFriday ? kHalfSizedBox : const SizedBox(),
+                        isOpenOnFriday
+                            ? Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        fridayOpeningTimeOfDay
+                                            .format(context)
+                                            .toString(),
+                                        textAlign: TextAlign.start,
+                                        style: const TextStyle(
+                                          color: kTextBlackColor,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          showTimePicker(
+                                            context: context,
+                                            initialTime: const TimeOfDay(
+                                              hour: 08,
+                                              minute: 00,
+                                            ),
+                                          ).then((value) {
+                                            if (value != null) {
+                                              setState(() {
+                                                fridayOpeningTimeOfDay = value;
+                                              });
+                                            }
+                                          });
+                                        },
+                                        style: TextButton.styleFrom(
+                                          padding: const EdgeInsets.all(2),
+                                        ),
+                                        child: Text(
+                                          "Change",
+                                          style: TextStyle(
+                                            color: kAccentColor,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w800,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  kHalfWidthSizedBox,
+                                  const Text(
+                                    "to",
+                                    style: TextStyle(
+                                      color: kTextBlackColor,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  kHalfWidthSizedBox,
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        fridayClosingTimeOfDay
+                                            .format(context)
+                                            .toString(),
+                                        textAlign: TextAlign.start,
+                                        style: const TextStyle(
+                                          color: kTextBlackColor,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          showTimePicker(
+                                            context: context,
+                                            initialTime: const TimeOfDay(
+                                              hour: 17,
+                                              minute: 00,
+                                            ),
+                                          ).then((value) {
+                                            if (value != null) {
+                                              setState(() {
+                                                fridayClosingTimeOfDay = value;
+                                              });
+                                            }
+                                          });
+                                        },
+                                        style: TextButton.styleFrom(
+                                          padding: const EdgeInsets.all(2),
+                                        ),
+                                        child: Text(
+                                          "Change",
+                                          style: TextStyle(
+                                            color: kAccentColor,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w800,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              )
+                            : const SizedBox(),
                         const Text(
                           "Saturday",
                           style: TextStyle(
@@ -1366,185 +1841,117 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
                             ),
                           ],
                         ),
-                        // MyBlueTextFormField(
-                        //   controller: vendorMonToFriOpeningHoursEC,
-                        //   validator: (value) {
-                        //     if (value == null || value == '') {
-                        //       return "Field cannot be empty";
-                        //     } else {
-                        //       return null;
-                        //     }
-                        //   },
-                        //   onSaved: (value) {},
-                        //   inputFormatters: [
-                        //     FilteringTextInputFormatter.singleLineFormatter,
-                        //     UppercaseTextInputFormatter(),
-                        //   ],
-                        //   textInputAction: TextInputAction.next,
-                        //   focusNode: vendorMonToFriOpeningHoursFN,
-                        //   hintText: "00:00 AM",
-                        //   textInputType: TextInputType.text,
-                        // ),
-                        // kSizedBox,
-                        // const Text(
-                        //   "Closing hours",
-                        //   style: TextStyle(
-                        //     fontSize: 16,
-                        //     fontWeight: FontWeight.w700,
-                        //   ),
-                        // ),
-                        // kSizedBox,
-                        // MyBlueTextFormField(
-                        //   controller: vendorMonToFriClosingHoursEC,
-                        //   validator: (value) {
-                        //     if (value == null || value == '') {
-                        //       return "Field cannot be empty";
-                        //     } else {
-                        //       return null;
-                        //     }
-                        //   },
-                        //   onSaved: (value) {},
-                        //   inputFormatters: [
-                        //     FilteringTextInputFormatter.singleLineFormatter,
-                        //     UppercaseTextInputFormatter(),
-                        //   ],
-                        //   textInputAction: TextInputAction.next,
-                        //   focusNode: vendorMonToFriClosingHoursFN,
-                        //   hintText: "00:00 PM",
-                        //   textInputType: TextInputType.text,
-                        // ),
-                        kSizedBox,
-                        // const Center(
-                        //   child: Text(
-                        //     "Saturdays",
-                        //     style: TextStyle(
-                        //       fontSize: 16,
-                        //       fontWeight: FontWeight.w700,
-                        //     ),
-                        //   ),
-                        // ),
-                        // kSizedBox,
-                        // const Text(
-                        //   "Opening hours",
-                        //   style: TextStyle(
-                        //     fontSize: 16,
-                        //     fontWeight: FontWeight.w700,
-                        //   ),
-                        // ),
-                        // kSizedBox,
-                        // MyBlueTextFormField(
-                        //   controller: vendorSatOpeningHoursEC,
-                        //   validator: (value) {
-                        //     if (value == null || value == '') {
-                        //       return "Field cannot be empty";
-                        //     } else {
-                        //       return null;
-                        //     }
-                        //   },
-                        //   onSaved: (value) {},
-                        //   inputFormatters: [
-                        //     FilteringTextInputFormatter.singleLineFormatter,
-                        //     UppercaseTextInputFormatter(),
-                        //   ],
-                        //   textInputAction: TextInputAction.next,
-                        //   focusNode: vendorSatOpeningHoursFN,
-                        //   hintText: "00:00 AM",
-                        //   textInputType: TextInputType.text,
-                        // ),
-                        // kSizedBox,
-                        // const Text(
-                        //   "Closing hours",
-                        //   style: TextStyle(
-                        //     fontSize: 16,
-                        //     fontWeight: FontWeight.w700,
-                        //   ),
-                        // ),
-                        // kSizedBox,
-                        // MyBlueTextFormField(
-                        //   controller: vendorSatClosingHoursEC,
-                        //   validator: (value) {
-                        //     if (value == null || value == '') {
-                        //       return "Field cannot be empty";
-                        //     } else {
-                        //       return null;
-                        //     }
-                        //   },
-                        //   onSaved: (value) {},
-                        //   inputFormatters: [
-                        //     FilteringTextInputFormatter.singleLineFormatter,
-                        //     UppercaseTextInputFormatter(), // Custom formatter to make text uppercase
-                        //   ],
-                        //   textInputAction: TextInputAction.next,
-                        //   focusNode: vendorSatClosingHoursFN,
-                        //   hintText: "00:00 PM",
-                        //   textInputType: TextInputType.text,
-                        // ),
-                        // kSizedBox,
-                        // const Center(
-                        //   child: Text(
-                        //     "Sundays",
-                        //     style: TextStyle(
-                        //       fontSize: 16,
-                        //       fontWeight: FontWeight.w700,
-                        //     ),
-                        //   ),
-                        // ),
-                        // kSizedBox,
-                        // const Text(
-                        //   "Opening hours",
-                        //   style: TextStyle(
-                        //     fontSize: 16,
-                        //     fontWeight: FontWeight.w700,
-                        //   ),
-                        // ),
-                        // kSizedBox,
-                        // MyBlueTextFormField(
-                        //   controller: vendorSunOpeningHoursEC,
-                        //   validator: (value) {
-                        //     if (value == null || value == '') {
-                        //       return "Field cannot be empty";
-                        //     } else {
-                        //       return null;
-                        //     }
-                        //   },
-                        //   onSaved: (value) {},
-                        //   inputFormatters: [
-                        //     FilteringTextInputFormatter.singleLineFormatter,
-                        //     UppercaseTextInputFormatter(),
-                        //   ],
-                        //   textInputAction: TextInputAction.next,
-                        //   focusNode: vendorSunOpeningHoursFN,
-                        //   hintText: "00:00 AM",
-                        //   textInputType: TextInputType.text,
-                        // ),
-                        // kSizedBox,
-                        // const Text(
-                        //   "Closing hours",
-                        //   style: TextStyle(
-                        //     fontSize: 16,
-                        //     fontWeight: FontWeight.w700,
-                        //   ),
-                        // ),
-                        // kSizedBox,
-                        // MyBlueTextFormField(
-                        //   controller: vendorSunClosingHoursEC,
-                        //   validator: (value) {
-                        //     if (value == null || value == '') {
-                        //       return "Field cannot be empty";
-                        //     } else {
-                        //       return null;
-                        //     }
-                        //   },
-                        //   onSaved: (value) {},
-                        //   inputFormatters: [
-                        //     FilteringTextInputFormatter.singleLineFormatter,
-                        //     UppercaseTextInputFormatter(),
-                        //   ],
-                        //   textInputAction: TextInputAction.next,
-                        //   focusNode: vendorSunClosingHoursFN,
-                        //   hintText: "00:00 AM",
-                        //   textInputType: TextInputType.text,
-                        // ),
+                        isOpenOnSaturday ? kHalfSizedBox : const SizedBox(),
+                        isOpenOnSaturday
+                            ? Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        saturdayOpeningTimeOfDay
+                                            .format(context)
+                                            .toString(),
+                                        textAlign: TextAlign.start,
+                                        style: const TextStyle(
+                                          color: kTextBlackColor,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          showTimePicker(
+                                            context: context,
+                                            initialTime: const TimeOfDay(
+                                              hour: 08,
+                                              minute: 00,
+                                            ),
+                                          ).then((value) {
+                                            if (value != null) {
+                                              setState(() {
+                                                saturdayOpeningTimeOfDay =
+                                                    value;
+                                              });
+                                            }
+                                          });
+                                        },
+                                        style: TextButton.styleFrom(
+                                          padding: const EdgeInsets.all(2),
+                                        ),
+                                        child: Text(
+                                          "Change",
+                                          style: TextStyle(
+                                            color: kAccentColor,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w800,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  kHalfWidthSizedBox,
+                                  const Text(
+                                    "to",
+                                    style: TextStyle(
+                                      color: kTextBlackColor,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  kHalfWidthSizedBox,
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        saturdayClosingTimeOfDay
+                                            .format(context)
+                                            .toString(),
+                                        textAlign: TextAlign.start,
+                                        style: const TextStyle(
+                                          color: kTextBlackColor,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          showTimePicker(
+                                            context: context,
+                                            initialTime: const TimeOfDay(
+                                              hour: 17,
+                                              minute: 00,
+                                            ),
+                                          ).then((value) {
+                                            if (value != null) {
+                                              setState(() {
+                                                saturdayClosingTimeOfDay =
+                                                    value;
+                                              });
+                                            }
+                                          });
+                                        },
+                                        style: TextButton.styleFrom(
+                                          padding: const EdgeInsets.all(2),
+                                        ),
+                                        child: Text(
+                                          "Change",
+                                          style: TextStyle(
+                                            color: kAccentColor,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w800,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              )
+                            : const SizedBox(),
                         kSizedBox,
 
                         // Account section

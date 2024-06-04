@@ -68,8 +68,6 @@ class _EditBusinessState extends State<EditBusiness> {
       businessLogo = widget.business!.shopImage;
       businessCoverImage = widget.business!.coverImage;
       shopNameEC.text = widget.business!.shopName;
-      vendorMonToFriOpeningHoursEC.text = widget.business!.weekOpeningHours;
-      vendorMonToFriClosingHoursEC.text = widget.business!.weekClosingHours;
       vendorSatOpeningHoursEC.text = widget.business!.satOpeningHours;
       vendorSatClosingHoursEC.text = widget.business!.satClosingHours;
       vendorSunOpeningHoursEC.text = widget.business!.sunWeekOpeningHours;
