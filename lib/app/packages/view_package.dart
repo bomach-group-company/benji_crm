@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:benji_aggregator/app/assign/assign_rider.dart';
 import 'package:benji_aggregator/controller/form_controller.dart';
 import 'package:benji_aggregator/controller/push_notifications_controller.dart';
 import 'package:benji_aggregator/model/package/delivery_item.dart';
@@ -252,6 +253,16 @@ class _ViewPackageState extends State<ViewPackage> {
     }
   }
 
+  void _toAssignRider(DeliveryItem package) => Get.to(
+        () => AssignRiderMap(itemId: package.id, itemType: 'package'),
+        routeName: 'AssignRiderMap',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        popGesture: false,
+        transition: Transition.rightToLeft,
+      );
+
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
@@ -260,7 +271,18 @@ class _ViewPackageState extends State<ViewPackage> {
       appBar: MyAppBar(
         title: "View Package",
         elevation: 0,
-        actions: const [],
+        actions: [
+          TextButton(
+            onPressed: () => _toAssignRider(widget.deliveryItem),
+            child: Text(
+              'Assign rider',
+              style: TextStyle(
+                  color: kAccentColor,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
         backgroundColor: kPrimaryColor,
       ),
       extendBody: true,
