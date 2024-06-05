@@ -85,20 +85,6 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
   String? latitude;
   String? longitude;
   bool isTyping = false;
-  // var sundayOpeningTime = "CLOSED";
-  // var sundayClosingTime = "CLOSED";
-  // var mondayOpeningTime = "CLOSED";
-  // var mondayClosingTime = "CLOSED";
-  // var tuesdayOpeningTime = "CLOSED";
-  // var tuesdayClosingTime = "CLOSED";
-  // var wednesdayOpeningTime = "CLOSED";
-  // var wednesdayClosingTime = "CLOSED";
-  // var thursdayOpeningTime = "CLOSED";
-  // var thursdayClosingTime = "CLOSED";
-  // var fridayOpeningTime = "CLOSED";
-  // var fridayClosingTime = "CLOSED";
-  // var saturdayOpeningTime = "CLOSED";
-  // var saturdayClosingTime = "CLOSED";
 
   //======================================== GLOBAL KEYS ==============================================\\
   final _formKey = GlobalKey<FormState>();

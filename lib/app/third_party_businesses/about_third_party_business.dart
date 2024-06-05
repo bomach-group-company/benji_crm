@@ -62,8 +62,7 @@ class _AboutThirdPartyBusinessState extends State<AboutThirdPartyBusiness> {
 
   @override
   Widget build(BuildContext context) {
-    double mediaWidth = MediaQuery.of(context).size.width;
-    // double mediaHeight = MediaQuery.of(context).size.height;
+    final media = MediaQuery.of(context).size;
 
     return Container(
       padding: const EdgeInsets.all(kDefaultPadding / 2),
@@ -82,7 +81,7 @@ class _AboutThirdPartyBusinessState extends State<AboutThirdPartyBusiness> {
           ),
           kSizedBox,
           Container(
-            width: mediaWidth,
+            width: media.width,
             padding: const EdgeInsets.all(kDefaultPadding),
             decoration: ShapeDecoration(
               color: const Color(0xFFFEF8F8),
@@ -122,7 +121,7 @@ class _AboutThirdPartyBusinessState extends State<AboutThirdPartyBusiness> {
           ),
           kSizedBox,
           Container(
-            width: mediaWidth,
+            width: media.width,
             padding: const EdgeInsets.all(kDefaultPadding),
             decoration: ShapeDecoration(
               color: const Color(0xFFFEF8F8),
@@ -149,32 +148,179 @@ class _AboutThirdPartyBusinessState extends State<AboutThirdPartyBusiness> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // Row(
-                    //   children: [
-                    //     const Text(
-                    //       "Mon. - Fri.",
-                    //       style: TextStyle(
-                    //         fontSize: 14,
-                    //         fontWeight: FontWeight.w400,
-                    //       ),
-                    //     ),
-                    //     kHalfWidthSizedBox,
-                    //     const Text(
-                    //       " - ",
-                    //       style: TextStyle(
-                    //         fontSize: 16,
-                    //         fontWeight: FontWeight.w700,
-                    //       ),
-                    //     ),
-                    //     Text(
-                    //       "${widget.business.weekOpeningHours} - ${widget.business.weekClosingHours}",
-                    //       style: const TextStyle(
-                    //         fontSize: 16,
-                    //         fontWeight: FontWeight.w700,
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
+                    Row(
+                      children: [
+                        const Text(
+                          "Sunday",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        kHalfWidthSizedBox,
+                        const Text(
+                          " - ",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        Text(
+                          widget.business.sunWeekOpeningHours == "CLOSED"
+                              ? "CLOSED"
+                              : "${widget.business.sunWeekOpeningHours} - ${widget.business.sunWeekClosingHours}",
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
+                    kHalfSizedBox,
+                    Row(
+                      children: [
+                        const Text(
+                          "Monday",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        kHalfWidthSizedBox,
+                        const Text(
+                          " - ",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        Text(
+                          widget.business.monOpeningHours == "CLOSED"
+                              ? "CLOSED"
+                              : "${widget.business.monOpeningHours} - ${widget.business.monOpeningHours}",
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
+                    kHalfSizedBox,
+                    Row(
+                      children: [
+                        const Text(
+                          "Tuesday",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        kHalfWidthSizedBox,
+                        const Text(
+                          " - ",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        Text(
+                          widget.business.tueOpeningHours == "CLOSED"
+                              ? "CLOSED"
+                              : "${widget.business.tueOpeningHours} - ${widget.business.tueClosingHours}",
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
+                    kHalfSizedBox,
+                    Row(
+                      children: [
+                        const Text(
+                          "Wednesday",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        kHalfWidthSizedBox,
+                        const Text(
+                          " - ",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        Text(
+                          widget.business.wedOpeningHours == "CLOSED"
+                              ? "CLOSED"
+                              : "${widget.business.wedOpeningHours} - ${widget.business.wedClosingHours}",
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
+                    kHalfSizedBox,
+                    Row(
+                      children: [
+                        const Text(
+                          "Thursday",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        kHalfWidthSizedBox,
+                        const Text(
+                          " - ",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        Text(
+                          widget.business.thursOpeningHours == "CLOSED"
+                              ? "CLOSED"
+                              : "${widget.business.thursOpeningHours} - ${widget.business.thursClosingHours}",
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
+                    kHalfSizedBox,
+                    Row(
+                      children: [
+                        const Text(
+                          "Friday",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        kHalfWidthSizedBox,
+                        const Text(
+                          " - ",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        Text(
+                          widget.business.friOpeningHours == "CLOSED"
+                              ? "CLOSED"
+                              : "${widget.business.friOpeningHours} - ${widget.business.friClosingHours}",
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
                     kHalfSizedBox,
                     Row(
                       children: [
@@ -194,7 +340,9 @@ class _AboutThirdPartyBusinessState extends State<AboutThirdPartyBusiness> {
                           ),
                         ),
                         Text(
-                          "${widget.business.satOpeningHours} - ${widget.business.satClosingHours}",
+                          widget.business.satOpeningHours == "CLOSED"
+                              ? "CLOSED"
+                              : "${widget.business.satOpeningHours} - ${widget.business.satClosingHours}",
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
@@ -203,32 +351,6 @@ class _AboutThirdPartyBusinessState extends State<AboutThirdPartyBusiness> {
                       ],
                     ),
                     kHalfSizedBox,
-                    Row(
-                      children: [
-                        const Text(
-                          "Sun.",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        kHalfWidthSizedBox,
-                        const Text(
-                          " - ",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        Text(
-                          "${widget.business.sunWeekOpeningHours} - ${widget.business.sunWeekClosingHours}",
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               ],
@@ -236,7 +358,7 @@ class _AboutThirdPartyBusinessState extends State<AboutThirdPartyBusiness> {
           ),
           kSizedBox,
           Container(
-            width: mediaWidth,
+            width: media.width,
             padding: const EdgeInsets.all(kDefaultPadding),
             decoration: ShapeDecoration(
               color: const Color(0xFFFEF8F8),
