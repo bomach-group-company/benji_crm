@@ -16,9 +16,11 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../controller/api_processor_controller.dart';
+import '../../controller/business_controller.dart';
 import '../../controller/category_controller.dart';
 import '../../controller/form_controller.dart';
 import '../../controller/latlng_detail_controller.dart';
+import '../../controller/push_notifications_controller.dart';
 import '../../controller/user_controller.dart';
 import '../../controller/withdraw_controller.dart';
 import '../../model/third_party_vendor_model.dart';
@@ -278,6 +280,10 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
       ApiProcessorController.errorSnack("Please select a cover image");
       return;
     }
+    if (latitude == null || longitude == null) {
+      ApiProcessorController.errorSnack("Please select an address");
+      return;
+    }
     if (shopType == null &&
         vendorBusinessTypeEC.text.isEmpty &&
         shopType!.isEmpty) {
@@ -366,28 +372,28 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
 
     log(url);
 
-    // await FormController.instance.postAuthstream2(
-    //   url,
-    //   data,
-    //   {
-    //     'shop_image': selectedLogoImage,
-    //     'coverImage': selectedCoverImage,
-    //   },
-    //   'agentCreateVendorBusiness',
-    // );
-    // if (FormController.instance.status.toString().startsWith('20')) {
-    //   await BusinessController.instance.refreshData(vendorId!, agentId);
-    //   await PushNotificationController.showNotification(
-    //     title: "Success.",
-    //     body: "Your business profile has been successfully updated.",
-    //   );
+    await FormController.instance.postAuthstream2(
+      url,
+      data,
+      {
+        'shop_image': selectedLogoImage,
+        'coverImage': selectedCoverImage,
+      },
+      'agentCreateVendorBusiness',
+    );
+    if (FormController.instance.status.toString().startsWith('20')) {
+      await BusinessController.instance.refreshData(vendorId!, agentId);
+      await PushNotificationController.showNotification(
+        title: "Success.",
+        body: "Your business profile has been successfully updated.",
+      );
 
-    //   Get.close(1);
-    // }
+      Get.close(1);
+    }
   }
 
   //=========================== WIDGETS ====================================\\
-  Widget uploadBusinessLogo() => Column(
+  uploadBusinessLogo() => Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           const Text(
@@ -409,6 +415,7 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
                     InkWell(
                       onTap: () {
                         pickLogoImage(ImageSource.camera);
+                        Get.close(0);
                       },
                       borderRadius: BorderRadius.circular(100),
                       child: Container(
@@ -441,6 +448,7 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
                     InkWell(
                       onTap: () {
                         pickLogoImage(ImageSource.gallery);
+                        Get.close(0);
                       },
                       borderRadius: BorderRadius.circular(100),
                       child: Container(
@@ -473,7 +481,7 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
         ],
       );
 
-  Widget uploadBusinessCoverImage() => Column(
+  uploadBusinessCoverImage() => Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           const Text(
@@ -495,6 +503,7 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
                     InkWell(
                       onTap: () {
                         pickCoverImage(ImageSource.camera);
+                        Get.close(0);
                       },
                       borderRadius: BorderRadius.circular(100),
                       child: Container(
@@ -527,6 +536,7 @@ class _AddThirdPartyBusinessState extends State<AddThirdPartyBusiness> {
                     InkWell(
                       onTap: () {
                         pickCoverImage(ImageSource.gallery);
+                        Get.close(0);
                       },
                       borderRadius: BorderRadius.circular(100),
                       child: Container(

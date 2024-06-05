@@ -64,20 +64,38 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
     countryValue = widget.business.country.name;
     stateValue = widget.business.state;
     cityValue = widget.business.city;
-
     businessIdEC.text = widget.business.businessId;
     businessLogo = widget.business.shopImage;
     businessCoverImage = widget.business.coverImage;
     shopNameEC.text = widget.business.shopName;
-
-    // saturdayOpeningTime = widget.business.satOpeningHours;
-    // vendorSatClosingHoursEC.text = widget.business.satClosingHours;
-    // vendorSunOpeningHoursEC.text = widget.business.sunWeekOpeningHours;
-    // vendorSunClosingHoursEC.text = widget.business.sunWeekClosingHours;
     businessBioEC.text = widget.business.businessBio;
     vendorBusinessTypeEC.text = widget.business.shopType.name;
+
+    sundayOpeningTime = widget.business.sunWeekOpeningHours;
+    sundayClosingTime = widget.business.sunWeekClosingHours;
+    mondayOpeningTime = widget.business.monOpeningHours;
+    mondayClosingTime = widget.business.monClosingHours;
+    tuesdayOpeningTime = widget.business.tueOpeningHours;
+    tuesdayClosingTime = widget.business.tueClosingHours;
+    wednesdayOpeningTime = widget.business.wedOpeningHours;
+    wednesdayClosingTime = widget.business.wedClosingHours;
+    thursdayOpeningTime = widget.business.thursOpeningHours;
+    thursdayClosingTime = widget.business.thursClosingHours;
+    fridayOpeningTime = widget.business.friOpeningHours;
+    fridayClosingTime = widget.business.friClosingHours;
+    saturdayOpeningTime = widget.business.satOpeningHours;
+    saturdayClosingTime = widget.business.satClosingHours;
     shopType = widget.business.shopType.id;
     log("This is the shop image: $businessLogo");
+
+    //Set business work hours
+    isOpenOnSunday = sundayOpeningTime == "CLOSED" ? false : true;
+    isOpenOnMonday = mondayOpeningTime == "CLOSED" ? false : true;
+    isOpenOnTuesday = tuesdayOpeningTime == "CLOSED" ? false : true;
+    isOpenOnWednesday = wednesdayOpeningTime == "CLOSED" ? false : true;
+    isOpenOnThursday = thursdayOpeningTime == "CLOSED" ? false : true;
+    isOpenOnFriday = fridayOpeningTime == "CLOSED" ? false : true;
+    isOpenOnSaturday = saturdayOpeningTime == "CLOSED" ? false : true;
   }
 
   @override
@@ -103,19 +121,33 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
   String countryValue = "";
   String stateValue = "";
   String cityValue = "";
+  String sundayOpeningTime = "8:00 AM";
+  String sundayClosingTime = "5:00 PM";
+  String mondayOpeningTime = "8:00 AM";
+  String mondayClosingTime = "5:00 PM";
+  String tuesdayOpeningTime = "8:00 AM";
+  String tuesdayClosingTime = "5:00 PM";
+  String wednesdayOpeningTime = "8:00 AM";
+  String wednesdayClosingTime = "5:00 PM";
+  String thursdayOpeningTime = "8:00 AM";
+  String thursdayClosingTime = "5:00 PM";
+  String fridayOpeningTime = "8:00 AM";
+  String fridayClosingTime = "5:00 PM";
+  String saturdayOpeningTime = "8:00 AM";
+  String saturdayClosingTime = "5:00 PM";
 
   //======================================== GLOBAL KEYS ==============================================\\
   final _formKey = GlobalKey<FormState>();
 
   //===================== BOOL VALUES =======================\\
   bool isScrollToTopBtnVisible = false;
-  bool isOpenOnSunday = false;
-  bool isOpenOnMonday = false;
-  bool isOpenOnTuesday = false;
-  bool isOpenOnWednesday = false;
-  bool isOpenOnThursday = false;
-  bool isOpenOnFriday = false;
-  bool isOpenOnSaturday = false;
+  late bool isOpenOnSunday;
+  late bool isOpenOnMonday;
+  late bool isOpenOnTuesday;
+  late bool isOpenOnWednesday;
+  late bool isOpenOnThursday;
+  late bool isOpenOnFriday;
+  late bool isOpenOnSaturday;
 
   //============================================== CONTROLLERS =================================================\\
   final scrollController = ScrollController();
@@ -370,6 +402,7 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                     InkWell(
                       onTap: () {
                         pickLogoImage(ImageSource.camera);
+                        Get.close(0);
                       },
                       borderRadius: BorderRadius.circular(100),
                       child: Container(
@@ -402,6 +435,7 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                     InkWell(
                       onTap: () {
                         pickLogoImage(ImageSource.gallery);
+                        Get.close(0);
                       },
                       borderRadius: BorderRadius.circular(100),
                       child: Container(
@@ -455,6 +489,7 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                     InkWell(
                       onTap: () {
                         pickCoverImage(ImageSource.camera);
+                        Get.close(0);
                       },
                       borderRadius: BorderRadius.circular(100),
                       child: Container(
@@ -487,6 +522,7 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                     InkWell(
                       onTap: () {
                         pickCoverImage(ImageSource.gallery);
+                        Get.close(0);
                       },
                       borderRadius: BorderRadius.circular(100),
                       child: Container(
@@ -926,9 +962,7 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        sundayOpeningTimeOfDay
-                                            .format(context)
-                                            .toString(),
+                                        sundayOpeningTime,
                                         textAlign: TextAlign.start,
                                         style: const TextStyle(
                                           color: kTextBlackColor,
@@ -949,6 +983,9 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                               setState(() {
                                                 sundayOpeningTimeOfDay = value;
                                               });
+                                              sundayOpeningTime =
+                                                  sundayOpeningTimeOfDay
+                                                      .format(context);
                                             }
                                           });
                                         },
@@ -981,9 +1018,7 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        sundayClosingTimeOfDay
-                                            .format(context)
-                                            .toString(),
+                                        sundayClosingTime,
                                         textAlign: TextAlign.start,
                                         style: const TextStyle(
                                           color: kTextBlackColor,
@@ -1004,6 +1039,9 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                               setState(() {
                                                 sundayClosingTimeOfDay = value;
                                               });
+                                              sundayClosingTime =
+                                                  sundayClosingTimeOfDay
+                                                      .format(context);
                                             }
                                           });
                                         },
@@ -1067,9 +1105,7 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        mondayOpeningTimeOfDay
-                                            .format(context)
-                                            .toString(),
+                                        mondayOpeningTime,
                                         textAlign: TextAlign.start,
                                         style: const TextStyle(
                                           color: kTextBlackColor,
@@ -1090,6 +1126,9 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                               setState(() {
                                                 mondayOpeningTimeOfDay = value;
                                               });
+                                              mondayOpeningTime =
+                                                  mondayOpeningTimeOfDay
+                                                      .format(context);
                                             }
                                           });
                                         },
@@ -1122,9 +1161,7 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        mondayClosingTimeOfDay
-                                            .format(context)
-                                            .toString(),
+                                        mondayClosingTime,
                                         textAlign: TextAlign.start,
                                         style: const TextStyle(
                                           color: kTextBlackColor,
@@ -1145,6 +1182,9 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                               setState(() {
                                                 mondayClosingTimeOfDay = value;
                                               });
+                                              mondayClosingTime =
+                                                  mondayClosingTimeOfDay
+                                                      .format(context);
                                             }
                                           });
                                         },
@@ -1207,9 +1247,7 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        tuesdayOpeningTimeOfDay
-                                            .format(context)
-                                            .toString(),
+                                        tuesdayOpeningTime,
                                         textAlign: TextAlign.start,
                                         style: const TextStyle(
                                           color: kTextBlackColor,
@@ -1230,6 +1268,9 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                               setState(() {
                                                 tuesdayOpeningTimeOfDay = value;
                                               });
+                                              tuesdayOpeningTime =
+                                                  tuesdayOpeningTimeOfDay
+                                                      .format(context);
                                             }
                                           });
                                         },
@@ -1262,9 +1303,7 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        tuesdayClosingTimeOfDay
-                                            .format(context)
-                                            .toString(),
+                                        tuesdayClosingTime,
                                         textAlign: TextAlign.start,
                                         style: const TextStyle(
                                           color: kTextBlackColor,
@@ -1285,6 +1324,9 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                               setState(() {
                                                 tuesdayClosingTimeOfDay = value;
                                               });
+                                              tuesdayClosingTime =
+                                                  tuesdayClosingTimeOfDay
+                                                      .format(context);
                                             }
                                           });
                                         },
@@ -1347,9 +1389,7 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        wednesdayOpeningTimeOfDay
-                                            .format(context)
-                                            .toString(),
+                                        wednesdayOpeningTime,
                                         textAlign: TextAlign.start,
                                         style: const TextStyle(
                                           color: kTextBlackColor,
@@ -1371,6 +1411,9 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                                 wednesdayOpeningTimeOfDay =
                                                     value;
                                               });
+                                              wednesdayOpeningTime =
+                                                  wednesdayOpeningTimeOfDay
+                                                      .format(context);
                                             }
                                           });
                                         },
@@ -1403,9 +1446,7 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        wednesdayClosingTimeOfDay
-                                            .format(context)
-                                            .toString(),
+                                        wednesdayClosingTime,
                                         textAlign: TextAlign.start,
                                         style: const TextStyle(
                                           color: kTextBlackColor,
@@ -1427,6 +1468,9 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                                 wednesdayClosingTimeOfDay =
                                                     value;
                                               });
+                                              wednesdayOpeningTime =
+                                                  wednesdayOpeningTimeOfDay
+                                                      .format(context);
                                             }
                                           });
                                         },
@@ -1489,9 +1533,7 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        thursdayOpeningTimeOfDay
-                                            .format(context)
-                                            .toString(),
+                                        thursdayOpeningTime,
                                         textAlign: TextAlign.start,
                                         style: const TextStyle(
                                           color: kTextBlackColor,
@@ -1513,6 +1555,9 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                                 thursdayOpeningTimeOfDay =
                                                     value;
                                               });
+                                              thursdayOpeningTime =
+                                                  thursdayOpeningTimeOfDay
+                                                      .format(context);
                                             }
                                           });
                                         },
@@ -1545,9 +1590,7 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        thursdayClosingTimeOfDay
-                                            .format(context)
-                                            .toString(),
+                                        thursdayClosingTime,
                                         textAlign: TextAlign.start,
                                         style: const TextStyle(
                                           color: kTextBlackColor,
@@ -1569,6 +1612,9 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                                 thursdayClosingTimeOfDay =
                                                     value;
                                               });
+                                              thursdayOpeningTime =
+                                                  thursdayOpeningTimeOfDay
+                                                      .format(context);
                                             }
                                           });
                                         },
@@ -1631,9 +1677,7 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        fridayOpeningTimeOfDay
-                                            .format(context)
-                                            .toString(),
+                                        fridayOpeningTime,
                                         textAlign: TextAlign.start,
                                         style: const TextStyle(
                                           color: kTextBlackColor,
@@ -1654,6 +1698,9 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                               setState(() {
                                                 fridayOpeningTimeOfDay = value;
                                               });
+                                              fridayOpeningTime =
+                                                  fridayOpeningTimeOfDay
+                                                      .format(context);
                                             }
                                           });
                                         },
@@ -1686,9 +1733,7 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        fridayClosingTimeOfDay
-                                            .format(context)
-                                            .toString(),
+                                        fridayClosingTime,
                                         textAlign: TextAlign.start,
                                         style: const TextStyle(
                                           color: kTextBlackColor,
@@ -1709,6 +1754,9 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                               setState(() {
                                                 fridayClosingTimeOfDay = value;
                                               });
+                                              fridayOpeningTime =
+                                                  fridayOpeningTimeOfDay
+                                                      .format(context);
                                             }
                                           });
                                         },
@@ -1771,9 +1819,7 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        saturdayOpeningTimeOfDay
-                                            .format(context)
-                                            .toString(),
+                                        saturdayOpeningTime,
                                         textAlign: TextAlign.start,
                                         style: const TextStyle(
                                           color: kTextBlackColor,
@@ -1795,6 +1841,9 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                                 saturdayOpeningTimeOfDay =
                                                     value;
                                               });
+                                              saturdayOpeningTime =
+                                                  saturdayOpeningTimeOfDay
+                                                      .format(context);
                                             }
                                           });
                                         },
@@ -1827,9 +1876,7 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        saturdayClosingTimeOfDay
-                                            .format(context)
-                                            .toString(),
+                                        saturdayClosingTime,
                                         textAlign: TextAlign.start,
                                         style: const TextStyle(
                                           color: kTextBlackColor,
@@ -1851,6 +1898,9 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                                 saturdayClosingTimeOfDay =
                                                     value;
                                               });
+                                              saturdayOpeningTime =
+                                                  saturdayOpeningTimeOfDay
+                                                      .format(context);
                                             }
                                           });
                                         },

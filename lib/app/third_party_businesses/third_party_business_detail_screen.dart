@@ -62,7 +62,7 @@ class _ThirdPartyBusinessDetailScreenState
     });
     await ProductController.instance.getBusinessProducts(widget.business.id);
     await ReviewsController.instance.getReviews();
-    await BusinessController.instance.setBusiness(widget.business.isOnline);
+    await BusinessController.instance.setBusiness(widget.business.id);
 
     setState(() {
       refreshing = false;
@@ -449,7 +449,7 @@ class _ThirdPartyBusinessDetailScreenState
                                           return Container(
                                             // width: media.width * 0.32,
                                             // height: 57,
-
+                                            padding: const EdgeInsets.all(10),
                                             decoration: ShapeDecoration(
                                               color: kPrimaryColor,
                                               shape: RoundedRectangleBorder(
