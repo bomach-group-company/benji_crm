@@ -32,8 +32,22 @@ class BusinessController extends GetxController {
   var loadedAllBusinesses = false.obs;
   var isLoadMoreBusinesses = false.obs;
 
-  setBusiness(value) {
-    isBusinessOpen.value = value;
+  setBusiness(businessId) async {
+    var url = "${Api.baseUrl}/vendors/$businessId/getMybusinessInfo";
+    try {
+      var response = await http.get(Uri.parse(url), headers: authHeader());
+
+      if (response.statusCode == 200) {
+        log("This is the response body of the business status: ${response.body}");
+        var responseJson = jsonDecode(response.body);
+        print(responseJson["is_online"]);
+
+        isBusinessOpen.value = responseJson["is_online"] ?? false;
+      }
+    } on SocketException {
+      ApiProcessorController.errorSnack("Please connect to the internet.");
+    }
+
     update();
   }
 
@@ -114,6 +128,8 @@ class BusinessController extends GetxController {
 
     var url = "${Api.baseUrl}${Api.getVendorBusinesses}$vendorId/$agentId";
 
+    log(url);
+
     loadNumBusinesses.value += 10;
 
     List<BusinessModel> data = [];
@@ -128,7 +144,6 @@ class BusinessController extends GetxController {
         data = (jsonDecode(responseData) as List)
             .map((e) => BusinessModel.fromJson(e))
             .toList();
-        log("Got here!");
       } else {
         ApiProcessorController.errorSnack(
           "An error occurred in fetching businesses.",

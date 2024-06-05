@@ -312,7 +312,7 @@ class _SendPackageState extends State<SendPackage> {
     if (pickupEC.text.isEmpty ||
         latitudePick == null ||
         longitudePick == null) {
-      ApiProcessorController.errorSnack("Please fill in a pickup address");
+      ApiProcessorController.errorSnack("Please select a pickup address");
       return;
     }
     if (senderNameEC.text.isEmpty) {

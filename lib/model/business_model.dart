@@ -86,7 +86,7 @@ class BusinessModel {
   });
 
   factory BusinessModel.fromJson(Map<String, dynamic>? json) {
-    // log("Business JSON: $json");
+    print("Business JSON: $json");
     json ??= {};
     return BusinessModel(
       id: json["id"] ?? '',
