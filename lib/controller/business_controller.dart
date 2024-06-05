@@ -126,7 +126,7 @@ class BusinessController extends GetxController {
     late String token;
     token = UserController.instance.user.value.token;
 
-    var url = "${Api.baseUrl}${Api.getVendorBusinesses}$vendorId";
+    var url = "${Api.baseUrl}${Api.getVendorBusinesses}$vendorId/$agentId";
 
     log(url);
 

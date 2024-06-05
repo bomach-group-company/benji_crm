@@ -6,7 +6,9 @@ import 'package:benji_aggregator/controller/notification_controller.dart';
 import 'package:benji_aggregator/controller/rider_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
+import 'package:benji_aggregator/main.dart';
 import 'package:benji_aggregator/src/components/appbar/dashboard_app_bar.dart';
+import 'package:benji_aggregator/src/components/button/my_elevatedButton.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -34,7 +36,7 @@ class _DashboardState extends State<Dashboard> {
   @override
   void initState() {
     super.initState();
-    loadingScreen = false;
+
     // WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
     //   await UserController.instance.getUser();
     //   await await VendorController.instance.getMyVendors();
@@ -59,7 +61,7 @@ class _DashboardState extends State<Dashboard> {
 
   bool _isScrollToTopBtnVisible = false;
 
-  late bool loadingScreen;
+  bool loadingScreen = false;
 
 //============================================== CONTROLLERS =================================================\\
   final scrollController = ScrollController();
@@ -139,6 +141,84 @@ class _DashboardState extends State<Dashboard> {
         transition: Transition.rightToLeft,
       );
 
+  void showMessageDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            "Alert!".toUpperCase(),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: kAccentColor,
+              fontSize: 18,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          content: const Text(
+            "Please update your business(es) info",
+            textAlign: TextAlign.center,
+            maxLines: 4,
+            style: TextStyle(
+              color: kTextBlackColor,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          actions: [
+            MyElevatedButton(
+              title: "Okay",
+              onPressed: () {
+                prefs.setBool("updateBusiness", true);
+                Get.close(0);
+                _toSeeThirdPartyVendors();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showAppUpdateDialog() {
+    showDialog(
+      context: context,
+      useSafeArea: true,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            "UPDATE!".toUpperCase(),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: kAccentColor,
+              fontSize: 18,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          content: const Text(
+            "Please update your app",
+            textAlign: TextAlign.center,
+            maxLines: 4,
+            style: TextStyle(
+              color: kTextBlackColor,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          actions: [
+            MyElevatedButton(
+              title: "Okay",
+              onPressed: () {
+                prefs.setBool("updatedApp", true);
+                Get.close(0);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
@@ -186,6 +266,12 @@ class _DashboardState extends State<Dashboard> {
                 GetBuilder<VendorController>(
                   initState: (state) async {
                     await VendorController.instance.getMyVendors();
+
+                    var updatedBusiness =
+                        prefs.getBool("updatedBusiness") ?? false;
+                    if (updatedBusiness) {
+                      showMessageDialog();
+                    }
                   },
                   builder: (controller) {
                     return DashboardContainer(

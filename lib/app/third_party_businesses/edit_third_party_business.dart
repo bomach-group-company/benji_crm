@@ -1468,8 +1468,8 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                                 wednesdayClosingTimeOfDay =
                                                     value;
                                               });
-                                              wednesdayOpeningTime =
-                                                  wednesdayOpeningTimeOfDay
+                                              wednesdayClosingTime =
+                                                  wednesdayClosingTimeOfDay
                                                       .format(context);
                                             }
                                           });
@@ -1612,8 +1612,8 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                                 thursdayClosingTimeOfDay =
                                                     value;
                                               });
-                                              thursdayOpeningTime =
-                                                  thursdayOpeningTimeOfDay
+                                              thursdayClosingTime =
+                                                  thursdayClosingTimeOfDay
                                                       .format(context);
                                             }
                                           });
@@ -1754,8 +1754,8 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                               setState(() {
                                                 fridayClosingTimeOfDay = value;
                                               });
-                                              fridayOpeningTime =
-                                                  fridayOpeningTimeOfDay
+                                              fridayClosingTime =
+                                                  fridayClosingTimeOfDay
                                                       .format(context);
                                             }
                                           });
@@ -1898,8 +1898,8 @@ class _EditThirdPartyBusinessState extends State<EditThirdPartyBusiness> {
                                                 saturdayClosingTimeOfDay =
                                                     value;
                                               });
-                                              saturdayOpeningTime =
-                                                  saturdayOpeningTimeOfDay
+                                              saturdayClosingTime =
+                                                  saturdayClosingTimeOfDay
                                                       .format(context);
                                             }
                                           });
