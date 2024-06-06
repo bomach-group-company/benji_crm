@@ -50,6 +50,7 @@ dependencies:
   awesome_notifications_core:
   awesome_notifications_fcm:
   firebase_messaging:
+  form_builder_phone_field:
   webviewx2: ^2.0.0
 
   webview_flutter:

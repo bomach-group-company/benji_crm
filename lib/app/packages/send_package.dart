@@ -1,30 +1,8 @@
 // ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member
 
+import 'dart:developer';
 import 'dart:io';
 
-import 'package:benji_aggregator/app/google_maps/get_location_on_map.dart';
-import 'package:benji_aggregator/app/packages/packages.dart';
-import 'package:benji_aggregator/controller/api_processor_controller.dart';
-import 'package:benji_aggregator/controller/form_controller.dart';
-import 'package:benji_aggregator/controller/latlng_detail_controller.dart';
-import 'package:benji_aggregator/controller/package_controller.dart';
-import 'package:benji_aggregator/controller/payment_controller.dart';
-import 'package:benji_aggregator/controller/user_controller.dart';
-import 'package:benji_aggregator/services/api_url.dart';
-import 'package:benji_aggregator/src/components/appbar/my_appbar.dart';
-import 'package:benji_aggregator/src/components/input/item_category_dropdown_menu.dart';
-import 'package:benji_aggregator/src/components/input/my_intl_phonefield.dart';
-import 'package:benji_aggregator/src/components/input/my_maps_textformfield.dart';
-import 'package:benji_aggregator/src/components/input/my_textformfield.dart';
-import 'package:benji_aggregator/src/components/input/number_textformfield.dart';
-import 'package:benji_aggregator/src/components/section/location_list_tile.dart';
-import 'package:benji_aggregator/src/googleMaps/autocomplete_prediction.dart';
-import 'package:benji_aggregator/src/googleMaps/places_autocomplete_response.dart';
-import 'package:benji_aggregator/src/responsive/responsive_constant.dart';
-import 'package:benji_aggregator/src/utils/constants.dart';
-import 'package:benji_aggregator/src/utils/keys.dart';
-import 'package:benji_aggregator/src/utils/network_utils.dart';
-import 'package:benji_aggregator/src/utils/web_map.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,8 +11,30 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
+import '../../controller/api_processor_controller.dart';
+import '../../controller/form_controller.dart';
+import '../../controller/latlng_detail_controller.dart';
+import '../../controller/package_controller.dart';
+import '../../controller/user_controller.dart';
+import '../../services/api_url.dart';
+import '../../src/components/appbar/my_appbar.dart';
+import '../../src/components/input/item_category_dropdown_menu.dart';
+import '../../src/components/input/my_maps_textformfield.dart';
+import '../../src/components/input/my_phone_field.dart';
+import '../../src/components/input/my_textformfield.dart';
+import '../../src/components/input/number_textformfield.dart';
+import '../../src/components/section/location_list_tile.dart';
+import '../../src/googleMaps/autocomplete_prediction.dart';
+import '../../src/googleMaps/places_autocomplete_response.dart';
+import '../../src/responsive/responsive_constant.dart';
+import '../../src/utils/constants.dart';
+import '../../src/utils/keys.dart';
+import '../../src/utils/network_utils.dart';
+import '../../src/utils/web_map.dart';
 import '../../theme/colors.dart';
-import 'pay_for_delivery.dart';
+import '../google_maps/get_location_on_map.dart';
+import '../riders/check_for_available_rider_for_package_delivery.dart';
+import 'packages.dart';
 
 class SendPackage extends StatefulWidget {
   const SendPackage({super.key});
@@ -54,6 +54,7 @@ class _SendPackageState extends State<SendPackage> {
   void dispose() {
     super.dispose();
     scrollController.dispose();
+    Get.delete<FormController>();
   }
 
   //===================== BOOL VALUES =======================\\
@@ -119,7 +120,7 @@ class _SendPackageState extends State<SendPackage> {
 
     String? response = await NetworkUtility.fetchUrl(uri);
     PlaceAutocompleteResponse result =
-        PlaceAutocompleteResponse.parseAutoCompleteResult(response!);
+        PlaceAutocompleteResponse.parseAutoCompleteResult(response ?? "");
     if (result.predictions != null) {
       setState(() {
         placePredictionsPick = result.predictions!;
@@ -138,7 +139,7 @@ class _SendPackageState extends State<SendPackage> {
 
     String? response = await NetworkUtility.fetchUrl(uri);
     PlaceAutocompleteResponse result =
-        PlaceAutocompleteResponse.parseAutoCompleteResult(response!);
+        PlaceAutocompleteResponse.parseAutoCompleteResult(response ?? "");
     if (result.predictions != null) {
       setState(() {
         placePredictionsDrop = result.predictions!;
@@ -175,12 +176,15 @@ class _SendPackageState extends State<SendPackage> {
   continueStep() {
     if (currentStep < 2) {
       setState(() {
+        isTyping = false;
+
         nextPage = true;
         currentStep = currentStep + 1;
       });
     }
     if (currentStep == 2) {
       setState(() {
+        isTyping = false;
         nextPage = true;
         continuePage = true;
       });
@@ -190,6 +194,7 @@ class _SendPackageState extends State<SendPackage> {
   cancelStep() {
     if (currentStep < 2) {
       setState(() {
+        isTyping = false;
         nextPage = false;
       });
     }
@@ -198,6 +203,7 @@ class _SendPackageState extends State<SendPackage> {
       setState(() {
         currentStep = currentStep - 1;
         continuePage = false;
+        isTyping = false;
       });
     }
   }
@@ -312,7 +318,8 @@ class _SendPackageState extends State<SendPackage> {
     if (pickupEC.text.isEmpty ||
         latitudePick == null ||
         longitudePick == null) {
-      ApiProcessorController.errorSnack("Please select a pickup address");
+      ApiProcessorController.errorSnack("Please select a pickup location");
+
       return;
     }
     if (senderNameEC.text.isEmpty) {
@@ -377,7 +384,7 @@ class _SendPackageState extends State<SendPackage> {
       'itemQuantity': itemQuantityEC.text,
       'itemValue': itemValueEC.text,
     };
-    consoleLog(data.toString());
+    log(data.toString());
     setState(() {
       submittingForm = true;
     });
@@ -391,24 +398,23 @@ class _SendPackageState extends State<SendPackage> {
           FormController.instance.responseObject.containsKey('package_id')
               ? FormController.instance.responseObject['package_id']
               : null; // or provide a default value if needed
-      consoleLog("This is the package ID: $packageId");
-      await PaymentController.instance.getDeliveryFee(packageId);
+      log("This is the package ID: $packageId");
+      // await PaymentController.instance.getDeliveryFee(packageId);
       Get.to(
-        () => PayForDelivery(
+        () => CheckForAvailableRiderForPackageDelivery(
           packageId: packageId,
           senderName: senderNameEC.text,
           senderPhoneNumber: senderPhoneEC.text,
           receiverName: receiverNameEC.text,
           receiverPhoneNumber: receiverPhoneEC.text,
-          receiverLocation: dropOffEC.text,
+          dropOff: dropOffEC.text,
           itemName: itemNameEC.text,
           itemQuantity: itemQuantityEC.text,
           itemWeight: itemWeight,
           itemValue: itemValueEC.text,
           itemCategory: itemCategory,
         ),
-        routeName: 'PayForDelivery',
-        duration: const Duration(milliseconds: 300),
+        routeName: 'check-for-available-rider',
         fullscreenDialog: true,
         curve: Curves.easeIn,
         preventDuplicates: true,
@@ -546,6 +552,7 @@ class _SendPackageState extends State<SendPackage> {
               MyMapsTextFormField(
                 // readOnly: true,
                 controller: pickupEC,
+
                 validator: (value) {
                   if (value == null || value == "") {
                     pickupFN.requestFocus();
@@ -686,7 +693,7 @@ class _SendPackageState extends State<SendPackage> {
                 ),
               ),
               kHalfSizedBox,
-              MyIntlPhoneField(
+              MyPhoneField(
                 initialCountryCode: "NG",
                 invalidNumberMessage: "Invalid phone number",
                 dropdownIconPosition: IconPosition.trailing,
@@ -707,7 +714,7 @@ class _SendPackageState extends State<SendPackage> {
                   return null;
                 },
                 onSaved: (value) {
-                  senderPhoneEC.text = value;
+                  senderPhoneEC.text = value!;
                 },
               ),
               kSizedBox,
@@ -880,7 +887,7 @@ class _SendPackageState extends State<SendPackage> {
                 ),
               ),
               kHalfSizedBox,
-              MyIntlPhoneField(
+              MyPhoneField(
                 initialCountryCode: "NG",
                 invalidNumberMessage: "Invalid phone number",
                 dropdownIconPosition: IconPosition.trailing,
@@ -903,7 +910,7 @@ class _SendPackageState extends State<SendPackage> {
                   return null;
                 },
                 onSaved: (value) {
-                  receiverPhoneEC.text = value;
+                  receiverPhoneEC.text = value!;
                 },
               ),
               kSizedBox,
@@ -985,11 +992,10 @@ class _SendPackageState extends State<SendPackage> {
                       // Set the category title to itemWeight
                       itemCategory = selectedCategory.name;
 
-                      consoleLog(
+                      log(
                         "This is the item category title: $itemCategory",
                       );
-                      consoleLog(
-                          "This is the item category ID: ${itemCategoryEC.text}");
+                      log("This is the item category ID: ${itemCategoryEC.text}");
                     },
                     dropdownMenuEntries2: controller.isLoad.value &&
                             controller.packageCategory.isEmpty
@@ -1039,10 +1045,10 @@ class _SendPackageState extends State<SendPackage> {
                       itemWeight =
                           "${selectedWeight.start}KG - ${selectedWeight.end}KG";
 
-                      consoleLog(
+                      log(
                         "This is the item weight title: $itemWeight",
                       );
-                      consoleLog(
+                      log(
                         "This is the item weight ID: ${itemWeightEC.text}",
                       );
                     },

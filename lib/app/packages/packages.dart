@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 
+import 'packages_draft.dart';
 import 'view_package.dart';
 
 class Packages extends StatefulWidget {
@@ -163,6 +164,16 @@ class _PackagesState extends State<Packages>
         transition: Transition.size,
       );
 
+  void _toPackagesDraft() => Get.to(
+        () => const PackagesDraft(),
+        routeName: 'PackagesDraft',
+        duration: const Duration(milliseconds: 300),
+        fullscreenDialog: true,
+        curve: Curves.easeIn,
+        popGesture: false,
+        transition: Transition.rightToLeft,
+      );
+
   //========================================================================\\
 
   @override
@@ -174,34 +185,19 @@ class _PackagesState extends State<Packages>
         appBar: MyAppBar(
           title: "My Packages",
           elevation: 0,
+          backgroundColor: kPrimaryColor,
           actions: [
-            Container(
-              padding: const EdgeInsets.all(10),
-              child: OutlinedButton(
-                onPressed: toSendPackageScreen,
-                style: OutlinedButton.styleFrom(
-                  // padding: const EdgeInsets.all(10),
-                  disabledForegroundColor: kGreyColor2,
-                  disabledBackgroundColor: kLightGreyColor,
-                  enabledMouseCursor: SystemMouseCursors.click,
-                  disabledMouseCursor: SystemMouseCursors.forbidden,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  side: BorderSide(color: kAccentColor),
-                ),
-                child: const Text(
-                  "Send a Package",
-                  style: TextStyle(
-                    color: kTextBlackColor,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
+            TextButton(
+              onPressed: _toPackagesDraft,
+              child: Text(
+                'Draft packages',
+                style: TextStyle(
+                    color: kAccentColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
               ),
             ),
           ],
-          backgroundColor: kPrimaryColor,
         ),
         floatingActionButton: isScrollToTopBtnVisible
             ? FloatingActionButton(
