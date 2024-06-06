@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:benji_aggregator/controller/api_processor_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
@@ -55,7 +56,7 @@ Future<List<Rider>> getAvailableRiders() async {
   String token = UserController.instance.user.value.token;
   http.Response? response = await HandleData.getApi(url, token);
   var responseData = await ApiProcessorController.errorState(response);
-  print(response!.body);
+  log(response!.body);
   if (responseData == null) {
     return [];
   }
@@ -64,9 +65,11 @@ Future<List<Rider>> getAvailableRiders() async {
     data = (jsonDecode(response.body) as List)
         .map((e) => Rider.fromJson(e))
         .toList();
-    print('the rider data');
-    print(data);
-  } catch (e) {}
+    log('the rider data');
+    log(data.toString());
+  } catch (e) {
+    log(e.toString());
+  }
   return data;
 }
 

@@ -91,34 +91,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // if (kIsWeb) {
-    //   return GetMaterialApp(
-    //     debugShowCheckedModeBanner: false,
-    //     defaultTransition: Transition.rightToLeft,
-    //     title: "Benji CRM",
-    //     color: kPrimaryColor,
-    //     navigatorKey: Get.key,
-    //     themeMode: ThemeMode.light,
-    //     darkTheme: AppTheme.darkTheme,
-    //     theme: AppTheme.lightTheme,
-    //     home: SplashScreen(),
-    //   );
-    // }
-    // if (Platform.isIOS) {
-    //   return GetCupertinoApp(
-    //     debugShowCheckedModeBanner: false,
-    //     defaultTransition: Transition.rightToLeft,
-    //     navigatorKey: Get.key,
-    //     title: "Benji CRM",
-    //     color: kPrimaryColor,
-    //     theme: AppTheme.iOSDarkTheme,
-    //     home: SplashScreen(),
-    //   );
-    // }
-
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      defaultTransition: Transition.rightToLeft,
       navigatorKey: Get.key,
       title: "Benji CRM",
       color: kPrimaryColor,

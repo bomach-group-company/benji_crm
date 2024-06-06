@@ -75,6 +75,20 @@ class DeliveryItem {
   }
 }
 
+Future<List<DeliveryItem>> getDeliveryItemsByClientAndPaymentStatus() async {
+  final response = await http.get(
+      Uri.parse(
+          '$baseURL/sendPackage/getAllItemPackage/?start=0&end=100&payment_status=false'),
+      headers: authHeader());
+  if (response.statusCode == 200) {
+    return (jsonDecode(response.body)['items'] as List)
+        .map((item) => DeliveryItem.fromJson(item))
+        .toList();
+  } else {
+    return [];
+  }
+}
+
 Future<List<DeliveryItem>> getDeliveryItemsByClientAndStatus(
     String status) async {
   UserModel? user = UserController.instance.user.value;

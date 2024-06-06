@@ -313,14 +313,12 @@ class _RidersDetailState extends State<RidersDetail> {
                                     UrlLaunchController.makePhoneCall(
                                   widget.rider.phone,
                                 ),
-                                circularBorderRadius: 16,
+                                // circularBorderRadius: 16,
                                 // minimumSizeWidth: 100,
                                 // minimumSizeHeight: 30,
                                 // maximumSizeWidth: 100,
                                 // maximumSizeHeight: 30,
-                                buttonTitle: "Call",
-                                titleFontSize: 14,
-                                elevation: 10.0,
+                                title: "Call",
                               )
                             ],
                           ),
