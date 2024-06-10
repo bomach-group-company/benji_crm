@@ -7,8 +7,10 @@ import 'package:benji_aggregator/controller/rider_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/controller/vendor_controller.dart';
 import 'package:benji_aggregator/main.dart';
+import 'package:benji_aggregator/model/app_version.dart';
 import 'package:benji_aggregator/src/components/appbar/dashboard_app_bar.dart';
 import 'package:benji_aggregator/src/components/button/my_elevatedButton.dart';
+import 'package:benji_aggregator/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -42,6 +44,18 @@ class _DashboardState extends State<Dashboard> {
     //   await await VendorController.instance.getMyVendors();
     //   await NotificationController.instance.runTask();
     // });
+
+    Timer(
+      const Duration(seconds: 2),
+      () {
+        getAppLatestVersion().then((value) {
+          if (value.version == "0" || value.version == appVersion) {
+            return;
+          }
+          showAppUpdateDialog(context, value);
+        });
+      },
+    );
 
     scrollController.addListener(_scrollListener);
   }
@@ -172,45 +186,6 @@ class _DashboardState extends State<Dashboard> {
                 prefs.setBool("updateBusiness", true);
                 Get.close(0);
                 _toSeeThirdPartyVendors();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void showAppUpdateDialog() {
-    showDialog(
-      context: context,
-      useSafeArea: true,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(
-            "UPDATE!".toUpperCase(),
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: kAccentColor,
-              fontSize: 18,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-          content: const Text(
-            "Please update your app",
-            textAlign: TextAlign.center,
-            maxLines: 4,
-            style: TextStyle(
-              color: kTextBlackColor,
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          actions: [
-            MyElevatedButton(
-              title: "Okay",
-              onPressed: () {
-                prefs.setBool("updatedApp", true);
-                Get.close(0);
               },
             ),
           ],
@@ -385,4 +360,46 @@ class _DashboardState extends State<Dashboard> {
       ),
     );
   }
+}
+
+void showAppUpdateDialog(context, AppVersion appVersion) {
+  showDialog(
+    context: context,
+    useSafeArea: true,
+    barrierDismissible: false,
+    builder: (context) {
+      return PopScope(
+        canPop: false,
+        child: AlertDialog(
+          title: Text(
+            "UPDATE!".toUpperCase(),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: kAccentColor,
+              fontSize: 18,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          content: const Text(
+            "Please update your app",
+            textAlign: TextAlign.center,
+            maxLines: 4,
+            style: TextStyle(
+              color: kTextBlackColor,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          actions: [
+            MyElevatedButton(
+              title: "Okay",
+              onPressed: () {
+                launchDownload(appVersion.link);
+              },
+            ),
+          ],
+        ),
+      );
+    },
+  );
 }
