@@ -81,16 +81,16 @@ class _BusinessContainerState extends State<BusinessContainer> {
             kHalfWidthSizedBox,
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
               children: [
                 SizedBox(
-                  width: deviceType(media.width) >= 2
-                      ? media.width - 400
-                      : deviceType(media.width) > 1 &&
-                              deviceType(media.width) < 2
-                          ? media.width - 250
-                          : media.width - 220,
+                  // width: deviceType(media.width) >= 2
+                  //     ? media.width - 250
+                  //     : media.width - 300,
+
                   child: Text(
                     widget.business.shopName,
+                    maxLines: 2,
                     textAlign: TextAlign.start,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
@@ -103,13 +103,11 @@ class _BusinessContainerState extends State<BusinessContainer> {
                 kHalfSizedBox,
                 SizedBox(
                   width: deviceType(media.width) >= 2
-                      ? media.width - 400
-                      : deviceType(media.width) > 1 &&
-                              deviceType(media.width) < 2
-                          ? media.width - 250
-                          : media.width - 220,
+                      ? media.width - 200
+                      : media.width - 250,
                   child: Text(
                     widget.business.address,
+                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: kAccentColor,
@@ -119,55 +117,44 @@ class _BusinessContainerState extends State<BusinessContainer> {
                   ),
                 ),
                 kSizedBox,
-                SizedBox(
-                  width: deviceType(media.width) >= 2
-                      ? media.width - 400
-                      : deviceType(media.width) > 1 &&
-                              deviceType(media.width) < 2
+                Row(
+                  children: [
+                    FaIcon(
+                      FontAwesomeIcons.solidIdCard,
+                      color: kAccentColor,
+                      size: 16,
+                    ),
+                    kHalfWidthSizedBox,
+                    SizedBox(
+                      width: deviceType(media.width) >= 2
                           ? media.width - 250
-                          : media.width - 220,
-                  child: Row(
-                    children: [
-                      FaIcon(
-                        FontAwesomeIcons.solidIdCard,
-                        color: kAccentColor,
-                        size: 16,
-                      ),
-                      kHalfWidthSizedBox,
-                      SizedBox(
-                        width: deviceType(media.width) >= 2
-                            ? media.width - 430
-                            : deviceType(media.width) > 1 &&
-                                    deviceType(media.width) < 2
-                                ? media.width - 250
-                                : media.width - 250,
-                        child: Text.rich(
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          TextSpan(
-                            children: [
-                              const TextSpan(
-                                text: "TIN: ",
-                                style: TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w300,
-                                ),
+                          : media.width - 300,
+                      child: Text.rich(
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        TextSpan(
+                          children: [
+                            const TextSpan(
+                              text: "TIN: ",
+                              style: TextStyle(
+                                color: kTextBlackColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w300,
                               ),
-                              TextSpan(
-                                text: widget.business.businessId,
-                                style: const TextStyle(
-                                  color: kTextBlackColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w300,
-                                ),
+                            ),
+                            TextSpan(
+                              text: widget.business.businessId,
+                              style: const TextStyle(
+                                color: kTextBlackColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w300,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ],
             ),

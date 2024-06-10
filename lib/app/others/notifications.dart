@@ -184,7 +184,7 @@ class _NotificationsState extends State<Notifications> {
                                 ),
                                 subtitle: Text(
                                   notify.created == null
-                                      ? "loading..."
+                                      ? "..."
                                       : Operation.convertDate(notify.created!),
                                   style: TextStyle(
                                     color: kAccentColor,

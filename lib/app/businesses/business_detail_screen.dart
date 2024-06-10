@@ -250,13 +250,277 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
               controller: scrollController,
               physics: const ScrollPhysics(),
               children: [
+                // SizedBox(
+                //   height:
+                //       deviceType(media.width) > 2 && deviceType(media.width) < 4
+                //           ? 540
+                //           : deviceType(media.width) > 2
+                //               ? 470
+                //               : 370,
+                //   child: Stack(
+                //     children: [
+                //       Positioned(
+                //         top: 0,
+                //         left: 0,
+                //         right: 0,
+                //         child: Container(
+                //           height: deviceType(media.width) > 3 &&
+                //                   deviceType(media.width) < 5
+                //               ? media.height * 0.4
+                //               : deviceType(media.width) > 2
+                //                   ? media.height * 0.415
+                //                   : media.height * 0.28,
+                //           decoration: BoxDecoration(color: kLightGreyColor),
+                //           child: Center(
+                //             child: MyImage(
+                //               height: deviceType(media.width) > 3 &&
+                //                       deviceType(media.width) < 5
+                //                   ? media.height * 0.4
+                //                   : deviceType(media.width) > 2
+                //                       ? media.height * 0.415
+                //                       : media.height * 0.28,
+                //               url: widget.business.coverImage,
+                //               fit: BoxFit.cover,
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //       Positioned(
+                //         top: deviceType(media.width) > 2
+                //             ? media.height * 0.25
+                //             : media.height * 0.13,
+                //         left: kDefaultPadding,
+                //         right: kDefaultPadding,
+                //         child: Container(
+                //           padding: const EdgeInsets.all(kDefaultPadding / 2),
+                //           decoration: ShapeDecoration(
+                //             shadows: [
+                //               BoxShadow(
+                //                 color: kBlackColor.withOpacity(0.1),
+                //                 blurRadius: 5,
+                //                 spreadRadius: 2,
+                //                 blurStyle: BlurStyle.normal,
+                //               ),
+                //             ],
+                //             color: const Color(0xFFFEF8F8),
+                //             shape: RoundedRectangleBorder(
+                //               side: const BorderSide(
+                //                 width: 0.50,
+                //                 color: Color(0xFFFDEDED),
+                //               ),
+                //               borderRadius: BorderRadius.circular(25),
+                //             ),
+                //           ),
+                //           child: Padding(
+                //             padding: const EdgeInsets.only(
+                //                 top: kDefaultPadding * 2.6),
+                //             child: SizedBox(
+                //               width: media.width - 200,
+                //               child: Column(
+                //                 crossAxisAlignment: CrossAxisAlignment.center,
+                //                 mainAxisAlignment: MainAxisAlignment.center,
+                //                 children: [
+                //                   SizedBox(
+                //                     width: media.width - 200,
+                //                     child: Text(
+                //                       widget.business.shopName,
+                //                       overflow: TextOverflow.ellipsis,
+                //                       maxLines: 1,
+                //                       textAlign: TextAlign.center,
+                //                       style: const TextStyle(
+                //                         color: kTextBlackColor,
+                //                         fontSize: 24,
+                //                         fontWeight: FontWeight.w700,
+                //                       ),
+                //                     ),
+                //                   ),
+                //                   kHalfSizedBox,
+                //                   Center(
+                //                     child: Row(
+                //                       mainAxisAlignment:
+                //                           MainAxisAlignment.center,
+                //                       crossAxisAlignment:
+                //                           CrossAxisAlignment.center,
+                //                       children: [
+                //                         FaIcon(
+                //                           FontAwesomeIcons.locationDot,
+                //                           color: kAccentColor,
+                //                           size: 15,
+                //                         ),
+                //                         kHalfWidthSizedBox,
+                //                         SizedBox(
+                //                           width: deviceType(media.width) >= 2
+                //                               ? media.width - 850
+                //                               : media.width - 220,
+                //                           child: Text(
+                //                             widget.business.address,
+                //                             textAlign: TextAlign.center,
+                //                             overflow: TextOverflow.ellipsis,
+                //                             style: const TextStyle(
+                //                               fontSize: 14,
+                //                               fontWeight: FontWeight.w400,
+                //                             ),
+                //                           ),
+                //                         ),
+                //                       ],
+                //                     ),
+                //                   ),
+                //                   kHalfSizedBox,
+                //                   InkWell(
+                //                     onTap: widget.business.address.isEmpty
+                //                         ? null
+                //                         : toBusinessLocation,
+                //                     borderRadius: BorderRadius.circular(10),
+                //                     child: Container(
+                //                       padding: const EdgeInsets.all(
+                //                           kDefaultPadding / 4),
+                //                       decoration: BoxDecoration(
+                //                         borderRadius: BorderRadius.circular(10),
+                //                         border: Border.all(
+                //                           color: kAccentColor,
+                //                           width: 1,
+                //                         ),
+                //                       ),
+                //                       child: Text(
+                //                         widget.business.address.isEmpty
+                //                             ? "Not Available"
+                //                             : "Show on map",
+                //                         textAlign: TextAlign.center,
+                //                         style: const TextStyle(
+                //                           fontSize: 13,
+                //                           fontWeight: FontWeight.w400,
+                //                         ),
+                //                       ),
+                //                     ),
+                //                   ),
+                //                   kHalfSizedBox,
+                //                   Row(
+                //                     mainAxisAlignment:
+                //                         MainAxisAlignment.spaceEvenly,
+                //                     children: [
+                //                       Container(
+                //                         width: media.width * 0.23,
+                //                         padding: const EdgeInsets.all(
+                //                             kDefaultPadding),
+                //                         decoration: ShapeDecoration(
+                //                           color: kPrimaryColor,
+                //                           shape: RoundedRectangleBorder(
+                //                             borderRadius:
+                //                                 BorderRadius.circular(19),
+                //                           ),
+                //                         ),
+                //                         child: Row(
+                //                           mainAxisAlignment:
+                //                               MainAxisAlignment.center,
+                //                           children: [
+                //                             FaIcon(
+                //                               FontAwesomeIcons.solidStar,
+                //                               color: kStarColor,
+                //                               size: 17,
+                //                             ),
+                //                             const SizedBox(width: 5),
+                //                             Text(
+                //                               doubleFormattedText(
+                //                                 (widget.business.averageRating),
+                //                               ),
+                //                               style: const TextStyle(
+                //                                 color: kBlackColor,
+                //                                 fontSize: 14,
+                //                                 fontWeight: FontWeight.w400,
+                //                               ),
+                //                             ),
+                //                           ],
+                //                         ),
+                //                       ),
+                //                       Container(
+                //                         width: media.width * 0.28,
+                //                         // height: 57,
+                //                         padding: const EdgeInsets.all(
+                //                             kDefaultPadding),
+                //                         decoration: ShapeDecoration(
+                //                           color: kPrimaryColor,
+                //                           shape: RoundedRectangleBorder(
+                //                             borderRadius:
+                //                                 BorderRadius.circular(19),
+                //                           ),
+                //                         ),
+                //                         child: Row(
+                //                           mainAxisAlignment:
+                //                               MainAxisAlignment.center,
+                //                           children: [
+                //                             Text(
+                //                               widget.business.vendorOwner
+                //                                       .isOnline
+                //                                   ? "Online"
+                //                                   : 'Offline',
+                //                               textAlign: TextAlign.center,
+                //                               style: TextStyle(
+                //                                 color: widget.business
+                //                                         .vendorOwner.isOnline
+                //                                     ? kSuccessColor
+                //                                     : kAccentColor,
+                //                                 fontSize: 14,
+                //                                 fontWeight: FontWeight.w400,
+                //                                 letterSpacing: -0.36,
+                //                               ),
+                //                             ),
+                //                             const SizedBox(width: 5),
+                //                             FaIcon(
+                //                               Icons.info,
+                //                               color: kAccentColor,
+                //                             ),
+                //                           ],
+                //                         ),
+                //                       ),
+                //                     ],
+                //                   )
+                //                 ],
+                //               ),
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //       Positioned(
+                //         top: deviceType(media.width) > 3 &&
+                //                 deviceType(media.width) < 5
+                //             ? media.height * 0.15
+                //             : deviceType(media.width) > 2
+                //                 ? media.height * 0.15
+                //                 : media.height * 0.08,
+                //         left: deviceType(media.width) > 2
+                //             ? (media.width / 2) - (126 / 2)
+                //             : (media.width / 2) - (100 / 2),
+                //         child: SizedBox(
+                //           width: deviceType(media.width) > 2 ? 126 : 100,
+                //           height: deviceType(media.width) > 2 ? 126 : 100,
+                //           child: CircleAvatar(
+                //             backgroundColor: kLightGreyColor,
+                //             child: Center(
+                //               child: ClipOval(
+                //                 child: MyImage(
+                //                   width:
+                //                       deviceType(media.width) > 2 ? 126 : 100,
+                //                   height:
+                //                       deviceType(media.width) > 2 ? 126 : 100,
+                //                   url: widget.business.shopImage,
+                //                   fit: BoxFit.cover,
+                //                 ),
+                //               ),
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+
                 SizedBox(
                   height:
                       deviceType(media.width) > 2 && deviceType(media.width) < 4
                           ? 540
                           : deviceType(media.width) > 2
                               ? 470
-                              : 370,
+                              : 320,
                   child: Stack(
                     children: [
                       Positioned(
@@ -266,21 +530,27 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                         child: Container(
                           height: deviceType(media.width) > 3 &&
                                   deviceType(media.width) < 5
-                              ? media.height * 0.4
+                              ? media.height * 0.3
                               : deviceType(media.width) > 2
-                                  ? media.height * 0.415
-                                  : media.height * 0.28,
-                          decoration: BoxDecoration(color: kLightGreyColor),
-                          child: Center(
-                            child: MyImage(
-                              height: deviceType(media.width) > 3 &&
-                                      deviceType(media.width) < 5
-                                  ? media.height * 0.4
-                                  : deviceType(media.width) > 2
-                                      ? media.height * 0.415
-                                      : media.height * 0.28,
-                              url: widget.business.coverImage,
-                              fit: BoxFit.cover,
+                                  ? media.height * 0.2
+                                  : media.height * 0.15,
+                          decoration:
+                              const BoxDecoration(color: kTransparentColor),
+                          child: Padding(
+                            padding: const EdgeInsets.all(kDefaultPadding),
+                            child: Opacity(
+                              opacity: 0.6,
+                              child: MyImage(
+                                height: deviceType(media.width) > 3 &&
+                                        deviceType(media.width) < 5
+                                    ? media.height * 0.3
+                                    : deviceType(media.width) > 2
+                                        ? media.height * 0.2
+                                        : media.height * 0.15,
+                                width: media.width,
+                                url: widget.business.coverImage,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                         ),
@@ -288,10 +558,11 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                       Positioned(
                         top: deviceType(media.width) > 2
                             ? media.height * 0.25
-                            : media.height * 0.13,
+                            : media.height * 0.1,
                         left: kDefaultPadding,
                         right: kDefaultPadding,
                         child: Container(
+                          // width: 200,
                           padding: const EdgeInsets.all(kDefaultPadding / 2),
                           decoration: ShapeDecoration(
                             shadows: [
@@ -314,168 +585,122 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                           child: Padding(
                             padding: const EdgeInsets.only(
                                 top: kDefaultPadding * 2.6),
-                            child: SizedBox(
-                              width: media.width - 200,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    width: media.width - 200,
-                                    child: Text(
-                                      widget.business.shopName,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                        color: kTextBlackColor,
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.w700,
-                                      ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width: media.width - 150,
+                                  child: Text(
+                                    "${widget.business.shopImage}",
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      color: kTextBlackColor,
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.w700,
                                     ),
                                   ),
-                                  kHalfSizedBox,
-                                  Center(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        FaIcon(
-                                          FontAwesomeIcons.locationDot,
-                                          color: kAccentColor,
-                                          size: 15,
+                                ),
+                                kHalfSizedBox,
+
+                                // Center(
+                                //   child: Container(
+                                //     padding: const EdgeInsets.all(16.0),
+                                //     child: Row(
+                                //       mainAxisAlignment: MainAxisAlignment.center,
+                                //       children: [
+                                //         FaIcon(
+                                //           FontAwesomeIcons.locationDot,
+                                //           color: kAccentColor,
+                                //           size: 15,
+                                //         ),
+                                //         kHalfWidthSizedBox,
+                                //         Flexible(
+                                //           child: Text(
+                                //             widget.vendor.address,
+                                //             overflow: TextOverflow.ellipsis,
+                                //             style:
+                                //                 const TextStyle(fontSize: 16.0),
+                                //           ),
+                                //         ),
+                                //       ],
+                                //     ),
+                                //   ),
+                                // ),
+                                // kHalfSizedBox,
+                                // InkWell(
+                                //   onTap: widget.vendor.address.isEmpty ||
+                                //           widget.vendor.address == ""
+                                //       ? null
+                                //       : toVendorLocation,
+                                //   borderRadius: BorderRadius.circular(10),
+                                //   child: Container(
+                                //     padding:
+                                //         const EdgeInsets.all(kDefaultPadding / 4),
+                                //     decoration: BoxDecoration(
+                                //       borderRadius: BorderRadius.circular(10),
+                                //       border: Border.all(
+                                //         color: kAccentColor,
+                                //         width: 1,
+                                //       ),
+                                //     ),
+                                //     child: Text(
+                                //       widget.vendor.address.isEmpty ||
+                                //               widget.vendor.address ==
+                                //                   notAvailable
+                                //           ? "Not available"
+                                //           : "Show on map",
+                                //       textAlign: TextAlign.center,
+                                //       style: const TextStyle(
+                                //         fontSize: 13,
+                                //         fontWeight: FontWeight.w400,
+                                //       ),
+                                //     ),
+                                //   ),
+                                // ),
+                                // kHalfSizedBox,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Container(
+                                      width: media.width - 250,
+                                      padding:
+                                          const EdgeInsets.all(kDefaultPadding),
+                                      decoration: ShapeDecoration(
+                                        color: kPrimaryColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(19),
                                         ),
-                                        kHalfWidthSizedBox,
-                                        SizedBox(
-                                          width: deviceType(media.width) >= 2
-                                              ? media.width - 850
-                                              : media.width - 220,
-                                          child: Text(
-                                            widget.business.address,
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          const Text(
+                                            "Online",
                                             textAlign: TextAlign.center,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: const TextStyle(
+                                            style: TextStyle(
+                                              color: kSuccessColor,
                                               fontSize: 14,
                                               fontWeight: FontWeight.w400,
+                                              letterSpacing: -0.36,
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  kHalfSizedBox,
-                                  InkWell(
-                                    onTap: widget.business.address.isEmpty
-                                        ? null
-                                        : toBusinessLocation,
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: Container(
-                                      padding: const EdgeInsets.all(
-                                          kDefaultPadding / 4),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                          color: kAccentColor,
-                                          width: 1,
-                                        ),
-                                      ),
-                                      child: Text(
-                                        widget.business.address.isEmpty
-                                            ? "Not Available"
-                                            : "Show on map",
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w400,
-                                        ),
+                                          const SizedBox(width: 5),
+                                          FaIcon(
+                                            Icons.info,
+                                            color: kAccentColor,
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  ),
-                                  kHalfSizedBox,
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Container(
-                                        width: media.width * 0.23,
-                                        padding: const EdgeInsets.all(
-                                            kDefaultPadding),
-                                        decoration: ShapeDecoration(
-                                          color: kPrimaryColor,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(19),
-                                          ),
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            FaIcon(
-                                              FontAwesomeIcons.solidStar,
-                                              color: kStarColor,
-                                              size: 17,
-                                            ),
-                                            const SizedBox(width: 5),
-                                            Text(
-                                              doubleFormattedText(
-                                                (widget.business.averageRating),
-                                              ),
-                                              style: const TextStyle(
-                                                color: kBlackColor,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        width: media.width * 0.28,
-                                        // height: 57,
-                                        padding: const EdgeInsets.all(
-                                            kDefaultPadding),
-                                        decoration: ShapeDecoration(
-                                          color: kPrimaryColor,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(19),
-                                          ),
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              widget.business.vendorOwner
-                                                      .isOnline
-                                                  ? "Online"
-                                                  : 'Offline',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                color: widget.business
-                                                        .vendorOwner.isOnline
-                                                    ? kSuccessColor
-                                                    : kAccentColor,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w400,
-                                                letterSpacing: -0.36,
-                                              ),
-                                            ),
-                                            const SizedBox(width: 5),
-                                            FaIcon(
-                                              Icons.info,
-                                              color: kAccentColor,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
+                                  ],
+                                )
+                              ],
                             ),
                           ),
                         ),
@@ -486,7 +711,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                             ? media.height * 0.15
                             : deviceType(media.width) > 2
                                 ? media.height * 0.15
-                                : media.height * 0.08,
+                                : media.height * 0.04,
                         left: deviceType(media.width) > 2
                             ? (media.width / 2) - (126 / 2)
                             : (media.width / 2) - (100 / 2),
@@ -494,7 +719,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                           width: deviceType(media.width) > 2 ? 126 : 100,
                           height: deviceType(media.width) > 2 ? 126 : 100,
                           child: CircleAvatar(
-                            backgroundColor: kLightGreyColor,
+                            backgroundColor: kPageSkeletonColor,
                             child: Center(
                               child: ClipOval(
                                 child: MyImage(
