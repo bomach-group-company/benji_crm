@@ -40,11 +40,13 @@ class ApiProcessorController extends GetxController {
   }
 
   static void successSnack(msg) {
-    Get.showSnackbar(GetSnackBar(
-      title: "Successful",
-      message: "$msg",
-      backgroundColor: kSuccessColor,
-      duration: const Duration(seconds: 2),
-    ));
+    Get.showSnackbar(
+      GetSnackBar(
+        title: "Successful",
+        message: "$msg",
+        backgroundColor: kSuccessColor,
+        duration: const Duration(seconds: 2),
+      ),
+    );
   }
 }

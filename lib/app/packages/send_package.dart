@@ -153,6 +153,7 @@ class _SendPackageState extends State<SendPackage> {
 
     setState(() {
       pickupEC.text = newLocation;
+      isTyping = false;
     });
 
     List location = await parseLatLng(newLocation);
@@ -166,6 +167,7 @@ class _SendPackageState extends State<SendPackage> {
 
     setState(() {
       dropOffEC.text = newLocation;
+      isTyping = false;
     });
 
     List location = await parseLatLng(newLocation);
@@ -362,10 +364,10 @@ class _SendPackageState extends State<SendPackage> {
           "Please fill in the quantity of the item");
       return;
     }
-    // if (selectedImage == null) {
-    //   ApiProcessorController.errorSnack("Please select an image");
-    //   return;
-    // }
+    if (itemValueEC.text.isEmpty) {
+      ApiProcessorController.errorSnack("Please enter the item value");
+      return;
+    }
     Map data = {
       'client_id': UserController.instance.user.value.id.toString(),
       'pickUpAddress': pickupEC.text,
@@ -388,18 +390,17 @@ class _SendPackageState extends State<SendPackage> {
     setState(() {
       submittingForm = true;
     });
+
     await FormController.instance.postAuth(Api.baseUrl + Api.createItemPackage,
         data, 'createPackage', "Error occurred", '');
-    setState(() {
-      submittingForm = true;
-    });
-    if (FormController.instance.status.toString().startsWith('2')) {
+
+    if (FormController.instance.status.toString().startsWith('20')) {
       var packageId =
           FormController.instance.responseObject.containsKey('package_id')
               ? FormController.instance.responseObject['package_id']
               : null; // or provide a default value if needed
       log("This is the package ID: $packageId");
-      // await PaymentController.instance.getDeliveryFee(packageId);
+
       Get.to(
         () => CheckForAvailableRiderForPackageDelivery(
           packageId: packageId,
@@ -422,6 +423,9 @@ class _SendPackageState extends State<SendPackage> {
         transition: Transition.rightToLeft,
       );
     }
+    setState(() {
+      submittingForm = false;
+    });
   }
 
   //=============================== WIDGETS ==================================\\
@@ -447,9 +451,8 @@ class _SendPackageState extends State<SendPackage> {
                 children: [
                   GetBuilder<FormController>(
                     builder: (controller) {
-                      submittingForm = controller.isLoad.value;
                       return ElevatedButton(
-                        onPressed: controller.isLoad.value ? null : submitForm,
+                        onPressed: submittingForm ? null : submitForm,
                         style: ElevatedButton.styleFrom(
                           foregroundColor: kTextWhiteColor,
                           backgroundColor: kAccentColor,
@@ -459,7 +462,7 @@ class _SendPackageState extends State<SendPackage> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                        child: controller.isLoad.value
+                        child: submittingForm
                             ? CircularProgressIndicator(color: kPrimaryColor)
                             : const Text("Submit"),
                       );
@@ -483,8 +486,8 @@ class _SendPackageState extends State<SendPackage> {
                     child: Text(
                       "Back",
                       style: TextStyle(
-                          color:
-                              submittingForm ? kTextGreyColor : kAccentColor),
+                        color: submittingForm ? kTextGreyColor : kAccentColor,
+                      ),
                     ),
                   )
                 ],

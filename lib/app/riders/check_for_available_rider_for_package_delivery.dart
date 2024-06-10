@@ -147,7 +147,7 @@ class _CheckForAvailableRiderForPackageDeliveryState
                 ? Column(
                     children: [
                       Lottie.asset(
-                        "assets/animations/delivery/frame_3.json",
+                        "assets/animations/delivery/frame_4.json",
                         height: media.height * .6,
                         width: media.width,
                       ),
