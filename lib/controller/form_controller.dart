@@ -50,7 +50,8 @@ class FormController extends GetxController {
   Future postAuth(String url, Map data, String tag,
       [String errorMsg = "Error occurred",
       String successMsg = "Submitted successfully",
-      bool encodeIt = false]) async {
+      bool encodeIt = false,
+      noSnackBar = true]) async {
     isLoad.value = true;
     update([tag]);
     final response = await http.post(
@@ -60,13 +61,13 @@ class FormController extends GetxController {
     );
     status.value = response.statusCode;
     if (response.statusCode != 200) {
-      ApiProcessorController.errorSnack(errorMsg);
+      noSnackBar ? null : ApiProcessorController.errorSnack(errorMsg);
       isLoad.value = false;
       update([tag]);
       return;
     }
 
-    ApiProcessorController.successSnack(successMsg);
+    noSnackBar ? null : ApiProcessorController.successSnack(successMsg);
     isLoad.value = false;
     responseObject.value = jsonDecode(response.body) as Map;
     update([tag]);
