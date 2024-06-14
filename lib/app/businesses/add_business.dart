@@ -114,6 +114,7 @@ class _AddBusinessState extends State<AddBusiness> {
   final accountNumberEC = TextEditingController();
   final accountTypeEC = TextEditingController();
   final accountBankEC = TextEditingController();
+  final accountCodeEC = TextEditingController();
 
   final businessIdEC = TextEditingController();
 
@@ -292,6 +293,11 @@ class _AddBusinessState extends State<AddBusiness> {
       ApiProcessorController.errorSnack("Please select a type of business");
       return;
     }
+
+    if (accountCodeEC.text.isEmpty) {
+      ApiProcessorController.errorSnack("Please put in valid bank details");
+      return;
+    }
     //  if (accountNameEC.text == "N/A") {
     //   ApiProcessorController.errorSnack(
     //     "Please enter a correct account number",
@@ -310,6 +316,11 @@ class _AddBusinessState extends State<AddBusiness> {
       ApiProcessorController.errorSnack("Please choose a state");
       return;
     }
+    if (cityValue.isEmpty) {
+      ApiProcessorController.errorSnack("Please choose a city");
+      return;
+    }
+
     if (cityValue.isEmpty) {
       ApiProcessorController.errorSnack("Please choose a city");
       return;
@@ -338,6 +349,7 @@ class _AddBusinessState extends State<AddBusiness> {
       "sunWeekClosingHours": vendorSunClosingHoursEC.text,
       "businessBio": businessBioEC.text,
       "shop_type": vendorBusinessTypeEC.text,
+      "accountCode": accountCodeEC.text,
     };
 
     log("This is the data: $data");
@@ -1196,13 +1208,15 @@ class _AddBusinessState extends State<AddBusiness> {
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly
                           ],
-                          onChanged: (value) {
+                          onChanged: (value) async {
                             if (value.length >= 10) {
-                              WithdrawController.instance.validateBankNumbers(
-                                accountNumberEC.text,
-                                bankCode,
-                              );
+                              final validateBank = await WithdrawController
+                                  .instance
+                                  .validateBankNumbers(
+                                      accountNumberEC.text, bankCode);
                               setState(() {
+                                accountCodeEC.text =
+                                    validateBank.responseBody.bankCode;
                                 accountTypeFieldIsEnabled = true;
                               });
                             }

@@ -40,7 +40,7 @@ class BankDetailModel {
     return BankDetailModel(
       accountNumber: json['accountNumber'] ?? notAvailable,
       accountName: json['accountName'] ?? notAvailable,
-      bankCode: json['bankCode'] ?? notAvailable,
+      bankCode: json['bankCode'] ?? "",
     );
   }
 }
