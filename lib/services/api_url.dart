@@ -10,11 +10,11 @@ import 'package:path/path.dart';
 import '../model/create_vendor_model.dart';
 
 // API URLS AND HTTP CALL FUNCTIONS
-const baseURL = "https://resource.bgbot.app/api/v1";
-const baseImage = "https://resource.bgbot.app";
+const baseURL = "http://127.0.0.1:8000/api/v1";
+const baseImage = "http://127.0.0.1:8000";
 
 class Api {
-  static const baseUrl = "https://resource.bgbot.app/api/v1";
+  static const baseUrl = "http://127.0.0.1:8000/api/v1";
   static const login = "/auth/token";
   static const getAgent = "/agents/getAgent/";
   static const user = "/auth/";
