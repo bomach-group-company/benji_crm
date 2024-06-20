@@ -472,13 +472,12 @@ class _ViewPackageState extends State<ViewPackage> {
                 ),
               ),
               kSizedBox,
-              isDispatched == false &&
-                      widget.deliveryItem.status.toLowerCase() != "dispatched"
-                  ? GetBuilder<MyPackageController>(
-                      initState: (state) => MyPackageController.instance
-                          .getTaskItemSocket(widget.deliveryItem.id),
-                      builder: (controller) {
-                        return MyElevatedButton(
+              GetBuilder<MyPackageController>(
+                initState: (state) => MyPackageController.instance
+                    .getTaskItemSocket(widget.deliveryItem.id),
+                builder: (controller) {
+                  return controller.taskItemStatusUpdate.value.action
+                      ? MyElevatedButton(
                           disable:
                               !controller.taskItemStatusUpdate.value.action,
                           title: controller.hasFetched.value
@@ -490,76 +489,76 @@ class _ViewPackageState extends State<ViewPackage> {
                                       widget.deliveryItem.id);
                                 }
                               : () {},
-                        );
-                      },
-                    )
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        OutlinedButton(
-                          onPressed: toReportPackage,
-                          style: OutlinedButton.styleFrom(
-                            elevation: 10,
-                            enableFeedback: true,
-                            backgroundColor: kPrimaryColor,
-                            padding: const EdgeInsets.all(kDefaultPadding),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              FaIcon(
-                                FontAwesomeIcons.solidFlag,
-                                color: kAccentColor,
-                                size: 18,
+                        )
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            OutlinedButton(
+                              onPressed: () => toReportPackage(),
+                              style: OutlinedButton.styleFrom(
+                                elevation: 10,
+                                enableFeedback: true,
+                                backgroundColor: kPrimaryColor,
+                                padding: const EdgeInsets.all(kDefaultPadding),
                               ),
-                              kWidthSizedBox,
-                              Center(
-                                child: Text(
-                                  "Report",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  FaIcon(
+                                    FontAwesomeIcons.solidFlag,
                                     color: kAccentColor,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
+                                    size: 18,
                                   ),
-                                ),
+                                  kWidthSizedBox,
+                                  Center(
+                                    child: Text(
+                                      "Report",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: kAccentColor,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ),
-                        kWidthSizedBox,
-                        ElevatedButton(
-                          onPressed: sharePackage,
-                          style: ElevatedButton.styleFrom(
-                            elevation: 10,
-                            backgroundColor: kAccentColor,
-                            padding: const EdgeInsets.all(kDefaultPadding),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              FaIcon(
-                                FontAwesomeIcons.shareNodes,
-                                color: kPrimaryColor,
-                                size: 18,
+                            ),
+                            kWidthSizedBox,
+                            ElevatedButton(
+                              onPressed: sharePackage,
+                              style: ElevatedButton.styleFrom(
+                                elevation: 10,
+                                backgroundColor: kAccentColor,
+                                padding: const EdgeInsets.all(kDefaultPadding),
                               ),
-                              kWidthSizedBox,
-                              SizedBox(
-                                child: Text(
-                                  "Share",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  FaIcon(
+                                    FontAwesomeIcons.shareNodes,
                                     color: kPrimaryColor,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
+                                    size: 18,
                                   ),
-                                ),
+                                  kWidthSizedBox,
+                                  SizedBox(
+                                    child: Text(
+                                      "Share",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: kPrimaryColor,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                            ),
+                          ],
+                        );
+                },
+              ),
               kSizedBox,
             ],
           ),

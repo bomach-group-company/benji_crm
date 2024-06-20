@@ -72,14 +72,14 @@ class OrderStatusChangeController extends GetxController {
     channelTask.sink.add(jsonEncode({
       'user_id': UserController.instance.user.value.id,
       'order_id': order.value.id,
-      'user_type': 'client'
+      'user_type': 'crm'
     }));
 
     Timer.periodic(const Duration(seconds: 10), (timer) {
       channelTask.sink.add(jsonEncode({
         'user_id': UserController.instance.user.value.id,
         'order_id': order.value.id,
-        'user_type': 'client'
+        'user_type': 'crm'
       }));
     });
 
@@ -112,7 +112,7 @@ class OrderStatusChangeController extends GetxController {
         channelTask.sink.add(jsonEncode({
           'user_id': UserController.instance.user.value.id,
           'order_id': order.value.id,
-          'user_type': 'client'
+          'user_type': 'crm'
         }));
         order.value = BusinessOrderModel.fromJson(data);
         ApiProcessorController.successSnack("Updated successfully");

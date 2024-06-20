@@ -16,6 +16,8 @@ const baseImage = "https://resource.bgbot.app";
 const websocketBaseUrl =
     "ws://wsbenji.bgbot.app/ws"; // the issue is that it is using ws on the backend instead of wss - "wss://wsbenji.bgbot.app/ws"
 
+// const websocketBaseUrl = "ws://127.0.0.1:6388/ws";
+
 class Api {
   static const baseUrl = "https://resource.bgbot.app/api/v1";
   static const login = "/auth/token";
