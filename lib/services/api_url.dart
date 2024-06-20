@@ -10,11 +10,14 @@ import 'package:path/path.dart';
 import '../model/create_vendor_model.dart';
 
 // API URLS AND HTTP CALL FUNCTIONS
-const baseURL = "http://127.0.0.1:8000/api/v1";
-const baseImage = "http://127.0.0.1:8000";
+const baseURL = "https://resource.bgbot.app/api/v1";
+const baseImage = "https://resource.bgbot.app";
+
+const websocketBaseUrl =
+    "ws://wsbenji.bgbot.app/ws"; // the issue is that it is using ws on the backend instead of wss - "wss://wsbenji.bgbot.app/ws"
 
 class Api {
-  static const baseUrl = "http://127.0.0.1:8000/api/v1";
+  static const baseUrl = "https://resource.bgbot.app/api/v1";
   static const login = "/auth/token";
   static const getAgent = "/agents/getAgent/";
   static const user = "/auth/";
@@ -56,6 +59,7 @@ class Api {
   static const deleteProduct = "/products/deleteProduct/";
 
   //order
+  static const myOrders = "/clients/listClientOrders/";
   static const orderList = "/agents/getTotalNumberOfMyVendorsOrders/";
   static const changeOrderStatus = "/orders/vendorChangeStatus";
   static const vendorsOrderList = "/vendors/";

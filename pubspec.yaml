@@ -58,6 +58,7 @@ dependencies:
   webview_flutter_platform_interface:
   webview_flutter_wkwebview:
   http_parser: ^4.0.2
+  web_socket_channel:
 
 dev_dependencies:
   flutter_test:

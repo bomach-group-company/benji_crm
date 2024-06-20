@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:benji_aggregator/app/assign/assign_rider.dart';
 import 'package:benji_aggregator/controller/form_controller.dart';
+import 'package:benji_aggregator/controller/package_controller.dart';
 import 'package:benji_aggregator/controller/push_notifications_controller.dart';
 import 'package:benji_aggregator/model/package/delivery_item.dart';
 import 'package:benji_aggregator/services/api_url.dart';
@@ -473,13 +474,22 @@ class _ViewPackageState extends State<ViewPackage> {
               kSizedBox,
               isDispatched == false &&
                       widget.deliveryItem.status.toLowerCase() != "dispatched"
-                  ? GetBuilder<FormController>(
-                      init: FormController(),
+                  ? GetBuilder<MyPackageController>(
+                      initState: (state) => MyPackageController.instance
+                          .getTaskItemSocket(widget.deliveryItem.id),
                       builder: (controller) {
                         return MyElevatedButton(
-                          title: "Dispatched",
-                          onPressed: itemDispatched,
-                          isLoading: controller.isLoad.value,
+                          disable:
+                              !controller.taskItemStatusUpdate.value.action,
+                          title: controller.hasFetched.value
+                              ? controller.taskItemStatusUpdate.value.buttonText
+                              : "Loading...",
+                          onPressed: controller.hasFetched.value
+                              ? () {
+                                  controller.updateTaskItemStatus(
+                                      widget.deliveryItem.id);
+                                }
+                              : () {},
                         );
                       },
                     )

@@ -2,6 +2,7 @@
 
 import 'dart:developer';
 
+import 'package:benji_aggregator/controller/order_status_change.dart';
 import 'package:benji_aggregator/model/business_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -79,25 +80,23 @@ class _ThirdPartyOrderDetailsState extends State<ThirdPartyOrderDetails> {
           backgroundColor: kPrimaryColor,
         ),
         bottomNavigationBar: Container(
-          padding: const EdgeInsets.all(kDefaultPadding),
-          child: isDispatched == false && widget.order.deliveryStatus == "PEND"
-              ? GetBuilder<FormController>(
-                  id: 'dispatchOrder',
-                  init: FormController(),
-                  builder: (controller) {
-                    return MyElevatedButton(
-                      title: "Dispatched",
-                      onPressed: orderDispatched,
-                      isLoading: controller.isLoad.value,
-                    );
-                  },
-                )
-              : MyElevatedButton(
-                  title: "Given to rider",
-                  onPressed: orderDispatched,
-                  disable: true,
-                ),
-        ),
+            padding: const EdgeInsets.all(kDefaultPadding),
+            child: GetBuilder<OrderStatusChangeController>(
+              initState: (state) =>
+                  OrderStatusChangeController.instance.getTaskItemSocket(),
+              builder: (controller) {
+                return MyElevatedButton(
+                  disable: !controller.taskItemStatusUpdate.value.action,
+                  title: controller.hasFetched.value
+                      ? controller.taskItemStatusUpdate.value.buttonText
+                      : "Loading...",
+                  onPressed: controller.hasFetched.value
+                      ? controller.updateTaskItemStatus
+                      : () {},
+                  isLoading: controller.isLoadUpdateStatus.value,
+                );
+              },
+            )),
         body: ListView(
           physics: const BouncingScrollPhysics(),
           scrollDirection: Axis.vertical,

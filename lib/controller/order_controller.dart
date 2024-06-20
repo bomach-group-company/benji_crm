@@ -1,6 +1,7 @@
 // ignore_for_file: empty_catches
 
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:benji_aggregator/controller/api_processor_controller.dart';
@@ -8,6 +9,7 @@ import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/model/business_order_model.dart';
 import 'package:benji_aggregator/services/api_url.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 import '../services/helper.dart';
 
@@ -150,6 +152,44 @@ class OrderController extends GetxController {
       consoleLog(e.toString());
     }
     loadedAll.value = data.isEmpty;
+    isLoad.value = false;
+    isLoadMore.value = false;
+    update();
+  }
+
+  Future getOrders() async {
+    if (loadedAll.value) {
+      return;
+    }
+
+    isLoad.value = true;
+
+    String id = UserController.instance.user.value.id.toString();
+    var url =
+        "${Api.baseUrl}${Api.myOrders}$id?start=${loadNum.value - 10}&end=${loadNum.value}";
+    loadNum.value += 10;
+
+    log('in list history $url');
+
+    String token = UserController.instance.user.value.token;
+    http.Response? response = await HandleData.getApi(url, token);
+
+    var responseData = await ApiProcessorController.errorState(response);
+    if (responseData == null) {
+      isLoadMore.value = false;
+      isLoad.value = false;
+      update();
+
+      return;
+    }
+    List<BusinessOrderModel> data = [];
+    try {
+      data = (jsonDecode(responseData) as List)
+          .map((e) => BusinessOrderModel.fromJson(e))
+          .toList();
+      orderList.value += data;
+      loadedAll.value = data.isEmpty;
+    } catch (e) {}
     isLoad.value = false;
     isLoadMore.value = false;
     update();

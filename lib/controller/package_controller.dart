@@ -1,5 +1,6 @@
 // ignore_for_file: invalid_use_of_protected_member
 
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
@@ -9,16 +10,23 @@ import 'package:benji_aggregator/controller/user_controller.dart';
 import 'package:benji_aggregator/model/package/delivery_item.dart';
 import 'package:benji_aggregator/model/package/item_category.dart';
 import 'package:benji_aggregator/model/package/item_weight.dart';
+import 'package:benji_aggregator/model/task_item_status_update.dart';
 import 'package:benji_aggregator/model/user_model.dart';
 import 'package:benji_aggregator/services/api_url.dart';
 import 'package:benji_aggregator/services/helper.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 class MyPackageController extends GetxController {
   static MyPackageController get instance {
     return Get.find<MyPackageController>();
   }
+
+  var isLoadUpdateStatus = false.obs;
+  var hasFetched = false.obs;
+  late WebSocketChannel channelTask;
+  var taskItemStatusUpdate = TaskItemStatusUpdate.fromJson(null).obs;
 
   var isLoadDelivered = false.obs;
   var isLoadDispatched = false.obs;
@@ -170,5 +178,60 @@ class MyPackageController extends GetxController {
       isLoad.value = false;
       update();
     }
+  }
+
+  getTaskItemSocket(String packageId) {
+    final wsUrlTask = Uri.parse('$websocketBaseUrl/packageStatus/');
+    channelTask = WebSocketChannel.connect(wsUrlTask);
+    channelTask.sink.add(jsonEncode({
+      'user_id': UserController.instance.user.value.id,
+      'package_id': packageId,
+      'user_type': 'client'
+    }));
+
+    Timer.periodic(const Duration(seconds: 10), (timer) {
+      channelTask.sink.add(jsonEncode({
+        'user_id': UserController.instance.user.value.id,
+        'package_id': packageId,
+        'user_type': 'client'
+      }));
+    });
+
+    channelTask.stream.listen((message) {
+      log(message);
+      taskItemStatusUpdate.value =
+          TaskItemStatusUpdate.fromJson(jsonDecode(message));
+      if (hasFetched.value != true) {
+        hasFetched.value = true;
+      }
+      update();
+    });
+  }
+
+  updateTaskItemStatus(String packageId) async {
+    isLoadUpdateStatus.value = true;
+    update();
+
+    var url = "${Api.baseUrl}${taskItemStatusUpdate.value.url}";
+    print(url);
+    final response = await http.get(
+      Uri.parse(url),
+      headers: authHeader(),
+    );
+    print(response.body);
+    dynamic data = jsonDecode(response.body);
+
+    if (response.statusCode.toString().startsWith('2')) {
+      channelTask.sink.add(jsonEncode({
+        'user_id': UserController.instance.user.value.id,
+        'package_id': packageId,
+        'user_type': 'client'
+      }));
+      ApiProcessorController.successSnack("Updated successfully");
+    } else {
+      ApiProcessorController.errorSnack(data['detail']);
+    }
+    isLoadUpdateStatus.value = false;
+    update();
   }
 }
