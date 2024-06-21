@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:benji_aggregator/controller/order_status_change.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/business_order_model.dart';
@@ -30,6 +31,11 @@ class _OrderDetailsState extends State<OrderDetails> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    OrderStatusChangeController.instance.closeTaskSocket();
+    super.dispose();
+  }
 //============================== ALL VARIABLES ================================\\
 //============================== FUNCTIONS ================================\\
 
@@ -328,7 +334,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                             ),
                             TextSpan(
                               text: convertToCurrency(
-                                  widget.order.totalPrice.toString()),
+                                  widget.order.preTotal.toString()),
                               style: const TextStyle(
                                 color: kTextBlackColor,
                                 fontSize: 14,

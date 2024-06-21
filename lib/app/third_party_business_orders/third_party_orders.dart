@@ -1,3 +1,4 @@
+import 'package:benji_aggregator/controller/order_status_change.dart';
 import 'package:benji_aggregator/model/business_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -232,38 +233,10 @@ class _ThirdPartyBusinessOrdersState extends State<ThirdPartyBusinessOrders> {
                           itemBuilder: (context, index) {
                             return InkWell(
                               onTap: () {
+                                OrderStatusChangeController.instance
+                                    .setOrder(controller.orderList[index]);
                                 Get.to(
-                                  () => ThirdPartyOrderDetails(
-                                    business: widget.business,
-                                    order: controller.orderList[index],
-                                    orderStatus: controller.orderList[index]
-                                                .deliveryStatus ==
-                                            "COMP"
-                                        ? "Completed"
-                                        : controller.orderList[index]
-                                                    .deliveryStatus ==
-                                                "dispatched"
-                                            ? "Dispatched"
-                                            : controller.orderList[index]
-                                                        .deliveryStatus ==
-                                                    "PEND"
-                                                ? "Pending"
-                                                : "Completed",
-                                    orderStatusColor: controller
-                                                .orderList[index]
-                                                .deliveryStatus ==
-                                            "CANC"
-                                        ? kAccentColor
-                                        : controller.orderList[index]
-                                                    .deliveryStatus ==
-                                                "dispatched"
-                                            ? kSecondaryColor
-                                            : controller.orderList[index]
-                                                        .deliveryStatus ==
-                                                    "PEND"
-                                                ? kLoadingColor
-                                                : kSuccessColor,
-                                  ),
+                                  () => const ThirdPartyOrderDetails(),
                                   routeName: 'ThirdPartyOrderDetails',
                                   duration: const Duration(milliseconds: 300),
                                   fullscreenDialog: true,

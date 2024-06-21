@@ -14,6 +14,7 @@ import 'item_category.dart';
 
 class DeliveryItem {
   final String id;
+  final String code;
   final UserModel clientId;
   final String pickUpAddress;
   final String senderName;
@@ -33,6 +34,7 @@ class DeliveryItem {
 
   DeliveryItem({
     required this.id,
+    required this.code,
     required this.clientId,
     required this.pickUpAddress,
     required this.senderName,
@@ -55,6 +57,7 @@ class DeliveryItem {
     json ??= {};
     return DeliveryItem(
       id: json['id'] ?? notAvailable,
+      code: json['code'] ?? notAvailable,
       clientId: UserModel.fromJson(json['client']),
       pickUpAddress: json['pickUpAddress'] ?? notAvailable,
       senderName: json['senderName'] ?? notAvailable,

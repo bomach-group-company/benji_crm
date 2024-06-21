@@ -190,7 +190,7 @@ class AllCompletedOrdersContainer extends StatelessWidget {
                       const TextSpan(text: "  "),
                       TextSpan(
                         text:
-                            "₦ ${convertToCurrency(order.totalPrice.toString())}",
+                            "₦ ${convertToCurrency(order.preTotal.toString())}",
                         style: const TextStyle(
                           fontSize: 15,
                           fontFamily: 'sen',

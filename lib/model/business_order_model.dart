@@ -83,6 +83,7 @@ class BusinessOrderModel {
   String id;
   String code;
   double totalPrice;
+  double preTotal;
   double deliveryFee;
   String assignedStatus;
   String deliveryStatus;
@@ -98,6 +99,7 @@ class BusinessOrderModel {
     required this.id,
     required this.code,
     required this.totalPrice,
+    required this.preTotal,
     required this.deliveryFee,
     required this.assignedStatus,
     required this.deliveryStatus,
@@ -117,6 +119,7 @@ class BusinessOrderModel {
       id: json["id"] ?? notAvailable,
       code: json["code"] ?? notAvailable,
       totalPrice: json["total_price"] ?? 0.0,
+      preTotal: json["pre_total"] ?? 0.0,
       deliveryFee: json["delivery_fee"] ?? 0.0,
       assignedStatus: json["assigned_status"] ?? "PEND",
       deliveryStatus: json["delivery_status"] ?? "PEND",

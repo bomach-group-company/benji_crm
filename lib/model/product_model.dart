@@ -40,7 +40,7 @@ class ProductModel {
       description: json['description'] ?? notAvailable,
       price: (json['price'] ?? 0).toDouble() ?? 0.0,
       quantityAvailable: json['quantity_available'] ?? 0,
-      productImage: json['product_image'],
+      productImage: json['product_image'] ?? '',
       isAvailable: json['is_available'] ?? false,
       isTrending: json['is_trending'] ?? false,
       isRecommended: json['is_recommended'] ?? false,

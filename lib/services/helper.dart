@@ -6,7 +6,6 @@ import 'package:benji_aggregator/services/api_url.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
-
 const String userBalance = "userBalance";
 
 bool rememberBalance() {
@@ -47,14 +46,11 @@ String statusTypeConverter(StatusType statusType) {
   if (statusType == StatusType.delivered) {
     return "COMP";
   }
-  if (statusType == StatusType.processing) {
-    return "received";
-  }
   if (statusType == StatusType.pending) {
     return "PEND";
   }
   if (statusType == StatusType.cancelled) {
-    return "cancelled";
+    return "CANC";
   }
   if (statusType == StatusType.dispatched) {
     return "dispatched";

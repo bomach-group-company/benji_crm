@@ -30,7 +30,7 @@ class OrderStatusChangeController extends GetxController {
 
   var order = BusinessOrderModel.fromJson(null).obs;
 
-  Future setOrder(BusinessOrderModel newOrder) async {
+  void setOrder(BusinessOrderModel newOrder) {
     order.value = newOrder;
     update();
     // refreshOrder();
@@ -125,5 +125,9 @@ class OrderStatusChangeController extends GetxController {
     }
     isLoadUpdateStatus.value = false;
     update();
+  }
+
+  closeTaskSocket() {
+    channelTask.sink.close(1000);
   }
 }

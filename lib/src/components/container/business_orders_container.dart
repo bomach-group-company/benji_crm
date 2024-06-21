@@ -112,7 +112,7 @@ class BusinessOrderContainer extends StatelessWidget {
                     children: [
                       TextSpan(
                         text:
-                            "₦ ${convertToCurrency(order.totalPrice.toString())}",
+                            "₦ ${convertToCurrency(order.preTotal.toString())}",
                         style: const TextStyle(
                           fontSize: 15,
                           fontFamily: 'sen',

@@ -13,14 +13,7 @@ import 'package:http/http.dart' as http;
 
 import '../services/helper.dart';
 
-enum StatusType {
-  pending,
-  dispatched,
-  processing,
-  confirmed,
-  delivered,
-  cancelled
-}
+enum StatusType { pending, dispatched, confirmed, delivered, cancelled }
 
 class OrderController extends GetxController {
   static OrderController get instance {

@@ -6,6 +6,7 @@ import 'package:benji_aggregator/controller/form_controller.dart';
 import 'package:benji_aggregator/controller/latlng_detail_controller.dart';
 import 'package:benji_aggregator/controller/notification_controller.dart';
 import 'package:benji_aggregator/controller/order_controller.dart';
+import 'package:benji_aggregator/controller/order_status_change.dart';
 import 'package:benji_aggregator/controller/package_controller.dart';
 import 'package:benji_aggregator/controller/payment_controller.dart';
 import 'package:benji_aggregator/controller/product_controller.dart';
@@ -73,6 +74,7 @@ void main() async {
   Get.put(ShoppingLocationController());
   Get.put(MyPackageController());
   Get.put(RiderAssignController());
+  Get.put(OrderStatusChangeController());
 
   if (!kIsWeb) {
     await Firebase.initializeApp(
