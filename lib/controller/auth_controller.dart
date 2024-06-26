@@ -5,14 +5,12 @@ import 'dart:io';
 
 import 'package:benji_aggregator/app/auth/login.dart';
 import 'package:benji_aggregator/services/helper.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../app/overview/overview.dart';
 import 'account_controller.dart';
 import 'api_processor_controller.dart';
-import 'fcm_messaging_controller.dart';
 import 'notification_controller.dart';
 import 'user_controller.dart';
 
@@ -30,9 +28,6 @@ class AuthController extends GetxController {
   Future checkAuth() async {
     try {
       if (await isAuthorized()) {
-        if (!kIsWeb) {
-          await FcmMessagingController.instance.handleFCM();
-        }
         //upload fcm token
 
         //Get user profile

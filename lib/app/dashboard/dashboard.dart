@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:benji_aggregator/controller/fcm_messaging_controller.dart';
 import 'package:benji_aggregator/controller/notification_controller.dart';
 import 'package:benji_aggregator/controller/rider_controller.dart';
 import 'package:benji_aggregator/controller/user_controller.dart';
@@ -44,6 +45,7 @@ class _DashboardState extends State<Dashboard> {
     //   await await VendorController.instance.getMyVendors();
     //   await NotificationController.instance.runTask();
     // });
+    FcmMessagingController.instance.handleFCM();
 
     Timer(
       const Duration(seconds: 2),
