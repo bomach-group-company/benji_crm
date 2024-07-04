@@ -269,328 +269,340 @@ class _ViewPackageState extends State<ViewPackage> {
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
-    return Scaffold(
-      backgroundColor: kPrimaryColor,
-      appBar: MyAppBar(
-        title: "View Package",
-        elevation: 0,
-        actions: [
-          TextButton(
-            onPressed: () => _toAssignRider(widget.deliveryItem),
-            child: Text(
-              'Assign rider',
-              style: TextStyle(
-                  color: kAccentColor,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-        ],
-        backgroundColor: kPrimaryColor,
-      ),
-      extendBody: true,
-      extendBodyBehindAppBar: true,
-      body: SafeArea(
-        maintainBottomViewPadding: true,
-        child: Scrollbar(
-          child: ListView(
-            controller: scrollController,
-            physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.all(10),
-            children: [
-              Center(
-                child: Container(
-                  height: deviceType(media.width) >= 2 ? 200 : 100,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: () {
-                        if (widget.deliveryItem.status.toLowerCase() ==
-                            "completed") {
-                          return const AssetImage(
-                              "assets/icons/package-success.png");
-                        }
-                        if (widget.deliveryItem.status.toLowerCase() ==
-                            "dispatched") {
-                          return const AssetImage(
-                              "assets/icons/delivery_bike.png");
-                        } else {
-                          return const AssetImage(
-                              "assets/icons/package-waiting.png");
-                        }
-                      }(),
-                      fit: BoxFit.contain,
-                    ),
+    return GetBuilder<MyPackageController>(
+        initState: (state) => MyPackageController.instance
+            .getTaskItemSocket(widget.deliveryItem.id),
+        builder: (controller) {
+          return Scaffold(
+            backgroundColor: kPrimaryColor,
+            appBar: MyAppBar(
+              title: "View Package",
+              elevation: 0,
+              actions: [
+                TextButton(
+                  onPressed: controller.taskItemStatusUpdate.value.assigned
+                      ? null
+                      : () => _toAssignRider(widget.deliveryItem),
+                  child: Text(
+                    'Assign rider',
+                    style: TextStyle(
+                        color: controller.taskItemStatusUpdate.value.assigned
+                            ? kAccentColor.withOpacity(0.5)
+                            : kAccentColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
-              ),
-              kHalfSizedBox,
-              Screenshot(
-                controller: screenshotController,
-                child: Card(
-                  borderOnForeground: true,
-                  elevation: 20,
-                  color: kPrimaryColor,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
-                  child: Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: kPrimaryColor,
-                      borderRadius: BorderRadius.circular(12),
+              ],
+              backgroundColor: kPrimaryColor,
+            ),
+            extendBody: true,
+            extendBodyBehindAppBar: true,
+            body: SafeArea(
+              maintainBottomViewPadding: true,
+              child: Scrollbar(
+                child: ListView(
+                  controller: scrollController,
+                  physics: const BouncingScrollPhysics(),
+                  padding: const EdgeInsets.all(10),
+                  children: [
+                    Center(
+                      child: Container(
+                        height: deviceType(media.width) >= 2 ? 200 : 100,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: () {
+                              if (widget.deliveryItem.status.toLowerCase() ==
+                                  "completed") {
+                                return const AssetImage(
+                                    "assets/icons/package-success.png");
+                              }
+                              if (widget.deliveryItem.status.toLowerCase() ==
+                                  "dispatched") {
+                                return const AssetImage(
+                                    "assets/icons/delivery_bike.png");
+                              } else {
+                                return const AssetImage(
+                                    "assets/icons/package-waiting.png");
+                              }
+                            }(),
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
                     ),
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(12)),
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 50),
-                          Container(
-                            height: deviceType(media.width) >= 2 ? 60 : 40,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: kPrimaryColor,
-                              image: const DecorationImage(
-                                image: AssetImage(
-                                  'assets/images/logo/benji_full_logo.png',
-                                ),
-                                fit: BoxFit.contain,
-                              ),
-                            ),
+                    kHalfSizedBox,
+                    Screenshot(
+                      controller: screenshotController,
+                      child: Card(
+                        borderOnForeground: true,
+                        elevation: 20,
+                        color: kPrimaryColor,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: kPrimaryColor,
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                          const SizedBox(height: 50),
-                          Divider(color: kGreyColor2, height: 0),
-                          ListView.separated(
-                            itemCount: titles.length,
-                            shrinkWrap: true,
-                            physics: const BouncingScrollPhysics(),
-                            separatorBuilder:
-                                (BuildContext context, int index) => Divider(
-                              height: 1,
-                              color: kGreyColor2,
-                            ),
-                            itemBuilder: (BuildContext context, int index) =>
-                                ListTile(
-                              contentPadding: EdgeInsets.zero,
-                              leading: Container(
-                                height:
-                                    deviceType(media.width) >= 2 ? 200 : 100,
-                                width: media.width / 3,
-                                padding: const EdgeInsets.all(10),
-                                decoration:
-                                    BoxDecoration(color: kLightGreyColor),
-                                child: Text(
-                                  titles[index],
-                                  textAlign: TextAlign.start,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 2,
-                                  style: const TextStyle(
-                                    color: kTextBlackColor,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ),
-                              trailing: Container(
-                                width: media.width / 2,
-                                padding: const EdgeInsets.all(10),
-                                child: Text(
-                                  packageData![index],
-                                  textAlign: TextAlign.end,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 2,
-                                  style: TextStyle(
-                                    color: () {
-                                      if (widget.deliveryItem.status
-                                              .toLowerCase() ==
-                                          "completed") {
-                                        return kSuccessColor;
-                                      }
-                                      if (widget.deliveryItem.status
-                                              .toLowerCase() ==
-                                          "dispatched") {
-                                        return kSecondaryColor;
-                                      } else {
-                                        return kLoadingColor;
-                                      }
-                                    }(),
-                                    fontSize: 12,
-                                    fontFamily: 'sen',
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Divider(color: kGreyColor2, height: 0),
-                          kSizedBox,
-                          isDispatched == false &&
-                                  widget.deliveryItem.status.toLowerCase() !=
-                                      "pending"
-                              ? Text(
-                                  "Thanks for choosing our service",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: kTextGreyColor,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                )
-                              : const SizedBox(),
-                          Text.rich(
-                            softWrap: true,
-                            TextSpan(
+                          child: ClipRRect(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(12)),
+                            child: Column(
                               children: [
-                                TextSpan(
-                                  text: "Generated by ",
-                                  style: TextStyle(
-                                    color: kTextGreyColor,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
+                                const SizedBox(height: 50),
+                                Container(
+                                  height:
+                                      deviceType(media.width) >= 2 ? 60 : 40,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: kPrimaryColor,
+                                    image: const DecorationImage(
+                                      image: AssetImage(
+                                        'assets/images/logo/benji_full_logo.png',
+                                      ),
+                                      fit: BoxFit.contain,
+                                    ),
                                   ),
                                 ),
-                                TextSpan(
-                                  text: "Ben",
-                                  style: TextStyle(
-                                    color: kSecondaryColor,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
+                                const SizedBox(height: 50),
+                                Divider(color: kGreyColor2, height: 0),
+                                ListView.separated(
+                                  itemCount: titles.length,
+                                  shrinkWrap: true,
+                                  physics: const BouncingScrollPhysics(),
+                                  separatorBuilder:
+                                      (BuildContext context, int index) =>
+                                          Divider(
+                                    height: 1,
+                                    color: kGreyColor2,
+                                  ),
+                                  itemBuilder:
+                                      (BuildContext context, int index) =>
+                                          ListTile(
+                                    contentPadding: EdgeInsets.zero,
+                                    leading: Container(
+                                      height: deviceType(media.width) >= 2
+                                          ? 200
+                                          : 100,
+                                      width: media.width / 3,
+                                      padding: const EdgeInsets.all(10),
+                                      decoration:
+                                          BoxDecoration(color: kLightGreyColor),
+                                      child: Text(
+                                        titles[index],
+                                        textAlign: TextAlign.start,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                        style: const TextStyle(
+                                          color: kTextBlackColor,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ),
+                                    trailing: Container(
+                                      width: media.width / 2,
+                                      padding: const EdgeInsets.all(10),
+                                      child: Text(
+                                        packageData![index],
+                                        textAlign: TextAlign.end,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                        style: TextStyle(
+                                          color: () {
+                                            if (widget.deliveryItem.status
+                                                    .toLowerCase() ==
+                                                "completed") {
+                                              return kSuccessColor;
+                                            }
+                                            if (widget.deliveryItem.status
+                                                    .toLowerCase() ==
+                                                "dispatched") {
+                                              return kSecondaryColor;
+                                            } else {
+                                              return kLoadingColor;
+                                            }
+                                          }(),
+                                          fontSize: 12,
+                                          fontFamily: 'sen',
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
-                                TextSpan(
-                                  text: "ji",
-                                  style: TextStyle(
-                                    color: kAccentColor,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
+                                Divider(color: kGreyColor2, height: 0),
+                                kSizedBox,
+                                isDispatched == false &&
+                                        widget.deliveryItem.status
+                                                .toLowerCase() !=
+                                            "pending"
+                                    ? Text(
+                                        "Thanks for choosing our service",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: kTextGreyColor,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                      )
+                                    : const SizedBox(),
+                                Text.rich(
+                                  softWrap: true,
+                                  TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: "Generated by ",
+                                        style: TextStyle(
+                                          color: kTextGreyColor,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: "Ben",
+                                        style: TextStyle(
+                                          color: kSecondaryColor,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: "ji",
+                                        style: TextStyle(
+                                          color: kAccentColor,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
+                                kSizedBox,
                               ],
                             ),
                           ),
-                          kSizedBox,
-                        ],
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ),
-              kSizedBox,
-              Center(
-                child: RichText(
-                  text: TextSpan(
-                    children: <TextSpan>[
-                      const TextSpan(
-                        text: 'secret code to confirm package: ',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      TextSpan(
-                        text: widget.deliveryItem.code,
-                        style: TextStyle(
-                          color: kAccentColor,
-                          fontSize: 18,
-                          fontStyle: FontStyle.italic,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              kSizedBox,
-              GetBuilder<MyPackageController>(
-                initState: (state) => MyPackageController.instance
-                    .getTaskItemSocket(widget.deliveryItem.id),
-                builder: (controller) {
-                  return controller.taskItemStatusUpdate.value.action
-                      ? MyElevatedButton(
-                          disable:
-                              !controller.taskItemStatusUpdate.value.action,
-                          title: controller.hasFetched.value
-                              ? controller.taskItemStatusUpdate.value.buttonText
-                              : "Loading...",
-                          onPressed: controller.hasFetched.value
-                              ? () {
-                                  controller.updateTaskItemStatus(
-                                      widget.deliveryItem.id);
-                                }
-                              : () {},
-                        )
-                      : Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            OutlinedButton(
-                              onPressed: () => toReportPackage(),
-                              style: OutlinedButton.styleFrom(
-                                elevation: 10,
-                                enableFeedback: true,
-                                backgroundColor: kPrimaryColor,
-                                padding: const EdgeInsets.all(kDefaultPadding),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  FaIcon(
-                                    FontAwesomeIcons.solidFlag,
-                                    color: kAccentColor,
-                                    size: 18,
-                                  ),
-                                  kWidthSizedBox,
-                                  Center(
-                                    child: Text(
-                                      "Report",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: kAccentColor,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                    kSizedBox,
+                    Center(
+                      child: RichText(
+                        text: TextSpan(
+                          children: <TextSpan>[
+                            const TextSpan(
+                              text: 'secret code to confirm package: ',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                            kWidthSizedBox,
-                            ElevatedButton(
-                              onPressed: sharePackage,
-                              style: ElevatedButton.styleFrom(
-                                elevation: 10,
-                                backgroundColor: kAccentColor,
-                                padding: const EdgeInsets.all(kDefaultPadding),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  FaIcon(
-                                    FontAwesomeIcons.shareNodes,
-                                    color: kPrimaryColor,
-                                    size: 18,
-                                  ),
-                                  kWidthSizedBox,
-                                  SizedBox(
-                                    child: Text(
-                                      "Share",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: kPrimaryColor,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                            TextSpan(
+                              text: widget.deliveryItem.code,
+                              style: TextStyle(
+                                color: kAccentColor,
+                                fontSize: 18,
+                                fontStyle: FontStyle.italic,
                               ),
                             ),
                           ],
-                        );
-                },
+                        ),
+                      ),
+                    ),
+                    kSizedBox,
+                    controller.taskItemStatusUpdate.value.action
+                        ? MyElevatedButton(
+                            disable:
+                                !controller.taskItemStatusUpdate.value.action,
+                            title: controller.hasFetched.value
+                                ? controller
+                                    .taskItemStatusUpdate.value.buttonText
+                                : "Loading...",
+                            onPressed: controller.hasFetched.value
+                                ? () {
+                                    controller.updateTaskItemStatus(
+                                        widget.deliveryItem.id);
+                                  }
+                                : () {},
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              OutlinedButton(
+                                onPressed: () => toReportPackage(),
+                                style: OutlinedButton.styleFrom(
+                                  elevation: 10,
+                                  enableFeedback: true,
+                                  backgroundColor: kPrimaryColor,
+                                  padding:
+                                      const EdgeInsets.all(kDefaultPadding),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    FaIcon(
+                                      FontAwesomeIcons.solidFlag,
+                                      color: kAccentColor,
+                                      size: 18,
+                                    ),
+                                    kWidthSizedBox,
+                                    Center(
+                                      child: Text(
+                                        "Report",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: kAccentColor,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              kWidthSizedBox,
+                              ElevatedButton(
+                                onPressed: sharePackage,
+                                style: ElevatedButton.styleFrom(
+                                  elevation: 10,
+                                  backgroundColor: kAccentColor,
+                                  padding:
+                                      const EdgeInsets.all(kDefaultPadding),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    FaIcon(
+                                      FontAwesomeIcons.shareNodes,
+                                      color: kPrimaryColor,
+                                      size: 18,
+                                    ),
+                                    kWidthSizedBox,
+                                    SizedBox(
+                                      child: Text(
+                                        "Share",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: kPrimaryColor,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                    kSizedBox,
+                  ],
+                ),
               ),
-              kSizedBox,
-            ],
-          ),
-        ),
-      ),
-    );
+            ),
+          );
+        });
   }
 }

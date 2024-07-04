@@ -5,6 +5,7 @@ class TaskItemStatusUpdate {
   String url;
   String buttonText;
   String detail;
+  bool assigned;
 
   TaskItemStatusUpdate({
     required this.error,
@@ -13,6 +14,7 @@ class TaskItemStatusUpdate {
     required this.url,
     required this.buttonText,
     required this.detail,
+    required this.assigned,
   });
 
   factory TaskItemStatusUpdate.fromJson(Map<String, dynamic>? json) {
@@ -21,6 +23,7 @@ class TaskItemStatusUpdate {
       error: json['error'] ?? true,
       action: json['action'] ?? false,
       query: json['query'] ?? false,
+      assigned: json['assigned'] ?? true,
       url: json['url'] ?? "",
       buttonText: json['buttonText'] ?? "",
       detail: json['detail'] ?? "",
