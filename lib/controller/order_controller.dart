@@ -20,6 +20,10 @@ class OrderController extends GetxController {
     return Get.find<OrderController>();
   }
 
+  var isLoadAwait = false.obs;
+  var isLoadAwaitConfirm = false.obs;
+  var vendorsOrderAwaitList = <BusinessOrderModel>[].obs;
+
   bool? isFirst;
   OrderController({this.isFirst});
   var isLoad = false.obs;
@@ -185,6 +189,50 @@ class OrderController extends GetxController {
     } catch (e) {}
     isLoad.value = false;
     isLoadMore.value = false;
+    update();
+  }
+
+  Future getOrdersAwait(String id) async {
+    isLoadAwait.value = true;
+
+    var url = "${Api.baseUrl}/orders/ordersAwaitingConfirmation/$id";
+
+    String token = UserController.instance.user.value.token;
+    http.Response? response = await HandleData.getApi(url, token);
+
+    var responseData = await ApiProcessorController.errorState(response);
+    if (responseData == null) {
+      isLoadAwait.value = false;
+      update();
+      return;
+    }
+    try {
+      vendorsOrderAwaitList.value = (jsonDecode(responseData) as List)
+          .map((e) => BusinessOrderModel.fromJson(e))
+          .toList();
+    } catch (e) {}
+    isLoadAwait.value = false;
+    update();
+  }
+
+  Future confirmOrder(BusinessOrderModel order, String vendorId) async {
+    isLoadAwaitConfirm.value = true;
+    update();
+
+    final response = await http.get(
+        Uri.parse('${Api.baseUrl}/orders/orderConfirmItems/${order.id}'),
+        headers: authHeader());
+    if (response.statusCode == 200) {
+      ApiProcessorController.successSnack("Order items availability confirmed");
+      vendorsOrderAwaitList.value = [];
+      isLoadAwaitConfirm.value = false;
+      update();
+      getOrdersAwait(vendorId);
+      Get.close(1);
+    } else {
+      ApiProcessorController.errorSnack(jsonDecode(response.body)['detail']);
+    }
+    isLoadAwaitConfirm.value = false;
     update();
   }
 }

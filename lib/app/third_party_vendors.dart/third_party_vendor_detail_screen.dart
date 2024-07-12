@@ -12,7 +12,7 @@ import '../../controller/user_controller.dart';
 import '../../model/third_party_vendor_model.dart';
 import '../../src/components/appbar/my_appbar.dart';
 import '../../src/components/container/business_container.dart';
-import '../../src/components/section/dashboard_businesses_display_controller.dart';
+import '../../src/components/section/await_order_container.dart';
 import '../../src/components/section/my_liquid_refresh.dart';
 import '../../src/responsive/responsive_constant.dart';
 import '../../src/skeletons/vendors_list_skeleton.dart';
@@ -486,25 +486,7 @@ class _ThirdPartyVendorDetailPageState extends State<ThirdPartyVendorDetailPage>
                     ],
                   ),
                 ),
-                GetBuilder<BusinessController>(
-                  init: BusinessController(),
-                  builder: (controller) {
-                    return Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: DashboardDisplayBusinessesController(
-                        refreshing: loadingScreen,
-                        showBusinesses: showBusinesses,
-                        onTap: () {
-                          setState(() {
-                            showBusinesses = !showBusinesses;
-                          });
-                        },
-                        numberOfBusinesses:
-                            controller.listOfBusinesses.length.toString(),
-                      ),
-                    );
-                  },
-                ),
+                AwaitingOrderConfirmation(vendor: widget.vendor),
                 kSizedBox,
 
                 GetBuilder<BusinessController>(
