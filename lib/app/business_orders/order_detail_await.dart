@@ -117,8 +117,7 @@ class _OrderDetailsAwaitState extends State<OrderDetailsAwait> {
                             ),
                           ),
                           Text(
-                            OrderStatusChangeController
-                                .instance.order.value.created,
+                            widget.order.created,
                             textAlign: TextAlign.right,
                             style: const TextStyle(
                               color: kTextBlackColor,
@@ -133,8 +132,7 @@ class _OrderDetailsAwaitState extends State<OrderDetailsAwait> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            OrderStatusChangeController
-                                .instance.order.value.code,
+                            widget.order.code,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               color: kTextBlackColor,
@@ -194,13 +192,11 @@ class _OrderDetailsAwaitState extends State<OrderDetailsAwait> {
                       ),
                     ),
                     ListView.builder(
-                      itemCount: OrderStatusChangeController
-                          .instance.order.value.orderitems.length,
+                      itemCount: widget.order.orderitems.length,
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
                         var adjustedIndex = index + 1;
-                        var order = OrderStatusChangeController
-                            .instance.order.value.orderitems[index];
+                        var order = widget.order.orderitems[index];
                         return ListTile(
                           titleAlignment: ListTileTitleAlignment.center,
                           horizontalTitleGap: 0,
@@ -270,8 +266,7 @@ class _OrderDetailsAwaitState extends State<OrderDetailsAwait> {
                                 const BorderRadius.all(Radius.circular(20)),
                           ),
                           child: MyImage(
-                            url: OrderStatusChangeController
-                                .instance.order.value.client.image,
+                            url: widget.order.client.image,
                           ),
                         ),
                         kWidthSizedBox,
@@ -279,7 +274,7 @@ class _OrderDetailsAwaitState extends State<OrderDetailsAwait> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "${OrderStatusChangeController.instance.order.value.client.firstName} ${OrderStatusChangeController.instance.order.value.client.lastName}",
+                              "${widget.order.client.firstName} ${widget.order.client.lastName}",
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
                                 color: kTextBlackColor,
@@ -289,8 +284,7 @@ class _OrderDetailsAwaitState extends State<OrderDetailsAwait> {
                             ),
                             kHalfSizedBox,
                             Text(
-                              OrderStatusChangeController
-                                  .instance.order.value.client.phone,
+                              widget.order.client.phone,
                               style: TextStyle(
                                 color: kTextGreyColor,
                                 fontSize: 12,
@@ -361,9 +355,7 @@ class _OrderDetailsAwaitState extends State<OrderDetailsAwait> {
                               ),
                               TextSpan(
                                 text: convertToCurrency(
-                                    OrderStatusChangeController
-                                        .instance.order.value.preTotal
-                                        .toString()),
+                                    widget.order.preTotal.toString()),
                                 style: const TextStyle(
                                   color: kTextBlackColor,
                                   fontSize: 14,
