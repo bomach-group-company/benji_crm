@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import '../../../model/business_order_model.dart';
 import '../../../theme/colors.dart';
@@ -62,84 +63,88 @@ class BusinessOrderContainer extends StatelessWidget {
             ],
           ),
           kWidthSizedBox,
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Wrap(
-                alignment: WrapAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: media.width - 300,
-                    // color: kAccentColor,
-                    child: Text(
-                      order.deliveryStatus == "CANC"
-                          ? "Cancelled"
-                          : order.deliveryStatus == "dispatched"
-                              ? "Dispatched"
-                              : order.deliveryStatus == "PEND"
-                                  ? "Pending"
-                                  : "Completed",
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: order.deliveryStatus == "CANC"
-                            ? kAccentColor
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: media.width - 300,
+                      // color: kAccentColor,
+                      child: Text(
+                        order.deliveryStatus == "CANC"
+                            ? "Cancelled"
                             : order.deliveryStatus == "dispatched"
-                                ? kSecondaryColor
+                                ? "Dispatched"
                                 : order.deliveryStatus == "PEND"
-                                    ? kLoadingColor
-                                    : kSuccessColor,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
+                                    ? "Pending"
+                                    : "Completed",
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: order.deliveryStatus == "CANC"
+                              ? kAccentColor
+                              : order.deliveryStatus == "dispatched"
+                                  ? kSecondaryColor
+                                  : order.deliveryStatus == "PEND"
+                                      ? kLoadingColor
+                                      : kSuccessColor,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
+                    Text(
+                      order.created,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                ),
+                kHalfSizedBox,
+                SizedBox(
+                  width: media.width - 260,
+                  child: Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text:
+                              "₦ ${convertToCurrency(order.preTotal.toString())}",
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontFamily: 'sen',
+                            fontWeight: FontWeight.w400,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                  Text(
-                    order.created,
+                ),
+                kHalfSizedBox,
+                Container(
+                    color: kLightGreyColor,
+                    height: 2,
+                    width: media.width - 160),
+                kHalfSizedBox,
+                SizedBox(
+                  width: media.width - 260,
+                  child: Text(
+                    "${order.client.firstName} ${order.client.lastName}",
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
-                ],
-              ),
-              kHalfSizedBox,
-              SizedBox(
-                width: media.width - 260,
-                child: Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text:
-                            "₦ ${convertToCurrency(order.preTotal.toString())}",
-                        style: const TextStyle(
-                          fontSize: 15,
-                          fontFamily: 'sen',
-                          fontWeight: FontWeight.w400,
-                        ),
-                      )
-                    ],
-                  ),
                 ),
-              ),
-              kHalfSizedBox,
-              Container(
-                  color: kLightGreyColor, height: 2, width: media.width - 160),
-              kHalfSizedBox,
-              SizedBox(
-                width: media.width - 260,
-                child: Text(
-                  "${order.client.firstName} ${order.client.lastName}",
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),
