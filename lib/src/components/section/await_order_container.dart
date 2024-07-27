@@ -51,7 +51,7 @@ class AwaitingOrderConfirmation extends StatelessWidget {
           ),
           child: ListTile(
             onTap: toOrderAwaitPage,
-            leading: FaIcon(
+            leading: const FaIcon(
               FontAwesomeIcons.store,
               color: kAccentColor,
               size: 16,

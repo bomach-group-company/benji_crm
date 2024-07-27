@@ -9,6 +9,7 @@ class MyElevatedButton extends StatelessWidget {
   final Function()? onPressed;
   final bool isLoading;
   final bool disable;
+  final Color color;
 
   const MyElevatedButton({
     super.key,
@@ -16,6 +17,7 @@ class MyElevatedButton extends StatelessWidget {
     required this.onPressed,
     this.isLoading = false,
     this.disable = false,
+    this.color = kAccentColor,
   });
 
   @override
@@ -28,8 +30,8 @@ class MyElevatedButton extends StatelessWidget {
               ? null
               : onPressed,
       style: ElevatedButton.styleFrom(
-        disabledBackgroundColor: kAccentColor.withOpacity(0.5),
-        backgroundColor: kAccentColor,
+        disabledBackgroundColor: color.withOpacity(0.5),
+        backgroundColor: color,
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),

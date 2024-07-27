@@ -63,7 +63,7 @@ class _ThirdPartyBusinessProductsState
                 .getBusinessProducts(widget.business.id),
             builder: (controller) {
               if (controller.products.isEmpty && controller.isLoad.value) {
-                return Center(
+                return const Center(
                   child: CircularProgressIndicator(color: kAccentColor),
                 );
               }

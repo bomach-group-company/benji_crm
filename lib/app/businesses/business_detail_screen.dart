@@ -342,7 +342,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
-                                        FaIcon(
+                                        const FaIcon(
                                           FontAwesomeIcons.locationDot,
                                           color: kAccentColor,
                                           size: 15,
@@ -465,7 +465,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                                               ),
                                             ),
                                             const SizedBox(width: 5),
-                                            FaIcon(
+                                            const FaIcon(
                                               Icons.info,
                                               color: kAccentColor,
                                             ),
@@ -563,7 +563,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen>
                 ),
                 kSizedBox,
                 refreshing
-                    ? Center(
+                    ? const Center(
                         child: CircularProgressIndicator(
                           color: kAccentColor,
                         ),

@@ -8,7 +8,7 @@ Color kGreyColor2 = const Color(0xFF757575);
 //App Main Colors
 Color kPrimaryColor = const Color(0xFFFFFFFF);
 Color kSecondaryColor = HexColor("#0003C4");
-Color kAccentColor = const Color(0xFFEC2623);
+const Color kAccentColor = Color(0xFFEC2623);
 
 Color kLoadingColor = const Color(0xFFFFA927);
 Color kStarColor = const Color(0xFFFF6838);

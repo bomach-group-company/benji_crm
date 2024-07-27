@@ -50,7 +50,7 @@ class _BusinessProductContainerState extends State<BusinessProductContainer> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              width: (media.width - 50) / 3,
+              width: deviceType(media.width) >= 2 ? 150 : 100,
               height: deviceType(media.width) >= 2 ? 150 : 100,
               decoration: ShapeDecoration(
                 color: kPageSkeletonColor,
@@ -62,67 +62,62 @@ class _BusinessProductContainerState extends State<BusinessProductContainer> {
                   borderRadius: BorderRadius.circular(10),
                   child: MyImage(url: widget.product.productImage)),
             ),
-            kHalfWidthSizedBox,
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: ((media.width - 110) / 3) * 2,
-                  child: Text(
-                    widget.product.name,
-                    style: const TextStyle(
-                      color: kTextBlackColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: ((media.width - 110) / 3) * 2,
-                  child: Text(
-                    widget.product.description,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                    style: TextStyle(
-                      color: kTextGreyColor,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
-                kHalfSizedBox,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      width: (media.width - 110) / 3,
-                      child: Text(
-                        '₦${convertToCurrency(widget.product.price.toString())}',
-                        style: const TextStyle(
-                          color: Color(0xFF333333),
-                          fontSize: 14,
-                          fontFamily: 'Sen',
-                          fontWeight: FontWeight.w400,
-                        ),
+                    Text(
+                      widget.product.name,
+                      style: const TextStyle(
+                        color: kTextBlackColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                    Container(
-                      alignment: Alignment.centerRight,
-                      width: (media.width - 110) / 3,
-                      child: Text(
-                        'Qty: ${widget.product.quantityAvailable}',
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                          color: kTextGreyColor,
-                          fontSize: 13.60,
-                          fontWeight: FontWeight.w400,
-                        ),
+                    Text(
+                      widget.product.description,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      style: TextStyle(
+                        color: kTextGreyColor,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400,
                       ),
+                    ),
+                    kHalfSizedBox,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '₦${convertToCurrency(widget.product.price.toString())}',
+                          style: const TextStyle(
+                            color: Color(0xFF333333),
+                            fontSize: 14,
+                            fontFamily: 'Sen',
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.centerRight,
+                          // width: (media.width - 110) / 3,
+                          child: Text(
+                            'Qty: ${widget.product.quantityAvailable}',
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              color: kTextGreyColor,
+                              fontSize: 13.60,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
+              ),
             ),
           ],
         ),

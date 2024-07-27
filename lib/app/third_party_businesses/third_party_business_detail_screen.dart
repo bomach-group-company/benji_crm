@@ -221,13 +221,13 @@ class _ThirdPartyBusinessDetailScreenState
         appBar: MyAppBar(
           title: isScrollToTopBtnVisible
               ? widget.business.shopName
-              : "Business Details",
+              : "My Business Details",
           elevation: 0.0,
           backgroundColor: kPrimaryColor,
           actions: [
             IconButton(
               onPressed: () => showPopupMenu(context),
-              icon: FaIcon(
+              icon: const FaIcon(
                 FontAwesomeIcons.ellipsisVertical,
                 color: kAccentColor,
               ),
@@ -354,7 +354,7 @@ class _ThirdPartyBusinessDetailScreenState
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
-                                        FaIcon(
+                                        const FaIcon(
                                           FontAwesomeIcons.locationDot,
                                           color: kAccentColor,
                                           size: 15,
@@ -599,7 +599,7 @@ class _ThirdPartyBusinessDetailScreenState
                 ),
                 kSizedBox,
                 refreshing
-                    ? Center(
+                    ? const Center(
                         child: CircularProgressIndicator(
                           color: kAccentColor,
                         ),
