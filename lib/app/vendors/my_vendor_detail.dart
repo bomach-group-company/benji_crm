@@ -205,7 +205,7 @@ class _MyVendorDetailPageState extends State<MyVendorDetailPage>
         appBar: MyAppBar(
           title: isScrollToTopBtnVisible
               ? "${widget.vendor.firstName} ${widget.vendor.lastName}"
-              : "My Vendor Details",
+              : "Vendor Details",
           elevation: 0,
           backgroundColor: kPrimaryColor,
           actions: [

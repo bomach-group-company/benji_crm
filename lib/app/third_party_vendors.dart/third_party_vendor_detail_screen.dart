@@ -235,7 +235,7 @@ class _ThirdPartyVendorDetailPageState extends State<ThirdPartyVendorDetailPage>
           actions: [
             IconButton(
               onPressed: () => showPopupMenu(context),
-              icon: FaIcon(
+              icon: const FaIcon(
                 FontAwesomeIcons.ellipsisVertical,
                 color: kAccentColor,
               ),
@@ -424,11 +424,11 @@ class _ThirdPartyVendorDetailPageState extends State<ThirdPartyVendorDetailPage>
                                               BorderRadius.circular(19),
                                         ),
                                       ),
-                                      child: Row(
+                                      child: const Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                          const Text(
+                                          Text(
                                             "Online",
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
@@ -438,7 +438,7 @@ class _ThirdPartyVendorDetailPageState extends State<ThirdPartyVendorDetailPage>
                                               letterSpacing: -0.36,
                                             ),
                                           ),
-                                          const SizedBox(width: 5),
+                                          SizedBox(width: 5),
                                           FaIcon(
                                             Icons.info,
                                             color: kAccentColor,
@@ -486,7 +486,10 @@ class _ThirdPartyVendorDetailPageState extends State<ThirdPartyVendorDetailPage>
                     ],
                   ),
                 ),
-                AwaitingOrderConfirmation(vendor: widget.vendor),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: AwaitingOrderConfirmation(vendor: widget.vendor),
+                ),
                 kSizedBox,
 
                 GetBuilder<BusinessController>(

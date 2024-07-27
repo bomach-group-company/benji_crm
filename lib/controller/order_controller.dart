@@ -215,19 +215,21 @@ class OrderController extends GetxController {
     update();
   }
 
-  Future confirmOrder(BusinessOrderModel order, String vendorId) async {
+  Future confirmOrder(String id,
+      {bool confirm = true, String reason = ''}) async {
     isLoadAwaitConfirm.value = true;
     update();
 
     final response = await http.get(
-        Uri.parse('${Api.baseUrl}/orders/orderConfirmItems/${order.id}'),
+        Uri.parse(
+            '${Api.baseUrl}/orders/orderConfirmItems/$id?confirm=$confirm&reason=$reason'),
         headers: authHeader());
     if (response.statusCode == 200) {
       ApiProcessorController.successSnack("Order items availability confirmed");
       vendorsOrderAwaitList.value = [];
       isLoadAwaitConfirm.value = false;
       update();
-      getOrdersAwait(vendorId);
+      getOrdersAwait(id);
       Get.close(1);
     } else {
       ApiProcessorController.errorSnack(jsonDecode(response.body)['detail']);
